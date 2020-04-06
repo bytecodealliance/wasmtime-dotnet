@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: Test .NET bindings for Wasmtime
+    name: Test .NET embedding of Wasmtime
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:

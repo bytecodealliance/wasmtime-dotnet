@@ -465,7 +465,7 @@ namespace Wasmtime
         /// <param name="name">The name of the host variable.</param>
         /// <param name="initialValue">The initial value of the host variable.</param>
         /// <typeparam name="T">The type of the host variable.</typeparam>
-        /// <returns>Returns a new <see cref="Global"/> representing the defined global variable.</returns>
+        /// <returns>Returns a new <see cref="Global{T}"/> representing the defined global variable.</returns>
         public Global<T> DefineGlobal<T>(string moduleName, string name, T initialValue)
         {
             CheckDisposed();
@@ -498,7 +498,7 @@ namespace Wasmtime
         /// <param name="name">The name of the host variable.</param>
         /// <param name="initialValue">The initial value of the host variable.</param>
         /// <typeparam name="T">The type of the host variable.</typeparam>
-        /// <returns>Returns a new <see cref="MutableGlobal"/> representing the defined mutable global variable.</returns>
+        /// <returns>Returns a new <see cref="MutableGlobal{T}"/> representing the defined mutable global variable.</returns>
         public MutableGlobal<T> DefineMutableGlobal<T>(string moduleName, string name, T initialValue)
         {
             CheckDisposed();

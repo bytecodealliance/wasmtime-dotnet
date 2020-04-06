@@ -17,17 +17,17 @@
     <Owners>Peter Huene</Owners>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <RepositoryUrl>https://github.com/bytecodealliance/wasmtime</RepositoryUrl>
-    <PackageReleaseNotes>Initial release of Wasmtime for .NET.</PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/bytecodealliance/wasmtime-dotnet</RepositoryUrl>
+    <PackageReleaseNotes>Update Wasmtime to 0.15.0.</PackageReleaseNotes>
     <Summary>A .NET API for Wasmtime, a standalone WebAssembly runtime</Summary>
     <PackageTags>webassembly, .net, wasm, wasmtime</PackageTags>
     <Title>Wasmtime</Title>
     <PackageDescription>
-A .NET API for Wasmtime.
+A .NET embedding of Wasmtime.
 
 Wasmtime is a standalone runtime for WebAssembly, using the Cranelift JIT compiler.
 
-Wasmtime for .NET enables .NET code to instantiate WebAssembly modules and to interact with them in-process.
+The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modules and to interact with them in-process.
     </PackageDescription>
   </PropertyGroup>
 
