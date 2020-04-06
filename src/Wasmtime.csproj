@@ -76,7 +76,7 @@ Wasmtime for .NET enables .NET code to instantiate WebAssembly modules and to in
     <ItemGroup>
       <Content Include="%(WasmtimeDownload.DownloadFolder)/lib/%(WasmtimeDownload.WasmtimeLibraryFilename)">
         <PackagePath>%(WasmtimeDownload.PackagePath)</PackagePath>
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         <Link>%(WasmtimeDownload.WasmtimeLibraryFilename)</Link>
       </Content>
     </ItemGroup>
