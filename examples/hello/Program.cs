@@ -15,7 +15,7 @@ namespace HelloExample
                 () => Console.WriteLine("Hello from C#, WebAssembly!")
             );
 
-            using var module = host.LoadModule("hello.wasm");
+            using var module = host.LoadModuleText("hello.wat");
 
             using dynamic instance = host.Instantiate(module);
             instance.run();

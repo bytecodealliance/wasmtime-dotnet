@@ -12,7 +12,7 @@
   <PropertyGroup>
     <AssemblyName>Wasmtime.Dotnet</AssemblyName>
     <PackageId>Wasmtime</PackageId>
-    <Version>$(WasmtimeVersion)-preview1</Version>
+    <Version>$(WasmtimePackageVersion)</Version>
     <Authors>Peter Huene</Authors>
     <Owners>Peter Huene</Owners>
     <IncludeSymbols>true</IncludeSymbols>
@@ -31,45 +31,53 @@ Wasmtime for .NET enables .NET code to instantiate WebAssembly modules and to in
     </PackageDescription>
   </PropertyGroup>
 
-  <Target Name="PackWasmtime" BeforeTargets="_GetPackageFiles">
+  <Target Name="DownloadWasmtime" BeforeTargets="BeforeBuild">
     <PropertyGroup>
       <WasmtimeArchitecture>x86_64</WasmtimeArchitecture>
-      <ReleaseURLBase>https://github.com/bytecodealliance/wasmtime/releases/download/v$(WasmtimeVersion)/wasmtime-v$(WasmtimeVersion)-$(WasmtimeArchitecture)</ReleaseURLBase>
+      <ReleaseURLBase Condition="'$(DevBuild)'=='true'">https://github.com/bytecodealliance/wasmtime/releases/download/dev/wasmtime-dev-$(WasmtimeArchitecture)</ReleaseURLBase>
+      <ReleaseURLBase Condition="'$(ReleaseURLBase)'==''">https://github.com/bytecodealliance/wasmtime/releases/download/v$(WasmtimeVersion)/wasmtime-v$(WasmtimeVersion)-$(WasmtimeArchitecture)</ReleaseURLBase>
     </PropertyGroup>
 
     <ItemGroup>
       <WasmtimeDownload Include="Linux">
         <URL>$(ReleaseURLBase)-linux-c-api.tar.xz</URL>
-        <DownloadFolder>$(IntermediateOutputPath)wasmtime-linux</DownloadFolder>
+        <DownloadFolder>$(IntermediateOutputPath)linux</DownloadFolder>
         <DownloadFilename>linux.tar.xz</DownloadFilename>
         <WasmtimeLibraryFilename>libwasmtime.so</WasmtimeLibraryFilename>
-        <PackagePath>runtimes/linux-x64/native</PackagePath>
+        <PackagePath>runtimes/linux-x64/native/lib/$(WasmtimeLibraryFilename)</PackagePath>
       </WasmtimeDownload>
       <WasmtimeDownload Include="macOS">
         <URL>$(ReleaseURLBase)-macos-c-api.tar.xz</URL>
-        <DownloadFolder>$(IntermediateOutputPath)wasmtime-macos</DownloadFolder>
+        <DownloadFolder>$(IntermediateOutputPath)macos</DownloadFolder>
         <DownloadFilename>macos.tar.xz</DownloadFilename>
         <WasmtimeLibraryFilename>libwasmtime.dylib</WasmtimeLibraryFilename>
-        <PackagePath>runtimes/osx-x64/native</PackagePath>
+        <PackagePath>runtimes/osx-x64/native/lib/$(WasmtimeLibraryFilename)</PackagePath>
       </WasmtimeDownload>
       <WasmtimeDownload Include="Windows">
         <URL>$(ReleaseURLBase)-windows-c-api.zip</URL>
-        <DownloadFolder>$(IntermediateOutputPath)wasmtime-windows</DownloadFolder>
+        <DownloadFolder>$(IntermediateOutputPath)windows</DownloadFolder>
         <DownloadFilename>windows.zip</DownloadFilename>
         <WasmtimeLibraryFilename>wasmtime.dll</WasmtimeLibraryFilename>
-        <PackagePath>runtimes/win-x64/native</PackagePath>
+        <PackagePath>runtimes/win-x64/native/lib/$(WasmtimeLibraryFilename)</PackagePath>
       </WasmtimeDownload>
     </ItemGroup>
 
-    <Message Text="Downloading Wasmtime release." Importance="High" />
-    <DownloadFile SourceUrl="%(WasmtimeDownload.URL)" DestinationFolder="%(WasmtimeDownload.DownloadFolder)" DestinationFileName="%(WasmtimeDownload.DownloadFilename)" SkipUnchangedFiles="true" />
+    <DownloadFile Condition="!Exists('%(WasmtimeDownload.DownloadFolder)/%(WasmtimeDownload.DownloadFilename)')"
+                  SourceUrl="%(WasmtimeDownload.URL)"
+                  DestinationFolder="%(WasmtimeDownload.DownloadFolder)"
+                  DestinationFileName="%(WasmtimeDownload.DownloadFilename)"
+                  SkipUnchangedFiles="true" />
 
-    <Message Text="Decompressing Wasmtime release." Importance="High" />
-    <Exec Command="tar --strip-components 1 -xvzf %(WasmtimeDownload.DownloadFilename)" WorkingDirectory="%(WasmtimeDownload.DownloadFolder)" StandardOutputImportance="Low" StandardErrorImportance="Low" />
+    <Exec Condition="!Exists('%(WasmtimeDownload.DownloadFolder)/lib/%(WasmtimeDownload.WasmtimeLibraryFilename)')"
+          Command="tar --strip-components 1 -xvzf %(WasmtimeDownload.DownloadFilename)"
+          WorkingDirectory="%(WasmtimeDownload.DownloadFolder)" StandardOutputImportance="Low"
+          StandardErrorImportance="Low" />
 
     <ItemGroup>
-      <Content Include="%(WasmtimeDownload.DownloadFolder)/lib/%(WasmtimeDownload.WasmtimeLibraryFilename)" Link="%(WasmtimeDownload.PackagePath)/%(WasmtimeDownload.WasmtimeLibraryFilename)">
+      <Content Include="%(WasmtimeDownload.DownloadFolder)/lib/%(WasmtimeDownload.WasmtimeLibraryFilename)">
         <PackagePath>%(WasmtimeDownload.PackagePath)</PackagePath>
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        <Link>%(WasmtimeDownload.WasmtimeLibraryFilename)</Link>
       </Content>
     </ItemGroup>
   </Target>

@@ -18,7 +18,7 @@ namespace HelloExample
                 }
             );
 
-            using var module = host.LoadModule("memory.wasm");
+            using var module = host.LoadModuleText("memory.wat");
 
             using dynamic instance = host.Instantiate(module);
             instance.run();
