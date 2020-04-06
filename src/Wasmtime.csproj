@@ -39,21 +39,21 @@ Wasmtime for .NET enables .NET code to instantiate WebAssembly modules and to in
     </PropertyGroup>
 
     <ItemGroup>
-      <WasmtimeDownload Include="Linux">
+      <WasmtimeDownload Include="Linux" Condition="'$(DevBuild)' != 'true' Or $([MSBuild]::IsOsPlatform('Linux'))">
         <URL>$(ReleaseURLBase)-linux-c-api.tar.xz</URL>
         <DownloadFolder>$(IntermediateOutputPath)linux</DownloadFolder>
         <DownloadFilename>linux.tar.xz</DownloadFilename>
         <WasmtimeLibraryFilename>libwasmtime.so</WasmtimeLibraryFilename>
         <PackagePath>runtimes/linux-x64/native/lib/$(WasmtimeLibraryFilename)</PackagePath>
       </WasmtimeDownload>
-      <WasmtimeDownload Include="macOS">
+      <WasmtimeDownload Include="macOS" Condition="'$(DevBuild)' != 'true' Or $([MSBuild]::IsOsPlatform('OSX'))">
         <URL>$(ReleaseURLBase)-macos-c-api.tar.xz</URL>
         <DownloadFolder>$(IntermediateOutputPath)macos</DownloadFolder>
         <DownloadFilename>macos.tar.xz</DownloadFilename>
         <WasmtimeLibraryFilename>libwasmtime.dylib</WasmtimeLibraryFilename>
         <PackagePath>runtimes/osx-x64/native/lib/$(WasmtimeLibraryFilename)</PackagePath>
       </WasmtimeDownload>
-      <WasmtimeDownload Include="Windows">
+      <WasmtimeDownload Include="Windows" Condition="'$(DevBuild)' != 'true' Or $([MSBuild]::IsOsPlatform('Windows'))">
         <URL>$(ReleaseURLBase)-windows-c-api.zip</URL>
         <DownloadFolder>$(IntermediateOutputPath)windows</DownloadFolder>
         <DownloadFilename>windows.zip</DownloadFilename>
@@ -69,7 +69,7 @@ Wasmtime for .NET enables .NET code to instantiate WebAssembly modules and to in
                   SkipUnchangedFiles="true" />
 
     <Exec Condition="!Exists('%(WasmtimeDownload.DownloadFolder)/lib/%(WasmtimeDownload.WasmtimeLibraryFilename)')"
-          Command="tar --strip-components 1 -xvzf %(WasmtimeDownload.DownloadFilename)"
+          Command="tar --strip-components 1 -xvf %(WasmtimeDownload.DownloadFilename)"
           WorkingDirectory="%(WasmtimeDownload.DownloadFolder)" StandardOutputImportance="Low"
           StandardErrorImportance="Low" />
 
