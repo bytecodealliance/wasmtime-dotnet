@@ -9,13 +9,4 @@
     <ProjectReference Include="..\..\src\Wasmtime.csproj" />
   </ItemGroup>
 
-  <!-- This is needed as we're not referencing Wasmtime as a package. -->
-  <Target Name="BuildWasmtime" BeforeTargets="AssignTargetPaths">
-    <Message Text="Building Wasmtime from source." Importance="High" />
-    <Exec Command="$(BuildWasmtimeCommand)" StandardOutputImportance="Low" StandardErrorImportance="Low" />
-    <ItemGroup>
-      <None Include="$(WasmtimeOutputPath)/$(WasmtimeLibraryFilename)" Link="$(WasmtimeLibraryFilename)" CopyToOutputDirectory="PreserveNewest" />
-    </ItemGroup>
-  </Target>
-
 </Project>

@@ -1,0 +1,50 @@
+name: CI
+on:
+  push:
+    branches: [master]
+    tags-ignore: [dev]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    name: Test .NET bindings for Wasmtime
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        build: [linux-debug, linux-release, macos-debug, macos-release, windows-debug, windows-release]
+        include:
+          - build: linux-debug
+            os: ubuntu-latest
+            config: debug
+          - build: linux-release
+            os: ubuntu-latest
+            config: release
+          - build: macos-debug
+            os: macos-latest
+            config: debug
+          - build: macos-release
+            os: macos-latest
+            config: release
+          - build: windows-debug
+            os: windows-latest
+            config: debug
+          - build: windows-release
+            os: windows-latest
+            config: release
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '3.1.201'
+    - name: Restore packages
+      run: dotnet restore
+    --name: Build
+      run: dotnet build -c ${{ matrix.config }} --no-restore
+    - name: Test
+      run: dotnet test -c ${{ matrix.config }}
+    - name: Create package
+      run: |
+        cd src
+        dotnet pack -c ${{ matrix.config }}
+      if: matrix.os == 'macos-latest' # Currently the pack target only supports macOS because of how it decompresses the Wasmtime releases

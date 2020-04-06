@@ -19,7 +19,7 @@ namespace HelloExample
                 }
             );
 
-            using var module = host.LoadModule("global.wasm");
+            using var module = host.LoadModuleText("global.wat");
 
             using dynamic instance = host.Instantiate(module);
             instance.run(20);
