@@ -39,7 +39,7 @@ jobs:
         dotnet-version: '3.1.201'
     - name: Restore packages
       run: dotnet restore
-    --name: Build
+    - name: Build
       run: dotnet build -c ${{ matrix.config }} --no-restore
     - name: Test
       run: dotnet test -c ${{ matrix.config }}
