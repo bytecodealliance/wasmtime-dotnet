@@ -4,4 +4,4 @@
   href: api/
   homepage: api/index.md
 - name: GitHub Repo
-  href: https://github.com/bytecodealliance/wasmtime
+  href: https://github.com/bytecodealliance/wasmtime-dotnet

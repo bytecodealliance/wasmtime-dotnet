@@ -1,7 +1,5 @@
-# Wasmtime for .NET
+# .NET embedding of Wasmtime
 
-A .NET API for [Wasmtime](https://github.com/bytecodealliance/wasmtime).
+[Wasmtime](https://github.com/bytecodealliance/wasmtime) is a standalone runtime for [WebAssembly](https://webassembly.org/), using the Cranelift JIT compiler.
 
-Wasmtime is a standalone runtime for [WebAssembly](https://webassembly.org/), using the Cranelift JIT compiler.
-
-Wasmtime for .NET enables .NET code to instantiate WebAssembly modules and to interact with them in-process.
+The [.NET embedding of Wasmtime](https://github.com/bytecodealliance/wasmtime-dotnet) enables .NET code to instantiate WebAssembly modules and to interact with them in-process.
