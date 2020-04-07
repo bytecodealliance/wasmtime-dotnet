@@ -1,0 +1,4338 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class Host
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class Host
+   ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Wasmtime.Host">
+  
+  
+  <h1 id="Wasmtime_Host" data-uid="Wasmtime.Host" class="text-break">Class Host
+  </h1>
+  <div class="markdown level0 summary"><p>Represents a WebAssembly host environment.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">Host</span></div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Wasmtime.html">Wasmtime</a></h6>
+  <h6><strong>Assembly</strong>: Wasmtime.Dotnet.dll</h6>
+  <h5 id="Wasmtime_Host_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class Host : IDisposable</code></pre>
+  </div>
+  <h5 id="Wasmtime_Host_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p>A host is used to configure the environment for WebAssembly modules to execute in.</p>
+</div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host__ctor.md&amp;value=---%0Auid%3A%20Wasmtime.Host.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L20">View Source</a>
+  </span>
+  <a id="Wasmtime_Host__ctor_" data-uid="Wasmtime.Host.#ctor*"></a>
+  <h4 id="Wasmtime_Host__ctor" data-uid="Wasmtime.Host.#ctor">Host()</h4>
+  <div class="markdown level1 summary"><p>Constructs a new host.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Host()</code></pre>
+  </div>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_ClearDefinitions.md&amp;value=---%0Auid%3A%20Wasmtime.Host.ClearDefinitions%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L666">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_ClearDefinitions_" data-uid="Wasmtime.Host.ClearDefinitions*"></a>
+  <h4 id="Wasmtime_Host_ClearDefinitions" data-uid="Wasmtime.Host.ClearDefinitions">ClearDefinitions()</h4>
+  <div class="markdown level1 summary"><p>Clears all existing definitions in the host.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ClearDefinitions()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction_System_String_System_String_Action_.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction(System.String%2CSystem.String%2CAction)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L60">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction_System_String_System_String_Action_" data-uid="Wasmtime.Host.DefineFunction(System.String,System.String,Action)">DefineFunction(String, String, Action)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction(string moduleName, string name, Action func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span></td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__1_System_String_System_String_Action___0__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%601(System.String%2CSystem.String%2CAction%7B%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L72">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction__1_System_String_System_String_Action___0__" data-uid="Wasmtime.Host.DefineFunction``1(System.String,System.String,Action{``0})">DefineFunction&lt;T&gt;(String, String, Action&lt;T&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction&lt;T&gt;(string moduleName, string name, Action&lt;T&gt; func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span>&lt;T&gt;</td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__1_System_String_System_String_Func___0__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%601(System.String%2CSystem.String%2CFunc%7B%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L264">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction__1_System_String_System_String_Func___0__" data-uid="Wasmtime.Host.DefineFunction``1(System.String,System.String,Func{``0})">DefineFunction&lt;TResult&gt;(String, String, Func&lt;TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction&lt;TResult&gt;(string moduleName, string name, Func&lt;TResult&gt; func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;TResult&gt;</td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__10_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6010(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L180">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction__10_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9__" data-uid="Wasmtime.Host.DefineFunction``10(System.String,System.String,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10&gt;(String, String, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10&gt;(string moduleName, string name, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10&gt; func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10&gt;</td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T9</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T10</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__10_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6010(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L372">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction__10_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9__" data-uid="Wasmtime.Host.DefineFunction``10(System.String,System.String,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult&gt;(string moduleName, string name, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult&gt; func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult&gt;</td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T9</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__11_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6011(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L192">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction__11_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10__" data-uid="Wasmtime.Host.DefineFunction``11(System.String,System.String,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11&gt;(String, String, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11&gt;(string moduleName, string name, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11&gt; func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11&gt;</td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T9</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T10</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T11</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__11_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6011(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L384">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction__11_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10__" data-uid="Wasmtime.Host.DefineFunction``11(System.String,System.String,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult&gt;(string moduleName, string name, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult&gt; func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult&gt;</td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T9</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T10</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__12_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6012(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L204">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction__12_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11__" data-uid="Wasmtime.Host.DefineFunction``12(System.String,System.String,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12&gt;(String, String, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12&gt;(string moduleName, string name, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12&gt; func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12&gt;</td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T9</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T10</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T11</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T12</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__12_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6012(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L396">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction__12_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11__" data-uid="Wasmtime.Host.DefineFunction``12(System.String,System.String,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult&gt;(string moduleName, string name, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult&gt; func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult&gt;</td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T9</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T10</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T11</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__13_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11___12__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6013(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L216">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction__13_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11___12__" data-uid="Wasmtime.Host.DefineFunction``13(System.String,System.String,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13&gt;(String, String, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13&gt;(string moduleName, string name, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13&gt; func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13&gt;</td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T9</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T10</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T11</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T12</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T13</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__13_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6013(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L408">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction__13_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12__" data-uid="Wasmtime.Host.DefineFunction``13(System.String,System.String,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult&gt;(string moduleName, string name, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult&gt; func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult&gt;</td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T9</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T10</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T11</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T12</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__14_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11___12___13__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6014(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%2C%60%6013%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L228">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction__14_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11___12___13__" data-uid="Wasmtime.Host.DefineFunction``14(System.String,System.String,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14&gt;(String, String, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14&gt;(string moduleName, string name, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14&gt; func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14&gt;</td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T9</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T10</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T11</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T12</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T13</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T14</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__14_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6014(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%2C%60%6013%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L420">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction__14_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13__" data-uid="Wasmtime.Host.DefineFunction``14(System.String,System.String,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult&gt;(string moduleName, string name, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult&gt; func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult&gt;</td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T9</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T10</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T11</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T12</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T13</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__15_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6015(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%2C%60%6013%2C%60%6014%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L240">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction__15_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14__" data-uid="Wasmtime.Host.DefineFunction``15(System.String,System.String,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15&gt;(String, String, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15&gt;(string moduleName, string name, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15&gt; func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15&gt;</td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T9</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T10</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T11</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T12</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T13</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T14</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T15</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__15_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6015(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%2C%60%6013%2C%60%6014%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L432">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction__15_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14__" data-uid="Wasmtime.Host.DefineFunction``15(System.String,System.String,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult&gt;(string moduleName, string name, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult&gt; func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult&gt;</td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T9</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T10</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T11</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T12</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T13</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T14</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__16_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14___15__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6016(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%2C%60%6013%2C%60%6014%2C%60%6015%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L252">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction__16_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14___15__" data-uid="Wasmtime.Host.DefineFunction``16(System.String,System.String,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16&gt;(String, String, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16&gt;(string moduleName, string name, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16&gt; func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16&gt;</td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T9</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T10</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T11</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T12</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T13</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T14</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T15</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T16</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__16_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14___15__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6016(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%2C%60%6013%2C%60%6014%2C%60%6015%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L444">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction__16_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14___15__" data-uid="Wasmtime.Host.DefineFunction``16(System.String,System.String,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult&gt;(string moduleName, string name, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult&gt; func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult&gt;</td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T9</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T10</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T11</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T12</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T13</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T14</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T15</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__17_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14___15___16__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6017(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%2C%60%6013%2C%60%6014%2C%60%6015%2C%60%6016%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L456">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction__17_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14___15___16__" data-uid="Wasmtime.Host.DefineFunction``17(System.String,System.String,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15,``16})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult&gt;(string moduleName, string name, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult&gt; func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult&gt;</td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T9</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T10</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T11</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T12</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T13</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T14</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T15</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T16</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__2_System_String_System_String_Action___0___1__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%602(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L84">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction__2_System_String_System_String_Action___0___1__" data-uid="Wasmtime.Host.DefineFunction``2(System.String,System.String,Action{``0,``1})">DefineFunction&lt;T1, T2&gt;(String, String, Action&lt;T1, T2&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction&lt;T1, T2&gt;(string moduleName, string name, Action&lt;T1, T2&gt; func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span>&lt;T1, T2&gt;</td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__2_System_String_System_String_Func___0___1__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%602(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L276">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction__2_System_String_System_String_Func___0___1__" data-uid="Wasmtime.Host.DefineFunction``2(System.String,System.String,Func{``0,``1})">DefineFunction&lt;T, TResult&gt;(String, String, Func&lt;T, TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction&lt;T, TResult&gt;(string moduleName, string name, Func&lt;T, TResult&gt; func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;T, TResult&gt;</td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__3_System_String_System_String_Action___0___1___2__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%603(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L96">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction__3_System_String_System_String_Action___0___1___2__" data-uid="Wasmtime.Host.DefineFunction``3(System.String,System.String,Action{``0,``1,``2})">DefineFunction&lt;T1, T2, T3&gt;(String, String, Action&lt;T1, T2, T3&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction&lt;T1, T2, T3&gt;(string moduleName, string name, Action&lt;T1, T2, T3&gt; func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span>&lt;T1, T2, T3&gt;</td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__3_System_String_System_String_Func___0___1___2__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%603(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L288">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction__3_System_String_System_String_Func___0___1___2__" data-uid="Wasmtime.Host.DefineFunction``3(System.String,System.String,Func{``0,``1,``2})">DefineFunction&lt;T1, T2, TResult&gt;(String, String, Func&lt;T1, T2, TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction&lt;T1, T2, TResult&gt;(string moduleName, string name, Func&lt;T1, T2, TResult&gt; func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;T1, T2, TResult&gt;</td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__4_System_String_System_String_Action___0___1___2___3__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%604(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L108">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction__4_System_String_System_String_Action___0___1___2___3__" data-uid="Wasmtime.Host.DefineFunction``4(System.String,System.String,Action{``0,``1,``2,``3})">DefineFunction&lt;T1, T2, T3, T4&gt;(String, String, Action&lt;T1, T2, T3, T4&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction&lt;T1, T2, T3, T4&gt;(string moduleName, string name, Action&lt;T1, T2, T3, T4&gt; func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span>&lt;T1, T2, T3, T4&gt;</td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__4_System_String_System_String_Func___0___1___2___3__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%604(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L300">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction__4_System_String_System_String_Func___0___1___2___3__" data-uid="Wasmtime.Host.DefineFunction``4(System.String,System.String,Func{``0,``1,``2,``3})">DefineFunction&lt;T1, T2, T3, TResult&gt;(String, String, Func&lt;T1, T2, T3, TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction&lt;T1, T2, T3, TResult&gt;(string moduleName, string name, Func&lt;T1, T2, T3, TResult&gt; func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;T1, T2, T3, TResult&gt;</td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__5_System_String_System_String_Action___0___1___2___3___4__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%605(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L120">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction__5_System_String_System_String_Action___0___1___2___3___4__" data-uid="Wasmtime.Host.DefineFunction``5(System.String,System.String,Action{``0,``1,``2,``3,``4})">DefineFunction&lt;T1, T2, T3, T4, T5&gt;(String, String, Action&lt;T1, T2, T3, T4, T5&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction&lt;T1, T2, T3, T4, T5&gt;(string moduleName, string name, Action&lt;T1, T2, T3, T4, T5&gt; func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span>&lt;T1, T2, T3, T4, T5&gt;</td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__5_System_String_System_String_Func___0___1___2___3___4__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%605(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L312">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction__5_System_String_System_String_Func___0___1___2___3___4__" data-uid="Wasmtime.Host.DefineFunction``5(System.String,System.String,Func{``0,``1,``2,``3,``4})">DefineFunction&lt;T1, T2, T3, T4, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction&lt;T1, T2, T3, T4, TResult&gt;(string moduleName, string name, Func&lt;T1, T2, T3, T4, TResult&gt; func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;T1, T2, T3, T4, TResult&gt;</td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__6_System_String_System_String_Action___0___1___2___3___4___5__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%606(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L132">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction__6_System_String_System_String_Action___0___1___2___3___4___5__" data-uid="Wasmtime.Host.DefineFunction``6(System.String,System.String,Action{``0,``1,``2,``3,``4,``5})">DefineFunction&lt;T1, T2, T3, T4, T5, T6&gt;(String, String, Action&lt;T1, T2, T3, T4, T5, T6&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction&lt;T1, T2, T3, T4, T5, T6&gt;(string moduleName, string name, Action&lt;T1, T2, T3, T4, T5, T6&gt; func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span>&lt;T1, T2, T3, T4, T5, T6&gt;</td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__6_System_String_System_String_Func___0___1___2___3___4___5__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%606(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L324">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction__6_System_String_System_String_Func___0___1___2___3___4___5__" data-uid="Wasmtime.Host.DefineFunction``6(System.String,System.String,Func{``0,``1,``2,``3,``4,``5})">DefineFunction&lt;T1, T2, T3, T4, T5, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction&lt;T1, T2, T3, T4, T5, TResult&gt;(string moduleName, string name, Func&lt;T1, T2, T3, T4, T5, TResult&gt; func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;T1, T2, T3, T4, T5, TResult&gt;</td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__7_System_String_System_String_Action___0___1___2___3___4___5___6__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%607(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L144">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction__7_System_String_System_String_Action___0___1___2___3___4___5___6__" data-uid="Wasmtime.Host.DefineFunction``7(System.String,System.String,Action{``0,``1,``2,``3,``4,``5,``6})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7&gt;(String, String, Action&lt;T1, T2, T3, T4, T5, T6, T7&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7&gt;(string moduleName, string name, Action&lt;T1, T2, T3, T4, T5, T6, T7&gt; func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span>&lt;T1, T2, T3, T4, T5, T6, T7&gt;</td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__7_System_String_System_String_Func___0___1___2___3___4___5___6__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%607(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L336">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction__7_System_String_System_String_Func___0___1___2___3___4___5___6__" data-uid="Wasmtime.Host.DefineFunction``7(System.String,System.String,Func{``0,``1,``2,``3,``4,``5,``6})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, T6, TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction&lt;T1, T2, T3, T4, T5, T6, TResult&gt;(string moduleName, string name, Func&lt;T1, T2, T3, T4, T5, T6, TResult&gt; func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;T1, T2, T3, T4, T5, T6, TResult&gt;</td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__8_System_String_System_String_Action___0___1___2___3___4___5___6___7__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%608(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L156">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction__8_System_String_System_String_Action___0___1___2___3___4___5___6___7__" data-uid="Wasmtime.Host.DefineFunction``8(System.String,System.String,Action{``0,``1,``2,``3,``4,``5,``6,``7})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8&gt;(String, String, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8&gt;(string moduleName, string name, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8&gt; func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8&gt;</td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__8_System_String_System_String_Func___0___1___2___3___4___5___6___7__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%608(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L348">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction__8_System_String_System_String_Func___0___1___2___3___4___5___6___7__" data-uid="Wasmtime.Host.DefineFunction``8(System.String,System.String,Func{``0,``1,``2,``3,``4,``5,``6,``7})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, T6, T7, TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, TResult&gt;(string moduleName, string name, Func&lt;T1, T2, T3, T4, T5, T6, T7, TResult&gt; func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;T1, T2, T3, T4, T5, T6, T7, TResult&gt;</td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__9_System_String_System_String_Action___0___1___2___3___4___5___6___7___8__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%609(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L168">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction__9_System_String_System_String_Action___0___1___2___3___4___5___6___7___8__" data-uid="Wasmtime.Host.DefineFunction``9(System.String,System.String,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9&gt;(String, String, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9&gt;(string moduleName, string name, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9&gt; func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9&gt;</td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T9</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__9_System_String_System_String_Func___0___1___2___3___4___5___6___7___8__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%609(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L360">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
+  <h4 id="Wasmtime_Host_DefineFunction__9_System_String_System_String_Func___0___1___2___3___4___5___6___7___8__" data-uid="Wasmtime.Host.DefineFunction``9(System.String,System.String,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a host function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, TResult&gt;(string moduleName, string name, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, TResult&gt; func)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, TResult&gt;</td>
+        <td><span class="parametername">func</span></td>
+        <td><p>The callback for when the host function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns a <a class="xref" href="Wasmtime.Function.html">Function</a> representing the host function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineGlobal__1_System_String_System_String___0_.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineGlobal%60%601(System.String%2CSystem.String%2C%60%600)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L469">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineGlobal_" data-uid="Wasmtime.Host.DefineGlobal*"></a>
+  <h4 id="Wasmtime_Host_DefineGlobal__1_System_String_System_String___0_" data-uid="Wasmtime.Host.DefineGlobal``1(System.String,System.String,``0)">DefineGlobal&lt;T&gt;(String, String, T)</h4>
+  <div class="markdown level1 summary"><p>Defines a new host global variable.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Global&lt;T&gt; DefineGlobal&lt;T&gt;(string moduleName, string name, T initialValue)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host variable.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host variable.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">T</span></td>
+        <td><span class="parametername">initialValue</span></td>
+        <td><p>The initial value of the host variable.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Global-1.html">Global</a>&lt;T&gt;</td>
+        <td><p>Returns a new <a class="xref" href="Wasmtime.Global-1.html">Global&lt;T&gt;</a> representing the defined global variable.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td><p>The type of the host variable.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineMemory_System_String_System_String_System_UInt32_System_UInt32_.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineMemory(System.String%2CSystem.String%2CSystem.UInt32%2CSystem.UInt32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L535">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineMemory_" data-uid="Wasmtime.Host.DefineMemory*"></a>
+  <h4 id="Wasmtime_Host_DefineMemory_System_String_System_String_System_UInt32_System_UInt32_" data-uid="Wasmtime.Host.DefineMemory(System.String,System.String,System.UInt32,System.UInt32)">DefineMemory(String, String, UInt32, UInt32)</h4>
+  <div class="markdown level1 summary"><p>Defines a new host memory.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Memory DefineMemory(string moduleName, string name, uint minimum = null, uint maximum = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host memory.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host memory.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.UInt32</span></td>
+        <td><span class="parametername">minimum</span></td>
+        <td><p>The minimum number of pages for the host memory.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.UInt32</span></td>
+        <td><span class="parametername">maximum</span></td>
+        <td><p>The maximum number of pages for the host memory.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Memory.html">Memory</a></td>
+        <td><p>Returns a new <a class="xref" href="Wasmtime.Memory.html">Memory</a> representing the defined memory.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineMutableGlobal__1_System_String_System_String___0_.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineMutableGlobal%60%601(System.String%2CSystem.String%2C%60%600)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L502">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineMutableGlobal_" data-uid="Wasmtime.Host.DefineMutableGlobal*"></a>
+  <h4 id="Wasmtime_Host_DefineMutableGlobal__1_System_String_System_String___0_" data-uid="Wasmtime.Host.DefineMutableGlobal``1(System.String,System.String,``0)">DefineMutableGlobal&lt;T&gt;(String, String, T)</h4>
+  <div class="markdown level1 summary"><p>Defines a new host mutable global variable.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MutableGlobal&lt;T&gt; DefineMutableGlobal&lt;T&gt;(string moduleName, string name, T initialValue)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the host variable.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the host variable.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">T</span></td>
+        <td><span class="parametername">initialValue</span></td>
+        <td><p>The initial value of the host variable.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.MutableGlobal-1.html">MutableGlobal</a>&lt;T&gt;</td>
+        <td><p>Returns a new <a class="xref" href="Wasmtime.MutableGlobal-1.html">MutableGlobal&lt;T&gt;</a> representing the defined mutable global variable.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td><p>The type of the host variable.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineWasi_System_String_Wasmtime_WasiConfiguration_.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineWasi(System.String%2CWasmtime.WasiConfiguration)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L30">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineWasi_" data-uid="Wasmtime.Host.DefineWasi*"></a>
+  <h4 id="Wasmtime_Host_DefineWasi_System_String_Wasmtime_WasiConfiguration_" data-uid="Wasmtime.Host.DefineWasi(System.String,Wasmtime.WasiConfiguration)">DefineWasi(String, WasiConfiguration)</h4>
+  <div class="markdown level1 summary"><p>Defines a WASI implementation in the host.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineWasi(string name, WasiConfiguration config = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the WASI module to define.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Wasmtime.WasiConfiguration.html">WasiConfiguration</a></td>
+        <td><span class="parametername">config</span></td>
+        <td><p>The <a class="xref" href="Wasmtime.WasiConfiguration.html">WasiConfiguration</a> to configure the WASI implementation with.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_Dispose.md&amp;value=---%0Auid%3A%20Wasmtime.Host.Dispose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L683">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_Dispose_" data-uid="Wasmtime.Host.Dispose*"></a>
+  <h4 id="Wasmtime_Host_Dispose" data-uid="Wasmtime.Host.Dispose">Dispose()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_Instantiate_Wasmtime_Module_.md&amp;value=---%0Auid%3A%20Wasmtime.Host.Instantiate(Wasmtime.Module)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L651">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_Instantiate_" data-uid="Wasmtime.Host.Instantiate*"></a>
+  <h4 id="Wasmtime_Host_Instantiate_Wasmtime_Module_" data-uid="Wasmtime.Host.Instantiate(Wasmtime.Module)">Instantiate(Module)</h4>
+  <div class="markdown level1 summary"><p>Instantiates a WebAssembly module.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Instance Instantiate(Module module)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Module.html">Module</a></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module to instantiate.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Instance.html">Instance</a></td>
+        <td><p>Returns a new <a class="xref" href="Wasmtime.Instance.html">Instance</a>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_LoadModule_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Host.LoadModule(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L588">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_LoadModule_" data-uid="Wasmtime.Host.LoadModule*"></a>
+  <h4 id="Wasmtime_Host_LoadModule_System_String_" data-uid="Wasmtime.Host.LoadModule(System.String)">LoadModule(String)</h4>
+  <div class="markdown level1 summary"><p>Loads a <a class="xref" href="Wasmtime.Module.html">Module</a> given the path to the WebAssembly file.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Module LoadModule(string path)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">path</span></td>
+        <td><p>The path to the WebAssembly file.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Module.html">Module</a></td>
+        <td><p>Returns a new <a class="xref" href="Wasmtime.Module.html">Module</a>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_LoadModule_System_String_System_Byte___.md&amp;value=---%0Auid%3A%20Wasmtime.Host.LoadModule(System.String%2CSystem.Byte%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L566">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_LoadModule_" data-uid="Wasmtime.Host.LoadModule*"></a>
+  <h4 id="Wasmtime_Host_LoadModule_System_String_System_Byte___" data-uid="Wasmtime.Host.LoadModule(System.String,System.Byte[])">LoadModule(String, Byte[])</h4>
+  <div class="markdown level1 summary"><p>Loads a <a class="xref" href="Wasmtime.Module.html">Module</a> given the module name and bytes.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Module LoadModule(string name, byte[] bytes)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the module.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Byte</span>[]</td>
+        <td><span class="parametername">bytes</span></td>
+        <td><p>The bytes of the module.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Module.html">Module</a></td>
+        <td><p>Returns a new <a class="xref" href="Wasmtime.Module.html">Module</a>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_LoadModuleText_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Host.LoadModuleText(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L641">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_LoadModuleText_" data-uid="Wasmtime.Host.LoadModuleText*"></a>
+  <h4 id="Wasmtime_Host_LoadModuleText_System_String_" data-uid="Wasmtime.Host.LoadModuleText(System.String)">LoadModuleText(String)</h4>
+  <div class="markdown level1 summary"><p>Loads a <a class="xref" href="Wasmtime.Module.html">Module</a> based on the path to a WebAssembly text format file.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Module LoadModuleText(string path)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">path</span></td>
+        <td><p>The path to the WebAssembly text format file.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Module.html">Module</a></td>
+        <td><p>Returns a new <a class="xref" href="Wasmtime.Module.html">Module</a>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_LoadModuleText_System_String_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Host.LoadModuleText(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L599">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_LoadModuleText_" data-uid="Wasmtime.Host.LoadModuleText*"></a>
+  <h4 id="Wasmtime_Host_LoadModuleText_System_String_System_String_" data-uid="Wasmtime.Host.LoadModuleText(System.String,System.String)">LoadModuleText(String, String)</h4>
+  <div class="markdown level1 summary"><p>Loads a <a class="xref" href="Wasmtime.Module.html">Module</a> based on a WebAssembly text format representation.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Module LoadModuleText(string name, string text)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the module.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">text</span></td>
+        <td><p>The WebAssembly text format representation of the module.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Module.html">Module</a></td>
+        <td><p>Returns a new <a class="xref" href="Wasmtime.Module.html">Module</a>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host.md&amp;value=---%0Auid%3A%20Wasmtime.Host%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L15" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
