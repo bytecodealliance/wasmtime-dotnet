@@ -5,6 +5,8 @@ on:
     tags-ignore: [dev]
   pull_request:
     branches: [master]
+  schedule:
+    - cron: '0 0 * * *' # run at 00:00 UTC
 
 jobs:
   build:
@@ -47,4 +49,3 @@ jobs:
       run: |
         cd src
         dotnet pack -c ${{ matrix.config }}
-      if: matrix.os == 'macos-latest' # Currently the pack target only supports macOS because of how it decompresses the Wasmtime releases
