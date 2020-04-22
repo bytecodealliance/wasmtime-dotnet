@@ -50,7 +50,7 @@ namespace Wasmtime.Tests
             yield return new object[] {
                 "",
                 "table2",
-                ValueKind.AnyRef,
+                ValueKind.FuncRef,
                 15,
                 uint.MaxValue
             };
