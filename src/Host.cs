@@ -2,6 +2,8 @@ using System;
 using System.IO;
 using System.Text;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace Wasmtime
@@ -641,11 +643,61 @@ namespace Wasmtime
         /// </summary>
         /// <param name="path">The path to the WebAssembly text format file.</param>
         /// <returns>Returns a new <see cref="Module"/>.</returns>
-        public Module LoadModuleText(string path)
+        public Module LoadModuleText(string path, bool isEmbedded=false)
         {
             return LoadModuleText(Path.GetFileNameWithoutExtension(path), File.ReadAllText(path));
         }
 
+        public Module LoadEmbeddedModule(string resourceName)
+        {
+            var assembly = Assembly.GetCallingAssembly();
+            var allResources = new List<string>(
+                 assembly.GetManifestResourceNames().Where(str => str.EndsWith(resourceName))
+             );
+            if (allResources.Count == 0)
+            {
+                throw new ArgumentException($"Could not find resource: {resourceName} !!");
+            }
+            if (allResources.Count > 1)
+            {
+                throw new ArgumentException(@$"Found more than one resource with name {resourceName}: {allResources} !! Consider specify full path to resource ...");
+            }
+            var assemblyResourceName = allResources.First();
+            using (Stream stream = assembly.GetManifestResourceStream(assemblyResourceName))
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    reader.BaseStream.CopyTo(ms);
+                    byte[] bytes = ms.ToArray();
+                    return new Module(Store, assemblyResourceName, bytes);
+                }
+            }
+        }
+        
+        public Module LoadEmbeddedModuleText(string resourceName)
+        {
+            var assembly = Assembly.GetCallingAssembly();
+            var allResources = new List<string>(
+                assembly.GetManifestResourceNames().Where(str => str.EndsWith(resourceName))
+            );
+            if (allResources.Count == 0)
+            {
+                throw new ArgumentException($"Could not find resource: {resourceName} !!");
+            }
+            if (allResources.Count > 1)
+            {
+                throw new ArgumentException(@$"Found more than one resource with name {resourceName}: {allResources} !! Consider specify full path to resource ...");
+            }
+            var assemblyResourceName = allResources.First();
+            using (Stream stream = assembly.GetManifestResourceStream(assemblyResourceName))
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                string text = reader.ReadToEnd();
+                return LoadModuleText(assemblyResourceName, text);
+            }
+        }
+        
         /// <summary>
         /// Instantiates a WebAssembly module.
         /// </summary>
