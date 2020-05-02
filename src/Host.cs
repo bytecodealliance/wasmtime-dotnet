@@ -643,7 +643,7 @@ namespace Wasmtime
         /// </summary>
         /// <param name="path">The path to the WebAssembly text format file.</param>
         /// <returns>Returns a new <see cref="Module"/>.</returns>
-        public Module LoadModuleText(string path, bool isEmbedded=false)
+        public Module LoadModuleText(string path)
         {
             return LoadModuleText(Path.GetFileNameWithoutExtension(path), File.ReadAllText(path));
         }
