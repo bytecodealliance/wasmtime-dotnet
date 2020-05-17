@@ -670,7 +670,7 @@ namespace Wasmtime
                 {
                     reader.BaseStream.CopyTo(ms);
                     byte[] bytes = ms.ToArray();
-                    return new Module(Store, Path.GetFileNameWithoutExtension(assemblyResourceName), bytes);
+                    return LoadModule(Path.GetFileNameWithoutExtension(assemblyResourceName), bytes);
                 }
             }
         }
