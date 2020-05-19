@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <None Update="Modules/*.wat" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Update="Modules/*.wat" />
   </ItemGroup>
-
+  
 </Project>
