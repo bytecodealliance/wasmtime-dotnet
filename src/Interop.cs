@@ -709,7 +709,7 @@ namespace Wasmtime
         // Module imports
 
         [DllImport(LibraryName)]
-        public static extern ModuleHandle wasm_module_new(StoreHandle store, ref wasm_byte_vec_t bytes);
+        public static extern IntPtr wasmtime_module_new(StoreHandle store, ref wasm_byte_vec_t bytes, out ModuleHandle module);
 
         [DllImport(LibraryName)]
         public static extern void wasm_module_imports(ModuleHandle module, out wasm_importtype_vec_t imports);
