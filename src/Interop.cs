@@ -325,6 +325,13 @@ namespace Wasmtime
             public IntPtr* data;
         }
 
+        [StructLayout(LayoutKind.Sequential)]
+        internal unsafe struct wasm_frame_vec_t
+        {
+            public UIntPtr size;
+            public IntPtr* data;
+        }
+
         internal enum wasm_valkind_t : byte
         {
             WASM_I32,
@@ -856,6 +863,28 @@ namespace Wasmtime
 
         [DllImport(LibraryName)]
         public static extern void wasm_trap_message(IntPtr trap, out wasm_byte_vec_t message);
+
+        [DllImport(LibraryName)]
+        public static extern void wasm_trap_trace(IntPtr trap, out wasm_frame_vec_t frames);
+
+        // Frame vec imports
+
+        [DllImport(LibraryName)]
+        public static extern void wasm_frame_vec_delete(ref wasm_frame_vec_t vec);
+
+        // Frame imports
+
+        [DllImport(LibraryName)]
+        public static extern UIntPtr wasm_frame_func_offset(IntPtr frame);
+
+        [DllImport(LibraryName)]
+        public static extern UIntPtr wasm_frame_module_offset(IntPtr frame);
+
+        [DllImport(LibraryName)]
+        public static extern unsafe wasm_byte_vec_t* wasmtime_frame_func_name(IntPtr frame);
+
+        [DllImport(LibraryName)]
+        public static extern unsafe wasm_byte_vec_t* wasmtime_frame_module_name(IntPtr frame);
 
         // Table type imports
 
