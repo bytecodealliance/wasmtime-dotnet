@@ -66,7 +66,7 @@ namespace Wasmtime.Tests
             action
                 .Should()
                 .Throw<TrapException>()
-                .WithMessage(THROW_MESSAGE);
+                .WithMessage(THROW_MESSAGE + "\nwasm backtrace:\n  0:   0xad - <unknown>!do_throw\n");
         }
     }
 }
