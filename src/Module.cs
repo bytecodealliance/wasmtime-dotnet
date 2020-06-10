@@ -49,12 +49,13 @@ namespace Wasmtime
                     vec.size = (UIntPtr)bytes.Length;
                     vec.data = ptr;
 
-                    Handle = Interop.wasm_module_new(store, ref vec);
-                }
+                    var error = Interop.wasmtime_module_new(store, ref vec, out var handle);
+                    if (error != IntPtr.Zero)
+                    {
+                        throw new WasmtimeException($"WebAssembly module '{name}' is not valid: {WasmtimeException.FromOwnedError(error).Message}");
+                    }
 
-                if (Handle.IsInvalid)
-                {
-                    throw new WasmtimeException($"WebAssembly module '{name}' is not valid.");
+                    Handle = handle;
                 }
             }
 

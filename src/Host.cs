@@ -481,11 +481,12 @@ namespace Wasmtime
             }
 
             var global = new Global<T>(Store, initialValue);
+            var ex = Define(moduleName, name, Interop.wasm_global_as_extern(global.Handle));
 
-            if (!Define(moduleName, name, Interop.wasm_global_as_extern(global.Handle)))
+            if (ex != null)
             {
                 global.Dispose();
-                throw new WasmtimeException($"Failed to define global '{name}' in module '{moduleName}'.");
+                throw new WasmtimeException($"Failed to define global '{name}' in module '{moduleName}': {ex.Message}");
             }
 
             return global;
@@ -514,11 +515,12 @@ namespace Wasmtime
             }
 
             var global = new MutableGlobal<T>(Store, initialValue);
+            var ex = Define(moduleName, name, Interop.wasm_global_as_extern(global.Handle));
 
-            if (!Define(moduleName, name, Interop.wasm_global_as_extern(global.Handle)))
+            if (ex != null)
             {
                 global.Dispose();
-                throw new WasmtimeException($"Failed to define global '{name}' in module '{moduleName}'.");
+                throw new WasmtimeException($"Failed to define global '{name}' in module '{moduleName}': {ex.Message}");
             }
 
             return global;
@@ -547,11 +549,12 @@ namespace Wasmtime
             }
 
             var memory = new Memory(Store, minimum, maximum);
+            var ex = Define(moduleName, name, Interop.wasm_memory_as_extern(memory.Handle));
 
-            if (!Define(moduleName, name, Interop.wasm_memory_as_extern(memory.Handle)))
+            if (ex != null)
             {
                 memory.Dispose();
-                throw new WasmtimeException($"Failed to define memory '{name}' in module '{moduleName}'.");
+                throw new WasmtimeException($"Failed to define memory '{name}' in module '{moduleName}': {ex.Message}");
             }
 
             return memory;
@@ -762,18 +765,19 @@ namespace Wasmtime
             }
 
             var function = new Function(Store, func, hasReturn);
+            var ex = Define(moduleName, name, Interop.wasm_func_as_extern(function.Handle));
 
-            if (!Define(moduleName, name, Interop.wasm_func_as_extern(function.Handle)))
+            if (ex != null)
             {
                 function.Dispose();
-                throw new WasmtimeException($"Failed to define function '{name}' in module '{moduleName}'.");
+                throw new WasmtimeException($"Failed to define function '{name}' in module '{moduleName}': {ex.Message}");
             }
 
             _callbacks.Add(function.Callback);
             return function;
         }
 
-        private bool Define(string moduleName, string name, IntPtr ext)
+        private WasmtimeException Define(string moduleName, string name, IntPtr ext)
         {
             var moduleNameBytes = Encoding.UTF8.GetBytes(moduleName);
             var nameBytes = Encoding.UTF8.GetBytes(name);
@@ -792,10 +796,12 @@ namespace Wasmtime
                     nameVec.data = namePtr;
 
                     var error = Interop.wasmtime_linker_define(Linker, ref moduleNameVec, ref nameVec, ext);
-                    if (error == IntPtr.Zero)
-                      return true;
-                    Interop.wasmtime_error_delete(error);
-                    return false;
+                    if (error != IntPtr.Zero)
+                    {
+                        return WasmtimeException.FromOwnedError(error);
+                    }
+
+                    return null;
                 }
             }
         }

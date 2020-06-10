@@ -27,8 +27,7 @@ namespace Wasmtime
             unsafe
             {
                 Interop.wasmtime_error_message(error, out var bytes);
-                var byteSpan = new ReadOnlySpan<byte>(bytes.data, checked((int)bytes.size));
-                var message = Encoding.UTF8.GetString(byteSpan);
+                var message = Encoding.UTF8.GetString(bytes.data, (int)bytes.size);
                 Interop.wasm_byte_vec_delete(ref bytes);
 
                 Interop.wasmtime_error_delete(error);
