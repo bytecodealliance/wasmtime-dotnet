@@ -13,6 +13,7 @@ jobs:
     name: Test .NET embedding of Wasmtime
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         build: [linux-debug, linux-release, macos-debug, macos-release, windows-debug, windows-release]
         include:
