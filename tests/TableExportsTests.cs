@@ -37,6 +37,33 @@ namespace Wasmtime.Tests
             GetTableExports().Count().Should().Be(Fixture.Module.Exports.Tables.Count);
         }
 
+        [Fact]
+        public void ItCreatesExternsForTheGlobals()
+        {
+            using var instance = Fixture.Host.Instantiate(Fixture.Module);
+
+            var tables = instance.Externs.Tables;
+            tables.Count.Should().Be(3);
+
+            var table1 = tables[0];
+            table1.Name.Should().Be("table1");
+            table1.Kind.Should().Be(ValueKind.FuncRef);
+            table1.Minimum.Should().Be(1);
+            table1.Maximum.Should().Be(10);
+
+            var table2 = tables[1];
+            table2.Name.Should().Be("table2");
+            table2.Kind.Should().Be(ValueKind.FuncRef);
+            table2.Minimum.Should().Be(10);
+            table2.Maximum.Should().Be(uint.MaxValue);
+
+            var table3 = tables[2];
+            table3.Name.Should().Be("table3");
+            table3.Kind.Should().Be(ValueKind.FuncRef);
+            table3.Minimum.Should().Be(100);
+            table3.Maximum.Should().Be(1000);
+        }
+
         public static IEnumerable<object[]> GetTableExports()
         {
             yield return new object[] {
