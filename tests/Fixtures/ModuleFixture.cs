@@ -15,7 +15,10 @@ namespace Wasmtime.Tests
 
             var modulePath = Path.Combine("Modules", ModuleFileName);
             Module = Host.LoadModuleText(modulePath);
-            EmbeddedModule = Host.LoadEmbeddedModuleText(modulePath);
+            using (FileStream fs = File.OpenRead(modulePath))
+            {
+                StreamModule = Host.LoadModuleText(modulePath, fs);
+            }
         }
 
         public void Dispose()
@@ -26,10 +29,10 @@ namespace Wasmtime.Tests
                 Module = null;
             }
 
-            if (!(EmbeddedModule is null))
+            if (!(StreamModule is null))
             {
-                EmbeddedModule.Dispose();
-                EmbeddedModule = null;
+                StreamModule.Dispose();
+                StreamModule = null;
             }
             
             if (!(Host is null))
@@ -41,7 +44,7 @@ namespace Wasmtime.Tests
 
         public Host Host { get; set; }
         public Module Module { get; set; }
-        public Module EmbeddedModule { get; set; }
+        public Module StreamModule { get; set; }
 
         protected abstract string ModuleFileName { get; }
     }

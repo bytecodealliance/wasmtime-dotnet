@@ -596,6 +596,24 @@ namespace Wasmtime
         }
 
         /// <summary>
+        /// Loads a <see cref="Module"/> given stream as WebAssembly.
+        /// </summary>
+        /// <param name="moduleName">Name of the module</param>
+        /// <param name="stream">Stream with module data</param>
+        /// <returns>Returns a new <see cref="Module"/>.</returns>
+        public Module LoadModule(string moduleName, Stream moduleStream)
+        {
+            using (StreamReader reader = new StreamReader(moduleStream))
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    reader.BaseStream.CopyTo(ms);
+                    return LoadModule(moduleName, ms.ToArray());
+                }
+            }
+        }
+        
+        /// <summary>
         /// Loads a <see cref="Module"/> based on a WebAssembly text format representation.
         /// </summary>
         /// <param name="name">The name of the module.</param>
@@ -648,53 +666,17 @@ namespace Wasmtime
             return LoadModuleText(Path.GetFileNameWithoutExtension(path), File.ReadAllText(path));
         }
 
-        public Module LoadEmbeddedModule(string resourceName)
+        /// <summary>
+        /// Loads a <see cref="Module"/> given stream as WebAssembly text format stream.
+        /// </summary>
+        /// <param name="moduleName">Name of the module</param>
+        /// <param name="stream">WebAssembly text format stream with module data</param>
+        /// <returns>Returns a new <see cref="Module"/>.</returns>
+        public Module LoadModuleText(string moduleName, Stream moduleStream)
         {
-            var assembly = Assembly.GetCallingAssembly();
-            var allResources = new List<string>(
-                 assembly.GetManifestResourceNames().Where(str => str.EndsWith(resourceName))
-             );
-            if (allResources.Count == 0)
+            using (StreamReader reader = new StreamReader(moduleStream))
             {
-                throw new ArgumentException($"Could not find resource: {resourceName} !!");
-            }
-            if (allResources.Count > 1)
-            {
-                throw new ArgumentException(@$"Found more than one resource with name {resourceName}: {allResources} !! Consider specify full path to resource ...");
-            }
-            var assemblyResourceName = allResources.First();
-            using (Stream stream = assembly.GetManifestResourceStream(assemblyResourceName))
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    reader.BaseStream.CopyTo(ms);
-                    byte[] bytes = ms.ToArray();
-                    return LoadModule(Path.GetFileNameWithoutExtension(assemblyResourceName), bytes);
-                }
-            }
-        }
-        
-        public Module LoadEmbeddedModuleText(string resourceName)
-        {
-            var assembly = Assembly.GetCallingAssembly();
-            var allResources = new List<string>(
-                assembly.GetManifestResourceNames().Where(str => str.EndsWith(resourceName))
-            );
-            if (allResources.Count == 0)
-            {
-                throw new ArgumentException($"Could not find resource: {resourceName} !!");
-            }
-            if (allResources.Count > 1)
-            {
-                throw new ArgumentException(@$"Found more than one resource with name {resourceName}: {allResources} !! Consider specify full path to resource ...");
-            }
-            var assemblyResourceName = allResources.First();
-            using (Stream stream = assembly.GetManifestResourceStream(assemblyResourceName))
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                string text = reader.ReadToEnd();
-                return LoadModuleText(Path.GetFileNameWithoutExtension(assemblyResourceName), text);
+                return LoadModuleText(moduleName, reader.ReadToEnd());
             }
         }
         
