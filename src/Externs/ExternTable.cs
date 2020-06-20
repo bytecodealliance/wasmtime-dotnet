@@ -15,7 +15,7 @@ namespace Wasmtime.Externs
         }
 
         /// <summary>
-        /// The name of the WebAssembly memory.
+        /// The name of the WebAssembly table.
         /// </summary>
         public string Name => _export.Name;
 
