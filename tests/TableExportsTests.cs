@@ -38,7 +38,7 @@ namespace Wasmtime.Tests
         }
 
         [Fact]
-        public void ItCreatesExternsForTheGlobals()
+        public void ItCreatesExternsForTheTables()
         {
             using var instance = Fixture.Host.Instantiate(Fixture.Module);
 
