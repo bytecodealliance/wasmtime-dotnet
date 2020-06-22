@@ -13,6 +13,7 @@ namespace Wasmtime.Externs
         {
             var functions = new List<ExternFunction>();
             var globals = new List<ExternGlobal>();
+            var tables = new List<ExternTable>();
             var memories = new List<ExternMemory>();
 
             for (int i = 0; i < (int)externs.size; ++i)
@@ -33,6 +34,11 @@ namespace Wasmtime.Externs
                             globals.Add(global);
                             break;
 
+                        case Interop.wasm_externkind_t.WASM_EXTERN_TABLE:
+                            var table = new ExternTable((TableExport)exports.All[i], Interop.wasm_extern_as_table(ext));
+                            tables.Add(table);
+                            break;
+
                         case Interop.wasm_externkind_t.WASM_EXTERN_MEMORY:
                             var memory = new ExternMemory((MemoryExport)exports.All[i], Interop.wasm_extern_as_memory(ext));
                             memories.Add(memory);
@@ -46,6 +52,7 @@ namespace Wasmtime.Externs
 
             Functions = functions;
             Globals = globals;
+            Tables = tables;
             Memories = memories;
         }
 
@@ -58,6 +65,11 @@ namespace Wasmtime.Externs
         /// The extern globals from an instantiated WebAssembly module.
         /// </summary>
         public IReadOnlyList<ExternGlobal> Globals { get; private set; }
+
+        /// <summary>
+        /// The extern tables from an instantiated WebAssembly module.
+        /// </summary>
+        public IReadOnlyList<ExternTable> Tables { get; private set; }
 
         /// <summary>
         /// The extern memories from an instantiated WebAssembly module.
