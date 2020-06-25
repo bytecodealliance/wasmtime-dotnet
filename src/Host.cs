@@ -2,9 +2,6 @@ using System;
 using System.IO;
 using System.Text;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
 
 namespace Wasmtime
 {
@@ -596,16 +593,26 @@ namespace Wasmtime
         }
 
         /// <summary>
-        /// Loads a <see cref="Module"/> given stream as WebAssembly.
+        /// Loads a <see cref="Module"/> given a stream.
         /// </summary>
-        /// <param name="moduleName">Name of the module</param>
-        /// <param name="stream">Stream with module data</param>
+        /// <param name="name">The name of the module.</param>
+        /// <param name="stream">The stream of the module data.</param>
         /// <returns>Returns a new <see cref="Module"/>.</returns>
-        public Module LoadModule(string moduleName, Stream moduleStream)
+        public Module LoadModule(string name, Stream stream)
         {
-            byte[] byteArray = new byte[moduleStream.Length];
-            moduleStream.Read(byteArray);
-            return LoadModule(moduleName, byteArray);
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (stream is null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
+
+            using var ms = new MemoryStream();
+            stream.CopyTo(ms);
+            return LoadModule(name, ms.ToArray());
         }
         
         /// <summary>
@@ -664,14 +671,23 @@ namespace Wasmtime
         /// <summary>
         /// Loads a <see cref="Module"/> given stream as WebAssembly text format stream.
         /// </summary>
-        /// <param name="moduleName">Name of the module</param>
-        /// <param name="stream">WebAssembly text format stream with module data</param>
+        /// <param name="name">The name of the module.</param>
+        /// <param name="stream">The stream of the module data.</param>
         /// <returns>Returns a new <see cref="Module"/>.</returns>
-        public Module LoadModuleText(string moduleName, Stream moduleStream)
+        public Module LoadModuleText(string name, Stream stream)
         {
-            byte[] byteArray = new byte[moduleStream.Length];
-            moduleStream.Read(byteArray);
-            return LoadModuleText(moduleName, Encoding.UTF8.GetString(byteArray, 0, byteArray.Length));
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (stream is null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
+
+            using var reader = new StreamReader(stream);
+            return LoadModuleText(name, reader.ReadToEnd());
         }
         
         /// <summary>

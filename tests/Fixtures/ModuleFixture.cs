@@ -13,12 +13,7 @@ namespace Wasmtime.Tests
                 .WithReferenceTypes(true)
                 .Build();
 
-            var modulePath = Path.Combine("Modules", ModuleFileName);
-            Module = Host.LoadModuleText(modulePath);
-            using (FileStream fs = File.OpenRead(modulePath))
-            {
-                StreamModule = Host.LoadModuleText(modulePath, fs);
-            }
+            Module = Host.LoadModuleText(Path.Combine("Modules", ModuleFileName));
         }
 
         public void Dispose()
@@ -29,12 +24,6 @@ namespace Wasmtime.Tests
                 Module = null;
             }
 
-            if (!(StreamModule is null))
-            {
-                StreamModule.Dispose();
-                StreamModule = null;
-            }
-            
             if (!(Host is null))
             {
                 Host.Dispose();
@@ -44,7 +33,6 @@ namespace Wasmtime.Tests
 
         public Host Host { get; set; }
         public Module Module { get; set; }
-        public Module StreamModule { get; set; }
 
         protected abstract string ModuleFileName { get; }
     }
