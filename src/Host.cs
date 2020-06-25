@@ -16,9 +16,25 @@ namespace Wasmtime
         /// <summary>
         /// Constructs a new host.
         /// </summary>
-        public Host()
+        /// <param name="store">Store to use for the host.</param>
+        public Host(Store store)
         {
-            Initialize(Interop.wasm_engine_new());
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            _store = store;
+
+            var linker = Interop.wasmtime_linker_new(store.Handle);
+            if (linker.IsInvalid)
+            {
+                throw new WasmtimeException("Failed to create Wasmtime linker.");
+            }
+
+            Interop.wasmtime_linker_allow_shadowing(linker, allowShadowing: true);
+
+            _linker = linker;
         }
 
         /// <summary>
@@ -40,9 +56,9 @@ namespace Wasmtime
                 config = new WasiConfiguration();
             }
 
-            using var wasi = config.CreateWasi(Store, name);
+            using var wasi = config.CreateWasi(_store.Handle, name);
 
-            var error = Interop.wasmtime_linker_define_wasi(Linker, wasi);
+            var error = Interop.wasmtime_linker_define_wasi(_linker, wasi);
             if (error != IntPtr.Zero)
             {
                 throw WasmtimeException.FromOwnedError(error);
@@ -479,7 +495,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(name));
             }
 
-            var global = new Global<T>(Store, initialValue);
+            var global = new Global<T>(_store.Handle, initialValue);
             var ex = Define(moduleName, name, Interop.wasm_global_as_extern(global.Handle));
 
             if (ex != null)
@@ -513,7 +529,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(name));
             }
 
-            var global = new MutableGlobal<T>(Store, initialValue);
+            var global = new MutableGlobal<T>(_store.Handle, initialValue);
             var ex = Define(moduleName, name, Interop.wasm_global_as_extern(global.Handle));
 
             if (ex != null)
@@ -547,7 +563,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(name));
             }
 
-            var memory = new Memory(Store, minimum, maximum);
+            var memory = new Memory(_store.Handle, minimum, maximum);
             var ex = Define(moduleName, name, Interop.wasm_memory_as_extern(memory.Handle));
 
             if (ex != null)
@@ -559,141 +575,6 @@ namespace Wasmtime
             return memory;
         }
 
-        /// <summary>
-        /// Loads a <see cref="Module"/> given the module name and bytes.
-        /// </summary>
-        /// <param name="name">The name of the module.</param>
-        /// <param name="bytes">The bytes of the module.</param>
-        /// <returns>Returns a new <see cref="Module"/>.</returns>
-        public Module LoadModule(string name, byte[] bytes)
-        {
-            CheckDisposed();
-
-            if (string.IsNullOrEmpty(name))
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
-
-            if (bytes is null)
-            {
-                throw new ArgumentNullException(nameof(bytes));
-            }
-
-            return new Module(Store, name, bytes);
-        }
-
-        /// <summary>
-        /// Loads a <see cref="Module"/> given the path to the WebAssembly file.
-        /// </summary>
-        /// <param name="path">The path to the WebAssembly file.</param>
-        /// <returns>Returns a new <see cref="Module"/>.</returns>
-        public Module LoadModule(string path)
-        {
-            return LoadModule(Path.GetFileNameWithoutExtension(path), File.ReadAllBytes(path));
-        }
-
-        /// <summary>
-        /// Loads a <see cref="Module"/> given a stream.
-        /// </summary>
-        /// <param name="name">The name of the module.</param>
-        /// <param name="stream">The stream of the module data.</param>
-        /// <returns>Returns a new <see cref="Module"/>.</returns>
-        public Module LoadModule(string name, Stream stream)
-        {
-            if (string.IsNullOrEmpty(name))
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
-
-            if (stream is null)
-            {
-                throw new ArgumentNullException(nameof(stream));
-            }
-
-            using var ms = new MemoryStream();
-            stream.CopyTo(ms);
-            return LoadModule(name, ms.ToArray());
-        }
-        
-        /// <summary>
-        /// Loads a <see cref="Module"/> based on a WebAssembly text format representation.
-        /// </summary>
-        /// <param name="name">The name of the module.</param>
-        /// <param name="text">The WebAssembly text format representation of the module.</param>
-        /// <returns>Returns a new <see cref="Module"/>.</returns>
-        public Module LoadModuleText(string name, string text)
-        {
-            CheckDisposed();
-
-            if (string.IsNullOrEmpty(name))
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
-
-            if (text is null)
-            {
-                throw new ArgumentNullException(nameof(text));
-            }
-
-            var textBytes = Encoding.UTF8.GetBytes(text);
-            unsafe
-            {
-                fixed (byte *ptr = textBytes)
-                {
-                    Interop.wasm_byte_vec_t textVec;
-                    textVec.size = (UIntPtr)textBytes.Length;
-                    textVec.data = ptr;
-
-                    var error = Interop.wasmtime_wat2wasm(ref textVec, out var bytes);
-                    if (error != IntPtr.Zero)
-                    {
-                        throw WasmtimeException.FromOwnedError(error);
-                    }
-
-                    var byteSpan = new ReadOnlySpan<byte>(bytes.data, checked((int)bytes.size));
-                    var moduleBytes = byteSpan.ToArray();
-                    Interop.wasm_byte_vec_delete(ref bytes);
-                    return LoadModule(name, moduleBytes);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Loads a <see cref="Module"/> based on the path to a WebAssembly text format file.
-        /// </summary>
-        /// <param name="path">The path to the WebAssembly text format file.</param>
-        /// <returns>Returns a new <see cref="Module"/>.</returns>
-        public Module LoadModuleText(string path)
-        {
-            return LoadModuleText(Path.GetFileNameWithoutExtension(path), File.ReadAllText(path));
-        }
-
-        /// <summary>
-        /// Loads a <see cref="Module"/> given stream as WebAssembly text format stream.
-        /// </summary>
-        /// <param name="name">The name of the module.</param>
-        /// <param name="stream">The stream of the module data.</param>
-        /// <returns>Returns a new <see cref="Module"/>.</returns>
-        public Module LoadModuleText(string name, Stream stream)
-        {
-            if (string.IsNullOrEmpty(name))
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
-
-            if (stream is null)
-            {
-                throw new ArgumentNullException(nameof(stream));
-            }
-
-            // Create a `StreamReader` to read a text from the supplied stream. The minimum buffer
-            // size and other parameters are hard-coded based on the default values used by the
-            // `StreamReader(Stream)` constructor. Make sure to leave `stream` open by specifying
-            // `leaveOpen`.
-            using var reader = new StreamReader(stream, Encoding.UTF8, true, 1024, leaveOpen: true);
-            return LoadModuleText(name, reader.ReadToEnd());
-        }
-        
         /// <summary>
         /// Instantiates a WebAssembly module.
         /// </summary>
@@ -708,88 +589,22 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(module));
             }
 
-            return new Instance(Linker, module);
-        }
-
-        /// <summary>
-        /// Clears all existing definitions in the host.
-        /// </summary>
-        public void ClearDefinitions()
-        {
-            CheckDisposed();
-
-            var linker = Interop.wasmtime_linker_new(Store);
-            if (linker.IsInvalid)
-            {
-                throw new WasmtimeException("Failed to create Wasmtime linker.");
-            }
-
-            Interop.wasmtime_linker_allow_shadowing(linker, allowShadowing: true);
-
-            Linker.Dispose();
-            Linker = linker;
+            return new Instance(_linker, module);
         }
 
         /// <inheritdoc/>
         public void Dispose()
         {
-            if (!Linker.IsInvalid)
+            if (!_linker.IsInvalid)
             {
-                Linker.Dispose();
-                Linker.SetHandleAsInvalid();
+                _linker.Dispose();
+                _linker.SetHandleAsInvalid();
             }
-
-            if (!Store.IsInvalid)
-            {
-                Store.Dispose();
-                Store.SetHandleAsInvalid();
-            }
-
-            if (!Engine.IsInvalid)
-            {
-                Engine.Dispose();
-                Engine.SetHandleAsInvalid();
-            }
-        }
-
-        internal Host(Interop.WasmConfigHandle config)
-        {
-            var engine = Interop.wasm_engine_new_with_config(config);
-            config.SetHandleAsInvalid();
-
-            Initialize(engine);
-        }
-
-        private void Initialize(Interop.EngineHandle engine)
-        {
-            if (engine.IsInvalid)
-            {
-                throw new WasmtimeException("Failed to create Wasmtime engine.");
-            }
-
-            var store = Interop.wasm_store_new(engine);
-
-            if (store.IsInvalid)
-            {
-                throw new WasmtimeException("Failed to create Wasmtime store.");
-            }
-
-            var linker = Interop.wasmtime_linker_new(store);
-            if (linker.IsInvalid)
-            {
-                throw new WasmtimeException("Failed to create Wasmtime linker.");
-            }
-
-            Interop.wasmtime_linker_allow_shadowing(linker, allowShadowing: true);
-
-            Engine = engine;
-            Store = store;
-            Linker = linker;
         }
 
         private void CheckDisposed()
         {
-            if (Engine.IsInvalid)
+            if (_linker.IsInvalid)
             {
                 throw new ObjectDisposedException(typeof(Host).FullName);
             }
@@ -812,7 +627,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(func));
             }
 
-            var function = new Function(Store, func, hasReturn);
+            var function = new Function(_store.Handle, func, hasReturn);
             var ex = Define(moduleName, name, Interop.wasm_func_as_extern(function.Handle));
 
             if (ex != null)
@@ -843,7 +658,7 @@ namespace Wasmtime
                     nameVec.size = (UIntPtr)nameBytes.Length;
                     nameVec.data = namePtr;
 
-                    var error = Interop.wasmtime_linker_define(Linker, ref moduleNameVec, ref nameVec, ext);
+                    var error = Interop.wasmtime_linker_define(_linker, ref moduleNameVec, ref nameVec, ext);
                     if (error != IntPtr.Zero)
                     {
                         return WasmtimeException.FromOwnedError(error);
@@ -854,10 +669,8 @@ namespace Wasmtime
             }
         }
 
-        internal Interop.EngineHandle Engine { get; private set; }
-        internal Interop.StoreHandle Store { get; private set; }
-        internal Interop.LinkerHandle Linker { get; private set; }
-
+        private Store _store;
+        private Interop.LinkerHandle _linker;
         private List<Delegate> _callbacks = new List<Delegate>();
     }
 }

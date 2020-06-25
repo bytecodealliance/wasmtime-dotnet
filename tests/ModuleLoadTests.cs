@@ -14,8 +14,8 @@ namespace Wasmtime.Tests
             using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("hello.wasm");
             stream.Should().NotBeNull();
 
-            using var host = new Host();
-            host.LoadModule("hello.wasm", stream).Should().NotBeNull();
+            using var store = new Store();
+            store.LoadModule("hello.wasm", stream).Should().NotBeNull();
 
             // `LoadModule` is not supposed to close the supplied stream,
             // so the following statement should complete without throwing
@@ -29,8 +29,8 @@ namespace Wasmtime.Tests
             using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("hello.wat");
             stream.Should().NotBeNull();
 
-            using var host = new Host();
-            host.LoadModuleText("hello.wat", stream).Should().NotBeNull();
+            using var store = new Store();
+            store.LoadModuleText("hello.wat", stream).Should().NotBeNull();
 
             // `LoadModuleText` is not supposed to close the supplied stream,
             // so the following statement should complete without throwing

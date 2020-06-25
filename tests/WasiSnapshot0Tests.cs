@@ -12,13 +12,14 @@ namespace Wasmtime.Tests
         protected override string ModuleFileName => "WasiSnapshot0.wat";
     }
 
-    public class WasiSnapshot0Tests : IClassFixture<WasiSnapshot0Fixture>
+    public class WasiSnapshot0Tests : IClassFixture<WasiSnapshot0Fixture>, IDisposable
     {
+        private Host Host { get; set; }
+
         public WasiSnapshot0Tests(WasiSnapshot0Fixture fixture)
         {
             Fixture = fixture;
-
-            Fixture.Host.ClearDefinitions();
+            Host = new Host(Fixture.Store);
         }
 
         private WasiSnapshot0Fixture Fixture { get; set; }
@@ -26,8 +27,8 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItHasNoEnvironmentByDefault()
         {
-            Fixture.Host.DefineWasi("wasi_unstable");
-            using var instance = Fixture.Host.Instantiate(Fixture.Module);
+            Host.DefineWasi("wasi_unstable");
+            using var instance = Host.Instantiate(Fixture.Module);
             dynamic inst = instance;
 
             var memory = instance.Externs.Memories[0];
@@ -49,9 +50,9 @@ namespace Wasmtime.Tests
             var config = new WasiConfiguration()
                 .WithEnvironmentVariables(env.Select(kvp => (kvp.Key, kvp.Value)));
 
-            Fixture.Host.DefineWasi("wasi_unstable", config);
+            Host.DefineWasi("wasi_unstable", config);
 
-            using var instance = Fixture.Host.Instantiate(Fixture.Module);
+            using var instance = Host.Instantiate(Fixture.Module);
             dynamic inst = instance;
 
             var memory = instance.Externs.Memories[0];
@@ -74,9 +75,9 @@ namespace Wasmtime.Tests
             var config = new WasiConfiguration()
                 .WithInheritedEnvironment();
 
-            Fixture.Host.DefineWasi("wasi_unstable", config);
+            Host.DefineWasi("wasi_unstable", config);
 
-            using var instance = Fixture.Host.Instantiate(Fixture.Module);
+            using var instance = Host.Instantiate(Fixture.Module);
             dynamic inst = instance;
 
             var memory = instance.Externs.Memories[0];
@@ -88,9 +89,9 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItHasNoArgumentsByDefault()
         {
-            Fixture.Host.DefineWasi("wasi_unstable");
+            Host.DefineWasi("wasi_unstable");
 
-            using var instance = Fixture.Host.Instantiate(Fixture.Module);
+            using var instance = Host.Instantiate(Fixture.Module);
             dynamic inst = instance;
 
             var memory = instance.Externs.Memories[0];
@@ -113,9 +114,9 @@ namespace Wasmtime.Tests
             var config = new WasiConfiguration()
                 .WithArgs(args);
 
-            Fixture.Host.DefineWasi("wasi_unstable", config);
+            Host.DefineWasi("wasi_unstable", config);
 
-            using var instance = Fixture.Host.Instantiate(Fixture.Module);
+            using var instance = Host.Instantiate(Fixture.Module);
             dynamic inst = instance;
 
             var memory = instance.Externs.Memories[0];
@@ -138,9 +139,9 @@ namespace Wasmtime.Tests
             var config = new WasiConfiguration()
                 .WithInheritedArgs();
 
-            Fixture.Host.DefineWasi("wasi_unstable", config);
+            Host.DefineWasi("wasi_unstable", config);
 
-            using var instance = Fixture.Host.Instantiate(Fixture.Module);
+            using var instance = Host.Instantiate(Fixture.Module);
             dynamic inst = instance;
 
             var memory = instance.Externs.Memories[0];
@@ -160,9 +161,9 @@ namespace Wasmtime.Tests
             var config = new WasiConfiguration()
                 .WithStandardInput(file.Path);
 
-            Fixture.Host.DefineWasi("wasi_unstable", config);
+            Host.DefineWasi("wasi_unstable", config);
 
-            using var instance = Fixture.Host.Instantiate(Fixture.Module);
+            using var instance = Host.Instantiate(Fixture.Module);
             dynamic inst = instance;
 
             var memory = instance.Externs.Memories[0];
@@ -193,9 +194,9 @@ namespace Wasmtime.Tests
                 config.WithStandardError(file.Path);
             }
 
-            Fixture.Host.DefineWasi("wasi_unstable", config);
+            Host.DefineWasi("wasi_unstable", config);
 
-            using var instance = Fixture.Host.Instantiate(Fixture.Module);
+            using var instance = Host.Instantiate(Fixture.Module);
             dynamic inst = instance;
 
             var memory = instance.Externs.Memories[0];
@@ -219,9 +220,9 @@ namespace Wasmtime.Tests
             var config = new WasiConfiguration()
                 .WithPreopenedDirectory(Path.GetDirectoryName(file.Path), "/foo");
 
-            Fixture.Host.DefineWasi("wasi_unstable", config);
+            Host.DefineWasi("wasi_unstable", config);
 
-            using var instance = Fixture.Host.Instantiate(Fixture.Module);
+            using var instance = Host.Instantiate(Fixture.Module);
             dynamic inst = instance;
 
             var memory = instance.Externs.Memories[0];
@@ -252,6 +253,11 @@ namespace Wasmtime.Tests
             Assert.Equal(MESSAGE.Length, memory.ReadInt32(64));
             Assert.Equal(0, inst.call_fd_close(fileFd));
             Assert.Equal(MESSAGE, File.ReadAllText(file.Path));
+        }
+
+        public void Dispose()
+        {
+            Host.Dispose();
         }
     }
 }

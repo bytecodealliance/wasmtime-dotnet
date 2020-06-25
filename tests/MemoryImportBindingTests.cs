@@ -9,13 +9,14 @@ namespace Wasmtime.Tests
         protected override string ModuleFileName => "MemoryImportBinding.wat";
     }
 
-    public class MemoryImportBindingTests : IClassFixture<MemoryImportBindingFixture>
+    public class MemoryImportBindingTests : IClassFixture<MemoryImportBindingFixture>, IDisposable
     {
+        private Host Host { get; set; }
+
         public MemoryImportBindingTests(MemoryImportBindingFixture fixture)
         {
             Fixture = fixture;
-
-            Fixture.Host.ClearDefinitions();
+            Host = new Host(Fixture.Store);
         }
 
         private MemoryImportBindingFixture Fixture { get; set; }
@@ -23,7 +24,7 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItFailsToInstantiateWithMissingImport()
         {
-            Action action = () => { using var instance = Fixture.Host.Instantiate(Fixture.Module); };
+            Action action = () => { using var instance = Host.Instantiate(Fixture.Module); };
 
             action
                 .Should()
@@ -34,9 +35,9 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItBindsTheGlobalsCorrectly()
         {
-            var mem = Fixture.Host.DefineMemory("", "mem");
+            var mem = Host.DefineMemory("", "mem");
 
-            using dynamic instance = Fixture.Host.Instantiate(Fixture.Module);
+            using dynamic instance = Host.Instantiate(Fixture.Module);
 
             mem.ReadString(0, 11).Should().Be("Hello World");
             int written = mem.WriteString(0, "WebAssembly Rocks!");
@@ -76,6 +77,11 @@ namespace Wasmtime.Tests
             mem.WriteIntPtr(48, (IntPtr)17);
             mem.ReadIntPtr(48).Should().Be((IntPtr)17);
             ((IntPtr)instance.ReadIntPtr()).Should().Be((IntPtr)17);
+        }
+
+        public void Dispose()
+        {
+            Host.Dispose();
         }
     }
 }

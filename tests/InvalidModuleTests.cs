@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using FluentAssertions;
 using Xunit;
 
@@ -11,9 +9,9 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItThrowsWithErrorMessageForInvalidModules()
         {
-            var host = new Host();
+            using var store = new Store();
 
-            Action action = () => host.LoadModule("invalid", new byte[] {});
+            Action action = () => store.LoadModule("invalid", new byte[] {});
 
             action
                 .Should()

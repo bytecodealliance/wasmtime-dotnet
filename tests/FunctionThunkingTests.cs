@@ -1,6 +1,5 @@
 using FluentAssertions;
 using System;
-using System.Linq;
 using Xunit;
 
 namespace Wasmtime.Tests
@@ -10,18 +9,21 @@ namespace Wasmtime.Tests
         protected override string ModuleFileName => "FunctionThunking.wat";
     }
 
-    public class FunctionThunkingTests : IClassFixture<FunctionThunkingFixture>
+    public class FunctionThunkingTests : IClassFixture<FunctionThunkingFixture>, IDisposable
     {
         const string THROW_MESSAGE = "Test error message for wasmtime dotnet unit tests.";
+
+        private Host Host { get; set; }
 
         public FunctionThunkingTests(FunctionThunkingFixture fixture)
         {
             Fixture = fixture;
+            Host = new Host(Fixture.Store);
 
-            Fixture.Host.DefineFunction("env", "add", (int x, int y) => x + y);
-            Fixture.Host.DefineFunction("env", "swap", (int x, int y) => (y, x));
-            Fixture.Host.DefineFunction("env", "do_throw", () => throw new Exception(THROW_MESSAGE));
-            Fixture.Host.DefineFunction("env", "check_string", (Caller caller, int address, int length) => {
+            Host.DefineFunction("env", "add", (int x, int y) => x + y);
+            Host.DefineFunction("env", "swap", (int x, int y) => (y, x));
+            Host.DefineFunction("env", "do_throw", () => throw new Exception(THROW_MESSAGE));
+            Host.DefineFunction("env", "check_string", (Caller caller, int address, int length) => {
                 caller.GetMemory("mem").ReadString(address, length).Should().Be("Hello World");
             });
         }
@@ -31,7 +33,7 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItBindsImportMethodsAndCallsThemCorrectly()
         {
-            using dynamic instance = Fixture.Host.Instantiate(Fixture.Module);
+            using dynamic instance = Host.Instantiate(Fixture.Module);
 
             int x = instance.add(40, 2);
             x.Should().Be(42);
@@ -59,7 +61,7 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItPropagatesExceptionsToCallersViaTraps()
         {
-            using dynamic instance = Fixture.Host.Instantiate(Fixture.Module);
+            using dynamic instance = Host.Instantiate(Fixture.Module);
 
             Action action = () => instance.do_throw();
 
@@ -69,6 +71,11 @@ namespace Wasmtime.Tests
                 // Ideally this should contain a check for the backtrace
                 // See: https://github.com/bytecodealliance/wasmtime/issues/1845
                 .WithMessage(THROW_MESSAGE + "*");
+        }
+
+        public void Dispose()
+        {
+            Host.Dispose();
         }
     }
 }

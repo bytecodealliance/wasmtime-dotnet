@@ -43,16 +43,16 @@ namespace Wasmtime
     }
 
     /// <summary>
-    /// Represents a builder of <see cref="Host"/> instances.
+    /// Represents a builder of <see cref="Store"/> instances.
     /// </summary>
-    public class HostBuilder
+    public class StoreBuilder
     {
         /// <summary>
         /// Sets whether or not to enable debug information.
         /// </summary>
         /// <param name="enable">True to enable debug information or false to disable.</param>
         /// <returns>Returns the current builder.</returns>
-        public HostBuilder WithDebugInfo(bool enable)
+        public StoreBuilder WithDebugInfo(bool enable)
         {
             _enableDebugInfo = enable;
             return this;
@@ -63,7 +63,7 @@ namespace Wasmtime
         /// </summary>
         /// <param name="enable">True to enable WebAssembly threads support or false to disable.</param>
         /// <returns>Returns the current builder.</returns>
-        public HostBuilder WithWasmThreads(bool enable)
+        public StoreBuilder WithWasmThreads(bool enable)
         {
             _enableWasmThreads = enable;
             return this;
@@ -74,7 +74,7 @@ namespace Wasmtime
         /// </summary>
         /// <param name="enable">True to enable WebAssembly reference types support or false to disable.</param>
         /// <returns>Returns the current builder.</returns>
-        public HostBuilder WithReferenceTypes(bool enable)
+        public StoreBuilder WithReferenceTypes(bool enable)
         {
             _enableReferenceTypes = enable;
             return this;
@@ -85,7 +85,7 @@ namespace Wasmtime
         /// </summary>
         /// <param name="enable">True to enable WebAssembly SIMD support or false to disable.</param>
         /// <returns>Returns the current builder.</returns>
-        public HostBuilder WithSIMD(bool enable)
+        public StoreBuilder WithSIMD(bool enable)
         {
             _enableSIMD = enable;
             return this;
@@ -96,7 +96,7 @@ namespace Wasmtime
         /// </summary>
         /// <param name="enable">True to enable WebAssembly multi-value support or false to disable.</param>
         /// <returns>Returns the current builder.</returns>
-        public HostBuilder WithMultiValue(bool enable)
+        public StoreBuilder WithMultiValue(bool enable)
         {
             _enableMultiValue = enable;
             return this;
@@ -107,7 +107,7 @@ namespace Wasmtime
         /// </summary>
         /// <param name="enable">True to enable WebAssembly bulk memory support or false to disable.</param>
         /// <returns>Returns the current builder.</returns>
-        public HostBuilder WithBulkMemory(bool enable)
+        public StoreBuilder WithBulkMemory(bool enable)
         {
             _enableBulkMemory = enable;
             return this;
@@ -118,7 +118,7 @@ namespace Wasmtime
         /// </summary>
         /// <param name="strategy">The compiler strategy to use.</param>
         /// <returns>Returns the current builder.</returns>
-        public HostBuilder WithCompilerStrategy(CompilerStrategy strategy)
+        public StoreBuilder WithCompilerStrategy(CompilerStrategy strategy)
         {
             switch (strategy)
             {
@@ -145,7 +145,7 @@ namespace Wasmtime
         /// </summary>
         /// <param name="enable">True to enable the Cranelift debug verifier or false to disable.</param>
         /// <returns>Returns the current builder.</returns>
-        public HostBuilder WithCraneliftDebugVerifier(bool enable)
+        public StoreBuilder WithCraneliftDebugVerifier(bool enable)
         {
             _enableCraneliftDebugVerifier = enable;
             return this;
@@ -156,7 +156,7 @@ namespace Wasmtime
         /// </summary>
         /// <param name="level">The optimization level to use.</param>
         /// <returns>Returns the current builder.</returns>
-        public HostBuilder WithOptimizationLevel(OptimizationLevel level)
+        public StoreBuilder WithOptimizationLevel(OptimizationLevel level)
         {
             switch (level)
             {
@@ -179,10 +179,10 @@ namespace Wasmtime
         }
 
         /// <summary>
-        /// Builds the <see cref="Host" /> instance.
+        /// Builds the <see cref="Store" /> instance.
         /// </summary>
-        /// <returns>Returns the new <see cref="Host" /> instance.</returns>
-        public Host Build()
+        /// <returns>Returns the new <see cref="Store" /> instance.</returns>
+        public Store Build()
         {
             var config = Interop.wasm_config_new();
 
@@ -231,7 +231,7 @@ namespace Wasmtime
                 Interop.wasmtime_config_cranelift_opt_level_set(config, _optLevel.Value);
             }
 
-            return new Host(config);
+            return new Store(config);
         }
 
         private bool? _enableDebugInfo;

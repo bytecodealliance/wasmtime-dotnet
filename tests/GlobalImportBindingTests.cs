@@ -9,13 +9,14 @@ namespace Wasmtime.Tests
         protected override string ModuleFileName => "GlobalImportBindings.wat";
     }
 
-    public class GlobalImportBindingTests : IClassFixture<GlobalImportBindingFixture>
+    public class GlobalImportBindingTests : IClassFixture<GlobalImportBindingFixture>, IDisposable
     {
+        private Host Host { get; set; }
+
         public GlobalImportBindingTests(GlobalImportBindingFixture fixture)
         {
             Fixture = fixture;
-
-            Fixture.Host.ClearDefinitions();
+            Host = new Host(Fixture.Store);
         }
 
         private GlobalImportBindingFixture Fixture { get; set; }
@@ -23,7 +24,7 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItFailsToInstantiateWithMissingImport()
         {
-            Action action = () => { using var instance = Fixture.Host.Instantiate(Fixture.Module); };
+            Action action = () => { using var instance = Host.Instantiate(Fixture.Module); };
 
             action
                 .Should()
@@ -34,7 +35,7 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItFailsToDefineAGlobalWithInvalidType()
         {
-            Action action = () => { Fixture.Host.DefineGlobal("", "global_i32_mut", "invalid"); };
+            Action action = () => { Host.DefineGlobal("", "global_i32_mut", "invalid"); };
 
             action
                 .Should()
@@ -45,8 +46,8 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItFailsToInstantiateWithGlobalTypeMismatch()
         {
-            Fixture.Host.DefineGlobal("", "global_i32_mut", 0L);
-            Action action = () => { using var instance = Fixture.Host.Instantiate(Fixture.Module); };
+            Host.DefineGlobal("", "global_i32_mut", 0L);
+            Action action = () => { using var instance = Host.Instantiate(Fixture.Module); };
 
             action
                 .Should()
@@ -57,8 +58,8 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItFailsToInstantiateWhenGlobalIsNotMut()
         {
-            Fixture.Host.DefineGlobal("", "global_i32_mut", 1);
-            Action action = () => { using var instance = Fixture.Host.Instantiate(Fixture.Module); };
+            Host.DefineGlobal("", "global_i32_mut", 1);
+            Action action = () => { using var instance = Host.Instantiate(Fixture.Module); };
 
             action
                 .Should()
@@ -69,9 +70,9 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItFailsToInstantiateWhenGlobalIsMut()
         {
-            Fixture.Host.DefineMutableGlobal("", "global_i32_mut", 0);
-            Fixture.Host.DefineMutableGlobal("", "global_i32", 0);
-            Action action = () => { using var instance = Fixture.Host.Instantiate(Fixture.Module); };
+            Host.DefineMutableGlobal("", "global_i32_mut", 0);
+            Host.DefineMutableGlobal("", "global_i32", 0);
+            Action action = () => { using var instance = Host.Instantiate(Fixture.Module); };
 
             action
                 .Should()
@@ -82,16 +83,16 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItBindsTheGlobalsCorrectly()
         {
-            var global_i32_mut = Fixture.Host.DefineMutableGlobal("", "global_i32_mut", 0);
-            var global_i32 = Fixture.Host.DefineGlobal("", "global_i32", 1);
-            var global_i64_mut = Fixture.Host.DefineMutableGlobal("", "global_i64_mut", 2L);
-            var global_i64 = Fixture.Host.DefineGlobal("", "global_i64", 3L);
-            var global_f32_mut = Fixture.Host.DefineMutableGlobal("", "global_f32_mut", 4f);
-            var global_f32 = Fixture.Host.DefineGlobal("", "global_f32", 5f);
-            var global_f64_mut = Fixture.Host.DefineMutableGlobal("", "global_f64_mut", 6.0);
-            var global_f64 = Fixture.Host.DefineGlobal("", "global_f64", 7.0);
+            var global_i32_mut = Host.DefineMutableGlobal("", "global_i32_mut", 0);
+            var global_i32 = Host.DefineGlobal("", "global_i32", 1);
+            var global_i64_mut = Host.DefineMutableGlobal("", "global_i64_mut", 2L);
+            var global_i64 = Host.DefineGlobal("", "global_i64", 3L);
+            var global_f32_mut = Host.DefineMutableGlobal("", "global_f32_mut", 4f);
+            var global_f32 = Host.DefineGlobal("", "global_f32", 5f);
+            var global_f64_mut = Host.DefineMutableGlobal("", "global_f64_mut", 6.0);
+            var global_f64 = Host.DefineGlobal("", "global_f64", 7.0);
 
-            using dynamic instance = Fixture.Host.Instantiate(Fixture.Module);
+            using dynamic instance = Host.Instantiate(Fixture.Module);
 
             global_i32_mut.Value.Should().Be(0);
             ((int)instance.get_global_i32_mut()).Should().Be(0);
@@ -137,6 +138,11 @@ namespace Wasmtime.Tests
             instance.set_global_f64_mut(17);
             global_f64_mut.Value.Should().Be(17);
             ((double)instance.get_global_f64_mut()).Should().Be(17);
+        }
+
+        public void Dispose()
+        {
+            Host.Dispose();
         }
     }
 }

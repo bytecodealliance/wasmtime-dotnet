@@ -9,13 +9,14 @@ namespace Wasmtime.Tests
         protected override string ModuleFileName => "Trap.wat";
     }
 
-    public class TrapTests : IClassFixture<TrapFixture>
+    public class TrapTests : IClassFixture<TrapFixture>, IDisposable
     {
+        private Host Host { get; set; }
+
         public TrapTests(TrapFixture fixture)
         {
             Fixture = fixture;
-
-            Fixture.Host.ClearDefinitions();
+            Host = new Host(Fixture.Store);
         }
 
         private TrapFixture Fixture { get; set; }
@@ -25,7 +26,7 @@ namespace Wasmtime.Tests
         {
             Action action = () =>
             {
-                using dynamic instance = Fixture.Host.Instantiate(Fixture.Module);
+                using dynamic instance = Host.Instantiate(Fixture.Module);
                 instance.run();
             };
 
@@ -38,6 +39,11 @@ namespace Wasmtime.Tests
                             e.Frames[2].FunctionName == "first" &&
                             e.Frames[3].FunctionName == "run")
                 .WithMessage("wasm trap: unreachable*");
+        }
+
+        public void Dispose()
+        {
+            Host.Dispose();
         }
     }
 }

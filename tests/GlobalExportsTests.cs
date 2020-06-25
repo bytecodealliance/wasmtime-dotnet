@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using FluentAssertions;
 using Wasmtime;
@@ -13,11 +12,14 @@ namespace Wasmtime.Tests
         protected override string ModuleFileName => "GlobalExports.wat";
     }
 
-    public class GlobalExportsTests : IClassFixture<GlobalExportsFixture>
+    public class GlobalExportsTests : IClassFixture<GlobalExportsFixture>, IDisposable
     {
+        private Host Host { get; set; }
+
         public GlobalExportsTests(GlobalExportsFixture fixture)
         {
             Fixture = fixture;
+            Host = new Host(Fixture.Store);
         }
 
         private GlobalExportsFixture Fixture { get; set; }
@@ -41,7 +43,7 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItCreatesExternsForTheGlobals()
         {
-            using var instance = Fixture.Host.Instantiate(Fixture.Module);
+            using var instance = Host.Instantiate(Fixture.Module);
 
             dynamic dyn = instance;
             var globals = instance.Externs.Globals;
@@ -209,6 +211,11 @@ namespace Wasmtime.Tests
                 ValueKind.Float64,
                 true
             };
+        }
+
+        public void Dispose()
+        {
+            Host.Dispose();
         }
     }
 }
