@@ -16,7 +16,7 @@
       <img src="https://img.shields.io/nuget/v/wasmtime" alt="Latest Version"/>
     </a>
     <a href="https://bytecodealliance.github.io/wasmtime-dotnet/">
-      <img src="https://img.shields.io/badge/docs-master-green" alt="Documentation"/>
+      <img src="https://img.shields.io/badge/docs-main-green" alt="Documentation"/>
     </a>
   </p>
 
