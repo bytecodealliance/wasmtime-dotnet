@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.Text;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 
 namespace Wasmtime
 {
@@ -594,6 +593,29 @@ namespace Wasmtime
         }
 
         /// <summary>
+        /// Loads a <see cref="Module"/> given a stream.
+        /// </summary>
+        /// <param name="name">The name of the module.</param>
+        /// <param name="stream">The stream of the module data.</param>
+        /// <returns>Returns a new <see cref="Module"/>.</returns>
+        public Module LoadModule(string name, Stream stream)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (stream is null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
+
+            using var ms = new MemoryStream();
+            stream.CopyTo(ms);
+            return LoadModule(name, ms.ToArray());
+        }
+        
+        /// <summary>
         /// Loads a <see cref="Module"/> based on a WebAssembly text format representation.
         /// </summary>
         /// <param name="name">The name of the module.</param>
@@ -646,6 +668,28 @@ namespace Wasmtime
             return LoadModuleText(Path.GetFileNameWithoutExtension(path), File.ReadAllText(path));
         }
 
+        /// <summary>
+        /// Loads a <see cref="Module"/> given stream as WebAssembly text format stream.
+        /// </summary>
+        /// <param name="name">The name of the module.</param>
+        /// <param name="stream">The stream of the module data.</param>
+        /// <returns>Returns a new <see cref="Module"/>.</returns>
+        public Module LoadModuleText(string name, Stream stream)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (stream is null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
+
+            using var reader = new StreamReader(stream);
+            return LoadModuleText(name, reader.ReadToEnd());
+        }
+        
         /// <summary>
         /// Instantiates a WebAssembly module.
         /// </summary>
