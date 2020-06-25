@@ -603,14 +603,9 @@ namespace Wasmtime
         /// <returns>Returns a new <see cref="Module"/>.</returns>
         public Module LoadModule(string moduleName, Stream moduleStream)
         {
-            using (StreamReader reader = new StreamReader(moduleStream))
-            {
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    reader.BaseStream.CopyTo(ms);
-                    return LoadModule(moduleName, ms.ToArray());
-                }
-            }
+            byte[] byteArray = new byte[moduleStream.Length];
+            moduleStream.Read(byteArray);
+            return LoadModule(moduleName, byteArray);
         }
         
         /// <summary>
@@ -674,10 +669,9 @@ namespace Wasmtime
         /// <returns>Returns a new <see cref="Module"/>.</returns>
         public Module LoadModuleText(string moduleName, Stream moduleStream)
         {
-            using (StreamReader reader = new StreamReader(moduleStream))
-            {
-                return LoadModuleText(moduleName, reader.ReadToEnd());
-            }
+            byte[] byteArray = new byte[moduleStream.Length];
+            moduleStream.Read(byteArray);
+            return LoadModuleText(moduleName, Encoding.UTF8.GetString(byteArray, 0, byteArray.Length));
         }
         
         /// <summary>
