@@ -23,7 +23,8 @@ namespace Wasmtime.Tests
             Host.DefineFunction("env", "add", (int x, int y) => x + y);
             Host.DefineFunction("env", "swap", (int x, int y) => (y, x));
             Host.DefineFunction("env", "do_throw", () => throw new Exception(THROW_MESSAGE));
-            Host.DefineFunction("env", "check_string", (Caller caller, int address, int length) => {
+            Host.DefineFunction("env", "check_string", (Caller caller, int address, int length) =>
+            {
                 caller.GetMemory("mem").ReadString(address, length).Should().Be("Hello World");
             });
         }

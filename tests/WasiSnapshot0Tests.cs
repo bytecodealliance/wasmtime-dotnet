@@ -242,7 +242,7 @@ namespace Wasmtime.Tests
                 )
             );
 
-            var fileFd = (int) memory.ReadInt32(64);
+            var fileFd = (int)memory.ReadInt32(64);
             Assert.True(fileFd > 3);
 
             memory.WriteInt32(0, 8);

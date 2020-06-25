@@ -11,7 +11,7 @@ namespace Wasmtime.Tests
         {
             using var store = new Store();
 
-            Action action = () => store.LoadModule("invalid", new byte[] {});
+            Action action = () => store.LoadModule("invalid", new byte[] { });
 
             action
                 .Should()

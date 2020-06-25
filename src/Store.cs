@@ -100,7 +100,7 @@ namespace Wasmtime
             var textBytes = Encoding.UTF8.GetBytes(text);
             unsafe
             {
-                fixed (byte *ptr = textBytes)
+                fixed (byte* ptr = textBytes)
                 {
                     Interop.wasm_byte_vec_t textVec;
                     textVec.size = (UIntPtr)textBytes.Length;
