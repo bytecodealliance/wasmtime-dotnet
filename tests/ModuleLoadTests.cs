@@ -16,6 +16,11 @@ namespace Wasmtime.Tests
 
             using var host = new Host();
             host.LoadModule("hello.wasm", stream).Should().NotBeNull();
+
+            // `LoadModule` is not supposed to close the supplied stream,
+            // so the following statement should complete without throwing
+            // `ObjectDisposedException`
+            stream.Read(new byte[0], 0, 0);
         }
 
         [Fact]
@@ -26,6 +31,11 @@ namespace Wasmtime.Tests
 
             using var host = new Host();
             host.LoadModuleText("hello.wat", stream).Should().NotBeNull();
+
+            // `LoadModuleText` is not supposed to close the supplied stream,
+            // so the following statement should complete without throwing
+            // `ObjectDisposedException`
+            stream.Read(new byte[0], 0, 0);
         }
     }
 }

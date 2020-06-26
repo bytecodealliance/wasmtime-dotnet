@@ -686,7 +686,11 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(stream));
             }
 
-            using var reader = new StreamReader(stream);
+            // Create a `StreamReader` to read a text from the supplied stream. The minimum buffer
+            // size and other parameters are hard-coded based on the default values used by the
+            // `StreamReader(Stream)` constructor. Make sure to leave `stream` open by specifying
+            // `leaveOpen`.
+            using var reader = new StreamReader(stream, Encoding.UTF8, true, 1024, leaveOpen: true);
             return LoadModuleText(name, reader.ReadToEnd());
         }
         
