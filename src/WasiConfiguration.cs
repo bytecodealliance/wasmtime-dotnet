@@ -48,7 +48,7 @@ namespace Wasmtime
                 _args.Clear();
                 _inheritArgs = false;
             }
-            
+
             foreach (var arg in args)
             {
                 _args.Add(arg);
@@ -111,7 +111,7 @@ namespace Wasmtime
         /// </summary>
         /// <param name="vars">The name-value tuples of the environment variables to add.</param>
         /// <returns>Returns the current configuration.</returns>
-        public WasiConfiguration WithEnvironmentVariables(IEnumerable<(string,string)> vars)
+        public WasiConfiguration WithEnvironmentVariables(IEnumerable<(string, string)> vars)
         {
             if (vars is null)
             {
@@ -119,7 +119,7 @@ namespace Wasmtime
             }
 
             _inheritEnv = false;
-           
+
             foreach (var v in vars)
             {
                 _vars.Add(v);
@@ -286,7 +286,7 @@ namespace Wasmtime
             }
 
             var (args, handles) = Interop.ToUTF8PtrArray(_args);
-            
+
             try
             {
                 Interop.wasi_config_set_argv(config, _args.Count, args);
@@ -315,7 +315,7 @@ namespace Wasmtime
 
             var (names, nameHandles) = Interop.ToUTF8PtrArray(_vars.Select(var => var.Name).ToArray());
             var (values, valueHandles) = Interop.ToUTF8PtrArray(_vars.Select(var => var.Value).ToArray());
-            
+
             try
             {
                 Interop.wasi_config_set_env(config, _vars.Count, names, values);
@@ -367,7 +367,7 @@ namespace Wasmtime
                 }
             }
         }
-        
+
         private void SetStandardError(Interop.WasiConfigHandle config)
         {
             if (_inheritStandardError)
@@ -407,5 +407,5 @@ namespace Wasmtime
         private bool _inheritStandardInput = false;
         private bool _inheritStandardOutput = false;
         private bool _inheritStandardError = false;
-    }   
+    }
 }

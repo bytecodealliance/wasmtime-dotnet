@@ -12,11 +12,14 @@ namespace Wasmtime.Tests
         protected override string ModuleFileName => "Wasi.wat";
     }
 
-    public class WasiTests : IClassFixture<WasiFixture>
+    public class WasiTests : IClassFixture<WasiFixture>, IDisposable
     {
+        private Host Host { get; set; }
+
         public WasiTests(WasiFixture fixture)
         {
             Fixture = fixture;
+            Host = new Host(Fixture.Store);
         }
 
         private WasiFixture Fixture { get; set; }
@@ -24,9 +27,9 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItHasNoEnvironmentByDefault()
         {
-            Fixture.Host.DefineWasi("wasi_snapshot_preview1");
+            Host.DefineWasi("wasi_snapshot_preview1");
 
-            using var instance = Fixture.Host.Instantiate(Fixture.Module);
+            using var instance = Host.Instantiate(Fixture.Module);
             dynamic inst = instance;
 
             var memory = instance.Externs.Memories[0];
@@ -48,9 +51,9 @@ namespace Wasmtime.Tests
             var config = new WasiConfiguration()
                 .WithEnvironmentVariables(env.Select(kvp => (kvp.Key, kvp.Value)));
 
-            Fixture.Host.DefineWasi("wasi_snapshot_preview1", config);
+            Host.DefineWasi("wasi_snapshot_preview1", config);
 
-            using var instance = Fixture.Host.Instantiate(Fixture.Module);
+            using var instance = Host.Instantiate(Fixture.Module);
             dynamic inst = instance;
 
             var memory = instance.Externs.Memories[0];
@@ -73,9 +76,9 @@ namespace Wasmtime.Tests
             var config = new WasiConfiguration()
                 .WithInheritedEnvironment();
 
-            Fixture.Host.DefineWasi("wasi_snapshot_preview1", config);
+            Host.DefineWasi("wasi_snapshot_preview1", config);
 
-            using var instance = Fixture.Host.Instantiate(Fixture.Module);
+            using var instance = Host.Instantiate(Fixture.Module);
             dynamic inst = instance;
 
             var memory = instance.Externs.Memories[0];
@@ -87,9 +90,9 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItHasNoArgumentsByDefault()
         {
-            Fixture.Host.DefineWasi("wasi_snapshot_preview1");
+            Host.DefineWasi("wasi_snapshot_preview1");
 
-            using var instance = Fixture.Host.Instantiate(Fixture.Module);
+            using var instance = Host.Instantiate(Fixture.Module);
             dynamic inst = instance;
 
             var memory = instance.Externs.Memories[0];
@@ -112,9 +115,9 @@ namespace Wasmtime.Tests
             var config = new WasiConfiguration()
                 .WithArgs(args);
 
-            Fixture.Host.DefineWasi("wasi_snapshot_preview1", config);
+            Host.DefineWasi("wasi_snapshot_preview1", config);
 
-            using var instance = Fixture.Host.Instantiate(Fixture.Module);
+            using var instance = Host.Instantiate(Fixture.Module);
             dynamic inst = instance;
 
             var memory = instance.Externs.Memories[0];
@@ -137,9 +140,9 @@ namespace Wasmtime.Tests
             var config = new WasiConfiguration()
                 .WithInheritedArgs();
 
-            Fixture.Host.DefineWasi("wasi_snapshot_preview1", config);
+            Host.DefineWasi("wasi_snapshot_preview1", config);
 
-            using var instance = Fixture.Host.Instantiate(Fixture.Module);
+            using var instance = Host.Instantiate(Fixture.Module);
             dynamic inst = instance;
 
             var memory = instance.Externs.Memories[0];
@@ -159,9 +162,9 @@ namespace Wasmtime.Tests
             var config = new WasiConfiguration()
                 .WithStandardInput(file.Path);
 
-            Fixture.Host.DefineWasi("wasi_snapshot_preview1", config);
+            Host.DefineWasi("wasi_snapshot_preview1", config);
 
-            using var instance = Fixture.Host.Instantiate(Fixture.Module);
+            using var instance = Host.Instantiate(Fixture.Module);
             dynamic inst = instance;
 
             var memory = instance.Externs.Memories[0];
@@ -192,9 +195,9 @@ namespace Wasmtime.Tests
                 config.WithStandardError(file.Path);
             }
 
-            Fixture.Host.DefineWasi("wasi_snapshot_preview1", config);
+            Host.DefineWasi("wasi_snapshot_preview1", config);
 
-            using var instance = Fixture.Host.Instantiate(Fixture.Module);
+            using var instance = Host.Instantiate(Fixture.Module);
             dynamic inst = instance;
 
             var memory = instance.Externs.Memories[0];
@@ -218,9 +221,9 @@ namespace Wasmtime.Tests
             var config = new WasiConfiguration()
                 .WithPreopenedDirectory(Path.GetDirectoryName(file.Path), "/foo");
 
-            Fixture.Host.DefineWasi("wasi_snapshot_preview1", config);
+            Host.DefineWasi("wasi_snapshot_preview1", config);
 
-            using var instance = Fixture.Host.Instantiate(Fixture.Module);
+            using var instance = Host.Instantiate(Fixture.Module);
             dynamic inst = instance;
 
             var memory = instance.Externs.Memories[0];
@@ -240,7 +243,7 @@ namespace Wasmtime.Tests
                 )
             );
 
-            var fileFd = (int) memory.ReadInt32(64);
+            var fileFd = (int)memory.ReadInt32(64);
             Assert.True(fileFd > 3);
 
             memory.WriteInt32(0, 8);
@@ -251,6 +254,11 @@ namespace Wasmtime.Tests
             Assert.Equal(MESSAGE.Length, memory.ReadInt32(64));
             Assert.Equal(0, inst.call_fd_close(fileFd));
             Assert.Equal(MESSAGE, File.ReadAllText(file.Path));
+        }
+
+        public void Dispose()
+        {
+            Host.Dispose();
         }
     }
 }

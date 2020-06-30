@@ -69,17 +69,19 @@ namespace Tutorial
     {
         static void Main(string[] args)
         {
-            using var host = new Host();
+            using var store = new Store();
+
+            using var module = store.LoadModuleText(
+              "hello",
+              "(module (func $hello (import \"\" \"hello\")) (func (export \"run\") (call $hello)))"
+            );
+
+            using var host = new Host(store);
 
             host.DefineFunction(
                 "",
                 "hello",
                 () => Console.WriteLine("Hello from C#!")
-            );
-
-            using var module = host.LoadModuleText(
-              "hello",
-              "(module (func $hello (import \"\" \"hello\")) (func (export \"run\") (call $hello)))"
             );
 
             using dynamic instance = host.Instantiate(module);
@@ -89,9 +91,11 @@ namespace Tutorial
 }
 ```
 
-This host defines a function called `hello` that simply prints a hello message.
+A `Store` is created and the WebAssembly module, in text format, is loaded into the store.
 
-It then loads the module into the host in WebAssembly text format and invokes the module's `run` export.
+A `Host` defines a function called `hello` that simply prints a hello message.
+
+The module is instantiated into the host and the module's `run` export is invoked.
 
 To run the application, simply use `dotnet`:
 

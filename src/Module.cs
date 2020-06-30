@@ -43,7 +43,7 @@ namespace Wasmtime
         {
             unsafe
             {
-                fixed (byte *ptr = bytes)
+                fixed (byte* ptr = bytes)
                 {
                     Interop.wasm_byte_vec_t vec;
                     vec.size = (UIntPtr)bytes.Length;

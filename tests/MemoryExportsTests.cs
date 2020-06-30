@@ -11,11 +11,14 @@ namespace Wasmtime.Tests
         protected override string ModuleFileName => "MemoryExports.wat";
     }
 
-    public class MemoryExportsTests : IClassFixture<MemoryExportsFixture>
+    public class MemoryExportsTests : IClassFixture<MemoryExportsFixture>, IDisposable
     {
+        private Host Host { get; set; }
+
         public MemoryExportsTests(MemoryExportsFixture fixture)
         {
             Fixture = fixture;
+            Host = new Host(Fixture.Store);
         }
 
         private MemoryExportsFixture Fixture { get; set; }
@@ -39,7 +42,7 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItCreatesExternsForTheMemories()
         {
-            using var instance = Fixture.Host.Instantiate(Fixture.Module);
+            using var instance = Host.Instantiate(Fixture.Module);
 
             instance.Externs.Memories.Count.Should().Be(1);
 
@@ -84,6 +87,11 @@ namespace Wasmtime.Tests
                 1,
                 2
             };
+        }
+
+        public void Dispose()
+        {
+            Host.Dispose();
         }
     }
 }

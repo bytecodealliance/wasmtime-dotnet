@@ -7,7 +7,9 @@ namespace HelloExample
     {
         static void Main(string[] args)
         {
-            using var host = new Host();
+            using var store = new Store();
+            using var module = store.LoadModuleText("global.wat");
+            using var host = new Host(store);
 
             var global = host.DefineMutableGlobal("", "global", 1);
 
@@ -18,8 +20,6 @@ namespace HelloExample
                     Console.WriteLine($"The value of the global is: {global.Value}.");
                 }
             );
-
-            using var module = host.LoadModuleText("global.wat");
 
             using dynamic instance = host.Instantiate(module);
             instance.run(20);

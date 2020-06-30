@@ -11,11 +11,14 @@ namespace Wasmtime.Tests
         protected override string ModuleFileName => "TableExports.wat";
     }
 
-    public class TableExportsTests : IClassFixture<TableExportsFixture>
+    public class TableExportsTests : IClassFixture<TableExportsFixture>, IDisposable
     {
+        private Host Host { get; set; }
+
         public TableExportsTests(TableExportsFixture fixture)
         {
             Fixture = fixture;
+            Host = new Host(Fixture.Store);
         }
 
         private TableExportsFixture Fixture { get; set; }
@@ -40,7 +43,7 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItCreatesExternsForTheTables()
         {
-            using var instance = Fixture.Host.Instantiate(Fixture.Module);
+            using var instance = Host.Instantiate(Fixture.Module);
 
             var tables = instance.Externs.Tables;
             tables.Count.Should().Be(3);
@@ -86,6 +89,11 @@ namespace Wasmtime.Tests
                 100,
                 1000
             };
+        }
+
+        public void Dispose()
+        {
+            Host.Dispose();
         }
     }
 }

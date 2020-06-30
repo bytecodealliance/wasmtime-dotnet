@@ -7,7 +7,9 @@ namespace HelloExample
     {
         static void Main(string[] args)
         {
-            using var host = new Host();
+            using var store = new Store();
+            using var module = store.LoadModuleText("memory.wat");
+            using var host = new Host(store);
 
             host.DefineFunction(
                 "",
@@ -17,8 +19,6 @@ namespace HelloExample
                     Console.WriteLine($"Message from WebAssembly: {message}");
                 }
             );
-
-            using var module = host.LoadModuleText("memory.wat");
 
             using dynamic instance = host.Instantiate(module);
             instance.run();

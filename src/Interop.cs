@@ -1096,5 +1096,5 @@ namespace Wasmtime
 
         [DllImport(LibraryName)]
         public static extern void wasmtime_error_delete(IntPtr error);
-   }
+    }
 }
