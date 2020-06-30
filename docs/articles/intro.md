@@ -66,7 +66,7 @@ namespace Tutorial
         static void Main(string[] args)
         {
             using var store = new Store();
-            using var module = host.LoadModuleText("hello", "(module (func $hello (import \"\" \"hello\")) (func (export \"run\") (call $hello)))");
+            using var module = store.LoadModuleText("hello", "(module (func $hello (import \"\" \"hello\")) (func (export \"run\") (call $hello)))");
             using var host = new Host(store);
 
             host.DefineFunction(
