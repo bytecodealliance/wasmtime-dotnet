@@ -1,13 +1,28 @@
 ﻿using System;
 using System.Linq;
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Running;
+using BenchmarkDotNet.Toolchains.InProcess.Emit;
 using Wasmtime;
 
 namespace Simple
 {
+    [Config(typeof(Config))]
     public class Benchmark
     {
+        private class Config : ManualConfig
+        {
+            public Config()
+            {
+                AddJob(Job.MediumRun
+                    .WithLaunchCount(1)
+                    .WithToolchain(InProcessEmitToolchain.Instance)
+                    .WithId("InProcess"));
+            }
+        }
+
         public Benchmark()
         {
             _store = new Store();
