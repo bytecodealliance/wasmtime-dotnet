@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
 using Wasmtime;
@@ -26,7 +27,7 @@ namespace Simple
         {
             using var host = new Host(_store);
 
-            host.DefineFunction("", "hello", () => {});
+            host.DefineFunction("", "hello", () => { });
 
             // Define a memory to add memory pressure if not disposed in the benchmark test
             using var memory = host.DefineMemory("", "memory", 3);
@@ -43,7 +44,19 @@ namespace Simple
     {
         static void Main(string[] args)
         {
-            BenchmarkRunner.Run<Benchmark>();
+            var summary = BenchmarkRunner.Run<Benchmark>();
+
+            var report = summary[summary.BenchmarksCases.Where(c => c.Descriptor.Type == typeof(Benchmark)).Single()];
+            if (!(report is null))
+            {
+                if (report.ExecuteResults.All(r => r.ExitCode == 0))
+                {
+                    return;
+                }
+            }
+
+            Console.Error.WriteLine("Benchmark failed.");
+            Environment.Exit(1);
         }
     }
 }
