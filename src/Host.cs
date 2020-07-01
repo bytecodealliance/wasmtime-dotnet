@@ -24,9 +24,10 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            _store = store;
+            // Create a separate store for the host
+            _store = Interop.wasm_store_new(store.EngineHandle);
 
-            var linker = Interop.wasmtime_linker_new(store.Handle);
+            var linker = Interop.wasmtime_linker_new(_store);
             if (linker.IsInvalid)
             {
                 throw new WasmtimeException("Failed to create Wasmtime linker.");
@@ -56,7 +57,7 @@ namespace Wasmtime
                 config = new WasiConfiguration();
             }
 
-            using var wasi = config.CreateWasi(_store.Handle, name);
+            using var wasi = config.CreateWasi(_store, name);
 
             var error = Interop.wasmtime_linker_define_wasi(_linker, wasi);
             if (error != IntPtr.Zero)
@@ -495,7 +496,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(name));
             }
 
-            var global = new Global<T>(_store.Handle, initialValue);
+            var global = new Global<T>(_store, initialValue);
             var ex = Define(moduleName, name, Interop.wasm_global_as_extern(global.Handle));
 
             if (ex != null)
@@ -529,7 +530,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(name));
             }
 
-            var global = new MutableGlobal<T>(_store.Handle, initialValue);
+            var global = new MutableGlobal<T>(_store, initialValue);
             var ex = Define(moduleName, name, Interop.wasm_global_as_extern(global.Handle));
 
             if (ex != null)
@@ -563,7 +564,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(name));
             }
 
-            var memory = new Memory(_store.Handle, minimum, maximum);
+            var memory = new Memory(_store, minimum, maximum);
             var ex = Define(moduleName, name, Interop.wasm_memory_as_extern(memory.Handle));
 
             if (ex != null)
@@ -595,6 +596,12 @@ namespace Wasmtime
         /// <inheritdoc/>
         public void Dispose()
         {
+            if (!_store.IsInvalid)
+            {
+                _store.Dispose();
+                _store.SetHandleAsInvalid();
+            }
+
             if (!_linker.IsInvalid)
             {
                 _linker.Dispose();
@@ -627,7 +634,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(func));
             }
 
-            var function = new Function(_store.Handle, func, hasReturn);
+            var function = new Function(_store, func, hasReturn);
             var ex = Define(moduleName, name, Interop.wasm_func_as_extern(function.Handle));
 
             if (ex != null)
@@ -669,7 +676,7 @@ namespace Wasmtime
             }
         }
 
-        private Store _store;
+        private Interop.StoreHandle _store;
         private Interop.LinkerHandle _linker;
         private List<Delegate> _callbacks = new List<Delegate>();
     }

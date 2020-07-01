@@ -206,6 +206,15 @@ namespace Wasmtime
             }
         }
 
+        internal Interop.EngineHandle EngineHandle
+        {
+            get
+            {
+                CheckDisposed();
+                return _engine;
+            }
+        }
+
         private void CheckDisposed()
         {
             if (_handle.IsInvalid)

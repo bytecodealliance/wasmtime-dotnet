@@ -46,6 +46,9 @@ jobs:
       run: dotnet build -c ${{ matrix.config }} --no-restore
     - name: Test
       run: dotnet test -c ${{ matrix.config }}
+    - name: Benchmark
+      if: matrix.config == 'release'
+      run: dotnet run -c ${{ matrix.config }} --project benchmarks/simple/simple.csproj
     - name: Create package
       run: |
         cd src
