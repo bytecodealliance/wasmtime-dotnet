@@ -16,7 +16,7 @@ namespace Wasmtime.Tests
         public GlobalImportBindingTests(GlobalImportBindingFixture fixture)
         {
             Fixture = fixture;
-            Host = new Host(Fixture.Store);
+            Host = new Host(Fixture.Engine);
         }
 
         private GlobalImportBindingFixture Fixture { get; set; }

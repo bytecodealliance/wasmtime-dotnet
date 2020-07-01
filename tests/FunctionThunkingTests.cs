@@ -18,7 +18,7 @@ namespace Wasmtime.Tests
         public FunctionThunkingTests(FunctionThunkingFixture fixture)
         {
             Fixture = fixture;
-            Host = new Host(Fixture.Store);
+            Host = new Host(Fixture.Engine);
 
             Host.DefineFunction("env", "add", (int x, int y) => x + y);
             Host.DefineFunction("env", "swap", (int x, int y) => (y, x));

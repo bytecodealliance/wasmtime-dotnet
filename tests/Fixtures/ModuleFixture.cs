@@ -8,10 +8,12 @@ namespace Wasmtime.Tests
     {
         public ModuleFixture()
         {
-            Store = new StoreBuilder()
+            Engine = new EngineBuilder()
                 .WithMultiValue(true)
                 .WithReferenceTypes(true)
                 .Build();
+
+            Store = new Store(Engine);
 
             Module = Store.LoadModuleText(Path.Combine("Modules", ModuleFileName));
         }
@@ -31,6 +33,7 @@ namespace Wasmtime.Tests
             }
         }
 
+        public Engine Engine { get; set; }
         public Store Store { get; set; }
         public Module Module { get; set; }
 

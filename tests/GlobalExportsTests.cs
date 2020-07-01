@@ -19,7 +19,7 @@ namespace Wasmtime.Tests
         public GlobalExportsTests(GlobalExportsFixture fixture)
         {
             Fixture = fixture;
-            Host = new Host(Fixture.Store);
+            Host = new Host(Fixture.Engine);
         }
 
         private GlobalExportsFixture Fixture { get; set; }

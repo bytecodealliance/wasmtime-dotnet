@@ -27,7 +27,7 @@
 You can add a package reference with the [.NET Core SDK](https://dotnet.microsoft.com/):
 
 ```text
-$ dotnet add package --version 0.15.0-preview1 wasmtime
+$ dotnet add package --version 0.18.1-preview1 wasmtime
 ```
 
 _Note that the `--version` option is required because the package is currently prerelease._
@@ -54,7 +54,7 @@ $ dotnet new console
 Next, add a reference to the [Wasmtime package](https://www.nuget.org/packages/Wasmtime):
 
 ```
-$ dotnet add package --version 0.15.0-preview1 wasmtime
+$ dotnet add package --version 0.18.1-preview1 wasmtime
 ```
 
 Replace the contents of `Program.cs` with the following code:
@@ -69,14 +69,15 @@ namespace Tutorial
     {
         static void Main(string[] args)
         {
-            using var store = new Store();
+            using var engine = new Engine();
+            using var store = new Store(engine);
 
             using var module = store.LoadModuleText(
               "hello",
               "(module (func $hello (import \"\" \"hello\")) (func (export \"run\") (call $hello)))"
             );
 
-            using var host = new Host(store);
+            using var host = new Host(engine);
 
             host.DefineFunction(
                 "",

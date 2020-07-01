@@ -14,7 +14,8 @@ namespace Wasmtime.Tests
             using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("hello.wasm");
             stream.Should().NotBeNull();
 
-            using var store = new Store();
+            using var engine = new Engine();
+            using var store = new Store(engine);
             store.LoadModule("hello.wasm", stream).Should().NotBeNull();
 
             // `LoadModule` is not supposed to close the supplied stream,
@@ -29,7 +30,8 @@ namespace Wasmtime.Tests
             using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("hello.wat");
             stream.Should().NotBeNull();
 
-            using var store = new Store();
+            using var engine = new Engine();
+            using var store = new Store(engine);
             store.LoadModuleText("hello.wat", stream).Should().NotBeNull();
 
             // `LoadModuleText` is not supposed to close the supplied stream,

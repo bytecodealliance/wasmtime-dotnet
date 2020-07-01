@@ -16,7 +16,7 @@ namespace Wasmtime.Tests
         public MemoryImportBindingTests(MemoryImportBindingFixture fixture)
         {
             Fixture = fixture;
-            Host = new Host(Fixture.Store);
+            Host = new Host(Fixture.Engine);
         }
 
         private MemoryImportBindingFixture Fixture { get; set; }
