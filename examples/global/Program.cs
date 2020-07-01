@@ -7,9 +7,10 @@ namespace HelloExample
     {
         static void Main(string[] args)
         {
-            using var store = new Store();
+            using var engine = new Engine();
+            using var store = new Store(engine);
             using var module = store.LoadModuleText("global.wat");
-            using var host = new Host(store);
+            using var host = new Host(engine);
 
             var global = host.DefineMutableGlobal("", "global", 1);
 

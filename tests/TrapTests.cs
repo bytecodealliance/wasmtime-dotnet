@@ -16,7 +16,7 @@ namespace Wasmtime.Tests
         public TrapTests(TrapFixture fixture)
         {
             Fixture = fixture;
-            Host = new Host(Fixture.Store);
+            Host = new Host(Fixture.Engine);
         }
 
         private TrapFixture Fixture { get; set; }

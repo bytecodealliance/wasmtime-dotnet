@@ -25,7 +25,8 @@ namespace Simple
 
         public Benchmark()
         {
-            _store = new Store();
+            _engine = new Engine();
+            _store = new Store(_engine);
             _module = _store.LoadModuleText("hello", @"
 (module
   (type $t0 (func))
@@ -40,7 +41,7 @@ namespace Simple
         [Benchmark]
         public void SayHello()
         {
-            using var host = new Host(_store);
+            using var host = new Host(_engine);
 
             host.DefineFunction("", "hello", () => { });
 
@@ -51,6 +52,7 @@ namespace Simple
             instance.run();
         }
 
+        private Engine _engine;
         private Store _store;
         private Module _module;
     }

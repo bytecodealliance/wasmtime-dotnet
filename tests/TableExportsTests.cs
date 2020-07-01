@@ -18,7 +18,7 @@ namespace Wasmtime.Tests
         public TableExportsTests(TableExportsFixture fixture)
         {
             Fixture = fixture;
-            Host = new Host(Fixture.Store);
+            Host = new Host(Fixture.Engine);
         }
 
         private TableExportsFixture Fixture { get; set; }

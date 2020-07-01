@@ -18,7 +18,7 @@ namespace Wasmtime.Tests
         public MemoryExportsTests(MemoryExportsFixture fixture)
         {
             Fixture = fixture;
-            Host = new Host(Fixture.Store);
+            Host = new Host(Fixture.Engine);
         }
 
         private MemoryExportsFixture Fixture { get; set; }

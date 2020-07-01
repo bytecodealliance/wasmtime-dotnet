@@ -16,9 +16,22 @@ namespace Wasmtime
         /// <summary>
         /// Constructs a new store.
         /// </summary>
-        public Store()
+        /// <param name="engine">The engine to use for the store.</param>
+        public Store(Engine engine)
         {
-            Initialize(Interop.wasm_engine_new());
+            if (engine is null)
+            {
+                throw new ArgumentNullException(nameof(engine));
+            }
+
+            var store = Interop.wasm_store_new(engine.Handle);
+            if (store.IsInvalid)
+            {
+                throw new WasmtimeException("Failed to create Wasmtime store.");
+            }
+
+            _engine = engine;
+            _handle = store;
         }
 
         /// <summary>
@@ -164,37 +177,6 @@ namespace Wasmtime
                 Handle.Dispose();
                 Handle.SetHandleAsInvalid();
             }
-
-            if (!_engine.IsInvalid)
-            {
-                _engine.Dispose();
-                _engine.SetHandleAsInvalid();
-            }
-        }
-
-        internal Store(Interop.WasmConfigHandle config)
-        {
-            var engine = Interop.wasm_engine_new_with_config(config);
-            config.SetHandleAsInvalid();
-
-            Initialize(engine);
-        }
-
-        private void Initialize(Interop.EngineHandle engine)
-        {
-            if (engine.IsInvalid)
-            {
-                throw new WasmtimeException("Failed to create Wasmtime engine.");
-            }
-
-            var store = Interop.wasm_store_new(engine);
-            if (store.IsInvalid)
-            {
-                throw new WasmtimeException("Failed to create Wasmtime store.");
-            }
-
-            _engine = engine;
-            _handle = store;
         }
 
         internal Interop.StoreHandle Handle
@@ -206,15 +188,6 @@ namespace Wasmtime
             }
         }
 
-        internal Interop.EngineHandle EngineHandle
-        {
-            get
-            {
-                CheckDisposed();
-                return _engine;
-            }
-        }
-
         private void CheckDisposed()
         {
             if (_handle.IsInvalid)
@@ -223,7 +196,7 @@ namespace Wasmtime
             }
         }
 
-        private Interop.EngineHandle _engine;
+        private Engine _engine;
         private Interop.StoreHandle _handle;
     }
 }

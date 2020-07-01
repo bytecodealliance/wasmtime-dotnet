@@ -19,7 +19,7 @@ namespace Wasmtime.Tests
         public WasiTests(WasiFixture fixture)
         {
             Fixture = fixture;
-            Host = new Host(Fixture.Store);
+            Host = new Host(Fixture.Engine);
         }
 
         private WasiFixture Fixture { get; set; }

@@ -16,16 +16,16 @@ namespace Wasmtime
         /// <summary>
         /// Constructs a new host.
         /// </summary>
-        /// <param name="store">Store to use for the host.</param>
-        public Host(Store store)
+        /// <param name="engine">The engine to use for the host.</param>
+        public Host(Engine engine)
         {
-            if (store is null)
+            if (engine is null)
             {
-                throw new ArgumentNullException(nameof(store));
+                throw new ArgumentNullException(nameof(engine));
             }
 
             // Create a separate store for the host
-            _store = Interop.wasm_store_new(store.EngineHandle);
+            _store = Interop.wasm_store_new(engine.Handle);
 
             var linker = Interop.wasmtime_linker_new(_store);
             if (linker.IsInvalid)
