@@ -8,8 +8,7 @@ namespace HelloExample
         static void Main(string[] args)
         {
             using var engine = new Engine();
-            using var store = new Store(engine);
-            using var module = store.LoadModuleText("hello.wat");
+            using var module = Module.FromTextFile(engine, "hello.wat");
             using var host = new Host(engine);
 
             host.DefineFunction(

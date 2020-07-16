@@ -10,9 +10,8 @@ namespace Wasmtime.Tests
         public void ItThrowsWithErrorMessageForInvalidModules()
         {
             using var engine = new Engine();
-            using var store = new Store(engine);
 
-            Action action = () => store.LoadModule("invalid", new byte[] { });
+            Action action = () => Module.FromBytes(engine, "invalid", new byte[] { });
 
             action
                 .Should()

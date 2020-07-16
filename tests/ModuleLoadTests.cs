@@ -15,8 +15,7 @@ namespace Wasmtime.Tests
             stream.Should().NotBeNull();
 
             using var engine = new Engine();
-            using var store = new Store(engine);
-            store.LoadModule("hello.wasm", stream).Should().NotBeNull();
+            Module.FromStream(engine, "hello.wasm", stream).Should().NotBeNull();
 
             // `LoadModule` is not supposed to close the supplied stream,
             // so the following statement should complete without throwing
@@ -31,8 +30,7 @@ namespace Wasmtime.Tests
             stream.Should().NotBeNull();
 
             using var engine = new Engine();
-            using var store = new Store(engine);
-            store.LoadModuleText("hello.wat", stream).Should().NotBeNull();
+            Module.FromTextStream(engine, "hello.wat", stream).Should().NotBeNull();
 
             // `LoadModuleText` is not supposed to close the supplied stream,
             // so the following statement should complete without throwing

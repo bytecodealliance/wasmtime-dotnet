@@ -39,6 +39,31 @@ namespace Wasmtime
         }
 
         /// <summary>
+        /// Constructs a new host with the given store.
+        /// </summary>
+        /// <param name="store">The store to use for the host.</param>
+        public Host(Store store)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            _store = store.Handle;
+            _disposeStore = false;
+
+            var linker = Interop.wasmtime_linker_new(_store);
+            if (linker.IsInvalid)
+            {
+                throw new WasmtimeException("Failed to create Wasmtime linker.");
+            }
+
+            Interop.wasmtime_linker_allow_shadowing(linker, allowShadowing: true);
+
+            _linker = linker;
+        }
+
+        /// <summary>
         /// Defines a WASI implementation in the host.
         /// </summary>
         /// <param name="name">The name of the WASI module to define.</param>
@@ -596,7 +621,7 @@ namespace Wasmtime
         /// <inheritdoc/>
         public void Dispose()
         {
-            if (!_store.IsInvalid)
+            if (_disposeStore && !_store.IsInvalid)
             {
                 _store.Dispose();
                 _store.SetHandleAsInvalid();
@@ -679,5 +704,6 @@ namespace Wasmtime
         private Interop.StoreHandle _store;
         private Interop.LinkerHandle _linker;
         private List<Delegate> _callbacks = new List<Delegate>();
+        private bool _disposeStore = true;
     }
 }

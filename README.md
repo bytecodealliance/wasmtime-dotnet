@@ -70,9 +70,9 @@ namespace Tutorial
         static void Main(string[] args)
         {
             using var engine = new Engine();
-            using var store = new Store(engine);
 
-            using var module = store.LoadModuleText(
+            using var module = Module.FromText(
+              engine,
               "hello",
               "(module (func $hello (import \"\" \"hello\")) (func (export \"run\") (call $hello)))"
             );
