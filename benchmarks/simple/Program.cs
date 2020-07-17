@@ -26,8 +26,10 @@ namespace Simple
         public Benchmark()
         {
             _engine = new Engine();
-            _store = new Store(_engine);
-            _module = _store.LoadModuleText("hello", @"
+            _module = Module.FromText(
+                _engine,
+                "hello",
+                @"
 (module
   (type $t0 (func))
   (import """" ""hello"" (func $.hello (type $t0)))
@@ -35,7 +37,8 @@ namespace Simple
     call $.hello
   )
   (export ""run"" (func $run))
-)");
+)"
+            );
         }
 
         [Benchmark]
@@ -53,7 +56,6 @@ namespace Simple
         }
 
         private Engine _engine;
-        private Store _store;
         private Module _module;
     }
 

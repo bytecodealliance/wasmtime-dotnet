@@ -13,9 +13,7 @@ namespace Wasmtime.Tests
                 .WithReferenceTypes(true)
                 .Build();
 
-            Store = new Store(Engine);
-
-            Module = Store.LoadModuleText(Path.Combine("Modules", ModuleFileName));
+            Module = Wasmtime.Module.FromTextFile(Engine, Path.Combine("Modules", ModuleFileName));
         }
 
         public void Dispose()
@@ -26,15 +24,14 @@ namespace Wasmtime.Tests
                 Module = null;
             }
 
-            if (!(Store is null))
+            if (!(Engine is null))
             {
-                Store.Dispose();
-                Store = null;
+                Engine.Dispose();
+                Engine = null;
             }
         }
 
         public Engine Engine { get; set; }
-        public Store Store { get; set; }
         public Module Module { get; set; }
 
         protected abstract string ModuleFileName { get; }
