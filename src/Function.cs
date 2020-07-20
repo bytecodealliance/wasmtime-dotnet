@@ -1,8 +1,9 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Wasmtime
@@ -51,23 +52,34 @@ namespace Wasmtime
                 parameterTypes = parameterTypes[1..];
             }
 
-            ValidateParameterTypes(parameterTypes);
+            var parameterKinds = GetParameterKinds(parameterTypes);
+            var resultKinds = GetReturnTypeKinds(EnumerateReturnTypes(returnType));
 
-            ValidateReturnType(returnType);
-
-            var parameters = CreateValueTypeVec(parameterTypes);
-            var results = CreateReturnValueTypeVec(returnType);
+            var parameters = CreateValueTypeVec(parameterKinds);
+            var results = CreateValueTypeVec(resultKinds);
             using var funcType = Interop.wasm_functype_new(ref parameters, ref results);
 
             if (hasCaller)
             {
-                Callback = CreateCallbackWithCaller(store, func, parameterTypes.Length, hasReturn);
-                Handle = Interop.wasmtime_func_new(store, funcType, (Interop.WasmtimeFuncCallback)Callback);
+                var callback = CreateWasmtimeCallback(store, func, parameterTypes.Length, resultKinds);
+                Handle = Interop.wasmtime_func_new_with_env(
+                    store,
+                    funcType,
+                    callback,
+                    GCHandle.ToIntPtr(GCHandle.Alloc(callback)),
+                    Interop.GCHandleFinalizer
+                );
             }
             else
             {
-                Callback = CreateCallback(store, func, parameterTypes.Length, hasReturn);
-                Handle = Interop.wasm_func_new(store, funcType, (Interop.WasmFuncCallback)Callback);
+                var callback = CreateCallback(store, func, parameterTypes.Length, resultKinds);
+                Handle = Interop.wasm_func_new_with_env(
+                    store,
+                    funcType,
+                    callback,
+                    GCHandle.ToIntPtr(GCHandle.Alloc(callback)),
+                    Interop.GCHandleFinalizer
+                );
             }
 
             if (Handle.IsInvalid)
@@ -76,32 +88,48 @@ namespace Wasmtime
             }
         }
 
-        private static void ValidateParameterTypes(Span<Type> parameters)
+        private static ValueKind[] GetParameterKinds(Span<Type> parameters)
         {
-            foreach (var type in parameters)
+            var kinds = new ValueKind[parameters.Length];
+            for (int i = 0; i < parameters.Length; ++i)
             {
-                if (type == typeof(Caller))
+                if (parameters[i] == typeof(Caller))
                 {
-                    throw new WasmtimeException($"A Caller parameter must be the first parameter of the function.");
+                    throw new WasmtimeException($"A 'Caller' parameter must be the first parameter of the function.");
                 }
 
-                if (!Interop.TryGetValueKind(type, out var kind))
+                if (!Interop.TryGetValueKind(parameters[i], out var kind))
                 {
-                    throw new WasmtimeException($"Unable to create a function with parameter of type '{type.ToString()}'.");
+                    throw new WasmtimeException($"Unable to create a function with parameter of type '{parameters[i].ToString()}'.");
                 }
+
+                kinds[i] = kind;
             }
+            return kinds;
         }
 
-        private static void ValidateReturnType(Type returnType)
+        private static ValueKind[] GetReturnTypeKinds(IEnumerable<Type> returnTypes)
+        {
+            return returnTypes.Select(t =>
+            {
+                if (!Interop.TryGetValueKind(t, out var kind))
+                {
+                    throw new WasmtimeException($"Unable to create a function with a return type of type '{t.ToString()}'.");
+                }
+                return kind;
+            }).ToArray();
+        }
+
+        private static IEnumerable<Type> EnumerateReturnTypes(Type returnType)
         {
             if (returnType is null)
             {
-                return;
+                yield break;
             }
 
             if (IsTuple(returnType))
             {
-                var types = returnType
+                foreach (var type in returnType
                     .GetGenericArguments()
                     .SelectMany(type =>
                         {
@@ -110,18 +138,14 @@ namespace Wasmtime
                                 return type.GenericTypeArguments;
                             }
                             return Enumerable.Repeat(type, 1);
-                        });
-
-                foreach (var type in types)
+                        }))
                 {
-                    ValidateReturnType(type);
+                    yield return type;
                 }
-                return;
             }
-
-            if (!Interop.TryGetValueKind(returnType, out var kind))
+            else
             {
-                throw new WasmtimeException($"Unable to create a function with a return type of type '{returnType.ToString()}'.");
+                yield return returnType;
             }
         }
 
@@ -145,174 +169,36 @@ namespace Wasmtime
                    definition == typeof(ValueTuple<,,,,,,,>);
         }
 
-        private static unsafe Interop.WasmFuncCallback CreateCallback(Interop.StoreHandle store, Delegate func, int parameterCount, bool hasReturn)
+        private static unsafe Interop.WasmFuncCallbackWithEnv CreateCallback(Interop.StoreHandle store, Delegate callback, int parameterCount, ValueKind[] resultKinds)
         {
             // NOTE: this capture is not thread-safe.
             var args = new object[parameterCount];
-            var method = func.Method;
-            var target = func.Target;
 
-            return (arguments, results) =>
-            {
-                try
-                {
-                    SetArgs(arguments, args);
-
-                    var result = method.Invoke(target, BindingFlags.DoNotWrapExceptions, null, args, null);
-
-                    if (hasReturn)
-                    {
-                        SetResults(result, results);
-                    }
-                    return IntPtr.Zero;
-                }
-                catch (Exception ex)
-                {
-                    var bytes = Encoding.UTF8.GetBytes(ex.Message + "\0" /* exception messages need a null */);
-
-                    fixed (byte* ptr = bytes)
-                    {
-                        Interop.wasm_byte_vec_t message = new Interop.wasm_byte_vec_t();
-                        message.size = (UIntPtr)bytes.Length;
-                        message.data = ptr;
-
-                        return Interop.wasm_trap_new(store, ref message);
-                    }
-                }
-            };
+            return (env, arguments, results) =>
+                InvokeCallback(store, callback, args, resultKinds, IntPtr.Zero, arguments, results);
         }
 
-        private static unsafe Interop.WasmtimeFuncCallback CreateCallbackWithCaller(Interop.StoreHandle store, Delegate func, int parameterCount, bool hasReturn)
+        private static unsafe Interop.WasmtimeFuncCallbackWithEnv CreateWasmtimeCallback(Interop.StoreHandle store, Delegate callback, int parameterCount, ValueKind[] resultKinds)
         {
             // NOTE: this capture is not thread-safe.
             var args = new object[parameterCount + 1];
-            var caller = new Caller();
-            var method = func.Method;
-            var target = func.Target;
+            args[0] = new Caller();
 
-            args[0] = caller;
-
-            return (callerHandle, arguments, results) =>
-            {
-                try
-                {
-                    caller.Handle = callerHandle;
-
-                    SetArgs(arguments, args, 1);
-
-                    var result = method.Invoke(target, BindingFlags.DoNotWrapExceptions, null, args, null);
-
-                    caller.Handle = IntPtr.Zero;
-
-                    if (hasReturn)
-                    {
-                        SetResults(result, results);
-                    }
-                    return IntPtr.Zero;
-                }
-                catch (Exception ex)
-                {
-                    var bytes = Encoding.UTF8.GetBytes(ex.Message + "\0" /* exception messages need a null */);
-
-                    fixed (byte* ptr = bytes)
-                    {
-                        Interop.wasm_byte_vec_t message = new Interop.wasm_byte_vec_t();
-                        message.size = (UIntPtr)bytes.Length;
-                        message.data = ptr;
-
-                        return Interop.wasm_trap_new(store, ref message);
-                    }
-                }
-            };
+            return (caller, env, arguments, results) =>
+                InvokeCallback(store, callback, args, resultKinds, caller, arguments, results);
         }
 
-        private static unsafe void SetArgs(Interop.wasm_val_t* arguments, object[] args, int offset = 0)
-        {
-            for (int i = 0; i < args.Length - offset; ++i)
-            {
-                var arg = arguments[i];
-
-                switch (arg.kind)
-                {
-                    case Interop.wasm_valkind_t.WASM_I32:
-                        args[i + offset] = arg.of.i32;
-                        break;
-
-                    case Interop.wasm_valkind_t.WASM_I64:
-                        args[i + offset] = arg.of.i64;
-                        break;
-
-                    case Interop.wasm_valkind_t.WASM_F32:
-                        args[i + offset] = arg.of.f32;
-                        break;
-
-                    case Interop.wasm_valkind_t.WASM_F64:
-                        args[i + offset] = arg.of.f64;
-                        break;
-
-                    default:
-                        throw new NotSupportedException("Unsupported value type.");
-                }
-            }
-        }
-
-        private static unsafe void SetResults(object value, Interop.wasm_val_t* results)
-        {
-            var tuple = value as ITuple;
-            if (tuple is null)
-            {
-                SetResult(value, &results[0]);
-            }
-            else
-            {
-                for (int i = 0; i < tuple.Length; ++i)
-                {
-                    SetResult(tuple[i], &results[i]);
-                }
-            }
-        }
-
-        private static unsafe void SetResult(object value, Interop.wasm_val_t* result)
-        {
-            switch (value)
-            {
-                case int i:
-                    result->kind = Interop.wasm_valkind_t.WASM_I32;
-                    result->of.i32 = i;
-                    break;
-
-                case long l:
-                    result->kind = Interop.wasm_valkind_t.WASM_I64;
-                    result->of.i64 = l;
-                    break;
-
-                case float f:
-                    result->kind = Interop.wasm_valkind_t.WASM_F32;
-                    result->of.f32 = f;
-                    break;
-
-                case double d:
-                    result->kind = Interop.wasm_valkind_t.WASM_F64;
-                    result->of.f64 = d;
-                    break;
-
-                default:
-                    throw new NotSupportedException("Unsupported return value type.");
-            }
-        }
-
-        private static Interop.wasm_valtype_vec_t CreateValueTypeVec(Span<Type> types)
+        private static Interop.wasm_valtype_vec_t CreateValueTypeVec(IList<ValueKind> kinds)
         {
             Interop.wasm_valtype_vec_t vec;
-            Interop.wasm_valtype_vec_new_uninitialized(out vec, (UIntPtr)types.Length);
+            Interop.wasm_valtype_vec_new_uninitialized(out vec, (UIntPtr)kinds.Count);
 
-            int i = 0;
-            foreach (var type in types)
+            for (int i = 0; i < kinds.Count; ++i)
             {
-                var valType = Interop.wasm_valtype_new((Interop.wasm_valkind_t)Interop.ToValueKind(type));
+                var valType = Interop.wasm_valtype_new((Interop.wasm_valkind_t)kinds[i]);
                 unsafe
                 {
-                    vec.data[i++] = valType.DangerousGetHandle();
+                    vec.data[i] = valType.DangerousGetHandle();
                 }
                 valType.SetHandleAsInvalid();
             }
@@ -320,36 +206,73 @@ namespace Wasmtime
             return vec;
         }
 
-        private static Interop.wasm_valtype_vec_t CreateReturnValueTypeVec(Type returnType)
+        private unsafe static IntPtr InvokeCallback(
+            Interop.StoreHandle store,
+            Delegate callback,
+            object[] args,
+            ValueKind[] resultKinds,
+            IntPtr caller,
+            Interop.wasm_val_t* arguments,
+            Interop.wasm_val_t* results)
         {
-            if (returnType is null)
+            try
             {
-                Interop.wasm_valtype_vec_t vec;
-                Interop.wasm_valtype_vec_new_empty(out vec);
-                return vec;
-            }
+                int offset = 0;
+                if (caller != IntPtr.Zero)
+                {
+                    offset = 1;
+                    ((Caller)args[0]).Handle = caller;
+                }
 
-            if (IsTuple(returnType))
+                for (int i = 0; i < args.Length - offset; ++i)
+                {
+                    args[i + offset] = Interop.ToObject(&arguments[i]);
+                }
+
+                var result = callback.Method.Invoke(callback.Target, BindingFlags.DoNotWrapExceptions, null, args, null);
+
+                for (int i = 0; i < args.Length - offset; ++i)
+                {
+                    args[i + offset] = null;
+                }
+
+                if (caller != IntPtr.Zero)
+                {
+                    ((Caller)args[0]).Handle = IntPtr.Zero;
+                }
+
+                if (resultKinds.Length > 0)
+                {
+                    var tuple = result as ITuple;
+                    if (tuple is null)
+                    {
+                        results[0] = Interop.ToValue(result, resultKinds[0]);
+                    }
+                    else
+                    {
+                        for (int i = 0; i < tuple.Length; ++i)
+                        {
+                            results[i] = Interop.ToValue(tuple[i], resultKinds[i]);
+                        }
+                    }
+                }
+                return IntPtr.Zero;
+            }
+            catch (Exception ex)
             {
-                return CreateValueTypeVec(
-                    returnType
-                        .GetGenericArguments()
-                        .SelectMany(type =>
-                            {
-                                if (type.IsConstructedGenericType)
-                                {
-                                    return type.GenericTypeArguments;
-                                }
-                                return Enumerable.Repeat(type, 1);
-                            })
-                        .ToArray()
-                );
-            }
+                var bytes = Encoding.UTF8.GetBytes(ex.Message + "\0" /* exception messages need a null */);
 
-            return CreateValueTypeVec(new Type[] { returnType });
+                fixed (byte* ptr = bytes)
+                {
+                    Interop.wasm_byte_vec_t message = new Interop.wasm_byte_vec_t();
+                    message.size = (UIntPtr)bytes.Length;
+                    message.data = ptr;
+
+                    return Interop.wasm_trap_new(store, ref message);
+                }
+            }
         }
 
         internal Interop.FunctionHandle Handle { get; private set; }
-        internal Delegate Callback { get; private set; }
     }
 }

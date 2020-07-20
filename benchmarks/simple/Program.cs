@@ -46,7 +46,7 @@ namespace Simple
         {
             using var host = new Host(_engine);
 
-            host.DefineFunction("", "hello", () => { });
+            using var function = host.DefineFunction("", "hello", () => { });
 
             // Define a memory to add memory pressure if not disposed in the benchmark test
             using var memory = host.DefineMemory("", "memory", 3);

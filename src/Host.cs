@@ -668,7 +668,6 @@ namespace Wasmtime
                 throw new WasmtimeException($"Failed to define function '{name}' in module '{moduleName}': {ex.Message}");
             }
 
-            _callbacks.Add(function.Callback);
             return function;
         }
 
@@ -703,7 +702,6 @@ namespace Wasmtime
 
         private Interop.StoreHandle _store;
         private Interop.LinkerHandle _linker;
-        private List<Delegate> _callbacks = new List<Delegate>();
         private bool _disposeStore = true;
     }
 }

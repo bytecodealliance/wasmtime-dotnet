@@ -23,4 +23,8 @@
     <EmbeddedResource Include="Modules/hello.wasm" LogicalName="hello.wasm" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
 </Project>

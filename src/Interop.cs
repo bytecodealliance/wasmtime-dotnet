@@ -338,7 +338,7 @@ namespace Wasmtime
             WASM_I64,
             WASM_F32,
             WASM_F64,
-            WASM_ANYREF = 128,
+            WASM_EXTERNREF = 128,
             WASM_FUNCREF,
         }
 
@@ -390,6 +390,24 @@ namespace Wasmtime
             public uint max;
         }
 
+        public static wasm_val_t CreateExternRefValue(object o)
+        {
+            wasm_val_t value = new wasm_val_t();
+            value.kind = wasm_valkind_t.WASM_EXTERNREF;
+            value.of.reference = IntPtr.Zero;
+
+            if (!(o is null))
+            {
+                wasmtime_externref_new_with_finalizer(
+                    GCHandle.ToIntPtr(GCHandle.Alloc(o)),
+                    GCHandleFinalizer,
+                    ref value
+                );
+            }
+
+            return value;
+        }
+
         public static wasm_val_t ToValue(object o, ValueKind kind)
         {
             wasm_val_t value = new wasm_val_t();
@@ -415,12 +433,29 @@ namespace Wasmtime
                     value.of.f64 = (double)Convert.ChangeType(o, TypeCode.Double);
                     break;
 
-                // TODO: support AnyRef
+                case ValueKind.ExternRef:
+                    return CreateExternRefValue(o);
+
+                // TODO: support FuncRef
 
                 default:
                     throw new NotSupportedException("Unsupported value type.");
             }
             return value;
+        }
+
+        public unsafe static void DeleteValue(wasm_val_t* v)
+        {
+            switch (v->kind)
+            {
+                case Interop.wasm_valkind_t.WASM_EXTERNREF:
+                    if (v->of.reference != IntPtr.Zero)
+                    {
+                        wasm_val_delete(v);
+                        v->of.reference = IntPtr.Zero;
+                    }
+                    break;
+            }
         }
 
         public static unsafe object ToObject(wasm_val_t* v)
@@ -439,7 +474,18 @@ namespace Wasmtime
                 case Interop.wasm_valkind_t.WASM_F64:
                     return v->of.f64;
 
-                // TODO: support AnyRef
+                case Interop.wasm_valkind_t.WASM_EXTERNREF:
+                    if (wasmtime_externref_data(v, out var data))
+                    {
+                        if (data == IntPtr.Zero)
+                        {
+                            return null;
+                        }
+                        return GCHandle.FromIntPtr(data).Target;
+                    }
+                    goto default;
+
+                // TODO: support FuncRef
 
                 default:
                     throw new NotSupportedException("Unsupported value kind.");
@@ -472,59 +518,25 @@ namespace Wasmtime
                 return true;
             }
 
+            // TODO: support FuncRef?
+
+            if (!type.IsValueType)
+            {
+                kind = ValueKind.ExternRef;
+                return true;
+            }
+
             kind = default(ValueKind);
             return false;
         }
 
-        public static ValueKind ToValueKind(Type type)
-        {
-            if (TryGetValueKind(type, out var kind))
-            {
-                return kind;
-            }
+        internal unsafe delegate IntPtr WasmFuncCallbackWithEnv(IntPtr env, wasm_val_t* parameters, wasm_val_t* results);
 
-            throw new NotSupportedException($"Type '{type}' is not a supported WebAssembly value type.");
-        }
+        internal unsafe delegate IntPtr WasmtimeFuncCallbackWithEnv(IntPtr caller, IntPtr env, wasm_val_t* parameters, wasm_val_t* results);
 
-        public static string ToString(ValueKind kind)
-        {
-            switch (kind)
-            {
-                case ValueKind.Int32:
-                    return "int";
+        internal unsafe delegate void Finalizer(IntPtr data);
 
-                case ValueKind.Int64:
-                    return "long";
-
-                case ValueKind.Float32:
-                    return "float";
-
-                case ValueKind.Float64:
-                    return "double";
-
-                default:
-                    throw new NotSupportedException("Unsupported value kind.");
-            }
-        }
-
-        public static bool IsMatchingKind(ValueKind kind, ValueKind expected)
-        {
-            if (kind == expected)
-            {
-                return true;
-            }
-
-            if (expected == ValueKind.AnyRef)
-            {
-                return kind == ValueKind.FuncRef;
-            }
-
-            return false;
-        }
-
-        internal unsafe delegate IntPtr WasmFuncCallback(wasm_val_t* parameters, wasm_val_t* results);
-
-        internal unsafe delegate IntPtr WasmtimeFuncCallback(IntPtr caller, wasm_val_t* parameters, wasm_val_t* results);
+        internal static Finalizer GCHandleFinalizer = (p) => GCHandle.FromIntPtr(p).Free();
 
         internal enum wasm_externkind_t : byte
         {
@@ -589,6 +601,11 @@ namespace Wasmtime
 
             return (ptrs, handles);
         }
+
+        // Value imports
+
+        [DllImport(LibraryName)]
+        public unsafe static extern void wasm_val_delete(wasm_val_t* val);
 
         // Engine imports
 
@@ -783,7 +800,7 @@ namespace Wasmtime
         // Function imports
 
         [DllImport(LibraryName)]
-        public static extern FunctionHandle wasm_func_new(StoreHandle store, FuncTypeHandle type, WasmFuncCallback callback);
+        public static extern FunctionHandle wasm_func_new_with_env(StoreHandle store, FuncTypeHandle type, WasmFuncCallbackWithEnv callback, IntPtr env, Finalizer finalizer);
 
         [DllImport(LibraryName)]
         public static extern void wasm_func_delete(IntPtr function);
@@ -1086,7 +1103,7 @@ namespace Wasmtime
         // Caller functions
 
         [DllImport(LibraryName)]
-        public static extern FunctionHandle wasmtime_func_new(StoreHandle store, FuncTypeHandle type, WasmtimeFuncCallback callback);
+        public static extern FunctionHandle wasmtime_func_new_with_env(StoreHandle store, FuncTypeHandle type, WasmtimeFuncCallbackWithEnv callback, IntPtr env, Finalizer finalizer);
 
         [DllImport(LibraryName)]
         public static extern ExternHandle wasmtime_caller_export_get(IntPtr caller, ref wasm_byte_vec_t name);
@@ -1096,5 +1113,14 @@ namespace Wasmtime
 
         [DllImport(LibraryName)]
         public static extern void wasmtime_error_delete(IntPtr error);
+
+        // Wasmtime extern refs
+
+        [DllImport(LibraryName)]
+        public static extern void wasmtime_externref_new_with_finalizer(IntPtr data, Finalizer finalizer, ref wasm_val_t val);
+
+        [DllImport(LibraryName)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public unsafe static extern bool wasmtime_externref_data(wasm_val_t* val, out IntPtr data);
     }
 }

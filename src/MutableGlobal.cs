@@ -33,11 +33,11 @@ namespace Wasmtime
                     throw new InvalidOperationException("The global cannot be used before it is instantiated.");
                 }
 
-                var v = Interop.ToValue(value, Kind);
-
                 unsafe
                 {
+                    var v = Interop.ToValue(value, Kind);
                     Interop.wasm_global_set(Handle.DangerousGetHandle(), &v);
+                    Interop.DeleteValue(&v);
                 }
             }
         }
@@ -81,6 +81,8 @@ namespace Wasmtime
             unsafe
             {
                 Handle = Interop.wasm_global_new(store, globalType, &value);
+
+                Interop.DeleteValue(&value);
 
                 if (Handle.IsInvalid)
                 {

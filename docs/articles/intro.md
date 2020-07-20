@@ -73,7 +73,7 @@ namespace Tutorial
             );
             using var host = new Host(engine);
 
-            host.DefineFunction(
+            using var function = host.DefineFunction(
                 "",
                 "hello",
                 () => Console.WriteLine("Hello from C#!")

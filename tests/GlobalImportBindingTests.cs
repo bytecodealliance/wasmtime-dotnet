@@ -35,12 +35,13 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItFailsToDefineAGlobalWithInvalidType()
         {
-            Action action = () => { Host.DefineGlobal("", "global_i32_mut", "invalid"); };
+            int? i = 0;
+            Action action = () => { Host.DefineGlobal("", "global_i32_mut", i); };
 
             action
                 .Should()
                 .Throw<WasmtimeException>()
-                .WithMessage("Global variables cannot be of type 'System.String'.");
+                .WithMessage("Global variables cannot be of type 'System.Nullable`1[System.Int32]'.");
         }
 
         [Fact]

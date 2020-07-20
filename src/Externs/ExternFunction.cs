@@ -57,6 +57,12 @@ namespace Wasmtime.Externs
                 }
 
                 var trap = Interop.wasm_func_call(_func, args, results);
+
+                for (int i = 0; i < arguments.Length; ++i)
+                {
+                    Interop.DeleteValue(&args[i]);
+                }
+
                 if (trap != IntPtr.Zero)
                 {
                     throw TrapException.FromOwnedTrap(trap);
@@ -69,13 +75,16 @@ namespace Wasmtime.Externs
 
                 if (Results.Count == 1)
                 {
-                    return Interop.ToObject(&results[0]);
+                    var result = Interop.ToObject(&results[0]);
+                    Interop.DeleteValue(&results[0]);
+                    return result;
                 }
 
                 var ret = new object[Results.Count];
                 for (int i = 0; i < Results.Count; ++i)
                 {
                     ret[i] = Interop.ToObject(&results[i]);
+                    Interop.DeleteValue(&results[i]);
                 }
                 return ret;
             }

@@ -46,7 +46,7 @@ namespace Wasmtime.Tests
 
             instance.check_string();
 
-            // Collect garbage to make sure delegate function pointers pasted to wasmtime are rooted.
+            // Collect garbage to make sure delegate function pointers passed to wasmtime are rooted.
             GC.Collect();
             GC.WaitForPendingFinalizers();
 

@@ -24,9 +24,9 @@ namespace Wasmtime
         /// </summary>
         Float64,
         /// <summary>
-        /// The value is a reference.
+        /// The value is an external reference.
         /// </summary>
-        AnyRef = 128,
+        ExternRef = 128,
         /// <summary>
         /// The value is a function reference.
         /// </summary>

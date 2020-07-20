@@ -11,9 +11,9 @@ namespace HelloExample
             using var module = Module.FromTextFile(engine, "global.wat");
             using var host = new Host(engine);
 
-            var global = host.DefineMutableGlobal("", "global", 1);
+            using var global = host.DefineMutableGlobal("", "global", 1);
 
-            host.DefineFunction(
+            using var function = host.DefineFunction(
                 "",
                 "print_global",
                 () => {

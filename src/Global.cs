@@ -70,6 +70,8 @@ namespace Wasmtime
             {
                 Handle = Interop.wasm_global_new(store, globalType, &value);
 
+                Interop.DeleteValue(&value);
+
                 if (Handle.IsInvalid)
                 {
                     throw new WasmtimeException("Failed to create Wasmtime global.");
