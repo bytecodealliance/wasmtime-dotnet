@@ -57,6 +57,8 @@ jobs:
         dotnet run
         cd ../memory
         dotnet run
+        cd ../table
+        dotnet run
         cd ../externref
         dotnet run
         cd ../funcref

@@ -602,6 +602,42 @@ namespace Wasmtime
         }
 
         /// <summary>
+        /// Defines a new host table.
+        /// </summary>
+        /// <param name="moduleName">The module name of the table.</param>
+        /// <param name="name">The name of the table.</param>
+        /// <param name="initialValue">The initial value of the table elements.</param>
+        /// <param name="initial">The initial number of elements for the table.</param>
+        /// <param name="maximum">The maximum number of elements for the table.</param>
+        /// <typeparam name="T">The element type of the host table.</typeparam>
+        /// <returns>Returns a new <see cref="Table{T}"/> representing the defined table.</returns>
+        public Table<T> DefineTable<T>(string moduleName, string name, T initialValue, uint initial, uint maximum = uint.MaxValue) where T : class
+        {
+            CheckDisposed();
+
+            if (moduleName is null)
+            {
+                throw new ArgumentNullException(nameof(moduleName));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            var table = new Table<T>(_store, initialValue, initial, maximum);
+            var ex = Define(moduleName, name, Interop.wasm_table_as_extern(table.Handle));
+
+            if (ex != null)
+            {
+                table.Dispose();
+                throw new WasmtimeException($"Failed to define table '{name}' in module '{moduleName}': {ex.Message}");
+            }
+
+            return table;
+        }
+
+        /// <summary>
         /// Instantiates a WebAssembly module.
         /// </summary>
         /// <param name="module">The module to instantiate.</param>

@@ -14,10 +14,7 @@ namespace Wasmtime
         {
             get
             {
-                if (Handle is null)
-                {
-                    throw new InvalidOperationException("The global cannot be used before it is instantiated.");
-                }
+                CheckDisposed();
 
                 unsafe
                 {
@@ -28,10 +25,7 @@ namespace Wasmtime
             }
             set
             {
-                if (Handle is null)
-                {
-                    throw new InvalidOperationException("The global cannot be used before it is instantiated.");
-                }
+                CheckDisposed();
 
                 unsafe
                 {
@@ -88,6 +82,14 @@ namespace Wasmtime
                 {
                     throw new WasmtimeException("Failed to create mutable Wasmtime global.");
                 }
+            }
+        }
+
+        private void CheckDisposed()
+        {
+            if (Handle.IsInvalid)
+            {
+                throw new ObjectDisposedException(typeof(MutableGlobal<T>).FullName);
             }
         }
 

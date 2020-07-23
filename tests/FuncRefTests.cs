@@ -50,6 +50,19 @@ namespace Wasmtime.Tests
             (instance.call_callback() as string).Should().Be("asserted!");
         }
 
+        [Fact]
+        public void ItThrowsForInvokingANullFunctionReference()
+        {
+            using dynamic instance = Host.Instantiate(Fixture.Module);
+
+            Action action = () => instance.call_with_null();
+
+            action
+                .Should()
+                .Throw<TrapException>()
+                .WithMessage("Cannot invoke a null function reference.");
+        }
+
         public void Dispose()
         {
             Store.Dispose();

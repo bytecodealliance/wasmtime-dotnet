@@ -13,4 +13,7 @@
   (func (export "call_callback") (result externref)
     (call $callback (ref.func $f))
   )
+  (func (export "call_with_null") (result externref)
+    (call $callback (ref.null func))
+  )
 )

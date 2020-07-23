@@ -534,6 +534,16 @@ namespace Wasmtime
         public IReadOnlyList<ValueKind> Results { get; private set; }
 
         /// <summary>
+        /// Determines if the underlying function reference is null.
+        /// </summary>
+        public bool IsNull { get; private set; }
+
+        /// <summary>
+        /// Represents a null function reference.
+        /// </summary>
+        public static Function Null => _null;
+
+        /// <summary>
         /// Invokes the WebAssembly function.
         /// </summary>
         /// <param name="arguments">The array of arguments to pass to the function.</param>
@@ -544,6 +554,12 @@ namespace Wasmtime
         /// </returns>
         public object Invoke(params object[] arguments)
         {
+            if (IsNull)
+            {
+                throw new InvalidOperationException("Cannot invoke a null function reference.");
+            }
+
+            CheckDisposed();
             return Invoke(Handle.DangerousGetHandle(), Parameters, Results, arguments);
         }
 
@@ -677,12 +693,21 @@ namespace Wasmtime
         {
             Handle = handle;
 
-            using var funcType = Interop.wasm_func_type(Handle);
-
-            unsafe
+            if (Handle.IsInvalid)
             {
-                Parameters = Interop.ToValueKindList(Interop.wasm_functype_params(funcType.DangerousGetHandle()));
-                Results = Interop.ToValueKindList(Interop.wasm_functype_results(funcType.DangerousGetHandle()));
+                IsNull = true;
+                Parameters = Array.Empty<ValueKind>();
+                Results = Array.Empty<ValueKind>();
+            }
+            else
+            {
+                using var funcType = Interop.wasm_func_type(Handle);
+
+                unsafe
+                {
+                    Parameters = Interop.ToValueKindList(Interop.wasm_functype_params(funcType.DangerousGetHandle()));
+                    Results = Interop.ToValueKindList(Interop.wasm_functype_results(funcType.DangerousGetHandle()));
+                }
             }
         }
 
@@ -871,6 +896,15 @@ namespace Wasmtime
             }
         }
 
+        private void CheckDisposed()
+        {
+            if (Handle.IsInvalid)
+            {
+                throw new ObjectDisposedException(typeof(Function).FullName);
+            }
+        }
+
         internal Interop.FunctionHandle Handle { get; private set; }
+        private static Function _null = new Function(new Interop.FunctionHandle());
     }
 }
