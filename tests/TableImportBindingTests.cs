@@ -19,6 +19,8 @@ namespace Wasmtime.Tests
             Fixture = fixture;
             Store = new Store(Fixture.Engine);
             Host = new Host(Store);
+
+            Host.DefineFunction("", "assert", (string s1, string s2) => { s1.Should().Be(s2); });
         }
 
         private TableImportBindingFixture Fixture { get; set; }
@@ -31,13 +33,14 @@ namespace Wasmtime.Tests
             action
                 .Should()
                 .Throw<WasmtimeException>()
-                .WithMessage("unknown import: `::table` has not been defined");
+                .WithMessage("unknown import: `::funcs` has not been defined");
         }
 
         [Fact]
         public void ItFailsToInstantiateWithTableTypeMismatch()
         {
-            Host.DefineTable<string>("", "table", null, 1);
+            Host.DefineTable<string>("", "funcs", null, 1);
+            Host.DefineTable<string>("", "externs", null, 1);
             Action action = () => { using var instance = Host.Instantiate(Fixture.Module); };
 
             action
@@ -49,13 +52,15 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItBindsTheTableCorrectly()
         {
-            using var table = Host.DefineTable<Function>("", "table", null, 10);
+            using var funcs = Host.DefineTable<Function>("", "funcs", null, 10);
+            using var externs = Host.DefineTable<string>("", "externs", null, 10);
 
             using dynamic instance = Host.Instantiate(Fixture.Module);
 
             for (int i = 0; i < 10; ++i)
             {
-                Convert.ToBoolean(instance.is_null(i) as object).Should().BeTrue();
+                Convert.ToBoolean(instance.is_null_func(i) as object).Should().BeTrue();
+                Convert.ToBoolean(instance.is_null_extern(i) as object).Should().BeTrue();
             }
 
             var called = new bool[10];
@@ -63,19 +68,24 @@ namespace Wasmtime.Tests
             for (int i = 0; i < 10; ++i)
             {
                 int index = i;
-                table[(uint)i] = Function.FromCallback(Store, () => { called[index] = true; });
+                funcs[(uint)i] = Function.FromCallback(Store, () => { called[index] = true; });
+                externs[(uint)i] = string.Format("string{0}", i);
             }
 
             for (int i = 0; i < 10; ++i)
             {
-                Convert.ToBoolean(instance.is_null(i) as object).Should().BeFalse();
+                Convert.ToBoolean(instance.is_null_func(i) as object).Should().BeFalse();
+                Convert.ToBoolean(instance.is_null_extern(i) as object).Should().BeFalse();
                 instance.call(i);
-                table[(uint)i] = Function.Null;
+                instance.assert_extern(i, string.Format("string{0}", i));
+                funcs[(uint)i] = Function.Null;
+                externs[(uint)i] = null;
             }
 
             for (int i = 0; i < 10; ++i)
             {
-                Convert.ToBoolean(instance.is_null(i) as object).Should().BeTrue();
+                Convert.ToBoolean(instance.is_null_func(i) as object).Should().BeTrue();
+                Convert.ToBoolean(instance.is_null_extern(i) as object).Should().BeTrue();
                 called[i].Should().BeTrue();
             }
         }
@@ -83,21 +93,28 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItGrowsATable()
         {
-            using var table = Host.DefineTable<Function>("", "table", null, 10, 20);
+            using var funcs = Host.DefineTable<Function>("", "funcs", null, 10, 20);
+            using var externs = Host.DefineTable<string>("", "externs", null, 10, 20);
 
             using dynamic instance = Host.Instantiate(Fixture.Module);
 
-            table.Size.Should().Be(10);
+            funcs.Size.Should().Be(10);
+            externs.Size.Should().Be(10);
 
-            instance.grow(5);
+            instance.grow_funcs(5);
+            instance.grow_externs(5);
 
-            table.Size.Should().Be(15);
+            funcs.Size.Should().Be(15);
+            externs.Size.Should().Be(15);
 
-            table.Grow(5, null).Should().Be(true);
+            funcs.Grow(5, null).Should().Be(true);
+            externs.Grow(5, null).Should().Be(true);
 
-            table.Size.Should().Be(20);
+            funcs.Size.Should().Be(20);
+            externs.Size.Should().Be(20);
 
-            table.Grow(5, null).Should().Be(false);
+            funcs.Grow(5, null).Should().Be(false);
+            externs.Grow(5, null).Should().Be(false);
         }
 
         public void Dispose()
