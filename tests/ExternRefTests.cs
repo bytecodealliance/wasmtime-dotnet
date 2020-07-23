@@ -96,7 +96,10 @@ namespace Wasmtime.Tests
 
             Action action = () => instance.inout((object)5);
 
-            action.Should().Throw<Wasmtime.TrapException>().WithMessage("Object of type 'System.Int32' cannot be converted to type 'System.String'*");
+            action
+                .Should()
+                .Throw<Wasmtime.TrapException>()
+                .WithMessage("Object of type 'System.Int32' cannot be converted to type 'System.String'*");
         }
 
         public void Dispose()

@@ -9,10 +9,544 @@ using System.Text;
 namespace Wasmtime
 {
     /// <summary>
-    /// Represents a host function.
+    /// Represents a WebAsssembly function.
     /// </summary>
     public class Function : IDisposable
     {
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback(Store store, Action callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, false);
+        }
+
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback<T>(Store store, Action<T> callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, false);
+        }
+
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback<T1, T2>(Store store, Action<T1, T2> callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, false);
+        }
+
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback<T1, T2, T3>(Store store, Action<T1, T2, T3> callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, false);
+        }
+
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback<T1, T2, T3, T4>(Store store, Action<T1, T2, T3, T4> callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, false);
+        }
+
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback<T1, T2, T3, T4, T5>(Store store, Action<T1, T2, T3, T4, T5> callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, false);
+        }
+
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6>(Store store, Action<T1, T2, T3, T4, T5, T6> callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, false);
+        }
+
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7>(Store store, Action<T1, T2, T3, T4, T5, T6, T7> callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, false);
+        }
+
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8>(Store store, Action<T1, T2, T3, T4, T5, T6, T7, T8> callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, false);
+        }
+
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9>(Store store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9> callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, false);
+        }
+
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(Store store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, false);
+        }
+
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(Store store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, false);
+        }
+
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(Store store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, false);
+        }
+
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(Store store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, false);
+        }
+
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(Store store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, false);
+        }
+
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(Store store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, false);
+        }
+
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(Store store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, false);
+        }
+
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback<TResult>(Store store, Func<TResult> callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, true);
+        }
+
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback<T, TResult>(Store store, Func<T, TResult> callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, true);
+        }
+
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback<T1, T2, TResult>(Store store, Func<T1, T2, TResult> callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, true);
+        }
+
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback<T1, T2, T3, TResult>(Store store, Func<T1, T2, T3, TResult> callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, true);
+        }
+
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback<T1, T2, T3, T4, TResult>(Store store, Func<T1, T2, T3, T4, TResult> callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, true);
+        }
+
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback<T1, T2, T3, T4, T5, TResult>(Store store, Func<T1, T2, T3, T4, T5, TResult> callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, true);
+        }
+
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, TResult>(Store store, Func<T1, T2, T3, T4, T5, T6, TResult> callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, true);
+        }
+
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, TResult>(Store store, Func<T1, T2, T3, T4, T5, T6, T7, TResult> callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, true);
+        }
+
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(Store store, Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult> callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, true);
+        }
+
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(Store store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, true);
+        }
+
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(Store store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, true);
+        }
+
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult>(Store store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult> callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, true);
+        }
+
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult>(Store store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult> callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, true);
+        }
+
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult>(Store store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult> callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, true);
+        }
+
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult>(Store store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult> callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, true);
+        }
+
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult>(Store store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult> callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, true);
+        }
+
+        /// <summary>
+        /// Creates a function given a callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult>(Store store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult> callback)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Handle, callback, true);
+        }
+
+        /// <summary>
+        /// The parameters of the WebAssembly function.
+        /// </summary>
+        public IReadOnlyList<ValueKind> Parameters { get; private set; }
+
+        /// <summary>
+        /// The results of the WebAssembly function.
+        /// </summary>
+        public IReadOnlyList<ValueKind> Results { get; private set; }
+
+        /// <summary>
+        /// Invokes the WebAssembly function.
+        /// </summary>
+        /// <param name="arguments">The array of arguments to pass to the function.</param>
+        /// <returns>
+        ///   Returns null if the function has no return value.
+        ///   Returns the value if the function returns a single value.
+        ///   Returns an array of values if the function returns more than one value.
+        /// </returns>
+        public object Invoke(params object[] arguments)
+        {
+            return Invoke(Handle.DangerousGetHandle(), Parameters, Results, arguments);
+        }
+
         /// <inheritdoc/>
         public void Dispose()
         {
@@ -23,14 +557,65 @@ namespace Wasmtime
             }
         }
 
-        internal Function(Interop.StoreHandle store, Delegate func, bool hasReturn)
+        internal static object Invoke(IntPtr func, IReadOnlyList<ValueKind> funcParameters, IReadOnlyList<ValueKind> funcResults, object[] arguments)
         {
-            if (func is null)
+            if (arguments.Length != funcParameters.Count)
             {
-                throw new ArgumentNullException(nameof(func));
+                throw new WasmtimeException($"Argument mismatch when invoking function: requires {funcParameters.Count} but was given {arguments.Length}.");
             }
 
-            var type = func.GetType();
+            unsafe
+            {
+                Interop.wasm_val_t* args = stackalloc Interop.wasm_val_t[funcParameters.Count];
+                Interop.wasm_val_t* results = stackalloc Interop.wasm_val_t[funcResults.Count];
+
+                for (int i = 0; i < arguments.Length; ++i)
+                {
+                    args[i] = Interop.ToValue(arguments[i], funcParameters[i]);
+                }
+
+                var trap = Interop.wasm_func_call(func, args, results);
+
+                for (int i = 0; i < arguments.Length; ++i)
+                {
+                    Interop.DeleteValue(&args[i]);
+                }
+
+                if (trap != IntPtr.Zero)
+                {
+                    throw TrapException.FromOwnedTrap(trap);
+                }
+
+                if (funcResults.Count == 0)
+                {
+                    return null;
+                }
+
+                if (funcResults.Count == 1)
+                {
+                    var result = Interop.ToObject(&results[0]);
+                    Interop.DeleteValue(&results[0]);
+                    return result;
+                }
+
+                var ret = new object[funcResults.Count];
+                for (int i = 0; i < funcResults.Count; ++i)
+                {
+                    ret[i] = Interop.ToObject(&results[i]);
+                    Interop.DeleteValue(&results[i]);
+                }
+                return ret;
+            }
+        }
+
+        internal Function(Interop.StoreHandle store, Delegate callback, bool hasReturn)
+        {
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var type = callback.GetType();
             Span<Type> parameterTypes = null;
             Type returnType = null;
 
@@ -52,32 +637,32 @@ namespace Wasmtime
                 parameterTypes = parameterTypes[1..];
             }
 
-            var parameterKinds = GetParameterKinds(parameterTypes);
-            var resultKinds = GetReturnTypeKinds(EnumerateReturnTypes(returnType));
+            Parameters = GetParameterKinds(parameterTypes);
+            Results = GetReturnTypeKinds(EnumerateReturnTypes(returnType));
 
-            var parameters = CreateValueTypeVec(parameterKinds);
-            var results = CreateValueTypeVec(resultKinds);
+            var parameters = CreateValueTypeVec(Parameters);
+            var results = CreateValueTypeVec(Results);
             using var funcType = Interop.wasm_functype_new(ref parameters, ref results);
 
             if (hasCaller)
             {
-                var callback = CreateWasmtimeCallback(store, func, parameterTypes.Length, resultKinds);
+                var func = CreateWasmtimeCallback(store, callback, parameterTypes.Length, Results);
                 Handle = Interop.wasmtime_func_new_with_env(
                     store,
                     funcType,
-                    callback,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(callback)),
+                    func,
+                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
                     Interop.GCHandleFinalizer
                 );
             }
             else
             {
-                var callback = CreateCallback(store, func, parameterTypes.Length, resultKinds);
+                var func = CreateCallback(store, callback, parameterTypes.Length, Results);
                 Handle = Interop.wasm_func_new_with_env(
                     store,
                     funcType,
-                    callback,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(callback)),
+                    func,
+                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
                     Interop.GCHandleFinalizer
                 );
             }
@@ -85,6 +670,19 @@ namespace Wasmtime
             if (Handle.IsInvalid)
             {
                 throw new WasmtimeException("Failed to create Wasmtime function.");
+            }
+        }
+
+        internal Function(Interop.FunctionHandle handle)
+        {
+            Handle = handle;
+
+            using var funcType = Interop.wasm_func_type(Handle);
+
+            unsafe
+            {
+                Parameters = Interop.ToValueKindList(Interop.wasm_functype_params(funcType.DangerousGetHandle()));
+                Results = Interop.ToValueKindList(Interop.wasm_functype_results(funcType.DangerousGetHandle()));
             }
         }
 
@@ -169,7 +767,7 @@ namespace Wasmtime
                    definition == typeof(ValueTuple<,,,,,,,>);
         }
 
-        private static unsafe Interop.WasmFuncCallbackWithEnv CreateCallback(Interop.StoreHandle store, Delegate callback, int parameterCount, ValueKind[] resultKinds)
+        private static unsafe Interop.WasmFuncCallbackWithEnv CreateCallback(Interop.StoreHandle store, Delegate callback, int parameterCount, IReadOnlyList<ValueKind> resultKinds)
         {
             // NOTE: this capture is not thread-safe.
             var args = new object[parameterCount];
@@ -178,7 +776,7 @@ namespace Wasmtime
                 InvokeCallback(store, callback, args, resultKinds, IntPtr.Zero, arguments, results);
         }
 
-        private static unsafe Interop.WasmtimeFuncCallbackWithEnv CreateWasmtimeCallback(Interop.StoreHandle store, Delegate callback, int parameterCount, ValueKind[] resultKinds)
+        private static unsafe Interop.WasmtimeFuncCallbackWithEnv CreateWasmtimeCallback(Interop.StoreHandle store, Delegate callback, int parameterCount, IReadOnlyList<ValueKind> resultKinds)
         {
             // NOTE: this capture is not thread-safe.
             var args = new object[parameterCount + 1];
@@ -188,7 +786,7 @@ namespace Wasmtime
                 InvokeCallback(store, callback, args, resultKinds, caller, arguments, results);
         }
 
-        private static Interop.wasm_valtype_vec_t CreateValueTypeVec(IList<ValueKind> kinds)
+        private static Interop.wasm_valtype_vec_t CreateValueTypeVec(IReadOnlyList<ValueKind> kinds)
         {
             Interop.wasm_valtype_vec_t vec;
             Interop.wasm_valtype_vec_new_uninitialized(out vec, (UIntPtr)kinds.Count);
@@ -210,7 +808,7 @@ namespace Wasmtime
             Interop.StoreHandle store,
             Delegate callback,
             object[] args,
-            ValueKind[] resultKinds,
+            IReadOnlyList<ValueKind> resultKinds,
             IntPtr caller,
             Interop.wasm_val_t* arguments,
             Interop.wasm_val_t* results)
@@ -241,7 +839,7 @@ namespace Wasmtime
                     ((Caller)args[0]).Handle = IntPtr.Zero;
                 }
 
-                if (resultKinds.Length > 0)
+                if (resultKinds.Count > 0)
                 {
                     var tuple = result as ITuple;
                     if (tuple is null)

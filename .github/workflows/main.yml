@@ -57,6 +57,10 @@ jobs:
         dotnet run
         cd ../memory
         dotnet run
+        cd ../externref
+        dotnet run
+        cd ../funcref
+        dotnet run
     - name: Create package
       run: |
         cd src

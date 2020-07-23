@@ -436,7 +436,9 @@ namespace Wasmtime
                 case ValueKind.ExternRef:
                     return CreateExternRefValue(o);
 
-                // TODO: support FuncRef
+                case ValueKind.FuncRef:
+                    wasmtime_func_as_funcref(((Function)o).Handle, ref value);
+                    break;
 
                 default:
                     throw new NotSupportedException("Unsupported value type.");
@@ -485,7 +487,8 @@ namespace Wasmtime
                     }
                     goto default;
 
-                // TODO: support FuncRef
+                case Interop.wasm_valkind_t.WASM_FUNCREF:
+                    return new Function(wasmtime_funcref_as_func(v));
 
                 default:
                     throw new NotSupportedException("Unsupported value kind.");
@@ -518,7 +521,11 @@ namespace Wasmtime
                 return true;
             }
 
-            // TODO: support FuncRef?
+            if (type == typeof(Function))
+            {
+                kind = ValueKind.FuncRef;
+                return true;
+            }
 
             if (!type.IsValueType)
             {
@@ -804,6 +811,9 @@ namespace Wasmtime
 
         [DllImport(LibraryName)]
         public static extern void wasm_func_delete(IntPtr function);
+
+        [DllImport(LibraryName)]
+        public static extern FuncTypeHandle wasm_func_type(FunctionHandle function);
 
         [DllImport(LibraryName)]
         public static unsafe extern IntPtr wasm_func_call(IntPtr function, wasm_val_t* args, wasm_val_t* results);
@@ -1122,5 +1132,13 @@ namespace Wasmtime
         [DllImport(LibraryName)]
         [return: MarshalAs(UnmanagedType.I1)]
         public unsafe static extern bool wasmtime_externref_data(wasm_val_t* val, out IntPtr data);
+
+        // Wasmtime func refs
+
+        [DllImport(LibraryName)]
+        public static extern void wasmtime_func_as_funcref(FunctionHandle func, ref wasm_val_t val);
+
+        [DllImport(LibraryName)]
+        public unsafe static extern FunctionHandle wasmtime_funcref_as_func(wasm_val_t* val);
     }
 }
