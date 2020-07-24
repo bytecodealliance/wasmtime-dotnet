@@ -9,10 +9,10 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.Caller.html",
-          "hash": "rFv/0DOFHXiCpgx8exJ1vg=="
+          "hash": "vIRzQTOTVuyKTgyjKWvBKQ=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -21,10 +21,10 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.CallerMemory.html",
-          "hash": "my0DH9p0vSGN9Y+IvMfTmQ=="
+          "hash": "Tn2oV7Jep8V+FdR0e2fA4g=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -33,10 +33,34 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.CompilerStrategy.html",
-          "hash": "z/oxpdOqLZ1lTkVp5oGEoA=="
+          "hash": "csJf6/xYGCpYsB9RYG1RsQ=="
         }
       },
       "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Wasmtime.Engine.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Wasmtime.Engine.html",
+          "hash": "0j0kGCC240ubuKX7MdY0RA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Wasmtime.EngineBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Wasmtime.EngineBuilder.html",
+          "hash": "GibjubxYWjO1/lrtXV9MMw=="
+        }
+      },
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -45,10 +69,10 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.Exports.Export.html",
-          "hash": "KCT8bthayyT4IHP79buvlQ=="
+          "hash": "fJOO/Hd72uVjEia7ynajVg=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -57,10 +81,10 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.Exports.Exports.html",
-          "hash": "W1TAgt+dWE7nytKRvYh7bQ=="
+          "hash": "DrRUS35kGgHQ9MLkCdcxdg=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -69,10 +93,10 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.Exports.FunctionExport.html",
-          "hash": "PClA8zyaijN25UW2bvs99g=="
+          "hash": "1cKAwIl4kscKdiH9nm34Ew=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -81,10 +105,10 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.Exports.GlobalExport.html",
-          "hash": "CjxmLquwWnLWT14hxJxy5A=="
+          "hash": "QwXBlhw8jvfe4JX1h6Vrbg=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -93,10 +117,10 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.Exports.MemoryExport.html",
-          "hash": "edys6+HseflpI2YjBOl5eA=="
+          "hash": "wEPjltC3H/ZaHKbgpBBvZQ=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -105,10 +129,10 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.Exports.TableExport.html",
-          "hash": "c15Nn78R7mmhjQuOMwRfrg=="
+          "hash": "Idc9tuqefXeNxoDX20F7BA=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -117,10 +141,10 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.Exports.html",
-          "hash": "WWXIQ0eCqSaPSYEcy2/VBg=="
+          "hash": "HcTetCkHYfMzggg67k1qlA=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -129,10 +153,10 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.Externs.ExternFunction.html",
-          "hash": "IyKr0LohXQqE/XoxDketFA=="
+          "hash": "VVZQsEm+jc6FREffWr8ZPw=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -141,10 +165,10 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.Externs.ExternGlobal.html",
-          "hash": "ROL+DQSB6LSCZOZ76RQ7Zw=="
+          "hash": "sEUgmmZeJPELKLeJFHS/HQ=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -153,10 +177,22 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.Externs.ExternMemory.html",
-          "hash": "tZFeD3YzmzcyxrR6wm+gEg=="
+          "hash": "yU6vkliw4DOL7gZz1Q672A=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Wasmtime.Externs.ExternTable.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Wasmtime.Externs.ExternTable.html",
+          "hash": "17VW9gz1DDCEdHwzxNeh6A=="
+        }
+      },
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -165,10 +201,10 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.Externs.Externs.html",
-          "hash": "LfzsCr5Yde8bADwN/6HhBA=="
+          "hash": "zkx79+oT1dFr76Lfjon7MQ=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -177,10 +213,10 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.Externs.html",
-          "hash": "dkPAL+0QIzja6VSuqppN0A=="
+          "hash": "2rWhCTrNmhHEspC83zPmbw=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -189,10 +225,10 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.Function.html",
-          "hash": "wm6TBnKDtUJYTotgTbxfzQ=="
+          "hash": "gmZxrzI6OxfdVKgJxwpCAg=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -201,10 +237,10 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.Global-1.html",
-          "hash": "q8kW/gGZLnKtZq/GC5qC/g=="
+          "hash": "F6ISOYndvxK/xRVIpCiCUQ=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -213,22 +249,10 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.Host.html",
-          "hash": "2YRVooMpyP2A1b5Lx6K9zg=="
+          "hash": "ACY9G7BtO7q2w12BEnCr1g=="
         }
       },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.HostBuilder.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.HostBuilder.html",
-          "hash": "AsP3F2YinlU5VTAqm7+Jqw=="
-        }
-      },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -237,10 +261,10 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.Imports.FunctionImport.html",
-          "hash": "YduwIQzXWHhDnzcYDPXfTA=="
+          "hash": "ayOxu0pcUesJqe9g86tevA=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -249,10 +273,10 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.Imports.GlobalImport.html",
-          "hash": "of0OHFl4ybC5ly8jad5reQ=="
+          "hash": "4eTP5ZCYr/FRlrKONJ8AhQ=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -261,10 +285,10 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.Imports.Import.html",
-          "hash": "YScQNACHVKgybN7CjKkPCw=="
+          "hash": "NhqBtoBcZQ+Rsrthb/U1rg=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -273,10 +297,10 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.Imports.Imports.html",
-          "hash": "5OR2QOH8UdkpUnk02nkv7g=="
+          "hash": "+JEK+tgpGRL6m60i5zJWuA=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -285,10 +309,10 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.Imports.MemoryImport.html",
-          "hash": "pfJB7m6J5XjwGtVj9zcx/g=="
+          "hash": "qBxI1JlsvVjfjj57QbcHxA=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -297,10 +321,10 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.Imports.TableImport.html",
-          "hash": "yr226Efe8ivVBfBsmBaDPA=="
+          "hash": "bqVnpRPJbdHal45u72IVjA=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -309,10 +333,10 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.Imports.html",
-          "hash": "nRk7rNCqJg1V9f8x6Biw1w=="
+          "hash": "UFIfmx4bocHvLqW2vZyQhw=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -321,10 +345,10 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.Instance.html",
-          "hash": "GiUAYVRzzLkVruxyZIZqHA=="
+          "hash": "JNGTpXIO/ysemW/Ozj16cQ=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -333,10 +357,10 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.Memory.html",
-          "hash": "ds+FuSh2zFIM+jVKa7BHPQ=="
+          "hash": "TziHQcFpC7OFx5cG8ftlKw=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -345,10 +369,10 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.MemoryBase.html",
-          "hash": "ukWZptwI0QSVdKzB29cxaA=="
+          "hash": "dD+elC+Hh3S3zfZetJghaQ=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -357,10 +381,10 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.Module.html",
-          "hash": "RRiUtuVQaoAVP4yCXMVruQ=="
+          "hash": "CRN4E6eV5+/n/uxbn8ZQQw=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -369,10 +393,10 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.MutableGlobal-1.html",
-          "hash": "drsRD8Bl48tU0zCVGoqbbg=="
+          "hash": "hEqKyt4RATPJD6zHGp/Kvw=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -381,10 +405,34 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.OptimizationLevel.html",
-          "hash": "T5ZO/x2oSGUcpLUXLLo4vw=="
+          "hash": "7OmYwWfrq2WHZTFP4ZmZWQ=="
         }
       },
       "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Wasmtime.Store.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Wasmtime.Store.html",
+          "hash": "RAgPW1vwPW3Abd0YzxDtPw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Wasmtime.Table-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Wasmtime.Table-1.html",
+          "hash": "eP21RgHNrEpFk6V7BJqcLg=="
+        }
+      },
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -393,10 +441,22 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.TrapException.html",
-          "hash": "CnYWl0To2kyMfuBlifBcCg=="
+          "hash": "sEJjPeXkFRBVUNvhr00Ysg=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Wasmtime.TrapFrame.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Wasmtime.TrapFrame.html",
+          "hash": "/8PF9RXoMG1Zz+p/h9AHEQ=="
+        }
+      },
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -405,7 +465,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.ValueKind.html",
-          "hash": "pB+IrsU5fOtTpAS9fDloWw=="
+          "hash": "dpmJv1TWFxzO7GcZ8VcnTQ=="
         }
       },
       "is_incremental": true,
@@ -417,10 +477,10 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.WasiConfiguration.html",
-          "hash": "ybeEs/nqkaWjBdYFhjFlDA=="
+          "hash": "7xzdmI9AiLn2DtPqC1cO3g=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -429,10 +489,10 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.WasmtimeException.html",
-          "hash": "+ZpBodHLE+8L8W4mDYZhSw=="
+          "hash": "N9kOwJrjIVBmLU6gXTTDBQ=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -441,10 +501,10 @@
       "output": {
         ".html": {
           "relative_path": "api/Wasmtime.html",
-          "hash": "PPRJLaIuj3tAI3SdSYrDJg=="
+          "hash": "PIJkgj6Y6vYNaRj9oCF4WQ=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -456,7 +516,7 @@
       "output": {
         ".html": {
           "relative_path": "api/index.html",
-          "hash": "XzGnRtFyyjNxdMUmTP/m+Q=="
+          "hash": "OF6E/HB25kRqZCLBnc7fxg=="
         }
       },
       "is_incremental": true,
@@ -468,7 +528,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "Yr+3Yc0WTqIFktjZXh3Y9w=="
+          "hash": "FNx/2gAot6P6QpVauG8ZKg=="
         }
       },
       "is_incremental": false,
@@ -480,7 +540,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/intro.html",
-          "hash": "8iv57tdb+7wZ4yJersfh7g=="
+          "hash": "61bQz13FmyQLhuBocTHX2A=="
         }
       },
       "is_incremental": true,
@@ -504,7 +564,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "IFbN/Mit31OVSIiGPX6tqg=="
+          "hash": "NfNNY/PP9p7sTnax9Uxt6Q=="
         }
       },
       "is_incremental": true,
@@ -532,13 +592,6 @@
         "skipped_file_count": 0
       },
       "processors": {
-        "TocDocumentProcessor": {
-          "can_incremental": false,
-          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
-          "incrementalPhase": "build",
-          "total_file_count": 0,
-          "skipped_file_count": 0
-        },
         "ConceptualDocumentProcessor": {
           "can_incremental": true,
           "incrementalPhase": "build",
@@ -548,8 +601,15 @@
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": true,
           "incrementalPhase": "build",
-          "total_file_count": 37,
-          "skipped_file_count": 37
+          "total_file_count": 42,
+          "skipped_file_count": 7
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
         }
       }
     },

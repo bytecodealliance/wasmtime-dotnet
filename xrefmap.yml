@@ -82,6 +82,174 @@ references:
   commentId: F:Wasmtime.CompilerStrategy.Lightbeam
   fullName: Wasmtime.CompilerStrategy.Lightbeam
   nameWithType: CompilerStrategy.Lightbeam
+- uid: Wasmtime.Engine
+  name: Engine
+  href: api/Wasmtime.Engine.html
+  commentId: T:Wasmtime.Engine
+  fullName: Wasmtime.Engine
+  nameWithType: Engine
+- uid: Wasmtime.Engine.#ctor
+  name: Engine()
+  href: api/Wasmtime.Engine.html#Wasmtime_Engine__ctor
+  commentId: M:Wasmtime.Engine.#ctor
+  fullName: Wasmtime.Engine.Engine()
+  nameWithType: Engine.Engine()
+- uid: Wasmtime.Engine.#ctor*
+  name: Engine
+  href: api/Wasmtime.Engine.html#Wasmtime_Engine__ctor_
+  commentId: Overload:Wasmtime.Engine.#ctor
+  isSpec: "True"
+  fullName: Wasmtime.Engine.Engine
+  nameWithType: Engine.Engine
+- uid: Wasmtime.Engine.Dispose
+  name: Dispose()
+  href: api/Wasmtime.Engine.html#Wasmtime_Engine_Dispose
+  commentId: M:Wasmtime.Engine.Dispose
+  fullName: Wasmtime.Engine.Dispose()
+  nameWithType: Engine.Dispose()
+- uid: Wasmtime.Engine.Dispose*
+  name: Dispose
+  href: api/Wasmtime.Engine.html#Wasmtime_Engine_Dispose_
+  commentId: Overload:Wasmtime.Engine.Dispose
+  isSpec: "True"
+  fullName: Wasmtime.Engine.Dispose
+  nameWithType: Engine.Dispose
+- uid: Wasmtime.EngineBuilder
+  name: EngineBuilder
+  href: api/Wasmtime.EngineBuilder.html
+  commentId: T:Wasmtime.EngineBuilder
+  fullName: Wasmtime.EngineBuilder
+  nameWithType: EngineBuilder
+- uid: Wasmtime.EngineBuilder.Build
+  name: Build()
+  href: api/Wasmtime.EngineBuilder.html#Wasmtime_EngineBuilder_Build
+  commentId: M:Wasmtime.EngineBuilder.Build
+  fullName: Wasmtime.EngineBuilder.Build()
+  nameWithType: EngineBuilder.Build()
+- uid: Wasmtime.EngineBuilder.Build*
+  name: Build
+  href: api/Wasmtime.EngineBuilder.html#Wasmtime_EngineBuilder_Build_
+  commentId: Overload:Wasmtime.EngineBuilder.Build
+  isSpec: "True"
+  fullName: Wasmtime.EngineBuilder.Build
+  nameWithType: EngineBuilder.Build
+- uid: Wasmtime.EngineBuilder.WithBulkMemory(System.Boolean)
+  name: WithBulkMemory(Boolean)
+  href: api/Wasmtime.EngineBuilder.html#Wasmtime_EngineBuilder_WithBulkMemory_System_Boolean_
+  commentId: M:Wasmtime.EngineBuilder.WithBulkMemory(System.Boolean)
+  fullName: Wasmtime.EngineBuilder.WithBulkMemory(System.Boolean)
+  nameWithType: EngineBuilder.WithBulkMemory(Boolean)
+- uid: Wasmtime.EngineBuilder.WithBulkMemory*
+  name: WithBulkMemory
+  href: api/Wasmtime.EngineBuilder.html#Wasmtime_EngineBuilder_WithBulkMemory_
+  commentId: Overload:Wasmtime.EngineBuilder.WithBulkMemory
+  isSpec: "True"
+  fullName: Wasmtime.EngineBuilder.WithBulkMemory
+  nameWithType: EngineBuilder.WithBulkMemory
+- uid: Wasmtime.EngineBuilder.WithCompilerStrategy(Wasmtime.CompilerStrategy)
+  name: WithCompilerStrategy(CompilerStrategy)
+  href: api/Wasmtime.EngineBuilder.html#Wasmtime_EngineBuilder_WithCompilerStrategy_Wasmtime_CompilerStrategy_
+  commentId: M:Wasmtime.EngineBuilder.WithCompilerStrategy(Wasmtime.CompilerStrategy)
+  fullName: Wasmtime.EngineBuilder.WithCompilerStrategy(Wasmtime.CompilerStrategy)
+  nameWithType: EngineBuilder.WithCompilerStrategy(CompilerStrategy)
+- uid: Wasmtime.EngineBuilder.WithCompilerStrategy*
+  name: WithCompilerStrategy
+  href: api/Wasmtime.EngineBuilder.html#Wasmtime_EngineBuilder_WithCompilerStrategy_
+  commentId: Overload:Wasmtime.EngineBuilder.WithCompilerStrategy
+  isSpec: "True"
+  fullName: Wasmtime.EngineBuilder.WithCompilerStrategy
+  nameWithType: EngineBuilder.WithCompilerStrategy
+- uid: Wasmtime.EngineBuilder.WithCraneliftDebugVerifier(System.Boolean)
+  name: WithCraneliftDebugVerifier(Boolean)
+  href: api/Wasmtime.EngineBuilder.html#Wasmtime_EngineBuilder_WithCraneliftDebugVerifier_System_Boolean_
+  commentId: M:Wasmtime.EngineBuilder.WithCraneliftDebugVerifier(System.Boolean)
+  fullName: Wasmtime.EngineBuilder.WithCraneliftDebugVerifier(System.Boolean)
+  nameWithType: EngineBuilder.WithCraneliftDebugVerifier(Boolean)
+- uid: Wasmtime.EngineBuilder.WithCraneliftDebugVerifier*
+  name: WithCraneliftDebugVerifier
+  href: api/Wasmtime.EngineBuilder.html#Wasmtime_EngineBuilder_WithCraneliftDebugVerifier_
+  commentId: Overload:Wasmtime.EngineBuilder.WithCraneliftDebugVerifier
+  isSpec: "True"
+  fullName: Wasmtime.EngineBuilder.WithCraneliftDebugVerifier
+  nameWithType: EngineBuilder.WithCraneliftDebugVerifier
+- uid: Wasmtime.EngineBuilder.WithDebugInfo(System.Boolean)
+  name: WithDebugInfo(Boolean)
+  href: api/Wasmtime.EngineBuilder.html#Wasmtime_EngineBuilder_WithDebugInfo_System_Boolean_
+  commentId: M:Wasmtime.EngineBuilder.WithDebugInfo(System.Boolean)
+  fullName: Wasmtime.EngineBuilder.WithDebugInfo(System.Boolean)
+  nameWithType: EngineBuilder.WithDebugInfo(Boolean)
+- uid: Wasmtime.EngineBuilder.WithDebugInfo*
+  name: WithDebugInfo
+  href: api/Wasmtime.EngineBuilder.html#Wasmtime_EngineBuilder_WithDebugInfo_
+  commentId: Overload:Wasmtime.EngineBuilder.WithDebugInfo
+  isSpec: "True"
+  fullName: Wasmtime.EngineBuilder.WithDebugInfo
+  nameWithType: EngineBuilder.WithDebugInfo
+- uid: Wasmtime.EngineBuilder.WithMultiValue(System.Boolean)
+  name: WithMultiValue(Boolean)
+  href: api/Wasmtime.EngineBuilder.html#Wasmtime_EngineBuilder_WithMultiValue_System_Boolean_
+  commentId: M:Wasmtime.EngineBuilder.WithMultiValue(System.Boolean)
+  fullName: Wasmtime.EngineBuilder.WithMultiValue(System.Boolean)
+  nameWithType: EngineBuilder.WithMultiValue(Boolean)
+- uid: Wasmtime.EngineBuilder.WithMultiValue*
+  name: WithMultiValue
+  href: api/Wasmtime.EngineBuilder.html#Wasmtime_EngineBuilder_WithMultiValue_
+  commentId: Overload:Wasmtime.EngineBuilder.WithMultiValue
+  isSpec: "True"
+  fullName: Wasmtime.EngineBuilder.WithMultiValue
+  nameWithType: EngineBuilder.WithMultiValue
+- uid: Wasmtime.EngineBuilder.WithOptimizationLevel(Wasmtime.OptimizationLevel)
+  name: WithOptimizationLevel(OptimizationLevel)
+  href: api/Wasmtime.EngineBuilder.html#Wasmtime_EngineBuilder_WithOptimizationLevel_Wasmtime_OptimizationLevel_
+  commentId: M:Wasmtime.EngineBuilder.WithOptimizationLevel(Wasmtime.OptimizationLevel)
+  fullName: Wasmtime.EngineBuilder.WithOptimizationLevel(Wasmtime.OptimizationLevel)
+  nameWithType: EngineBuilder.WithOptimizationLevel(OptimizationLevel)
+- uid: Wasmtime.EngineBuilder.WithOptimizationLevel*
+  name: WithOptimizationLevel
+  href: api/Wasmtime.EngineBuilder.html#Wasmtime_EngineBuilder_WithOptimizationLevel_
+  commentId: Overload:Wasmtime.EngineBuilder.WithOptimizationLevel
+  isSpec: "True"
+  fullName: Wasmtime.EngineBuilder.WithOptimizationLevel
+  nameWithType: EngineBuilder.WithOptimizationLevel
+- uid: Wasmtime.EngineBuilder.WithReferenceTypes(System.Boolean)
+  name: WithReferenceTypes(Boolean)
+  href: api/Wasmtime.EngineBuilder.html#Wasmtime_EngineBuilder_WithReferenceTypes_System_Boolean_
+  commentId: M:Wasmtime.EngineBuilder.WithReferenceTypes(System.Boolean)
+  fullName: Wasmtime.EngineBuilder.WithReferenceTypes(System.Boolean)
+  nameWithType: EngineBuilder.WithReferenceTypes(Boolean)
+- uid: Wasmtime.EngineBuilder.WithReferenceTypes*
+  name: WithReferenceTypes
+  href: api/Wasmtime.EngineBuilder.html#Wasmtime_EngineBuilder_WithReferenceTypes_
+  commentId: Overload:Wasmtime.EngineBuilder.WithReferenceTypes
+  isSpec: "True"
+  fullName: Wasmtime.EngineBuilder.WithReferenceTypes
+  nameWithType: EngineBuilder.WithReferenceTypes
+- uid: Wasmtime.EngineBuilder.WithSIMD(System.Boolean)
+  name: WithSIMD(Boolean)
+  href: api/Wasmtime.EngineBuilder.html#Wasmtime_EngineBuilder_WithSIMD_System_Boolean_
+  commentId: M:Wasmtime.EngineBuilder.WithSIMD(System.Boolean)
+  fullName: Wasmtime.EngineBuilder.WithSIMD(System.Boolean)
+  nameWithType: EngineBuilder.WithSIMD(Boolean)
+- uid: Wasmtime.EngineBuilder.WithSIMD*
+  name: WithSIMD
+  href: api/Wasmtime.EngineBuilder.html#Wasmtime_EngineBuilder_WithSIMD_
+  commentId: Overload:Wasmtime.EngineBuilder.WithSIMD
+  isSpec: "True"
+  fullName: Wasmtime.EngineBuilder.WithSIMD
+  nameWithType: EngineBuilder.WithSIMD
+- uid: Wasmtime.EngineBuilder.WithWasmThreads(System.Boolean)
+  name: WithWasmThreads(Boolean)
+  href: api/Wasmtime.EngineBuilder.html#Wasmtime_EngineBuilder_WithWasmThreads_System_Boolean_
+  commentId: M:Wasmtime.EngineBuilder.WithWasmThreads(System.Boolean)
+  fullName: Wasmtime.EngineBuilder.WithWasmThreads(System.Boolean)
+  nameWithType: EngineBuilder.WithWasmThreads(Boolean)
+- uid: Wasmtime.EngineBuilder.WithWasmThreads*
+  name: WithWasmThreads
+  href: api/Wasmtime.EngineBuilder.html#Wasmtime_EngineBuilder_WithWasmThreads_
+  commentId: Overload:Wasmtime.EngineBuilder.WithWasmThreads
+  isSpec: "True"
+  fullName: Wasmtime.EngineBuilder.WithWasmThreads
+  nameWithType: EngineBuilder.WithWasmThreads
 - uid: Wasmtime.Exports
   name: Wasmtime.Exports
   href: api/Wasmtime.Exports.html
@@ -547,6 +715,77 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Externs.Externs.Memories
   nameWithType: Externs.Memories
+- uid: Wasmtime.Externs.Externs.Tables
+  name: Tables
+  href: api/Wasmtime.Externs.Externs.html#Wasmtime_Externs_Externs_Tables
+  commentId: P:Wasmtime.Externs.Externs.Tables
+  fullName: Wasmtime.Externs.Externs.Tables
+  nameWithType: Externs.Tables
+- uid: Wasmtime.Externs.Externs.Tables*
+  name: Tables
+  href: api/Wasmtime.Externs.Externs.html#Wasmtime_Externs_Externs_Tables_
+  commentId: Overload:Wasmtime.Externs.Externs.Tables
+  isSpec: "True"
+  fullName: Wasmtime.Externs.Externs.Tables
+  nameWithType: Externs.Tables
+- uid: Wasmtime.Externs.ExternTable
+  name: ExternTable
+  href: api/Wasmtime.Externs.ExternTable.html
+  commentId: T:Wasmtime.Externs.ExternTable
+  fullName: Wasmtime.Externs.ExternTable
+  nameWithType: ExternTable
+- uid: Wasmtime.Externs.ExternTable.Kind
+  name: Kind
+  href: api/Wasmtime.Externs.ExternTable.html#Wasmtime_Externs_ExternTable_Kind
+  commentId: P:Wasmtime.Externs.ExternTable.Kind
+  fullName: Wasmtime.Externs.ExternTable.Kind
+  nameWithType: ExternTable.Kind
+- uid: Wasmtime.Externs.ExternTable.Kind*
+  name: Kind
+  href: api/Wasmtime.Externs.ExternTable.html#Wasmtime_Externs_ExternTable_Kind_
+  commentId: Overload:Wasmtime.Externs.ExternTable.Kind
+  isSpec: "True"
+  fullName: Wasmtime.Externs.ExternTable.Kind
+  nameWithType: ExternTable.Kind
+- uid: Wasmtime.Externs.ExternTable.Maximum
+  name: Maximum
+  href: api/Wasmtime.Externs.ExternTable.html#Wasmtime_Externs_ExternTable_Maximum
+  commentId: P:Wasmtime.Externs.ExternTable.Maximum
+  fullName: Wasmtime.Externs.ExternTable.Maximum
+  nameWithType: ExternTable.Maximum
+- uid: Wasmtime.Externs.ExternTable.Maximum*
+  name: Maximum
+  href: api/Wasmtime.Externs.ExternTable.html#Wasmtime_Externs_ExternTable_Maximum_
+  commentId: Overload:Wasmtime.Externs.ExternTable.Maximum
+  isSpec: "True"
+  fullName: Wasmtime.Externs.ExternTable.Maximum
+  nameWithType: ExternTable.Maximum
+- uid: Wasmtime.Externs.ExternTable.Minimum
+  name: Minimum
+  href: api/Wasmtime.Externs.ExternTable.html#Wasmtime_Externs_ExternTable_Minimum
+  commentId: P:Wasmtime.Externs.ExternTable.Minimum
+  fullName: Wasmtime.Externs.ExternTable.Minimum
+  nameWithType: ExternTable.Minimum
+- uid: Wasmtime.Externs.ExternTable.Minimum*
+  name: Minimum
+  href: api/Wasmtime.Externs.ExternTable.html#Wasmtime_Externs_ExternTable_Minimum_
+  commentId: Overload:Wasmtime.Externs.ExternTable.Minimum
+  isSpec: "True"
+  fullName: Wasmtime.Externs.ExternTable.Minimum
+  nameWithType: ExternTable.Minimum
+- uid: Wasmtime.Externs.ExternTable.Name
+  name: Name
+  href: api/Wasmtime.Externs.ExternTable.html#Wasmtime_Externs_ExternTable_Name
+  commentId: P:Wasmtime.Externs.ExternTable.Name
+  fullName: Wasmtime.Externs.ExternTable.Name
+  nameWithType: ExternTable.Name
+- uid: Wasmtime.Externs.ExternTable.Name*
+  name: Name
+  href: api/Wasmtime.Externs.ExternTable.html#Wasmtime_Externs_ExternTable_Name_
+  commentId: Overload:Wasmtime.Externs.ExternTable.Name
+  isSpec: "True"
+  fullName: Wasmtime.Externs.ExternTable.Name
+  nameWithType: ExternTable.Name
 - uid: Wasmtime.Function
   name: Function
   href: api/Wasmtime.Function.html
@@ -566,6 +805,384 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Function.Dispose
   nameWithType: Function.Dispose
+- uid: Wasmtime.Function.FromCallback(Wasmtime.Store,Action)
+  name: FromCallback(Store, Action)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback_Wasmtime_Store_Action_
+  commentId: M:Wasmtime.Function.FromCallback(Wasmtime.Store,Action)
+  fullName: Wasmtime.Function.FromCallback(Wasmtime.Store, Action)
+  nameWithType: Function.FromCallback(Store, Action)
+- uid: Wasmtime.Function.FromCallback*
+  name: FromCallback
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback_
+  commentId: Overload:Wasmtime.Function.FromCallback
+  isSpec: "True"
+  fullName: Wasmtime.Function.FromCallback
+  nameWithType: Function.FromCallback
+- uid: Wasmtime.Function.FromCallback``1(Wasmtime.Store,Action{``0})
+  name: FromCallback<T>(Store, Action<T>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback__1_Wasmtime_Store_Action___0__
+  commentId: M:Wasmtime.Function.FromCallback``1(Wasmtime.Store,Action{``0})
+  name.vb: FromCallback(Of T)(Store, Action(Of T))
+  fullName: Wasmtime.Function.FromCallback<T>(Wasmtime.Store, Action<T>)
+  fullName.vb: Wasmtime.Function.FromCallback(Of T)(Wasmtime.Store, Action(Of T))
+  nameWithType: Function.FromCallback<T>(Store, Action<T>)
+  nameWithType.vb: Function.FromCallback(Of T)(Store, Action(Of T))
+- uid: Wasmtime.Function.FromCallback``1(Wasmtime.Store,Func{``0})
+  name: FromCallback<TResult>(Store, Func<TResult>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback__1_Wasmtime_Store_Func___0__
+  commentId: M:Wasmtime.Function.FromCallback``1(Wasmtime.Store,Func{``0})
+  name.vb: FromCallback(Of TResult)(Store, Func(Of TResult))
+  fullName: Wasmtime.Function.FromCallback<TResult>(Wasmtime.Store, Func<TResult>)
+  fullName.vb: Wasmtime.Function.FromCallback(Of TResult)(Wasmtime.Store, Func(Of TResult))
+  nameWithType: Function.FromCallback<TResult>(Store, Func<TResult>)
+  nameWithType.vb: Function.FromCallback(Of TResult)(Store, Func(Of TResult))
+- uid: Wasmtime.Function.FromCallback``10(Wasmtime.Store,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9})
+  name: FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(Store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback__10_Wasmtime_Store_Action___0___1___2___3___4___5___6___7___8___9__
+  commentId: M:Wasmtime.Function.FromCallback``10(Wasmtime.Store,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9})
+  name.vb: FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)(Store, Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10))
+  fullName: Wasmtime.Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(Wasmtime.Store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>)
+  fullName.vb: Wasmtime.Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)(Wasmtime.Store, Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10))
+  nameWithType: Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(Store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>)
+  nameWithType.vb: Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)(Store, Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10))
+- uid: Wasmtime.Function.FromCallback``10(Wasmtime.Store,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9})
+  name: FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(Store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback__10_Wasmtime_Store_Func___0___1___2___3___4___5___6___7___8___9__
+  commentId: M:Wasmtime.Function.FromCallback``10(Wasmtime.Store,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9})
+  name.vb: FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult)(Store, Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult))
+  fullName: Wasmtime.Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(Wasmtime.Store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>)
+  fullName.vb: Wasmtime.Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult)(Wasmtime.Store, Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult))
+  nameWithType: Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(Store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>)
+  nameWithType.vb: Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult)(Store, Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult))
+- uid: Wasmtime.Function.FromCallback``11(Wasmtime.Store,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10})
+  name: FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(Store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback__11_Wasmtime_Store_Action___0___1___2___3___4___5___6___7___8___9___10__
+  commentId: M:Wasmtime.Function.FromCallback``11(Wasmtime.Store,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10})
+  name.vb: FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11)(Store, Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11))
+  fullName: Wasmtime.Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(Wasmtime.Store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>)
+  fullName.vb: Wasmtime.Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11)(Wasmtime.Store, Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11))
+  nameWithType: Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(Store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>)
+  nameWithType.vb: Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11)(Store, Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11))
+- uid: Wasmtime.Function.FromCallback``11(Wasmtime.Store,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10})
+  name: FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(Store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback__11_Wasmtime_Store_Func___0___1___2___3___4___5___6___7___8___9___10__
+  commentId: M:Wasmtime.Function.FromCallback``11(Wasmtime.Store,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10})
+  name.vb: FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult)(Store, Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult))
+  fullName: Wasmtime.Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(Wasmtime.Store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>)
+  fullName.vb: Wasmtime.Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult)(Wasmtime.Store, Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult))
+  nameWithType: Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(Store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>)
+  nameWithType.vb: Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult)(Store, Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult))
+- uid: Wasmtime.Function.FromCallback``12(Wasmtime.Store,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11})
+  name: FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(Store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback__12_Wasmtime_Store_Action___0___1___2___3___4___5___6___7___8___9___10___11__
+  commentId: M:Wasmtime.Function.FromCallback``12(Wasmtime.Store,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11})
+  name.vb: FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)(Store, Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12))
+  fullName: Wasmtime.Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(Wasmtime.Store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>)
+  fullName.vb: Wasmtime.Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)(Wasmtime.Store, Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12))
+  nameWithType: Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(Store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>)
+  nameWithType.vb: Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)(Store, Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12))
+- uid: Wasmtime.Function.FromCallback``12(Wasmtime.Store,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11})
+  name: FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult>(Store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback__12_Wasmtime_Store_Func___0___1___2___3___4___5___6___7___8___9___10___11__
+  commentId: M:Wasmtime.Function.FromCallback``12(Wasmtime.Store,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11})
+  name.vb: FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult)(Store, Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult))
+  fullName: Wasmtime.Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult>(Wasmtime.Store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult>)
+  fullName.vb: Wasmtime.Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult)(Wasmtime.Store, Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult))
+  nameWithType: Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult>(Store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult>)
+  nameWithType.vb: Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult)(Store, Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult))
+- uid: Wasmtime.Function.FromCallback``13(Wasmtime.Store,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12})
+  name: FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(Store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback__13_Wasmtime_Store_Action___0___1___2___3___4___5___6___7___8___9___10___11___12__
+  commentId: M:Wasmtime.Function.FromCallback``13(Wasmtime.Store,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12})
+  name.vb: FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13)(Store, Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13))
+  fullName: Wasmtime.Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(Wasmtime.Store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>)
+  fullName.vb: Wasmtime.Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13)(Wasmtime.Store, Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13))
+  nameWithType: Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(Store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>)
+  nameWithType.vb: Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13)(Store, Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13))
+- uid: Wasmtime.Function.FromCallback``13(Wasmtime.Store,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12})
+  name: FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult>(Store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback__13_Wasmtime_Store_Func___0___1___2___3___4___5___6___7___8___9___10___11___12__
+  commentId: M:Wasmtime.Function.FromCallback``13(Wasmtime.Store,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12})
+  name.vb: FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult)(Store, Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult))
+  fullName: Wasmtime.Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult>(Wasmtime.Store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult>)
+  fullName.vb: Wasmtime.Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult)(Wasmtime.Store, Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult))
+  nameWithType: Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult>(Store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult>)
+  nameWithType.vb: Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult)(Store, Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult))
+- uid: Wasmtime.Function.FromCallback``14(Wasmtime.Store,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13})
+  name: FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(Store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback__14_Wasmtime_Store_Action___0___1___2___3___4___5___6___7___8___9___10___11___12___13__
+  commentId: M:Wasmtime.Function.FromCallback``14(Wasmtime.Store,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13})
+  name.vb: FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14)(Store, Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14))
+  fullName: Wasmtime.Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(Wasmtime.Store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>)
+  fullName.vb: Wasmtime.Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14)(Wasmtime.Store, Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14))
+  nameWithType: Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(Store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>)
+  nameWithType.vb: Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14)(Store, Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14))
+- uid: Wasmtime.Function.FromCallback``14(Wasmtime.Store,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13})
+  name: FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult>(Store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback__14_Wasmtime_Store_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13__
+  commentId: M:Wasmtime.Function.FromCallback``14(Wasmtime.Store,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13})
+  name.vb: FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult)(Store, Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult))
+  fullName: Wasmtime.Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult>(Wasmtime.Store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult>)
+  fullName.vb: Wasmtime.Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult)(Wasmtime.Store, Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult))
+  nameWithType: Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult>(Store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult>)
+  nameWithType.vb: Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult)(Store, Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult))
+- uid: Wasmtime.Function.FromCallback``15(Wasmtime.Store,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14})
+  name: FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(Store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback__15_Wasmtime_Store_Action___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14__
+  commentId: M:Wasmtime.Function.FromCallback``15(Wasmtime.Store,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14})
+  name.vb: FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15)(Store, Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15))
+  fullName: Wasmtime.Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(Wasmtime.Store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>)
+  fullName.vb: Wasmtime.Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15)(Wasmtime.Store, Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15))
+  nameWithType: Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(Store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>)
+  nameWithType.vb: Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15)(Store, Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15))
+- uid: Wasmtime.Function.FromCallback``15(Wasmtime.Store,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14})
+  name: FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult>(Store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback__15_Wasmtime_Store_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14__
+  commentId: M:Wasmtime.Function.FromCallback``15(Wasmtime.Store,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14})
+  name.vb: FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult)(Store, Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult))
+  fullName: Wasmtime.Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult>(Wasmtime.Store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult>)
+  fullName.vb: Wasmtime.Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult)(Wasmtime.Store, Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult))
+  nameWithType: Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult>(Store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult>)
+  nameWithType.vb: Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult)(Store, Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult))
+- uid: Wasmtime.Function.FromCallback``16(Wasmtime.Store,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15})
+  name: FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(Store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback__16_Wasmtime_Store_Action___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14___15__
+  commentId: M:Wasmtime.Function.FromCallback``16(Wasmtime.Store,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15})
+  name.vb: FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16)(Store, Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16))
+  fullName: Wasmtime.Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(Wasmtime.Store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>)
+  fullName.vb: Wasmtime.Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16)(Wasmtime.Store, Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16))
+  nameWithType: Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(Store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>)
+  nameWithType.vb: Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16)(Store, Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16))
+- uid: Wasmtime.Function.FromCallback``16(Wasmtime.Store,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15})
+  name: FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult>(Store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback__16_Wasmtime_Store_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14___15__
+  commentId: M:Wasmtime.Function.FromCallback``16(Wasmtime.Store,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15})
+  name.vb: FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult)(Store, Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult))
+  fullName: Wasmtime.Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult>(Wasmtime.Store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult>)
+  fullName.vb: Wasmtime.Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult)(Wasmtime.Store, Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult))
+  nameWithType: Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult>(Store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult>)
+  nameWithType.vb: Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult)(Store, Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult))
+- uid: Wasmtime.Function.FromCallback``17(Wasmtime.Store,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15,``16})
+  name: FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult>(Store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback__17_Wasmtime_Store_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14___15___16__
+  commentId: M:Wasmtime.Function.FromCallback``17(Wasmtime.Store,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15,``16})
+  name.vb: FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult)(Store, Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult))
+  fullName: Wasmtime.Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult>(Wasmtime.Store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult>)
+  fullName.vb: Wasmtime.Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult)(Wasmtime.Store, Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult))
+  nameWithType: Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult>(Store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult>)
+  nameWithType.vb: Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult)(Store, Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult))
+- uid: Wasmtime.Function.FromCallback``2(Wasmtime.Store,Action{``0,``1})
+  name: FromCallback<T1, T2>(Store, Action<T1, T2>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback__2_Wasmtime_Store_Action___0___1__
+  commentId: M:Wasmtime.Function.FromCallback``2(Wasmtime.Store,Action{``0,``1})
+  name.vb: FromCallback(Of T1, T2)(Store, Action(Of T1, T2))
+  fullName: Wasmtime.Function.FromCallback<T1, T2>(Wasmtime.Store, Action<T1, T2>)
+  fullName.vb: Wasmtime.Function.FromCallback(Of T1, T2)(Wasmtime.Store, Action(Of T1, T2))
+  nameWithType: Function.FromCallback<T1, T2>(Store, Action<T1, T2>)
+  nameWithType.vb: Function.FromCallback(Of T1, T2)(Store, Action(Of T1, T2))
+- uid: Wasmtime.Function.FromCallback``2(Wasmtime.Store,Func{``0,``1})
+  name: FromCallback<T, TResult>(Store, Func<T, TResult>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback__2_Wasmtime_Store_Func___0___1__
+  commentId: M:Wasmtime.Function.FromCallback``2(Wasmtime.Store,Func{``0,``1})
+  name.vb: FromCallback(Of T, TResult)(Store, Func(Of T, TResult))
+  fullName: Wasmtime.Function.FromCallback<T, TResult>(Wasmtime.Store, Func<T, TResult>)
+  fullName.vb: Wasmtime.Function.FromCallback(Of T, TResult)(Wasmtime.Store, Func(Of T, TResult))
+  nameWithType: Function.FromCallback<T, TResult>(Store, Func<T, TResult>)
+  nameWithType.vb: Function.FromCallback(Of T, TResult)(Store, Func(Of T, TResult))
+- uid: Wasmtime.Function.FromCallback``3(Wasmtime.Store,Action{``0,``1,``2})
+  name: FromCallback<T1, T2, T3>(Store, Action<T1, T2, T3>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback__3_Wasmtime_Store_Action___0___1___2__
+  commentId: M:Wasmtime.Function.FromCallback``3(Wasmtime.Store,Action{``0,``1,``2})
+  name.vb: FromCallback(Of T1, T2, T3)(Store, Action(Of T1, T2, T3))
+  fullName: Wasmtime.Function.FromCallback<T1, T2, T3>(Wasmtime.Store, Action<T1, T2, T3>)
+  fullName.vb: Wasmtime.Function.FromCallback(Of T1, T2, T3)(Wasmtime.Store, Action(Of T1, T2, T3))
+  nameWithType: Function.FromCallback<T1, T2, T3>(Store, Action<T1, T2, T3>)
+  nameWithType.vb: Function.FromCallback(Of T1, T2, T3)(Store, Action(Of T1, T2, T3))
+- uid: Wasmtime.Function.FromCallback``3(Wasmtime.Store,Func{``0,``1,``2})
+  name: FromCallback<T1, T2, TResult>(Store, Func<T1, T2, TResult>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback__3_Wasmtime_Store_Func___0___1___2__
+  commentId: M:Wasmtime.Function.FromCallback``3(Wasmtime.Store,Func{``0,``1,``2})
+  name.vb: FromCallback(Of T1, T2, TResult)(Store, Func(Of T1, T2, TResult))
+  fullName: Wasmtime.Function.FromCallback<T1, T2, TResult>(Wasmtime.Store, Func<T1, T2, TResult>)
+  fullName.vb: Wasmtime.Function.FromCallback(Of T1, T2, TResult)(Wasmtime.Store, Func(Of T1, T2, TResult))
+  nameWithType: Function.FromCallback<T1, T2, TResult>(Store, Func<T1, T2, TResult>)
+  nameWithType.vb: Function.FromCallback(Of T1, T2, TResult)(Store, Func(Of T1, T2, TResult))
+- uid: Wasmtime.Function.FromCallback``4(Wasmtime.Store,Action{``0,``1,``2,``3})
+  name: FromCallback<T1, T2, T3, T4>(Store, Action<T1, T2, T3, T4>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback__4_Wasmtime_Store_Action___0___1___2___3__
+  commentId: M:Wasmtime.Function.FromCallback``4(Wasmtime.Store,Action{``0,``1,``2,``3})
+  name.vb: FromCallback(Of T1, T2, T3, T4)(Store, Action(Of T1, T2, T3, T4))
+  fullName: Wasmtime.Function.FromCallback<T1, T2, T3, T4>(Wasmtime.Store, Action<T1, T2, T3, T4>)
+  fullName.vb: Wasmtime.Function.FromCallback(Of T1, T2, T3, T4)(Wasmtime.Store, Action(Of T1, T2, T3, T4))
+  nameWithType: Function.FromCallback<T1, T2, T3, T4>(Store, Action<T1, T2, T3, T4>)
+  nameWithType.vb: Function.FromCallback(Of T1, T2, T3, T4)(Store, Action(Of T1, T2, T3, T4))
+- uid: Wasmtime.Function.FromCallback``4(Wasmtime.Store,Func{``0,``1,``2,``3})
+  name: FromCallback<T1, T2, T3, TResult>(Store, Func<T1, T2, T3, TResult>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback__4_Wasmtime_Store_Func___0___1___2___3__
+  commentId: M:Wasmtime.Function.FromCallback``4(Wasmtime.Store,Func{``0,``1,``2,``3})
+  name.vb: FromCallback(Of T1, T2, T3, TResult)(Store, Func(Of T1, T2, T3, TResult))
+  fullName: Wasmtime.Function.FromCallback<T1, T2, T3, TResult>(Wasmtime.Store, Func<T1, T2, T3, TResult>)
+  fullName.vb: Wasmtime.Function.FromCallback(Of T1, T2, T3, TResult)(Wasmtime.Store, Func(Of T1, T2, T3, TResult))
+  nameWithType: Function.FromCallback<T1, T2, T3, TResult>(Store, Func<T1, T2, T3, TResult>)
+  nameWithType.vb: Function.FromCallback(Of T1, T2, T3, TResult)(Store, Func(Of T1, T2, T3, TResult))
+- uid: Wasmtime.Function.FromCallback``5(Wasmtime.Store,Action{``0,``1,``2,``3,``4})
+  name: FromCallback<T1, T2, T3, T4, T5>(Store, Action<T1, T2, T3, T4, T5>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback__5_Wasmtime_Store_Action___0___1___2___3___4__
+  commentId: M:Wasmtime.Function.FromCallback``5(Wasmtime.Store,Action{``0,``1,``2,``3,``4})
+  name.vb: FromCallback(Of T1, T2, T3, T4, T5)(Store, Action(Of T1, T2, T3, T4, T5))
+  fullName: Wasmtime.Function.FromCallback<T1, T2, T3, T4, T5>(Wasmtime.Store, Action<T1, T2, T3, T4, T5>)
+  fullName.vb: Wasmtime.Function.FromCallback(Of T1, T2, T3, T4, T5)(Wasmtime.Store, Action(Of T1, T2, T3, T4, T5))
+  nameWithType: Function.FromCallback<T1, T2, T3, T4, T5>(Store, Action<T1, T2, T3, T4, T5>)
+  nameWithType.vb: Function.FromCallback(Of T1, T2, T3, T4, T5)(Store, Action(Of T1, T2, T3, T4, T5))
+- uid: Wasmtime.Function.FromCallback``5(Wasmtime.Store,Func{``0,``1,``2,``3,``4})
+  name: FromCallback<T1, T2, T3, T4, TResult>(Store, Func<T1, T2, T3, T4, TResult>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback__5_Wasmtime_Store_Func___0___1___2___3___4__
+  commentId: M:Wasmtime.Function.FromCallback``5(Wasmtime.Store,Func{``0,``1,``2,``3,``4})
+  name.vb: FromCallback(Of T1, T2, T3, T4, TResult)(Store, Func(Of T1, T2, T3, T4, TResult))
+  fullName: Wasmtime.Function.FromCallback<T1, T2, T3, T4, TResult>(Wasmtime.Store, Func<T1, T2, T3, T4, TResult>)
+  fullName.vb: Wasmtime.Function.FromCallback(Of T1, T2, T3, T4, TResult)(Wasmtime.Store, Func(Of T1, T2, T3, T4, TResult))
+  nameWithType: Function.FromCallback<T1, T2, T3, T4, TResult>(Store, Func<T1, T2, T3, T4, TResult>)
+  nameWithType.vb: Function.FromCallback(Of T1, T2, T3, T4, TResult)(Store, Func(Of T1, T2, T3, T4, TResult))
+- uid: Wasmtime.Function.FromCallback``6(Wasmtime.Store,Action{``0,``1,``2,``3,``4,``5})
+  name: FromCallback<T1, T2, T3, T4, T5, T6>(Store, Action<T1, T2, T3, T4, T5, T6>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback__6_Wasmtime_Store_Action___0___1___2___3___4___5__
+  commentId: M:Wasmtime.Function.FromCallback``6(Wasmtime.Store,Action{``0,``1,``2,``3,``4,``5})
+  name.vb: FromCallback(Of T1, T2, T3, T4, T5, T6)(Store, Action(Of T1, T2, T3, T4, T5, T6))
+  fullName: Wasmtime.Function.FromCallback<T1, T2, T3, T4, T5, T6>(Wasmtime.Store, Action<T1, T2, T3, T4, T5, T6>)
+  fullName.vb: Wasmtime.Function.FromCallback(Of T1, T2, T3, T4, T5, T6)(Wasmtime.Store, Action(Of T1, T2, T3, T4, T5, T6))
+  nameWithType: Function.FromCallback<T1, T2, T3, T4, T5, T6>(Store, Action<T1, T2, T3, T4, T5, T6>)
+  nameWithType.vb: Function.FromCallback(Of T1, T2, T3, T4, T5, T6)(Store, Action(Of T1, T2, T3, T4, T5, T6))
+- uid: Wasmtime.Function.FromCallback``6(Wasmtime.Store,Func{``0,``1,``2,``3,``4,``5})
+  name: FromCallback<T1, T2, T3, T4, T5, TResult>(Store, Func<T1, T2, T3, T4, T5, TResult>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback__6_Wasmtime_Store_Func___0___1___2___3___4___5__
+  commentId: M:Wasmtime.Function.FromCallback``6(Wasmtime.Store,Func{``0,``1,``2,``3,``4,``5})
+  name.vb: FromCallback(Of T1, T2, T3, T4, T5, TResult)(Store, Func(Of T1, T2, T3, T4, T5, TResult))
+  fullName: Wasmtime.Function.FromCallback<T1, T2, T3, T4, T5, TResult>(Wasmtime.Store, Func<T1, T2, T3, T4, T5, TResult>)
+  fullName.vb: Wasmtime.Function.FromCallback(Of T1, T2, T3, T4, T5, TResult)(Wasmtime.Store, Func(Of T1, T2, T3, T4, T5, TResult))
+  nameWithType: Function.FromCallback<T1, T2, T3, T4, T5, TResult>(Store, Func<T1, T2, T3, T4, T5, TResult>)
+  nameWithType.vb: Function.FromCallback(Of T1, T2, T3, T4, T5, TResult)(Store, Func(Of T1, T2, T3, T4, T5, TResult))
+- uid: Wasmtime.Function.FromCallback``7(Wasmtime.Store,Action{``0,``1,``2,``3,``4,``5,``6})
+  name: FromCallback<T1, T2, T3, T4, T5, T6, T7>(Store, Action<T1, T2, T3, T4, T5, T6, T7>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback__7_Wasmtime_Store_Action___0___1___2___3___4___5___6__
+  commentId: M:Wasmtime.Function.FromCallback``7(Wasmtime.Store,Action{``0,``1,``2,``3,``4,``5,``6})
+  name.vb: FromCallback(Of T1, T2, T3, T4, T5, T6, T7)(Store, Action(Of T1, T2, T3, T4, T5, T6, T7))
+  fullName: Wasmtime.Function.FromCallback<T1, T2, T3, T4, T5, T6, T7>(Wasmtime.Store, Action<T1, T2, T3, T4, T5, T6, T7>)
+  fullName.vb: Wasmtime.Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7)(Wasmtime.Store, Action(Of T1, T2, T3, T4, T5, T6, T7))
+  nameWithType: Function.FromCallback<T1, T2, T3, T4, T5, T6, T7>(Store, Action<T1, T2, T3, T4, T5, T6, T7>)
+  nameWithType.vb: Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7)(Store, Action(Of T1, T2, T3, T4, T5, T6, T7))
+- uid: Wasmtime.Function.FromCallback``7(Wasmtime.Store,Func{``0,``1,``2,``3,``4,``5,``6})
+  name: FromCallback<T1, T2, T3, T4, T5, T6, TResult>(Store, Func<T1, T2, T3, T4, T5, T6, TResult>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback__7_Wasmtime_Store_Func___0___1___2___3___4___5___6__
+  commentId: M:Wasmtime.Function.FromCallback``7(Wasmtime.Store,Func{``0,``1,``2,``3,``4,``5,``6})
+  name.vb: FromCallback(Of T1, T2, T3, T4, T5, T6, TResult)(Store, Func(Of T1, T2, T3, T4, T5, T6, TResult))
+  fullName: Wasmtime.Function.FromCallback<T1, T2, T3, T4, T5, T6, TResult>(Wasmtime.Store, Func<T1, T2, T3, T4, T5, T6, TResult>)
+  fullName.vb: Wasmtime.Function.FromCallback(Of T1, T2, T3, T4, T5, T6, TResult)(Wasmtime.Store, Func(Of T1, T2, T3, T4, T5, T6, TResult))
+  nameWithType: Function.FromCallback<T1, T2, T3, T4, T5, T6, TResult>(Store, Func<T1, T2, T3, T4, T5, T6, TResult>)
+  nameWithType.vb: Function.FromCallback(Of T1, T2, T3, T4, T5, T6, TResult)(Store, Func(Of T1, T2, T3, T4, T5, T6, TResult))
+- uid: Wasmtime.Function.FromCallback``8(Wasmtime.Store,Action{``0,``1,``2,``3,``4,``5,``6,``7})
+  name: FromCallback<T1, T2, T3, T4, T5, T6, T7, T8>(Store, Action<T1, T2, T3, T4, T5, T6, T7, T8>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback__8_Wasmtime_Store_Action___0___1___2___3___4___5___6___7__
+  commentId: M:Wasmtime.Function.FromCallback``8(Wasmtime.Store,Action{``0,``1,``2,``3,``4,``5,``6,``7})
+  name.vb: FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8)(Store, Action(Of T1, T2, T3, T4, T5, T6, T7, T8))
+  fullName: Wasmtime.Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8>(Wasmtime.Store, Action<T1, T2, T3, T4, T5, T6, T7, T8>)
+  fullName.vb: Wasmtime.Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8)(Wasmtime.Store, Action(Of T1, T2, T3, T4, T5, T6, T7, T8))
+  nameWithType: Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8>(Store, Action<T1, T2, T3, T4, T5, T6, T7, T8>)
+  nameWithType.vb: Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8)(Store, Action(Of T1, T2, T3, T4, T5, T6, T7, T8))
+- uid: Wasmtime.Function.FromCallback``8(Wasmtime.Store,Func{``0,``1,``2,``3,``4,``5,``6,``7})
+  name: FromCallback<T1, T2, T3, T4, T5, T6, T7, TResult>(Store, Func<T1, T2, T3, T4, T5, T6, T7, TResult>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback__8_Wasmtime_Store_Func___0___1___2___3___4___5___6___7__
+  commentId: M:Wasmtime.Function.FromCallback``8(Wasmtime.Store,Func{``0,``1,``2,``3,``4,``5,``6,``7})
+  name.vb: FromCallback(Of T1, T2, T3, T4, T5, T6, T7, TResult)(Store, Func(Of T1, T2, T3, T4, T5, T6, T7, TResult))
+  fullName: Wasmtime.Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, TResult>(Wasmtime.Store, Func<T1, T2, T3, T4, T5, T6, T7, TResult>)
+  fullName.vb: Wasmtime.Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, TResult)(Wasmtime.Store, Func(Of T1, T2, T3, T4, T5, T6, T7, TResult))
+  nameWithType: Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, TResult>(Store, Func<T1, T2, T3, T4, T5, T6, T7, TResult>)
+  nameWithType.vb: Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, TResult)(Store, Func(Of T1, T2, T3, T4, T5, T6, T7, TResult))
+- uid: Wasmtime.Function.FromCallback``9(Wasmtime.Store,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8})
+  name: FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9>(Store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback__9_Wasmtime_Store_Action___0___1___2___3___4___5___6___7___8__
+  commentId: M:Wasmtime.Function.FromCallback``9(Wasmtime.Store,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8})
+  name.vb: FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9)(Store, Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9))
+  fullName: Wasmtime.Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9>(Wasmtime.Store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9>)
+  fullName.vb: Wasmtime.Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9)(Wasmtime.Store, Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9))
+  nameWithType: Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9>(Store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9>)
+  nameWithType.vb: Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, T9)(Store, Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9))
+- uid: Wasmtime.Function.FromCallback``9(Wasmtime.Store,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8})
+  name: FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(Store, Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_FromCallback__9_Wasmtime_Store_Func___0___1___2___3___4___5___6___7___8__
+  commentId: M:Wasmtime.Function.FromCallback``9(Wasmtime.Store,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8})
+  name.vb: FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, TResult)(Store, Func(Of T1, T2, T3, T4, T5, T6, T7, T8, TResult))
+  fullName: Wasmtime.Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(Wasmtime.Store, Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult>)
+  fullName.vb: Wasmtime.Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, TResult)(Wasmtime.Store, Func(Of T1, T2, T3, T4, T5, T6, T7, T8, TResult))
+  nameWithType: Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(Store, Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult>)
+  nameWithType.vb: Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, TResult)(Store, Func(Of T1, T2, T3, T4, T5, T6, T7, T8, TResult))
+- uid: Wasmtime.Function.Invoke(System.Object[])
+  name: Invoke(Object[])
+  href: api/Wasmtime.Function.html#Wasmtime_Function_Invoke_System_Object___
+  commentId: M:Wasmtime.Function.Invoke(System.Object[])
+  name.vb: Invoke(Object())
+  fullName: Wasmtime.Function.Invoke(System.Object[])
+  fullName.vb: Wasmtime.Function.Invoke(System.Object())
+  nameWithType: Function.Invoke(Object[])
+  nameWithType.vb: Function.Invoke(Object())
+- uid: Wasmtime.Function.Invoke*
+  name: Invoke
+  href: api/Wasmtime.Function.html#Wasmtime_Function_Invoke_
+  commentId: Overload:Wasmtime.Function.Invoke
+  isSpec: "True"
+  fullName: Wasmtime.Function.Invoke
+  nameWithType: Function.Invoke
+- uid: Wasmtime.Function.IsNull
+  name: IsNull
+  href: api/Wasmtime.Function.html#Wasmtime_Function_IsNull
+  commentId: P:Wasmtime.Function.IsNull
+  fullName: Wasmtime.Function.IsNull
+  nameWithType: Function.IsNull
+- uid: Wasmtime.Function.IsNull*
+  name: IsNull
+  href: api/Wasmtime.Function.html#Wasmtime_Function_IsNull_
+  commentId: Overload:Wasmtime.Function.IsNull
+  isSpec: "True"
+  fullName: Wasmtime.Function.IsNull
+  nameWithType: Function.IsNull
+- uid: Wasmtime.Function.Null
+  name: "Null"
+  href: api/Wasmtime.Function.html#Wasmtime_Function_Null
+  commentId: P:Wasmtime.Function.Null
+  fullName: Wasmtime.Function.Null
+  nameWithType: Function.Null
+- uid: Wasmtime.Function.Null*
+  name: "Null"
+  href: api/Wasmtime.Function.html#Wasmtime_Function_Null_
+  commentId: Overload:Wasmtime.Function.Null
+  isSpec: "True"
+  fullName: Wasmtime.Function.Null
+  nameWithType: Function.Null
+- uid: Wasmtime.Function.Parameters
+  name: Parameters
+  href: api/Wasmtime.Function.html#Wasmtime_Function_Parameters
+  commentId: P:Wasmtime.Function.Parameters
+  fullName: Wasmtime.Function.Parameters
+  nameWithType: Function.Parameters
+- uid: Wasmtime.Function.Parameters*
+  name: Parameters
+  href: api/Wasmtime.Function.html#Wasmtime_Function_Parameters_
+  commentId: Overload:Wasmtime.Function.Parameters
+  isSpec: "True"
+  fullName: Wasmtime.Function.Parameters
+  nameWithType: Function.Parameters
+- uid: Wasmtime.Function.Results
+  name: Results
+  href: api/Wasmtime.Function.html#Wasmtime_Function_Results
+  commentId: P:Wasmtime.Function.Results
+  fullName: Wasmtime.Function.Results
+  nameWithType: Function.Results
+- uid: Wasmtime.Function.Results*
+  name: Results
+  href: api/Wasmtime.Function.html#Wasmtime_Function_Results_
+  commentId: Overload:Wasmtime.Function.Results
+  isSpec: "True"
+  fullName: Wasmtime.Function.Results
+  nameWithType: Function.Results
 - uid: Wasmtime.Global`1
   name: Global<T>
   href: api/Wasmtime.Global-1.html
@@ -632,12 +1249,18 @@ references:
   commentId: T:Wasmtime.Host
   fullName: Wasmtime.Host
   nameWithType: Host
-- uid: Wasmtime.Host.#ctor
-  name: Host()
-  href: api/Wasmtime.Host.html#Wasmtime_Host__ctor
-  commentId: M:Wasmtime.Host.#ctor
-  fullName: Wasmtime.Host.Host()
-  nameWithType: Host.Host()
+- uid: Wasmtime.Host.#ctor(Wasmtime.Engine)
+  name: Host(Engine)
+  href: api/Wasmtime.Host.html#Wasmtime_Host__ctor_Wasmtime_Engine_
+  commentId: M:Wasmtime.Host.#ctor(Wasmtime.Engine)
+  fullName: Wasmtime.Host.Host(Wasmtime.Engine)
+  nameWithType: Host.Host(Engine)
+- uid: Wasmtime.Host.#ctor(Wasmtime.Store)
+  name: Host(Store)
+  href: api/Wasmtime.Host.html#Wasmtime_Host__ctor_Wasmtime_Store_
+  commentId: M:Wasmtime.Host.#ctor(Wasmtime.Store)
+  fullName: Wasmtime.Host.Host(Wasmtime.Store)
+  nameWithType: Host.Host(Store)
 - uid: Wasmtime.Host.#ctor*
   name: Host
   href: api/Wasmtime.Host.html#Wasmtime_Host__ctor_
@@ -645,19 +1268,6 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Host.Host
   nameWithType: Host.Host
-- uid: Wasmtime.Host.ClearDefinitions
-  name: ClearDefinitions()
-  href: api/Wasmtime.Host.html#Wasmtime_Host_ClearDefinitions
-  commentId: M:Wasmtime.Host.ClearDefinitions
-  fullName: Wasmtime.Host.ClearDefinitions()
-  nameWithType: Host.ClearDefinitions()
-- uid: Wasmtime.Host.ClearDefinitions*
-  name: ClearDefinitions
-  href: api/Wasmtime.Host.html#Wasmtime_Host_ClearDefinitions_
-  commentId: Overload:Wasmtime.Host.ClearDefinitions
-  isSpec: "True"
-  fullName: Wasmtime.Host.ClearDefinitions
-  nameWithType: Host.ClearDefinitions
 - uid: Wasmtime.Host.DefineFunction(System.String,System.String,Action)
   name: DefineFunction(String, String, Action)
   href: api/Wasmtime.Host.html#Wasmtime_Host_DefineFunction_System_String_System_String_Action_
@@ -1013,6 +1623,22 @@ references:
   fullName.vb: Wasmtime.Host.DefineMutableGlobal(Of T)(System.String, System.String, T)
   nameWithType: Host.DefineMutableGlobal<T>(String, String, T)
   nameWithType.vb: Host.DefineMutableGlobal(Of T)(String, String, T)
+- uid: Wasmtime.Host.DefineTable*
+  name: DefineTable
+  href: api/Wasmtime.Host.html#Wasmtime_Host_DefineTable_
+  commentId: Overload:Wasmtime.Host.DefineTable
+  isSpec: "True"
+  fullName: Wasmtime.Host.DefineTable
+  nameWithType: Host.DefineTable
+- uid: Wasmtime.Host.DefineTable``1(System.String,System.String,``0,System.UInt32,System.UInt32)
+  name: DefineTable<T>(String, String, T, UInt32, UInt32)
+  href: api/Wasmtime.Host.html#Wasmtime_Host_DefineTable__1_System_String_System_String___0_System_UInt32_System_UInt32_
+  commentId: M:Wasmtime.Host.DefineTable``1(System.String,System.String,``0,System.UInt32,System.UInt32)
+  name.vb: DefineTable(Of T)(String, String, T, UInt32, UInt32)
+  fullName: Wasmtime.Host.DefineTable<T>(System.String, System.String, T, System.UInt32, System.UInt32)
+  fullName.vb: Wasmtime.Host.DefineTable(Of T)(System.String, System.String, T, System.UInt32, System.UInt32)
+  nameWithType: Host.DefineTable<T>(String, String, T, UInt32, UInt32)
+  nameWithType.vb: Host.DefineTable(Of T)(String, String, T, UInt32, UInt32)
 - uid: Wasmtime.Host.DefineWasi(System.String,Wasmtime.WasiConfiguration)
   name: DefineWasi(String, WasiConfiguration)
   href: api/Wasmtime.Host.html#Wasmtime_Host_DefineWasi_System_String_Wasmtime_WasiConfiguration_
@@ -1052,183 +1678,6 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Host.Instantiate
   nameWithType: Host.Instantiate
-- uid: Wasmtime.Host.LoadModule(System.String)
-  name: LoadModule(String)
-  href: api/Wasmtime.Host.html#Wasmtime_Host_LoadModule_System_String_
-  commentId: M:Wasmtime.Host.LoadModule(System.String)
-  fullName: Wasmtime.Host.LoadModule(System.String)
-  nameWithType: Host.LoadModule(String)
-- uid: Wasmtime.Host.LoadModule(System.String,System.Byte[])
-  name: LoadModule(String, Byte[])
-  href: api/Wasmtime.Host.html#Wasmtime_Host_LoadModule_System_String_System_Byte___
-  commentId: M:Wasmtime.Host.LoadModule(System.String,System.Byte[])
-  name.vb: LoadModule(String, Byte())
-  fullName: Wasmtime.Host.LoadModule(System.String, System.Byte[])
-  fullName.vb: Wasmtime.Host.LoadModule(System.String, System.Byte())
-  nameWithType: Host.LoadModule(String, Byte[])
-  nameWithType.vb: Host.LoadModule(String, Byte())
-- uid: Wasmtime.Host.LoadModule*
-  name: LoadModule
-  href: api/Wasmtime.Host.html#Wasmtime_Host_LoadModule_
-  commentId: Overload:Wasmtime.Host.LoadModule
-  isSpec: "True"
-  fullName: Wasmtime.Host.LoadModule
-  nameWithType: Host.LoadModule
-- uid: Wasmtime.Host.LoadModuleText(System.String)
-  name: LoadModuleText(String)
-  href: api/Wasmtime.Host.html#Wasmtime_Host_LoadModuleText_System_String_
-  commentId: M:Wasmtime.Host.LoadModuleText(System.String)
-  fullName: Wasmtime.Host.LoadModuleText(System.String)
-  nameWithType: Host.LoadModuleText(String)
-- uid: Wasmtime.Host.LoadModuleText(System.String,System.String)
-  name: LoadModuleText(String, String)
-  href: api/Wasmtime.Host.html#Wasmtime_Host_LoadModuleText_System_String_System_String_
-  commentId: M:Wasmtime.Host.LoadModuleText(System.String,System.String)
-  fullName: Wasmtime.Host.LoadModuleText(System.String, System.String)
-  nameWithType: Host.LoadModuleText(String, String)
-- uid: Wasmtime.Host.LoadModuleText*
-  name: LoadModuleText
-  href: api/Wasmtime.Host.html#Wasmtime_Host_LoadModuleText_
-  commentId: Overload:Wasmtime.Host.LoadModuleText
-  isSpec: "True"
-  fullName: Wasmtime.Host.LoadModuleText
-  nameWithType: Host.LoadModuleText
-- uid: Wasmtime.HostBuilder
-  name: HostBuilder
-  href: api/Wasmtime.HostBuilder.html
-  commentId: T:Wasmtime.HostBuilder
-  fullName: Wasmtime.HostBuilder
-  nameWithType: HostBuilder
-- uid: Wasmtime.HostBuilder.Build
-  name: Build()
-  href: api/Wasmtime.HostBuilder.html#Wasmtime_HostBuilder_Build
-  commentId: M:Wasmtime.HostBuilder.Build
-  fullName: Wasmtime.HostBuilder.Build()
-  nameWithType: HostBuilder.Build()
-- uid: Wasmtime.HostBuilder.Build*
-  name: Build
-  href: api/Wasmtime.HostBuilder.html#Wasmtime_HostBuilder_Build_
-  commentId: Overload:Wasmtime.HostBuilder.Build
-  isSpec: "True"
-  fullName: Wasmtime.HostBuilder.Build
-  nameWithType: HostBuilder.Build
-- uid: Wasmtime.HostBuilder.WithBulkMemory(System.Boolean)
-  name: WithBulkMemory(Boolean)
-  href: api/Wasmtime.HostBuilder.html#Wasmtime_HostBuilder_WithBulkMemory_System_Boolean_
-  commentId: M:Wasmtime.HostBuilder.WithBulkMemory(System.Boolean)
-  fullName: Wasmtime.HostBuilder.WithBulkMemory(System.Boolean)
-  nameWithType: HostBuilder.WithBulkMemory(Boolean)
-- uid: Wasmtime.HostBuilder.WithBulkMemory*
-  name: WithBulkMemory
-  href: api/Wasmtime.HostBuilder.html#Wasmtime_HostBuilder_WithBulkMemory_
-  commentId: Overload:Wasmtime.HostBuilder.WithBulkMemory
-  isSpec: "True"
-  fullName: Wasmtime.HostBuilder.WithBulkMemory
-  nameWithType: HostBuilder.WithBulkMemory
-- uid: Wasmtime.HostBuilder.WithCompilerStrategy(Wasmtime.CompilerStrategy)
-  name: WithCompilerStrategy(CompilerStrategy)
-  href: api/Wasmtime.HostBuilder.html#Wasmtime_HostBuilder_WithCompilerStrategy_Wasmtime_CompilerStrategy_
-  commentId: M:Wasmtime.HostBuilder.WithCompilerStrategy(Wasmtime.CompilerStrategy)
-  fullName: Wasmtime.HostBuilder.WithCompilerStrategy(Wasmtime.CompilerStrategy)
-  nameWithType: HostBuilder.WithCompilerStrategy(CompilerStrategy)
-- uid: Wasmtime.HostBuilder.WithCompilerStrategy*
-  name: WithCompilerStrategy
-  href: api/Wasmtime.HostBuilder.html#Wasmtime_HostBuilder_WithCompilerStrategy_
-  commentId: Overload:Wasmtime.HostBuilder.WithCompilerStrategy
-  isSpec: "True"
-  fullName: Wasmtime.HostBuilder.WithCompilerStrategy
-  nameWithType: HostBuilder.WithCompilerStrategy
-- uid: Wasmtime.HostBuilder.WithCraneliftDebugVerifier(System.Boolean)
-  name: WithCraneliftDebugVerifier(Boolean)
-  href: api/Wasmtime.HostBuilder.html#Wasmtime_HostBuilder_WithCraneliftDebugVerifier_System_Boolean_
-  commentId: M:Wasmtime.HostBuilder.WithCraneliftDebugVerifier(System.Boolean)
-  fullName: Wasmtime.HostBuilder.WithCraneliftDebugVerifier(System.Boolean)
-  nameWithType: HostBuilder.WithCraneliftDebugVerifier(Boolean)
-- uid: Wasmtime.HostBuilder.WithCraneliftDebugVerifier*
-  name: WithCraneliftDebugVerifier
-  href: api/Wasmtime.HostBuilder.html#Wasmtime_HostBuilder_WithCraneliftDebugVerifier_
-  commentId: Overload:Wasmtime.HostBuilder.WithCraneliftDebugVerifier
-  isSpec: "True"
-  fullName: Wasmtime.HostBuilder.WithCraneliftDebugVerifier
-  nameWithType: HostBuilder.WithCraneliftDebugVerifier
-- uid: Wasmtime.HostBuilder.WithDebugInfo(System.Boolean)
-  name: WithDebugInfo(Boolean)
-  href: api/Wasmtime.HostBuilder.html#Wasmtime_HostBuilder_WithDebugInfo_System_Boolean_
-  commentId: M:Wasmtime.HostBuilder.WithDebugInfo(System.Boolean)
-  fullName: Wasmtime.HostBuilder.WithDebugInfo(System.Boolean)
-  nameWithType: HostBuilder.WithDebugInfo(Boolean)
-- uid: Wasmtime.HostBuilder.WithDebugInfo*
-  name: WithDebugInfo
-  href: api/Wasmtime.HostBuilder.html#Wasmtime_HostBuilder_WithDebugInfo_
-  commentId: Overload:Wasmtime.HostBuilder.WithDebugInfo
-  isSpec: "True"
-  fullName: Wasmtime.HostBuilder.WithDebugInfo
-  nameWithType: HostBuilder.WithDebugInfo
-- uid: Wasmtime.HostBuilder.WithMultiValue(System.Boolean)
-  name: WithMultiValue(Boolean)
-  href: api/Wasmtime.HostBuilder.html#Wasmtime_HostBuilder_WithMultiValue_System_Boolean_
-  commentId: M:Wasmtime.HostBuilder.WithMultiValue(System.Boolean)
-  fullName: Wasmtime.HostBuilder.WithMultiValue(System.Boolean)
-  nameWithType: HostBuilder.WithMultiValue(Boolean)
-- uid: Wasmtime.HostBuilder.WithMultiValue*
-  name: WithMultiValue
-  href: api/Wasmtime.HostBuilder.html#Wasmtime_HostBuilder_WithMultiValue_
-  commentId: Overload:Wasmtime.HostBuilder.WithMultiValue
-  isSpec: "True"
-  fullName: Wasmtime.HostBuilder.WithMultiValue
-  nameWithType: HostBuilder.WithMultiValue
-- uid: Wasmtime.HostBuilder.WithOptimizationLevel(Wasmtime.OptimizationLevel)
-  name: WithOptimizationLevel(OptimizationLevel)
-  href: api/Wasmtime.HostBuilder.html#Wasmtime_HostBuilder_WithOptimizationLevel_Wasmtime_OptimizationLevel_
-  commentId: M:Wasmtime.HostBuilder.WithOptimizationLevel(Wasmtime.OptimizationLevel)
-  fullName: Wasmtime.HostBuilder.WithOptimizationLevel(Wasmtime.OptimizationLevel)
-  nameWithType: HostBuilder.WithOptimizationLevel(OptimizationLevel)
-- uid: Wasmtime.HostBuilder.WithOptimizationLevel*
-  name: WithOptimizationLevel
-  href: api/Wasmtime.HostBuilder.html#Wasmtime_HostBuilder_WithOptimizationLevel_
-  commentId: Overload:Wasmtime.HostBuilder.WithOptimizationLevel
-  isSpec: "True"
-  fullName: Wasmtime.HostBuilder.WithOptimizationLevel
-  nameWithType: HostBuilder.WithOptimizationLevel
-- uid: Wasmtime.HostBuilder.WithReferenceTypes(System.Boolean)
-  name: WithReferenceTypes(Boolean)
-  href: api/Wasmtime.HostBuilder.html#Wasmtime_HostBuilder_WithReferenceTypes_System_Boolean_
-  commentId: M:Wasmtime.HostBuilder.WithReferenceTypes(System.Boolean)
-  fullName: Wasmtime.HostBuilder.WithReferenceTypes(System.Boolean)
-  nameWithType: HostBuilder.WithReferenceTypes(Boolean)
-- uid: Wasmtime.HostBuilder.WithReferenceTypes*
-  name: WithReferenceTypes
-  href: api/Wasmtime.HostBuilder.html#Wasmtime_HostBuilder_WithReferenceTypes_
-  commentId: Overload:Wasmtime.HostBuilder.WithReferenceTypes
-  isSpec: "True"
-  fullName: Wasmtime.HostBuilder.WithReferenceTypes
-  nameWithType: HostBuilder.WithReferenceTypes
-- uid: Wasmtime.HostBuilder.WithSIMD(System.Boolean)
-  name: WithSIMD(Boolean)
-  href: api/Wasmtime.HostBuilder.html#Wasmtime_HostBuilder_WithSIMD_System_Boolean_
-  commentId: M:Wasmtime.HostBuilder.WithSIMD(System.Boolean)
-  fullName: Wasmtime.HostBuilder.WithSIMD(System.Boolean)
-  nameWithType: HostBuilder.WithSIMD(Boolean)
-- uid: Wasmtime.HostBuilder.WithSIMD*
-  name: WithSIMD
-  href: api/Wasmtime.HostBuilder.html#Wasmtime_HostBuilder_WithSIMD_
-  commentId: Overload:Wasmtime.HostBuilder.WithSIMD
-  isSpec: "True"
-  fullName: Wasmtime.HostBuilder.WithSIMD
-  nameWithType: HostBuilder.WithSIMD
-- uid: Wasmtime.HostBuilder.WithWasmThreads(System.Boolean)
-  name: WithWasmThreads(Boolean)
-  href: api/Wasmtime.HostBuilder.html#Wasmtime_HostBuilder_WithWasmThreads_System_Boolean_
-  commentId: M:Wasmtime.HostBuilder.WithWasmThreads(System.Boolean)
-  fullName: Wasmtime.HostBuilder.WithWasmThreads(System.Boolean)
-  nameWithType: HostBuilder.WithWasmThreads(Boolean)
-- uid: Wasmtime.HostBuilder.WithWasmThreads*
-  name: WithWasmThreads
-  href: api/Wasmtime.HostBuilder.html#Wasmtime_HostBuilder_WithWasmThreads_
-  commentId: Overload:Wasmtime.HostBuilder.WithWasmThreads
-  isSpec: "True"
-  fullName: Wasmtime.HostBuilder.WithWasmThreads
-  nameWithType: HostBuilder.WithWasmThreads
 - uid: Wasmtime.Imports
   name: Wasmtime.Imports
   href: api/Wasmtime.Imports.html
@@ -1931,6 +2380,87 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Module.Exports
   nameWithType: Module.Exports
+- uid: Wasmtime.Module.FromBytes(Wasmtime.Engine,System.String,System.Byte[])
+  name: FromBytes(Engine, String, Byte[])
+  href: api/Wasmtime.Module.html#Wasmtime_Module_FromBytes_Wasmtime_Engine_System_String_System_Byte___
+  commentId: M:Wasmtime.Module.FromBytes(Wasmtime.Engine,System.String,System.Byte[])
+  name.vb: FromBytes(Engine, String, Byte())
+  fullName: Wasmtime.Module.FromBytes(Wasmtime.Engine, System.String, System.Byte[])
+  fullName.vb: Wasmtime.Module.FromBytes(Wasmtime.Engine, System.String, System.Byte())
+  nameWithType: Module.FromBytes(Engine, String, Byte[])
+  nameWithType.vb: Module.FromBytes(Engine, String, Byte())
+- uid: Wasmtime.Module.FromBytes*
+  name: FromBytes
+  href: api/Wasmtime.Module.html#Wasmtime_Module_FromBytes_
+  commentId: Overload:Wasmtime.Module.FromBytes
+  isSpec: "True"
+  fullName: Wasmtime.Module.FromBytes
+  nameWithType: Module.FromBytes
+- uid: Wasmtime.Module.FromFile(Wasmtime.Engine,System.String)
+  name: FromFile(Engine, String)
+  href: api/Wasmtime.Module.html#Wasmtime_Module_FromFile_Wasmtime_Engine_System_String_
+  commentId: M:Wasmtime.Module.FromFile(Wasmtime.Engine,System.String)
+  fullName: Wasmtime.Module.FromFile(Wasmtime.Engine, System.String)
+  nameWithType: Module.FromFile(Engine, String)
+- uid: Wasmtime.Module.FromFile*
+  name: FromFile
+  href: api/Wasmtime.Module.html#Wasmtime_Module_FromFile_
+  commentId: Overload:Wasmtime.Module.FromFile
+  isSpec: "True"
+  fullName: Wasmtime.Module.FromFile
+  nameWithType: Module.FromFile
+- uid: Wasmtime.Module.FromStream(Wasmtime.Engine,System.String,Stream)
+  name: FromStream(Engine, String, Stream)
+  href: api/Wasmtime.Module.html#Wasmtime_Module_FromStream_Wasmtime_Engine_System_String_Stream_
+  commentId: M:Wasmtime.Module.FromStream(Wasmtime.Engine,System.String,Stream)
+  fullName: Wasmtime.Module.FromStream(Wasmtime.Engine, System.String, Stream)
+  nameWithType: Module.FromStream(Engine, String, Stream)
+- uid: Wasmtime.Module.FromStream*
+  name: FromStream
+  href: api/Wasmtime.Module.html#Wasmtime_Module_FromStream_
+  commentId: Overload:Wasmtime.Module.FromStream
+  isSpec: "True"
+  fullName: Wasmtime.Module.FromStream
+  nameWithType: Module.FromStream
+- uid: Wasmtime.Module.FromText(Wasmtime.Engine,System.String,System.String)
+  name: FromText(Engine, String, String)
+  href: api/Wasmtime.Module.html#Wasmtime_Module_FromText_Wasmtime_Engine_System_String_System_String_
+  commentId: M:Wasmtime.Module.FromText(Wasmtime.Engine,System.String,System.String)
+  fullName: Wasmtime.Module.FromText(Wasmtime.Engine, System.String, System.String)
+  nameWithType: Module.FromText(Engine, String, String)
+- uid: Wasmtime.Module.FromText*
+  name: FromText
+  href: api/Wasmtime.Module.html#Wasmtime_Module_FromText_
+  commentId: Overload:Wasmtime.Module.FromText
+  isSpec: "True"
+  fullName: Wasmtime.Module.FromText
+  nameWithType: Module.FromText
+- uid: Wasmtime.Module.FromTextFile(Wasmtime.Engine,System.String)
+  name: FromTextFile(Engine, String)
+  href: api/Wasmtime.Module.html#Wasmtime_Module_FromTextFile_Wasmtime_Engine_System_String_
+  commentId: M:Wasmtime.Module.FromTextFile(Wasmtime.Engine,System.String)
+  fullName: Wasmtime.Module.FromTextFile(Wasmtime.Engine, System.String)
+  nameWithType: Module.FromTextFile(Engine, String)
+- uid: Wasmtime.Module.FromTextFile*
+  name: FromTextFile
+  href: api/Wasmtime.Module.html#Wasmtime_Module_FromTextFile_
+  commentId: Overload:Wasmtime.Module.FromTextFile
+  isSpec: "True"
+  fullName: Wasmtime.Module.FromTextFile
+  nameWithType: Module.FromTextFile
+- uid: Wasmtime.Module.FromTextStream(Wasmtime.Engine,System.String,Stream)
+  name: FromTextStream(Engine, String, Stream)
+  href: api/Wasmtime.Module.html#Wasmtime_Module_FromTextStream_Wasmtime_Engine_System_String_Stream_
+  commentId: M:Wasmtime.Module.FromTextStream(Wasmtime.Engine,System.String,Stream)
+  fullName: Wasmtime.Module.FromTextStream(Wasmtime.Engine, System.String, Stream)
+  nameWithType: Module.FromTextStream(Engine, String, Stream)
+- uid: Wasmtime.Module.FromTextStream*
+  name: FromTextStream
+  href: api/Wasmtime.Module.html#Wasmtime_Module_FromTextStream_
+  commentId: Overload:Wasmtime.Module.FromTextStream
+  isSpec: "True"
+  fullName: Wasmtime.Module.FromTextStream
+  nameWithType: Module.FromTextStream
 - uid: Wasmtime.Module.Imports
   name: Imports
   href: api/Wasmtime.Module.html#Wasmtime_Module_Imports
@@ -2041,6 +2571,167 @@ references:
   commentId: F:Wasmtime.OptimizationLevel.SpeedAndSize
   fullName: Wasmtime.OptimizationLevel.SpeedAndSize
   nameWithType: OptimizationLevel.SpeedAndSize
+- uid: Wasmtime.Store
+  name: Store
+  href: api/Wasmtime.Store.html
+  commentId: T:Wasmtime.Store
+  fullName: Wasmtime.Store
+  nameWithType: Store
+- uid: Wasmtime.Store.#ctor(Wasmtime.Engine)
+  name: Store(Engine)
+  href: api/Wasmtime.Store.html#Wasmtime_Store__ctor_Wasmtime_Engine_
+  commentId: M:Wasmtime.Store.#ctor(Wasmtime.Engine)
+  fullName: Wasmtime.Store.Store(Wasmtime.Engine)
+  nameWithType: Store.Store(Engine)
+- uid: Wasmtime.Store.#ctor*
+  name: Store
+  href: api/Wasmtime.Store.html#Wasmtime_Store__ctor_
+  commentId: Overload:Wasmtime.Store.#ctor
+  isSpec: "True"
+  fullName: Wasmtime.Store.Store
+  nameWithType: Store.Store
+- uid: Wasmtime.Store.Dispose
+  name: Dispose()
+  href: api/Wasmtime.Store.html#Wasmtime_Store_Dispose
+  commentId: M:Wasmtime.Store.Dispose
+  fullName: Wasmtime.Store.Dispose()
+  nameWithType: Store.Dispose()
+- uid: Wasmtime.Store.Dispose*
+  name: Dispose
+  href: api/Wasmtime.Store.html#Wasmtime_Store_Dispose_
+  commentId: Overload:Wasmtime.Store.Dispose
+  isSpec: "True"
+  fullName: Wasmtime.Store.Dispose
+  nameWithType: Store.Dispose
+- uid: Wasmtime.Table`1
+  name: Table<T>
+  href: api/Wasmtime.Table-1.html
+  commentId: T:Wasmtime.Table`1
+  name.vb: Table(Of T)
+  fullName: Wasmtime.Table<T>
+  fullName.vb: Wasmtime.Table(Of T)
+  nameWithType: Table<T>
+  nameWithType.vb: Table(Of T)
+- uid: Wasmtime.Table`1.Dispose
+  name: Dispose()
+  href: api/Wasmtime.Table-1.html#Wasmtime_Table_1_Dispose
+  commentId: M:Wasmtime.Table`1.Dispose
+  fullName: Wasmtime.Table<T>.Dispose()
+  fullName.vb: Wasmtime.Table(Of T).Dispose()
+  nameWithType: Table<T>.Dispose()
+  nameWithType.vb: Table(Of T).Dispose()
+- uid: Wasmtime.Table`1.Dispose*
+  name: Dispose
+  href: api/Wasmtime.Table-1.html#Wasmtime_Table_1_Dispose_
+  commentId: Overload:Wasmtime.Table`1.Dispose
+  isSpec: "True"
+  fullName: Wasmtime.Table<T>.Dispose
+  fullName.vb: Wasmtime.Table(Of T).Dispose
+  nameWithType: Table<T>.Dispose
+  nameWithType.vb: Table(Of T).Dispose
+- uid: Wasmtime.Table`1.Grow(System.UInt32,`0)
+  name: Grow(UInt32, T)
+  href: api/Wasmtime.Table-1.html#Wasmtime_Table_1_Grow_System_UInt32__0_
+  commentId: M:Wasmtime.Table`1.Grow(System.UInt32,`0)
+  fullName: Wasmtime.Table<T>.Grow(System.UInt32, T)
+  fullName.vb: Wasmtime.Table(Of T).Grow(System.UInt32, T)
+  nameWithType: Table<T>.Grow(UInt32, T)
+  nameWithType.vb: Table(Of T).Grow(UInt32, T)
+- uid: Wasmtime.Table`1.Grow*
+  name: Grow
+  href: api/Wasmtime.Table-1.html#Wasmtime_Table_1_Grow_
+  commentId: Overload:Wasmtime.Table`1.Grow
+  isSpec: "True"
+  fullName: Wasmtime.Table<T>.Grow
+  fullName.vb: Wasmtime.Table(Of T).Grow
+  nameWithType: Table<T>.Grow
+  nameWithType.vb: Table(Of T).Grow
+- uid: Wasmtime.Table`1.Item(System.UInt32)
+  name: Item[UInt32]
+  href: api/Wasmtime.Table-1.html#Wasmtime_Table_1_Item_System_UInt32_
+  commentId: P:Wasmtime.Table`1.Item(System.UInt32)
+  name.vb: Item(UInt32)
+  fullName: Wasmtime.Table<T>.Item[System.UInt32]
+  fullName.vb: Wasmtime.Table(Of T).Item(System.UInt32)
+  nameWithType: Table<T>.Item[UInt32]
+  nameWithType.vb: Table(Of T).Item(UInt32)
+- uid: Wasmtime.Table`1.Item*
+  name: Item
+  href: api/Wasmtime.Table-1.html#Wasmtime_Table_1_Item_
+  commentId: Overload:Wasmtime.Table`1.Item
+  isSpec: "True"
+  fullName: Wasmtime.Table<T>.Item
+  fullName.vb: Wasmtime.Table(Of T).Item
+  nameWithType: Table<T>.Item
+  nameWithType.vb: Table(Of T).Item
+- uid: Wasmtime.Table`1.Kind
+  name: Kind
+  href: api/Wasmtime.Table-1.html#Wasmtime_Table_1_Kind
+  commentId: P:Wasmtime.Table`1.Kind
+  fullName: Wasmtime.Table<T>.Kind
+  fullName.vb: Wasmtime.Table(Of T).Kind
+  nameWithType: Table<T>.Kind
+  nameWithType.vb: Table(Of T).Kind
+- uid: Wasmtime.Table`1.Kind*
+  name: Kind
+  href: api/Wasmtime.Table-1.html#Wasmtime_Table_1_Kind_
+  commentId: Overload:Wasmtime.Table`1.Kind
+  isSpec: "True"
+  fullName: Wasmtime.Table<T>.Kind
+  fullName.vb: Wasmtime.Table(Of T).Kind
+  nameWithType: Table<T>.Kind
+  nameWithType.vb: Table(Of T).Kind
+- uid: Wasmtime.Table`1.Maximum
+  name: Maximum
+  href: api/Wasmtime.Table-1.html#Wasmtime_Table_1_Maximum
+  commentId: P:Wasmtime.Table`1.Maximum
+  fullName: Wasmtime.Table<T>.Maximum
+  fullName.vb: Wasmtime.Table(Of T).Maximum
+  nameWithType: Table<T>.Maximum
+  nameWithType.vb: Table(Of T).Maximum
+- uid: Wasmtime.Table`1.Maximum*
+  name: Maximum
+  href: api/Wasmtime.Table-1.html#Wasmtime_Table_1_Maximum_
+  commentId: Overload:Wasmtime.Table`1.Maximum
+  isSpec: "True"
+  fullName: Wasmtime.Table<T>.Maximum
+  fullName.vb: Wasmtime.Table(Of T).Maximum
+  nameWithType: Table<T>.Maximum
+  nameWithType.vb: Table(Of T).Maximum
+- uid: Wasmtime.Table`1.Minimum
+  name: Minimum
+  href: api/Wasmtime.Table-1.html#Wasmtime_Table_1_Minimum
+  commentId: P:Wasmtime.Table`1.Minimum
+  fullName: Wasmtime.Table<T>.Minimum
+  fullName.vb: Wasmtime.Table(Of T).Minimum
+  nameWithType: Table<T>.Minimum
+  nameWithType.vb: Table(Of T).Minimum
+- uid: Wasmtime.Table`1.Minimum*
+  name: Minimum
+  href: api/Wasmtime.Table-1.html#Wasmtime_Table_1_Minimum_
+  commentId: Overload:Wasmtime.Table`1.Minimum
+  isSpec: "True"
+  fullName: Wasmtime.Table<T>.Minimum
+  fullName.vb: Wasmtime.Table(Of T).Minimum
+  nameWithType: Table<T>.Minimum
+  nameWithType.vb: Table(Of T).Minimum
+- uid: Wasmtime.Table`1.Size
+  name: Size
+  href: api/Wasmtime.Table-1.html#Wasmtime_Table_1_Size
+  commentId: P:Wasmtime.Table`1.Size
+  fullName: Wasmtime.Table<T>.Size
+  fullName.vb: Wasmtime.Table(Of T).Size
+  nameWithType: Table<T>.Size
+  nameWithType.vb: Table(Of T).Size
+- uid: Wasmtime.Table`1.Size*
+  name: Size
+  href: api/Wasmtime.Table-1.html#Wasmtime_Table_1_Size_
+  commentId: Overload:Wasmtime.Table`1.Size
+  isSpec: "True"
+  fullName: Wasmtime.Table<T>.Size
+  fullName.vb: Wasmtime.Table(Of T).Size
+  nameWithType: Table<T>.Size
+  nameWithType.vb: Table(Of T).Size
 - uid: Wasmtime.TrapException
   name: TrapException
   href: api/Wasmtime.TrapException.html
@@ -2078,18 +2769,89 @@ references:
   isSpec: "True"
   fullName: Wasmtime.TrapException.TrapException
   nameWithType: TrapException.TrapException
+- uid: Wasmtime.TrapException.Frames
+  name: Frames
+  href: api/Wasmtime.TrapException.html#Wasmtime_TrapException_Frames
+  commentId: P:Wasmtime.TrapException.Frames
+  fullName: Wasmtime.TrapException.Frames
+  nameWithType: TrapException.Frames
+- uid: Wasmtime.TrapException.Frames*
+  name: Frames
+  href: api/Wasmtime.TrapException.html#Wasmtime_TrapException_Frames_
+  commentId: Overload:Wasmtime.TrapException.Frames
+  isSpec: "True"
+  fullName: Wasmtime.TrapException.Frames
+  nameWithType: TrapException.Frames
+- uid: Wasmtime.TrapFrame
+  name: TrapFrame
+  href: api/Wasmtime.TrapFrame.html
+  commentId: T:Wasmtime.TrapFrame
+  fullName: Wasmtime.TrapFrame
+  nameWithType: TrapFrame
+- uid: Wasmtime.TrapFrame.FunctionName
+  name: FunctionName
+  href: api/Wasmtime.TrapFrame.html#Wasmtime_TrapFrame_FunctionName
+  commentId: P:Wasmtime.TrapFrame.FunctionName
+  fullName: Wasmtime.TrapFrame.FunctionName
+  nameWithType: TrapFrame.FunctionName
+- uid: Wasmtime.TrapFrame.FunctionName*
+  name: FunctionName
+  href: api/Wasmtime.TrapFrame.html#Wasmtime_TrapFrame_FunctionName_
+  commentId: Overload:Wasmtime.TrapFrame.FunctionName
+  isSpec: "True"
+  fullName: Wasmtime.TrapFrame.FunctionName
+  nameWithType: TrapFrame.FunctionName
+- uid: Wasmtime.TrapFrame.FunctionOffset
+  name: FunctionOffset
+  href: api/Wasmtime.TrapFrame.html#Wasmtime_TrapFrame_FunctionOffset
+  commentId: P:Wasmtime.TrapFrame.FunctionOffset
+  fullName: Wasmtime.TrapFrame.FunctionOffset
+  nameWithType: TrapFrame.FunctionOffset
+- uid: Wasmtime.TrapFrame.FunctionOffset*
+  name: FunctionOffset
+  href: api/Wasmtime.TrapFrame.html#Wasmtime_TrapFrame_FunctionOffset_
+  commentId: Overload:Wasmtime.TrapFrame.FunctionOffset
+  isSpec: "True"
+  fullName: Wasmtime.TrapFrame.FunctionOffset
+  nameWithType: TrapFrame.FunctionOffset
+- uid: Wasmtime.TrapFrame.ModuleName
+  name: ModuleName
+  href: api/Wasmtime.TrapFrame.html#Wasmtime_TrapFrame_ModuleName
+  commentId: P:Wasmtime.TrapFrame.ModuleName
+  fullName: Wasmtime.TrapFrame.ModuleName
+  nameWithType: TrapFrame.ModuleName
+- uid: Wasmtime.TrapFrame.ModuleName*
+  name: ModuleName
+  href: api/Wasmtime.TrapFrame.html#Wasmtime_TrapFrame_ModuleName_
+  commentId: Overload:Wasmtime.TrapFrame.ModuleName
+  isSpec: "True"
+  fullName: Wasmtime.TrapFrame.ModuleName
+  nameWithType: TrapFrame.ModuleName
+- uid: Wasmtime.TrapFrame.ModuleOffset
+  name: ModuleOffset
+  href: api/Wasmtime.TrapFrame.html#Wasmtime_TrapFrame_ModuleOffset
+  commentId: P:Wasmtime.TrapFrame.ModuleOffset
+  fullName: Wasmtime.TrapFrame.ModuleOffset
+  nameWithType: TrapFrame.ModuleOffset
+- uid: Wasmtime.TrapFrame.ModuleOffset*
+  name: ModuleOffset
+  href: api/Wasmtime.TrapFrame.html#Wasmtime_TrapFrame_ModuleOffset_
+  commentId: Overload:Wasmtime.TrapFrame.ModuleOffset
+  isSpec: "True"
+  fullName: Wasmtime.TrapFrame.ModuleOffset
+  nameWithType: TrapFrame.ModuleOffset
 - uid: Wasmtime.ValueKind
   name: ValueKind
   href: api/Wasmtime.ValueKind.html
   commentId: T:Wasmtime.ValueKind
   fullName: Wasmtime.ValueKind
   nameWithType: ValueKind
-- uid: Wasmtime.ValueKind.AnyRef
-  name: AnyRef
-  href: api/Wasmtime.ValueKind.html#Wasmtime_ValueKind_AnyRef
-  commentId: F:Wasmtime.ValueKind.AnyRef
-  fullName: Wasmtime.ValueKind.AnyRef
-  nameWithType: ValueKind.AnyRef
+- uid: Wasmtime.ValueKind.ExternRef
+  name: ExternRef
+  href: api/Wasmtime.ValueKind.html#Wasmtime_ValueKind_ExternRef
+  commentId: F:Wasmtime.ValueKind.ExternRef
+  fullName: Wasmtime.ValueKind.ExternRef
+  nameWithType: ValueKind.ExternRef
 - uid: Wasmtime.ValueKind.Float32
   name: Float32
   href: api/Wasmtime.ValueKind.html#Wasmtime_ValueKind_Float32

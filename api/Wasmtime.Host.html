@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class Host
    ">
-    <meta name="generator" content="docfx 2.48.1.0">
+    <meta name="generator" content="docfx 2.51.0.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -94,44 +94,80 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host__ctor.md&amp;value=---%0Auid%3A%20Wasmtime.Host.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host__ctor_Wasmtime_Engine_.md&amp;value=---%0Auid%3A%20Wasmtime.Host.%23ctor(Wasmtime.Engine)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L20">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L20">View Source</a>
   </span>
   <a id="Wasmtime_Host__ctor_" data-uid="Wasmtime.Host.#ctor*"></a>
-  <h4 id="Wasmtime_Host__ctor" data-uid="Wasmtime.Host.#ctor">Host()</h4>
+  <h4 id="Wasmtime_Host__ctor_Wasmtime_Engine_" data-uid="Wasmtime.Host.#ctor(Wasmtime.Engine)">Host(Engine)</h4>
   <div class="markdown level1 summary"><p>Constructs a new host.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Host()</code></pre>
+    <pre><code class="lang-csharp hljs">public Host(Engine engine)</code></pre>
   </div>
-  <h3 id="methods">Methods
-  </h3>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Engine.html">Engine</a></td>
+        <td><span class="parametername">engine</span></td>
+        <td><p>The engine to use for the host.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_ClearDefinitions.md&amp;value=---%0Auid%3A%20Wasmtime.Host.ClearDefinitions%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host__ctor_Wasmtime_Store_.md&amp;value=---%0Auid%3A%20Wasmtime.Host.%23ctor(Wasmtime.Store)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L666">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L45">View Source</a>
   </span>
-  <a id="Wasmtime_Host_ClearDefinitions_" data-uid="Wasmtime.Host.ClearDefinitions*"></a>
-  <h4 id="Wasmtime_Host_ClearDefinitions" data-uid="Wasmtime.Host.ClearDefinitions">ClearDefinitions()</h4>
-  <div class="markdown level1 summary"><p>Clears all existing definitions in the host.</p>
+  <a id="Wasmtime_Host__ctor_" data-uid="Wasmtime.Host.#ctor*"></a>
+  <h4 id="Wasmtime_Host__ctor_Wasmtime_Store_" data-uid="Wasmtime.Host.#ctor(Wasmtime.Store)">Host(Store)</h4>
+  <div class="markdown level1 summary"><p>Constructs a new host with the given store.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void ClearDefinitions()</code></pre>
+    <pre><code class="lang-csharp hljs">public Host(Store store)</code></pre>
   </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Store.html">Store</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store to use for the host.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction_System_String_System_String_Action_.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction(System.String%2CSystem.String%2CAction)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction_System_String_System_String_Action_.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction(System.String%2CSystem.String%2CAction)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L60">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L101">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction_System_String_System_String_Action_" data-uid="Wasmtime.Host.DefineFunction(System.String,System.String,Action)">DefineFunction(String, String, Action)</h4>
@@ -190,10 +226,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__1_System_String_System_String_Action___0__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%601(System.String%2CSystem.String%2CAction%7B%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction__1_System_String_System_String_Action___0__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%601(System.String%2CSystem.String%2CAction%7B%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L72">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L113">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction__1_System_String_System_String_Action___0__" data-uid="Wasmtime.Host.DefineFunction``1(System.String,System.String,Action{``0})">DefineFunction&lt;T&gt;(String, String, Action&lt;T&gt;)</h4>
@@ -267,10 +303,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__1_System_String_System_String_Func___0__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%601(System.String%2CSystem.String%2CFunc%7B%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction__1_System_String_System_String_Func___0__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%601(System.String%2CSystem.String%2CFunc%7B%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L264">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L305">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction__1_System_String_System_String_Func___0__" data-uid="Wasmtime.Host.DefineFunction``1(System.String,System.String,Func{``0})">DefineFunction&lt;TResult&gt;(String, String, Func&lt;TResult&gt;)</h4>
@@ -344,10 +380,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__10_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6010(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction__10_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6010(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L180">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L221">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction__10_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9__" data-uid="Wasmtime.Host.DefineFunction``10(System.String,System.String,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10&gt;(String, String, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10&gt;)</h4>
@@ -457,10 +493,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__10_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6010(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction__10_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6010(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L372">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L413">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction__10_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9__" data-uid="Wasmtime.Host.DefineFunction``10(System.String,System.String,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult&gt;)</h4>
@@ -570,10 +606,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__11_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6011(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction__11_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6011(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L192">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L233">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction__11_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10__" data-uid="Wasmtime.Host.DefineFunction``11(System.String,System.String,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11&gt;(String, String, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11&gt;)</h4>
@@ -687,10 +723,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__11_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6011(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction__11_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6011(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L384">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L425">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction__11_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10__" data-uid="Wasmtime.Host.DefineFunction``11(System.String,System.String,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult&gt;)</h4>
@@ -804,10 +840,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__12_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6012(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction__12_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6012(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L204">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L245">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction__12_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11__" data-uid="Wasmtime.Host.DefineFunction``12(System.String,System.String,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12&gt;(String, String, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12&gt;)</h4>
@@ -925,10 +961,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__12_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6012(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction__12_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6012(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L396">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L437">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction__12_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11__" data-uid="Wasmtime.Host.DefineFunction``12(System.String,System.String,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult&gt;)</h4>
@@ -1046,10 +1082,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__13_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11___12__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6013(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction__13_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11___12__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6013(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L216">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L257">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction__13_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11___12__" data-uid="Wasmtime.Host.DefineFunction``13(System.String,System.String,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13&gt;(String, String, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13&gt;)</h4>
@@ -1171,10 +1207,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__13_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6013(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction__13_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6013(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L408">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L449">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction__13_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12__" data-uid="Wasmtime.Host.DefineFunction``13(System.String,System.String,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult&gt;)</h4>
@@ -1296,10 +1332,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__14_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11___12___13__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6014(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%2C%60%6013%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction__14_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11___12___13__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6014(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%2C%60%6013%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L228">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L269">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction__14_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11___12___13__" data-uid="Wasmtime.Host.DefineFunction``14(System.String,System.String,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14&gt;(String, String, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14&gt;)</h4>
@@ -1425,10 +1461,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__14_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6014(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%2C%60%6013%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction__14_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6014(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%2C%60%6013%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L420">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L461">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction__14_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13__" data-uid="Wasmtime.Host.DefineFunction``14(System.String,System.String,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult&gt;)</h4>
@@ -1554,10 +1590,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__15_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6015(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%2C%60%6013%2C%60%6014%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction__15_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6015(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%2C%60%6013%2C%60%6014%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L240">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L281">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction__15_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14__" data-uid="Wasmtime.Host.DefineFunction``15(System.String,System.String,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15&gt;(String, String, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15&gt;)</h4>
@@ -1687,10 +1723,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__15_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6015(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%2C%60%6013%2C%60%6014%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction__15_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6015(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%2C%60%6013%2C%60%6014%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L432">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L473">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction__15_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14__" data-uid="Wasmtime.Host.DefineFunction``15(System.String,System.String,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult&gt;)</h4>
@@ -1820,10 +1856,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__16_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14___15__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6016(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%2C%60%6013%2C%60%6014%2C%60%6015%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction__16_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14___15__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6016(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%2C%60%6013%2C%60%6014%2C%60%6015%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L252">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L293">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction__16_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14___15__" data-uid="Wasmtime.Host.DefineFunction``16(System.String,System.String,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16&gt;(String, String, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16&gt;)</h4>
@@ -1957,10 +1993,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__16_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14___15__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6016(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%2C%60%6013%2C%60%6014%2C%60%6015%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction__16_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14___15__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6016(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%2C%60%6013%2C%60%6014%2C%60%6015%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L444">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L485">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction__16_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14___15__" data-uid="Wasmtime.Host.DefineFunction``16(System.String,System.String,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult&gt;)</h4>
@@ -2094,10 +2130,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__17_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14___15___16__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6017(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%2C%60%6013%2C%60%6014%2C%60%6015%2C%60%6016%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction__17_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14___15___16__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%6017(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%2C%60%6013%2C%60%6014%2C%60%6015%2C%60%6016%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L456">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L497">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction__17_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14___15___16__" data-uid="Wasmtime.Host.DefineFunction``17(System.String,System.String,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15,``16})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult&gt;)</h4>
@@ -2235,10 +2271,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__2_System_String_System_String_Action___0___1__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%602(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction__2_System_String_System_String_Action___0___1__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%602(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L84">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L125">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction__2_System_String_System_String_Action___0___1__" data-uid="Wasmtime.Host.DefineFunction``2(System.String,System.String,Action{``0,``1})">DefineFunction&lt;T1, T2&gt;(String, String, Action&lt;T1, T2&gt;)</h4>
@@ -2316,10 +2352,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__2_System_String_System_String_Func___0___1__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%602(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction__2_System_String_System_String_Func___0___1__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%602(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L276">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L317">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction__2_System_String_System_String_Func___0___1__" data-uid="Wasmtime.Host.DefineFunction``2(System.String,System.String,Func{``0,``1})">DefineFunction&lt;T, TResult&gt;(String, String, Func&lt;T, TResult&gt;)</h4>
@@ -2397,10 +2433,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__3_System_String_System_String_Action___0___1___2__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%603(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction__3_System_String_System_String_Action___0___1___2__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%603(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L96">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L137">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction__3_System_String_System_String_Action___0___1___2__" data-uid="Wasmtime.Host.DefineFunction``3(System.String,System.String,Action{``0,``1,``2})">DefineFunction&lt;T1, T2, T3&gt;(String, String, Action&lt;T1, T2, T3&gt;)</h4>
@@ -2482,10 +2518,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__3_System_String_System_String_Func___0___1___2__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%603(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction__3_System_String_System_String_Func___0___1___2__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%603(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L288">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L329">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction__3_System_String_System_String_Func___0___1___2__" data-uid="Wasmtime.Host.DefineFunction``3(System.String,System.String,Func{``0,``1,``2})">DefineFunction&lt;T1, T2, TResult&gt;(String, String, Func&lt;T1, T2, TResult&gt;)</h4>
@@ -2567,10 +2603,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__4_System_String_System_String_Action___0___1___2___3__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%604(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction__4_System_String_System_String_Action___0___1___2___3__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%604(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L108">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L149">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction__4_System_String_System_String_Action___0___1___2___3__" data-uid="Wasmtime.Host.DefineFunction``4(System.String,System.String,Action{``0,``1,``2,``3})">DefineFunction&lt;T1, T2, T3, T4&gt;(String, String, Action&lt;T1, T2, T3, T4&gt;)</h4>
@@ -2656,10 +2692,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__4_System_String_System_String_Func___0___1___2___3__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%604(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction__4_System_String_System_String_Func___0___1___2___3__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%604(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L300">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L341">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction__4_System_String_System_String_Func___0___1___2___3__" data-uid="Wasmtime.Host.DefineFunction``4(System.String,System.String,Func{``0,``1,``2,``3})">DefineFunction&lt;T1, T2, T3, TResult&gt;(String, String, Func&lt;T1, T2, T3, TResult&gt;)</h4>
@@ -2745,10 +2781,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__5_System_String_System_String_Action___0___1___2___3___4__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%605(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction__5_System_String_System_String_Action___0___1___2___3___4__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%605(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L120">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L161">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction__5_System_String_System_String_Action___0___1___2___3___4__" data-uid="Wasmtime.Host.DefineFunction``5(System.String,System.String,Action{``0,``1,``2,``3,``4})">DefineFunction&lt;T1, T2, T3, T4, T5&gt;(String, String, Action&lt;T1, T2, T3, T4, T5&gt;)</h4>
@@ -2838,10 +2874,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__5_System_String_System_String_Func___0___1___2___3___4__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%605(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction__5_System_String_System_String_Func___0___1___2___3___4__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%605(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L312">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L353">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction__5_System_String_System_String_Func___0___1___2___3___4__" data-uid="Wasmtime.Host.DefineFunction``5(System.String,System.String,Func{``0,``1,``2,``3,``4})">DefineFunction&lt;T1, T2, T3, T4, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, TResult&gt;)</h4>
@@ -2931,10 +2967,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__6_System_String_System_String_Action___0___1___2___3___4___5__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%606(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction__6_System_String_System_String_Action___0___1___2___3___4___5__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%606(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L132">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L173">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction__6_System_String_System_String_Action___0___1___2___3___4___5__" data-uid="Wasmtime.Host.DefineFunction``6(System.String,System.String,Action{``0,``1,``2,``3,``4,``5})">DefineFunction&lt;T1, T2, T3, T4, T5, T6&gt;(String, String, Action&lt;T1, T2, T3, T4, T5, T6&gt;)</h4>
@@ -3028,10 +3064,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__6_System_String_System_String_Func___0___1___2___3___4___5__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%606(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction__6_System_String_System_String_Func___0___1___2___3___4___5__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%606(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L324">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L365">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction__6_System_String_System_String_Func___0___1___2___3___4___5__" data-uid="Wasmtime.Host.DefineFunction``6(System.String,System.String,Func{``0,``1,``2,``3,``4,``5})">DefineFunction&lt;T1, T2, T3, T4, T5, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, TResult&gt;)</h4>
@@ -3125,10 +3161,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__7_System_String_System_String_Action___0___1___2___3___4___5___6__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%607(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction__7_System_String_System_String_Action___0___1___2___3___4___5___6__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%607(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L144">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L185">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction__7_System_String_System_String_Action___0___1___2___3___4___5___6__" data-uid="Wasmtime.Host.DefineFunction``7(System.String,System.String,Action{``0,``1,``2,``3,``4,``5,``6})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7&gt;(String, String, Action&lt;T1, T2, T3, T4, T5, T6, T7&gt;)</h4>
@@ -3226,10 +3262,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__7_System_String_System_String_Func___0___1___2___3___4___5___6__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%607(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction__7_System_String_System_String_Func___0___1___2___3___4___5___6__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%607(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L336">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L377">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction__7_System_String_System_String_Func___0___1___2___3___4___5___6__" data-uid="Wasmtime.Host.DefineFunction``7(System.String,System.String,Func{``0,``1,``2,``3,``4,``5,``6})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, T6, TResult&gt;)</h4>
@@ -3327,10 +3363,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__8_System_String_System_String_Action___0___1___2___3___4___5___6___7__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%608(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction__8_System_String_System_String_Action___0___1___2___3___4___5___6___7__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%608(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L156">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L197">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction__8_System_String_System_String_Action___0___1___2___3___4___5___6___7__" data-uid="Wasmtime.Host.DefineFunction``8(System.String,System.String,Action{``0,``1,``2,``3,``4,``5,``6,``7})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8&gt;(String, String, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8&gt;)</h4>
@@ -3432,10 +3468,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__8_System_String_System_String_Func___0___1___2___3___4___5___6___7__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%608(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction__8_System_String_System_String_Func___0___1___2___3___4___5___6___7__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%608(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L348">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L389">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction__8_System_String_System_String_Func___0___1___2___3___4___5___6___7__" data-uid="Wasmtime.Host.DefineFunction``8(System.String,System.String,Func{``0,``1,``2,``3,``4,``5,``6,``7})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, T6, T7, TResult&gt;)</h4>
@@ -3537,10 +3573,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__9_System_String_System_String_Action___0___1___2___3___4___5___6___7___8__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%609(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction__9_System_String_System_String_Action___0___1___2___3___4___5___6___7___8__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%609(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L168">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L209">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction__9_System_String_System_String_Action___0___1___2___3___4___5___6___7___8__" data-uid="Wasmtime.Host.DefineFunction``9(System.String,System.String,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9&gt;(String, String, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9&gt;)</h4>
@@ -3646,10 +3682,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineFunction__9_System_String_System_String_Func___0___1___2___3___4___5___6___7___8__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%609(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineFunction__9_System_String_System_String_Func___0___1___2___3___4___5___6___7___8__.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineFunction%60%609(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L360">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L401">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineFunction_" data-uid="Wasmtime.Host.DefineFunction*"></a>
   <h4 id="Wasmtime_Host_DefineFunction__9_System_String_System_String_Func___0___1___2___3___4___5___6___7___8__" data-uid="Wasmtime.Host.DefineFunction``9(System.String,System.String,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, TResult&gt;)</h4>
@@ -3755,10 +3791,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineGlobal__1_System_String_System_String___0_.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineGlobal%60%601(System.String%2CSystem.String%2C%60%600)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineGlobal__1_System_String_System_String___0_.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineGlobal%60%601(System.String%2CSystem.String%2C%60%600)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L469">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L510">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineGlobal_" data-uid="Wasmtime.Host.DefineGlobal*"></a>
   <h4 id="Wasmtime_Host_DefineGlobal__1_System_String_System_String___0_" data-uid="Wasmtime.Host.DefineGlobal``1(System.String,System.String,``0)">DefineGlobal&lt;T&gt;(String, String, T)</h4>
@@ -3833,10 +3869,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineMemory_System_String_System_String_System_UInt32_System_UInt32_.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineMemory(System.String%2CSystem.String%2CSystem.UInt32%2CSystem.UInt32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineMemory_System_String_System_String_System_UInt32_System_UInt32_.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineMemory(System.String%2CSystem.String%2CSystem.UInt32%2CSystem.UInt32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L535">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L578">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineMemory_" data-uid="Wasmtime.Host.DefineMemory*"></a>
   <h4 id="Wasmtime_Host_DefineMemory_System_String_System_String_System_UInt32_System_UInt32_" data-uid="Wasmtime.Host.DefineMemory(System.String,System.String,System.UInt32,System.UInt32)">DefineMemory(String, String, UInt32, UInt32)</h4>
@@ -3901,10 +3937,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineMutableGlobal__1_System_String_System_String___0_.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineMutableGlobal%60%601(System.String%2CSystem.String%2C%60%600)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineMutableGlobal__1_System_String_System_String___0_.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineMutableGlobal%60%601(System.String%2CSystem.String%2C%60%600)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L502">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L544">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineMutableGlobal_" data-uid="Wasmtime.Host.DefineMutableGlobal*"></a>
   <h4 id="Wasmtime_Host_DefineMutableGlobal__1_System_String_System_String___0_" data-uid="Wasmtime.Host.DefineMutableGlobal``1(System.String,System.String,``0)">DefineMutableGlobal&lt;T&gt;(String, String, T)</h4>
@@ -3979,10 +4015,102 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_DefineWasi_System_String_Wasmtime_WasiConfiguration_.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineWasi(System.String%2CWasmtime.WasiConfiguration)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineTable__1_System_String_System_String___0_System_UInt32_System_UInt32_.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineTable%60%601(System.String%2CSystem.String%2C%60%600%2CSystem.UInt32%2CSystem.UInt32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L30">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L614">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineTable_" data-uid="Wasmtime.Host.DefineTable*"></a>
+  <h4 id="Wasmtime_Host_DefineTable__1_System_String_System_String___0_System_UInt32_System_UInt32_" data-uid="Wasmtime.Host.DefineTable``1(System.String,System.String,``0,System.UInt32,System.UInt32)">DefineTable&lt;T&gt;(String, String, T, UInt32, UInt32)</h4>
+  <div class="markdown level1 summary"><p>Defines a new host table.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Table&lt;T&gt; DefineTable&lt;T&gt;(string moduleName, string name, T initialValue, uint initial, uint maximum = null)
+
+    where T : class</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the table.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the table.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">T</span></td>
+        <td><span class="parametername">initialValue</span></td>
+        <td><p>The initial value of the table elements.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.UInt32</span></td>
+        <td><span class="parametername">initial</span></td>
+        <td><p>The initial number of elements for the table.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.UInt32</span></td>
+        <td><span class="parametername">maximum</span></td>
+        <td><p>The maximum number of elements for the table.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Table-1.html">Table</a>&lt;T&gt;</td>
+        <td><p>Returns a new <a class="xref" href="Wasmtime.Table-1.html">Table&lt;T&gt;</a> representing the defined table.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td><p>The element type of the host table.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineWasi_System_String_Wasmtime_WasiConfiguration_.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineWasi(System.String%2CWasmtime.WasiConfiguration)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L71">View Source</a>
   </span>
   <a id="Wasmtime_Host_DefineWasi_" data-uid="Wasmtime.Host.DefineWasi*"></a>
   <h4 id="Wasmtime_Host_DefineWasi_System_String_Wasmtime_WasiConfiguration_" data-uid="Wasmtime.Host.DefineWasi(System.String,Wasmtime.WasiConfiguration)">DefineWasi(String, WasiConfiguration)</h4>
@@ -4019,10 +4147,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_Dispose.md&amp;value=---%0Auid%3A%20Wasmtime.Host.Dispose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_Dispose.md&amp;value=---%0Auid%3A%20Wasmtime.Host.Dispose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L683">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L658">View Source</a>
   </span>
   <a id="Wasmtime_Host_Dispose_" data-uid="Wasmtime.Host.Dispose*"></a>
   <h4 id="Wasmtime_Host_Dispose" data-uid="Wasmtime.Host.Dispose">Dispose()</h4>
@@ -4034,10 +4162,10 @@
   </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_Instantiate_Wasmtime_Module_.md&amp;value=---%0Auid%3A%20Wasmtime.Host.Instantiate(Wasmtime.Module)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_Instantiate_Wasmtime_Module_.md&amp;value=---%0Auid%3A%20Wasmtime.Host.Instantiate(Wasmtime.Module)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L651">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L645">View Source</a>
   </span>
   <a id="Wasmtime_Host_Instantiate_" data-uid="Wasmtime.Host.Instantiate*"></a>
   <h4 id="Wasmtime_Host_Instantiate_Wasmtime_Module_" data-uid="Wasmtime.Host.Instantiate(Wasmtime.Module)">Instantiate(Module)</h4>
@@ -4082,218 +4210,6 @@
       </tr>
     </tbody>
   </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_LoadModule_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Host.LoadModule(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L588">View Source</a>
-  </span>
-  <a id="Wasmtime_Host_LoadModule_" data-uid="Wasmtime.Host.LoadModule*"></a>
-  <h4 id="Wasmtime_Host_LoadModule_System_String_" data-uid="Wasmtime.Host.LoadModule(System.String)">LoadModule(String)</h4>
-  <div class="markdown level1 summary"><p>Loads a <a class="xref" href="Wasmtime.Module.html">Module</a> given the path to the WebAssembly file.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Module LoadModule(string path)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.String</span></td>
-        <td><span class="parametername">path</span></td>
-        <td><p>The path to the WebAssembly file.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Wasmtime.Module.html">Module</a></td>
-        <td><p>Returns a new <a class="xref" href="Wasmtime.Module.html">Module</a>.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_LoadModule_System_String_System_Byte___.md&amp;value=---%0Auid%3A%20Wasmtime.Host.LoadModule(System.String%2CSystem.Byte%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L566">View Source</a>
-  </span>
-  <a id="Wasmtime_Host_LoadModule_" data-uid="Wasmtime.Host.LoadModule*"></a>
-  <h4 id="Wasmtime_Host_LoadModule_System_String_System_Byte___" data-uid="Wasmtime.Host.LoadModule(System.String,System.Byte[])">LoadModule(String, Byte[])</h4>
-  <div class="markdown level1 summary"><p>Loads a <a class="xref" href="Wasmtime.Module.html">Module</a> given the module name and bytes.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Module LoadModule(string name, byte[] bytes)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.String</span></td>
-        <td><span class="parametername">name</span></td>
-        <td><p>The name of the module.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Byte</span>[]</td>
-        <td><span class="parametername">bytes</span></td>
-        <td><p>The bytes of the module.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Wasmtime.Module.html">Module</a></td>
-        <td><p>Returns a new <a class="xref" href="Wasmtime.Module.html">Module</a>.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_LoadModuleText_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Host.LoadModuleText(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L641">View Source</a>
-  </span>
-  <a id="Wasmtime_Host_LoadModuleText_" data-uid="Wasmtime.Host.LoadModuleText*"></a>
-  <h4 id="Wasmtime_Host_LoadModuleText_System_String_" data-uid="Wasmtime.Host.LoadModuleText(System.String)">LoadModuleText(String)</h4>
-  <div class="markdown level1 summary"><p>Loads a <a class="xref" href="Wasmtime.Module.html">Module</a> based on the path to a WebAssembly text format file.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Module LoadModuleText(string path)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.String</span></td>
-        <td><span class="parametername">path</span></td>
-        <td><p>The path to the WebAssembly text format file.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Wasmtime.Module.html">Module</a></td>
-        <td><p>Returns a new <a class="xref" href="Wasmtime.Module.html">Module</a>.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host_LoadModuleText_System_String_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Host.LoadModuleText(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L599">View Source</a>
-  </span>
-  <a id="Wasmtime_Host_LoadModuleText_" data-uid="Wasmtime.Host.LoadModuleText*"></a>
-  <h4 id="Wasmtime_Host_LoadModuleText_System_String_System_String_" data-uid="Wasmtime.Host.LoadModuleText(System.String,System.String)">LoadModuleText(String, String)</h4>
-  <div class="markdown level1 summary"><p>Loads a <a class="xref" href="Wasmtime.Module.html">Module</a> based on a WebAssembly text format representation.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Module LoadModuleText(string name, string text)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.String</span></td>
-        <td><span class="parametername">name</span></td>
-        <td><p>The name of the module.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.String</span></td>
-        <td><span class="parametername">text</span></td>
-        <td><p>The WebAssembly text format representation of the module.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Wasmtime.Module.html">Module</a></td>
-        <td><p>Returns a new <a class="xref" href="Wasmtime.Module.html">Module</a>.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
 </article>
           </div>
           
@@ -4302,10 +4218,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/master/apiSpec/new?filename=Wasmtime_Host.md&amp;value=---%0Auid%3A%20Wasmtime.Host%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host.md&amp;value=---%0Auid%3A%20Wasmtime.Host%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/master/src/Host.cs/#L15" class="contribution-link">View Source</a>
+                    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L14" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

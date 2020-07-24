@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class GlobalImport
+    <title>Class Engine
    </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class GlobalImport
+    <meta name="title" content="Class Engine
    ">
     <meta name="generator" content="docfx 2.51.0.0">
     
@@ -68,102 +68,60 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="Wasmtime.Imports.GlobalImport">
+            <article class="content wrap" id="_content" data-uid="Wasmtime.Engine">
   
   
-  <h1 id="Wasmtime_Imports_GlobalImport" data-uid="Wasmtime.Imports.GlobalImport" class="text-break">Class GlobalImport
+  <h1 id="Wasmtime_Engine" data-uid="Wasmtime.Engine" class="text-break">Class Engine
   </h1>
-  <div class="markdown level0 summary"><p>Represents a global variable imported to a WebAssembly module.</p>
+  <div class="markdown level0 summary"><p>Represents a WebAssembly engine.</p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><span class="xref">System.Object</span></div>
-    <div class="level1"><a class="xref" href="Wasmtime.Imports.Import.html">Import</a></div>
-    <div class="level2"><span class="xref">GlobalImport</span></div>
+    <div class="level1"><span class="xref">Engine</span></div>
   </div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
-    <div>
-      <a class="xref" href="Wasmtime.Imports.Import.html#Wasmtime_Imports_Import_ModuleName">Import.ModuleName</a>
-    </div>
-    <div>
-      <a class="xref" href="Wasmtime.Imports.Import.html#Wasmtime_Imports_Import_Name">Import.Name</a>
-    </div>
-    <div>
-      <a class="xref" href="Wasmtime.Imports.Import.html#Wasmtime_Imports_Import_ToString">Import.ToString()</a>
-    </div>
-  </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="Wasmtime.Imports.html">Wasmtime.Imports</a></h6>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Wasmtime.html">Wasmtime</a></h6>
   <h6><strong>Assembly</strong>: Wasmtime.Dotnet.dll</h6>
-  <h5 id="Wasmtime_Imports_GlobalImport_syntax">Syntax</h5>
+  <h5 id="Wasmtime_Engine_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class GlobalImport : Import</code></pre>
+    <pre><code class="lang-csharp hljs">public class Engine : IDisposable</code></pre>
   </div>
-  <h3 id="properties">Properties
+  <h3 id="constructors">Constructors
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Imports_GlobalImport_IsMutable.md&amp;value=---%0Auid%3A%20Wasmtime.Imports.GlobalImport.IsMutable%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Engine__ctor.md&amp;value=---%0Auid%3A%20Wasmtime.Engine.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Imports/GlobalImport.cs/#L28">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Engine.cs/#L16">View Source</a>
   </span>
-  <a id="Wasmtime_Imports_GlobalImport_IsMutable_" data-uid="Wasmtime.Imports.GlobalImport.IsMutable*"></a>
-  <h4 id="Wasmtime_Imports_GlobalImport_IsMutable" data-uid="Wasmtime.Imports.GlobalImport.IsMutable">IsMutable</h4>
-  <div class="markdown level1 summary"><p>Determines whether or not the global variable is mutable.</p>
+  <a id="Wasmtime_Engine__ctor_" data-uid="Wasmtime.Engine.#ctor*"></a>
+  <h4 id="Wasmtime_Engine__ctor" data-uid="Wasmtime.Engine.#ctor">Engine()</h4>
+  <div class="markdown level1 summary"><p>Constructs a new default engine.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public bool IsMutable { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public Engine()</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Boolean</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
+  <h3 id="methods">Methods
+  </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Imports_GlobalImport_Kind.md&amp;value=---%0Auid%3A%20Wasmtime.Imports.GlobalImport.Kind%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Engine_Dispose.md&amp;value=---%0Auid%3A%20Wasmtime.Engine.Dispose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Imports/GlobalImport.cs/#L23">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Engine.cs/#L22">View Source</a>
   </span>
-  <a id="Wasmtime_Imports_GlobalImport_Kind_" data-uid="Wasmtime.Imports.GlobalImport.Kind*"></a>
-  <h4 id="Wasmtime_Imports_GlobalImport_Kind" data-uid="Wasmtime.Imports.GlobalImport.Kind">Kind</h4>
-  <div class="markdown level1 summary"><p>The kind of value for the global variable.</p>
-</div>
+  <a id="Wasmtime_Engine_Dispose_" data-uid="Wasmtime.Engine.Dispose*"></a>
+  <h4 id="Wasmtime_Engine_Dispose" data-uid="Wasmtime.Engine.Dispose">Dispose()</h4>
+  <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ValueKind Kind { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Wasmtime.ValueKind.html">ValueKind</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 </article>
           </div>
           
@@ -172,10 +130,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Imports_GlobalImport.md&amp;value=---%0Auid%3A%20Wasmtime.Imports.GlobalImport%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Engine.md&amp;value=---%0Auid%3A%20Wasmtime.Engine%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Imports/GlobalImport.cs/#L9" class="contribution-link">View Source</a>
+                    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Engine.cs/#L11" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

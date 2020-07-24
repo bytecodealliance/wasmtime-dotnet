@@ -8,7 +8,7 @@
     <title>Introduction to .NET embedding of Wasmtime </title>
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Introduction to .NET embedding of Wasmtime ">
-    <meta name="generator" content="docfx 2.48.1.0">
+    <meta name="generator" content="docfx 2.51.0.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -93,7 +93,7 @@ dotnet new console
 </code></pre>
 <h2 id="referencing-the-wasmtime-package">Referencing the Wasmtime package</h2>
 <p>To use the .NET embedding of Wasmtime from the project, we need to add a reference to the <a href="https://www.nuget.org/packages/Wasmtime">Wasmtime NuGet package</a>:</p>
-<pre><code class="lang-text">dotnet add package --version 0.15.0-preview1 wasmtime
+<pre><code class="lang-text">dotnet add package --version 0.18.1-preview1 wasmtime
 </code></pre>
 <p><em>Note that the <code>--version</code> option is required because the package is currently prerelease.</em></p>
 <p>This will add a <code>PackageReference</code> to the project file so that .NET embedding for Wasmtime can be used.</p>
@@ -108,15 +108,19 @@ namespace Tutorial
     {
         static void Main(string[] args)
         {
-            using var host = new Host();
+            using var engine = new Engine();
+            using var module = Module.FromText(
+                engine,
+                &quot;hello&quot;,
+                &quot;(module (func $hello (import \&quot;\&quot; \&quot;hello\&quot;)) (func (export \&quot;run\&quot;) (call $hello)))&quot;
+            );
+            using var host = new Host(engine);
 
-            host.DefineFunction(
+            using var function = host.DefineFunction(
                 &quot;&quot;,
                 &quot;hello&quot;,
                 () =&gt; Console.WriteLine(&quot;Hello from C#!&quot;)
             );
-
-            using var module = host.LoadModuleText(&quot;hello&quot;, &quot;(module (func $hello (import \&quot;\&quot; \&quot;hello\&quot;)) (func (export \&quot;run\&quot;) (call $hello)))&quot;);
 
             using dynamic instance = host.Instantiate(module);
             instance.run();
@@ -147,7 +151,7 @@ namespace Tutorial
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/blob/master/docs/articles/intro.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/blob/main/docs/articles/intro.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>
