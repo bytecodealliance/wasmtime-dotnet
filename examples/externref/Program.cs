@@ -7,18 +7,22 @@ namespace HelloExample
     {
         static void Main(string[] args)
         {
-            using var engine = new Engine();
-            using var module = Module.FromTextFile(engine, "hello.wat");
+            using var engine = new EngineBuilder()
+                .WithReferenceTypes(true)
+                .Build();
+
+            using var module = Module.FromTextFile(engine, "externref.wat");
+
             using var host = new Host(engine);
 
             using var function = host.DefineFunction(
                 "",
-                "hello",
-                () => Console.WriteLine("Hello from C#, WebAssembly!")
+                "concat",
+                (string a, string b) => $"{a} {b}"
             );
 
             using dynamic instance = host.Instantiate(module);
-            instance.run();
+            Console.WriteLine(instance.run("Hello", "world!"));
         }
     }
 }

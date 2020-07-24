@@ -47,11 +47,11 @@ namespace Wasmtime.Externs
                     throw new InvalidOperationException($"The value of global '{Name}' cannot be modified.");
                 }
 
-                var v = Interop.ToValue(value, Kind);
-
                 unsafe
                 {
+                    var v = Interop.ToValue(value, Kind);
                     Interop.wasm_global_set(_global, &v);
+                    Interop.DeleteValue(&v);
                 }
             }
         }

@@ -41,44 +41,7 @@ namespace Wasmtime.Externs
         /// </returns>
         public object Invoke(params object[] arguments)
         {
-            if (arguments.Length != Parameters.Count)
-            {
-                throw new WasmtimeException($"Argument mismatch when invoking function '{Name}': requires {Parameters.Count} but was given {arguments.Length}.");
-            }
-
-            unsafe
-            {
-                Interop.wasm_val_t* args = stackalloc Interop.wasm_val_t[Parameters.Count];
-                Interop.wasm_val_t* results = stackalloc Interop.wasm_val_t[Results.Count];
-
-                for (int i = 0; i < arguments.Length; ++i)
-                {
-                    args[i] = Interop.ToValue(arguments[i], Parameters[i]);
-                }
-
-                var trap = Interop.wasm_func_call(_func, args, results);
-                if (trap != IntPtr.Zero)
-                {
-                    throw TrapException.FromOwnedTrap(trap);
-                }
-
-                if (Results.Count == 0)
-                {
-                    return null;
-                }
-
-                if (Results.Count == 1)
-                {
-                    return Interop.ToObject(&results[0]);
-                }
-
-                var ret = new object[Results.Count];
-                for (int i = 0; i < Results.Count; ++i)
-                {
-                    ret[i] = Interop.ToObject(&results[i]);
-                }
-                return ret;
-            }
+            return Function.Invoke(_func, Parameters, Results, arguments);
         }
 
         private FunctionExport _export;

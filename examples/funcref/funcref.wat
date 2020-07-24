@@ -1,0 +1,16 @@
+(module
+  (import "" "g" (func $g (param funcref)))
+  (import "" "i" (func $i))
+  (table $t 2 funcref)
+  (elem declare func $h)
+  (func (export "call") (param funcref externref)
+    (table.set $t (i32.const 0) (local.get 0))
+    (call_indirect $t (param externref) (local.get 1) (i32.const 0))
+  )
+  (func $h
+    (call $i)
+  )
+  (func (export "f")
+    (call $g (ref.func $h))
+  )
+)

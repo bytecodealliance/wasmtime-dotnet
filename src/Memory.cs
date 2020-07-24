@@ -65,7 +65,22 @@ namespace Wasmtime
             }
         }
 
-        protected override IntPtr MemoryHandle => Handle.DangerousGetHandle();
+        protected override IntPtr MemoryHandle
+        {
+            get
+            {
+                CheckDisposed();
+                return Handle.DangerousGetHandle();
+            }
+        }
+
+        private void CheckDisposed()
+        {
+            if (Handle.IsInvalid)
+            {
+                throw new ObjectDisposedException(typeof(Memory).FullName);
+            }
+        }
 
         internal Interop.MemoryHandle Handle { get; private set; }
     }

@@ -14,17 +14,12 @@ namespace Wasmtime
         {
             get
             {
-                if (Handle is null)
-                {
-                    throw new InvalidOperationException("The global cannot be used before it is bound to a module instance.");
-                }
+                CheckDisposed();
 
                 unsafe
                 {
                     var v = stackalloc Interop.wasm_val_t[1];
-
                     Interop.wasm_global_get(Handle.DangerousGetHandle(), v);
-
                     return (T)Interop.ToObject(v);
                 }
             }
@@ -70,10 +65,20 @@ namespace Wasmtime
             {
                 Handle = Interop.wasm_global_new(store, globalType, &value);
 
+                Interop.DeleteValue(&value);
+
                 if (Handle.IsInvalid)
                 {
                     throw new WasmtimeException("Failed to create Wasmtime global.");
                 }
+            }
+        }
+
+        private void CheckDisposed()
+        {
+            if (Handle.IsInvalid)
+            {
+                throw new ObjectDisposedException(typeof(Global<T>).FullName);
             }
         }
 

@@ -9,7 +9,6 @@ namespace Wasmtime.Tests
         public ModuleFixture()
         {
             Engine = new EngineBuilder()
-                .WithMultiValue(true)
                 .WithReferenceTypes(true)
                 .Build();
 

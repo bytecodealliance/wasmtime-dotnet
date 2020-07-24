@@ -11,7 +11,7 @@ namespace HelloExample
             using var module = Module.FromTextFile(engine, "memory.wat");
             using var host = new Host(engine);
 
-            host.DefineFunction(
+            using var function = host.DefineFunction(
                 "",
                 "log",
                 (Caller caller, int address, int length) => {
