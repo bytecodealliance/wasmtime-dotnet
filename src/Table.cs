@@ -43,20 +43,18 @@ namespace Wasmtime
             {
                 CheckDisposed();
 
-                var val = Interop.ToValue(value, Kind);
-                if (val.kind != Interop.wasm_valkind_t.WASM_EXTERNREF && val.kind != Interop.wasm_valkind_t.WASM_FUNCREF)
-                {
-                    throw new NotSupportedException("Table element type must be a reference.");
-                }
-
                 unsafe
                 {
-                    if (!Interop.wasm_table_set(Handle.DangerousGetHandle(), index, val.of.reference))
+                    var val = Interop.ToValue(value, Kind);
+
+                    var success = Interop.wasm_table_set(Handle.DangerousGetHandle(), index, val.of.reference);
+
+                    Interop.DeleteValue(&val);
+
+                    if (!success)
                     {
                         throw new IndexOutOfRangeException("The specified index is out of bounds.");
                     }
-
-                    Interop.DeleteValue(&val);
                 }
             }
         }

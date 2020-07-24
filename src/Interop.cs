@@ -453,6 +453,7 @@ namespace Wasmtime
             return value;
         }
 
+        // NOTE: DeleteValue should be called for any value that does not have ownership transferred to Wasmtime
         public static wasm_val_t ToValue(object o, ValueKind kind)
         {
             wasm_val_t value = new wasm_val_t();
@@ -499,6 +500,7 @@ namespace Wasmtime
             return value;
         }
 
+        // NOTE: failure to call DeleteValue may cause memory to leak for Wasmtime and for .NET objects passed to Wasm
         public unsafe static void DeleteValue(wasm_val_t* v)
         {
             switch (v->kind)
