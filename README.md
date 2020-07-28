@@ -92,7 +92,7 @@ namespace Tutorial
 }
 ```
 
-A `Store` is created and the WebAssembly module, in text format, is loaded into the store.
+An `Engine` is created and then a WebAssembly module is loaded from a string in WebAssembly text format.
 
 A `Host` defines a function called `hello` that simply prints a hello message.
 
