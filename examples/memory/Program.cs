@@ -1,7 +1,7 @@
 using System;
 using Wasmtime;
 
-namespace HelloExample
+namespace Example
 {
     class Program
     {
