@@ -46,7 +46,7 @@ namespace Wasmtime.Tests
             action
                 .Should()
                 .Throw<WasmtimeException>()
-                .WithMessage("*exported table incompatible with table import*");
+                .WithMessage("*table types incompatible*");
         }
 
         [Fact]
