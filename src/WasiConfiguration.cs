@@ -49,10 +49,7 @@ namespace Wasmtime
                 _inheritArgs = false;
             }
 
-            foreach (var arg in args)
-            {
-                _args.Add(arg);
-            }
+            _args.AddRange(args);
             return this;
         }
 
