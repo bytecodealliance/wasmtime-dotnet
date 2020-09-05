@@ -563,6 +563,27 @@ namespace Wasmtime
             return Invoke(Handle.DangerousGetHandle(), Parameters, Results, arguments);
         }
 
+        // TODO: remove overload when https://github.com/dotnet/csharplang/issues/1757 is resolved
+        /// <summary>
+        /// Invokes the WebAssembly function.
+        /// </summary>
+        /// <param name="arguments">The array of arguments to pass to the function.</param>
+        /// <returns>
+        ///   Returns null if the function has no return value.
+        ///   Returns the value if the function returns a single value.
+        ///   Returns an array of values if the function returns more than one value.
+        /// </returns>
+        public object? Invoke(ReadOnlySpan<object?> arguments)
+        {
+            if (IsNull)
+            {
+                throw new InvalidOperationException("Cannot invoke a null function reference.");
+            }
+
+            CheckDisposed();
+            return Invoke(Handle.DangerousGetHandle(), Parameters, Results, arguments);
+        }
+
         /// <inheritdoc/>
         public void Dispose()
         {
@@ -573,7 +594,7 @@ namespace Wasmtime
             }
         }
 
-        internal static object? Invoke(IntPtr func, IReadOnlyList<ValueKind> funcParameters, IReadOnlyList<ValueKind> funcResults, object?[] arguments)
+        internal static object? Invoke(IntPtr func, IReadOnlyList<ValueKind> funcParameters, IReadOnlyList<ValueKind> funcResults, ReadOnlySpan<object?> arguments)
         {
             if (arguments.Length != funcParameters.Count)
             {
@@ -794,21 +815,18 @@ namespace Wasmtime
 
         private static unsafe Interop.WasmFuncCallbackWithEnv CreateCallback(Interop.StoreHandle store, Delegate callback, int parameterCount, IReadOnlyList<ValueKind> resultKinds)
         {
-            // NOTE: this capture is not thread-safe.
-            var args = new object[parameterCount];
-
             return (env, arguments, results) =>
-                InvokeCallback(store, callback, args, resultKinds, IntPtr.Zero, arguments, results);
+                InvokeCallback(store, callback, parameterCount, resultKinds, null, arguments, results);
         }
 
         private static unsafe Interop.WasmtimeFuncCallbackWithEnv CreateWasmtimeCallback(Interop.StoreHandle store, Delegate callback, int parameterCount, IReadOnlyList<ValueKind> resultKinds)
         {
-            // NOTE: this capture is not thread-safe.
-            var args = new object[parameterCount + 1];
-            args[0] = new Caller();
-
             return (caller, env, arguments, results) =>
-                InvokeCallback(store, callback, args, resultKinds, caller, arguments, results);
+            {
+                var callerObject = new Caller();
+                callerObject.Handle = caller;
+                return InvokeCallback(store, callback, parameterCount, resultKinds, callerObject, arguments, results);
+            };
         }
 
         private static Interop.wasm_valtype_vec_t CreateValueTypeVec(IReadOnlyList<ValueKind> kinds)
@@ -832,36 +850,39 @@ namespace Wasmtime
         private unsafe static IntPtr InvokeCallback(
             Interop.StoreHandle store,
             Delegate callback,
-            object?[] args,
+            int argumentCount,
             IReadOnlyList<ValueKind> resultKinds,
-            IntPtr caller,
+            Caller? caller,
             Interop.wasm_val_t* arguments,
             Interop.wasm_val_t* results)
         {
             try
             {
-                int offset = 0;
-                if (caller != IntPtr.Zero)
+                // reflection API does not offer any Span<object> overloads, so must allocate
+                var offset = (caller == null ? 0 : 1);
+                var reflectionArgs = new object[argumentCount + offset];
+
+                if (caller != null)
                 {
-                    offset = 1;
-                    ((Caller)args[0]!).Handle = caller;
+                    reflectionArgs[0] = caller;
                 }
 
-                for (int i = 0; i < args.Length - offset; ++i)
+                // prevents offset mistakes, also helps JIT elides bounds easier (a hunch, didn't check/prove)
+                var reflectionValueArgs = new Span<object?>(reflectionArgs, offset, argumentCount);
+                for (int i = 0; i < reflectionValueArgs.Length; ++i)
                 {
-                    args[i + offset] = Interop.ToObject(&arguments[i]);
+                    reflectionValueArgs[i] = Interop.ToObject(&arguments[i]);
                 }
 
-                var result = callback.Method.Invoke(callback.Target, BindingFlags.DoNotWrapExceptions, null, args, null);
+                // NOTE: reflection is extremely slow for invoking methods. in the future, perhaps this could be replaced with
+                // source generators, system.linq.expressions, or generate IL with DynamicMethods or something
+                var result = callback.Method.Invoke(callback.Target, BindingFlags.DoNotWrapExceptions, null, reflectionArgs, null);
 
-                for (int i = 0; i < args.Length - offset; ++i)
-                {
-                    args[i + offset] = null;
-                }
+                reflectionValueArgs.Fill(null);
 
-                if (caller != IntPtr.Zero)
+                if (caller != null)
                 {
-                    ((Caller)args[0]!).Handle = IntPtr.Zero;
+                    caller.Handle = IntPtr.Zero;
                 }
 
                 if (resultKinds.Count > 0)

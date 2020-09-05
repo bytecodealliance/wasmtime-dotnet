@@ -44,6 +44,21 @@ namespace Wasmtime.Externs
             return Function.Invoke(_func, Parameters, Results, arguments);
         }
 
+        // TODO: remove overload when https://github.com/dotnet/csharplang/issues/1757 is resolved
+        /// <summary>
+        /// Invokes the WebAssembly function.
+        /// </summary>
+        /// <param name="arguments">The array of arguments to pass to the function.</param>
+        /// <returns>
+        ///   Returns null if the function has no return value.
+        ///   Returns the value if the function returns a single value.
+        ///   Returns an array of values if the function returns more than one value.
+        /// </returns>
+        public object? Invoke(ReadOnlySpan<object?> arguments)
+        {
+            return Function.Invoke(_func, Parameters, Results, arguments);
+        }
+
         private FunctionExport _export;
         private IntPtr _func;
     }
