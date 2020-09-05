@@ -398,9 +398,9 @@ namespace Wasmtime
 
         private readonly List<string> _args = new List<string>();
         private readonly List<(string Name, string Value)> _vars = new List<(string, string)>();
-        private string _standardInputPath;
-        private string _standardOutputPath;
-        private string _standardErrorPath;
+        private string? _standardInputPath;
+        private string? _standardOutputPath;
+        private string? _standardErrorPath;
         private readonly List<(string Path, string GuestPath)> _preopenDirs = new List<(string, string)>();
         private bool _inheritArgs = false;
         private bool _inheritEnv = false;

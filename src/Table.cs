@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Wasmtime
 {
@@ -27,7 +28,7 @@ namespace Wasmtime
         /// Gets or sets a value in the table at the given index.
         /// </summary>
         /// <value>The value to set in the table.</value>
-        public T this[uint index]
+        public T? this[uint index]
         {
             get
             {
@@ -36,7 +37,7 @@ namespace Wasmtime
                 unsafe
                 {
                     using var reference = Interop.wasm_table_get(Handle.DangerousGetHandle(), index);
-                    return (T)Interop.ToObject(reference.DangerousGetHandle(), Kind);
+                    return (T?)Interop.ToObject(reference.DangerousGetHandle(), Kind);
                 }
             }
             set
@@ -101,7 +102,7 @@ namespace Wasmtime
             }
         }
 
-        internal Table(Interop.StoreHandle store, T initialValue, uint initial, uint maximum)
+        internal Table(Interop.StoreHandle store, T? initialValue, uint initial, uint maximum)
         {
             if (!Interop.TryGetValueKind(typeof(T), out var kind))
             {
@@ -129,7 +130,7 @@ namespace Wasmtime
 
             unsafe
             {
-                var value = Interop.ToValue((object)initialValue, Kind);
+                var value = Interop.ToValue((object?)initialValue, Kind);
 
                 var valueType = Interop.wasm_valtype_new(value.kind);
                 var valueTypeHandle = valueType.DangerousGetHandle();

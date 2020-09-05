@@ -552,7 +552,7 @@ namespace Wasmtime
         ///   Returns the value if the function returns a single value.
         ///   Returns an array of values if the function returns more than one value.
         /// </returns>
-        public object Invoke(params object[] arguments)
+        public object? Invoke(params object[] arguments)
         {
             if (IsNull)
             {
@@ -573,7 +573,7 @@ namespace Wasmtime
             }
         }
 
-        internal static object Invoke(IntPtr func, IReadOnlyList<ValueKind> funcParameters, IReadOnlyList<ValueKind> funcResults, object[] arguments)
+        internal static object? Invoke(IntPtr func, IReadOnlyList<ValueKind> funcParameters, IReadOnlyList<ValueKind> funcResults, object?[] arguments)
         {
             if (arguments.Length != funcParameters.Count)
             {
@@ -614,7 +614,7 @@ namespace Wasmtime
                     return result;
                 }
 
-                var ret = new object[funcResults.Count];
+                var ret = new object?[funcResults.Count];
                 for (int i = 0; i < funcResults.Count; ++i)
                 {
                     ret[i] = Interop.ToObject(&results[i]);
@@ -633,7 +633,7 @@ namespace Wasmtime
 
             var type = callback.GetType();
             Span<Type> parameterTypes = null;
-            Type returnType = null;
+            Type? returnType = null;
 
             if (hasReturn)
             {
@@ -743,7 +743,7 @@ namespace Wasmtime
             }).ToArray();
         }
 
-        private static IEnumerable<Type> EnumerateReturnTypes(Type returnType)
+        private static IEnumerable<Type> EnumerateReturnTypes(Type? returnType)
         {
             if (returnType is null)
             {
@@ -832,7 +832,7 @@ namespace Wasmtime
         private unsafe static IntPtr InvokeCallback(
             Interop.StoreHandle store,
             Delegate callback,
-            object[] args,
+            object?[] args,
             IReadOnlyList<ValueKind> resultKinds,
             IntPtr caller,
             Interop.wasm_val_t* arguments,
@@ -844,7 +844,7 @@ namespace Wasmtime
                 if (caller != IntPtr.Zero)
                 {
                     offset = 1;
-                    ((Caller)args[0]).Handle = caller;
+                    ((Caller)args[0]!).Handle = caller;
                 }
 
                 for (int i = 0; i < args.Length - offset; ++i)
@@ -861,7 +861,7 @@ namespace Wasmtime
 
                 if (caller != IntPtr.Zero)
                 {
-                    ((Caller)args[0]).Handle = IntPtr.Zero;
+                    ((Caller)args[0]!).Handle = IntPtr.Zero;
                 }
 
                 if (resultKinds.Count > 0)

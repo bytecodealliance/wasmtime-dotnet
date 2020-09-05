@@ -39,7 +39,7 @@ namespace Wasmtime
         /// <summary>
         /// Gets the frame's function name.
         /// </summary>
-        public string FunctionName { get; private set; }
+        public string? FunctionName { get; private set; }
 
         /// <summary>
         /// Gets the frame's module offset from the start of the module.
@@ -49,7 +49,7 @@ namespace Wasmtime
         /// <summary>
         /// Gets the frame's module name.
         /// </summary>
-        public string ModuleName { get; private set; }
+        public string? ModuleName { get; private set; }
     }
 
     /// <summary>
@@ -70,7 +70,7 @@ namespace Wasmtime
         /// <summary>
         /// Gets the trap's frames.
         /// </summary>
-        public IReadOnlyList<TrapFrame> Frames { get; private set; }
+        public IReadOnlyList<TrapFrame>? Frames { get; private set; }
 
         /// <inheritdoc/>
         protected TrapException(SerializationInfo info, StreamingContext context) : base(info, context) { }

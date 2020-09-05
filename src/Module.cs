@@ -181,10 +181,14 @@ namespace Wasmtime
                 Handle.Dispose();
                 Handle.SetHandleAsInvalid();
             }
+
             if (!(Imports is null))
             {
                 Imports.Dispose();
-                Imports = null;
+
+                // once Module is disposed, nothing in Module should be used anyways.
+                // keeping `Imports` to appear as a non-nullable makes things simpler for developers.
+                Imports = null!;
             }
         }
 

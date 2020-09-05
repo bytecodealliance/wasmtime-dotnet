@@ -68,7 +68,7 @@ namespace Wasmtime
         /// </summary>
         /// <param name="name">The name of the WASI module to define.</param>
         /// <param name="config">The <see cref="WasiConfiguration"/> to configure the WASI implementation with.</param>
-        public void DefineWasi(string name, WasiConfiguration config = null)
+        public void DefineWasi(string name, WasiConfiguration? config = null)
         {
             CheckDisposed();
 
@@ -611,7 +611,7 @@ namespace Wasmtime
         /// <param name="maximum">The maximum number of elements for the table.</param>
         /// <typeparam name="T">The element type of the host table.</typeparam>
         /// <returns>Returns a new <see cref="Table{T}"/> representing the defined table.</returns>
-        public Table<T> DefineTable<T>(string moduleName, string name, T initialValue, uint initial, uint maximum = uint.MaxValue) where T : class
+        public Table<T> DefineTable<T>(string moduleName, string name, T? initialValue, uint initial, uint maximum = uint.MaxValue) where T : class
         {
             CheckDisposed();
 
@@ -707,7 +707,7 @@ namespace Wasmtime
             return function;
         }
 
-        private WasmtimeException Define(string moduleName, string name, IntPtr ext)
+        private WasmtimeException? Define(string moduleName, string name, IntPtr ext)
         {
             var moduleNameBytes = Encoding.UTF8.GetBytes(moduleName);
             var nameBytes = Encoding.UTF8.GetBytes(name);
