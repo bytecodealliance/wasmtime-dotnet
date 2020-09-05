@@ -62,7 +62,7 @@ namespace Wasmtime
         }
 
         /// <inheritdoc/>
-        public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object? result)
+        public override bool TryInvokeMember(InvokeMemberBinder binder, object?[] args, out object? result)
         {
             if (!_functions.TryGetValue(binder.Name, out var func))
             {
