@@ -66,6 +66,28 @@ namespace Wasmtime
             return WithArgs((IEnumerable<string>)args);
         }
 
+        // TODO: remove overload when https://github.com/dotnet/csharplang/issues/1757 is resolved
+        /// <summary>
+        /// Adds multiple command line arguments to the configuration.
+        /// </summary>
+        /// <param name="args">The command line arguments to add.</param>
+        /// <returns>Returns the current configuration.</returns>
+        public WasiConfiguration WithArgs(ReadOnlySpan<string> args)
+        {
+            if (_inheritArgs)
+            {
+                _args.Clear();
+                _inheritArgs = false;
+            }
+
+            // TODO: use AddRange when https://github.com/dotnet/runtime/issues/1530 is resolved
+            foreach (var arg in args)
+            {
+                _args.Add(arg);
+            }
+            return this;
+        }
+
         /// <summary>
         /// Sets the configuration to inherit command line arguments.
         /// </summary>
