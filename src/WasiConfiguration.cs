@@ -308,7 +308,10 @@ namespace Wasmtime
 
             try
             {
-                Interop.wasi_config_set_argv(config, _args.Count, args);
+                fixed (byte** arrayOfStringsPtrNamedArgs = args)
+                {
+                    Interop.wasi_config_set_argv(config, _args.Count, arrayOfStringsPtrNamedArgs);
+                }
             }
             finally
             {
