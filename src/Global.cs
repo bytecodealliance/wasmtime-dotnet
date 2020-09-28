@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Wasmtime
 {
@@ -10,6 +11,7 @@ namespace Wasmtime
         /// <summary>
         /// The value of the global.
         /// </summary>
+        [MaybeNull]
         public T Value
         {
             get
@@ -50,7 +52,7 @@ namespace Wasmtime
 
             Kind = kind;
 
-            var value = Interop.ToValue((object)initialValue, Kind);
+            var value = Interop.ToValue((object?)initialValue, Kind);
 
             var valueType = Interop.wasm_valtype_new(value.kind);
             var valueTypeHandle = valueType.DangerousGetHandle();

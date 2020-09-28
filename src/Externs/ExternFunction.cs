@@ -39,7 +39,7 @@ namespace Wasmtime.Externs
         ///   Returns the value if the function returns a single value.
         ///   Returns an array of values if the function returns more than one value.
         /// </returns>
-        public object Invoke(params object[] arguments)
+        public object? Invoke(params object?[] arguments)
         {
             return Function.Invoke(_func, Parameters, Results, arguments);
         }

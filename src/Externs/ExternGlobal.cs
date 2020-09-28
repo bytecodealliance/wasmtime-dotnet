@@ -29,7 +29,7 @@ namespace Wasmtime.Externs
         /// </summary>
         public bool IsMutable => _export.IsMutable;
 
-        public object Value
+        public object? Value
         {
             get
             {

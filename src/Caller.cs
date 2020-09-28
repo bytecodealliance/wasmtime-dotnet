@@ -42,7 +42,7 @@ namespace Wasmtime
         /// </summary>
         /// <param name="name">The name of the exported memory.</param>
         /// <returns>Returns the exported memory if found or null if a memory of the requested name is not exported.</returns>
-        public CallerMemory GetMemory(string name)
+        public CallerMemory? GetMemory(string name)
         {
             if (Handle == IntPtr.Zero)
             {

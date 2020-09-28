@@ -435,7 +435,7 @@ namespace Wasmtime
             public uint max;
         }
 
-        public static wasm_val_t CreateExternRefValue(object o)
+        public static wasm_val_t CreateExternRefValue(object? o)
         {
             wasm_val_t value = new wasm_val_t();
             value.kind = wasm_valkind_t.WASM_EXTERNREF;
@@ -454,7 +454,7 @@ namespace Wasmtime
         }
 
         // NOTE: DeleteValue should be called for any value that does not have ownership transferred to Wasmtime
-        public static wasm_val_t ToValue(object o, ValueKind kind)
+        public static wasm_val_t ToValue(object? o, ValueKind kind)
         {
             wasm_val_t value = new wasm_val_t();
             switch (kind)
@@ -515,7 +515,7 @@ namespace Wasmtime
             }
         }
 
-        public static unsafe object ToObject(wasm_val_t* v)
+        public static unsafe object? ToObject(wasm_val_t* v)
         {
             switch (v->kind)
             {
@@ -550,7 +550,7 @@ namespace Wasmtime
             }
         }
 
-        public static unsafe object ToObject(IntPtr reference, ValueKind kind)
+        public static unsafe object? ToObject(IntPtr reference, ValueKind kind)
         {
             wasm_val_t v = new wasm_val_t();
 
