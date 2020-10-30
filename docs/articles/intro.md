@@ -100,7 +100,7 @@ Use `dotnet build` to build the .NET application:
 dotnet build
 ```
 
-This will create a `tutorial` (or `tutorial.exe` on Windows) executable in the `bin/Debug/netcoreapp3.0` directory that implements the .NET Core application.
+This will create a `tutorial` (or `tutorial.exe` on Windows) executable in the `bin/Debug/netcoreapp3.1` directory that implements the .NET Core application.
 
 ## Running the .NET application
  
