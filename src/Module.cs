@@ -33,7 +33,7 @@ namespace Wasmtime
         /// <param name="name">The name of the module.</param>
         /// <param name="bytes">The bytes of the module.</param>
         /// <returns>Returns a new <see cref="Module"/>.</returns>
-        public static Module FromBytes(Engine engine, string name, byte[] bytes)
+        public static Module FromBytes(Engine engine, string name, ReadOnlySpan<byte> bytes)
         {
             if (engine is null)
             {
@@ -43,11 +43,6 @@ namespace Wasmtime
             if (string.IsNullOrEmpty(name))
             {
                 throw new ArgumentNullException(nameof(name));
-            }
-
-            if (bytes is null)
-            {
-                throw new ArgumentNullException(nameof(bytes));
             }
 
             return new Module(engine.Handle, name, bytes);
@@ -192,7 +187,7 @@ namespace Wasmtime
             }
         }
 
-        internal Module(Interop.EngineHandle engine, string name, byte[] bytes)
+        internal Module(Interop.EngineHandle engine, string name, ReadOnlySpan<byte> bytes)
         {
             unsafe
             {
