@@ -552,7 +552,7 @@ namespace Wasmtime
         ///   Returns the value if the function returns a single value.
         ///   Returns an array of values if the function returns more than one value.
         /// </returns>
-        public object? Invoke(params object[] arguments)
+        public object? Invoke(params object?[] arguments)
         {
             if (IsNull)
             {
@@ -860,7 +860,7 @@ namespace Wasmtime
             {
                 // reflection API does not offer any Span<object> overloads, so must allocate
                 var offset = (caller == null ? 0 : 1);
-                var reflectionArgs = new object[argumentCount + offset];
+                var reflectionArgs = new object?[argumentCount + offset];
 
                 if (caller != null)
                 {
