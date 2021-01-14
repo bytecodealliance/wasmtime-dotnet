@@ -20,7 +20,7 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <RepositoryUrl>https://github.com/bytecodealliance/wasmtime-dotnet</RepositoryUrl>
-    <PackageReleaseNotes>Update Wasmtime to 0.20.0.</PackageReleaseNotes>
+    <PackageReleaseNotes>Update Wasmtime to 0.21.0.</PackageReleaseNotes>
     <Summary>A .NET API for Wasmtime, a standalone WebAssembly runtime</Summary>
     <PackageTags>webassembly, .net, wasm, wasmtime</PackageTags>
     <Title>Wasmtime</Title>
@@ -45,6 +45,7 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
         <URL>$(ReleaseURLBase)-linux-c-api.tar.xz</URL>
         <DownloadFolder>$(IntermediateOutputPath)linux</DownloadFolder>
         <DownloadFilename>linux.tar.xz</DownloadFilename>
+        <IsZip>false</IsZip>
         <WasmtimeLibraryFilename>libwasmtime.so</WasmtimeLibraryFilename>
         <PackagePath>runtimes/linux-x64/native/lib/$(WasmtimeLibraryFilename)</PackagePath>
       </WasmtimeDownload>
@@ -52,6 +53,7 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
         <URL>$(ReleaseURLBase)-macos-c-api.tar.xz</URL>
         <DownloadFolder>$(IntermediateOutputPath)macos</DownloadFolder>
         <DownloadFilename>macos.tar.xz</DownloadFilename>
+        <IsZip>false</IsZip>
         <WasmtimeLibraryFilename>libwasmtime.dylib</WasmtimeLibraryFilename>
         <PackagePath>runtimes/osx-x64/native/lib/$(WasmtimeLibraryFilename)</PackagePath>
       </WasmtimeDownload>
@@ -59,6 +61,7 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
         <URL>$(ReleaseURLBase)-windows-c-api.zip</URL>
         <DownloadFolder>$(IntermediateOutputPath)windows</DownloadFolder>
         <DownloadFilename>windows.zip</DownloadFilename>
+        <IsZip>true</IsZip>
         <WasmtimeLibraryFilename>wasmtime.dll</WasmtimeLibraryFilename>
         <PackagePath>runtimes/win-x64/native/lib/$(WasmtimeLibraryFilename)</PackagePath>
       </WasmtimeDownload>
@@ -70,8 +73,13 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
                   DestinationFileName="%(WasmtimeDownload.DownloadFilename)"
                   SkipUnchangedFiles="true" />
 
-    <Exec Condition="!Exists('%(WasmtimeDownload.DownloadFolder)/lib/%(WasmtimeDownload.WasmtimeLibraryFilename)')"
-          Command="tar --strip-components 1 -xvf %(WasmtimeDownload.DownloadFilename)"
+    <!-- Workaround for https://github.com/msys2/MSYS2-packages/issues/1548 -->
+    <Exec Condition="!%(WasmtimeDownload.IsZip) And !Exists('%(WasmtimeDownload.DownloadFolder)/lib/%(WasmtimeDownload.WasmtimeLibraryFilename)')"
+          Command="xz --decompress --stdout %(WasmtimeDownload.DownloadFilename) | tar --strip-components 1 -vxf -"
+          WorkingDirectory="%(WasmtimeDownload.DownloadFolder)" StandardOutputImportance="Low"
+          StandardErrorImportance="Low" />
+    <Exec Condition="%(WasmtimeDownload.IsZip) And !Exists('%(WasmtimeDownload.DownloadFolder)/lib/%(WasmtimeDownload.WasmtimeLibraryFilename)')"
+          Command="tar --strip-components 1 -vxzf %(WasmtimeDownload.DownloadFilename)"
           WorkingDirectory="%(WasmtimeDownload.DownloadFolder)" StandardOutputImportance="Low"
           StandardErrorImportance="Low" />
 
