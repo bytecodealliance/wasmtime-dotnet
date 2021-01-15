@@ -24,7 +24,7 @@
 
 ## Installation
 
-You can add a package reference with the [.NET Core SDK](https://dotnet.microsoft.com/):
+You can add a package reference with the [.NET SDK](https://dotnet.microsoft.com/):
 
 ```text
 $ dotnet add package --version 0.22.0-preview1 wasmtime

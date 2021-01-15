@@ -44,9 +44,9 @@ namespace Wasmtime.Tests
         {
             using var instance = Host.Instantiate(Fixture.Module);
 
-            instance.Externs.Memories.Count.Should().Be(1);
+            instance.Memories.Count.Should().Be(1);
 
-            var memory = instance.Externs.Memories[0];
+            var memory = instance.Memories[0];
             memory.ReadString(0, 11).Should().Be("Hello World");
             int written = memory.WriteString(0, "WebAssembly Rocks!");
             memory.ReadString(0, written).Should().Be("WebAssembly Rocks!");

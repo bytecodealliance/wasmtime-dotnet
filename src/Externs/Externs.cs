@@ -5,22 +5,26 @@ using Wasmtime.Exports;
 namespace Wasmtime.Externs
 {
     /// <summary>
-    /// Represents external (instantiated) WebAssembly functions, globals, tables, and memories.
+    /// Represents external WebAssembly functions, globals, tables, and memories.
     /// </summary>
-    public class Externs
+    internal class Externs : IDisposable
     {
-        internal Externs(Wasmtime.Exports.Exports exports, Interop.wasm_extern_vec_t externs)
+        internal Externs(Wasmtime.Exports.Exports exports, IntPtr instanceHandle)
         {
             var functions = new List<ExternFunction>();
             var globals = new List<ExternGlobal>();
             var tables = new List<ExternTable>();
             var memories = new List<ExternMemory>();
+            var instances = new List<ExternInstance>();
+            var modules = new List<ExternModule>();
 
-            for (int i = 0; i < (int)externs.size; ++i)
+            Interop.wasm_instance_exports(instanceHandle, out _externs);
+
+            for (int i = 0; i < (int)_externs.size; ++i)
             {
                 unsafe
                 {
-                    var ext = externs.data[i];
+                    var ext = _externs.data[i];
 
                     switch (Interop.wasm_extern_kind(ext))
                     {
@@ -44,6 +48,16 @@ namespace Wasmtime.Externs
                             memories.Add(memory);
                             break;
 
+                        case Interop.wasm_externkind_t.WASM_EXTERN_INSTANCE:
+                            var instance = new ExternInstance((InstanceExport)exports.All[i], Interop.wasm_extern_as_instance(ext));
+                            instances.Add(instance);
+                            break;
+
+                        case Interop.wasm_externkind_t.WASM_EXTERN_MODULE:
+                            var module = new ExternModule((ModuleExport)exports.All[i], Interop.wasm_extern_as_module(ext));
+                            modules.Add(module);
+                            break;
+
                         default:
                             throw new NotSupportedException("Unsupported extern type.");
                     }
@@ -54,6 +68,8 @@ namespace Wasmtime.Externs
             Globals = globals;
             Tables = tables;
             Memories = memories;
+            Instances = instances;
+            Modules = modules;
         }
 
         /// <summary>
@@ -75,5 +91,32 @@ namespace Wasmtime.Externs
         /// The extern memories from an instantiated WebAssembly module.
         /// </summary>
         public IReadOnlyList<ExternMemory> Memories { get; private set; }
+
+        /// <summary>
+        /// The extern instances from an instantiated WebAssembly module.
+        /// </summary>
+        public IReadOnlyList<ExternInstance> Instances { get; private set; }
+
+        /// <summary>
+        /// The extern modules from an instantiated WebAssembly module.
+        /// </summary>
+        public IReadOnlyList<ExternModule> Modules { get; private set; }
+
+        /// <inheritdoc/>
+        public unsafe void Dispose()
+        {
+            foreach (var instance in Instances)
+            {
+                instance.Dispose();
+            }
+
+            if (!(_externs.data is null))
+            {
+                Interop.wasm_extern_vec_delete(ref _externs);
+                _externs.data = null;
+            }
+        }
+
+        private Interop.wasm_extern_vec_t _externs;
     }
 }

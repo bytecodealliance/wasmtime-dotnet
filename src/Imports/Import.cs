@@ -15,10 +15,24 @@ namespace Wasmtime.Imports
                 Handle = importType;
 
                 var moduleName = Interop.wasm_importtype_module(Handle);
-                ModuleName = Marshal.PtrToStringUTF8((IntPtr)moduleName->data, (int)moduleName->size);
+                if (moduleName->size == UIntPtr.Zero)
+                {
+                    ModuleName = String.Empty;
+                }
+                else
+                {
+                    ModuleName = Marshal.PtrToStringUTF8((IntPtr)moduleName->data, (int)moduleName->size);
+                }
 
                 var name = Interop.wasm_importtype_name(Handle);
-                Name = Marshal.PtrToStringUTF8((IntPtr)name->data, (int)name->size);
+                if (name is null || name->size == UIntPtr.Zero)
+                {
+                    Name = String.Empty;
+                }
+                else
+                {
+                    Name = Marshal.PtrToStringUTF8((IntPtr)name->data, (int)name->size);
+                }
             }
         }
 

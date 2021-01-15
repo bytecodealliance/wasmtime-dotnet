@@ -13,7 +13,14 @@ namespace Wasmtime.Exports
             unsafe
             {
                 var name = Interop.wasm_exporttype_name(exportType);
-                Name = Marshal.PtrToStringUTF8((IntPtr)name->data, (int)name->size);
+                if (name->size == UIntPtr.Zero)
+                {
+                    Name = String.Empty;
+                }
+                else
+                {
+                    Name = Marshal.PtrToStringUTF8((IntPtr)name->data, (int)name->size);
+                }
             }
         }
 

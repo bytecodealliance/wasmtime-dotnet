@@ -5,9 +5,9 @@ using Wasmtime.Exports;
 namespace Wasmtime.Externs
 {
     /// <summary>
-    /// Represents an external (instantiated) WebAssembly function.
+    /// Represents an external WebAssembly function.
     /// </summary>
-    public class ExternFunction
+    public class ExternFunction : IImportable
     {
         internal ExternFunction(FunctionExport export, IntPtr func)
         {
@@ -57,6 +57,11 @@ namespace Wasmtime.Externs
         public object? Invoke(ReadOnlySpan<object?> arguments)
         {
             return Function.Invoke(_func, Parameters, Results, arguments);
+        }
+
+        IntPtr IImportable.GetHandle()
+        {
+            return Interop.wasm_func_as_extern(_func);
         }
 
         private FunctionExport _export;

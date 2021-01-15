@@ -4,14 +4,19 @@ using Wasmtime.Exports;
 namespace Wasmtime.Externs
 {
     /// <summary>
-    /// Represents an external (instantiated) WebAssembly table.
+    /// Represents an external WebAssembly table.
     /// </summary>
-    public class ExternTable
+    public class ExternTable : IImportable
     {
         internal ExternTable(TableExport export, IntPtr table)
         {
             _export = export;
             _table = table;
+        }
+
+        IntPtr IImportable.GetHandle()
+        {
+            return Interop.wasm_table_as_extern(_table);
         }
 
         /// <summary>

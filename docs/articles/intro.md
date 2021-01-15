@@ -4,7 +4,7 @@
 
 The [.NET embedding of Wasmtime](https://github.com/bytecodealliance/wasmtime-dotnet) enables .NET developers to easily instantiate and execute WebAssembly modules using Wasmtime.
 
-For this tutorial, we will create a WebAssembly module and use that WebAssembly module from a .NET Core 3.1 application.
+For this tutorial, we will create a WebAssembly module and use that WebAssembly module from a .NET 5 application.
 
 # A simple WebAssembly module
 
@@ -23,13 +23,13 @@ This module simply imports a `hello` function from the host and exports a `run` 
 
 # Using the WebAssembly module from .NET
 
-## Installing a .NET Core 3.0 SDK
+## Installing a .NET 5 SDK
 
-Install a [.NET Core 3.1 SDK](https://dotnet.microsoft.com/download/dotnet-core/3.1) for your platform if you haven't already.
+Install a [.NET 5 SDK](https://dotnet.microsoft.com/download/dotnet/5.0) for your platform if you haven't already.
 
 This will add a `dotnet` command to your PATH.
 
-## Creating the .NET Core project
+## Creating the .NET project
 
 The .NET program will be a simple console application, so create a new console project with `dotnet new`:
 
@@ -100,7 +100,7 @@ Use `dotnet build` to build the .NET application:
 dotnet build
 ```
 
-This will create a `tutorial` (or `tutorial.exe` on Windows) executable in the `bin/Debug/netcoreapp3.1` directory that implements the .NET Core application.
+This will create a `tutorial` (or `tutorial.exe` on Windows) executable in the `bin/Debug/net5.0` directory that implements the .NET application.
 
 ## Running the .NET application
  

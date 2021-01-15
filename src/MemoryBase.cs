@@ -7,6 +7,11 @@ namespace Wasmtime
     public abstract class MemoryBase
     {
         /// <summary>
+        /// The current size, in WebAssembly page units, of the memory.
+        /// </summary>
+        public uint Size => Interop.wasm_memory_size(MemoryHandle);
+
+        /// <summary>
         /// The span of the memory.
         /// </summary>
         /// <remarks>
@@ -229,6 +234,16 @@ namespace Wasmtime
             {
                 WriteInt64(address, *(long*)&value);
             }
+        }
+
+        /// <summary>
+        /// Grows the memory by the specified number of pages.
+        /// </summary>
+        /// <param name="delta">The number of WebAssembly pages to grow the memory by.</param>
+        /// <returns>Returns true if the memory grew or false if it would exceed the maximum size.</returns>
+        public bool Grow(uint delta)
+        {
+            return Interop.wasm_memory_grow(MemoryHandle, delta);
         }
 
         protected abstract IntPtr MemoryHandle { get; }

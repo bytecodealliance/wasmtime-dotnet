@@ -46,7 +46,7 @@ namespace Wasmtime.Tests
             using var instance = Host.Instantiate(Fixture.Module);
 
             dynamic dyn = instance;
-            var globals = instance.Externs.Globals;
+            var globals = instance.Globals;
             globals.Count.Should().Be(8);
 
             var i32 = globals[0];

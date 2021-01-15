@@ -522,7 +522,7 @@ namespace Wasmtime
             }
 
             var global = new Global<T>(_store, initialValue);
-            var ex = Define(moduleName, name, Interop.wasm_global_as_extern(global.Handle));
+            var ex = Define(moduleName, name, Interop.wasm_global_as_extern(global.Handle.DangerousGetHandle()));
 
             if (ex != null)
             {
@@ -556,7 +556,7 @@ namespace Wasmtime
             }
 
             var global = new MutableGlobal<T>(_store, initialValue);
-            var ex = Define(moduleName, name, Interop.wasm_global_as_extern(global.Handle));
+            var ex = Define(moduleName, name, Interop.wasm_global_as_extern(global.Handle.DangerousGetHandle()));
 
             if (ex != null)
             {
@@ -590,7 +590,7 @@ namespace Wasmtime
             }
 
             var memory = new Memory(_store, minimum, maximum);
-            var ex = Define(moduleName, name, Interop.wasm_memory_as_extern(memory.Handle));
+            var ex = Define(moduleName, name, Interop.wasm_memory_as_extern(memory.Handle.DangerousGetHandle()));
 
             if (ex != null)
             {
@@ -626,7 +626,7 @@ namespace Wasmtime
             }
 
             var table = new Table<T>(_store, initialValue, initial, maximum);
-            var ex = Define(moduleName, name, Interop.wasm_table_as_extern(table.Handle));
+            var ex = Define(moduleName, name, Interop.wasm_table_as_extern(table.Handle.DangerousGetHandle()));
 
             if (ex != null)
             {
@@ -635,6 +635,72 @@ namespace Wasmtime
             }
 
             return table;
+        }
+
+        /// <summary>
+        /// Defines a new host module.
+        /// </summary>
+        /// <param name="moduleName">The module name of the module.</param>
+        /// <param name="name">The name of the module.</param>
+        /// <param name="module">The module to define in the host.</param>
+        public void DefineModule(string moduleName, string name, Module module)
+        {
+            CheckDisposed();
+
+            if (moduleName is null)
+            {
+                throw new ArgumentNullException(nameof(moduleName));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            var ex = Define(moduleName, name, Interop.wasm_module_as_extern(module.Handle.DangerousGetHandle()));
+
+            if (ex != null)
+            {
+                throw new WasmtimeException($"Failed to define module '{name}' in module '{moduleName}': {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Defines a new host instance.
+        /// </summary>
+        /// <param name="moduleName">The module name of the instance.</param>
+        /// <param name="name">The name of the instance.</param>
+        /// <param name="instance">The instance to define in the host.</param>
+        public void DefineInstance(string moduleName, string name, Instance instance)
+        {
+            CheckDisposed();
+
+            if (moduleName is null)
+            {
+                throw new ArgumentNullException(nameof(moduleName));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (instance is null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
+            var ex = Define(moduleName, name, Interop.wasm_instance_as_extern(instance.Handle.DangerousGetHandle()));
+
+            if (ex != null)
+            {
+                throw new WasmtimeException($"Failed to define instance '{name}' in module '{moduleName}': {ex.Message}");
+            }
         }
 
         /// <summary>
@@ -651,7 +717,21 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(module));
             }
 
-            return new Instance(_linker, module);
+            unsafe
+            {
+                var error = Interop.wasmtime_linker_instantiate(_linker, module.Handle, out var handle, out var trap);
+
+                if (error != IntPtr.Zero)
+                {
+                    throw WasmtimeException.FromOwnedError(error);
+                }
+                if (trap != IntPtr.Zero)
+                {
+                    throw TrapException.FromOwnedTrap(trap);
+                }
+
+                return new Instance(handle, module.Handle.DangerousGetHandle());
+            }
         }
 
         /// <inheritdoc/>
@@ -696,7 +776,7 @@ namespace Wasmtime
             }
 
             var function = new Function(_store, func, hasReturn);
-            var ex = Define(moduleName, name, Interop.wasm_func_as_extern(function.Handle));
+            var ex = Define(moduleName, name, Interop.wasm_func_as_extern(function.Handle.DangerousGetHandle()));
 
             if (ex != null)
             {
