@@ -15,6 +15,7 @@ namespace Wasmtime
         /// </summary>
         /// <remarks>
         /// This interface is internal to Wasmtime and not intended to be implemented by users.
+        /// </remarks>
         /// <returns>Returns the extern handle for the importable.</returns>
         IntPtr GetHandle();
     }
