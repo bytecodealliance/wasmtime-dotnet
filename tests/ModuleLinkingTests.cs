@@ -12,7 +12,6 @@ namespace Wasmtime.Tests
         public ModuleLinkingTests()
         {
             Engine = new EngineBuilder()
-                .WithReferenceTypes(true)
                 .WithModuleLinking(true)
                 .Build();
             Store = new Store(Engine);

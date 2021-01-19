@@ -53,19 +53,10 @@ jobs:
       if: matrix.config == 'release'
       run: dotnet run -c ${{ matrix.config }} --project benchmarks/simple/simple.csproj
     - name: Run examples
+      env:
+        EXAMPLES: externref funcref global hello linking memory table
       run: |
-        cd examples/hello
-        dotnet run
-        cd ../global
-        dotnet run
-        cd ../memory
-        dotnet run
-        cd ../table
-        dotnet run
-        cd ../externref
-        dotnet run
-        cd ../funcref
-        dotnet run
+        for e in $EXAMPLES; do cd examples/$e && dotnet run && cd ../..; done
     - name: Create package
       run: |
         cd src
