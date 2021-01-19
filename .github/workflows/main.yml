@@ -57,7 +57,7 @@ jobs:
       env:
         EXAMPLES: externref funcref global hello linking memory table
       run: |
-        for e in $EXAMPLES; do cd examples/$e && dotnet run && cd ../..; done
+        for e in $EXAMPLES; do cd examples/$e && dotnet run -c ${{ matrix.config }} && cd ../..; done
     - name: Create package
       run: |
         cd src
