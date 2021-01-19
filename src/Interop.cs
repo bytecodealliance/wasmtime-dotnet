@@ -306,6 +306,13 @@ namespace Wasmtime
         }
 
         [StructLayout(LayoutKind.Sequential)]
+        internal unsafe struct wasm_val_vec_t
+        {
+            public UIntPtr size;
+            public wasm_val_t* data;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
         internal unsafe struct wasm_valtype_vec_t
         {
             public UIntPtr size;
@@ -576,9 +583,9 @@ namespace Wasmtime
             return false;
         }
 
-        internal unsafe delegate IntPtr WasmFuncCallbackWithEnv(IntPtr env, wasm_val_t* parameters, wasm_val_t* results);
+        internal unsafe delegate IntPtr WasmFuncCallbackWithEnv(IntPtr env, wasm_val_vec_t* parameters, wasm_val_vec_t* results);
 
-        internal unsafe delegate IntPtr WasmtimeFuncCallbackWithEnv(IntPtr caller, IntPtr env, wasm_val_t* parameters, wasm_val_t* results);
+        internal unsafe delegate IntPtr WasmtimeFuncCallbackWithEnv(IntPtr caller, IntPtr env, wasm_val_vec_t* parameters, wasm_val_vec_t* results);
 
         internal unsafe delegate void Finalizer(IntPtr data);
 
@@ -788,7 +795,7 @@ namespace Wasmtime
         public static extern FuncTypeHandle wasm_func_type(FunctionHandle function);
 
         [DllImport(LibraryName)]
-        public static unsafe extern IntPtr wasm_func_call(IntPtr function, wasm_val_t* args, wasm_val_t* results);
+        public static unsafe extern IntPtr wasm_func_call(IntPtr function, ref wasm_val_vec_t args, ref wasm_val_vec_t results);
 
         [DllImport(LibraryName)]
         public static extern IntPtr wasm_func_as_extern(IntPtr function);
@@ -1131,7 +1138,7 @@ namespace Wasmtime
         // Wasmtime instance functions
 
         [DllImport(LibraryName)]
-        public static unsafe extern IntPtr wasmtime_instance_new(StoreHandle linker, IntPtr module, IntPtr* imports, UIntPtr numImports, out InstanceHandle instance, out IntPtr trap);
+        public static unsafe extern IntPtr wasmtime_instance_new(StoreHandle linker, IntPtr module, ref wasm_extern_vec_t imports, out InstanceHandle instance, out IntPtr trap);
 
         // Caller functions
 

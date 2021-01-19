@@ -49,7 +49,9 @@ namespace Wasmtime.Externs
                     }
                 }
 
-                var error = Interop.wasmtime_instance_new(store.Handle, _module, handles, (UIntPtr)imports.Length, out var instance, out var trap);
+                Interop.wasm_extern_vec_t importsVec = new Interop.wasm_extern_vec_t() { size = (UIntPtr)imports.Length, data = handles };
+
+                var error = Interop.wasmtime_instance_new(store.Handle, _module, ref importsVec, out var instance, out var trap);
 
                 if (error != IntPtr.Zero)
                 {
