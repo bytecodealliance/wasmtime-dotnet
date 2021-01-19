@@ -10,7 +10,7 @@ namespace Example
             using var engine = new EngineBuilder().WithModuleLinking(true).Build();
             using var module = Module.FromTextFile(engine, "name.wat");
             using var program = Module.FromTextFile(engine, "program.wat");
-            
+
             using var store = new Store(engine);
             using var host = new Host(store);
 
@@ -18,12 +18,13 @@ namespace Example
 
             host.DefineInstance("", "inst", module.Instantiate(store, memory));
 
-            host.DefineFunction("", "print", (Caller caller, int addr, int len) => {
+            host.DefineFunction("", "print", (Caller caller, int addr, int len) =>
+            {
                 Console.WriteLine(caller.GetMemory("mem").ReadString(addr, len));
             });
 
             using dynamic instance = host.Instantiate(program);
-            
+
             instance.run();
         }
     }

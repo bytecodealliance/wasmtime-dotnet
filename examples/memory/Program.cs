@@ -14,7 +14,8 @@ namespace Example
             using var function = host.DefineFunction(
                 "",
                 "log",
-                (Caller caller, int address, int length) => {
+                (Caller caller, int address, int length) =>
+                {
                     var message = caller.GetMemory("mem").ReadString(address, length);
                     Console.WriteLine($"Message from WebAssembly: {message}");
                 }

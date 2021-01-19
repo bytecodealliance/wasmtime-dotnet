@@ -16,7 +16,8 @@ namespace Example
             using var function = host.DefineFunction(
                 "",
                 "print_global",
-                () => {
+                () =>
+                {
                     Console.WriteLine($"The value of the global is: {global.Value}.");
                 }
             );
