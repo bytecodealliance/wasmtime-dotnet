@@ -53,6 +53,7 @@ jobs:
       if: matrix.config == 'release'
       run: dotnet run -c ${{ matrix.config }} --project benchmarks/simple/simple.csproj
     - name: Run examples
+      shell: bash
       env:
         EXAMPLES: externref funcref global hello linking memory table
       run: |
