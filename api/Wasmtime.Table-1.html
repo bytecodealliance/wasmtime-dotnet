@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class Table&lt;T&gt;
    ">
-    <meta name="generator" content="docfx 2.51.0.0">
+    <meta name="generator" content="docfx 2.56.6.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -81,11 +81,15 @@
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">Table&lt;T&gt;</span></div>
   </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="Wasmtime.IImportable.html">IImportable</a></div>
+  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Wasmtime.html">Wasmtime</a></h6>
   <h6><strong>Assembly</strong>: Wasmtime.Dotnet.dll</h6>
   <h5 id="Wasmtime_Table_1_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class Table&lt;T&gt; : IDisposable where T : class</code></pre>
+    <pre><code class="lang-csharp hljs">public class Table&lt;T&gt; : IDisposable, IImportable where T : class</code></pre>
   </div>
   <h5 class="typeParameters">Type Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -109,7 +113,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Table_1_Item_System_UInt32_.md&amp;value=---%0Auid%3A%20Wasmtime.Table%601.Item(System.UInt32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Table.cs/#L30">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Table.cs/#L31">View Source</a>
   </span>
   <a id="Wasmtime_Table_1_Item_" data-uid="Wasmtime.Table`1.Item*"></a>
   <h4 id="Wasmtime_Table_1_Item_System_UInt32_" data-uid="Wasmtime.Table`1.Item(System.UInt32)">Item[UInt32]</h4>
@@ -158,7 +162,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Table_1_Kind.md&amp;value=---%0Auid%3A%20Wasmtime.Table%601.Kind%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Table.cs/#L14">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Table.cs/#L15">View Source</a>
   </span>
   <a id="Wasmtime_Table_1_Kind_" data-uid="Wasmtime.Table`1.Kind*"></a>
   <h4 id="Wasmtime_Table_1_Kind" data-uid="Wasmtime.Table`1.Kind">Kind</h4>
@@ -189,7 +193,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Table_1_Maximum.md&amp;value=---%0Auid%3A%20Wasmtime.Table%601.Maximum%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Table.cs/#L24">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Table.cs/#L25">View Source</a>
   </span>
   <a id="Wasmtime_Table_1_Maximum_" data-uid="Wasmtime.Table`1.Maximum*"></a>
   <h4 id="Wasmtime_Table_1_Maximum" data-uid="Wasmtime.Table`1.Maximum">Maximum</h4>
@@ -220,7 +224,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Table_1_Minimum.md&amp;value=---%0Auid%3A%20Wasmtime.Table%601.Minimum%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Table.cs/#L19">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Table.cs/#L20">View Source</a>
   </span>
   <a id="Wasmtime_Table_1_Minimum_" data-uid="Wasmtime.Table`1.Minimum*"></a>
   <h4 id="Wasmtime_Table_1_Minimum" data-uid="Wasmtime.Table`1.Minimum">Minimum</h4>
@@ -251,7 +255,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Table_1_Size.md&amp;value=---%0Auid%3A%20Wasmtime.Table%601.Size%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Table.cs/#L66">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Table.cs/#L67">View Source</a>
   </span>
   <a id="Wasmtime_Table_1_Size_" data-uid="Wasmtime.Table`1.Size*"></a>
   <h4 id="Wasmtime_Table_1_Size" data-uid="Wasmtime.Table`1.Size">Size</h4>
@@ -285,7 +289,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Table_1_Dispose.md&amp;value=---%0Auid%3A%20Wasmtime.Table%601.Dispose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Table.cs/#L95">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Table.cs/#L96">View Source</a>
   </span>
   <a id="Wasmtime_Table_1_Dispose_" data-uid="Wasmtime.Table`1.Dispose*"></a>
   <h4 id="Wasmtime_Table_1_Dispose" data-uid="Wasmtime.Table`1.Dispose">Dispose()</h4>
@@ -300,7 +304,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Table_1_Grow_System_UInt32__0_.md&amp;value=---%0Auid%3A%20Wasmtime.Table%601.Grow(System.UInt32%2C%600)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Table.cs/#L81">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Table.cs/#L82">View Source</a>
   </span>
   <a id="Wasmtime_Table_1_Grow_" data-uid="Wasmtime.Table`1.Grow*"></a>
   <h4 id="Wasmtime_Table_1_Grow_System_UInt32__0_" data-uid="Wasmtime.Table`1.Grow(System.UInt32,`0)">Grow(UInt32, T)</h4>
@@ -351,6 +355,42 @@
       </tr>
     </tbody>
   </table>
+  <h3 id="eii">Explicit Interface Implementations
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Table_1_Wasmtime_IImportable_GetHandle.md&amp;value=---%0Auid%3A%20Wasmtime.Table%601.Wasmtime%23IImportable%23GetHandle%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Table.cs/#L105">View Source</a>
+  </span>
+  <a id="Wasmtime_Table_1_Wasmtime_IImportable_GetHandle_" data-uid="Wasmtime.Table`1.Wasmtime#IImportable#GetHandle*"></a>
+  <h4 id="Wasmtime_Table_1_Wasmtime_IImportable_GetHandle" data-uid="Wasmtime.Table`1.Wasmtime#IImportable#GetHandle">IImportable.GetHandle()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IntPtr IImportable.GetHandle()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IntPtr</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="Wasmtime.IImportable.html">IImportable</a>
+  </div>
 </article>
           </div>
           
@@ -362,12 +402,13 @@
                     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Table_1.md&amp;value=---%0Auid%3A%20Wasmtime.Table%601%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Table.cs/#L8" class="contribution-link">View Source</a>
+                    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Table.cs/#L9" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In This Article</h5>
+                <div></div>
               </nav>
             </div>
           </div>

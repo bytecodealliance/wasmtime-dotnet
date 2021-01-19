@@ -185,6 +185,19 @@ references:
   isSpec: "True"
   fullName: Wasmtime.EngineBuilder.WithDebugInfo
   nameWithType: EngineBuilder.WithDebugInfo
+- uid: Wasmtime.EngineBuilder.WithModuleLinking(System.Boolean)
+  name: WithModuleLinking(Boolean)
+  href: api/Wasmtime.EngineBuilder.html#Wasmtime_EngineBuilder_WithModuleLinking_System_Boolean_
+  commentId: M:Wasmtime.EngineBuilder.WithModuleLinking(System.Boolean)
+  fullName: Wasmtime.EngineBuilder.WithModuleLinking(System.Boolean)
+  nameWithType: EngineBuilder.WithModuleLinking(Boolean)
+- uid: Wasmtime.EngineBuilder.WithModuleLinking*
+  name: WithModuleLinking
+  href: api/Wasmtime.EngineBuilder.html#Wasmtime_EngineBuilder_WithModuleLinking_
+  commentId: Overload:Wasmtime.EngineBuilder.WithModuleLinking
+  isSpec: "True"
+  fullName: Wasmtime.EngineBuilder.WithModuleLinking
+  nameWithType: EngineBuilder.WithModuleLinking
 - uid: Wasmtime.EngineBuilder.WithMultiValue(System.Boolean)
   name: WithMultiValue(Boolean)
   href: api/Wasmtime.EngineBuilder.html#Wasmtime_EngineBuilder_WithMultiValue_System_Boolean_
@@ -320,6 +333,19 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Exports.Exports.Globals
   nameWithType: Exports.Globals
+- uid: Wasmtime.Exports.Exports.Instances
+  name: Instances
+  href: api/Wasmtime.Exports.Exports.html#Wasmtime_Exports_Exports_Instances
+  commentId: P:Wasmtime.Exports.Exports.Instances
+  fullName: Wasmtime.Exports.Exports.Instances
+  nameWithType: Exports.Instances
+- uid: Wasmtime.Exports.Exports.Instances*
+  name: Instances
+  href: api/Wasmtime.Exports.Exports.html#Wasmtime_Exports_Exports_Instances_
+  commentId: Overload:Wasmtime.Exports.Exports.Instances
+  isSpec: "True"
+  fullName: Wasmtime.Exports.Exports.Instances
+  nameWithType: Exports.Instances
 - uid: Wasmtime.Exports.Exports.Memories
   name: Memories
   href: api/Wasmtime.Exports.Exports.html#Wasmtime_Exports_Exports_Memories
@@ -333,6 +359,19 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Exports.Exports.Memories
   nameWithType: Exports.Memories
+- uid: Wasmtime.Exports.Exports.Modules
+  name: Modules
+  href: api/Wasmtime.Exports.Exports.html#Wasmtime_Exports_Exports_Modules
+  commentId: P:Wasmtime.Exports.Exports.Modules
+  fullName: Wasmtime.Exports.Exports.Modules
+  nameWithType: Exports.Modules
+- uid: Wasmtime.Exports.Exports.Modules*
+  name: Modules
+  href: api/Wasmtime.Exports.Exports.html#Wasmtime_Exports_Exports_Modules_
+  commentId: Overload:Wasmtime.Exports.Exports.Modules
+  isSpec: "True"
+  fullName: Wasmtime.Exports.Exports.Modules
+  nameWithType: Exports.Modules
 - uid: Wasmtime.Exports.Exports.Tables
   name: Tables
   href: api/Wasmtime.Exports.Exports.html#Wasmtime_Exports_Exports_Tables
@@ -410,6 +449,25 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Exports.GlobalExport.Kind
   nameWithType: GlobalExport.Kind
+- uid: Wasmtime.Exports.InstanceExport
+  name: InstanceExport
+  href: api/Wasmtime.Exports.InstanceExport.html
+  commentId: T:Wasmtime.Exports.InstanceExport
+  fullName: Wasmtime.Exports.InstanceExport
+  nameWithType: InstanceExport
+- uid: Wasmtime.Exports.InstanceExport.Exports
+  name: Exports
+  href: api/Wasmtime.Exports.InstanceExport.html#Wasmtime_Exports_InstanceExport_Exports
+  commentId: P:Wasmtime.Exports.InstanceExport.Exports
+  fullName: Wasmtime.Exports.InstanceExport.Exports
+  nameWithType: InstanceExport.Exports
+- uid: Wasmtime.Exports.InstanceExport.Exports*
+  name: Exports
+  href: api/Wasmtime.Exports.InstanceExport.html#Wasmtime_Exports_InstanceExport_Exports_
+  commentId: Overload:Wasmtime.Exports.InstanceExport.Exports
+  isSpec: "True"
+  fullName: Wasmtime.Exports.InstanceExport.Exports
+  nameWithType: InstanceExport.Exports
 - uid: Wasmtime.Exports.MemoryExport
   name: MemoryExport
   href: api/Wasmtime.Exports.MemoryExport.html
@@ -442,6 +500,38 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Exports.MemoryExport.Minimum
   nameWithType: MemoryExport.Minimum
+- uid: Wasmtime.Exports.ModuleExport
+  name: ModuleExport
+  href: api/Wasmtime.Exports.ModuleExport.html
+  commentId: T:Wasmtime.Exports.ModuleExport
+  fullName: Wasmtime.Exports.ModuleExport
+  nameWithType: ModuleExport
+- uid: Wasmtime.Exports.ModuleExport.Exports
+  name: Exports
+  href: api/Wasmtime.Exports.ModuleExport.html#Wasmtime_Exports_ModuleExport_Exports
+  commentId: P:Wasmtime.Exports.ModuleExport.Exports
+  fullName: Wasmtime.Exports.ModuleExport.Exports
+  nameWithType: ModuleExport.Exports
+- uid: Wasmtime.Exports.ModuleExport.Exports*
+  name: Exports
+  href: api/Wasmtime.Exports.ModuleExport.html#Wasmtime_Exports_ModuleExport_Exports_
+  commentId: Overload:Wasmtime.Exports.ModuleExport.Exports
+  isSpec: "True"
+  fullName: Wasmtime.Exports.ModuleExport.Exports
+  nameWithType: ModuleExport.Exports
+- uid: Wasmtime.Exports.ModuleExport.Imports
+  name: Imports
+  href: api/Wasmtime.Exports.ModuleExport.html#Wasmtime_Exports_ModuleExport_Imports
+  commentId: P:Wasmtime.Exports.ModuleExport.Imports
+  fullName: Wasmtime.Exports.ModuleExport.Imports
+  nameWithType: ModuleExport.Imports
+- uid: Wasmtime.Exports.ModuleExport.Imports*
+  name: Imports
+  href: api/Wasmtime.Exports.ModuleExport.html#Wasmtime_Exports_ModuleExport_Imports_
+  commentId: Overload:Wasmtime.Exports.ModuleExport.Imports
+  isSpec: "True"
+  fullName: Wasmtime.Exports.ModuleExport.Imports
+  nameWithType: ModuleExport.Imports
 - uid: Wasmtime.Exports.TableExport
   name: TableExport
   href: api/Wasmtime.Exports.TableExport.html
@@ -499,15 +589,24 @@ references:
   commentId: T:Wasmtime.Externs.ExternFunction
   fullName: Wasmtime.Externs.ExternFunction
   nameWithType: ExternFunction
-- uid: Wasmtime.Externs.ExternFunction.Invoke(System.Object[])
-  name: Invoke(Object[])
-  href: api/Wasmtime.Externs.ExternFunction.html#Wasmtime_Externs_ExternFunction_Invoke_System_Object___
-  commentId: M:Wasmtime.Externs.ExternFunction.Invoke(System.Object[])
-  name.vb: Invoke(Object())
-  fullName: Wasmtime.Externs.ExternFunction.Invoke(System.Object[])
-  fullName.vb: Wasmtime.Externs.ExternFunction.Invoke(System.Object())
-  nameWithType: ExternFunction.Invoke(Object[])
-  nameWithType.vb: ExternFunction.Invoke(Object())
+- uid: Wasmtime.Externs.ExternFunction.Invoke(ReadOnlySpan{System.Nullable{System.Object}})
+  name: Invoke(ReadOnlySpan<Nullable<Object>>)
+  href: api/Wasmtime.Externs.ExternFunction.html#Wasmtime_Externs_ExternFunction_Invoke_ReadOnlySpan_System_Nullable_System_Object___
+  commentId: M:Wasmtime.Externs.ExternFunction.Invoke(ReadOnlySpan{System.Nullable{System.Object}})
+  name.vb: Invoke(ReadOnlySpan(Of Nullable(Of Object)))
+  fullName: Wasmtime.Externs.ExternFunction.Invoke(ReadOnlySpan<System.Nullable<System.Object>>)
+  fullName.vb: Wasmtime.Externs.ExternFunction.Invoke(ReadOnlySpan(Of System.Nullable(Of System.Object)))
+  nameWithType: ExternFunction.Invoke(ReadOnlySpan<Nullable<Object>>)
+  nameWithType.vb: ExternFunction.Invoke(ReadOnlySpan(Of Nullable(Of Object)))
+- uid: Wasmtime.Externs.ExternFunction.Invoke(System.Nullable{System.Object}[])
+  name: Invoke(Nullable<Object>[])
+  href: api/Wasmtime.Externs.ExternFunction.html#Wasmtime_Externs_ExternFunction_Invoke_System_Nullable_System_Object____
+  commentId: M:Wasmtime.Externs.ExternFunction.Invoke(System.Nullable{System.Object}[])
+  name.vb: Invoke(Nullable(Of Object)())
+  fullName: Wasmtime.Externs.ExternFunction.Invoke(System.Nullable<System.Object>[])
+  fullName.vb: Wasmtime.Externs.ExternFunction.Invoke(System.Nullable(Of System.Object)())
+  nameWithType: ExternFunction.Invoke(Nullable<Object>[])
+  nameWithType.vb: ExternFunction.Invoke(Nullable(Of Object)())
 - uid: Wasmtime.Externs.ExternFunction.Invoke*
   name: Invoke
   href: api/Wasmtime.Externs.ExternFunction.html#Wasmtime_Externs_ExternFunction_Invoke_
@@ -554,6 +653,23 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Externs.ExternFunction.Results
   nameWithType: ExternFunction.Results
+- uid: Wasmtime.Externs.ExternFunction.Wasmtime#IImportable#GetHandle
+  name: IImportable.GetHandle()
+  href: api/Wasmtime.Externs.ExternFunction.html#Wasmtime_Externs_ExternFunction_Wasmtime_IImportable_GetHandle
+  commentId: M:Wasmtime.Externs.ExternFunction.Wasmtime#IImportable#GetHandle
+  name.vb: Wasmtime.IImportable.GetHandle()
+  fullName: Wasmtime.Externs.ExternFunction.Wasmtime.IImportable.GetHandle()
+  nameWithType: ExternFunction.IImportable.GetHandle()
+  nameWithType.vb: ExternFunction.Wasmtime.IImportable.GetHandle()
+- uid: Wasmtime.Externs.ExternFunction.Wasmtime#IImportable#GetHandle*
+  name: IImportable.GetHandle
+  href: api/Wasmtime.Externs.ExternFunction.html#Wasmtime_Externs_ExternFunction_Wasmtime_IImportable_GetHandle_
+  commentId: Overload:Wasmtime.Externs.ExternFunction.Wasmtime#IImportable#GetHandle
+  isSpec: "True"
+  name.vb: Wasmtime.IImportable.GetHandle
+  fullName: Wasmtime.Externs.ExternFunction.Wasmtime.IImportable.GetHandle
+  nameWithType: ExternFunction.IImportable.GetHandle
+  nameWithType.vb: ExternFunction.Wasmtime.IImportable.GetHandle
 - uid: Wasmtime.Externs.ExternGlobal
   name: ExternGlobal
   href: api/Wasmtime.Externs.ExternGlobal.html
@@ -612,6 +728,195 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Externs.ExternGlobal.Value
   nameWithType: ExternGlobal.Value
+- uid: Wasmtime.Externs.ExternGlobal.Wasmtime#IImportable#GetHandle
+  name: IImportable.GetHandle()
+  href: api/Wasmtime.Externs.ExternGlobal.html#Wasmtime_Externs_ExternGlobal_Wasmtime_IImportable_GetHandle
+  commentId: M:Wasmtime.Externs.ExternGlobal.Wasmtime#IImportable#GetHandle
+  name.vb: Wasmtime.IImportable.GetHandle()
+  fullName: Wasmtime.Externs.ExternGlobal.Wasmtime.IImportable.GetHandle()
+  nameWithType: ExternGlobal.IImportable.GetHandle()
+  nameWithType.vb: ExternGlobal.Wasmtime.IImportable.GetHandle()
+- uid: Wasmtime.Externs.ExternGlobal.Wasmtime#IImportable#GetHandle*
+  name: IImportable.GetHandle
+  href: api/Wasmtime.Externs.ExternGlobal.html#Wasmtime_Externs_ExternGlobal_Wasmtime_IImportable_GetHandle_
+  commentId: Overload:Wasmtime.Externs.ExternGlobal.Wasmtime#IImportable#GetHandle
+  isSpec: "True"
+  name.vb: Wasmtime.IImportable.GetHandle
+  fullName: Wasmtime.Externs.ExternGlobal.Wasmtime.IImportable.GetHandle
+  nameWithType: ExternGlobal.IImportable.GetHandle
+  nameWithType.vb: ExternGlobal.Wasmtime.IImportable.GetHandle
+- uid: Wasmtime.Externs.ExternInstance
+  name: ExternInstance
+  href: api/Wasmtime.Externs.ExternInstance.html
+  commentId: T:Wasmtime.Externs.ExternInstance
+  fullName: Wasmtime.Externs.ExternInstance
+  nameWithType: ExternInstance
+- uid: Wasmtime.Externs.ExternInstance.Dispose
+  name: Dispose()
+  href: api/Wasmtime.Externs.ExternInstance.html#Wasmtime_Externs_ExternInstance_Dispose
+  commentId: M:Wasmtime.Externs.ExternInstance.Dispose
+  fullName: Wasmtime.Externs.ExternInstance.Dispose()
+  nameWithType: ExternInstance.Dispose()
+- uid: Wasmtime.Externs.ExternInstance.Dispose*
+  name: Dispose
+  href: api/Wasmtime.Externs.ExternInstance.html#Wasmtime_Externs_ExternInstance_Dispose_
+  commentId: Overload:Wasmtime.Externs.ExternInstance.Dispose
+  isSpec: "True"
+  fullName: Wasmtime.Externs.ExternInstance.Dispose
+  nameWithType: ExternInstance.Dispose
+- uid: Wasmtime.Externs.ExternInstance.Functions
+  name: Functions
+  href: api/Wasmtime.Externs.ExternInstance.html#Wasmtime_Externs_ExternInstance_Functions
+  commentId: P:Wasmtime.Externs.ExternInstance.Functions
+  fullName: Wasmtime.Externs.ExternInstance.Functions
+  nameWithType: ExternInstance.Functions
+- uid: Wasmtime.Externs.ExternInstance.Functions*
+  name: Functions
+  href: api/Wasmtime.Externs.ExternInstance.html#Wasmtime_Externs_ExternInstance_Functions_
+  commentId: Overload:Wasmtime.Externs.ExternInstance.Functions
+  isSpec: "True"
+  fullName: Wasmtime.Externs.ExternInstance.Functions
+  nameWithType: ExternInstance.Functions
+- uid: Wasmtime.Externs.ExternInstance.Globals
+  name: Globals
+  href: api/Wasmtime.Externs.ExternInstance.html#Wasmtime_Externs_ExternInstance_Globals
+  commentId: P:Wasmtime.Externs.ExternInstance.Globals
+  fullName: Wasmtime.Externs.ExternInstance.Globals
+  nameWithType: ExternInstance.Globals
+- uid: Wasmtime.Externs.ExternInstance.Globals*
+  name: Globals
+  href: api/Wasmtime.Externs.ExternInstance.html#Wasmtime_Externs_ExternInstance_Globals_
+  commentId: Overload:Wasmtime.Externs.ExternInstance.Globals
+  isSpec: "True"
+  fullName: Wasmtime.Externs.ExternInstance.Globals
+  nameWithType: ExternInstance.Globals
+- uid: Wasmtime.Externs.ExternInstance.Instances
+  name: Instances
+  href: api/Wasmtime.Externs.ExternInstance.html#Wasmtime_Externs_ExternInstance_Instances
+  commentId: P:Wasmtime.Externs.ExternInstance.Instances
+  fullName: Wasmtime.Externs.ExternInstance.Instances
+  nameWithType: ExternInstance.Instances
+- uid: Wasmtime.Externs.ExternInstance.Instances*
+  name: Instances
+  href: api/Wasmtime.Externs.ExternInstance.html#Wasmtime_Externs_ExternInstance_Instances_
+  commentId: Overload:Wasmtime.Externs.ExternInstance.Instances
+  isSpec: "True"
+  fullName: Wasmtime.Externs.ExternInstance.Instances
+  nameWithType: ExternInstance.Instances
+- uid: Wasmtime.Externs.ExternInstance.Memories
+  name: Memories
+  href: api/Wasmtime.Externs.ExternInstance.html#Wasmtime_Externs_ExternInstance_Memories
+  commentId: P:Wasmtime.Externs.ExternInstance.Memories
+  fullName: Wasmtime.Externs.ExternInstance.Memories
+  nameWithType: ExternInstance.Memories
+- uid: Wasmtime.Externs.ExternInstance.Memories*
+  name: Memories
+  href: api/Wasmtime.Externs.ExternInstance.html#Wasmtime_Externs_ExternInstance_Memories_
+  commentId: Overload:Wasmtime.Externs.ExternInstance.Memories
+  isSpec: "True"
+  fullName: Wasmtime.Externs.ExternInstance.Memories
+  nameWithType: ExternInstance.Memories
+- uid: Wasmtime.Externs.ExternInstance.Modules
+  name: Modules
+  href: api/Wasmtime.Externs.ExternInstance.html#Wasmtime_Externs_ExternInstance_Modules
+  commentId: P:Wasmtime.Externs.ExternInstance.Modules
+  fullName: Wasmtime.Externs.ExternInstance.Modules
+  nameWithType: ExternInstance.Modules
+- uid: Wasmtime.Externs.ExternInstance.Modules*
+  name: Modules
+  href: api/Wasmtime.Externs.ExternInstance.html#Wasmtime_Externs_ExternInstance_Modules_
+  commentId: Overload:Wasmtime.Externs.ExternInstance.Modules
+  isSpec: "True"
+  fullName: Wasmtime.Externs.ExternInstance.Modules
+  nameWithType: ExternInstance.Modules
+- uid: Wasmtime.Externs.ExternInstance.Name
+  name: Name
+  href: api/Wasmtime.Externs.ExternInstance.html#Wasmtime_Externs_ExternInstance_Name
+  commentId: P:Wasmtime.Externs.ExternInstance.Name
+  fullName: Wasmtime.Externs.ExternInstance.Name
+  nameWithType: ExternInstance.Name
+- uid: Wasmtime.Externs.ExternInstance.Name*
+  name: Name
+  href: api/Wasmtime.Externs.ExternInstance.html#Wasmtime_Externs_ExternInstance_Name_
+  commentId: Overload:Wasmtime.Externs.ExternInstance.Name
+  isSpec: "True"
+  fullName: Wasmtime.Externs.ExternInstance.Name
+  nameWithType: ExternInstance.Name
+- uid: Wasmtime.Externs.ExternInstance.Tables
+  name: Tables
+  href: api/Wasmtime.Externs.ExternInstance.html#Wasmtime_Externs_ExternInstance_Tables
+  commentId: P:Wasmtime.Externs.ExternInstance.Tables
+  fullName: Wasmtime.Externs.ExternInstance.Tables
+  nameWithType: ExternInstance.Tables
+- uid: Wasmtime.Externs.ExternInstance.Tables*
+  name: Tables
+  href: api/Wasmtime.Externs.ExternInstance.html#Wasmtime_Externs_ExternInstance_Tables_
+  commentId: Overload:Wasmtime.Externs.ExternInstance.Tables
+  isSpec: "True"
+  fullName: Wasmtime.Externs.ExternInstance.Tables
+  nameWithType: ExternInstance.Tables
+- uid: Wasmtime.Externs.ExternInstance.TryGetMember(GetMemberBinder,System.Nullable{System.Object}@)
+  name: TryGetMember(GetMemberBinder, out Nullable<Object>)
+  href: api/Wasmtime.Externs.ExternInstance.html#Wasmtime_Externs_ExternInstance_TryGetMember_GetMemberBinder_System_Nullable_System_Object___
+  commentId: M:Wasmtime.Externs.ExternInstance.TryGetMember(GetMemberBinder,System.Nullable{System.Object}@)
+  name.vb: TryGetMember(GetMemberBinder, ByRef Nullable(Of Object))
+  fullName: Wasmtime.Externs.ExternInstance.TryGetMember(GetMemberBinder, out System.Nullable<System.Object>)
+  fullName.vb: Wasmtime.Externs.ExternInstance.TryGetMember(GetMemberBinder, ByRef System.Nullable(Of System.Object))
+  nameWithType: ExternInstance.TryGetMember(GetMemberBinder, out Nullable<Object>)
+  nameWithType.vb: ExternInstance.TryGetMember(GetMemberBinder, ByRef Nullable(Of Object))
+- uid: Wasmtime.Externs.ExternInstance.TryGetMember*
+  name: TryGetMember
+  href: api/Wasmtime.Externs.ExternInstance.html#Wasmtime_Externs_ExternInstance_TryGetMember_
+  commentId: Overload:Wasmtime.Externs.ExternInstance.TryGetMember
+  isSpec: "True"
+  fullName: Wasmtime.Externs.ExternInstance.TryGetMember
+  nameWithType: ExternInstance.TryGetMember
+- uid: Wasmtime.Externs.ExternInstance.TryInvokeMember(InvokeMemberBinder,System.Nullable{System.Object}[],System.Nullable{System.Object}@)
+  name: TryInvokeMember(InvokeMemberBinder, Nullable<Object>[], out Nullable<Object>)
+  href: api/Wasmtime.Externs.ExternInstance.html#Wasmtime_Externs_ExternInstance_TryInvokeMember_InvokeMemberBinder_System_Nullable_System_Object____System_Nullable_System_Object___
+  commentId: M:Wasmtime.Externs.ExternInstance.TryInvokeMember(InvokeMemberBinder,System.Nullable{System.Object}[],System.Nullable{System.Object}@)
+  name.vb: TryInvokeMember(InvokeMemberBinder, Nullable(Of Object)(), ByRef Nullable(Of Object))
+  fullName: Wasmtime.Externs.ExternInstance.TryInvokeMember(InvokeMemberBinder, System.Nullable<System.Object>[], out System.Nullable<System.Object>)
+  fullName.vb: Wasmtime.Externs.ExternInstance.TryInvokeMember(InvokeMemberBinder, System.Nullable(Of System.Object)(), ByRef System.Nullable(Of System.Object))
+  nameWithType: ExternInstance.TryInvokeMember(InvokeMemberBinder, Nullable<Object>[], out Nullable<Object>)
+  nameWithType.vb: ExternInstance.TryInvokeMember(InvokeMemberBinder, Nullable(Of Object)(), ByRef Nullable(Of Object))
+- uid: Wasmtime.Externs.ExternInstance.TryInvokeMember*
+  name: TryInvokeMember
+  href: api/Wasmtime.Externs.ExternInstance.html#Wasmtime_Externs_ExternInstance_TryInvokeMember_
+  commentId: Overload:Wasmtime.Externs.ExternInstance.TryInvokeMember
+  isSpec: "True"
+  fullName: Wasmtime.Externs.ExternInstance.TryInvokeMember
+  nameWithType: ExternInstance.TryInvokeMember
+- uid: Wasmtime.Externs.ExternInstance.TrySetMember(SetMemberBinder,System.Object)
+  name: TrySetMember(SetMemberBinder, Object)
+  href: api/Wasmtime.Externs.ExternInstance.html#Wasmtime_Externs_ExternInstance_TrySetMember_SetMemberBinder_System_Object_
+  commentId: M:Wasmtime.Externs.ExternInstance.TrySetMember(SetMemberBinder,System.Object)
+  fullName: Wasmtime.Externs.ExternInstance.TrySetMember(SetMemberBinder, System.Object)
+  nameWithType: ExternInstance.TrySetMember(SetMemberBinder, Object)
+- uid: Wasmtime.Externs.ExternInstance.TrySetMember*
+  name: TrySetMember
+  href: api/Wasmtime.Externs.ExternInstance.html#Wasmtime_Externs_ExternInstance_TrySetMember_
+  commentId: Overload:Wasmtime.Externs.ExternInstance.TrySetMember
+  isSpec: "True"
+  fullName: Wasmtime.Externs.ExternInstance.TrySetMember
+  nameWithType: ExternInstance.TrySetMember
+- uid: Wasmtime.Externs.ExternInstance.Wasmtime#IImportable#GetHandle
+  name: IImportable.GetHandle()
+  href: api/Wasmtime.Externs.ExternInstance.html#Wasmtime_Externs_ExternInstance_Wasmtime_IImportable_GetHandle
+  commentId: M:Wasmtime.Externs.ExternInstance.Wasmtime#IImportable#GetHandle
+  name.vb: Wasmtime.IImportable.GetHandle()
+  fullName: Wasmtime.Externs.ExternInstance.Wasmtime.IImportable.GetHandle()
+  nameWithType: ExternInstance.IImportable.GetHandle()
+  nameWithType.vb: ExternInstance.Wasmtime.IImportable.GetHandle()
+- uid: Wasmtime.Externs.ExternInstance.Wasmtime#IImportable#GetHandle*
+  name: IImportable.GetHandle
+  href: api/Wasmtime.Externs.ExternInstance.html#Wasmtime_Externs_ExternInstance_Wasmtime_IImportable_GetHandle_
+  commentId: Overload:Wasmtime.Externs.ExternInstance.Wasmtime#IImportable#GetHandle
+  isSpec: "True"
+  name.vb: Wasmtime.IImportable.GetHandle
+  fullName: Wasmtime.Externs.ExternInstance.Wasmtime.IImportable.GetHandle
+  nameWithType: ExternInstance.IImportable.GetHandle
+  nameWithType.vb: ExternInstance.Wasmtime.IImportable.GetHandle
 - uid: Wasmtime.Externs.ExternMemory
   name: ExternMemory
   href: api/Wasmtime.Externs.ExternMemory.html
@@ -670,64 +975,101 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Externs.ExternMemory.Name
   nameWithType: ExternMemory.Name
-- uid: Wasmtime.Externs.Externs
-  name: Externs
-  href: api/Wasmtime.Externs.Externs.html
-  commentId: T:Wasmtime.Externs.Externs
-  fullName: Wasmtime.Externs.Externs
-  nameWithType: Externs
-- uid: Wasmtime.Externs.Externs.Functions
-  name: Functions
-  href: api/Wasmtime.Externs.Externs.html#Wasmtime_Externs_Externs_Functions
-  commentId: P:Wasmtime.Externs.Externs.Functions
-  fullName: Wasmtime.Externs.Externs.Functions
-  nameWithType: Externs.Functions
-- uid: Wasmtime.Externs.Externs.Functions*
-  name: Functions
-  href: api/Wasmtime.Externs.Externs.html#Wasmtime_Externs_Externs_Functions_
-  commentId: Overload:Wasmtime.Externs.Externs.Functions
+- uid: Wasmtime.Externs.ExternMemory.Wasmtime#IImportable#GetHandle
+  name: IImportable.GetHandle()
+  href: api/Wasmtime.Externs.ExternMemory.html#Wasmtime_Externs_ExternMemory_Wasmtime_IImportable_GetHandle
+  commentId: M:Wasmtime.Externs.ExternMemory.Wasmtime#IImportable#GetHandle
+  name.vb: Wasmtime.IImportable.GetHandle()
+  fullName: Wasmtime.Externs.ExternMemory.Wasmtime.IImportable.GetHandle()
+  nameWithType: ExternMemory.IImportable.GetHandle()
+  nameWithType.vb: ExternMemory.Wasmtime.IImportable.GetHandle()
+- uid: Wasmtime.Externs.ExternMemory.Wasmtime#IImportable#GetHandle*
+  name: IImportable.GetHandle
+  href: api/Wasmtime.Externs.ExternMemory.html#Wasmtime_Externs_ExternMemory_Wasmtime_IImportable_GetHandle_
+  commentId: Overload:Wasmtime.Externs.ExternMemory.Wasmtime#IImportable#GetHandle
   isSpec: "True"
-  fullName: Wasmtime.Externs.Externs.Functions
-  nameWithType: Externs.Functions
-- uid: Wasmtime.Externs.Externs.Globals
-  name: Globals
-  href: api/Wasmtime.Externs.Externs.html#Wasmtime_Externs_Externs_Globals
-  commentId: P:Wasmtime.Externs.Externs.Globals
-  fullName: Wasmtime.Externs.Externs.Globals
-  nameWithType: Externs.Globals
-- uid: Wasmtime.Externs.Externs.Globals*
-  name: Globals
-  href: api/Wasmtime.Externs.Externs.html#Wasmtime_Externs_Externs_Globals_
-  commentId: Overload:Wasmtime.Externs.Externs.Globals
+  name.vb: Wasmtime.IImportable.GetHandle
+  fullName: Wasmtime.Externs.ExternMemory.Wasmtime.IImportable.GetHandle
+  nameWithType: ExternMemory.IImportable.GetHandle
+  nameWithType.vb: ExternMemory.Wasmtime.IImportable.GetHandle
+- uid: Wasmtime.Externs.ExternModule
+  name: ExternModule
+  href: api/Wasmtime.Externs.ExternModule.html
+  commentId: T:Wasmtime.Externs.ExternModule
+  fullName: Wasmtime.Externs.ExternModule
+  nameWithType: ExternModule
+- uid: Wasmtime.Externs.ExternModule.Exports
+  name: Exports
+  href: api/Wasmtime.Externs.ExternModule.html#Wasmtime_Externs_ExternModule_Exports
+  commentId: P:Wasmtime.Externs.ExternModule.Exports
+  fullName: Wasmtime.Externs.ExternModule.Exports
+  nameWithType: ExternModule.Exports
+- uid: Wasmtime.Externs.ExternModule.Exports*
+  name: Exports
+  href: api/Wasmtime.Externs.ExternModule.html#Wasmtime_Externs_ExternModule_Exports_
+  commentId: Overload:Wasmtime.Externs.ExternModule.Exports
   isSpec: "True"
-  fullName: Wasmtime.Externs.Externs.Globals
-  nameWithType: Externs.Globals
-- uid: Wasmtime.Externs.Externs.Memories
-  name: Memories
-  href: api/Wasmtime.Externs.Externs.html#Wasmtime_Externs_Externs_Memories
-  commentId: P:Wasmtime.Externs.Externs.Memories
-  fullName: Wasmtime.Externs.Externs.Memories
-  nameWithType: Externs.Memories
-- uid: Wasmtime.Externs.Externs.Memories*
-  name: Memories
-  href: api/Wasmtime.Externs.Externs.html#Wasmtime_Externs_Externs_Memories_
-  commentId: Overload:Wasmtime.Externs.Externs.Memories
+  fullName: Wasmtime.Externs.ExternModule.Exports
+  nameWithType: ExternModule.Exports
+- uid: Wasmtime.Externs.ExternModule.Imports
+  name: Imports
+  href: api/Wasmtime.Externs.ExternModule.html#Wasmtime_Externs_ExternModule_Imports
+  commentId: P:Wasmtime.Externs.ExternModule.Imports
+  fullName: Wasmtime.Externs.ExternModule.Imports
+  nameWithType: ExternModule.Imports
+- uid: Wasmtime.Externs.ExternModule.Imports*
+  name: Imports
+  href: api/Wasmtime.Externs.ExternModule.html#Wasmtime_Externs_ExternModule_Imports_
+  commentId: Overload:Wasmtime.Externs.ExternModule.Imports
   isSpec: "True"
-  fullName: Wasmtime.Externs.Externs.Memories
-  nameWithType: Externs.Memories
-- uid: Wasmtime.Externs.Externs.Tables
-  name: Tables
-  href: api/Wasmtime.Externs.Externs.html#Wasmtime_Externs_Externs_Tables
-  commentId: P:Wasmtime.Externs.Externs.Tables
-  fullName: Wasmtime.Externs.Externs.Tables
-  nameWithType: Externs.Tables
-- uid: Wasmtime.Externs.Externs.Tables*
-  name: Tables
-  href: api/Wasmtime.Externs.Externs.html#Wasmtime_Externs_Externs_Tables_
-  commentId: Overload:Wasmtime.Externs.Externs.Tables
+  fullName: Wasmtime.Externs.ExternModule.Imports
+  nameWithType: ExternModule.Imports
+- uid: Wasmtime.Externs.ExternModule.Instantiate(Wasmtime.Store,Wasmtime.IImportable[])
+  name: Instantiate(Store, IImportable[])
+  href: api/Wasmtime.Externs.ExternModule.html#Wasmtime_Externs_ExternModule_Instantiate_Wasmtime_Store_Wasmtime_IImportable___
+  commentId: M:Wasmtime.Externs.ExternModule.Instantiate(Wasmtime.Store,Wasmtime.IImportable[])
+  name.vb: Instantiate(Store, IImportable())
+  fullName: Wasmtime.Externs.ExternModule.Instantiate(Wasmtime.Store, Wasmtime.IImportable[])
+  fullName.vb: Wasmtime.Externs.ExternModule.Instantiate(Wasmtime.Store, Wasmtime.IImportable())
+  nameWithType: ExternModule.Instantiate(Store, IImportable[])
+  nameWithType.vb: ExternModule.Instantiate(Store, IImportable())
+- uid: Wasmtime.Externs.ExternModule.Instantiate*
+  name: Instantiate
+  href: api/Wasmtime.Externs.ExternModule.html#Wasmtime_Externs_ExternModule_Instantiate_
+  commentId: Overload:Wasmtime.Externs.ExternModule.Instantiate
   isSpec: "True"
-  fullName: Wasmtime.Externs.Externs.Tables
-  nameWithType: Externs.Tables
+  fullName: Wasmtime.Externs.ExternModule.Instantiate
+  nameWithType: ExternModule.Instantiate
+- uid: Wasmtime.Externs.ExternModule.Name
+  name: Name
+  href: api/Wasmtime.Externs.ExternModule.html#Wasmtime_Externs_ExternModule_Name
+  commentId: P:Wasmtime.Externs.ExternModule.Name
+  fullName: Wasmtime.Externs.ExternModule.Name
+  nameWithType: ExternModule.Name
+- uid: Wasmtime.Externs.ExternModule.Name*
+  name: Name
+  href: api/Wasmtime.Externs.ExternModule.html#Wasmtime_Externs_ExternModule_Name_
+  commentId: Overload:Wasmtime.Externs.ExternModule.Name
+  isSpec: "True"
+  fullName: Wasmtime.Externs.ExternModule.Name
+  nameWithType: ExternModule.Name
+- uid: Wasmtime.Externs.ExternModule.Wasmtime#IImportable#GetHandle
+  name: IImportable.GetHandle()
+  href: api/Wasmtime.Externs.ExternModule.html#Wasmtime_Externs_ExternModule_Wasmtime_IImportable_GetHandle
+  commentId: M:Wasmtime.Externs.ExternModule.Wasmtime#IImportable#GetHandle
+  name.vb: Wasmtime.IImportable.GetHandle()
+  fullName: Wasmtime.Externs.ExternModule.Wasmtime.IImportable.GetHandle()
+  nameWithType: ExternModule.IImportable.GetHandle()
+  nameWithType.vb: ExternModule.Wasmtime.IImportable.GetHandle()
+- uid: Wasmtime.Externs.ExternModule.Wasmtime#IImportable#GetHandle*
+  name: IImportable.GetHandle
+  href: api/Wasmtime.Externs.ExternModule.html#Wasmtime_Externs_ExternModule_Wasmtime_IImportable_GetHandle_
+  commentId: Overload:Wasmtime.Externs.ExternModule.Wasmtime#IImportable#GetHandle
+  isSpec: "True"
+  name.vb: Wasmtime.IImportable.GetHandle
+  fullName: Wasmtime.Externs.ExternModule.Wasmtime.IImportable.GetHandle
+  nameWithType: ExternModule.IImportable.GetHandle
+  nameWithType.vb: ExternModule.Wasmtime.IImportable.GetHandle
 - uid: Wasmtime.Externs.ExternTable
   name: ExternTable
   href: api/Wasmtime.Externs.ExternTable.html
@@ -786,6 +1128,23 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Externs.ExternTable.Name
   nameWithType: ExternTable.Name
+- uid: Wasmtime.Externs.ExternTable.Wasmtime#IImportable#GetHandle
+  name: IImportable.GetHandle()
+  href: api/Wasmtime.Externs.ExternTable.html#Wasmtime_Externs_ExternTable_Wasmtime_IImportable_GetHandle
+  commentId: M:Wasmtime.Externs.ExternTable.Wasmtime#IImportable#GetHandle
+  name.vb: Wasmtime.IImportable.GetHandle()
+  fullName: Wasmtime.Externs.ExternTable.Wasmtime.IImportable.GetHandle()
+  nameWithType: ExternTable.IImportable.GetHandle()
+  nameWithType.vb: ExternTable.Wasmtime.IImportable.GetHandle()
+- uid: Wasmtime.Externs.ExternTable.Wasmtime#IImportable#GetHandle*
+  name: IImportable.GetHandle
+  href: api/Wasmtime.Externs.ExternTable.html#Wasmtime_Externs_ExternTable_Wasmtime_IImportable_GetHandle_
+  commentId: Overload:Wasmtime.Externs.ExternTable.Wasmtime#IImportable#GetHandle
+  isSpec: "True"
+  name.vb: Wasmtime.IImportable.GetHandle
+  fullName: Wasmtime.Externs.ExternTable.Wasmtime.IImportable.GetHandle
+  nameWithType: ExternTable.IImportable.GetHandle
+  nameWithType.vb: ExternTable.Wasmtime.IImportable.GetHandle
 - uid: Wasmtime.Function
   name: Function
   href: api/Wasmtime.Function.html
@@ -1115,15 +1474,24 @@ references:
   fullName.vb: Wasmtime.Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, TResult)(Wasmtime.Store, Func(Of T1, T2, T3, T4, T5, T6, T7, T8, TResult))
   nameWithType: Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(Store, Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult>)
   nameWithType.vb: Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, TResult)(Store, Func(Of T1, T2, T3, T4, T5, T6, T7, T8, TResult))
-- uid: Wasmtime.Function.Invoke(System.Object[])
-  name: Invoke(Object[])
-  href: api/Wasmtime.Function.html#Wasmtime_Function_Invoke_System_Object___
-  commentId: M:Wasmtime.Function.Invoke(System.Object[])
-  name.vb: Invoke(Object())
-  fullName: Wasmtime.Function.Invoke(System.Object[])
-  fullName.vb: Wasmtime.Function.Invoke(System.Object())
-  nameWithType: Function.Invoke(Object[])
-  nameWithType.vb: Function.Invoke(Object())
+- uid: Wasmtime.Function.Invoke(ReadOnlySpan{System.Nullable{System.Object}})
+  name: Invoke(ReadOnlySpan<Nullable<Object>>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_Invoke_ReadOnlySpan_System_Nullable_System_Object___
+  commentId: M:Wasmtime.Function.Invoke(ReadOnlySpan{System.Nullable{System.Object}})
+  name.vb: Invoke(ReadOnlySpan(Of Nullable(Of Object)))
+  fullName: Wasmtime.Function.Invoke(ReadOnlySpan<System.Nullable<System.Object>>)
+  fullName.vb: Wasmtime.Function.Invoke(ReadOnlySpan(Of System.Nullable(Of System.Object)))
+  nameWithType: Function.Invoke(ReadOnlySpan<Nullable<Object>>)
+  nameWithType.vb: Function.Invoke(ReadOnlySpan(Of Nullable(Of Object)))
+- uid: Wasmtime.Function.Invoke(System.Nullable{System.Object}[])
+  name: Invoke(Nullable<Object>[])
+  href: api/Wasmtime.Function.html#Wasmtime_Function_Invoke_System_Nullable_System_Object____
+  commentId: M:Wasmtime.Function.Invoke(System.Nullable{System.Object}[])
+  name.vb: Invoke(Nullable(Of Object)())
+  fullName: Wasmtime.Function.Invoke(System.Nullable<System.Object>[])
+  fullName.vb: Wasmtime.Function.Invoke(System.Nullable(Of System.Object)())
+  nameWithType: Function.Invoke(Nullable<Object>[])
+  nameWithType.vb: Function.Invoke(Nullable(Of Object)())
 - uid: Wasmtime.Function.Invoke*
   name: Invoke
   href: api/Wasmtime.Function.html#Wasmtime_Function_Invoke_
@@ -1183,6 +1551,23 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Function.Results
   nameWithType: Function.Results
+- uid: Wasmtime.Function.Wasmtime#IImportable#GetHandle
+  name: IImportable.GetHandle()
+  href: api/Wasmtime.Function.html#Wasmtime_Function_Wasmtime_IImportable_GetHandle
+  commentId: M:Wasmtime.Function.Wasmtime#IImportable#GetHandle
+  name.vb: Wasmtime.IImportable.GetHandle()
+  fullName: Wasmtime.Function.Wasmtime.IImportable.GetHandle()
+  nameWithType: Function.IImportable.GetHandle()
+  nameWithType.vb: Function.Wasmtime.IImportable.GetHandle()
+- uid: Wasmtime.Function.Wasmtime#IImportable#GetHandle*
+  name: IImportable.GetHandle
+  href: api/Wasmtime.Function.html#Wasmtime_Function_Wasmtime_IImportable_GetHandle_
+  commentId: Overload:Wasmtime.Function.Wasmtime#IImportable#GetHandle
+  isSpec: "True"
+  name.vb: Wasmtime.IImportable.GetHandle
+  fullName: Wasmtime.Function.Wasmtime.IImportable.GetHandle
+  nameWithType: Function.IImportable.GetHandle
+  nameWithType.vb: Function.Wasmtime.IImportable.GetHandle
 - uid: Wasmtime.Global`1
   name: Global<T>
   href: api/Wasmtime.Global-1.html
@@ -1243,6 +1628,25 @@ references:
   fullName.vb: Wasmtime.Global(Of T).Value
   nameWithType: Global<T>.Value
   nameWithType.vb: Global(Of T).Value
+- uid: Wasmtime.Global`1.Wasmtime#IImportable#GetHandle
+  name: IImportable.GetHandle()
+  href: api/Wasmtime.Global-1.html#Wasmtime_Global_1_Wasmtime_IImportable_GetHandle
+  commentId: M:Wasmtime.Global`1.Wasmtime#IImportable#GetHandle
+  name.vb: Wasmtime.IImportable.GetHandle()
+  fullName: Wasmtime.Global<T>.Wasmtime.IImportable.GetHandle()
+  fullName.vb: Wasmtime.Global(Of T).Wasmtime.IImportable.GetHandle()
+  nameWithType: Global<T>.IImportable.GetHandle()
+  nameWithType.vb: Global(Of T).Wasmtime.IImportable.GetHandle()
+- uid: Wasmtime.Global`1.Wasmtime#IImportable#GetHandle*
+  name: IImportable.GetHandle
+  href: api/Wasmtime.Global-1.html#Wasmtime_Global_1_Wasmtime_IImportable_GetHandle_
+  commentId: Overload:Wasmtime.Global`1.Wasmtime#IImportable#GetHandle
+  isSpec: "True"
+  name.vb: Wasmtime.IImportable.GetHandle
+  fullName: Wasmtime.Global<T>.Wasmtime.IImportable.GetHandle
+  fullName.vb: Wasmtime.Global(Of T).Wasmtime.IImportable.GetHandle
+  nameWithType: Global<T>.IImportable.GetHandle
+  nameWithType.vb: Global(Of T).Wasmtime.IImportable.GetHandle
 - uid: Wasmtime.Host
   name: Host
   href: api/Wasmtime.Host.html
@@ -1594,6 +1998,19 @@ references:
   fullName.vb: Wasmtime.Host.DefineGlobal(Of T)(System.String, System.String, T)
   nameWithType: Host.DefineGlobal<T>(String, String, T)
   nameWithType.vb: Host.DefineGlobal(Of T)(String, String, T)
+- uid: Wasmtime.Host.DefineInstance(System.String,System.String,Wasmtime.Instance)
+  name: DefineInstance(String, String, Instance)
+  href: api/Wasmtime.Host.html#Wasmtime_Host_DefineInstance_System_String_System_String_Wasmtime_Instance_
+  commentId: M:Wasmtime.Host.DefineInstance(System.String,System.String,Wasmtime.Instance)
+  fullName: Wasmtime.Host.DefineInstance(System.String, System.String, Wasmtime.Instance)
+  nameWithType: Host.DefineInstance(String, String, Instance)
+- uid: Wasmtime.Host.DefineInstance*
+  name: DefineInstance
+  href: api/Wasmtime.Host.html#Wasmtime_Host_DefineInstance_
+  commentId: Overload:Wasmtime.Host.DefineInstance
+  isSpec: "True"
+  fullName: Wasmtime.Host.DefineInstance
+  nameWithType: Host.DefineInstance
 - uid: Wasmtime.Host.DefineMemory(System.String,System.String,System.UInt32,System.UInt32)
   name: DefineMemory(String, String, UInt32, UInt32)
   href: api/Wasmtime.Host.html#Wasmtime_Host_DefineMemory_System_String_System_String_System_UInt32_System_UInt32_
@@ -1607,6 +2024,19 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Host.DefineMemory
   nameWithType: Host.DefineMemory
+- uid: Wasmtime.Host.DefineModule(System.String,System.String,Wasmtime.Module)
+  name: DefineModule(String, String, Module)
+  href: api/Wasmtime.Host.html#Wasmtime_Host_DefineModule_System_String_System_String_Wasmtime_Module_
+  commentId: M:Wasmtime.Host.DefineModule(System.String,System.String,Wasmtime.Module)
+  fullName: Wasmtime.Host.DefineModule(System.String, System.String, Wasmtime.Module)
+  nameWithType: Host.DefineModule(String, String, Module)
+- uid: Wasmtime.Host.DefineModule*
+  name: DefineModule
+  href: api/Wasmtime.Host.html#Wasmtime_Host_DefineModule_
+  commentId: Overload:Wasmtime.Host.DefineModule
+  isSpec: "True"
+  fullName: Wasmtime.Host.DefineModule
+  nameWithType: Host.DefineModule
 - uid: Wasmtime.Host.DefineMutableGlobal*
   name: DefineMutableGlobal
   href: api/Wasmtime.Host.html#Wasmtime_Host_DefineMutableGlobal_
@@ -1678,6 +2108,25 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Host.Instantiate
   nameWithType: Host.Instantiate
+- uid: Wasmtime.IImportable
+  name: IImportable
+  href: api/Wasmtime.IImportable.html
+  commentId: T:Wasmtime.IImportable
+  fullName: Wasmtime.IImportable
+  nameWithType: IImportable
+- uid: Wasmtime.IImportable.GetHandle
+  name: GetHandle()
+  href: api/Wasmtime.IImportable.html#Wasmtime_IImportable_GetHandle
+  commentId: M:Wasmtime.IImportable.GetHandle
+  fullName: Wasmtime.IImportable.GetHandle()
+  nameWithType: IImportable.GetHandle()
+- uid: Wasmtime.IImportable.GetHandle*
+  name: GetHandle
+  href: api/Wasmtime.IImportable.html#Wasmtime_IImportable_GetHandle_
+  commentId: Overload:Wasmtime.IImportable.GetHandle
+  isSpec: "True"
+  fullName: Wasmtime.IImportable.GetHandle
+  nameWithType: IImportable.GetHandle
 - uid: Wasmtime.Imports
   name: Wasmtime.Imports
   href: api/Wasmtime.Imports.html
@@ -1799,19 +2248,6 @@ references:
   commentId: T:Wasmtime.Imports.Imports
   fullName: Wasmtime.Imports.Imports
   nameWithType: Imports
-- uid: Wasmtime.Imports.Imports.Dispose
-  name: Dispose()
-  href: api/Wasmtime.Imports.Imports.html#Wasmtime_Imports_Imports_Dispose
-  commentId: M:Wasmtime.Imports.Imports.Dispose
-  fullName: Wasmtime.Imports.Imports.Dispose()
-  nameWithType: Imports.Dispose()
-- uid: Wasmtime.Imports.Imports.Dispose*
-  name: Dispose
-  href: api/Wasmtime.Imports.Imports.html#Wasmtime_Imports_Imports_Dispose_
-  commentId: Overload:Wasmtime.Imports.Imports.Dispose
-  isSpec: "True"
-  fullName: Wasmtime.Imports.Imports.Dispose
-  nameWithType: Imports.Dispose
 - uid: Wasmtime.Imports.Imports.Functions
   name: Functions
   href: api/Wasmtime.Imports.Imports.html#Wasmtime_Imports_Imports_Functions
@@ -1838,6 +2274,19 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Imports.Imports.Globals
   nameWithType: Imports.Globals
+- uid: Wasmtime.Imports.Imports.Instances
+  name: Instances
+  href: api/Wasmtime.Imports.Imports.html#Wasmtime_Imports_Imports_Instances
+  commentId: P:Wasmtime.Imports.Imports.Instances
+  fullName: Wasmtime.Imports.Imports.Instances
+  nameWithType: Imports.Instances
+- uid: Wasmtime.Imports.Imports.Instances*
+  name: Instances
+  href: api/Wasmtime.Imports.Imports.html#Wasmtime_Imports_Imports_Instances_
+  commentId: Overload:Wasmtime.Imports.Imports.Instances
+  isSpec: "True"
+  fullName: Wasmtime.Imports.Imports.Instances
+  nameWithType: Imports.Instances
 - uid: Wasmtime.Imports.Imports.Memories
   name: Memories
   href: api/Wasmtime.Imports.Imports.html#Wasmtime_Imports_Imports_Memories
@@ -1851,6 +2300,19 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Imports.Imports.Memories
   nameWithType: Imports.Memories
+- uid: Wasmtime.Imports.Imports.Modules
+  name: Modules
+  href: api/Wasmtime.Imports.Imports.html#Wasmtime_Imports_Imports_Modules
+  commentId: P:Wasmtime.Imports.Imports.Modules
+  fullName: Wasmtime.Imports.Imports.Modules
+  nameWithType: Imports.Modules
+- uid: Wasmtime.Imports.Imports.Modules*
+  name: Modules
+  href: api/Wasmtime.Imports.Imports.html#Wasmtime_Imports_Imports_Modules_
+  commentId: Overload:Wasmtime.Imports.Imports.Modules
+  isSpec: "True"
+  fullName: Wasmtime.Imports.Imports.Modules
+  nameWithType: Imports.Modules
 - uid: Wasmtime.Imports.Imports.Tables
   name: Tables
   href: api/Wasmtime.Imports.Imports.html#Wasmtime_Imports_Imports_Tables
@@ -1864,6 +2326,25 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Imports.Imports.Tables
   nameWithType: Imports.Tables
+- uid: Wasmtime.Imports.InstanceImport
+  name: InstanceImport
+  href: api/Wasmtime.Imports.InstanceImport.html
+  commentId: T:Wasmtime.Imports.InstanceImport
+  fullName: Wasmtime.Imports.InstanceImport
+  nameWithType: InstanceImport
+- uid: Wasmtime.Imports.InstanceImport.Exports
+  name: Exports
+  href: api/Wasmtime.Imports.InstanceImport.html#Wasmtime_Imports_InstanceImport_Exports
+  commentId: P:Wasmtime.Imports.InstanceImport.Exports
+  fullName: Wasmtime.Imports.InstanceImport.Exports
+  nameWithType: InstanceImport.Exports
+- uid: Wasmtime.Imports.InstanceImport.Exports*
+  name: Exports
+  href: api/Wasmtime.Imports.InstanceImport.html#Wasmtime_Imports_InstanceImport_Exports_
+  commentId: Overload:Wasmtime.Imports.InstanceImport.Exports
+  isSpec: "True"
+  fullName: Wasmtime.Imports.InstanceImport.Exports
+  nameWithType: InstanceImport.Exports
 - uid: Wasmtime.Imports.MemoryImport
   name: MemoryImport
   href: api/Wasmtime.Imports.MemoryImport.html
@@ -1896,6 +2377,38 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Imports.MemoryImport.Minimum
   nameWithType: MemoryImport.Minimum
+- uid: Wasmtime.Imports.ModuleImport
+  name: ModuleImport
+  href: api/Wasmtime.Imports.ModuleImport.html
+  commentId: T:Wasmtime.Imports.ModuleImport
+  fullName: Wasmtime.Imports.ModuleImport
+  nameWithType: ModuleImport
+- uid: Wasmtime.Imports.ModuleImport.Exports
+  name: Exports
+  href: api/Wasmtime.Imports.ModuleImport.html#Wasmtime_Imports_ModuleImport_Exports
+  commentId: P:Wasmtime.Imports.ModuleImport.Exports
+  fullName: Wasmtime.Imports.ModuleImport.Exports
+  nameWithType: ModuleImport.Exports
+- uid: Wasmtime.Imports.ModuleImport.Exports*
+  name: Exports
+  href: api/Wasmtime.Imports.ModuleImport.html#Wasmtime_Imports_ModuleImport_Exports_
+  commentId: Overload:Wasmtime.Imports.ModuleImport.Exports
+  isSpec: "True"
+  fullName: Wasmtime.Imports.ModuleImport.Exports
+  nameWithType: ModuleImport.Exports
+- uid: Wasmtime.Imports.ModuleImport.Imports
+  name: Imports
+  href: api/Wasmtime.Imports.ModuleImport.html#Wasmtime_Imports_ModuleImport_Imports
+  commentId: P:Wasmtime.Imports.ModuleImport.Imports
+  fullName: Wasmtime.Imports.ModuleImport.Imports
+  nameWithType: ModuleImport.Imports
+- uid: Wasmtime.Imports.ModuleImport.Imports*
+  name: Imports
+  href: api/Wasmtime.Imports.ModuleImport.html#Wasmtime_Imports_ModuleImport_Imports_
+  commentId: Overload:Wasmtime.Imports.ModuleImport.Imports
+  isSpec: "True"
+  fullName: Wasmtime.Imports.ModuleImport.Imports
+  nameWithType: ModuleImport.Imports
 - uid: Wasmtime.Imports.TableImport
   name: TableImport
   href: api/Wasmtime.Imports.TableImport.html
@@ -1960,41 +2473,93 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Instance.Dispose
   nameWithType: Instance.Dispose
-- uid: Wasmtime.Instance.Externs
-  name: Externs
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_Externs
-  commentId: P:Wasmtime.Instance.Externs
-  fullName: Wasmtime.Instance.Externs
-  nameWithType: Instance.Externs
-- uid: Wasmtime.Instance.Externs*
-  name: Externs
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_Externs_
-  commentId: Overload:Wasmtime.Instance.Externs
+- uid: Wasmtime.Instance.Functions
+  name: Functions
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_Functions
+  commentId: P:Wasmtime.Instance.Functions
+  fullName: Wasmtime.Instance.Functions
+  nameWithType: Instance.Functions
+- uid: Wasmtime.Instance.Functions*
+  name: Functions
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_Functions_
+  commentId: Overload:Wasmtime.Instance.Functions
   isSpec: "True"
-  fullName: Wasmtime.Instance.Externs
-  nameWithType: Instance.Externs
-- uid: Wasmtime.Instance.Module
-  name: Module
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_Module
-  commentId: P:Wasmtime.Instance.Module
-  fullName: Wasmtime.Instance.Module
-  nameWithType: Instance.Module
-- uid: Wasmtime.Instance.Module*
-  name: Module
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_Module_
-  commentId: Overload:Wasmtime.Instance.Module
+  fullName: Wasmtime.Instance.Functions
+  nameWithType: Instance.Functions
+- uid: Wasmtime.Instance.Globals
+  name: Globals
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_Globals
+  commentId: P:Wasmtime.Instance.Globals
+  fullName: Wasmtime.Instance.Globals
+  nameWithType: Instance.Globals
+- uid: Wasmtime.Instance.Globals*
+  name: Globals
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_Globals_
+  commentId: Overload:Wasmtime.Instance.Globals
   isSpec: "True"
-  fullName: Wasmtime.Instance.Module
-  nameWithType: Instance.Module
-- uid: Wasmtime.Instance.TryGetMember(GetMemberBinder,System.Object@)
-  name: TryGetMember(GetMemberBinder, out Object)
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_TryGetMember_GetMemberBinder_System_Object__
-  commentId: M:Wasmtime.Instance.TryGetMember(GetMemberBinder,System.Object@)
-  name.vb: TryGetMember(GetMemberBinder, ByRef Object)
-  fullName: Wasmtime.Instance.TryGetMember(GetMemberBinder, out System.Object)
-  fullName.vb: Wasmtime.Instance.TryGetMember(GetMemberBinder, ByRef System.Object)
-  nameWithType: Instance.TryGetMember(GetMemberBinder, out Object)
-  nameWithType.vb: Instance.TryGetMember(GetMemberBinder, ByRef Object)
+  fullName: Wasmtime.Instance.Globals
+  nameWithType: Instance.Globals
+- uid: Wasmtime.Instance.Instances
+  name: Instances
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_Instances
+  commentId: P:Wasmtime.Instance.Instances
+  fullName: Wasmtime.Instance.Instances
+  nameWithType: Instance.Instances
+- uid: Wasmtime.Instance.Instances*
+  name: Instances
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_Instances_
+  commentId: Overload:Wasmtime.Instance.Instances
+  isSpec: "True"
+  fullName: Wasmtime.Instance.Instances
+  nameWithType: Instance.Instances
+- uid: Wasmtime.Instance.Memories
+  name: Memories
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_Memories
+  commentId: P:Wasmtime.Instance.Memories
+  fullName: Wasmtime.Instance.Memories
+  nameWithType: Instance.Memories
+- uid: Wasmtime.Instance.Memories*
+  name: Memories
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_Memories_
+  commentId: Overload:Wasmtime.Instance.Memories
+  isSpec: "True"
+  fullName: Wasmtime.Instance.Memories
+  nameWithType: Instance.Memories
+- uid: Wasmtime.Instance.Modules
+  name: Modules
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_Modules
+  commentId: P:Wasmtime.Instance.Modules
+  fullName: Wasmtime.Instance.Modules
+  nameWithType: Instance.Modules
+- uid: Wasmtime.Instance.Modules*
+  name: Modules
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_Modules_
+  commentId: Overload:Wasmtime.Instance.Modules
+  isSpec: "True"
+  fullName: Wasmtime.Instance.Modules
+  nameWithType: Instance.Modules
+- uid: Wasmtime.Instance.Tables
+  name: Tables
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_Tables
+  commentId: P:Wasmtime.Instance.Tables
+  fullName: Wasmtime.Instance.Tables
+  nameWithType: Instance.Tables
+- uid: Wasmtime.Instance.Tables*
+  name: Tables
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_Tables_
+  commentId: Overload:Wasmtime.Instance.Tables
+  isSpec: "True"
+  fullName: Wasmtime.Instance.Tables
+  nameWithType: Instance.Tables
+- uid: Wasmtime.Instance.TryGetMember(GetMemberBinder,System.Nullable{System.Object}@)
+  name: TryGetMember(GetMemberBinder, out Nullable<Object>)
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_TryGetMember_GetMemberBinder_System_Nullable_System_Object___
+  commentId: M:Wasmtime.Instance.TryGetMember(GetMemberBinder,System.Nullable{System.Object}@)
+  name.vb: TryGetMember(GetMemberBinder, ByRef Nullable(Of Object))
+  fullName: Wasmtime.Instance.TryGetMember(GetMemberBinder, out System.Nullable<System.Object>)
+  fullName.vb: Wasmtime.Instance.TryGetMember(GetMemberBinder, ByRef System.Nullable(Of System.Object))
+  nameWithType: Instance.TryGetMember(GetMemberBinder, out Nullable<Object>)
+  nameWithType.vb: Instance.TryGetMember(GetMemberBinder, ByRef Nullable(Of Object))
 - uid: Wasmtime.Instance.TryGetMember*
   name: TryGetMember
   href: api/Wasmtime.Instance.html#Wasmtime_Instance_TryGetMember_
@@ -2002,15 +2567,15 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Instance.TryGetMember
   nameWithType: Instance.TryGetMember
-- uid: Wasmtime.Instance.TryInvokeMember(InvokeMemberBinder,System.Object[],System.Object@)
-  name: TryInvokeMember(InvokeMemberBinder, Object[], out Object)
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_TryInvokeMember_InvokeMemberBinder_System_Object___System_Object__
-  commentId: M:Wasmtime.Instance.TryInvokeMember(InvokeMemberBinder,System.Object[],System.Object@)
-  name.vb: TryInvokeMember(InvokeMemberBinder, Object(), ByRef Object)
-  fullName: Wasmtime.Instance.TryInvokeMember(InvokeMemberBinder, System.Object[], out System.Object)
-  fullName.vb: Wasmtime.Instance.TryInvokeMember(InvokeMemberBinder, System.Object(), ByRef System.Object)
-  nameWithType: Instance.TryInvokeMember(InvokeMemberBinder, Object[], out Object)
-  nameWithType.vb: Instance.TryInvokeMember(InvokeMemberBinder, Object(), ByRef Object)
+- uid: Wasmtime.Instance.TryInvokeMember(InvokeMemberBinder,System.Nullable{System.Object}[],System.Nullable{System.Object}@)
+  name: TryInvokeMember(InvokeMemberBinder, Nullable<Object>[], out Nullable<Object>)
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_TryInvokeMember_InvokeMemberBinder_System_Nullable_System_Object____System_Nullable_System_Object___
+  commentId: M:Wasmtime.Instance.TryInvokeMember(InvokeMemberBinder,System.Nullable{System.Object}[],System.Nullable{System.Object}@)
+  name.vb: TryInvokeMember(InvokeMemberBinder, Nullable(Of Object)(), ByRef Nullable(Of Object))
+  fullName: Wasmtime.Instance.TryInvokeMember(InvokeMemberBinder, System.Nullable<System.Object>[], out System.Nullable<System.Object>)
+  fullName.vb: Wasmtime.Instance.TryInvokeMember(InvokeMemberBinder, System.Nullable(Of System.Object)(), ByRef System.Nullable(Of System.Object))
+  nameWithType: Instance.TryInvokeMember(InvokeMemberBinder, Nullable<Object>[], out Nullable<Object>)
+  nameWithType.vb: Instance.TryInvokeMember(InvokeMemberBinder, Nullable(Of Object)(), ByRef Nullable(Of Object))
 - uid: Wasmtime.Instance.TryInvokeMember*
   name: TryInvokeMember
   href: api/Wasmtime.Instance.html#Wasmtime_Instance_TryInvokeMember_
@@ -2031,6 +2596,23 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Instance.TrySetMember
   nameWithType: Instance.TrySetMember
+- uid: Wasmtime.Instance.Wasmtime#IImportable#GetHandle
+  name: IImportable.GetHandle()
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_Wasmtime_IImportable_GetHandle
+  commentId: M:Wasmtime.Instance.Wasmtime#IImportable#GetHandle
+  name.vb: Wasmtime.IImportable.GetHandle()
+  fullName: Wasmtime.Instance.Wasmtime.IImportable.GetHandle()
+  nameWithType: Instance.IImportable.GetHandle()
+  nameWithType.vb: Instance.Wasmtime.IImportable.GetHandle()
+- uid: Wasmtime.Instance.Wasmtime#IImportable#GetHandle*
+  name: IImportable.GetHandle
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_Wasmtime_IImportable_GetHandle_
+  commentId: Overload:Wasmtime.Instance.Wasmtime#IImportable#GetHandle
+  isSpec: "True"
+  name.vb: Wasmtime.IImportable.GetHandle
+  fullName: Wasmtime.Instance.Wasmtime.IImportable.GetHandle
+  nameWithType: Instance.IImportable.GetHandle
+  nameWithType.vb: Instance.Wasmtime.IImportable.GetHandle
 - uid: Wasmtime.Memory
   name: Memory
   href: api/Wasmtime.Memory.html
@@ -2095,12 +2677,42 @@ references:
   commentId: F:Wasmtime.Memory.PageSize
   fullName: Wasmtime.Memory.PageSize
   nameWithType: Memory.PageSize
+- uid: Wasmtime.Memory.Wasmtime#IImportable#GetHandle
+  name: IImportable.GetHandle()
+  href: api/Wasmtime.Memory.html#Wasmtime_Memory_Wasmtime_IImportable_GetHandle
+  commentId: M:Wasmtime.Memory.Wasmtime#IImportable#GetHandle
+  name.vb: Wasmtime.IImportable.GetHandle()
+  fullName: Wasmtime.Memory.Wasmtime.IImportable.GetHandle()
+  nameWithType: Memory.IImportable.GetHandle()
+  nameWithType.vb: Memory.Wasmtime.IImportable.GetHandle()
+- uid: Wasmtime.Memory.Wasmtime#IImportable#GetHandle*
+  name: IImportable.GetHandle
+  href: api/Wasmtime.Memory.html#Wasmtime_Memory_Wasmtime_IImportable_GetHandle_
+  commentId: Overload:Wasmtime.Memory.Wasmtime#IImportable#GetHandle
+  isSpec: "True"
+  name.vb: Wasmtime.IImportable.GetHandle
+  fullName: Wasmtime.Memory.Wasmtime.IImportable.GetHandle
+  nameWithType: Memory.IImportable.GetHandle
+  nameWithType.vb: Memory.Wasmtime.IImportable.GetHandle
 - uid: Wasmtime.MemoryBase
   name: MemoryBase
   href: api/Wasmtime.MemoryBase.html
   commentId: T:Wasmtime.MemoryBase
   fullName: Wasmtime.MemoryBase
   nameWithType: MemoryBase
+- uid: Wasmtime.MemoryBase.Grow(System.UInt32)
+  name: Grow(UInt32)
+  href: api/Wasmtime.MemoryBase.html#Wasmtime_MemoryBase_Grow_System_UInt32_
+  commentId: M:Wasmtime.MemoryBase.Grow(System.UInt32)
+  fullName: Wasmtime.MemoryBase.Grow(System.UInt32)
+  nameWithType: MemoryBase.Grow(UInt32)
+- uid: Wasmtime.MemoryBase.Grow*
+  name: Grow
+  href: api/Wasmtime.MemoryBase.html#Wasmtime_MemoryBase_Grow_
+  commentId: Overload:Wasmtime.MemoryBase.Grow
+  isSpec: "True"
+  fullName: Wasmtime.MemoryBase.Grow
+  nameWithType: MemoryBase.Grow
 - uid: Wasmtime.MemoryBase.MemoryHandle
   name: MemoryHandle
   href: api/Wasmtime.MemoryBase.html#Wasmtime_MemoryBase_MemoryHandle
@@ -2231,6 +2843,19 @@ references:
   isSpec: "True"
   fullName: Wasmtime.MemoryBase.ReadString
   nameWithType: MemoryBase.ReadString
+- uid: Wasmtime.MemoryBase.Size
+  name: Size
+  href: api/Wasmtime.MemoryBase.html#Wasmtime_MemoryBase_Size
+  commentId: P:Wasmtime.MemoryBase.Size
+  fullName: Wasmtime.MemoryBase.Size
+  nameWithType: MemoryBase.Size
+- uid: Wasmtime.MemoryBase.Size*
+  name: Size
+  href: api/Wasmtime.MemoryBase.html#Wasmtime_MemoryBase_Size_
+  commentId: Overload:Wasmtime.MemoryBase.Size
+  isSpec: "True"
+  fullName: Wasmtime.MemoryBase.Size
+  nameWithType: MemoryBase.Size
 - uid: Wasmtime.MemoryBase.Span
   name: Span
   href: api/Wasmtime.MemoryBase.html#Wasmtime_MemoryBase_Span
@@ -2380,15 +3005,15 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Module.Exports
   nameWithType: Module.Exports
-- uid: Wasmtime.Module.FromBytes(Wasmtime.Engine,System.String,System.Byte[])
-  name: FromBytes(Engine, String, Byte[])
-  href: api/Wasmtime.Module.html#Wasmtime_Module_FromBytes_Wasmtime_Engine_System_String_System_Byte___
-  commentId: M:Wasmtime.Module.FromBytes(Wasmtime.Engine,System.String,System.Byte[])
-  name.vb: FromBytes(Engine, String, Byte())
-  fullName: Wasmtime.Module.FromBytes(Wasmtime.Engine, System.String, System.Byte[])
-  fullName.vb: Wasmtime.Module.FromBytes(Wasmtime.Engine, System.String, System.Byte())
-  nameWithType: Module.FromBytes(Engine, String, Byte[])
-  nameWithType.vb: Module.FromBytes(Engine, String, Byte())
+- uid: Wasmtime.Module.FromBytes(Wasmtime.Engine,System.String,ReadOnlySpan{System.Byte})
+  name: FromBytes(Engine, String, ReadOnlySpan<Byte>)
+  href: api/Wasmtime.Module.html#Wasmtime_Module_FromBytes_Wasmtime_Engine_System_String_ReadOnlySpan_System_Byte__
+  commentId: M:Wasmtime.Module.FromBytes(Wasmtime.Engine,System.String,ReadOnlySpan{System.Byte})
+  name.vb: FromBytes(Engine, String, ReadOnlySpan(Of Byte))
+  fullName: Wasmtime.Module.FromBytes(Wasmtime.Engine, System.String, ReadOnlySpan<System.Byte>)
+  fullName.vb: Wasmtime.Module.FromBytes(Wasmtime.Engine, System.String, ReadOnlySpan(Of System.Byte))
+  nameWithType: Module.FromBytes(Engine, String, ReadOnlySpan<Byte>)
+  nameWithType.vb: Module.FromBytes(Engine, String, ReadOnlySpan(Of Byte))
 - uid: Wasmtime.Module.FromBytes*
   name: FromBytes
   href: api/Wasmtime.Module.html#Wasmtime_Module_FromBytes_
@@ -2474,6 +3099,22 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Module.Imports
   nameWithType: Module.Imports
+- uid: Wasmtime.Module.Instantiate(Wasmtime.Store,Wasmtime.IImportable[])
+  name: Instantiate(Store, IImportable[])
+  href: api/Wasmtime.Module.html#Wasmtime_Module_Instantiate_Wasmtime_Store_Wasmtime_IImportable___
+  commentId: M:Wasmtime.Module.Instantiate(Wasmtime.Store,Wasmtime.IImportable[])
+  name.vb: Instantiate(Store, IImportable())
+  fullName: Wasmtime.Module.Instantiate(Wasmtime.Store, Wasmtime.IImportable[])
+  fullName.vb: Wasmtime.Module.Instantiate(Wasmtime.Store, Wasmtime.IImportable())
+  nameWithType: Module.Instantiate(Store, IImportable[])
+  nameWithType.vb: Module.Instantiate(Store, IImportable())
+- uid: Wasmtime.Module.Instantiate*
+  name: Instantiate
+  href: api/Wasmtime.Module.html#Wasmtime_Module_Instantiate_
+  commentId: Overload:Wasmtime.Module.Instantiate
+  isSpec: "True"
+  fullName: Wasmtime.Module.Instantiate
+  nameWithType: Module.Instantiate
 - uid: Wasmtime.Module.Name
   name: Name
   href: api/Wasmtime.Module.html#Wasmtime_Module_Name
@@ -2487,6 +3128,23 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Module.Name
   nameWithType: Module.Name
+- uid: Wasmtime.Module.Wasmtime#IImportable#GetHandle
+  name: IImportable.GetHandle()
+  href: api/Wasmtime.Module.html#Wasmtime_Module_Wasmtime_IImportable_GetHandle
+  commentId: M:Wasmtime.Module.Wasmtime#IImportable#GetHandle
+  name.vb: Wasmtime.IImportable.GetHandle()
+  fullName: Wasmtime.Module.Wasmtime.IImportable.GetHandle()
+  nameWithType: Module.IImportable.GetHandle()
+  nameWithType.vb: Module.Wasmtime.IImportable.GetHandle()
+- uid: Wasmtime.Module.Wasmtime#IImportable#GetHandle*
+  name: IImportable.GetHandle
+  href: api/Wasmtime.Module.html#Wasmtime_Module_Wasmtime_IImportable_GetHandle_
+  commentId: Overload:Wasmtime.Module.Wasmtime#IImportable#GetHandle
+  isSpec: "True"
+  name.vb: Wasmtime.IImportable.GetHandle
+  fullName: Wasmtime.Module.Wasmtime.IImportable.GetHandle
+  nameWithType: Module.IImportable.GetHandle
+  nameWithType.vb: Module.Wasmtime.IImportable.GetHandle
 - uid: Wasmtime.MutableGlobal`1
   name: MutableGlobal<T>
   href: api/Wasmtime.MutableGlobal-1.html
@@ -2547,6 +3205,25 @@ references:
   fullName.vb: Wasmtime.MutableGlobal(Of T).Value
   nameWithType: MutableGlobal<T>.Value
   nameWithType.vb: MutableGlobal(Of T).Value
+- uid: Wasmtime.MutableGlobal`1.Wasmtime#IImportable#GetHandle
+  name: IImportable.GetHandle()
+  href: api/Wasmtime.MutableGlobal-1.html#Wasmtime_MutableGlobal_1_Wasmtime_IImportable_GetHandle
+  commentId: M:Wasmtime.MutableGlobal`1.Wasmtime#IImportable#GetHandle
+  name.vb: Wasmtime.IImportable.GetHandle()
+  fullName: Wasmtime.MutableGlobal<T>.Wasmtime.IImportable.GetHandle()
+  fullName.vb: Wasmtime.MutableGlobal(Of T).Wasmtime.IImportable.GetHandle()
+  nameWithType: MutableGlobal<T>.IImportable.GetHandle()
+  nameWithType.vb: MutableGlobal(Of T).Wasmtime.IImportable.GetHandle()
+- uid: Wasmtime.MutableGlobal`1.Wasmtime#IImportable#GetHandle*
+  name: IImportable.GetHandle
+  href: api/Wasmtime.MutableGlobal-1.html#Wasmtime_MutableGlobal_1_Wasmtime_IImportable_GetHandle_
+  commentId: Overload:Wasmtime.MutableGlobal`1.Wasmtime#IImportable#GetHandle
+  isSpec: "True"
+  name.vb: Wasmtime.IImportable.GetHandle
+  fullName: Wasmtime.MutableGlobal<T>.Wasmtime.IImportable.GetHandle
+  fullName.vb: Wasmtime.MutableGlobal(Of T).Wasmtime.IImportable.GetHandle
+  nameWithType: MutableGlobal<T>.IImportable.GetHandle
+  nameWithType.vb: MutableGlobal(Of T).Wasmtime.IImportable.GetHandle
 - uid: Wasmtime.OptimizationLevel
   name: OptimizationLevel
   href: api/Wasmtime.OptimizationLevel.html
@@ -2732,6 +3409,25 @@ references:
   fullName.vb: Wasmtime.Table(Of T).Size
   nameWithType: Table<T>.Size
   nameWithType.vb: Table(Of T).Size
+- uid: Wasmtime.Table`1.Wasmtime#IImportable#GetHandle
+  name: IImportable.GetHandle()
+  href: api/Wasmtime.Table-1.html#Wasmtime_Table_1_Wasmtime_IImportable_GetHandle
+  commentId: M:Wasmtime.Table`1.Wasmtime#IImportable#GetHandle
+  name.vb: Wasmtime.IImportable.GetHandle()
+  fullName: Wasmtime.Table<T>.Wasmtime.IImportable.GetHandle()
+  fullName.vb: Wasmtime.Table(Of T).Wasmtime.IImportable.GetHandle()
+  nameWithType: Table<T>.IImportable.GetHandle()
+  nameWithType.vb: Table(Of T).Wasmtime.IImportable.GetHandle()
+- uid: Wasmtime.Table`1.Wasmtime#IImportable#GetHandle*
+  name: IImportable.GetHandle
+  href: api/Wasmtime.Table-1.html#Wasmtime_Table_1_Wasmtime_IImportable_GetHandle_
+  commentId: Overload:Wasmtime.Table`1.Wasmtime#IImportable#GetHandle
+  isSpec: "True"
+  name.vb: Wasmtime.IImportable.GetHandle
+  fullName: Wasmtime.Table<T>.Wasmtime.IImportable.GetHandle
+  fullName.vb: Wasmtime.Table(Of T).Wasmtime.IImportable.GetHandle
+  nameWithType: Table<T>.IImportable.GetHandle
+  nameWithType.vb: Table(Of T).Wasmtime.IImportable.GetHandle
 - uid: Wasmtime.TrapException
   name: TrapException
   href: api/Wasmtime.TrapException.html
@@ -2910,6 +3606,15 @@ references:
   fullName.vb: Wasmtime.WasiConfiguration.WithArgs(IEnumerable(Of System.String))
   nameWithType: WasiConfiguration.WithArgs(IEnumerable<String>)
   nameWithType.vb: WasiConfiguration.WithArgs(IEnumerable(Of String))
+- uid: Wasmtime.WasiConfiguration.WithArgs(ReadOnlySpan{System.String})
+  name: WithArgs(ReadOnlySpan<String>)
+  href: api/Wasmtime.WasiConfiguration.html#Wasmtime_WasiConfiguration_WithArgs_ReadOnlySpan_System_String__
+  commentId: M:Wasmtime.WasiConfiguration.WithArgs(ReadOnlySpan{System.String})
+  name.vb: WithArgs(ReadOnlySpan(Of String))
+  fullName: Wasmtime.WasiConfiguration.WithArgs(ReadOnlySpan<System.String>)
+  fullName.vb: Wasmtime.WasiConfiguration.WithArgs(ReadOnlySpan(Of System.String))
+  nameWithType: WasiConfiguration.WithArgs(ReadOnlySpan<String>)
+  nameWithType.vb: WasiConfiguration.WithArgs(ReadOnlySpan(Of String))
 - uid: Wasmtime.WasiConfiguration.WithArgs(System.String[])
   name: WithArgs(String[])
   href: api/Wasmtime.WasiConfiguration.html#Wasmtime_WasiConfiguration_WithArgs_System_String___

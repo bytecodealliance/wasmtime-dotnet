@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class MemoryBase
    ">
-    <meta name="generator" content="docfx 2.51.0.0">
+    <meta name="generator" content="docfx 2.56.6.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -96,7 +96,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_MemoryBase_MemoryHandle.md&amp;value=---%0Auid%3A%20Wasmtime.MemoryBase.MemoryHandle%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L234">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L249">View Source</a>
   </span>
   <a id="Wasmtime_MemoryBase_MemoryHandle_" data-uid="Wasmtime.MemoryBase.MemoryHandle*"></a>
   <h4 id="Wasmtime_MemoryBase_MemoryHandle" data-uid="Wasmtime.MemoryBase.MemoryHandle">MemoryHandle</h4>
@@ -123,10 +123,41 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_MemoryBase_Size.md&amp;value=---%0Auid%3A%20Wasmtime.MemoryBase.Size%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L12">View Source</a>
+  </span>
+  <a id="Wasmtime_MemoryBase_Size_" data-uid="Wasmtime.MemoryBase.Size*"></a>
+  <h4 id="Wasmtime_MemoryBase_Size" data-uid="Wasmtime.MemoryBase.Size">Size</h4>
+  <div class="markdown level1 summary"><p>The current size, in WebAssembly page units, of the memory.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public uint Size { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.UInt32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_MemoryBase_Span.md&amp;value=---%0Auid%3A%20Wasmtime.MemoryBase.Span%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L20">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L25">View Source</a>
   </span>
   <a id="Wasmtime_MemoryBase_Span_" data-uid="Wasmtime.MemoryBase.Span*"></a>
   <h4 id="Wasmtime_MemoryBase_Span" data-uid="Wasmtime.MemoryBase.Span">Span</h4>
@@ -162,10 +193,60 @@ grows as a result of WebAssembly execution.</p>
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_MemoryBase_Grow_System_UInt32_.md&amp;value=---%0Auid%3A%20Wasmtime.MemoryBase.Grow(System.UInt32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L244">View Source</a>
+  </span>
+  <a id="Wasmtime_MemoryBase_Grow_" data-uid="Wasmtime.MemoryBase.Grow*"></a>
+  <h4 id="Wasmtime_MemoryBase_Grow_System_UInt32_" data-uid="Wasmtime.MemoryBase.Grow(System.UInt32)">Grow(UInt32)</h4>
+  <div class="markdown level1 summary"><p>Grows the memory by the specified number of pages.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Grow(uint delta)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.UInt32</span></td>
+        <td><span class="parametername">delta</span></td>
+        <td><p>The number of WebAssembly pages to grow the memory by.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>Returns true if the memory grew or false if it would exceed the maximum size.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_MemoryBase_ReadByte_System_Int32_.md&amp;value=---%0Auid%3A%20Wasmtime.MemoryBase.ReadByte(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L74">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L79">View Source</a>
   </span>
   <a id="Wasmtime_MemoryBase_ReadByte_" data-uid="Wasmtime.MemoryBase.ReadByte*"></a>
   <h4 id="Wasmtime_MemoryBase_ReadByte_System_Int32_" data-uid="Wasmtime.MemoryBase.ReadByte(System.Int32)">ReadByte(Int32)</h4>
@@ -215,7 +296,7 @@ grows as a result of WebAssembly execution.</p>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_MemoryBase_ReadDouble_System_Int32_.md&amp;value=---%0Auid%3A%20Wasmtime.MemoryBase.ReadDouble(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L212">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L217">View Source</a>
   </span>
   <a id="Wasmtime_MemoryBase_ReadDouble_" data-uid="Wasmtime.MemoryBase.ReadDouble*"></a>
   <h4 id="Wasmtime_MemoryBase_ReadDouble_System_Int32_" data-uid="Wasmtime.MemoryBase.ReadDouble(System.Int32)">ReadDouble(Int32)</h4>
@@ -265,7 +346,7 @@ grows as a result of WebAssembly execution.</p>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_MemoryBase_ReadInt16_System_Int32_.md&amp;value=---%0Auid%3A%20Wasmtime.MemoryBase.ReadInt16(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L94">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L99">View Source</a>
   </span>
   <a id="Wasmtime_MemoryBase_ReadInt16_" data-uid="Wasmtime.MemoryBase.ReadInt16*"></a>
   <h4 id="Wasmtime_MemoryBase_ReadInt16_System_Int32_" data-uid="Wasmtime.MemoryBase.ReadInt16(System.Int32)">ReadInt16(Int32)</h4>
@@ -315,7 +396,7 @@ grows as a result of WebAssembly execution.</p>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_MemoryBase_ReadInt32_System_Int32_.md&amp;value=---%0Auid%3A%20Wasmtime.MemoryBase.ReadInt32(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L114">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L119">View Source</a>
   </span>
   <a id="Wasmtime_MemoryBase_ReadInt32_" data-uid="Wasmtime.MemoryBase.ReadInt32*"></a>
   <h4 id="Wasmtime_MemoryBase_ReadInt32_System_Int32_" data-uid="Wasmtime.MemoryBase.ReadInt32(System.Int32)">ReadInt32(Int32)</h4>
@@ -365,7 +446,7 @@ grows as a result of WebAssembly execution.</p>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_MemoryBase_ReadInt64_System_Int32_.md&amp;value=---%0Auid%3A%20Wasmtime.MemoryBase.ReadInt64(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L134">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L139">View Source</a>
   </span>
   <a id="Wasmtime_MemoryBase_ReadInt64_" data-uid="Wasmtime.MemoryBase.ReadInt64*"></a>
   <h4 id="Wasmtime_MemoryBase_ReadInt64_System_Int32_" data-uid="Wasmtime.MemoryBase.ReadInt64(System.Int32)">ReadInt64(Int32)</h4>
@@ -415,7 +496,7 @@ grows as a result of WebAssembly execution.</p>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_MemoryBase_ReadIntPtr_System_Int32_.md&amp;value=---%0Auid%3A%20Wasmtime.MemoryBase.ReadIntPtr(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L154">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L159">View Source</a>
   </span>
   <a id="Wasmtime_MemoryBase_ReadIntPtr_" data-uid="Wasmtime.MemoryBase.ReadIntPtr*"></a>
   <h4 id="Wasmtime_MemoryBase_ReadIntPtr_System_Int32_" data-uid="Wasmtime.MemoryBase.ReadIntPtr(System.Int32)">ReadIntPtr(Int32)</h4>
@@ -465,7 +546,7 @@ grows as a result of WebAssembly execution.</p>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_MemoryBase_ReadNullTerminatedString_System_Int32_.md&amp;value=---%0Auid%3A%20Wasmtime.MemoryBase.ReadNullTerminatedString(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L46">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L51">View Source</a>
   </span>
   <a id="Wasmtime_MemoryBase_ReadNullTerminatedString_" data-uid="Wasmtime.MemoryBase.ReadNullTerminatedString*"></a>
   <h4 id="Wasmtime_MemoryBase_ReadNullTerminatedString_System_Int32_" data-uid="Wasmtime.MemoryBase.ReadNullTerminatedString(System.Int32)">ReadNullTerminatedString(Int32)</h4>
@@ -515,7 +596,7 @@ grows as a result of WebAssembly execution.</p>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_MemoryBase_ReadSingle_System_Int32_.md&amp;value=---%0Auid%3A%20Wasmtime.MemoryBase.ReadSingle(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L185">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L190">View Source</a>
   </span>
   <a id="Wasmtime_MemoryBase_ReadSingle_" data-uid="Wasmtime.MemoryBase.ReadSingle*"></a>
   <h4 id="Wasmtime_MemoryBase_ReadSingle_System_Int32_" data-uid="Wasmtime.MemoryBase.ReadSingle(System.Int32)">ReadSingle(Int32)</h4>
@@ -565,7 +646,7 @@ grows as a result of WebAssembly execution.</p>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_MemoryBase_ReadString_System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20Wasmtime.MemoryBase.ReadString(System.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L36">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L41">View Source</a>
   </span>
   <a id="Wasmtime_MemoryBase_ReadString_" data-uid="Wasmtime.MemoryBase.ReadString*"></a>
   <h4 id="Wasmtime_MemoryBase_ReadString_System_Int32_System_Int32_" data-uid="Wasmtime.MemoryBase.ReadString(System.Int32,System.Int32)">ReadString(Int32, Int32)</h4>
@@ -621,7 +702,7 @@ grows as a result of WebAssembly execution.</p>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_MemoryBase_WriteByte_System_Int32_System_Byte_.md&amp;value=---%0Auid%3A%20Wasmtime.MemoryBase.WriteByte(System.Int32%2CSystem.Byte)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L84">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L89">View Source</a>
   </span>
   <a id="Wasmtime_MemoryBase_WriteByte_" data-uid="Wasmtime.MemoryBase.WriteByte*"></a>
   <h4 id="Wasmtime_MemoryBase_WriteByte_System_Int32_System_Byte_" data-uid="Wasmtime.MemoryBase.WriteByte(System.Int32,System.Byte)">WriteByte(Int32, Byte)</h4>
@@ -661,7 +742,7 @@ grows as a result of WebAssembly execution.</p>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_MemoryBase_WriteDouble_System_Int32_System_Double_.md&amp;value=---%0Auid%3A%20Wasmtime.MemoryBase.WriteDouble(System.Int32%2CSystem.Double)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L226">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L231">View Source</a>
   </span>
   <a id="Wasmtime_MemoryBase_WriteDouble_" data-uid="Wasmtime.MemoryBase.WriteDouble*"></a>
   <h4 id="Wasmtime_MemoryBase_WriteDouble_System_Int32_System_Double_" data-uid="Wasmtime.MemoryBase.WriteDouble(System.Int32,System.Double)">WriteDouble(Int32, Double)</h4>
@@ -701,7 +782,7 @@ grows as a result of WebAssembly execution.</p>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_MemoryBase_WriteInt16_System_Int32_System_Int16_.md&amp;value=---%0Auid%3A%20Wasmtime.MemoryBase.WriteInt16(System.Int32%2CSystem.Int16)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L104">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L109">View Source</a>
   </span>
   <a id="Wasmtime_MemoryBase_WriteInt16_" data-uid="Wasmtime.MemoryBase.WriteInt16*"></a>
   <h4 id="Wasmtime_MemoryBase_WriteInt16_System_Int32_System_Int16_" data-uid="Wasmtime.MemoryBase.WriteInt16(System.Int32,System.Int16)">WriteInt16(Int32, Int16)</h4>
@@ -741,7 +822,7 @@ grows as a result of WebAssembly execution.</p>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_MemoryBase_WriteInt32_System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20Wasmtime.MemoryBase.WriteInt32(System.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L124">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L129">View Source</a>
   </span>
   <a id="Wasmtime_MemoryBase_WriteInt32_" data-uid="Wasmtime.MemoryBase.WriteInt32*"></a>
   <h4 id="Wasmtime_MemoryBase_WriteInt32_System_Int32_System_Int32_" data-uid="Wasmtime.MemoryBase.WriteInt32(System.Int32,System.Int32)">WriteInt32(Int32, Int32)</h4>
@@ -781,7 +862,7 @@ grows as a result of WebAssembly execution.</p>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_MemoryBase_WriteInt64_System_Int32_System_Int64_.md&amp;value=---%0Auid%3A%20Wasmtime.MemoryBase.WriteInt64(System.Int32%2CSystem.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L144">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L149">View Source</a>
   </span>
   <a id="Wasmtime_MemoryBase_WriteInt64_" data-uid="Wasmtime.MemoryBase.WriteInt64*"></a>
   <h4 id="Wasmtime_MemoryBase_WriteInt64_System_Int32_System_Int64_" data-uid="Wasmtime.MemoryBase.WriteInt64(System.Int32,System.Int64)">WriteInt64(Int32, Int64)</h4>
@@ -821,7 +902,7 @@ grows as a result of WebAssembly execution.</p>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_MemoryBase_WriteIntPtr_System_Int32_IntPtr_.md&amp;value=---%0Auid%3A%20Wasmtime.MemoryBase.WriteIntPtr(System.Int32%2CIntPtr)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L168">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L173">View Source</a>
   </span>
   <a id="Wasmtime_MemoryBase_WriteIntPtr_" data-uid="Wasmtime.MemoryBase.WriteIntPtr*"></a>
   <h4 id="Wasmtime_MemoryBase_WriteIntPtr_System_Int32_IntPtr_" data-uid="Wasmtime.MemoryBase.WriteIntPtr(System.Int32,IntPtr)">WriteIntPtr(Int32, IntPtr)</h4>
@@ -861,7 +942,7 @@ grows as a result of WebAssembly execution.</p>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_MemoryBase_WriteSingle_System_Int32_System_Single_.md&amp;value=---%0Auid%3A%20Wasmtime.MemoryBase.WriteSingle(System.Int32%2CSystem.Single)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L199">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L204">View Source</a>
   </span>
   <a id="Wasmtime_MemoryBase_WriteSingle_" data-uid="Wasmtime.MemoryBase.WriteSingle*"></a>
   <h4 id="Wasmtime_MemoryBase_WriteSingle_System_Int32_System_Single_" data-uid="Wasmtime.MemoryBase.WriteSingle(System.Int32,System.Single)">WriteSingle(Int32, Single)</h4>
@@ -901,7 +982,7 @@ grows as a result of WebAssembly execution.</p>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_MemoryBase_WriteString_System_Int32_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.MemoryBase.WriteString(System.Int32%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L64">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/MemoryBase.cs/#L69">View Source</a>
   </span>
   <a id="Wasmtime_MemoryBase_WriteString_" data-uid="Wasmtime.MemoryBase.WriteString*"></a>
   <h4 id="Wasmtime_MemoryBase_WriteString_System_Int32_System_String_" data-uid="Wasmtime.MemoryBase.WriteString(System.Int32,System.String)">WriteString(Int32, String)</h4>
@@ -967,7 +1048,8 @@ grows as a result of WebAssembly execution.</p>
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In This Article</h5>
+                <div></div>
               </nav>
             </div>
           </div>

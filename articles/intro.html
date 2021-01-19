@@ -8,7 +8,7 @@
     <title>Introduction to .NET embedding of Wasmtime </title>
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Introduction to .NET embedding of Wasmtime ">
-    <meta name="generator" content="docfx 2.51.0.0">
+    <meta name="generator" content="docfx 2.56.6.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -71,7 +71,7 @@
 
 <p><a href="https://github.com/bytecodealliance/wasmtime">Wasmtime</a> is a standalone runtime capable of executing <a href="https://webassembly.org/">WebAssembly</a> outside of a web browser.</p>
 <p>The <a href="https://github.com/bytecodealliance/wasmtime-dotnet">.NET embedding of Wasmtime</a> enables .NET developers to easily instantiate and execute WebAssembly modules using Wasmtime.</p>
-<p>For this tutorial, we will create a WebAssembly module and use that WebAssembly module from a .NET Core 3.1 application.</p>
+<p>For this tutorial, we will create a WebAssembly module and use that WebAssembly module from a .NET 5 application.</p>
 <h1 id="a-simple-webassembly-module">A simple WebAssembly module</h1>
 <p>One of the reasons why WebAssembly is so exciting is that <a href="https://github.com/appcypher/awesome-wasm-langs">many languages are able to target WebAssembly</a>.  This means, for example, a plugin model based on WebAssembly could enable developers to write sandboxed, cross-platform plugins in any number of languages.</p>
 <p>For this introduction, however, we will use a  WebAssembly module in <a href="https://developer.mozilla.org/en-US/docs/WebAssembly/Understanding_the_text_format">WebAssembly Text Format</a>:</p>
@@ -82,10 +82,10 @@
 </code></pre>
 <p>This module simply imports a <code>hello</code> function from the host and exports a <code>run</code> function that calls the imported function.</p>
 <h1 id="using-the-webassembly-module-from-net">Using the WebAssembly module from .NET</h1>
-<h2 id="installing-a-net-core-30-sdk">Installing a .NET Core 3.0 SDK</h2>
-<p>Install a <a href="https://dotnet.microsoft.com/download/dotnet-core/3.1">.NET Core 3.1 SDK</a> for your platform if you haven't already.</p>
+<h2 id="installing-a-net-5-sdk">Installing a .NET 5 SDK</h2>
+<p>Install a <a href="https://dotnet.microsoft.com/download/dotnet/5.0">.NET 5 SDK</a> for your platform if you haven't already.</p>
 <p>This will add a <code>dotnet</code> command to your PATH.</p>
-<h2 id="creating-the-net-core-project">Creating the .NET Core project</h2>
+<h2 id="creating-the-net-project">Creating the .NET project</h2>
 <p>The .NET program will be a simple console application, so create a new console project with <code>dotnet new</code>:</p>
 <pre><code class="lang-text">mkdir tutorial
 cd tutorial
@@ -93,7 +93,7 @@ dotnet new console
 </code></pre>
 <h2 id="referencing-the-wasmtime-package">Referencing the Wasmtime package</h2>
 <p>To use the .NET embedding of Wasmtime from the project, we need to add a reference to the <a href="https://www.nuget.org/packages/Wasmtime">Wasmtime NuGet package</a>:</p>
-<pre><code class="lang-text">dotnet add package --version 0.18.1-preview1 wasmtime
+<pre><code class="lang-text">dotnet add package --version 0.22.1-preview1 wasmtime
 </code></pre>
 <p><em>Note that the <code>--version</code> option is required because the package is currently prerelease.</em></p>
 <p>This will add a <code>PackageReference</code> to the project file so that .NET embedding for Wasmtime can be used.</p>
@@ -135,7 +135,7 @@ namespace Tutorial
 <p>Use <code>dotnet build</code> to build the .NET application:</p>
 <pre><code class="lang-text">dotnet build
 </code></pre>
-<p>This will create a <code>tutorial</code> (or <code>tutorial.exe</code> on Windows) executable in the <code>bin/Debug/netcoreapp3.0</code> directory that implements the .NET Core application.</p>
+<p>This will create a <code>tutorial</code> (or <code>tutorial.exe</code> on Windows) executable in the <code>bin/Debug/net5.0</code> directory that implements the .NET application.</p>
 <h2 id="running-the-net-application">Running the .NET application</h2>
 <p>To run the .NET application, simply invoke the executable file or use <code>dotnet</code>:</p>
 <pre><code class="lang-text">dotnet run
@@ -156,7 +156,8 @@ namespace Tutorial
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In This Article</h5>
+                <div></div>
               </nav>
             </div>
           </div>

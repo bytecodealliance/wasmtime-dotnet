@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class ExternMemory
    ">
-    <meta name="generator" content="docfx 2.51.0.0">
+    <meta name="generator" content="docfx 2.56.6.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -73,7 +73,7 @@
   
   <h1 id="Wasmtime_Externs_ExternMemory" data-uid="Wasmtime.Externs.ExternMemory" class="text-break">Class ExternMemory
   </h1>
-  <div class="markdown level0 summary"><p>Represents an external (instantiated) WebAssembly memory.</p>
+  <div class="markdown level0 summary"><p>Represents an external WebAssembly memory.</p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
@@ -82,8 +82,15 @@
     <div class="level1"><a class="xref" href="Wasmtime.MemoryBase.html">MemoryBase</a></div>
     <div class="level2"><span class="xref">ExternMemory</span></div>
   </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="Wasmtime.IImportable.html">IImportable</a></div>
+  </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="Wasmtime.MemoryBase.html#Wasmtime_MemoryBase_Size">MemoryBase.Size</a>
+    </div>
     <div>
       <a class="xref" href="Wasmtime.MemoryBase.html#Wasmtime_MemoryBase_Span">MemoryBase.Span</a>
     </div>
@@ -138,12 +145,15 @@
     <div>
       <a class="xref" href="Wasmtime.MemoryBase.html#Wasmtime_MemoryBase_WriteDouble_System_Int32_System_Double_">MemoryBase.WriteDouble(Int32, Double)</a>
     </div>
+    <div>
+      <a class="xref" href="Wasmtime.MemoryBase.html#Wasmtime_MemoryBase_Grow_System_UInt32_">MemoryBase.Grow(UInt32)</a>
+    </div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Wasmtime.Externs.html">Wasmtime.Externs</a></h6>
   <h6><strong>Assembly</strong>: Wasmtime.Dotnet.dll</h6>
   <h5 id="Wasmtime_Externs_ExternMemory_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class ExternMemory : MemoryBase</code></pre>
+    <pre><code class="lang-csharp hljs">public class ExternMemory : MemoryBase, IImportable</code></pre>
   </div>
   <h3 id="properties">Properties
   </h3>
@@ -152,7 +162,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Externs_ExternMemory_Maximum.md&amp;value=---%0Auid%3A%20Wasmtime.Externs.ExternMemory.Maximum%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Externs/ExternMemory.cs/#L32">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Externs/ExternMemory.cs/#L35">View Source</a>
   </span>
   <a id="Wasmtime_Externs_ExternMemory_Maximum_" data-uid="Wasmtime.Externs.ExternMemory.Maximum*"></a>
   <h4 id="Wasmtime_Externs_ExternMemory_Maximum" data-uid="Wasmtime.Externs.ExternMemory.Maximum">Maximum</h4>
@@ -183,7 +193,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Externs_ExternMemory_MemoryHandle.md&amp;value=---%0Auid%3A%20Wasmtime.Externs.ExternMemory.MemoryHandle%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Externs/ExternMemory.cs/#L34">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Externs/ExternMemory.cs/#L37">View Source</a>
   </span>
   <a id="Wasmtime_Externs_ExternMemory_MemoryHandle_" data-uid="Wasmtime.Externs.ExternMemory.MemoryHandle*"></a>
   <h4 id="Wasmtime_Externs_ExternMemory_MemoryHandle" data-uid="Wasmtime.Externs.ExternMemory.MemoryHandle">MemoryHandle</h4>
@@ -215,7 +225,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Externs_ExternMemory_Minimum.md&amp;value=---%0Auid%3A%20Wasmtime.Externs.ExternMemory.Minimum%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Externs/ExternMemory.cs/#L27">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Externs/ExternMemory.cs/#L30">View Source</a>
   </span>
   <a id="Wasmtime_Externs_ExternMemory_Minimum_" data-uid="Wasmtime.Externs.ExternMemory.Minimum*"></a>
   <h4 id="Wasmtime_Externs_ExternMemory_Minimum" data-uid="Wasmtime.Externs.ExternMemory.Minimum">Minimum</h4>
@@ -246,7 +256,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Externs_ExternMemory_Name.md&amp;value=---%0Auid%3A%20Wasmtime.Externs.ExternMemory.Name%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Externs/ExternMemory.cs/#L22">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Externs/ExternMemory.cs/#L25">View Source</a>
   </span>
   <a id="Wasmtime_Externs_ExternMemory_Name_" data-uid="Wasmtime.Externs.ExternMemory.Name*"></a>
   <h4 id="Wasmtime_Externs_ExternMemory_Name" data-uid="Wasmtime.Externs.ExternMemory.Name">Name</h4>
@@ -272,6 +282,42 @@
       </tr>
     </tbody>
   </table>
+  <h3 id="eii">Explicit Interface Implementations
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Externs_ExternMemory_Wasmtime_IImportable_GetHandle.md&amp;value=---%0Auid%3A%20Wasmtime.Externs.ExternMemory.Wasmtime%23IImportable%23GetHandle%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Externs/ExternMemory.cs/#L17">View Source</a>
+  </span>
+  <a id="Wasmtime_Externs_ExternMemory_Wasmtime_IImportable_GetHandle_" data-uid="Wasmtime.Externs.ExternMemory.Wasmtime#IImportable#GetHandle*"></a>
+  <h4 id="Wasmtime_Externs_ExternMemory_Wasmtime_IImportable_GetHandle" data-uid="Wasmtime.Externs.ExternMemory.Wasmtime#IImportable#GetHandle">IImportable.GetHandle()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IntPtr IImportable.GetHandle()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IntPtr</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="Wasmtime.IImportable.html">IImportable</a>
+  </div>
 </article>
           </div>
           
@@ -283,12 +329,13 @@
                     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Externs_ExternMemory.md&amp;value=---%0Auid%3A%20Wasmtime.Externs.ExternMemory%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Externs/ExternMemory.cs/#L11" class="contribution-link">View Source</a>
+                    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Externs/ExternMemory.cs/#L9" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In This Article</h5>
+                <div></div>
               </nav>
             </div>
           </div>

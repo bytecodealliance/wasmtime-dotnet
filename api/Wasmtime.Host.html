@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class Host
    ">
-    <meta name="generator" content="docfx 2.51.0.0">
+    <meta name="generator" content="docfx 2.56.6.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -3869,6 +3869,52 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineInstance_System_String_System_String_Wasmtime_Instance_.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineInstance(System.String%2CSystem.String%2CWasmtime.Instance)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L679">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineInstance_" data-uid="Wasmtime.Host.DefineInstance*"></a>
+  <h4 id="Wasmtime_Host_DefineInstance_System_String_System_String_Wasmtime_Instance_" data-uid="Wasmtime.Host.DefineInstance(System.String,System.String,Wasmtime.Instance)">DefineInstance(String, String, Instance)</h4>
+  <div class="markdown level1 summary"><p>Defines a new host instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineInstance(string moduleName, string name, Instance instance)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Instance.html">Instance</a></td>
+        <td><span class="parametername">instance</span></td>
+        <td><p>The instance to define in the host.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineMemory_System_String_System_String_System_UInt32_System_UInt32_.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineMemory(System.String%2CSystem.String%2CSystem.UInt32%2CSystem.UInt32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
@@ -3931,6 +3977,52 @@
       <tr>
         <td><a class="xref" href="Wasmtime.Memory.html">Memory</a></td>
         <td><p>Returns a new <a class="xref" href="Wasmtime.Memory.html">Memory</a> representing the defined memory.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_DefineModule_System_String_System_String_Wasmtime_Module_.md&amp;value=---%0Auid%3A%20Wasmtime.Host.DefineModule(System.String%2CSystem.String%2CWasmtime.Module)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L646">View Source</a>
+  </span>
+  <a id="Wasmtime_Host_DefineModule_" data-uid="Wasmtime.Host.DefineModule*"></a>
+  <h4 id="Wasmtime_Host_DefineModule_System_String_System_String_Wasmtime_Module_" data-uid="Wasmtime.Host.DefineModule(System.String,System.String,Wasmtime.Module)">DefineModule(String, String, Module)</h4>
+  <div class="markdown level1 summary"><p>Defines a new host module.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineModule(string moduleName, string name, Module module)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">moduleName</span></td>
+        <td><p>The module name of the module.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the module.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Module.html">Module</a></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module to define in the host.</p>
 </td>
       </tr>
     </tbody>
@@ -4028,7 +4120,6 @@
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Table&lt;T&gt; DefineTable&lt;T&gt;(string moduleName, string name, T initialValue, uint initial, uint maximum = null)
-
     where T : class</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
@@ -4150,7 +4241,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_Dispose.md&amp;value=---%0Auid%3A%20Wasmtime.Host.Dispose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L658">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L738">View Source</a>
   </span>
   <a id="Wasmtime_Host_Dispose_" data-uid="Wasmtime.Host.Dispose*"></a>
   <h4 id="Wasmtime_Host_Dispose" data-uid="Wasmtime.Host.Dispose">Dispose()</h4>
@@ -4165,7 +4256,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Host_Instantiate_Wasmtime_Module_.md&amp;value=---%0Auid%3A%20Wasmtime.Host.Instantiate(Wasmtime.Module)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L645">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Host.cs/#L711">View Source</a>
   </span>
   <a id="Wasmtime_Host_Instantiate_" data-uid="Wasmtime.Host.Instantiate*"></a>
   <h4 id="Wasmtime_Host_Instantiate_Wasmtime_Module_" data-uid="Wasmtime.Host.Instantiate(Wasmtime.Module)">Instantiate(Module)</h4>
@@ -4226,7 +4317,8 @@
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In This Article</h5>
+                <div></div>
               </nav>
             </div>
           </div>

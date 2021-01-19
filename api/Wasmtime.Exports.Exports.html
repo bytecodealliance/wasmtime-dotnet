@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class Exports
    ">
-    <meta name="generator" content="docfx 2.51.0.0">
+    <meta name="generator" content="docfx 2.56.6.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -73,7 +73,7 @@
   
   <h1 id="Wasmtime_Exports_Exports" data-uid="Wasmtime.Exports.Exports" class="text-break">Class Exports
   </h1>
-  <div class="markdown level0 summary"><p>Represents the exports of a WebAssembly module.</p>
+  <div class="markdown level0 summary"><p>Represents the exports of a WebAssembly module or instance.</p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
@@ -94,11 +94,11 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Exports_Exports_Functions.md&amp;value=---%0Auid%3A%20Wasmtime.Exports.Exports.Functions%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Exports/Exports.cs/#L78">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Exports/Exports.cs/#L84">View Source</a>
   </span>
   <a id="Wasmtime_Exports_Exports_Functions_" data-uid="Wasmtime.Exports.Exports.Functions*"></a>
   <h4 id="Wasmtime_Exports_Exports_Functions" data-uid="Wasmtime.Exports.Exports.Functions">Functions</h4>
-  <div class="markdown level1 summary"><p>The exported functions of a WebAssembly module.</p>
+  <div class="markdown level1 summary"><p>The exported functions of a WebAssembly module or instance.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -125,11 +125,11 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Exports_Exports_Globals.md&amp;value=---%0Auid%3A%20Wasmtime.Exports.Exports.Globals%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Exports/Exports.cs/#L83">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Exports/Exports.cs/#L89">View Source</a>
   </span>
   <a id="Wasmtime_Exports_Exports_Globals_" data-uid="Wasmtime.Exports.Exports.Globals*"></a>
   <h4 id="Wasmtime_Exports_Exports_Globals" data-uid="Wasmtime.Exports.Exports.Globals">Globals</h4>
-  <div class="markdown level1 summary"><p>The exported globals of a WebAssembly module.</p>
+  <div class="markdown level1 summary"><p>The exported globals of a WebAssembly module or instance.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -153,14 +153,45 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Exports_Exports_Instances.md&amp;value=---%0Auid%3A%20Wasmtime.Exports.Exports.Instances%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Exports/Exports.cs/#L104">View Source</a>
+  </span>
+  <a id="Wasmtime_Exports_Exports_Instances_" data-uid="Wasmtime.Exports.Exports.Instances*"></a>
+  <h4 id="Wasmtime_Exports_Exports_Instances" data-uid="Wasmtime.Exports.Exports.Instances">Instances</h4>
+  <div class="markdown level1 summary"><p>The exported instances of a WebAssembly module or instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IReadOnlyList&lt;InstanceExport&gt; Instances { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IReadOnlyList</span>&lt;<a class="xref" href="Wasmtime.Exports.InstanceExport.html">InstanceExport</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Exports_Exports_Memories.md&amp;value=---%0Auid%3A%20Wasmtime.Exports.Exports.Memories%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Exports/Exports.cs/#L93">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Exports/Exports.cs/#L99">View Source</a>
   </span>
   <a id="Wasmtime_Exports_Exports_Memories_" data-uid="Wasmtime.Exports.Exports.Memories*"></a>
   <h4 id="Wasmtime_Exports_Exports_Memories" data-uid="Wasmtime.Exports.Exports.Memories">Memories</h4>
-  <div class="markdown level1 summary"><p>The exported memories of a WebAssembly module.</p>
+  <div class="markdown level1 summary"><p>The exported memories of a WebAssembly module or instance.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -184,14 +215,45 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Exports_Exports_Modules.md&amp;value=---%0Auid%3A%20Wasmtime.Exports.Exports.Modules%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Exports/Exports.cs/#L109">View Source</a>
+  </span>
+  <a id="Wasmtime_Exports_Exports_Modules_" data-uid="Wasmtime.Exports.Exports.Modules*"></a>
+  <h4 id="Wasmtime_Exports_Exports_Modules" data-uid="Wasmtime.Exports.Exports.Modules">Modules</h4>
+  <div class="markdown level1 summary"><p>The exported modules of a WebAssembly module or instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IReadOnlyList&lt;ModuleExport&gt; Modules { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IReadOnlyList</span>&lt;<a class="xref" href="Wasmtime.Exports.ModuleExport.html">ModuleExport</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Exports_Exports_Tables.md&amp;value=---%0Auid%3A%20Wasmtime.Exports.Exports.Tables%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Exports/Exports.cs/#L88">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Exports/Exports.cs/#L94">View Source</a>
   </span>
   <a id="Wasmtime_Exports_Exports_Tables_" data-uid="Wasmtime.Exports.Exports.Tables*"></a>
   <h4 id="Wasmtime_Exports_Exports_Tables" data-uid="Wasmtime.Exports.Exports.Tables">Tables</h4>
-  <div class="markdown level1 summary"><p>The exported tables of a WebAssembly module.</p>
+  <div class="markdown level1 summary"><p>The exported tables of a WebAssembly module or instance.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -229,7 +291,8 @@
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In This Article</h5>
+                <div></div>
               </nav>
             </div>
           </div>

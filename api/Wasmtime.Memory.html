@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class Memory
    ">
-    <meta name="generator" content="docfx 2.51.0.0">
+    <meta name="generator" content="docfx 2.56.6.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -85,9 +85,13 @@
   <div classs="implements">
     <h5>Implements</h5>
     <div><span class="xref">IDisposable</span></div>
+    <div><a class="xref" href="Wasmtime.IImportable.html">IImportable</a></div>
   </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="Wasmtime.MemoryBase.html#Wasmtime_MemoryBase_Size">MemoryBase.Size</a>
+    </div>
     <div>
       <a class="xref" href="Wasmtime.MemoryBase.html#Wasmtime_MemoryBase_Span">MemoryBase.Span</a>
     </div>
@@ -142,12 +146,15 @@
     <div>
       <a class="xref" href="Wasmtime.MemoryBase.html#Wasmtime_MemoryBase_WriteDouble_System_Int32_System_Double_">MemoryBase.WriteDouble(Int32, Double)</a>
     </div>
+    <div>
+      <a class="xref" href="Wasmtime.MemoryBase.html#Wasmtime_MemoryBase_Grow_System_UInt32_">MemoryBase.Grow(UInt32)</a>
+    </div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Wasmtime.html">Wasmtime</a></h6>
   <h6><strong>Assembly</strong>: Wasmtime.Dotnet.dll</h6>
   <h5 id="Wasmtime_Memory_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class Memory : MemoryBase, IDisposable</code></pre>
+    <pre><code class="lang-csharp hljs">public class Memory : MemoryBase, IDisposable, IImportable</code></pre>
   </div>
   <h3 id="fields">Fields
   </h3>
@@ -156,7 +163,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_PageSize.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.PageSize%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L15">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L13">View Source</a>
   </span>
   <h4 id="Wasmtime_Memory_PageSize" data-uid="Wasmtime.Memory.PageSize">PageSize</h4>
   <div class="markdown level1 summary"><p>The size, in bytes, of a WebAssembly memory page.</p>
@@ -188,7 +195,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_Maximum.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.Maximum%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L25">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L23">View Source</a>
   </span>
   <a id="Wasmtime_Memory_Maximum_" data-uid="Wasmtime.Memory.Maximum*"></a>
   <h4 id="Wasmtime_Memory_Maximum" data-uid="Wasmtime.Memory.Maximum">Maximum</h4>
@@ -219,7 +226,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_MemoryHandle.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.MemoryHandle%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L68">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L71">View Source</a>
   </span>
   <a id="Wasmtime_Memory_MemoryHandle_" data-uid="Wasmtime.Memory.MemoryHandle*"></a>
   <h4 id="Wasmtime_Memory_MemoryHandle" data-uid="Wasmtime.Memory.MemoryHandle">MemoryHandle</h4>
@@ -251,7 +258,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_Minimum.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.Minimum%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L20">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L18">View Source</a>
   </span>
   <a id="Wasmtime_Memory_Minimum_" data-uid="Wasmtime.Memory.Minimum*"></a>
   <h4 id="Wasmtime_Memory_Minimum" data-uid="Wasmtime.Memory.Minimum">Minimum</h4>
@@ -284,7 +291,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_Dispose.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.Dispose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L28">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L26">View Source</a>
   </span>
   <a id="Wasmtime_Memory_Dispose_" data-uid="Wasmtime.Memory.Dispose*"></a>
   <h4 id="Wasmtime_Memory_Dispose" data-uid="Wasmtime.Memory.Dispose">Dispose()</h4>
@@ -294,9 +301,44 @@
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
   </div>
+  <h3 id="eii">Explicit Interface Implementations
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_Wasmtime_IImportable_GetHandle.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.Wasmtime%23IImportable%23GetHandle%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L35">View Source</a>
+  </span>
+  <a id="Wasmtime_Memory_Wasmtime_IImportable_GetHandle_" data-uid="Wasmtime.Memory.Wasmtime#IImportable#GetHandle*"></a>
+  <h4 id="Wasmtime_Memory_Wasmtime_IImportable_GetHandle" data-uid="Wasmtime.Memory.Wasmtime#IImportable#GetHandle">IImportable.GetHandle()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IntPtr IImportable.GetHandle()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IntPtr</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   <h3 id="implements">Implements</h3>
   <div>
       <span class="xref">IDisposable</span>
+  </div>
+  <div>
+      <a class="xref" href="Wasmtime.IImportable.html">IImportable</a>
   </div>
 </article>
           </div>
@@ -309,12 +351,13 @@
                     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory.md&amp;value=---%0Auid%3A%20Wasmtime.Memory%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L10" class="contribution-link">View Source</a>
+                    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L8" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In This Article</h5>
+                <div></div>
               </nav>
             </div>
           </div>

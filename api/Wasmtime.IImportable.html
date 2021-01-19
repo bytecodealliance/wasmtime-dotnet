@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Namespace Wasmtime.Imports
+    <title>Interface IImportable
    </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Namespace Wasmtime.Imports
+    <meta name="title" content="Interface IImportable
    ">
     <meta name="generator" content="docfx 2.56.6.0">
     
@@ -68,39 +68,57 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="Wasmtime.Imports">
+            <article class="content wrap" id="_content" data-uid="Wasmtime.IImportable">
   
-  <h1 id="Wasmtime_Imports" data-uid="Wasmtime.Imports" class="text-break">Namespace Wasmtime.Imports
+  
+  <h1 id="Wasmtime_IImportable" data-uid="Wasmtime.IImportable" class="text-break">Interface IImportable
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Implemented by types that can be imported by WebAssembly modules.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
-  <div class="markdown level0 remarks"></div>
-    <h3 id="classes">Classes
+  <h6><strong>Namespace</strong>: <a class="xref" href="Wasmtime.html">Wasmtime</a></h6>
+  <h6><strong>Assembly</strong>: Wasmtime.Dotnet.dll</h6>
+  <h5 id="Wasmtime_IImportable_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public interface IImportable</code></pre>
+  </div>
+  <h3 id="methods">Methods
   </h3>
-      <h4><a class="xref" href="Wasmtime.Imports.FunctionImport.html">FunctionImport</a></h4>
-      <section><p>Represents a function imported to a WebAssembly module.</p>
-</section>
-      <h4><a class="xref" href="Wasmtime.Imports.GlobalImport.html">GlobalImport</a></h4>
-      <section><p>Represents a global variable imported to a WebAssembly module.</p>
-</section>
-      <h4><a class="xref" href="Wasmtime.Imports.Import.html">Import</a></h4>
-      <section><p>The base class for import types.</p>
-</section>
-      <h4><a class="xref" href="Wasmtime.Imports.Imports.html">Imports</a></h4>
-      <section><p>Represents imported functions, globals, tables, and memories to a WebAssembly module.</p>
-</section>
-      <h4><a class="xref" href="Wasmtime.Imports.InstanceImport.html">InstanceImport</a></h4>
-      <section><p>Represents an instance imported to a WebAssembly module.</p>
-</section>
-      <h4><a class="xref" href="Wasmtime.Imports.MemoryImport.html">MemoryImport</a></h4>
-      <section><p>Represents a memory imported to a WebAssembly module.</p>
-</section>
-      <h4><a class="xref" href="Wasmtime.Imports.ModuleImport.html">ModuleImport</a></h4>
-      <section><p>Represents a module imported to a WebAssembly module.</p>
-</section>
-      <h4><a class="xref" href="Wasmtime.Imports.TableImport.html">TableImport</a></h4>
-      <section><p>Represents a table imported to a WebAssembly module.</p>
-</section>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_IImportable_GetHandle.md&amp;value=---%0Auid%3A%20Wasmtime.IImportable.GetHandle%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Module.cs/#L20">View Source</a>
+  </span>
+  <a id="Wasmtime_IImportable_GetHandle_" data-uid="Wasmtime.IImportable.GetHandle*"></a>
+  <h4 id="Wasmtime_IImportable_GetHandle" data-uid="Wasmtime.IImportable.GetHandle">GetHandle()</h4>
+  <div class="markdown level1 summary"><p>Gets the extern handle for the importable.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IntPtr GetHandle()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IntPtr</span></td>
+        <td><p>Returns the extern handle for the importable.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_IImportable_GetHandle_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This interface is internal to Wasmtime and not intended to be implemented by users.</p>
+</div>
 </article>
           </div>
           
@@ -108,6 +126,12 @@
             <div class="sideaffix">
               <div class="contribution">
                 <ul class="nav">
+                  <li>
+                    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_IImportable.md&amp;value=---%0Auid%3A%20Wasmtime.IImportable%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Module.cs/#L11" class="contribution-link">View Source</a>
+                  </li>
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">

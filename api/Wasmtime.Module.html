@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class Module
    ">
-    <meta name="generator" content="docfx 2.51.0.0">
+    <meta name="generator" content="docfx 2.56.6.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -81,11 +81,15 @@
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">Module</span></div>
   </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="Wasmtime.IImportable.html">IImportable</a></div>
+  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Wasmtime.html">Wasmtime</a></h6>
   <h6><strong>Assembly</strong>: Wasmtime.Dotnet.dll</h6>
   <h5 id="Wasmtime_Module_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class Module : IDisposable</code></pre>
+    <pre><code class="lang-csharp hljs">public class Module : IDisposable, IImportable</code></pre>
   </div>
   <h3 id="properties">Properties
   </h3>
@@ -94,7 +98,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Module_Exports.md&amp;value=---%0Auid%3A%20Wasmtime.Module.Exports%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Module.cs/#L27">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Module.cs/#L42">View Source</a>
   </span>
   <a id="Wasmtime_Module_Exports_" data-uid="Wasmtime.Module.Exports*"></a>
   <h4 id="Wasmtime_Module_Exports" data-uid="Wasmtime.Module.Exports">Exports</h4>
@@ -125,7 +129,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Module_Imports.md&amp;value=---%0Auid%3A%20Wasmtime.Module.Imports%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Module.cs/#L21">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Module.cs/#L36">View Source</a>
   </span>
   <a id="Wasmtime_Module_Imports_" data-uid="Wasmtime.Module.Imports*"></a>
   <h4 id="Wasmtime_Module_Imports" data-uid="Wasmtime.Module.Imports">Imports</h4>
@@ -156,7 +160,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Module_Name.md&amp;value=---%0Auid%3A%20Wasmtime.Module.Name%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Module.cs/#L16">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Module.cs/#L31">View Source</a>
   </span>
   <a id="Wasmtime_Module_Name_" data-uid="Wasmtime.Module.Name*"></a>
   <h4 id="Wasmtime_Module_Name" data-uid="Wasmtime.Module.Name">Name</h4>
@@ -189,7 +193,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Module_Dispose.md&amp;value=---%0Auid%3A%20Wasmtime.Module.Dispose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Module.cs/#L177">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Module.cs/#L234">View Source</a>
   </span>
   <a id="Wasmtime_Module_Dispose_" data-uid="Wasmtime.Module.Dispose*"></a>
   <h4 id="Wasmtime_Module_Dispose" data-uid="Wasmtime.Module.Dispose">Dispose()</h4>
@@ -201,19 +205,19 @@
   </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Module_FromBytes_Wasmtime_Engine_System_String_System_Byte___.md&amp;value=---%0Auid%3A%20Wasmtime.Module.FromBytes(Wasmtime.Engine%2CSystem.String%2CSystem.Byte%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Module_FromBytes_Wasmtime_Engine_System_String_ReadOnlySpan_System_Byte__.md&amp;value=---%0Auid%3A%20Wasmtime.Module.FromBytes(Wasmtime.Engine%2CSystem.String%2CReadOnlySpan%7BSystem.Byte%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Module.cs/#L36">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Module.cs/#L51">View Source</a>
   </span>
   <a id="Wasmtime_Module_FromBytes_" data-uid="Wasmtime.Module.FromBytes*"></a>
-  <h4 id="Wasmtime_Module_FromBytes_Wasmtime_Engine_System_String_System_Byte___" data-uid="Wasmtime.Module.FromBytes(Wasmtime.Engine,System.String,System.Byte[])">FromBytes(Engine, String, Byte[])</h4>
+  <h4 id="Wasmtime_Module_FromBytes_Wasmtime_Engine_System_String_ReadOnlySpan_System_Byte__" data-uid="Wasmtime.Module.FromBytes(Wasmtime.Engine,System.String,ReadOnlySpan{System.Byte})">FromBytes(Engine, String, ReadOnlySpan&lt;Byte&gt;)</h4>
   <div class="markdown level1 summary"><p>Creates a <a class="xref" href="Wasmtime.Module.html">Module</a> given the module name and bytes.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Module FromBytes(Engine engine, string name, byte[] bytes)</code></pre>
+    <pre><code class="lang-csharp hljs">public static Module FromBytes(Engine engine, string name, ReadOnlySpan&lt;byte&gt; bytes)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -238,7 +242,7 @@
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.Byte</span>[]</td>
+        <td><span class="xref">ReadOnlySpan</span>&lt;<span class="xref">System.Byte</span>&gt;</td>
         <td><span class="parametername">bytes</span></td>
         <td><p>The bytes of the module.</p>
 </td>
@@ -266,7 +270,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Module_FromFile_Wasmtime_Engine_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Module.FromFile(Wasmtime.Engine%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Module.cs/#L62">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Module.cs/#L72">View Source</a>
   </span>
   <a id="Wasmtime_Module_FromFile_" data-uid="Wasmtime.Module.FromFile*"></a>
   <h4 id="Wasmtime_Module_FromFile_Wasmtime_Engine_System_String_" data-uid="Wasmtime.Module.FromFile(Wasmtime.Engine,System.String)">FromFile(Engine, String)</h4>
@@ -322,7 +326,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Module_FromStream_Wasmtime_Engine_System_String_Stream_.md&amp;value=---%0Auid%3A%20Wasmtime.Module.FromStream(Wasmtime.Engine%2CSystem.String%2CStream)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Module.cs/#L74">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Module.cs/#L84">View Source</a>
   </span>
   <a id="Wasmtime_Module_FromStream_" data-uid="Wasmtime.Module.FromStream*"></a>
   <h4 id="Wasmtime_Module_FromStream_Wasmtime_Engine_System_String_Stream_" data-uid="Wasmtime.Module.FromStream(Wasmtime.Engine,System.String,Stream)">FromStream(Engine, String, Stream)</h4>
@@ -384,7 +388,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Module_FromText_Wasmtime_Engine_System_String_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Module.FromText(Wasmtime.Engine%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Module.cs/#L98">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Module.cs/#L108">View Source</a>
   </span>
   <a id="Wasmtime_Module_FromText_" data-uid="Wasmtime.Module.FromText*"></a>
   <h4 id="Wasmtime_Module_FromText_Wasmtime_Engine_System_String_System_String_" data-uid="Wasmtime.Module.FromText(Wasmtime.Engine,System.String,System.String)">FromText(Engine, String, String)</h4>
@@ -446,7 +450,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Module_FromTextFile_Wasmtime_Engine_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Module.FromTextFile(Wasmtime.Engine%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Module.cs/#L144">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Module.cs/#L154">View Source</a>
   </span>
   <a id="Wasmtime_Module_FromTextFile_" data-uid="Wasmtime.Module.FromTextFile*"></a>
   <h4 id="Wasmtime_Module_FromTextFile_Wasmtime_Engine_System_String_" data-uid="Wasmtime.Module.FromTextFile(Wasmtime.Engine,System.String)">FromTextFile(Engine, String)</h4>
@@ -502,7 +506,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Module_FromTextStream_Wasmtime_Engine_System_String_Stream_.md&amp;value=---%0Auid%3A%20Wasmtime.Module.FromTextStream(Wasmtime.Engine%2CSystem.String%2CStream)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Module.cs/#L156">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Module.cs/#L166">View Source</a>
   </span>
   <a id="Wasmtime_Module_FromTextStream_" data-uid="Wasmtime.Module.FromTextStream*"></a>
   <h4 id="Wasmtime_Module_FromTextStream_Wasmtime_Engine_System_String_Stream_" data-uid="Wasmtime.Module.FromTextStream(Wasmtime.Engine,System.String,Stream)">FromTextStream(Engine, String, Stream)</h4>
@@ -559,6 +563,98 @@
       </tr>
     </tbody>
   </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Module_Instantiate_Wasmtime_Store_Wasmtime_IImportable___.md&amp;value=---%0Auid%3A%20Wasmtime.Module.Instantiate(Wasmtime.Store%2CWasmtime.IImportable%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Module.cs/#L192">View Source</a>
+  </span>
+  <a id="Wasmtime_Module_Instantiate_" data-uid="Wasmtime.Module.Instantiate*"></a>
+  <h4 id="Wasmtime_Module_Instantiate_Wasmtime_Store_Wasmtime_IImportable___" data-uid="Wasmtime.Module.Instantiate(Wasmtime.Store,Wasmtime.IImportable[])">Instantiate(Store, IImportable[])</h4>
+  <div class="markdown level1 summary"><p>Instantiates a <a class="xref" href="Wasmtime.Module.html">Module</a> given a set of imports.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Instance Instantiate(Store store, params IImportable[] imports)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Store.html">Store</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store to associate with the instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IImportable.html">IImportable</a>[]</td>
+        <td><span class="parametername">imports</span></td>
+        <td><p>The imports to use for the instantiations.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Instance.html">Instance</a></td>
+        <td><p>Returns a new <a class="xref" href="Wasmtime.Instance.html">Instance</a>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="eii">Explicit Interface Implementations
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Module_Wasmtime_IImportable_GetHandle.md&amp;value=---%0Auid%3A%20Wasmtime.Module.Wasmtime%23IImportable%23GetHandle%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Module.cs/#L243">View Source</a>
+  </span>
+  <a id="Wasmtime_Module_Wasmtime_IImportable_GetHandle_" data-uid="Wasmtime.Module.Wasmtime#IImportable#GetHandle*"></a>
+  <h4 id="Wasmtime_Module_Wasmtime_IImportable_GetHandle" data-uid="Wasmtime.Module.Wasmtime#IImportable#GetHandle">IImportable.GetHandle()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IntPtr IImportable.GetHandle()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IntPtr</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="Wasmtime.IImportable.html">IImportable</a>
+  </div>
 </article>
           </div>
           
@@ -570,12 +666,13 @@
                     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Module.md&amp;value=---%0Auid%3A%20Wasmtime.Module%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Module.cs/#L11" class="contribution-link">View Source</a>
+                    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Module.cs/#L26" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In This Article</h5>
+                <div></div>
               </nav>
             </div>
           </div>
