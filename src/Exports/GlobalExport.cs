@@ -4,7 +4,7 @@ using System.Diagnostics;
 namespace Wasmtime.Exports
 {
     /// <summary>
-    /// Represents a global variable exported from a WebAssembly module.
+    /// Represents a global variable exported from a WebAssembly module or instance.
     /// </summary>
     public class GlobalExport : Export
     {

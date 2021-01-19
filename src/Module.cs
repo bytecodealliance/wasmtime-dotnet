@@ -6,9 +6,24 @@ using System.Text;
 namespace Wasmtime
 {
     /// <summary>
+    /// Implemented by types that can be imported by WebAssembly modules.
+    /// </summary>
+    public interface IImportable
+    {
+        /// <summary>
+        /// Gets the extern handle for the importable.
+        /// </summary>
+        /// <remarks>
+        /// This interface is internal to Wasmtime and not intended to be implemented by users.
+        /// </remarks>
+        /// <returns>Returns the extern handle for the importable.</returns>
+        IntPtr GetHandle();
+    }
+
+    /// <summary>
     /// Represents a WebAssembly module.
     /// </summary>
-    public class Module : IDisposable
+    public class Module : IDisposable, IImportable
     {
         /// <summary>
         /// The name of the module.
@@ -168,6 +183,51 @@ namespace Wasmtime
             return FromText(engine, name, reader.ReadToEnd());
         }
 
+        /// <summary>
+        /// Instantiates a <see cref="Module"/> given a set of imports.
+        /// </summary>
+        /// <param name="store">The store to associate with the instance.</param>
+        /// <param name="imports">The imports to use for the instantiations.</param>
+        /// <returns>Returns a new <see cref="Instance"/>.</returns>
+        public Instance Instantiate(Store store, params IImportable[] imports)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            if (imports is null)
+            {
+                throw new ArgumentNullException(nameof(imports));
+            }
+
+            unsafe
+            {
+                IntPtr* handles = stackalloc IntPtr[imports.Length];
+
+                for (int i = 0; i < imports.Length; ++i)
+                {
+                    unsafe
+                    {
+                        handles[i] = imports[i].GetHandle();
+                    }
+                }
+
+                var error = Interop.wasmtime_instance_new(store.Handle, Handle.DangerousGetHandle(), handles, (UIntPtr)imports.Length, out var instance, out var trap);
+
+                if (error != IntPtr.Zero)
+                {
+                    throw WasmtimeException.FromOwnedError(error);
+                }
+                if (trap != IntPtr.Zero)
+                {
+                    throw TrapException.FromOwnedTrap(trap);
+                }
+
+                return new Instance(instance, Handle.DangerousGetHandle());
+            }
+        }
+
         /// <inheritdoc/>
         public void Dispose()
         {
@@ -176,15 +236,11 @@ namespace Wasmtime
                 Handle.Dispose();
                 Handle.SetHandleAsInvalid();
             }
+        }
 
-            if (!(Imports is null))
-            {
-                Imports.Dispose();
-
-                // once Module is disposed, nothing in Module should be used anyways.
-                // keeping `Imports` to appear as a non-nullable makes things simpler for developers.
-                Imports = null!;
-            }
+        IntPtr IImportable.GetHandle()
+        {
+            return Interop.wasm_module_as_extern(Handle.DangerousGetHandle());
         }
 
         internal Module(Interop.EngineHandle engine, string name, ReadOnlySpan<byte> bytes)
@@ -208,8 +264,30 @@ namespace Wasmtime
             }
 
             Name = name;
-            Imports = new Wasmtime.Imports.Imports(this);
-            Exports = new Wasmtime.Exports.Exports(this);
+
+            Interop.wasm_importtype_vec_t imports;
+            Interop.wasm_module_imports(Handle.DangerousGetHandle(), out imports);
+
+            try
+            {
+                Imports = new Wasmtime.Imports.Imports(imports);
+            }
+            finally
+            {
+                Interop.wasm_importtype_vec_delete(ref imports);
+            }
+
+            Interop.wasm_exporttype_vec_t exports;
+            Interop.wasm_module_exports(Handle.DangerousGetHandle(), out exports);
+
+            try
+            {
+                Exports = new Wasmtime.Exports.Exports(exports);
+            }
+            finally
+            {
+                Interop.wasm_exporttype_vec_delete(ref exports);
+            }
         }
 
         internal Interop.ModuleHandle Handle { get; private set; }

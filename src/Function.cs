@@ -11,7 +11,7 @@ namespace Wasmtime
     /// <summary>
     /// Represents a WebAsssembly function.
     /// </summary>
-    public class Function : IDisposable
+    public class Function : IDisposable, IImportable
     {
         /// <summary>
         /// Creates a function given a callback.
@@ -592,6 +592,11 @@ namespace Wasmtime
                 Handle.Dispose();
                 Handle.SetHandleAsInvalid();
             }
+        }
+
+        IntPtr IImportable.GetHandle()
+        {
+            return Interop.wasm_func_as_extern(Handle.DangerousGetHandle());
         }
 
         internal static object? Invoke(IntPtr func, IReadOnlyList<ValueKind> funcParameters, IReadOnlyList<ValueKind> funcResults, ReadOnlySpan<object?> arguments)

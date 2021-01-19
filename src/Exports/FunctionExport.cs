@@ -5,7 +5,7 @@ using System.Diagnostics;
 namespace Wasmtime.Exports
 {
     /// <summary>
-    /// Represents a function exported from a WebAssembly module.
+    /// Represents a function exported from a WebAssembly module or instance.
     /// </summary>
     public class FunctionExport : Export
     {

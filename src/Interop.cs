@@ -268,21 +268,6 @@ namespace Wasmtime
             }
         }
 
-        internal class WasiExportHandle : SafeHandle
-        {
-            public WasiExportHandle(IntPtr handle) : base(IntPtr.Zero, false /* not owned */)
-            {
-                SetHandle(handle);
-            }
-
-            public override bool IsInvalid => handle == IntPtr.Zero;
-
-            protected override bool ReleaseHandle()
-            {
-                return true;
-            }
-        }
-
         internal class LinkerHandle : SafeHandle
         {
             public LinkerHandle() : base(IntPtr.Zero, true)
@@ -313,21 +298,6 @@ namespace Wasmtime
             }
         }
 
-        internal class ErrorHandle : SafeHandle
-        {
-            public ErrorHandle() : base(IntPtr.Zero, true)
-            {
-            }
-
-            public override bool IsInvalid => handle == IntPtr.Zero;
-
-            protected override bool ReleaseHandle()
-            {
-                wasmtime_error_delete(handle);
-                return true;
-            }
-        }
-
         [StructLayout(LayoutKind.Sequential)]
         internal unsafe struct wasm_byte_vec_t
         {
@@ -337,13 +307,6 @@ namespace Wasmtime
 
         [StructLayout(LayoutKind.Sequential)]
         internal unsafe struct wasm_valtype_vec_t
-        {
-            public UIntPtr size;
-            public IntPtr* data;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        internal unsafe struct wasm_export_vec_t
         {
             public UIntPtr size;
             public IntPtr* data;
@@ -627,6 +590,8 @@ namespace Wasmtime
             WASM_EXTERN_GLOBAL,
             WASM_EXTERN_TABLE,
             WASM_EXTERN_MEMORY,
+            WASM_EXTERN_MODULE,
+            WASM_EXTERN_INSTANCE,
         }
 
         internal enum wasm_mutability_t : byte
@@ -645,25 +610,6 @@ namespace Wasmtime
             }
 
             return list;
-        }
-
-        internal static wasm_valtype_vec_t ToValueTypeVec(IReadOnlyList<ValueKind> collection)
-        {
-            wasm_valtype_vec_t vec;
-            wasm_valtype_vec_new_uninitialized(out vec, (UIntPtr)collection.Count);
-
-            int i = 0;
-            foreach (var type in collection)
-            {
-                var valType = wasm_valtype_new((wasm_valkind_t)type);
-                unsafe
-                {
-                    vec.data[i++] = valType.DangerousGetHandle();
-                }
-                valType.SetHandleAsInvalid();
-            }
-
-            return vec;
         }
 
         internal static unsafe (byte*[], GCHandle[]) ToUTF8PtrArray(IList<string> strings)
@@ -712,50 +658,17 @@ namespace Wasmtime
         // Byte vec imports
 
         [DllImport(LibraryName)]
-        public static extern void wasm_byte_vec_new_empty(out wasm_byte_vec_t vec);
-
-        [DllImport(LibraryName)]
-        public static extern void wasm_byte_vec_new_uninitialized(out wasm_byte_vec_t vec, UIntPtr length);
-
-        [DllImport(LibraryName)]
-        public static unsafe extern void wasm_byte_vec_new(out wasm_byte_vec_t vec, UIntPtr length, byte* data);
-
-        [DllImport(LibraryName)]
-        public static extern void wasm_byte_vec_copy(out wasm_byte_vec_t vec, ref wasm_byte_vec_t src);
-
-        [DllImport(LibraryName)]
         public static extern void wasm_byte_vec_delete(ref wasm_byte_vec_t vec);
 
         // Value type vec imports
 
         [DllImport(LibraryName)]
-        public static extern void wasm_valtype_vec_new_empty(out wasm_valtype_vec_t vec);
-
-        [DllImport(LibraryName)]
         public static extern void wasm_valtype_vec_new_uninitialized(out wasm_valtype_vec_t vec, UIntPtr length);
-
-        [DllImport(LibraryName)]
-        public static unsafe extern void wasm_valtype_vec_new(out wasm_valtype_vec_t vec, UIntPtr length, IntPtr* data);
-
-        [DllImport(LibraryName)]
-        public static extern void wasm_valtype_vec_copy(out wasm_valtype_vec_t vec, ref wasm_valtype_vec_t src);
-
-        [DllImport(LibraryName)]
-        public static extern void wasm_valtype_vec_delete(ref wasm_valtype_vec_t vec);
 
         // Extern vec imports
 
         [DllImport(LibraryName)]
-        public static extern void wasm_extern_vec_new_empty(out wasm_extern_vec_t vec);
-
-        [DllImport(LibraryName)]
         public static extern void wasm_extern_vec_new_uninitialized(out wasm_extern_vec_t vec, UIntPtr length);
-
-        [DllImport(LibraryName)]
-        public static unsafe extern void wasm_extern_vec_new(out wasm_extern_vec_t vec, UIntPtr length, IntPtr* data);
-
-        [DllImport(LibraryName)]
-        public static extern void wasm_extern_vec_copy(out wasm_extern_vec_t vec, ref wasm_extern_vec_t src);
 
         [DllImport(LibraryName)]
         public static extern void wasm_extern_vec_delete(ref wasm_extern_vec_t vec);
@@ -763,33 +676,9 @@ namespace Wasmtime
         // Import type vec imports
 
         [DllImport(LibraryName)]
-        public static extern void wasm_importtype_vec_new_empty(out wasm_importtype_vec_t vec);
-
-        [DllImport(LibraryName)]
-        public static extern void wasm_importtype_vec_new_uninitialized(out wasm_importtype_vec_t vec, UIntPtr length);
-
-        [DllImport(LibraryName)]
-        public static extern unsafe void wasm_importtype_vec_new(out wasm_importtype_vec_t vec, UIntPtr length, IntPtr* data);
-
-        [DllImport(LibraryName)]
-        public static extern void wasm_importtype_vec_copy(out wasm_importtype_vec_t vec, ref wasm_importtype_vec_t src);
-
-        [DllImport(LibraryName)]
         public static extern void wasm_importtype_vec_delete(ref wasm_importtype_vec_t vec);
 
         // Export type vec imports
-
-        [DllImport(LibraryName)]
-        public static extern void wasm_exporttype_vec_new_empty(out wasm_exporttype_vec_t vec);
-
-        [DllImport(LibraryName)]
-        public static extern void wasm_exporttype_vec_new_uninitialized(out wasm_exporttype_vec_t vec, UIntPtr length);
-
-        [DllImport(LibraryName)]
-        public static unsafe extern void wasm_exporttype_vec_new(out wasm_exporttype_vec_t vec, UIntPtr length, IntPtr* data);
-
-        [DllImport(LibraryName)]
-        public static extern void wasm_exporttype_vec_copy(out wasm_exporttype_vec_t vec, ref wasm_exporttype_vec_t src);
 
         [DllImport(LibraryName)]
         public static extern void wasm_exporttype_vec_delete(ref wasm_exporttype_vec_t vec);
@@ -819,10 +708,10 @@ namespace Wasmtime
         public static extern IntPtr wasmtime_module_new(EngineHandle engine, ref wasm_byte_vec_t bytes, out ModuleHandle module);
 
         [DllImport(LibraryName)]
-        public static extern void wasm_module_imports(ModuleHandle module, out wasm_importtype_vec_t imports);
+        public static extern void wasm_module_imports(IntPtr module, out wasm_importtype_vec_t imports);
 
         [DllImport(LibraryName)]
-        public static extern void wasm_module_exports(ModuleHandle module, out wasm_exporttype_vec_t exports);
+        public static extern void wasm_module_exports(IntPtr module, out wasm_exporttype_vec_t exports);
 
         [DllImport(LibraryName)]
         public static extern void wasm_module_delete(IntPtr module);
@@ -844,9 +733,6 @@ namespace Wasmtime
         public static extern wasm_externkind_t wasm_extern_kind(IntPtr ext);
 
         [DllImport(LibraryName)]
-        public static extern IntPtr wasm_extern_type(IntPtr ext);
-
-        [DllImport(LibraryName)]
         public static extern IntPtr wasm_extern_as_func(IntPtr ext);
 
         [DllImport(LibraryName)]
@@ -858,7 +744,11 @@ namespace Wasmtime
         [DllImport(LibraryName)]
         public static extern IntPtr wasm_extern_as_memory(IntPtr ext);
 
-        // Externs
+        [DllImport(LibraryName)]
+        public static extern IntPtr wasm_extern_as_instance(IntPtr ext);
+
+        [DllImport(LibraryName)]
+        public static extern IntPtr wasm_extern_as_module(IntPtr ext);
 
         [DllImport(LibraryName)]
         public static extern void wasm_extern_delete(IntPtr ext);
@@ -880,6 +770,12 @@ namespace Wasmtime
         [DllImport(LibraryName)]
         public static extern IntPtr wasm_externtype_as_memorytype_const(IntPtr externType);
 
+        [DllImport(LibraryName)]
+        public static extern IntPtr wasm_externtype_as_instancetype_const(IntPtr externType);
+
+        [DllImport(LibraryName)]
+        public static extern IntPtr wasm_externtype_as_moduletype_const(IntPtr externType);
+
         // Function imports
 
         [DllImport(LibraryName)]
@@ -895,16 +791,23 @@ namespace Wasmtime
         public static unsafe extern IntPtr wasm_func_call(IntPtr function, wasm_val_t* args, wasm_val_t* results);
 
         [DllImport(LibraryName)]
-        public static extern IntPtr wasm_func_as_extern(FunctionHandle function);
+        public static extern IntPtr wasm_func_as_extern(IntPtr function);
 
         [DllImport(LibraryName)]
-        public static extern IntPtr wasm_global_as_extern(GlobalHandle global);
+        public static extern IntPtr wasm_global_as_extern(IntPtr global);
 
         [DllImport(LibraryName)]
-        public static extern IntPtr wasm_memory_as_extern(MemoryHandle memory);
+        public static extern IntPtr wasm_memory_as_extern(IntPtr memory);
 
         [DllImport(LibraryName)]
-        public static extern IntPtr wasm_table_as_extern(TableHandle memory);
+        public static extern IntPtr wasm_table_as_extern(IntPtr memory);
+
+        [DllImport(LibraryName)]
+        public static extern IntPtr wasm_instance_as_extern(IntPtr instance);
+
+        [DllImport(LibraryName)]
+        public static extern IntPtr wasm_module_as_extern(IntPtr module);
+
 
         // Function type imports
 
@@ -917,13 +820,10 @@ namespace Wasmtime
         // Instance imports
 
         [DllImport(LibraryName)]
-        public static extern unsafe InstanceHandle wasm_instance_new(StoreHandle store, ModuleHandle module, IntPtr* imports, out IntPtr trap);
-
-        [DllImport(LibraryName)]
         public static extern void wasm_instance_delete(IntPtr ext);
 
         [DllImport(LibraryName)]
-        public static extern void wasm_instance_exports(InstanceHandle instance, out wasm_extern_vec_t exports);
+        public static extern void wasm_instance_exports(IntPtr instance, out wasm_extern_vec_t exports);
 
         // Function type imports
 
@@ -1018,13 +918,26 @@ namespace Wasmtime
         public static extern void wasm_global_delete(IntPtr global);
 
         [DllImport(LibraryName)]
-        public static extern IntPtr wasm_global_type(IntPtr global);
-
-        [DllImport(LibraryName)]
         public static unsafe extern void wasm_global_get(IntPtr global, wasm_val_t* value);
 
         [DllImport(LibraryName)]
         public static unsafe extern void wasm_global_set(IntPtr global, wasm_val_t* value);
+
+        // Instance type imports
+
+        [DllImport(LibraryName)]
+        public static extern void wasm_instancetype_delete(IntPtr instanceType);
+
+        [DllImport(LibraryName)]
+        public static extern void wasm_instancetype_exports(IntPtr instanceType, out wasm_exporttype_vec_t exports);
+
+        // Module type imports
+
+        [DllImport(LibraryName)]
+        public static extern void wasm_moduletype_imports(IntPtr moduleType, out wasm_importtype_vec_t imports);
+
+        [DllImport(LibraryName)]
+        public static extern void wasm_moduletype_exports(IntPtr moduleType, out wasm_exporttype_vec_t exports);
 
         // Memory imports
 
@@ -1035,20 +948,17 @@ namespace Wasmtime
         public static extern void wasm_memory_delete(IntPtr memory);
 
         [DllImport(LibraryName)]
-        public static extern IntPtr wasm_memory_type(MemoryHandle memory);
-
-        [DllImport(LibraryName)]
         public static unsafe extern byte* wasm_memory_data(IntPtr memory);
 
         [DllImport(LibraryName)]
         public static extern UIntPtr wasm_memory_data_size(IntPtr memory);
 
         [DllImport(LibraryName)]
-        public static extern uint wasm_memory_size(MemoryHandle memory);
+        public static extern uint wasm_memory_size(IntPtr memory);
 
         [DllImport(LibraryName)]
         [return: MarshalAs(UnmanagedType.I1)]
-        public static extern bool wasm_memory_grow(MemoryHandle memory, uint delta);
+        public static extern bool wasm_memory_grow(IntPtr memory, uint delta);
 
         // Table imports
 
@@ -1095,9 +1005,6 @@ namespace Wasmtime
 
         [DllImport(LibraryName)]
         public unsafe static extern void wasi_config_set_argv(WasiConfigHandle config, int argc, byte** argv);
-
-        [DllImport(LibraryName)]
-        public static extern void wasi_config_inherit_argv(WasiConfigHandle config);
 
         [DllImport(LibraryName)]
         public static extern unsafe void wasi_config_set_env(
@@ -1149,6 +1056,7 @@ namespace Wasmtime
         );
 
         // WASI instance
+
         [DllImport(LibraryName)]
         public static extern WasiInstanceHandle wasi_instance_new(
             StoreHandle store,
@@ -1184,6 +1092,9 @@ namespace Wasmtime
         public static extern void wasmtime_config_wasm_multi_value_set(WasmConfigHandle config, [MarshalAs(UnmanagedType.I1)] bool enable);
 
         [DllImport(LibraryName)]
+        public static extern void wasmtime_config_wasm_module_linking_set(WasmConfigHandle config, [MarshalAs(UnmanagedType.I1)] bool enable);
+
+        [DllImport(LibraryName)]
         public static extern IntPtr wasmtime_config_strategy_set(WasmConfigHandle config, wasmtime_strategy_t strategy);
 
         [DllImport(LibraryName)]
@@ -1215,10 +1126,12 @@ namespace Wasmtime
         public static extern IntPtr wasmtime_linker_define_wasi(LinkerHandle linker, WasiInstanceHandle wasi);
 
         [DllImport(LibraryName)]
-        public static extern IntPtr wasmtime_linker_define_instance(LinkerHandle linker, ref wasm_byte_vec_t name, InstanceHandle instance);
+        public static extern IntPtr wasmtime_linker_instantiate(LinkerHandle linker, ModuleHandle module, out InstanceHandle instance, out IntPtr trap);
+
+        // Wasmtime instance functions
 
         [DllImport(LibraryName)]
-        public static extern IntPtr wasmtime_linker_instantiate(LinkerHandle linker, ModuleHandle module, out InstanceHandle instance, out IntPtr trap);
+        public static unsafe extern IntPtr wasmtime_instance_new(StoreHandle linker, IntPtr module, IntPtr* imports, UIntPtr numImports, out InstanceHandle instance, out IntPtr trap);
 
         // Caller functions
 

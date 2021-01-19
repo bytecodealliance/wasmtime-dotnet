@@ -4,9 +4,9 @@ using Wasmtime.Exports;
 namespace Wasmtime.Externs
 {
     /// <summary>
-    /// Represents an external (instantiated) WebAssembly global.
+    /// Represents an external WebAssembly global.
     /// </summary>
-    public class ExternGlobal
+    public class ExternGlobal : IImportable
     {
         internal ExternGlobal(GlobalExport export, IntPtr global)
         {
@@ -54,6 +54,11 @@ namespace Wasmtime.Externs
                     Interop.DeleteValue(&v);
                 }
             }
+        }
+
+        IntPtr IImportable.GetHandle()
+        {
+            return Interop.wasm_global_as_extern(_global);
         }
 
         private GlobalExport _export;

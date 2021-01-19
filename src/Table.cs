@@ -6,7 +6,7 @@ namespace Wasmtime
     /// <summary>
     /// Represents a WebAssembly table.
     /// </summary>
-    public class Table<T> : IDisposable where T : class
+    public class Table<T> : IDisposable, IImportable where T : class
     {
         /// <summary>
         /// Gets the value kind of the table.
@@ -100,6 +100,11 @@ namespace Wasmtime
                 Handle.Dispose();
                 Handle.SetHandleAsInvalid();
             }
+        }
+
+        IntPtr IImportable.GetHandle()
+        {
+            return Interop.wasm_table_as_extern(Handle.DangerousGetHandle());
         }
 
         internal Table(Interop.StoreHandle store, T? initialValue, uint initial, uint maximum)

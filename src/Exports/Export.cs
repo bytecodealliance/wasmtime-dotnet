@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 namespace Wasmtime.Exports
 {
     /// <summary>
-    /// Represents an export of a WebAssembly module.
+    /// Represents an export of a WebAssembly module or instance.
     /// </summary>
     public abstract class Export
     {
@@ -13,7 +13,14 @@ namespace Wasmtime.Exports
             unsafe
             {
                 var name = Interop.wasm_exporttype_name(exportType);
-                Name = Marshal.PtrToStringUTF8((IntPtr)name->data, (int)name->size);
+                if (name->size == UIntPtr.Zero)
+                {
+                    Name = String.Empty;
+                }
+                else
+                {
+                    Name = Marshal.PtrToStringUTF8((IntPtr)name->data, (int)name->size);
+                }
             }
         }
 

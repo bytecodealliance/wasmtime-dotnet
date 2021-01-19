@@ -6,18 +6,17 @@ namespace Wasmtime.Imports
     /// <summary>
     /// Represents imported functions, globals, tables, and memories to a WebAssembly module.
     /// </summary>
-    public class Imports : IDisposable
+    public class Imports
     {
-        internal Imports(Module module)
+        internal Imports(Interop.wasm_importtype_vec_t imports)
         {
-            Interop.wasm_importtype_vec_t imports;
-            Interop.wasm_module_imports(module.Handle, out imports);
-
             var all = new List<Import>((int)imports.size);
             var functions = new List<FunctionImport>();
             var globals = new List<GlobalImport>();
             var tables = new List<TableImport>();
             var memories = new List<MemoryImport>();
+            var instances = new List<InstanceImport>();
+            var modules = new List<ModuleImport>();
 
             for (int i = 0; i < (int)imports.size; ++i)
             {
@@ -52,6 +51,18 @@ namespace Wasmtime.Imports
                             all.Add(memory);
                             break;
 
+                        case Interop.wasm_externkind_t.WASM_EXTERN_INSTANCE:
+                            var instance = new InstanceImport(importType, externType);
+                            instances.Add(instance);
+                            all.Add(instance);
+                            break;
+
+                        case Interop.wasm_externkind_t.WASM_EXTERN_MODULE:
+                            var module = new ModuleImport(importType, externType);
+                            modules.Add(module);
+                            all.Add(module);
+                            break;
+
                         default:
                             throw new NotSupportedException("Unsupported import extern type.");
                     }
@@ -62,17 +73,9 @@ namespace Wasmtime.Imports
             Globals = globals;
             Tables = tables;
             Memories = memories;
+            Instances = instances;
+            Modules = modules;
             All = all;
-        }
-
-        /// <inheritdoc/>
-        public unsafe void Dispose()
-        {
-            if (!(_imports.data is null))
-            {
-                Interop.wasm_importtype_vec_delete(ref _imports);
-                _imports.data = null;
-            }
         }
 
         /// <summary>
@@ -95,8 +98,16 @@ namespace Wasmtime.Imports
         /// </summary>
         public IReadOnlyList<MemoryImport> Memories { get; private set; }
 
-        internal IReadOnlyList<Import> All { get; private set; }
+        /// <summary>
+        /// The imported instances required by a WebAssembly module.
+        /// </summary>
+        public IReadOnlyList<InstanceImport> Instances { get; private set; }
 
-        private Interop.wasm_importtype_vec_t _imports;
+        /// <summary>
+        /// The imported modules required by a WebAssembly module.
+        /// </summary>
+        public IReadOnlyList<ModuleImport> Modules { get; private set; }
+
+        internal IReadOnlyList<Import> All { get; private set; }
     }
 }

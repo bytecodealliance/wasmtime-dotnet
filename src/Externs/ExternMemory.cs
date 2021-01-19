@@ -4,14 +4,19 @@ using Wasmtime.Exports;
 namespace Wasmtime.Externs
 {
     /// <summary>
-    /// Represents an external (instantiated) WebAssembly memory.
+    /// Represents an external WebAssembly memory.
     /// </summary>
-    public class ExternMemory : MemoryBase
+    public class ExternMemory : MemoryBase, IImportable
     {
         internal ExternMemory(MemoryExport export, IntPtr memory)
         {
             _export = export;
             _memory = memory;
+        }
+
+        IntPtr IImportable.GetHandle()
+        {
+            return Interop.wasm_memory_as_extern(_memory);
         }
 
         /// <summary>

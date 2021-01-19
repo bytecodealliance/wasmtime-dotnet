@@ -5,7 +5,7 @@ namespace Wasmtime
     /// <summary>
     /// Represents a WebAssembly memory.
     /// </summary>
-    public class Memory : MemoryBase, IDisposable
+    public class Memory : MemoryBase, IDisposable, IImportable
     {
         /// <summary>
         /// The size, in bytes, of a WebAssembly memory page.
@@ -30,6 +30,11 @@ namespace Wasmtime
                 Handle.Dispose();
                 Handle.SetHandleAsInvalid();
             }
+        }
+
+        IntPtr IImportable.GetHandle()
+        {
+            return Interop.wasm_memory_as_extern(Handle.DangerousGetHandle());
         }
 
         internal Memory(Interop.StoreHandle store, uint minimum = 1, uint maximum = uint.MaxValue)

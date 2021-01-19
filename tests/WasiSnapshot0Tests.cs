@@ -31,7 +31,7 @@ namespace Wasmtime.Tests
             using var instance = Host.Instantiate(Fixture.Module);
             dynamic inst = instance;
 
-            var memory = instance.Externs.Memories[0];
+            var memory = instance.Memories[0];
 
             Assert.Equal(0, inst.call_environ_sizes_get(0, 4));
             Assert.Equal(0, memory.ReadInt32(0));
@@ -55,7 +55,7 @@ namespace Wasmtime.Tests
             using var instance = Host.Instantiate(Fixture.Module);
             dynamic inst = instance;
 
-            var memory = instance.Externs.Memories[0];
+            var memory = instance.Memories[0];
 
             Assert.Equal(0, inst.call_environ_sizes_get(0, 4));
             Assert.Equal(env.Count, memory.ReadInt32(0));
@@ -80,7 +80,7 @@ namespace Wasmtime.Tests
             using var instance = Host.Instantiate(Fixture.Module);
             dynamic inst = instance;
 
-            var memory = instance.Externs.Memories[0];
+            var memory = instance.Memories[0];
 
             Assert.Equal(0, inst.call_environ_sizes_get(0, 4));
             Assert.Equal(Environment.GetEnvironmentVariables().Keys.Count, memory.ReadInt32(0));
@@ -94,7 +94,7 @@ namespace Wasmtime.Tests
             using var instance = Host.Instantiate(Fixture.Module);
             dynamic inst = instance;
 
-            var memory = instance.Externs.Memories[0];
+            var memory = instance.Memories[0];
 
             Assert.Equal(0, inst.call_args_sizes_get(0, 4));
             Assert.Equal(0, memory.ReadInt32(0));
@@ -119,7 +119,7 @@ namespace Wasmtime.Tests
             using var instance = Host.Instantiate(Fixture.Module);
             dynamic inst = instance;
 
-            var memory = instance.Externs.Memories[0];
+            var memory = instance.Memories[0];
 
             Assert.Equal(0, inst.call_args_sizes_get(0, 4));
             Assert.Equal(args.Count, memory.ReadInt32(0));
@@ -144,7 +144,7 @@ namespace Wasmtime.Tests
             using var instance = Host.Instantiate(Fixture.Module);
             dynamic inst = instance;
 
-            var memory = instance.Externs.Memories[0];
+            var memory = instance.Memories[0];
 
             Assert.Equal(0, inst.call_args_sizes_get(0, 4));
             Assert.Equal(Environment.GetCommandLineArgs().Length, memory.ReadInt32(0));
@@ -166,7 +166,7 @@ namespace Wasmtime.Tests
             using var instance = Host.Instantiate(Fixture.Module);
             dynamic inst = instance;
 
-            var memory = instance.Externs.Memories[0];
+            var memory = instance.Memories[0];
             memory.WriteInt32(0, 8);
             memory.WriteInt32(4, MESSAGE.Length);
 
@@ -199,7 +199,7 @@ namespace Wasmtime.Tests
             using var instance = Host.Instantiate(Fixture.Module);
             dynamic inst = instance;
 
-            var memory = instance.Externs.Memories[0];
+            var memory = instance.Memories[0];
             memory.WriteInt32(0, 8);
             memory.WriteInt32(4, MESSAGE.Length);
             memory.WriteString(8, MESSAGE);
@@ -225,7 +225,7 @@ namespace Wasmtime.Tests
             using var instance = Host.Instantiate(Fixture.Module);
             dynamic inst = instance;
 
-            var memory = instance.Externs.Memories[0];
+            var memory = instance.Memories[0];
             var fileName = Path.GetFileName(file.Path);
             memory.WriteString(0, fileName);
 

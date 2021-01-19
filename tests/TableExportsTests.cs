@@ -45,7 +45,7 @@ namespace Wasmtime.Tests
         {
             using var instance = Host.Instantiate(Fixture.Module);
 
-            var tables = instance.Externs.Tables;
+            var tables = instance.Tables;
             tables.Count.Should().Be(3);
 
             var table1 = tables[0];

@@ -178,6 +178,12 @@ namespace Wasmtime
             return this;
         }
 
+        public EngineBuilder WithModuleLinking(bool enable)
+        {
+            _enableModuleLinking = enable;
+            return this;
+        }
+
         /// <summary>
         /// Builds the <see cref="Engine" /> instance.
         /// </summary>
@@ -216,6 +222,11 @@ namespace Wasmtime
                 Interop.wasmtime_config_wasm_multi_value_set(config, _enableMultiValue.Value);
             }
 
+            if (_enableModuleLinking.HasValue)
+            {
+                Interop.wasmtime_config_wasm_module_linking_set(config, _enableModuleLinking.Value);
+            }
+
             if (_strategy.HasValue)
             {
                 Interop.wasmtime_config_strategy_set(config, _strategy.Value);
@@ -240,6 +251,7 @@ namespace Wasmtime
         private bool? _enableSIMD;
         private bool? _enableBulkMemory;
         private bool? _enableMultiValue;
+        private bool? _enableModuleLinking;
         private Interop.wasmtime_strategy_t? _strategy;
         private bool? _enableCraneliftDebugVerifier;
         private Interop.wasmtime_opt_level_t? _optLevel;

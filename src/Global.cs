@@ -6,7 +6,7 @@ namespace Wasmtime
     /// <summary>
     /// Represents a constant WebAssembly global value.
     /// </summary>
-    public class Global<T> : IDisposable
+    public class Global<T> : IDisposable, IImportable
     {
         /// <summary>
         /// The value of the global.
@@ -41,6 +41,11 @@ namespace Wasmtime
                 Handle.Dispose();
                 Handle.SetHandleAsInvalid();
             }
+        }
+
+        IntPtr IImportable.GetHandle()
+        {
+            return Interop.wasm_global_as_extern(Handle.DangerousGetHandle());
         }
 
         internal Global(Interop.StoreHandle store, T initialValue)

@@ -1,16 +1,30 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Dynamic;
-using Wasmtime.Externs;
+using System.Linq;
+using Wasmtime.Exports;
 
-namespace Wasmtime
+namespace Wasmtime.Externs
 {
     /// <summary>
-    /// Represents an instantiated WebAssembly module.
+    /// Represents an external WebAssembly module instance.
     /// </summary>
-    public class Instance : DynamicObject, IDisposable, IImportable
+    public class ExternInstance : DynamicObject, IDisposable, IImportable
     {
+        internal ExternInstance(InstanceExport export, IntPtr instance)
+        {
+            _export = export;
+            _instance = instance;
+            _externs = new Externs(_export.Exports, _instance);
+            _functions = Functions.ToDictionary(f => f.Name);
+            _globals = Globals.ToDictionary(g => g.Name);
+        }
+
+        /// <summary>
+        /// The name of the WebAssembly instance.
+        /// </summary>
+        public string Name => _export.Name;
+
         /// <summary>
         /// The exported functions of the instance.
         /// </summary>
@@ -40,31 +54,6 @@ namespace Wasmtime
         /// The exported modules of the instance.
         /// </summary>
         public IReadOnlyList<ExternModule> Modules => _externs.Modules;
-
-        /// <inheritdoc/>
-        public unsafe void Dispose()
-        {
-            if (!Handle.IsInvalid)
-            {
-                Handle.Dispose();
-                Handle.SetHandleAsInvalid();
-            }
-
-            foreach (var instance in Instances)
-            {
-                instance.Dispose();
-            }
-
-            if (!(_externs is null))
-            {
-                _externs.Dispose();
-            }
-        }
-
-        IntPtr IImportable.GetHandle()
-        {
-            return Interop.wasm_instance_as_extern(Handle.DangerousGetHandle());
-        }
 
         /// <inheritdoc/>
         public override bool TryGetMember(GetMemberBinder binder, out object? result)
@@ -102,34 +91,28 @@ namespace Wasmtime
             return true;
         }
 
-        internal Instance(Interop.InstanceHandle handle, IntPtr module)
+        /// <inheritdoc/>
+        public unsafe void Dispose()
         {
-            Handle = handle;
-
-            if (Handle.IsInvalid)
+            foreach (var instance in Instances)
             {
-                throw new WasmtimeException("Failed to create Wasmtime instance.");
+                instance.Dispose();
             }
 
-            Interop.wasm_exporttype_vec_t exportsVec;
-            Interop.wasm_module_exports(module, out exportsVec);
-
-            try
+            if (!(_externs is null))
             {
-                var exports = new Wasmtime.Exports.Exports(exportsVec);
-                _externs = new Wasmtime.Externs.Externs(exports, Handle.DangerousGetHandle());
+                _externs.Dispose();
             }
-            finally
-            {
-                Interop.wasm_exporttype_vec_delete(ref exportsVec);
-            }
-
-            _functions = Functions.ToDictionary(f => f.Name);
-            _globals = Globals.ToDictionary(g => g.Name);
         }
 
-        internal Interop.InstanceHandle Handle { get; private set; }
-        private Externs.Externs _externs;
+        IntPtr IImportable.GetHandle()
+        {
+            return Interop.wasm_instance_as_extern(_instance);
+        }
+
+        private InstanceExport _export;
+        private IntPtr _instance;
+        private Externs _externs;
         private Dictionary<string, ExternFunction> _functions;
         private Dictionary<string, ExternGlobal> _globals;
     }
