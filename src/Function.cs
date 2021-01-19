@@ -616,7 +616,10 @@ namespace Wasmtime
                     args[i] = Interop.ToValue(arguments[i], funcParameters[i]);
                 }
 
-                var trap = Interop.wasm_func_call(func, args, results);
+                Interop.wasm_val_vec_t argsVec = new Interop.wasm_val_vec_t() { size = (UIntPtr)funcParameters.Count, data = args };
+                Interop.wasm_val_vec_t resultsVec = new Interop.wasm_val_vec_t() { size = (UIntPtr)funcResults.Count, data = results };
+
+                var trap = Interop.wasm_func_call(func, ref argsVec, ref resultsVec);
 
                 for (int i = 0; i < arguments.Length; ++i)
                 {
@@ -858,8 +861,8 @@ namespace Wasmtime
             int argumentCount,
             IReadOnlyList<ValueKind> resultKinds,
             Caller? caller,
-            Interop.wasm_val_t* arguments,
-            Interop.wasm_val_t* results)
+            Interop.wasm_val_vec_t* arguments,
+            Interop.wasm_val_vec_t* results)
         {
             try
             {
@@ -876,7 +879,7 @@ namespace Wasmtime
                 var reflectionValueArgs = new Span<object?>(reflectionArgs, offset, argumentCount);
                 for (int i = 0; i < reflectionValueArgs.Length; ++i)
                 {
-                    reflectionValueArgs[i] = Interop.ToObject(&arguments[i]);
+                    reflectionValueArgs[i] = Interop.ToObject(&arguments->data[i]);
                 }
 
                 // NOTE: reflection is extremely slow for invoking methods. in the future, perhaps this could be replaced with
@@ -895,13 +898,13 @@ namespace Wasmtime
                     var tuple = result as ITuple;
                     if (tuple is null)
                     {
-                        results[0] = Interop.ToValue(result, resultKinds[0]);
+                        results->data[0] = Interop.ToValue(result, resultKinds[0]);
                     }
                     else
                     {
                         for (int i = 0; i < tuple.Length; ++i)
                         {
-                            results[i] = Interop.ToValue(tuple[i], resultKinds[i]);
+                            results->data[i] = Interop.ToValue(tuple[i], resultKinds[i]);
                         }
                     }
                 }

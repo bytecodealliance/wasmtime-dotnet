@@ -29,9 +29,16 @@ namespace Wasmtime.Tests
         {
             using var module = Module.FromText(Engine, "test", @"(module (import ""a"" ""b"" (module)))");
 
-            module.Imports.Modules.Count.Should().Be(1);
-            module.Imports.Modules[0].ModuleName.Should().Be("a");
-            module.Imports.Modules[0].Name.Should().Be("b");
+            module.Imports.Instances.Count.Should().Be(1);
+
+            var instanceImport = module.Imports.Instances[0];
+            instanceImport.ModuleName.Should().Be("a");
+            instanceImport.Name.Should().Be("");
+
+            instanceImport.Exports.Modules.Count.Should().Be(1);
+
+            var moduleExport = instanceImport.Exports.Modules[0];
+            moduleExport.Name.Should().Be("b");
         }
 
         [Fact]
@@ -49,10 +56,21 @@ namespace Wasmtime.Tests
             using var module = Module.FromText(Engine, "test", @"(module (import ""a"" ""b"" (instance (export ""c"" (memory 1)))))");
 
             module.Imports.Instances.Count.Should().Be(1);
-            module.Imports.Instances[0].ModuleName.Should().Be("a");
-            module.Imports.Instances[0].Name.Should().Be("b");
-            module.Imports.Instances[0].Exports.Memories.Count.Should().Be(1);
-            module.Imports.Instances[0].Exports.Memories[0].Name.Should().Be("c");
+
+            var instanceImport = module.Imports.Instances[0];
+
+            instanceImport.ModuleName.Should().Be("a");
+            instanceImport.Name.Should().Be("");
+            instanceImport.Exports.Instances.Count.Should().Be(1);
+
+            var instanceExport = instanceImport.Exports.Instances[0];
+
+            instanceExport.Name.Should().Be("b");
+            instanceExport.Exports.Memories.Count.Should().Be(1);
+
+            var memoryExport = instanceExport.Exports.Memories[0];
+
+            memoryExport.Name.Should().Be("c");
         }
 
         [Fact]
@@ -69,15 +87,21 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItInstantiatesAModule()
         {
-            using var importModule = Module.FromText(Engine, "other", @"(module (import ""a"" (func)) (export ""b"" (func 0)) (memory 1))");
-            using var module = Module.FromText(Engine, "test", @"(module (import ""a"" (module (import ""b"" (func)))) (export ""c"" (module 0)))");
+            using var a = Module.FromText(Engine, "other", @"(module (import """" ""a"" (func)) (export ""b"" (func 0)))");
+            using var c = Module.FromText(Engine, "test", @"(module (import """" ""a"" (instance $i (export ""b"" (func)))) (export ""d"" (func $i ""b"")))");
 
             var called = false;
-            using var instance = module.Instantiate(Store, importModule);
-            instance.Modules.Count.Should().Be(1);
-            using var other = instance.Modules[0].Instantiate(Store, Function.FromCallback(Store, () => { called = true; }));
-            other.Functions.Count.Should().Be(1);
-            other.Functions[0].Invoke();
+
+            Host.DefineFunction("", "a", () => { called = true; });
+
+            using var instanceA = Host.Instantiate(a);
+
+            Host.DefineInstance("", "a", instanceA);
+
+            using var instanceC = Host.Instantiate(c);
+
+            instanceC.Functions.Count.Should().Be(1);
+            instanceC.Functions[0].Invoke();
             called.Should().BeTrue();
         }
 
