@@ -68,19 +68,21 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
       </WasmtimeDownload>
     </ItemGroup>
 
-    <DownloadFile Condition="!Exists('%(WasmtimeDownload.DownloadFolder)/%(WasmtimeDownload.DownloadFilename)')" SourceUrl="%(WasmtimeDownload.URL)" DestinationFolder="%(WasmtimeDownload.DownloadFolder)" DestinationFileName="%(WasmtimeDownload.DownloadFilename)" SkipUnchangedFiles="true" />
+    <DownloadFile Condition="!Exists('%(WasmtimeDownload.DownloadFolder)/%(WasmtimeDownload.DownloadFilename)')" 
+                  SourceUrl="%(WasmtimeDownload.URL)" 
+                  DestinationFolder="%(WasmtimeDownload.DownloadFolder)" 
+                  DestinationFileName="%(WasmtimeDownload.DownloadFilename)" 
+                  SkipUnchangedFiles="true" />
 
     <!-- Workaround for https://github.com/msys2/MSYS2-packages/issues/1548 -->
     <Exec Condition="!%(WasmtimeDownload.IsZip) And !Exists('%(WasmtimeDownload.DownloadFolder)/lib/%(WasmtimeDownload.WasmtimeLibraryFilename)')" 
           Command="xz --decompress --stdout %(WasmtimeDownload.DownloadFilename) | tar --strip-components 1 -vxf -" 
           WorkingDirectory="%(WasmtimeDownload.DownloadFolder)" 
-          StandardOutputImportance="Low" 
-          StandardErrorImportance="Low" />
+          StandardOutputImportance="Low" StandardErrorImportance="Low" />
     <Exec Condition="%(WasmtimeDownload.IsZip) And !Exists('%(WasmtimeDownload.DownloadFolder)/lib/%(WasmtimeDownload.WasmtimeLibraryFilename)')" 
           Command="tar --strip-components 1 -vxzf %(WasmtimeDownload.DownloadFilename)" 
           WorkingDirectory="%(WasmtimeDownload.DownloadFolder)" 
-          StandardOutputImportance="Low" 
-          StandardErrorImportance="Low" />
+          StandardOutputImportance="Low" StandardErrorImportance="Low" />
 
     <ItemGroup>
       <Content Include="%(WasmtimeDownload.DownloadFolder)/lib/%(WasmtimeDownload.WasmtimeLibraryFilename)">
