@@ -47,38 +47,61 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItFailsToInstantiateWithGlobalTypeMismatch()
         {
-            Host.DefineGlobal("", "global_i32_mut", 0L);
+            using var g1 = Host.DefineGlobal("", "global_i32", 0);
+            using var g2 = Host.DefineGlobal("", "global_i32_mut", 0);
+            using var g3 = Host.DefineMutableGlobal("", "global_i64_mut", 0L);
+            using var g4 = Host.DefineGlobal("", "global_i64", 0L);
+            using var g5 = Host.DefineMutableGlobal("", "global_f32_mut", 0f);
+            using var g6 = Host.DefineGlobal("", "global_f32", 0f);
+            using var g7 = Host.DefineMutableGlobal("", "global_f64_mut", 0d);
+            using var g8 = Host.DefineGlobal("", "global_f64", 0d);
+
             Action action = () => { using var instance = Host.Instantiate(Fixture.Module); };
 
             action
                 .Should()
                 .Throw<WasmtimeException>()
-                .WithMessage("incompatible import type for `::global_i32_mut` specified*");
+                .WithMessage("incompatible import type for `::global_i32_mut`*");
         }
 
         [Fact]
         public void ItFailsToInstantiateWhenGlobalIsNotMut()
         {
-            Host.DefineGlobal("", "global_i32_mut", 1);
+            using var g1 = Host.DefineMutableGlobal("", "global_i32", 0);
+            using var g2 = Host.DefineGlobal("", "global_i32_mut", 0);
+            using var g3 = Host.DefineMutableGlobal("", "global_i64_mut", 0L);
+            using var g4 = Host.DefineGlobal("", "global_i64", 0L);
+            using var g5 = Host.DefineMutableGlobal("", "global_f32_mut", 0f);
+            using var g6 = Host.DefineGlobal("", "global_f32", 0f);
+            using var g7 = Host.DefineMutableGlobal("", "global_f64_mut", 0d);
+            using var g8 = Host.DefineGlobal("", "global_f64", 0d);
+
             Action action = () => { using var instance = Host.Instantiate(Fixture.Module); };
 
             action
                 .Should()
                 .Throw<WasmtimeException>()
-                .WithMessage("incompatible import type for `::global_i32_mut` specified*");
+                .WithMessage("incompatible import type for `::global_i32_mut`*");
         }
 
         [Fact]
         public void ItFailsToInstantiateWhenGlobalIsMut()
         {
-            Host.DefineMutableGlobal("", "global_i32_mut", 0);
-            Host.DefineMutableGlobal("", "global_i32", 0);
+            using var g1 = Host.DefineMutableGlobal("", "global_i32", 0);
+            using var g2 = Host.DefineMutableGlobal("", "global_i32_mut", 0);
+            using var g3 = Host.DefineMutableGlobal("", "global_i64_mut", 0L);
+            using var g4 = Host.DefineGlobal("", "global_i64", 0L);
+            using var g5 = Host.DefineMutableGlobal("", "global_f32_mut", 0f);
+            using var g6 = Host.DefineGlobal("", "global_f32", 0f);
+            using var g7 = Host.DefineMutableGlobal("", "global_f64_mut", 0d);
+            using var g8 = Host.DefineGlobal("", "global_f64", 0d);
+
             Action action = () => { using var instance = Host.Instantiate(Fixture.Module); };
 
             action
                 .Should()
                 .Throw<WasmtimeException>()
-                .WithMessage("incompatible import type for `::global_i32` specified*");
+                .WithMessage("incompatible import type for `::global_i32`*");
         }
 
         [Fact]
