@@ -12,17 +12,26 @@ namespace Example
                 .Build();
 
             using var module = Module.FromTextFile(engine, "externref.wat");
+            using var linker = new Linker(engine);
+            using var store = new Store(engine);
+            var context = store.Context;
 
-            using var host = new Host(engine);
-
-            using var function = host.DefineFunction(
+            linker.Define(
                 "",
                 "concat",
-                (string a, string b) => $"{a} {b}"
+                Function.FromCallback(context, (string a, string b) => $"{a} {b}")
             );
 
-            using dynamic instance = host.Instantiate(module);
-            Console.WriteLine(instance.run("Hello", "world!"));
+            var instance = linker.Instantiate(context, module);
+
+            var run = instance.GetFunction(context, "run");
+            if (run is null)
+            {
+                Console.WriteLine("error: run export is missing");
+                return;
+            }
+
+            Console.WriteLine(run.Invoke(context, "hello", "world!"));
         }
     }
 }

@@ -1,12 +1,45 @@
 using System;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
 
 namespace Wasmtime
 {
     /// <summary>
     /// Represents a WebAssembly memory.
     /// </summary>
-    public class Memory : MemoryBase, IDisposable, IImportable
+    public class Memory : MemoryBase, IExternal
     {
+        /// <summary>
+        /// Creates a new WebAssembly memory.
+        /// </summary>
+        /// <param name="context">The store context to create the memory in.</param>
+        /// <param name="minimum">The minimum number of WebAssembly pages.</param>
+        /// <param name="maximum">The maximum number of WebAssembly pages.</param>
+        public Memory(StoreContext context, uint minimum = 0, uint maximum = uint.MaxValue)
+        {
+            if (maximum < minimum)
+            {
+                throw new ArgumentException("The maximum cannot be less than the minimum.", nameof(maximum));
+            }
+
+            Minimum = minimum;
+            Maximum = maximum;
+
+            unsafe
+            {
+                var limits = new Native.Limits();
+                limits.min = minimum;
+                limits.max = maximum;
+
+                using var type = new TypeHandle(Native.wasm_memorytype_new(limits));
+                var error = Native.wasmtime_memory_new(context.handle, type, out this.memory);
+                if (error != IntPtr.Zero)
+                {
+                    throw WasmtimeException.FromOwnedError(error);
+                }
+            }
+        }
+
         /// <summary>
         /// The size, in bytes, of a WebAssembly memory page.
         /// </summary>
@@ -22,69 +55,71 @@ namespace Wasmtime
         /// </summary>
         public uint Maximum { get; private set; }
 
-        /// <inheritdoc/>
-        public void Dispose()
+        internal override ExternMemory Extern => memory;
+
+        Extern IExternal.AsExtern()
         {
-            if (!Handle.IsInvalid)
+            return new Extern
             {
-                Handle.Dispose();
-                Handle.SetHandleAsInvalid();
-            }
+                kind = ExternKind.Memory,
+                of = new ExternUnion { memory = this.memory }
+            };
         }
-
-        IntPtr IImportable.GetHandle()
+        internal Memory(StoreContext context, ExternMemory memory)
         {
-            return Interop.wasm_memory_as_extern(Handle.DangerousGetHandle());
-        }
+            this.memory = memory;
 
-        internal Memory(Interop.StoreHandle store, uint minimum = 1, uint maximum = uint.MaxValue)
-        {
-            if (minimum == 0)
-            {
-                throw new ArgumentException("The minimum cannot be zero.", nameof(minimum));
-            }
-
-            if (maximum < minimum)
-            {
-                throw new ArgumentException("The maximum cannot be less than the minimum.", nameof(maximum));
-            }
-
-            Minimum = minimum;
-            Maximum = maximum;
+            using var type = new TypeHandle(Native.wasmtime_memory_type(context.handle, this.memory));
 
             unsafe
             {
-                Interop.wasm_limits_t limits = new Interop.wasm_limits_t();
-                limits.min = minimum;
-                limits.max = maximum;
-
-                using var memoryType = Interop.wasm_memorytype_new(&limits);
-                Handle = Interop.wasm_memory_new(store, memoryType);
-
-                if (Handle.IsInvalid)
-                {
-                    throw new WasmtimeException("Failed to create Wasmtime memory.");
-                }
+                var limits = Native.wasm_memorytype_limits(type.DangerousGetHandle());
+                Minimum = limits->min;
+                Maximum = limits->max;
             }
         }
 
-        protected override IntPtr MemoryHandle
+        internal class TypeHandle : SafeHandleZeroOrMinusOneIsInvalid
         {
-            get
+            public TypeHandle(IntPtr handle)
+                : base(true)
             {
-                CheckDisposed();
-                return Handle.DangerousGetHandle();
+                SetHandle(handle);
+            }
+
+            protected override bool ReleaseHandle()
+            {
+                Native.wasm_memorytype_delete(handle);
+                return true;
             }
         }
 
-        private void CheckDisposed()
+        internal static class Native
         {
-            if (Handle.IsInvalid)
+            [StructLayout(LayoutKind.Sequential)]
+            internal struct Limits
             {
-                throw new ObjectDisposedException(typeof(Memory).FullName);
+                public uint min;
+
+                public uint max;
             }
+
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasmtime_memory_new(IntPtr context, TypeHandle type, out ExternMemory memory);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasmtime_memory_type(IntPtr context, in ExternMemory memory);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasm_memorytype_new(in Limits limits);
+
+            [DllImport(Engine.LibraryName)]
+            public static unsafe extern Limits* wasm_memorytype_limits(IntPtr type);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasm_memorytype_delete(IntPtr handle);
         }
 
-        internal Interop.MemoryHandle Handle { get; private set; }
+        private readonly ExternMemory memory;
     }
 }

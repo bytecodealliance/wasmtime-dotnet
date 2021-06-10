@@ -13,21 +13,24 @@ namespace Wasmtime.Tests
 
     public class TableExportsTests : IClassFixture<TableExportsFixture>, IDisposable
     {
-        private Host Host { get; set; }
+        private TableExportsFixture Fixture { get; set; }
+
+        private Store Store { get; set; }
+
+        private Linker Linker { get; set; }
 
         public TableExportsTests(TableExportsFixture fixture)
         {
             Fixture = fixture;
-            Host = new Host(Fixture.Engine);
+            Store = new Store(Fixture.Engine);
+            Linker = new Linker(Fixture.Engine);
         }
-
-        private TableExportsFixture Fixture { get; set; }
 
         [Theory]
         [MemberData(nameof(GetTableExports))]
         public void ItHasTheExpectedTableExports(string exportName, ValueKind expectedKind, uint expectedMinimum, uint expectedMaximum)
         {
-            var export = Fixture.Module.Exports.Tables.Where(f => f.Name == exportName).FirstOrDefault();
+            var export = Fixture.Module.Exports.Where(f => f.Name == exportName).FirstOrDefault() as TableExport;
             export.Should().NotBeNull();
             export.Kind.Should().Be(expectedKind);
             export.Minimum.Should().Be(expectedMinimum);
@@ -37,31 +40,29 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItHasTheExpectedNumberOfExportedTables()
         {
-            GetTableExports().Count().Should().Be(Fixture.Module.Exports.Tables.Count);
+            GetTableExports().Count().Should().Be(Fixture.Module.Exports.Count(e => e is TableExport));
         }
 
         [Fact]
         public void ItCreatesExternsForTheTables()
         {
-            using var instance = Host.Instantiate(Fixture.Module);
+            var context = Store.Context;
+            var instance = Linker.Instantiate(context, Fixture.Module);
 
-            var tables = instance.Tables;
-            tables.Count.Should().Be(3);
-
-            var table1 = tables[0];
-            table1.Name.Should().Be("table1");
+            var table1 = instance.GetTable(context, "table1");
+            table1.Should().NotBeNull();
             table1.Kind.Should().Be(ValueKind.FuncRef);
             table1.Minimum.Should().Be(1);
             table1.Maximum.Should().Be(10);
 
-            var table2 = tables[1];
-            table2.Name.Should().Be("table2");
+            var table2 = instance.GetTable(context, "table2");
+            table2.Should().NotBeNull();
             table2.Kind.Should().Be(ValueKind.FuncRef);
             table2.Minimum.Should().Be(10);
             table2.Maximum.Should().Be(uint.MaxValue);
 
-            var table3 = tables[2];
-            table3.Name.Should().Be("table3");
+            var table3 = instance.GetTable(context, "table3");
+            table3.Should().NotBeNull();
             table3.Kind.Should().Be(ValueKind.FuncRef);
             table3.Minimum.Should().Be(100);
             table3.Maximum.Should().Be(1000);
@@ -93,7 +94,8 @@ namespace Wasmtime.Tests
 
         public void Dispose()
         {
-            Host.Dispose();
+            Store.Dispose();
+            Linker.Dispose();
         }
     }
 }

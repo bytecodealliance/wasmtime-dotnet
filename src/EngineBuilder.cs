@@ -1,6 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
 
 namespace Wasmtime
 {
@@ -43,6 +43,25 @@ namespace Wasmtime
     }
 
     /// <summary>
+    /// Represents the Wasmtime code profiling strategy.
+    /// </summary>
+    public enum ProfilingStrategy
+    {
+        /// <summary>
+        /// Disable code profiling.
+        /// </summary>
+        None,
+        /// <summary>
+        /// Linux "jitdump" profiling.
+        /// </summary>
+        JitDump,
+        /// <summary>
+        /// VTune code profiling.
+        /// </summary>
+        VTune
+    }
+
+    /// <summary>
     /// Represents a builder of <see cref="Engine"/> instances.
     /// </summary>
     public class EngineBuilder
@@ -54,7 +73,45 @@ namespace Wasmtime
         /// <returns>Returns the current builder.</returns>
         public EngineBuilder WithDebugInfo(bool enable)
         {
-            _enableDebugInfo = enable;
+            debugInfo = enable;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets whether or not to enable interruptability of WebAssembly code.
+        /// </summary>
+        /// <param name="enable">True to enable interruptability or false to disable.</param>
+        /// <returns>Returns the current builder.</returns>
+        public EngineBuilder WithInterruptability(bool enable)
+        {
+            interruptability = enable;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets whether or not to enable fuel consumption for WebAssembly code.
+        /// </summary>
+        /// <param name="enable">True to enable fuel consumption or false to disable.</param>
+        /// <returns>Returns the current builder.</returns>
+        public EngineBuilder WithFuelConsumption(bool enable)
+        {
+            fuelConsumption = enable;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the maximum WebAssembly stack size.
+        /// </summary>
+        /// <param name="size">The maximum WebAssembly stack size, in bytes.</param>
+        /// <returns>Returns the current builder.</returns>
+        public EngineBuilder WithMaximumStackSize(int size)
+        {
+            if (size < 0)
+            {
+                throw new ArgumentException("Stack size cannot be negative.", nameof(size));
+            }
+
+            maximumStackSize = size;
             return this;
         }
 
@@ -65,7 +122,7 @@ namespace Wasmtime
         /// <returns>Returns the current builder.</returns>
         public EngineBuilder WithWasmThreads(bool enable)
         {
-            _enableWasmThreads = enable;
+            threads = enable;
             return this;
         }
 
@@ -76,7 +133,7 @@ namespace Wasmtime
         /// <returns>Returns the current builder.</returns>
         public EngineBuilder WithReferenceTypes(bool enable)
         {
-            _enableReferenceTypes = enable;
+            referenceTypes = enable;
             return this;
         }
 
@@ -87,18 +144,7 @@ namespace Wasmtime
         /// <returns>Returns the current builder.</returns>
         public EngineBuilder WithSIMD(bool enable)
         {
-            _enableSIMD = enable;
-            return this;
-        }
-
-        /// <summary>
-        /// Sets whether or not enable WebAssembly multi-value support.
-        /// </summary>
-        /// <param name="enable">True to enable WebAssembly multi-value support or false to disable.</param>
-        /// <returns>Returns the current builder.</returns>
-        public EngineBuilder WithMultiValue(bool enable)
-        {
-            _enableMultiValue = enable;
+            simd = enable;
             return this;
         }
 
@@ -109,7 +155,29 @@ namespace Wasmtime
         /// <returns>Returns the current builder.</returns>
         public EngineBuilder WithBulkMemory(bool enable)
         {
-            _enableBulkMemory = enable;
+            bulkMemory = enable;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets whether or not enable WebAssembly multi-value support.
+        /// </summary>
+        /// <param name="enable">True to enable WebAssembly multi-value support or false to disable.</param>
+        /// <returns>Returns the current builder.</returns>
+        public EngineBuilder WithMultiValue(bool enable)
+        {
+            multiValue = enable;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets whether or not enable WebAssembly module linking support.
+        /// </summary>
+        /// <param name="enable">True to enable WebAssembly module linking support or false to disable.</param>
+        /// <returns>Returns the current builder.</returns>
+        public EngineBuilder WithModuleLinking(bool enable)
+        {
+            moduleLinking = enable;
             return this;
         }
 
@@ -120,23 +188,12 @@ namespace Wasmtime
         /// <returns>Returns the current builder.</returns>
         public EngineBuilder WithCompilerStrategy(CompilerStrategy strategy)
         {
-            switch (strategy)
+            if (!Enum.IsDefined(typeof(CompilerStrategy), (byte)strategy))
             {
-                case CompilerStrategy.Auto:
-                    _strategy = Interop.wasmtime_strategy_t.WASMTIME_STRATEGY_AUTO;
-                    break;
-
-                case CompilerStrategy.Cranelift:
-                    _strategy = Interop.wasmtime_strategy_t.WASMTIME_STRATEGY_CRANELIFT;
-                    break;
-
-                case CompilerStrategy.Lightbeam:
-                    _strategy = Interop.wasmtime_strategy_t.WASMTIME_STRATEGY_LIGHTBEAM;
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(strategy));
+                throw new ArgumentOutOfRangeException(nameof(strategy));
             }
+
+            compilerStrategy = (byte)strategy;
             return this;
         }
 
@@ -147,7 +204,7 @@ namespace Wasmtime
         /// <returns>Returns the current builder.</returns>
         public EngineBuilder WithCraneliftDebugVerifier(bool enable)
         {
-            _enableCraneliftDebugVerifier = enable;
+            craneliftDebugVerifier = enable;
             return this;
         }
 
@@ -158,29 +215,75 @@ namespace Wasmtime
         /// <returns>Returns the current builder.</returns>
         public EngineBuilder WithOptimizationLevel(OptimizationLevel level)
         {
-            switch (level)
+            if (!Enum.IsDefined(typeof(OptimizationLevel), (byte)level))
             {
-                case OptimizationLevel.None:
-                    _optLevel = Interop.wasmtime_opt_level_t.WASMTIME_OPT_LEVEL_NONE;
-                    break;
-
-                case OptimizationLevel.Speed:
-                    _optLevel = Interop.wasmtime_opt_level_t.WASMTIME_OPT_LEVEL_SPEED;
-                    break;
-
-                case OptimizationLevel.SpeedAndSize:
-                    _optLevel = Interop.wasmtime_opt_level_t.WASMTIME_OPT_LEVEL_SPEED_AND_SIZE;
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(level));
+                throw new ArgumentOutOfRangeException(nameof(level));
             }
+
+            optLevel = (byte)level;
             return this;
         }
 
-        public EngineBuilder WithModuleLinking(bool enable)
+        /// <summary>
+        /// Sets the profiling strategy to use.
+        /// </summary>
+        /// <param name="strategy">The profiling strategy to use.</param>
+        /// <returns>Returns the current builder.</returns>
+        public EngineBuilder WithOptimizationLevel(ProfilingStrategy strategy)
         {
-            _enableModuleLinking = enable;
+            if (!Enum.IsDefined(typeof(ProfilingStrategy), (byte)strategy))
+            {
+                throw new ArgumentOutOfRangeException(nameof(strategy));
+            }
+
+            profilingStrategy = (byte)strategy;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the maximum size of static WebAssembly linear memories.
+        /// </summary>
+        /// <param name="size">The maximum size of static WebAssembly linear memories, in bytes.</param>
+        /// <returns>Returns the current builder.</returns>
+        public EngineBuilder WithStaticMemoryMaximumSize(ulong size)
+        {
+            staticMemoryMaximumSize = size;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the maximum size of the guard region for static WebAssembly linear memories.
+        /// </summary>
+        /// <param name="size">The maximum guard region size for static WebAssembly linear memories, in bytes.</param>
+        /// <returns>Returns the current builder.</returns>
+        public EngineBuilder WithStaticMemoryGuardSize(ulong size)
+        {
+            staticMemoryGuardSize = size;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the maximum size of the guard region for dynamic WebAssembly linear memories.
+        /// </summary>
+        /// <param name="size">The maximum guard region size for dynamic WebAssembly linear memories, in bytes.</param>
+        /// <returns>Returns the current builder.</returns>
+        public EngineBuilder WithDynamicMemoryGuardSize(ulong size)
+        {
+            dynamicMemoryGuardSize = size;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the path to the Wasmtime cache configuration to use.
+        /// </summary>
+        /// <remarks>
+        /// If the path is null, the default Wasmtime cache configuration will be used.
+        /// </remarks>
+        /// <param name="path">The path to the cache configuration file to use or null to load the default configuration.</param>
+        /// <returns>Returns the current builder.</returns>
+        public EngineBuilder WithCacheConfig(string? path)
+        {
+            cacheConfig = path;
             return this;
         }
 
@@ -190,70 +293,210 @@ namespace Wasmtime
         /// <returns>Returns the new <see cref="Engine" /> instance.</returns>
         public Engine Build()
         {
-            var config = Interop.wasm_config_new();
+            var config = new ConfigHandle(Native.wasm_config_new());
 
-            if (_enableDebugInfo.HasValue)
+            if (debugInfo.HasValue)
             {
-                Interop.wasmtime_config_debug_info_set(config, _enableDebugInfo.Value);
+                Native.wasmtime_config_debug_info_set(config, debugInfo.Value);
             }
 
-            if (_enableWasmThreads.HasValue)
+            if (interruptability.HasValue)
             {
-                Interop.wasmtime_config_wasm_threads_set(config, _enableWasmThreads.Value);
+                Native.wasmtime_config_interruptable_set(config, interruptability.Value);
             }
 
-            if (_enableReferenceTypes.HasValue)
+            if (fuelConsumption.HasValue)
             {
-                Interop.wasmtime_config_wasm_reference_types_set(config, _enableReferenceTypes.Value);
+                Native.wasmtime_config_consume_fuel_set(config, fuelConsumption.Value);
             }
 
-            if (_enableSIMD.HasValue)
+            if (maximumStackSize.HasValue)
             {
-                Interop.wasmtime_config_wasm_simd_set(config, _enableSIMD.Value);
+                Native.wasmtime_config_max_wasm_stack_set(config, (UIntPtr)maximumStackSize.Value);
             }
 
-            if (_enableBulkMemory.HasValue)
+            if (threads.HasValue)
             {
-                Interop.wasmtime_config_wasm_bulk_memory_set(config, _enableBulkMemory.Value);
+                Native.wasmtime_config_wasm_threads_set(config, threads.Value);
             }
 
-            if (_enableMultiValue.HasValue)
+            if (referenceTypes.HasValue)
             {
-                Interop.wasmtime_config_wasm_multi_value_set(config, _enableMultiValue.Value);
+                Native.wasmtime_config_wasm_reference_types_set(config, referenceTypes.Value);
             }
 
-            if (_enableModuleLinking.HasValue)
+            if (simd.HasValue)
             {
-                Interop.wasmtime_config_wasm_module_linking_set(config, _enableModuleLinking.Value);
+                Native.wasmtime_config_wasm_simd_set(config, simd.Value);
             }
 
-            if (_strategy.HasValue)
+            if (bulkMemory.HasValue)
             {
-                Interop.wasmtime_config_strategy_set(config, _strategy.Value);
+                Native.wasmtime_config_wasm_bulk_memory_set(config, bulkMemory.Value);
             }
 
-            if (_enableCraneliftDebugVerifier.HasValue)
+            if (multiValue.HasValue)
             {
-                Interop.wasmtime_config_cranelift_debug_verifier_set(config, _enableCraneliftDebugVerifier.Value);
+                Native.wasmtime_config_wasm_multi_value_set(config, multiValue.Value);
             }
 
-            if (_optLevel.HasValue)
+            if (moduleLinking.HasValue)
             {
-                Interop.wasmtime_config_cranelift_opt_level_set(config, _optLevel.Value);
+                Native.wasmtime_config_wasm_module_linking_set(config, moduleLinking.Value);
             }
 
-            return new Engine(config);
+            if (compilerStrategy.HasValue)
+            {
+                var error = Native.wasmtime_config_strategy_set(config, compilerStrategy.Value);
+                if (error != IntPtr.Zero)
+                {
+                    throw WasmtimeException.FromOwnedError(error);
+                }
+            }
+
+            if (craneliftDebugVerifier.HasValue)
+            {
+                Native.wasmtime_config_cranelift_debug_verifier_set(config, craneliftDebugVerifier.Value);
+            }
+
+            if (optLevel.HasValue)
+            {
+                Native.wasmtime_config_cranelift_opt_level_set(config, optLevel.Value);
+            }
+
+            if (profilingStrategy.HasValue)
+            {
+                var error = Native.wasmtime_config_profiler_set(config, profilingStrategy.Value);
+                if (error != IntPtr.Zero)
+                {
+                    throw WasmtimeException.FromOwnedError(error);
+                }
+            }
+
+            if (staticMemoryMaximumSize.HasValue)
+            {
+                Native.wasmtime_config_static_memory_maximum_size_set(config, staticMemoryMaximumSize.Value);
+            }
+
+            if (staticMemoryGuardSize.HasValue)
+            {
+                Native.wasmtime_config_static_memory_guard_size_set(config, staticMemoryGuardSize.Value);
+            }
+
+            if (dynamicMemoryGuardSize.HasValue)
+            {
+                Native.wasmtime_config_dynamic_memory_guard_size_set(config, dynamicMemoryGuardSize.Value);
+            }
+
+            if (!(cacheConfig is null))
+            {
+                var error = Native.wasmtime_config_cache_config_load(config, cacheConfig);
+                if (error != IntPtr.Zero)
+                {
+                    throw WasmtimeException.FromOwnedError(error);
+                }
+            }
+
+            var handle = config.DangerousGetHandle();
+            config.SetHandleAsInvalid();
+            return new Engine(handle);
         }
 
-        private bool? _enableDebugInfo;
-        private bool? _enableWasmThreads;
-        private bool? _enableReferenceTypes;
-        private bool? _enableSIMD;
-        private bool? _enableBulkMemory;
-        private bool? _enableMultiValue;
-        private bool? _enableModuleLinking;
-        private Interop.wasmtime_strategy_t? _strategy;
-        private bool? _enableCraneliftDebugVerifier;
-        private Interop.wasmtime_opt_level_t? _optLevel;
+        private static class Native
+        {
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasm_config_new();
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasm_config_delete(IntPtr config);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_debug_info_set(ConfigHandle config, bool enable);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_interruptable_set(ConfigHandle config, bool enable);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_consume_fuel_set(ConfigHandle config, bool enable);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_max_wasm_stack_set(ConfigHandle config, UIntPtr size);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_wasm_threads_set(ConfigHandle config, bool enable);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_wasm_reference_types_set(ConfigHandle config, bool enable);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_wasm_simd_set(ConfigHandle config, bool enable);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_wasm_bulk_memory_set(ConfigHandle config, bool enable);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_wasm_multi_value_set(ConfigHandle config, bool enable);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_wasm_module_linking_set(ConfigHandle config, bool enable);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasmtime_config_strategy_set(ConfigHandle config, byte strategy);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_cranelift_debug_verifier_set(ConfigHandle config, bool enable);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_cranelift_opt_level_set(ConfigHandle config, byte level);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasmtime_config_profiler_set(ConfigHandle config, byte strategy);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_static_memory_maximum_size_set(ConfigHandle config, ulong size);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_static_memory_guard_size_set(ConfigHandle config, ulong size);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_dynamic_memory_guard_size_set(ConfigHandle config, ulong size);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasmtime_config_cache_config_load(ConfigHandle config, [MarshalAs(UnmanagedType.LPUTF8Str)] string? path);
+        }
+
+        private class ConfigHandle : SafeHandleZeroOrMinusOneIsInvalid
+        {
+            public ConfigHandle(IntPtr handle)
+                : base(true)
+            {
+                SetHandle(handle);
+            }
+
+            protected override bool ReleaseHandle()
+            {
+                Native.wasm_config_delete(handle);
+                return true;
+            }
+        }
+
+        private bool? debugInfo;
+        private bool? interruptability;
+        private bool? fuelConsumption;
+        private int? maximumStackSize;
+        private bool? threads;
+        private bool? referenceTypes;
+        private bool? simd;
+        private bool? bulkMemory;
+        private bool? multiValue;
+        private bool? moduleLinking;
+        private byte? compilerStrategy;
+        private bool? craneliftDebugVerifier;
+        private byte? optLevel;
+        private byte? profilingStrategy;
+        private ulong? staticMemoryMaximumSize;
+        private ulong? staticMemoryGuardSize;
+        private ulong? dynamicMemoryGuardSize;
+        private string? cacheConfig;
     }
 }

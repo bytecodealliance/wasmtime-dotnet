@@ -12,19 +12,44 @@ namespace Example
                 .Build();
 
             using var module = Module.FromTextFile(engine, "funcref.wat");
+            using var linker = new Linker(engine);
             using var store = new Store(engine);
-            using var host = new Host(store);
+            var context = store.Context;
 
-            using var g = host.DefineFunction("", "g", (Function h) => { h.Invoke(); });
-            using var i = host.DefineFunction("", "i", () => Console.WriteLine("Called via a function reference!"));
+            linker.Define(
+                "",
+                "g",
+                Function.FromCallback(context, (Caller caller, Function h) => { h.Invoke(caller.Context); })
+            );
 
-            using var func1 = Function.FromCallback(store, (string s) => Console.WriteLine($"First callback: {s}"));
-            using var func2 = Function.FromCallback(store, (string s) => Console.WriteLine($"Second callback: {s}"));
+            linker.Define(
+                "",
+                "i",
+                Function.FromCallback(context, () => Console.WriteLine("Called via a function reference!"))
+            );
 
-            using dynamic instance = host.Instantiate(module);
-            instance.call(func1, "Hello");
-            instance.call(func2, "world!");
-            instance.f();
+            var func1 = Function.FromCallback(context, (string s) => Console.WriteLine($"First callback: {s}"));
+            var func2 = Function.FromCallback(context, (string s) => Console.WriteLine($"Second callback: {s}"));
+
+            var instance = linker.Instantiate(context, module);
+
+            var call = instance.GetFunction(context, "call");
+            if (call is null)
+            {
+                Console.WriteLine("error: `call` export is missing");
+                return;
+            }
+
+            var f = instance.GetFunction(context, "f");
+            if (f is null)
+            {
+                Console.WriteLine("error: `f` export is missing");
+                return;
+            }
+
+            call.Invoke(context, func1, "Hello");
+            call.Invoke(context, func2, "Hello");
+            f.Invoke(context);
         }
     }
 }

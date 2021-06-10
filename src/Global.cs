@@ -1,94 +1,158 @@
 using System;
-using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
 
 namespace Wasmtime
 {
     /// <summary>
-    /// Represents a constant WebAssembly global value.
+    /// Represents the mutability of a WebAssembly global value.
     /// </summary>
-    public class Global<T> : IDisposable, IImportable
+    public enum Mutability : byte
     {
         /// <summary>
-        /// The value of the global.
+        /// The global value is immutable (i.e. constant).
         /// </summary>
-        [MaybeNull]
-        public T Value
-        {
-            get
-            {
-                CheckDisposed();
+        Immutable,
+        /// <summary>
+        /// The global value is mutable.
+        /// </summary>
+        Mutable,
+    }
 
-                unsafe
-                {
-                    var v = stackalloc Interop.wasm_val_t[1];
-                    Interop.wasm_global_get(Handle.DangerousGetHandle(), v);
-                    return (T)Interop.ToObject(v);
-                }
+    /// <summary>
+    /// Represents a WebAssembly global value.
+    /// </summary>
+    public class Global : IExternal
+    {
+        /// <summary>
+        /// Creates a new WebAssembly global value.
+        /// </summary>
+        /// <param name="context">The store context to create the global in.</param>
+        /// <param name="kind">The kind of value stored in the global.</param>
+        /// <param name="initialValue">The global's initial value.</param>
+        /// <param name="mutability">The mutability of the global being created.</param>
+        public Global(StoreContext context, ValueKind kind, object? initialValue, Mutability mutability)
+        {
+            Kind = kind;
+            Mutability = mutability;
+
+            using var globalType = new TypeHandle(Native.wasm_globaltype_new(
+                ValueType.FromKind(kind),
+                mutability
+            ));
+
+            var value = Wasmtime.Value.FromObject(initialValue, Kind);
+            var error = Native.wasmtime_global_new(context.handle, globalType, in value, out this.global);
+            value.Dispose();
+
+            if (error != IntPtr.Zero)
+            {
+                throw WasmtimeException.FromOwnedError(error);
             }
+        }
+
+        /// <summary>
+        /// Gets the value of the global.
+        /// </summary>
+        /// <param name="context">The store context that owns the global.</param>
+        /// <returns>Returns the global's value.</returns>
+        public object? GetValue(StoreContext context)
+        {
+            Native.wasmtime_global_get(context.handle, this.global, out var v);
+            var val = v.ToObject(context);
+            v.Dispose();
+            return val;
+        }
+
+        /// <summary>
+        /// Sets the value of the global.
+        /// </summary>
+        /// <param name="context">The store context that owns the global.</param>
+        /// <param name="value">The value to set.</param>
+        public void SetValue(StoreContext context, object? value)
+        {
+            if (Mutability != Mutability.Mutable)
+            {
+                throw new InvalidOperationException("The global is immutable and cannot be changed.");
+            }
+
+            var v = Value.FromObject(value, Kind);
+            Native.wasmtime_global_set(context.handle, this.global, in v);
+            v.Dispose();
         }
 
         /// <summary>
         /// Gets the value kind of the global.
         /// </summary>
-        /// <value></value>
         public ValueKind Kind { get; private set; }
 
-        /// <inheritdoc/>
-        public void Dispose()
+        /// <summary>
+        /// Gets the mutability of the global.
+        /// </summary>
+        public Mutability Mutability { get; private set; }
+
+        Extern IExternal.AsExtern()
         {
-            if (!Handle.IsInvalid)
+            return new Extern
             {
-                Handle.Dispose();
-                Handle.SetHandleAsInvalid();
+                kind = ExternKind.Global,
+                of = new ExternUnion { global = this.global }
+            };
+        }
+
+        internal Global(StoreContext context, ExternGlobal global)
+        {
+            this.global = global;
+
+            using var type = new TypeHandle(Native.wasmtime_global_type(context.handle, this.global));
+
+            this.Kind = ValueType.ToKind(Native.wasm_globaltype_content(type.DangerousGetHandle()));
+            this.Mutability = (Mutability)Native.wasm_globaltype_mutability(type.DangerousGetHandle());
+        }
+
+        internal class TypeHandle : SafeHandleZeroOrMinusOneIsInvalid
+        {
+            public TypeHandle(IntPtr handle)
+                : base(true)
+            {
+                SetHandle(handle);
+            }
+
+            protected override bool ReleaseHandle()
+            {
+                Native.wasm_globaltype_delete(handle);
+                return true;
             }
         }
 
-        IntPtr IImportable.GetHandle()
+
+        internal static class Native
         {
-            return Interop.wasm_global_as_extern(Handle.DangerousGetHandle());
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasmtime_global_new(IntPtr context, TypeHandle type, in Value val, out ExternGlobal global);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_global_get(IntPtr context, in ExternGlobal global, out Value val);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_global_set(IntPtr context, in ExternGlobal global, in Value val);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasmtime_global_type(IntPtr context, in ExternGlobal global);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasm_globaltype_new(IntPtr valueType, Mutability mutability);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasm_globaltype_content(IntPtr type);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern byte wasm_globaltype_mutability(IntPtr type);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasm_globaltype_delete(IntPtr type);
         }
 
-        internal Global(Interop.StoreHandle store, T initialValue)
-        {
-            if (!Interop.TryGetValueKind(typeof(T), out var kind))
-            {
-                throw new WasmtimeException($"Global variables cannot be of type '{typeof(T).ToString()}'.");
-            }
-
-            Kind = kind;
-
-            var value = Interop.ToValue((object?)initialValue, Kind);
-
-            var valueType = Interop.wasm_valtype_new(value.kind);
-            var valueTypeHandle = valueType.DangerousGetHandle();
-            valueType.SetHandleAsInvalid();
-
-            using var globalType = Interop.wasm_globaltype_new(
-                valueTypeHandle,
-                Interop.wasm_mutability_t.WASM_CONST
-            );
-
-            unsafe
-            {
-                Handle = Interop.wasm_global_new(store, globalType, &value);
-
-                Interop.DeleteValue(&value);
-
-                if (Handle.IsInvalid)
-                {
-                    throw new WasmtimeException("Failed to create Wasmtime global.");
-                }
-            }
-        }
-
-        private void CheckDisposed()
-        {
-            if (Handle.IsInvalid)
-            {
-                throw new ObjectDisposedException(typeof(Global<T>).FullName);
-            }
-        }
-
-        internal Interop.GlobalHandle Handle { get; set; }
+        private readonly ExternGlobal global;
     }
 }

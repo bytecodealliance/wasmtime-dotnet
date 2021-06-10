@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using Microsoft.Win32.SafeHandles;
 
 namespace Wasmtime
 {
@@ -267,9 +270,9 @@ namespace Wasmtime
             return this;
         }
 
-        internal Interop.WasiInstanceHandle CreateWasi(Interop.StoreHandle store, string name)
+        internal Handle Build()
         {
-            var config = Interop.wasi_config_new();
+            var config = new Handle(Native.wasi_config_new());
 
             SetConfigArgs(config);
             SetEnvironmentVariables(config);
@@ -278,24 +281,10 @@ namespace Wasmtime
             SetStandardError(config);
             SetPreopenDirectories(config);
 
-            IntPtr trap;
-            var wasi = Interop.wasi_instance_new(store, name, config, out trap);
-            config.SetHandleAsInvalid();
-
-            if (trap != IntPtr.Zero)
-            {
-                throw TrapException.FromOwnedTrap(trap);
-            }
-
-            if (wasi.IsInvalid)
-            {
-                throw new WasmtimeException($"Failed to create instance for WASI module '{name}'.");
-            }
-
-            return wasi;
+            return config;
         }
 
-        private unsafe void SetConfigArgs(Interop.WasiConfigHandle config)
+        private unsafe void SetConfigArgs(Handle config)
         {
             // Don't call wasi_config_inherit_argv as the command line to the .NET program may not be
             // the same as the process' command line (e.g. `dotnet foo.dll foo bar baz` => "foo.dll foo bar baz").
@@ -304,13 +293,13 @@ namespace Wasmtime
                 return;
             }
 
-            var (args, handles) = Interop.ToUTF8PtrArray(_args);
+            var (args, handles) = ToUTF8PtrArray(_args);
 
             try
             {
                 fixed (byte** arrayOfStringsPtrNamedArgs = args)
                 {
-                    Interop.wasi_config_set_argv(config, _args.Count, arrayOfStringsPtrNamedArgs);
+                    Native.wasi_config_set_argv(config, _args.Count, arrayOfStringsPtrNamedArgs);
                 }
             }
             finally
@@ -322,11 +311,11 @@ namespace Wasmtime
             }
         }
 
-        private unsafe void SetEnvironmentVariables(Interop.WasiConfigHandle config)
+        private unsafe void SetEnvironmentVariables(Handle config)
         {
             if (_inheritEnv)
             {
-                Interop.wasi_config_inherit_env(config);
+                Native.wasi_config_inherit_env(config);
                 return;
             }
 
@@ -335,12 +324,12 @@ namespace Wasmtime
                 return;
             }
 
-            var (names, nameHandles) = Interop.ToUTF8PtrArray(_vars.Select(var => var.Name).ToArray());
-            var (values, valueHandles) = Interop.ToUTF8PtrArray(_vars.Select(var => var.Value).ToArray());
+            var (names, nameHandles) = ToUTF8PtrArray(_vars.Select(var => var.Name).ToArray());
+            var (values, valueHandles) = ToUTF8PtrArray(_vars.Select(var => var.Value).ToArray());
 
             try
             {
-                Interop.wasi_config_set_env(config, _vars.Count, names, values);
+                Native.wasi_config_set_env(config, _vars.Count, names, values);
             }
             finally
             {
@@ -356,66 +345,161 @@ namespace Wasmtime
             }
         }
 
-        private void SetStandardIn(Interop.WasiConfigHandle config)
+        private void SetStandardIn(Handle config)
         {
             if (_inheritStandardInput)
             {
-                Interop.wasi_config_inherit_stdin(config);
+                Native.wasi_config_inherit_stdin(config);
                 return;
             }
 
             if (!string.IsNullOrEmpty(_standardInputPath))
             {
-                if (!Interop.wasi_config_set_stdin_file(config, _standardInputPath))
+                if (!Native.wasi_config_set_stdin_file(config, _standardInputPath))
                 {
                     throw new InvalidOperationException($"Failed to set stdin to file '{_standardInputPath}'.");
                 }
             }
         }
 
-        private void SetStandardOut(Interop.WasiConfigHandle config)
+        private void SetStandardOut(Handle config)
         {
             if (_inheritStandardOutput)
             {
-                Interop.wasi_config_inherit_stdout(config);
+                Native.wasi_config_inherit_stdout(config);
                 return;
             }
 
             if (!string.IsNullOrEmpty(_standardOutputPath))
             {
-                if (!Interop.wasi_config_set_stdout_file(config, _standardOutputPath))
+                if (!Native.wasi_config_set_stdout_file(config, _standardOutputPath))
                 {
                     throw new InvalidOperationException($"Failed to set stdout to file '{_standardOutputPath}'.");
                 }
             }
         }
 
-        private void SetStandardError(Interop.WasiConfigHandle config)
+        private void SetStandardError(Handle config)
         {
             if (_inheritStandardError)
             {
-                Interop.wasi_config_inherit_stderr(config);
+                Native.wasi_config_inherit_stderr(config);
                 return;
             }
 
             if (!string.IsNullOrEmpty(_standardErrorPath))
             {
-                if (!Interop.wasi_config_set_stderr_file(config, _standardErrorPath))
+                if (!Native.wasi_config_set_stderr_file(config, _standardErrorPath))
                 {
                     throw new InvalidOperationException($"Failed to set stderr to file '{_standardErrorPath}'.");
                 }
             }
         }
 
-        private void SetPreopenDirectories(Interop.WasiConfigHandle config)
+        private void SetPreopenDirectories(Handle config)
         {
             foreach (var dir in _preopenDirs)
             {
-                if (!Interop.wasi_config_preopen_dir(config, dir.Path, dir.GuestPath))
+                if (!Native.wasi_config_preopen_dir(config, dir.Path, dir.GuestPath))
                 {
                     throw new InvalidOperationException($"Failed to preopen directory '{dir.Path}'.");
                 }
             }
+        }
+
+        private static unsafe (byte*[], GCHandle[]) ToUTF8PtrArray(IList<string> strings)
+        {
+            // Unfortunately .NET cannot currently marshal string[] as UTF-8
+            // See: https://github.com/dotnet/runtime/issues/7315
+            // Therefore, we need to marshal the strings manually
+            var handles = new GCHandle[strings.Count];
+            var ptrs = new byte*[strings.Count];
+            for (int i = 0; i < strings.Count; ++i)
+            {
+                handles[i] = GCHandle.Alloc(
+                    Encoding.UTF8.GetBytes(strings[i] + '\0'),
+                    GCHandleType.Pinned
+                );
+                ptrs[i] = (byte*)handles[i].AddrOfPinnedObject();
+            }
+
+            return (ptrs, handles);
+        }
+
+        internal class Handle : SafeHandleZeroOrMinusOneIsInvalid
+        {
+            public Handle(IntPtr handle)
+                : base(true)
+            {
+                SetHandle(handle);
+            }
+
+            protected override bool ReleaseHandle()
+            {
+                Native.wasi_config_delete(handle);
+                return true;
+            }
+        }
+
+        private static class Native
+        {
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasi_config_new();
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasi_config_delete(IntPtr config);
+
+            [DllImport(Engine.LibraryName)]
+            public unsafe static extern void wasi_config_set_argv(Handle config, int argc, byte** argv);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern unsafe void wasi_config_set_env(
+                Handle config,
+                int envc,
+                byte*[] names,
+                byte*[] values
+            );
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasi_config_inherit_env(Handle config);
+
+            [DllImport(Engine.LibraryName)]
+            [return: MarshalAs(UnmanagedType.I1)]
+            public static extern bool wasi_config_set_stdin_file(
+                Handle config,
+                [MarshalAs(UnmanagedType.LPUTF8Str)] string path
+            );
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasi_config_inherit_stdin(Handle config);
+
+            [DllImport(Engine.LibraryName)]
+            [return: MarshalAs(UnmanagedType.I1)]
+            public static extern bool wasi_config_set_stdout_file(
+                Handle config,
+                [MarshalAs(UnmanagedType.LPUTF8Str)] string path
+            );
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasi_config_inherit_stdout(Handle config);
+
+            [DllImport(Engine.LibraryName)]
+            [return: MarshalAs(UnmanagedType.I1)]
+            public static extern bool wasi_config_set_stderr_file(
+                Handle config,
+                [MarshalAs(UnmanagedType.LPUTF8Str)] string path
+            );
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasi_config_inherit_stderr(Handle config);
+
+            [DllImport(Engine.LibraryName)]
+            [return: MarshalAs(UnmanagedType.I1)]
+            public static extern bool wasi_config_preopen_dir(
+                Handle config,
+                [MarshalAs(UnmanagedType.LPUTF8Str)] string path,
+                [MarshalAs(UnmanagedType.LPUTF8Str)] string guestPath
+            );
         }
 
         private readonly List<string> _args = new List<string>();

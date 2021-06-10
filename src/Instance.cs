@@ -1,136 +1,214 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Dynamic;
-using Wasmtime.Externs;
+using System.Runtime.InteropServices;
+using System.Text;
+using Microsoft.Win32.SafeHandles;
 
 namespace Wasmtime
 {
     /// <summary>
     /// Represents an instantiated WebAssembly module.
     /// </summary>
-    public class Instance : DynamicObject, IDisposable, IImportable
+    public class Instance : IExternal
     {
         /// <summary>
-        /// The exported functions of the instance.
+        /// Creates a new WebAssembly instance.
         /// </summary>
-        public IReadOnlyList<ExternFunction> Functions => _externs.Functions;
-
-        /// <summary>
-        /// The exported globals of the instance.
-        /// </summary>
-        public IReadOnlyList<ExternGlobal> Globals => _externs.Globals;
-
-        /// <summary>
-        /// The exported tables of the instance.
-        /// </summary>
-        public IReadOnlyList<ExternTable> Tables => _externs.Tables;
-
-        /// <summary>
-        /// The exported memories of the instance.
-        /// </summary>
-        public IReadOnlyList<ExternMemory> Memories => _externs.Memories;
-
-        /// <summary>
-        /// The exported instances of the instance.
-        /// </summary>
-        public IReadOnlyList<ExternInstance> Instances => _externs.Instances;
-
-        /// <summary>
-        /// The exported modules of the instance.
-        /// </summary>
-        public IReadOnlyList<ExternModule> Modules => _externs.Modules;
-
-        /// <inheritdoc/>
-        public unsafe void Dispose()
+        /// <param name="context">The store context to create the instance in.</param>
+        /// <param name="module">The module to create the instance for.</param>
+        /// <param name="imports">The imports for the instance.</param>
+        public Instance(StoreContext context, Module module, params object[] imports)
         {
-            if (!Handle.IsInvalid)
+            if (module is null)
             {
-                Handle.Dispose();
-                Handle.SetHandleAsInvalid();
+                throw new ArgumentNullException(nameof(module));
             }
 
-            foreach (var instance in Instances)
+            if (imports is null)
             {
-                instance.Dispose();
+                throw new ArgumentNullException(nameof(imports));
             }
 
-            if (!(_externs is null))
+            unsafe
             {
-                _externs.Dispose();
+                var externs = stackalloc Extern[imports.Length];
+                for (int i = 0; i < imports.Length; ++i)
+                {
+                    var external = imports[i] as IExternal;
+                    if (external is null)
+                    {
+                        throw new ArgumentException($"Objects of type `{imports[i].GetType().ToString()}` cannot be imported.");
+                    }
+                    externs[i] = external.AsExtern();
+                }
+
+                var error = Native.wasmtime_instance_new(context.handle, module.NativeHandle, externs, (UIntPtr)imports.Length, out this.instance, out var trap);
+
+                if (error != IntPtr.Zero)
+                {
+                    throw WasmtimeException.FromOwnedError(error);
+                }
+
+                if (trap != IntPtr.Zero)
+                {
+                    throw TrapException.FromOwnedTrap(trap);
+                }
             }
         }
 
-        IntPtr IImportable.GetHandle()
+        /// <summary>
+        /// Gets an exported function from the instance.
+        /// </summary>
+        /// <param name="context">The store context of the instance.</param>
+        /// <param name="name">The name of the exported function.</param>
+        /// <returns>Returns the function if a function of that name was exported or null if not.</returns>
+        public Function? GetFunction(StoreContext context, string name)
         {
-            return Interop.wasm_instance_as_extern(Handle.DangerousGetHandle());
+            if (!TryGetExtern(context, name, out var ext) || ext.kind != ExternKind.Func)
+            {
+                return null;
+            }
+
+            return new Function(context, ext.of.func);
         }
 
-        /// <inheritdoc/>
-        public override bool TryGetMember(GetMemberBinder binder, out object? result)
+        /// <summary>
+        /// Gets an exported table from the instance.
+        /// </summary>
+        /// <param name="context">The store context of the instance.</param>
+        /// <param name="name">The name of the exported table.</param>
+        /// <returns>Returns the table if a table of that name was exported or null if not.</returns>
+        public Table? GetTable(StoreContext context, string name)
         {
-            if (_globals.TryGetValue(binder.Name, out var global))
+            if (!TryGetExtern(context, name, out var ext) || ext.kind != ExternKind.Table)
             {
-                result = global.Value;
+                return null;
+            }
+
+            return new Table(context, ext.of.table);
+        }
+
+        /// <summary>
+        /// Gets an exported memory from the instance.
+        /// </summary>
+        /// <param name="context">The store context of the instance.</param>
+        /// <param name="name">The name of the exported memory.</param>
+        /// <returns>Returns the memory if a memory of that name was exported or null if not.</returns>
+        public Memory? GetMemory(StoreContext context, string name)
+        {
+            if (!TryGetExtern(context, name, out var ext) || ext.kind != ExternKind.Memory)
+            {
+                return null;
+            }
+
+            return new Memory(context, ext.of.memory);
+        }
+
+        /// <summary>
+        /// Gets an exported global from the instance.
+        /// </summary>
+        /// <param name="context">The store context of the instance.</param>
+        /// <param name="name">The name of the exported global.</param>
+        /// <returns>Returns the global if a global of that name was exported or null if not.</returns>
+        public Global? GetGlobal(StoreContext context, string name)
+        {
+            if (!TryGetExtern(context, name, out var ext) || ext.kind != ExternKind.Global)
+            {
+                return null;
+            }
+
+            return new Global(context, ext.of.global);
+        }
+
+        /// <summary>
+        /// Gets an exported instance from the instance.
+        /// </summary>
+        /// <param name="context">The store context of the instance.</param>
+        /// <param name="name">The name of the exported instance.</param>
+        /// <returns>Returns the instance if a instance of that name was exported or null if not.</returns>
+        public Instance? GetInstance(StoreContext context, string name)
+        {
+            if (!TryGetExtern(context, name, out var ext) || ext.kind != ExternKind.Instance)
+            {
+                return null;
+            }
+
+            return new Instance(ext.of.instance);
+        }
+
+        /// <summary>
+        /// Gets an exported module from the instance.
+        /// </summary>
+        /// <param name="context">The store context of the instance.</param>
+        /// <param name="name">The name of the exported module.</param>
+        /// <returns>Returns the module if a module of that name was exported or null if not.</returns>
+        public Module? GetModule(StoreContext context, string name)
+        {
+            if (!TryGetExtern(context, name, out var ext) || ext.kind != ExternKind.Module)
+            {
+                return null;
+            }
+
+            return new Module(ext.of.module, name);
+        }
+
+        private bool TryGetExtern(StoreContext context, string name, out Extern ext)
+        {
+            unsafe
+            {
+                var nameBytes = Encoding.UTF8.GetBytes(name);
+                fixed (byte* ptr = nameBytes)
+                {
+                    return Native.wasmtime_instance_export_get(context.handle, this.instance, ptr, (UIntPtr)nameBytes.Length, out ext);
+                }
+            }
+        }
+
+        Extern IExternal.AsExtern()
+        {
+            return new Extern
+            {
+                kind = ExternKind.Instance,
+                of = new ExternUnion { instance = this.instance }
+            };
+        }
+
+        internal Instance(ExternInstance instance)
+        {
+            this.instance = instance;
+        }
+
+        internal class TypeHandle : SafeHandleZeroOrMinusOneIsInvalid
+        {
+            public TypeHandle(IntPtr handle)
+                : base(true)
+            {
+                SetHandle(handle);
+            }
+
+            protected override bool ReleaseHandle()
+            {
+                Native.wasmtime_instancetype_delete(handle);
                 return true;
             }
-            result = null;
-            return false;
         }
 
-        /// <inheritdoc/>
-        public override bool TrySetMember(SetMemberBinder binder, object value)
+        private static class Native
         {
-            if (_globals.TryGetValue(binder.Name, out var global))
-            {
-                global.Value = value;
-                return true;
-            }
-            return false;
+            [DllImport(Engine.LibraryName)]
+            public static extern unsafe IntPtr wasmtime_instance_new(IntPtr context, Module.Handle module, Extern* imports, UIntPtr nimports, out ExternInstance instance, out IntPtr trap);
+
+            [DllImport(Engine.LibraryName)]
+            [return: MarshalAs(UnmanagedType.I1)]
+            public static extern unsafe bool wasmtime_instance_export_get(IntPtr context, in ExternInstance instance, byte* name, UIntPtr len, out Extern ext);
+
+            [DllImport(Engine.LibraryName)]
+            [return: MarshalAs(UnmanagedType.I1)]
+            public static extern unsafe bool wasmtime_instance_export_nth(IntPtr context, in ExternInstance instance, UIntPtr index, out byte* name, out UIntPtr len, out Extern ext);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_instancetype_delete(IntPtr handle);
         }
 
-        /// <inheritdoc/>
-        public override bool TryInvokeMember(InvokeMemberBinder binder, object?[] args, out object? result)
-        {
-            if (!_functions.TryGetValue(binder.Name, out var func))
-            {
-                result = null;
-                return false;
-            }
-
-            result = func.Invoke(args);
-            return true;
-        }
-
-        internal Instance(Interop.InstanceHandle handle, IntPtr module)
-        {
-            Handle = handle;
-
-            if (Handle.IsInvalid)
-            {
-                throw new WasmtimeException("Failed to create Wasmtime instance.");
-            }
-
-            Interop.wasm_exporttype_vec_t exportsVec;
-            Interop.wasm_module_exports(module, out exportsVec);
-
-            try
-            {
-                var exports = new Wasmtime.Exports.Exports(exportsVec);
-                _externs = new Wasmtime.Externs.Externs(exports, Handle.DangerousGetHandle());
-            }
-            finally
-            {
-                Interop.wasm_exporttype_vec_delete(ref exportsVec);
-            }
-
-            _functions = Functions.ToDictionary(f => f.Name);
-            _globals = Globals.ToDictionary(g => g.Name);
-        }
-
-        internal Interop.InstanceHandle Handle { get; private set; }
-        private Externs.Externs _externs;
-        private Dictionary<string, ExternFunction> _functions;
-        private Dictionary<string, ExternGlobal> _globals;
+        internal readonly ExternInstance instance;
     }
 }

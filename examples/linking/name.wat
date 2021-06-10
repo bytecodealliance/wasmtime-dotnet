@@ -1,5 +1,5 @@
 (module
-  (import "mem" (memory 1))
+  (import "" "mem" (memory 1))
   (func $name (export "write") (param i32) (result i32)
     local.get 0
     i32.const 119 ;;; w

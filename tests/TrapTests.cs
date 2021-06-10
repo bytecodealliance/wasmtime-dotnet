@@ -11,23 +11,28 @@ namespace Wasmtime.Tests
 
     public class TrapTests : IClassFixture<TrapFixture>, IDisposable
     {
-        private Host Host { get; set; }
+        private TrapFixture Fixture { get; set; }
+
+        private Store Store { get; set; }
+
+        private Linker Linker { get; set; }
 
         public TrapTests(TrapFixture fixture)
         {
             Fixture = fixture;
-            Host = new Host(Fixture.Engine);
+            Store = new Store(Fixture.Engine);
+            Linker = new Linker(Fixture.Engine);
         }
-
-        private TrapFixture Fixture { get; set; }
 
         [Fact]
         public void ItIncludesAStackTrace()
         {
             Action action = () =>
             {
-                using dynamic instance = Host.Instantiate(Fixture.Module);
-                instance.run();
+                var context = Store.Context;
+                var instance = Linker.Instantiate(context, Fixture.Module);
+                var run = instance.GetFunction(context, "run");
+                run.Invoke(context);
             };
 
             action
@@ -43,7 +48,8 @@ namespace Wasmtime.Tests
 
         public void Dispose()
         {
-            Host.Dispose();
+            Store.Dispose();
+            Linker.Dispose();
         }
     }
 }

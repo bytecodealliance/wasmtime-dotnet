@@ -1,42 +1,39 @@
 using System;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Wasmtime
 {
     /// <summary>
-    /// Represents an exported memory of a host function caller.
+    /// Represents an exported memory of a function's caller.
     /// </summary>
-    public class CallerMemory : MemoryBase, IDisposable
+    public class CallerMemory : MemoryBase
     {
-        /// <inheritdoc/>
-        public void Dispose()
+        internal CallerMemory(ExternMemory memory)
         {
-            if (!_extern.IsInvalid)
-            {
-                _extern.Dispose();
-                _extern.SetHandleAsInvalid();
-            }
+            this.memory = memory;
         }
 
-        internal CallerMemory(Interop.ExternHandle ext, IntPtr memory)
-        {
-            _extern = ext;
-            _memory = memory;
-        }
+        internal override ExternMemory Extern => memory;
 
-        /// <inheritdoc/>
-        protected override IntPtr MemoryHandle => _memory;
-
-        private Interop.ExternHandle _extern;
-
-        private IntPtr _memory;
+        private readonly ExternMemory memory;
     }
 
     /// <summary>
-    /// Represents information of the caller of a host function.
+    /// Represents caller information for a function.
     /// </summary>
     public class Caller
     {
+        internal Caller(IntPtr handle)
+        {
+            if (handle == IntPtr.Zero)
+            {
+                throw new InvalidOperationException();
+            }
+
+            this.handle = handle;
+        }
+
         /// <summary>
         /// Gets an exported memory of the caller by the given name.
         /// </summary>
@@ -44,39 +41,43 @@ namespace Wasmtime
         /// <returns>Returns the exported memory if found or null if a memory of the requested name is not exported.</returns>
         public CallerMemory? GetMemory(string name)
         {
-            if (Handle == IntPtr.Zero)
-            {
-                throw new InvalidOperationException();
-            }
-
             unsafe
             {
                 var bytes = Encoding.UTF8.GetBytes(name);
 
                 fixed (byte* ptr = bytes)
                 {
-                    Interop.wasm_byte_vec_t nameVec = new Interop.wasm_byte_vec_t();
-                    nameVec.size = (UIntPtr)bytes.Length;
-                    nameVec.data = ptr;
-
-                    var export = Interop.wasmtime_caller_export_get(Handle, ref nameVec);
-                    if (export.IsInvalid)
+                    if (!Native.wasmtime_caller_export_get(handle, ptr, (UIntPtr)bytes.Length, out var item))
                     {
                         return null;
                     }
 
-                    var memory = Interop.wasm_extern_as_memory(export.DangerousGetHandle());
-                    if (memory == IntPtr.Zero)
+                    if (item.kind != ExternKind.Memory)
                     {
-                        export.Dispose();
+                        item.Dispose();
                         return null;
                     }
 
-                    return new CallerMemory(export, memory);
+                    return new CallerMemory(item.of.memory);
                 }
             }
         }
 
-        internal IntPtr Handle { get; set; }
+        /// <summary>
+        /// Gets the store context of the caller.
+        /// </summary>
+        public StoreContext Context => new StoreContext(Native.wasmtime_caller_context(handle));
+
+        private static class Native
+        {
+            [DllImport(Engine.LibraryName)]
+            [return: MarshalAs(UnmanagedType.I1)]
+            public static unsafe extern bool wasmtime_caller_export_get(IntPtr caller, byte* name, UIntPtr len, out Extern item);
+
+            [DllImport(Engine.LibraryName)]
+            public static unsafe extern IntPtr wasmtime_caller_context(IntPtr caller);
+        }
+
+        private readonly IntPtr handle;
     }
 }

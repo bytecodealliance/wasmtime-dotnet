@@ -13,7 +13,7 @@
     i32.const 6
     i32.add
     local.tee 0
-    i32.const 33 ;;; !
+    i32.const 33 ;; !
     i32.store align=1
     i32.const 0
     local.get 0

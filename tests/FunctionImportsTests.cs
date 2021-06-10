@@ -24,7 +24,7 @@ namespace Wasmtime.Tests
         [MemberData(nameof(GetFunctionImports))]
         public void ItHasTheExpectedFunctionImports(string importModule, string importName, ValueKind[] expectedParameters, ValueKind[] expectedResults)
         {
-            var import = Fixture.Module.Imports.Functions.Where(f => f.ModuleName == importModule && f.Name == importName).FirstOrDefault();
+            var import = Fixture.Module.Imports.Where(f => f.ModuleName == importModule && f.Name == importName).FirstOrDefault() as FunctionImport;
             import.Should().NotBeNull();
             import.Parameters.Should().Equal(expectedParameters);
             import.Results.Should().Equal(expectedResults);
@@ -33,7 +33,7 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItHasTheExpectedNumberOfExportedFunctions()
         {
-            GetFunctionImports().Count().Should().Be(Fixture.Module.Imports.Functions.Count);
+            GetFunctionImports().Count().Should().Be(Fixture.Module.Imports.Count(i => i is FunctionImport));
         }
 
         public static IEnumerable<object[]> GetFunctionImports()

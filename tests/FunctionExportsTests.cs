@@ -24,7 +24,7 @@ namespace Wasmtime.Tests
         [MemberData(nameof(GetFunctionExports))]
         public void ItHasTheExpectedFunctionExports(string exportName, ValueKind[] expectedParameters, ValueKind[] expectedResults)
         {
-            var export = Fixture.Module.Exports.Functions.Where(f => f.Name == exportName).FirstOrDefault();
+            var export = Fixture.Module.Exports.Where(f => f.Name == exportName).FirstOrDefault() as FunctionExport;
             export.Should().NotBeNull();
             export.Parameters.Should().Equal(expectedParameters);
             export.Results.Should().Equal(expectedResults);
@@ -33,7 +33,7 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItHasTheExpectedNumberOfExportedFunctions()
         {
-            GetFunctionExports().Count().Should().Be(Fixture.Module.Exports.Functions.Count);
+            GetFunctionExports().Count().Should().Be(Fixture.Module.Exports.Count(e => e is FunctionExport));
         }
 
         public static IEnumerable<object[]> GetFunctionExports()

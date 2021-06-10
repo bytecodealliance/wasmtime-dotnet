@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using Xunit;
-using Wasmtime;
 
 namespace Wasmtime.Tests
 {
@@ -15,29 +13,30 @@ namespace Wasmtime.Tests
                 .WithModuleLinking(true)
                 .Build();
             Store = new Store(Engine);
-            Host = new Host(Store);
+            Linker = new Linker(Engine);
         }
 
         private Engine Engine { get; set; }
 
         private Store Store { get; set; }
 
-        private Host Host { get; set; }
+        private Linker Linker { get; set; }
 
         [Fact]
         public void ItExposesModuleImports()
         {
             using var module = Module.FromText(Engine, "test", @"(module (import ""a"" ""b"" (module)))");
 
-            module.Imports.Instances.Count.Should().Be(1);
+            module.Imports.Count(i => i is InstanceImport).Should().Be(1);
 
-            var instanceImport = module.Imports.Instances[0];
+            var instanceImport = module.Imports[0] as InstanceImport;
+            instanceImport.Should().NotBeNull();
             instanceImport.ModuleName.Should().Be("a");
             instanceImport.Name.Should().Be("");
+            instanceImport.Exports.Count(e => e is ModuleExport).Should().Be(1);
 
-            instanceImport.Exports.Modules.Count.Should().Be(1);
-
-            var moduleExport = instanceImport.Exports.Modules[0];
+            var moduleExport = instanceImport.Exports[0] as ModuleExport;
+            moduleExport.Should().NotBeNull();
             moduleExport.Name.Should().Be("b");
         }
 
@@ -46,8 +45,11 @@ namespace Wasmtime.Tests
         {
             using var module = Module.FromText(Engine, "test", @"(module (module (export ""a"")))");
 
-            module.Exports.Modules.Count.Should().Be(1);
-            module.Exports.Modules[0].Name.Should().Be("a");
+            module.Exports.Count(e => e is ModuleExport).Should().Be(1);
+
+            var moduleExport = module.Exports[0] as ModuleExport;
+            moduleExport.Should().NotBeNull();
+            moduleExport.Name.Should().Be("a");
         }
 
         [Fact]
@@ -55,21 +57,21 @@ namespace Wasmtime.Tests
         {
             using var module = Module.FromText(Engine, "test", @"(module (import ""a"" ""b"" (instance (export ""c"" (memory 1)))))");
 
-            module.Imports.Instances.Count.Should().Be(1);
+            module.Imports.Count(i => i is InstanceImport).Should().Be(1);
 
-            var instanceImport = module.Imports.Instances[0];
-
+            var instanceImport = module.Imports[0] as InstanceImport;
+            instanceImport.Should().NotBeNull();
             instanceImport.ModuleName.Should().Be("a");
             instanceImport.Name.Should().Be("");
-            instanceImport.Exports.Instances.Count.Should().Be(1);
+            instanceImport.Exports.Count(e => e is InstanceExport).Should().Be(1);
 
-            var instanceExport = instanceImport.Exports.Instances[0];
-
+            var instanceExport = instanceImport.Exports[0] as InstanceExport;
+            instanceExport.Should().NotBeNull();
             instanceExport.Name.Should().Be("b");
-            instanceExport.Exports.Memories.Count.Should().Be(1);
+            instanceExport.Exports.Count(e => e is MemoryExport).Should().Be(1);
 
-            var memoryExport = instanceExport.Exports.Memories[0];
-
+            var memoryExport = instanceExport.Exports[0] as MemoryExport;
+            memoryExport.Should().NotBeNull();
             memoryExport.Name.Should().Be("c");
         }
 
@@ -78,10 +80,16 @@ namespace Wasmtime.Tests
         {
             using var module = Module.FromText(Engine, "test", @"(module (module (table (export ""b"") 1 10 funcref)) (instance (export ""a"") (instantiate 0)))");
 
-            module.Exports.Instances.Count.Should().Be(1);
-            module.Exports.Instances[0].Name.Should().Be("a");
-            module.Exports.Instances[0].Exports.Tables.Count.Should().Be(1);
-            module.Exports.Instances[0].Exports.Tables[0].Name.Should().Be("b");
+            module.Exports.Count(e => e is InstanceExport).Should().Be(1);
+
+            var instanceExport = module.Exports[0] as InstanceExport;
+            instanceExport.Should().NotBeNull();
+            instanceExport.Name.Should().Be("a");
+            instanceExport.Exports.Count(e => e is TableExport).Should().Be(1);
+
+            var tableExport = instanceExport.Exports[0] as TableExport;
+            tableExport.Should().NotBeNull();
+            tableExport.Name.Should().Be("b");
         }
 
         [Fact]
@@ -92,16 +100,18 @@ namespace Wasmtime.Tests
 
             var called = false;
 
-            Host.DefineFunction("", "a", () => { called = true; });
+            var context = Store.Context;
+            Linker.Define("", "a", Function.FromCallback(Store.Context, () => { called = true; }));
 
-            using var instanceA = Host.Instantiate(a);
+            var instanceA = Linker.Instantiate(context, a);
 
-            Host.DefineInstance("", "a", instanceA);
+            Linker.AllowShadowing = true;
+            Linker.Define("", "a", instanceA);
 
-            using var instanceC = Host.Instantiate(c);
+            var instanceC = Linker.Instantiate(context, c);
 
-            instanceC.Functions.Count.Should().Be(1);
-            instanceC.Functions[0].Invoke();
+            var d = instanceC.GetFunction(context, "d");
+            d.Invoke(context);
             called.Should().BeTrue();
         }
 
@@ -109,7 +119,7 @@ namespace Wasmtime.Tests
         {
             Engine.Dispose();
             Store.Dispose();
-            Host.Dispose();
+            Linker.Dispose();
         }
     }
 }
