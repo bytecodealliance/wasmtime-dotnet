@@ -1,14 +1,169 @@
 using System;
-using System.IO;
-using System.Text;
-using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
 
 namespace Wasmtime
 {
     /// <summary>
-    /// Represents a WebAssembly store.
+    /// Represents context about a <see cref="Store"/>.
     /// </summary>
-    public class Store : IDisposable
+    public readonly ref struct StoreContext
+    {
+        internal StoreContext(IntPtr handle)
+        {
+            this.handle = handle;
+        }
+
+        internal void GC()
+        {
+            Native.wasmtime_context_gc(handle);
+        }
+
+        internal void AddFuel(ulong fuel)
+        {
+            var error = Native.wasmtime_context_add_fuel(handle, fuel);
+            if (error != IntPtr.Zero)
+            {
+                throw WasmtimeException.FromOwnedError(error);
+            }
+        }
+
+        internal ulong GetConsumedFuel()
+        {
+            if (!Native.wasmtime_context_fuel_consumed(handle, out var fuel))
+            {
+                return 0;
+            }
+
+            return fuel;
+        }
+
+        internal void SetWasiConfiguration(WasiConfiguration config)
+        {
+            var wasi = config.Build();
+            var error = Native.wasmtime_context_set_wasi(handle, wasi.DangerousGetHandle());
+            wasi.SetHandleAsInvalid();
+
+            if (error != IntPtr.Zero)
+            {
+                throw WasmtimeException.FromOwnedError(error);
+            }
+        }
+
+        private static class Native
+        {
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_context_gc(IntPtr handle);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasmtime_context_add_fuel(IntPtr handle, ulong fuel);
+
+            [DllImport(Engine.LibraryName)]
+            [return: MarshalAs(UnmanagedType.I1)]
+            public static extern bool wasmtime_context_fuel_consumed(IntPtr handle, out ulong fuel);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasmtime_context_set_wasi(IntPtr handle, IntPtr config);
+        }
+
+        internal readonly IntPtr handle;
+    }
+
+    /// <summary>
+    /// Represents a Wasmtime interrupt handle.
+    /// </summary>
+    public class InterruptHandle : IDisposable
+    {
+        /// <summary>
+        /// Creates a new interrupt handle from the given store.
+        /// </summary>
+        /// <param name="store">The store to create the interrupt handle for.</param>
+        public InterruptHandle(IStore store)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            handle = new Handle(Native.wasmtime_interrupt_handle_new(store.Context.handle));
+        }
+
+        /// <summary>
+        /// Interrupt any executing WebAssembly code in the associated store.
+        /// </summary> 
+        public void Interrupt()
+        {
+            Native.wasmtime_interrupt_handle_interrupt(NativeHandle);
+        }
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            handle.Dispose();
+        }
+
+        internal Handle NativeHandle
+        {
+            get
+            {
+                if (handle.IsInvalid)
+                {
+                    throw new ObjectDisposedException(typeof(Store).FullName);
+                }
+
+                return handle;
+            }
+        }
+
+        internal class Handle : SafeHandleZeroOrMinusOneIsInvalid
+        {
+            public Handle(IntPtr handle)
+                : base(true)
+            {
+                SetHandle(handle);
+            }
+
+            protected override bool ReleaseHandle()
+            {
+                Native.wasmtime_interrupt_handle_delete(handle);
+                return true;
+            }
+        }
+
+        private static class Native
+        {
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasmtime_interrupt_handle_new(IntPtr context);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_interrupt_handle_delete(IntPtr handle);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasmtime_interrupt_handle_interrupt(Handle handle);
+        }
+
+        private readonly Handle handle;
+    }
+
+    /// <summary>
+    /// An interface implemented on types that behave like stores.
+    /// </summary>
+    public interface IStore
+    {
+        /// <summary>
+        /// Gets the context of the store.
+        /// </summary>
+        StoreContext Context { get; }
+    }
+
+    /// <summary>
+    /// Represents a Wasmtime store.
+    /// </summary>
+    /// <remarks>
+    /// A Wasmtime store may be sent between threads but cannot be used from more than one thread
+    /// simultaneously.
+    /// </remarks>
+    public class Store : IStore, IDisposable
     {
         /// <summary>
         /// Constructs a new store.
@@ -21,44 +176,82 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(engine));
             }
 
-            var store = Interop.wasm_store_new(engine.Handle);
-            if (store.IsInvalid)
-            {
-                throw new WasmtimeException("Failed to create Wasmtime store.");
-            }
-
-            _engine = engine;
-            _handle = store;
+            handle = new Handle(Native.wasmtime_store_new(engine.NativeHandle, IntPtr.Zero, null));
         }
+
+        /// <summary>
+        /// Perform garbage collection within the given store.
+        /// </summary>
+        public void GC() => ((IStore)this).Context.GC();
+
+        /// <summary>
+        /// Adds fuel to this store for WebAssembly code to consume while executing.
+        /// </summary>
+        /// <param name="fuel">The fuel to add to the store.</param>
+        public void AddFuel(ulong fuel) => ((IStore)this).Context.AddFuel(fuel);
+
+        /// <summary>
+        /// Gets the fuel consumed by the executing WebAssembly code.
+        /// </summary>
+        /// <returns>Returns the fuel consumed by the executing WebAssembly code or 0 if fuel consumption was not enabled.</returns>
+        public ulong GetConsumedFuel() => ((IStore)this).Context.GetConsumedFuel();
+
+        /// <summary>
+        /// Configres WASI within the store.
+        /// </summary>
+        /// <param name="config">The WASI configuration to use.</param>
+        public void SetWasiConfiguration(WasiConfiguration config) => ((IStore)this).Context.SetWasiConfiguration(config);
+
+        StoreContext IStore.Context => new StoreContext(Native.wasmtime_store_context(NativeHandle));
 
         /// <inheritdoc/>
         public void Dispose()
         {
-            if (!Handle.IsInvalid)
-            {
-                Handle.Dispose();
-                Handle.SetHandleAsInvalid();
-            }
+            handle.Dispose();
         }
 
-        internal Interop.StoreHandle Handle
+        internal Handle NativeHandle
         {
             get
             {
-                CheckDisposed();
-                return _handle;
+                if (handle.IsInvalid)
+                {
+                    throw new ObjectDisposedException(typeof(Store).FullName);
+                }
+
+                return handle;
             }
         }
 
-        private void CheckDisposed()
+        internal class Handle : SafeHandleZeroOrMinusOneIsInvalid
         {
-            if (_handle.IsInvalid)
+            public Handle(IntPtr handle)
+                : base(true)
             {
-                throw new ObjectDisposedException(typeof(Store).FullName);
+                SetHandle(handle);
+            }
+
+            protected override bool ReleaseHandle()
+            {
+                Native.wasmtime_store_delete(handle);
+                return true;
             }
         }
 
-        private Engine _engine;
-        private Interop.StoreHandle _handle;
+        private static class Native
+        {
+            public delegate void Finalizer(IntPtr data);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasmtime_store_new(Engine.Handle engine, IntPtr data, Finalizer? finalizer);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasmtime_store_context(Handle store);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_store_delete(IntPtr store);
+        }
+
+        private readonly Handle handle;
     }
 }

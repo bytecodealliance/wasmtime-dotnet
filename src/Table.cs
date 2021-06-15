@@ -1,13 +1,62 @@
 using System;
-using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
 
 namespace Wasmtime
 {
     /// <summary>
     /// Represents a WebAssembly table.
     /// </summary>
-    public class Table<T> : IDisposable, IImportable where T : class
+    public class Table : IExternal
     {
+        /// <summary>
+        /// Creates a new WebAssembly table.
+        /// </summary>
+        /// <param name="store">The store to create the table in.</param>
+        /// <param name="kind">The value kind for the elements in the table.</param>
+        /// <param name="initialValue">The initial value for elements in the table.</param>
+        /// <param name="initial">The number of initial elements in the table.</param>
+        /// <param name="maximum">The maximum number of elements in the table.</param>
+        public Table(IStore store, ValueKind kind, object? initialValue, uint initial, uint maximum = uint.MaxValue)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            if (kind != ValueKind.ExternRef && kind != ValueKind.FuncRef)
+            {
+                throw new WasmtimeException($"Table elements must be externref or funcref.");
+            }
+
+            if (maximum < initial)
+            {
+                throw new ArgumentException("The maximum number of elements cannot be less than the minimum.", nameof(maximum));
+            }
+
+            Kind = kind;
+            Minimum = initial;
+            Maximum = maximum;
+
+            var limits = new Native.Limits();
+            limits.min = initial;
+            limits.max = maximum;
+
+            using var tableType = new TypeHandle(Native.wasm_tabletype_new(
+                ValueType.FromKind(kind),
+                limits
+            ));
+
+            var value = Wasmtime.Value.FromObject(initialValue, Kind);
+            var error = Native.wasmtime_table_new(store.Context.handle, tableType, in value, out this.table);
+            value.Dispose();
+
+            if (error != IntPtr.Zero)
+            {
+                throw WasmtimeException.FromOwnedError(error);
+            }
+        }
+
         /// <summary>
         /// Gets the value kind of the table.
         /// </summary>
@@ -25,146 +74,176 @@ namespace Wasmtime
         public uint Maximum { get; private set; }
 
         /// <summary>
-        /// Gets or sets a value in the table at the given index.
+        /// Gets an element from the table.
         /// </summary>
-        /// <value>The value to set in the table.</value>
-        public T? this[uint index]
+        /// <param name="store">The store that owns the table.</param>
+        /// <param name="index">The index in the table to get the element of.</param>
+        /// <returns>Returns the table element.</returns>
+        public object? GetElement(IStore store, uint index)
         {
-            get
+            if (store is null)
             {
-                CheckDisposed();
-
-                unsafe
-                {
-                    using var reference = Interop.wasm_table_get(Handle.DangerousGetHandle(), index);
-                    return (T?)Interop.ToObject(reference.DangerousGetHandle(), Kind);
-                }
+                throw new ArgumentNullException(nameof(store));
             }
-            set
+
+            var context = store.Context;
+            if (!Native.wasmtime_table_get(context.handle, this.table, index, out var v))
             {
-                CheckDisposed();
+                throw new IndexOutOfRangeException();
+            }
 
-                unsafe
-                {
-                    var val = Interop.ToValue(value, Kind);
+            var val = v.ToObject(context);
+            v.Dispose();
+            return val;
+        }
 
-                    var success = Interop.wasm_table_set(Handle.DangerousGetHandle(), index, val.of.reference);
+        /// <summary>
+        /// Sets an element in the table.
+        /// </summary>
+        /// <param name="store">The store that owns the table.</param>
+        /// <param name="index">The index in the table to set the element of.</param>
+        /// <param name="value">The value to set.</param>
+        public void SetElement(IStore store, uint index, object? value)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
 
-                    Interop.DeleteValue(&val);
+            var v = Value.FromObject(value, Kind);
+            var error = Native.wasmtime_table_set(store.Context.handle, this.table, index, v);
+            v.Dispose();
 
-                    if (!success)
-                    {
-                        throw new IndexOutOfRangeException("The specified index is out of bounds.");
-                    }
-                }
+            if (error != IntPtr.Zero)
+            {
+                throw WasmtimeException.FromOwnedError(error);
             }
         }
 
         /// <summary>
         /// Gets the current size of the table.
         /// </summary>
+        /// <param name="store">The store that owns the table.</param>
         /// <value>Returns the current size of the table.</value>
-        public uint Size
+        public uint GetSize(IStore store)
         {
-            get
+            if (store is null)
             {
-                CheckDisposed();
-                return Interop.wasm_table_size(Handle.DangerousGetHandle());
+                throw new ArgumentNullException(nameof(store));
             }
+
+            return Native.wasmtime_table_size(store.Context.handle, this.table);
         }
 
         /// <summary>
         /// Grows the table by the given number of elements.
         /// </summary>
+        /// <param name="store">The store that owns the table.</param>
         /// <param name="delta">The number of elements to grow the table.</param>
         /// <param name="initialValue">The initial value for the new elements.</param>
-        /// <returns>Returns true if the table grew successfully or false if the table cannot grow to the requested size.</returns>
-        public bool Grow(uint delta, T initialValue)
+        /// <returns>Returns the previous number of elements in the table.</returns>
+        public uint Grow(IStore store, uint delta, object? initialValue)
         {
-            CheckDisposed();
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
 
-            var value = Interop.ToValue((object)initialValue, Kind);
+            var v = Value.FromObject(initialValue, Kind);
 
-            var ret = Interop.wasm_table_grow(Handle.DangerousGetHandle(), delta, value.of.reference);
+            var error = Native.wasmtime_table_grow(store.Context.handle, this.table, delta, v, out var prev);
+            v.Dispose();
 
-            unsafe { Interop.DeleteValue(&value); }
+            if (error != IntPtr.Zero)
+            {
+                throw WasmtimeException.FromOwnedError(error);
+            }
 
-            return ret;
+            return prev;
         }
 
-        /// <inheritdoc/>
-        public void Dispose()
+        internal Table(StoreContext context, ExternTable table)
         {
-            if (!Handle.IsInvalid)
-            {
-                Handle.Dispose();
-                Handle.SetHandleAsInvalid();
-            }
-        }
+            this.table = table;
 
-        IntPtr IImportable.GetHandle()
-        {
-            return Interop.wasm_table_as_extern(Handle.DangerousGetHandle());
-        }
+            using var type = new TypeHandle(Native.wasmtime_table_type(context.handle, this.table));
 
-        internal Table(Interop.StoreHandle store, T? initialValue, uint initial, uint maximum)
-        {
-            if (!Interop.TryGetValueKind(typeof(T), out var kind))
-            {
-                throw new WasmtimeException($"Table elements cannot be of type '{typeof(T).ToString()}'.");
-            }
-
-            if (kind != ValueKind.ExternRef && kind != ValueKind.FuncRef)
-            {
-                throw new WasmtimeException($"Table elements cannot be of type '{typeof(T).ToString()}'.");
-            }
-
-            if (initial == 0)
-            {
-                throw new ArgumentException("The initial number of elements cannot be zero.", nameof(initial));
-            }
-
-            if (maximum < initial)
-            {
-                throw new ArgumentException("The maximum number of elements cannot be less than the minimum.", nameof(maximum));
-            }
-
-            Kind = kind;
-            Minimum = initial;
-            Maximum = maximum;
+            this.Kind = ValueType.ToKind(Native.wasm_tabletype_element(type.DangerousGetHandle()));
 
             unsafe
             {
-                var value = Interop.ToValue((object?)initialValue, Kind);
-
-                var valueType = Interop.wasm_valtype_new(value.kind);
-                var valueTypeHandle = valueType.DangerousGetHandle();
-                valueType.SetHandleAsInvalid();
-
-                Interop.wasm_limits_t limits = new Interop.wasm_limits_t();
-                limits.min = initial;
-                limits.max = maximum;
-
-                using var tableType = Interop.wasm_tabletype_new(valueTypeHandle, &limits);
-                Handle = Interop.wasm_table_new(store, tableType, value.of.reference);
-
-                Interop.DeleteValue(&value);
-
-                if (Handle.IsInvalid)
-                {
-                    throw new WasmtimeException("Failed to create Wasmtime table.");
-                }
+                var limits = Native.wasm_tabletype_limits(type.DangerousGetHandle());
+                Minimum = limits->min;
+                Maximum = limits->max;
             }
         }
 
-        private void CheckDisposed()
+        Extern IExternal.AsExtern()
         {
-            if (Handle.IsInvalid)
+            return new Extern
             {
-                throw new ObjectDisposedException(typeof(Table<T>).FullName);
+                kind = ExternKind.Table,
+                of = new ExternUnion { table = this.table }
+            };
+        }
+
+        internal class TypeHandle : SafeHandleZeroOrMinusOneIsInvalid
+        {
+            public TypeHandle(IntPtr handle)
+                : base(true)
+            {
+                SetHandle(handle);
+            }
+
+            protected override bool ReleaseHandle()
+            {
+                Native.wasm_tabletype_delete(handle);
+                return true;
             }
         }
 
-        internal Interop.TableHandle Handle { get; set; }
+        internal static class Native
+        {
+            [StructLayout(LayoutKind.Sequential)]
+            internal struct Limits
+            {
+                public uint min;
+
+                public uint max;
+            }
+
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasmtime_table_new(IntPtr context, TypeHandle type, in Value val, out ExternTable table);
+
+            [DllImport(Engine.LibraryName)]
+            [return: MarshalAs(UnmanagedType.I1)]
+            public static extern bool wasmtime_table_get(IntPtr context, in ExternTable table, uint index, out Value val);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasmtime_table_set(IntPtr context, in ExternTable table, uint index, in Value val);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern uint wasmtime_table_size(IntPtr context, in ExternTable table);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasmtime_table_grow(IntPtr context, in ExternTable table, uint delta, in Value value, out uint prev);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasmtime_table_type(IntPtr context, in ExternTable table);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasm_tabletype_new(IntPtr valueType, in Limits limits);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasm_tabletype_element(IntPtr type);
+
+            [DllImport(Engine.LibraryName)]
+            public static unsafe extern Limits* wasm_tabletype_limits(IntPtr type);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasm_tabletype_delete(IntPtr handle);
+        }
+
+        private readonly ExternTable table;
     }
 }

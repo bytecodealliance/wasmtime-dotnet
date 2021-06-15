@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Text;
 
@@ -24,16 +25,26 @@ namespace Wasmtime
 
         internal static WasmtimeException FromOwnedError(IntPtr error)
         {
+            Native.wasmtime_error_message(error, out var bytes);
+            Native.wasmtime_error_delete(error);
+
             unsafe
             {
-                Interop.wasmtime_error_message(error, out var bytes);
-                var message = Encoding.UTF8.GetString(bytes.data, (int)bytes.size);
-                Interop.wasm_byte_vec_delete(ref bytes);
-
-                Interop.wasmtime_error_delete(error);
-
-                return new WasmtimeException(message);
+                using (var message = bytes)
+                {
+                    return new WasmtimeException(Encoding.UTF8.GetString(message.data, (int)message.size));
+                }
             }
+        }
+
+        private static class Native
+        {
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_error_message(IntPtr error, out ByteArray message);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_error_delete(IntPtr error);
+
         }
     }
 }

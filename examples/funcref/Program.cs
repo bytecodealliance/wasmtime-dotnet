@@ -7,24 +7,45 @@ namespace Example
     {
         static void Main(string[] args)
         {
-            using var engine = new EngineBuilder()
-                .WithReferenceTypes(true)
-                .Build();
-
+            using var engine = new Engine(new Config().WithReferenceTypes(true));
             using var module = Module.FromTextFile(engine, "funcref.wat");
+            using var linker = new Linker(engine);
             using var store = new Store(engine);
-            using var host = new Host(store);
 
-            using var g = host.DefineFunction("", "g", (Function h) => { h.Invoke(); });
-            using var i = host.DefineFunction("", "i", () => Console.WriteLine("Called via a function reference!"));
+            linker.Define(
+                "",
+                "g",
+                Function.FromCallback(store, (Caller caller, Function h) => { h.Invoke(caller); })
+            );
 
-            using var func1 = Function.FromCallback(store, (string s) => Console.WriteLine($"First callback: {s}"));
-            using var func2 = Function.FromCallback(store, (string s) => Console.WriteLine($"Second callback: {s}"));
+            linker.Define(
+                "",
+                "i",
+                Function.FromCallback(store, () => Console.WriteLine("Called via a function reference!"))
+            );
 
-            using dynamic instance = host.Instantiate(module);
-            instance.call(func1, "Hello");
-            instance.call(func2, "world!");
-            instance.f();
+            var func1 = Function.FromCallback(store, (string s) => Console.WriteLine($"First callback: {s}"));
+            var func2 = Function.FromCallback(store, (string s) => Console.WriteLine($"Second callback: {s}"));
+
+            var instance = linker.Instantiate(store, module);
+
+            var call = instance.GetFunction(store, "call");
+            if (call is null)
+            {
+                Console.WriteLine("error: `call` export is missing");
+                return;
+            }
+
+            var f = instance.GetFunction(store, "f");
+            if (f is null)
+            {
+                Console.WriteLine("error: `f` export is missing");
+                return;
+            }
+
+            call.Invoke(store, func1, "Hello");
+            call.Invoke(store, func2, "Hello");
+            f.Invoke(store);
         }
     }
 }

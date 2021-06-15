@@ -9,22 +9,31 @@ namespace Example
         {
             using var engine = new Engine();
             using var module = Module.FromTextFile(engine, "table.wat");
+            using var linker = new Linker(engine);
             using var store = new Store(engine);
-            using var host = new Host(store);
 
-            using var table = host.DefineTable<Function>("", "table", null, 4);
+            var table = new Table(store, ValueKind.FuncRef, null, 4);
 
-            table[0] = Function.FromCallback(store, (int a, int b) => a + b);
-            table[1] = Function.FromCallback(store, (int a, int b) => a - b);
-            table[2] = Function.FromCallback(store, (int a, int b) => a * b);
-            table[3] = Function.FromCallback(store, (int a, int b) => a / b);
+            table.SetElement(store, 0, Function.FromCallback(store, (int a, int b) => a + b));
+            table.SetElement(store, 1, Function.FromCallback(store, (int a, int b) => a - b));
+            table.SetElement(store, 2, Function.FromCallback(store, (int a, int b) => a * b));
+            table.SetElement(store, 3, Function.FromCallback(store, (int a, int b) => a / b));
 
-            using dynamic instance = host.Instantiate(module);
+            linker.Define("", "table", table);
 
-            Console.WriteLine($"100 + 25 = {instance.call_indirect(0, 100, 25)}");
-            Console.WriteLine($"100 - 25 = {instance.call_indirect(1, 100, 25)}");
-            Console.WriteLine($"100 * 25 = {instance.call_indirect(2, 100, 25)}");
-            Console.WriteLine($"100 / 25 = {instance.call_indirect(3, 100, 25)}");
+            var instance = linker.Instantiate(store, module);
+
+            var call_indirect = instance.GetFunction(store, "call_indirect");
+            if (call_indirect is null)
+            {
+                Console.WriteLine("error: `call_indirect` export is missing");
+                return;
+            }
+
+            Console.WriteLine($"100 + 25 = {call_indirect.Invoke(store, 0, 100, 25)}");
+            Console.WriteLine($"100 - 25 = {call_indirect.Invoke(store, 1, 100, 25)}");
+            Console.WriteLine($"100 * 25 = {call_indirect.Invoke(store, 2, 100, 25)}");
+            Console.WriteLine($"100 / 25 = {call_indirect.Invoke(store, 3, 100, 25)}");
         }
     }
 }

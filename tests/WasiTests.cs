@@ -7,40 +7,37 @@ using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class WasiFixture : ModuleFixture
+    public class WasiTests
     {
-        protected override string ModuleFileName => "Wasi.wat";
-    }
-
-    public class WasiTests : IClassFixture<WasiFixture>, IDisposable
-    {
-        private Host Host { get; set; }
-
-        public WasiTests(WasiFixture fixture)
+        [Theory]
+        [InlineData("WasiSnapshot0.wat")]
+        [InlineData("Wasi.wat")]
+        public void ItHasNoEnvironmentByDefault(string path)
         {
-            Fixture = fixture;
-            Host = new Host(Fixture.Engine);
+            using var engine = new Engine();
+            using var module = Module.FromTextFile(engine, Path.Combine("Modules", path));
+            using var store = new Store(engine);
+            using var linker = new Linker(engine);
+
+            linker.DefineWasi();
+
+            store.SetWasiConfiguration(new WasiConfiguration());
+            var instance = linker.Instantiate(store, module);
+
+            var memory = instance.GetMemory(store, "memory");
+            memory.Should().NotBeNull();
+            var call_environ_sizes_get = instance.GetFunction(store, "call_environ_sizes_get");
+            call_environ_sizes_get.Should().NotBeNull();
+
+            Assert.Equal(0, call_environ_sizes_get.Invoke(store, 0, 4));
+            Assert.Equal(0, memory.ReadInt32(store, 0));
+            Assert.Equal(0, memory.ReadInt32(store, 4));
         }
 
-        private WasiFixture Fixture { get; set; }
-
-        [Fact]
-        public void ItHasNoEnvironmentByDefault()
-        {
-            Host.DefineWasi("wasi_snapshot_preview1");
-
-            using var instance = Host.Instantiate(Fixture.Module);
-            dynamic inst = instance;
-
-            var memory = instance.Memories[0];
-
-            Assert.Equal(0, inst.call_environ_sizes_get(0, 4));
-            Assert.Equal(0, memory.ReadInt32(0));
-            Assert.Equal(0, memory.ReadInt32(4));
-        }
-
-        [Fact]
-        public void ItHasSpecifiedEnvironment()
+        [Theory]
+        [InlineData("WasiSnapshot0.wat")]
+        [InlineData("Wasi.wat")]
+        public void ItHasSpecifiedEnvironment(string path)
         {
             var env = new Dictionary<string, string>() {
                 {"FOO", "BAR"},
@@ -51,59 +48,91 @@ namespace Wasmtime.Tests
             var config = new WasiConfiguration()
                 .WithEnvironmentVariables(env.Select(kvp => (kvp.Key, kvp.Value)));
 
-            Host.DefineWasi("wasi_snapshot_preview1", config);
+            using var engine = new Engine();
+            using var module = Module.FromTextFile(engine, Path.Combine("Modules", path));
+            using var store = new Store(engine);
+            using var linker = new Linker(engine);
 
-            using var instance = Host.Instantiate(Fixture.Module);
-            dynamic inst = instance;
+            linker.DefineWasi();
 
-            var memory = instance.Memories[0];
+            store.SetWasiConfiguration(config);
+            var instance = linker.Instantiate(store, module);
 
-            Assert.Equal(0, inst.call_environ_sizes_get(0, 4));
-            Assert.Equal(env.Count, memory.ReadInt32(0));
-            Assert.Equal(env.Sum(kvp => kvp.Key.Length + kvp.Value.Length + 2), memory.ReadInt32(4));
-            Assert.Equal(0, inst.call_environ_get(0, 4 * env.Count));
+            var memory = instance.GetMemory(store, "memory");
+            memory.Should().NotBeNull();
+            var call_environ_sizes_get = instance.GetFunction(store, "call_environ_sizes_get");
+            call_environ_sizes_get.Should().NotBeNull();
+            var call_environ_get = instance.GetFunction(store, "call_environ_get");
+            call_environ_sizes_get.Should().NotBeNull();
+
+            Assert.Equal(0, call_environ_sizes_get.Invoke(store, 0, 4));
+            Assert.Equal(env.Count, memory.ReadInt32(store, 0));
+            Assert.Equal(env.Sum(kvp => kvp.Key.Length + kvp.Value.Length + 2), memory.ReadInt32(store, 4));
+            Assert.Equal(0, call_environ_get.Invoke(store, 0, 4 * env.Count));
 
             for (int i = 0; i < env.Count; ++i)
             {
-                var kvp = memory.ReadNullTerminatedString(memory.ReadInt32(i * 4)).Split("=");
+                var kvp = memory.ReadNullTerminatedString(store, memory.ReadInt32(store, i * 4)).Split("=");
                 Assert.Equal(env[kvp[0]], kvp[1]);
             }
         }
 
-        [Fact]
-        public void ItInheritsEnvironment()
+        [Theory]
+        [InlineData("WasiSnapshot0.wat")]
+        [InlineData("Wasi.wat")]
+        public void ItInheritsEnvironment(string path)
         {
             var config = new WasiConfiguration()
                 .WithInheritedEnvironment();
 
-            Host.DefineWasi("wasi_snapshot_preview1", config);
+            using var engine = new Engine();
+            using var module = Module.FromTextFile(engine, Path.Combine("Modules", path));
+            using var store = new Store(engine);
+            using var linker = new Linker(engine);
 
-            using var instance = Host.Instantiate(Fixture.Module);
-            dynamic inst = instance;
+            linker.DefineWasi();
 
-            var memory = instance.Memories[0];
+            store.SetWasiConfiguration(config);
+            var instance = linker.Instantiate(store, module);
 
-            Assert.Equal(0, inst.call_environ_sizes_get(0, 4));
-            Assert.Equal(Environment.GetEnvironmentVariables().Keys.Count, memory.ReadInt32(0));
+            var memory = instance.GetMemory(store, "memory");
+            memory.Should().NotBeNull();
+            var call_environ_sizes_get = instance.GetFunction(store, "call_environ_sizes_get");
+            call_environ_sizes_get.Should().NotBeNull();
+
+            Assert.Equal(0, call_environ_sizes_get.Invoke(store, 0, 4));
+            Assert.Equal(Environment.GetEnvironmentVariables().Keys.Count, memory.ReadInt32(store, 0));
         }
 
-        [Fact]
-        public void ItHasNoArgumentsByDefault()
+        [Theory]
+        [InlineData("WasiSnapshot0.wat")]
+        [InlineData("Wasi.wat")]
+        public void ItHasNoArgumentsByDefault(string path)
         {
-            Host.DefineWasi("wasi_snapshot_preview1");
+            using var engine = new Engine();
+            using var module = Module.FromTextFile(engine, Path.Combine("Modules", path));
+            using var store = new Store(engine);
+            using var linker = new Linker(engine);
 
-            using var instance = Host.Instantiate(Fixture.Module);
-            dynamic inst = instance;
+            linker.DefineWasi();
 
-            var memory = instance.Memories[0];
+            store.SetWasiConfiguration(new WasiConfiguration());
+            var instance = linker.Instantiate(store, module);
 
-            Assert.Equal(0, inst.call_args_sizes_get(0, 4));
-            Assert.Equal(0, memory.ReadInt32(0));
-            Assert.Equal(0, memory.ReadInt32(4));
+            var memory = instance.GetMemory(store, "memory");
+            memory.Should().NotBeNull();
+            var call_args_sizes_get = instance.GetFunction(store, "call_args_sizes_get");
+            call_args_sizes_get.Should().NotBeNull();
+
+            Assert.Equal(0, call_args_sizes_get.Invoke(store, 0, 4));
+            Assert.Equal(0, memory.ReadInt32(store, 0));
+            Assert.Equal(0, memory.ReadInt32(store, 4));
         }
 
-        [Fact]
-        public void ItHasSpecifiedArguments()
+        [Theory]
+        [InlineData("WasiSnapshot0.wat")]
+        [InlineData("Wasi.wat")]
+        public void ItHasSpecifiedArguments(string path)
         {
             var args = new List<string>() {
                 "WASM",
@@ -115,44 +144,66 @@ namespace Wasmtime.Tests
             var config = new WasiConfiguration()
                 .WithArgs(args);
 
-            Host.DefineWasi("wasi_snapshot_preview1", config);
+            using var engine = new Engine();
+            using var module = Module.FromTextFile(engine, Path.Combine("Modules", path));
+            using var store = new Store(engine);
+            using var linker = new Linker(engine);
 
-            using var instance = Host.Instantiate(Fixture.Module);
-            dynamic inst = instance;
+            linker.DefineWasi();
 
-            var memory = instance.Memories[0];
+            store.SetWasiConfiguration(config);
+            var instance = linker.Instantiate(store, module);
 
-            Assert.Equal(0, inst.call_args_sizes_get(0, 4));
-            Assert.Equal(args.Count, memory.ReadInt32(0));
-            Assert.Equal(args.Sum(a => a.Length + 1), memory.ReadInt32(4));
-            Assert.Equal(0, inst.call_args_get(0, 4 * args.Count));
+            var memory = instance.GetMemory(store, "memory");
+            memory.Should().NotBeNull();
+            var call_args_sizes_get = instance.GetFunction(store, "call_args_sizes_get");
+            call_args_sizes_get.Should().NotBeNull();
+            var call_args_get = instance.GetFunction(store, "call_args_get");
+            call_args_get.Should().NotBeNull();
+
+            Assert.Equal(0, call_args_sizes_get.Invoke(store, 0, 4));
+            Assert.Equal(args.Count, memory.ReadInt32(store, 0));
+            Assert.Equal(args.Sum(a => a.Length + 1), memory.ReadInt32(store, 4));
+            Assert.Equal(0, call_args_get.Invoke(store, 0, 4 * args.Count));
 
             for (int i = 0; i < args.Count; ++i)
             {
-                var arg = memory.ReadNullTerminatedString(memory.ReadInt32(i * 4));
+                var arg = memory.ReadNullTerminatedString(store, memory.ReadInt32(store, i * 4));
                 Assert.Equal(args[i], arg);
             }
         }
 
-        [Fact]
-        public void ItInheritsArguments()
+        [Theory]
+        [InlineData("WasiSnapshot0.wat")]
+        [InlineData("Wasi.wat")]
+        public void ItInheritsArguments(string path)
         {
             var config = new WasiConfiguration()
                 .WithInheritedArgs();
 
-            Host.DefineWasi("wasi_snapshot_preview1", config);
+            using var engine = new Engine();
+            using var module = Module.FromTextFile(engine, Path.Combine("Modules", path));
+            using var store = new Store(engine);
+            using var linker = new Linker(engine);
 
-            using var instance = Host.Instantiate(Fixture.Module);
-            dynamic inst = instance;
+            linker.DefineWasi();
 
-            var memory = instance.Memories[0];
+            store.SetWasiConfiguration(config);
+            var instance = linker.Instantiate(store, module);
 
-            Assert.Equal(0, inst.call_args_sizes_get(0, 4));
-            Assert.Equal(Environment.GetCommandLineArgs().Length, memory.ReadInt32(0));
+            var memory = instance.GetMemory(store, "memory");
+            memory.Should().NotBeNull();
+            var call_args_sizes_get = instance.GetFunction(store, "call_args_sizes_get");
+            call_args_sizes_get.Should().NotBeNull();
+
+            Assert.Equal(0, call_args_sizes_get.Invoke(store, 0, 4));
+            Assert.Equal(Environment.GetCommandLineArgs().Length, memory.ReadInt32(store, 0));
         }
 
-        [Fact]
-        public void ItSetsStdIn()
+        [Theory]
+        [InlineData("WasiSnapshot0.wat")]
+        [InlineData("Wasi.wat")]
+        public void ItSetsStdIn(string path)
         {
             const string MESSAGE = "WASM IS VERY COOL";
 
@@ -162,24 +213,35 @@ namespace Wasmtime.Tests
             var config = new WasiConfiguration()
                 .WithStandardInput(file.Path);
 
-            Host.DefineWasi("wasi_snapshot_preview1", config);
+            using var engine = new Engine();
+            using var module = Module.FromTextFile(engine, Path.Combine("Modules", path));
+            using var store = new Store(engine);
+            using var linker = new Linker(engine);
 
-            using var instance = Host.Instantiate(Fixture.Module);
-            dynamic inst = instance;
+            linker.DefineWasi();
 
-            var memory = instance.Memories[0];
-            memory.WriteInt32(0, 8);
-            memory.WriteInt32(4, MESSAGE.Length);
+            store.SetWasiConfiguration(config);
+            var instance = linker.Instantiate(store, module);
 
-            Assert.Equal(0, inst.call_fd_read(0, 0, 1, 32));
-            Assert.Equal(MESSAGE.Length, memory.ReadInt32(32));
-            Assert.Equal(MESSAGE, memory.ReadString(8, MESSAGE.Length));
+            var memory = instance.GetMemory(store, "memory");
+            memory.Should().NotBeNull();
+            var call_fd_read = instance.GetFunction(store, "call_fd_read");
+            call_fd_read.Should().NotBeNull();
+
+            memory.WriteInt32(store, 0, 8);
+            memory.WriteInt32(store, 4, MESSAGE.Length);
+
+            Assert.Equal(0, call_fd_read.Invoke(store, 0, 0, 1, 32));
+            Assert.Equal(MESSAGE.Length, memory.ReadInt32(store, 32));
+            Assert.Equal(MESSAGE, memory.ReadString(store, 8, MESSAGE.Length));
         }
 
         [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        public void ItSetsStdOutAndStdErr(int fd)
+        [InlineData("WasiSnapshot0.wat", 1)]
+        [InlineData("WasiSnapshot0.wat", 2)]
+        [InlineData("Wasi.wat", 1)]
+        [InlineData("Wasi.wat", 2)]
+        public void ItSetsStdOutAndStdErr(string path, int fd)
         {
             const string MESSAGE = "WASM IS VERY COOL";
 
@@ -195,24 +257,37 @@ namespace Wasmtime.Tests
                 config.WithStandardError(file.Path);
             }
 
-            Host.DefineWasi("wasi_snapshot_preview1", config);
+            using var engine = new Engine();
+            using var module = Module.FromTextFile(engine, Path.Combine("Modules", path));
+            using var store = new Store(engine);
+            using var linker = new Linker(engine);
 
-            using var instance = Host.Instantiate(Fixture.Module);
-            dynamic inst = instance;
+            linker.DefineWasi();
 
-            var memory = instance.Memories[0];
-            memory.WriteInt32(0, 8);
-            memory.WriteInt32(4, MESSAGE.Length);
-            memory.WriteString(8, MESSAGE);
+            store.SetWasiConfiguration(config);
+            var instance = linker.Instantiate(store, module);
 
-            Assert.Equal(0, inst.call_fd_write(fd, 0, 1, 32));
-            Assert.Equal(MESSAGE.Length, memory.ReadInt32(32));
-            Assert.Equal(0, inst.call_fd_close(fd));
+            var memory = instance.GetMemory(store, "memory");
+            memory.Should().NotBeNull();
+            var call_fd_write = instance.GetFunction(store, "call_fd_write");
+            call_fd_write.Should().NotBeNull();
+            var call_fd_close = instance.GetFunction(store, "call_fd_close");
+            call_fd_close.Should().NotBeNull();
+
+            memory.WriteInt32(store, 0, 8);
+            memory.WriteInt32(store, 4, MESSAGE.Length);
+            memory.WriteString(store, 8, MESSAGE);
+
+            Assert.Equal(0, call_fd_write.Invoke(store, fd, 0, 1, 32));
+            Assert.Equal(MESSAGE.Length, memory.ReadInt32(store, 32));
+            Assert.Equal(0, call_fd_close.Invoke(store, fd));
             Assert.Equal(MESSAGE, File.ReadAllText(file.Path));
         }
 
-        [Fact]
-        public void ItSetsPreopenDirectories()
+        [Theory]
+        [InlineData("WasiSnapshot0.wat")]
+        [InlineData("Wasi.wat")]
+        public void ItSetsPreopenDirectories(string path)
         {
             const string MESSAGE = "WASM IS VERY COOL";
 
@@ -221,16 +296,30 @@ namespace Wasmtime.Tests
             var config = new WasiConfiguration()
                 .WithPreopenedDirectory(Path.GetDirectoryName(file.Path), "/foo");
 
-            Host.DefineWasi("wasi_snapshot_preview1", config);
+            using var engine = new Engine();
+            using var module = Module.FromTextFile(engine, Path.Combine("Modules", path));
+            using var store = new Store(engine);
+            using var linker = new Linker(engine);
 
-            using var instance = Host.Instantiate(Fixture.Module);
-            dynamic inst = instance;
+            linker.DefineWasi();
 
-            var memory = instance.Memories[0];
+            store.SetWasiConfiguration(config);
+            var instance = linker.Instantiate(store, module);
+
+            var memory = instance.GetMemory(store, "memory");
+            memory.Should().NotBeNull();
+            var call_path_open = instance.GetFunction(store, "call_path_open");
+            call_path_open.Should().NotBeNull();
+            var call_fd_write = instance.GetFunction(store, "call_fd_write");
+            call_fd_write.Should().NotBeNull();
+            var call_fd_close = instance.GetFunction(store, "call_fd_close");
+            call_fd_close.Should().NotBeNull();
+
             var fileName = Path.GetFileName(file.Path);
-            memory.WriteString(0, fileName);
+            memory.WriteString(store, 0, fileName);
 
-            Assert.Equal(0, inst.call_path_open(
+            Assert.Equal(0, call_path_open.Invoke(
+                    store,
                     3,
                     0,
                     0,
@@ -243,22 +332,17 @@ namespace Wasmtime.Tests
                 )
             );
 
-            var fileFd = (int)memory.ReadInt32(64);
+            var fileFd = (int)memory.ReadInt32(store, 64);
             Assert.True(fileFd > 3);
 
-            memory.WriteInt32(0, 8);
-            memory.WriteInt32(4, MESSAGE.Length);
-            memory.WriteString(8, MESSAGE);
+            memory.WriteInt32(store, 0, 8);
+            memory.WriteInt32(store, 4, MESSAGE.Length);
+            memory.WriteString(store, 8, MESSAGE);
 
-            Assert.Equal(0, inst.call_fd_write(fileFd, 0, 1, 64));
-            Assert.Equal(MESSAGE.Length, memory.ReadInt32(64));
-            Assert.Equal(0, inst.call_fd_close(fileFd));
+            Assert.Equal(0, call_fd_write.Invoke(store, fileFd, 0, 1, 64));
+            Assert.Equal(MESSAGE.Length, memory.ReadInt32(store, 64));
+            Assert.Equal(0, call_fd_close.Invoke(store, fileFd));
             Assert.Equal(MESSAGE, File.ReadAllText(file.Path));
-        }
-
-        public void Dispose()
-        {
-            Host.Dispose();
         }
     }
 }

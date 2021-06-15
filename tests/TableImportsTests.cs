@@ -24,7 +24,7 @@ namespace Wasmtime.Tests
         [MemberData(nameof(GetTableImports))]
         public void ItHasTheExpectedTableImports(string importModule, string importName, ValueKind expectedKind, uint expectedMinimum, uint expectedMaximum)
         {
-            var import = Fixture.Module.Imports.Tables.Where(f => f.ModuleName == importModule && f.Name == importName).FirstOrDefault();
+            var import = Fixture.Module.Imports.Where(f => f.ModuleName == importModule && f.Name == importName).FirstOrDefault() as TableImport;
             import.Should().NotBeNull();
             import.Kind.Should().Be(expectedKind);
             import.Minimum.Should().Be(expectedMinimum);
@@ -34,7 +34,7 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItHasTheExpectedNumberOfExportedTables()
         {
-            GetTableImports().Count().Should().Be(Fixture.Module.Imports.Tables.Count);
+            GetTableImports().Count().Should().Be(Fixture.Module.Imports.Count(i => i is TableImport));
         }
 
         public static IEnumerable<object[]> GetTableImports()

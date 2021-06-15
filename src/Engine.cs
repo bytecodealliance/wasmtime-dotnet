@@ -1,57 +1,81 @@
 using System;
-using System.IO;
-using System.Text;
-using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
 
 namespace Wasmtime
 {
     /// <summary>
-    /// Represents a WebAssembly engine.
+    /// Represents the Wasmtime engine.
     /// </summary>
     public class Engine : IDisposable
     {
+        internal const string LibraryName = "wasmtime";
+
         /// <summary>
         /// Constructs a new default engine.
         /// </summary>
         public Engine()
         {
-            _handle = Interop.wasm_engine_new();
+            handle = new Handle(Native.wasm_engine_new());
+        }
+
+        /// <summary>
+        /// Constructs a new engine using the given configuration.
+        /// </summary>
+        /// <param name="config">The configuration to use for the engine.</param>
+        /// <remarks>This method will dispose the given configuration.</remarks>
+        public Engine(Config config)
+        {
+            handle = new Handle(Native.wasm_engine_new_with_config(config.NativeHandle));
+            config.NativeHandle.SetHandleAsInvalid();
         }
 
         /// <inheritdoc/>
         public void Dispose()
         {
-            if (!_handle.IsInvalid)
-            {
-                _handle.Dispose();
-                _handle.SetHandleAsInvalid();
-            }
+            handle.Dispose();
         }
 
-        internal Engine(Interop.WasmConfigHandle config)
-        {
-            if (config.IsInvalid)
-            {
-                throw new WasmtimeException("Failed to create Wasmtime engine.");
-            }
-
-            _handle = Interop.wasm_engine_new_with_config(config);
-            config.SetHandleAsInvalid();
-        }
-
-        internal Interop.EngineHandle Handle
+        internal Handle NativeHandle
         {
             get
             {
-                if (_handle.IsInvalid)
+                if (handle.IsInvalid)
                 {
                     throw new ObjectDisposedException(typeof(Engine).FullName);
                 }
 
-                return _handle;
+                return handle;
             }
         }
 
-        private Interop.EngineHandle _handle;
+        internal class Handle : SafeHandleZeroOrMinusOneIsInvalid
+        {
+            public Handle(IntPtr handle)
+                : base(true)
+            {
+                SetHandle(handle);
+            }
+
+            protected override bool ReleaseHandle()
+            {
+                Native.wasm_engine_delete(handle);
+                return true;
+            }
+        }
+
+        private static class Native
+        {
+            [DllImport(LibraryName)]
+            public static extern IntPtr wasm_engine_new();
+
+            [DllImport(LibraryName)]
+            public static extern IntPtr wasm_engine_new_with_config(Config.Handle config);
+
+            [DllImport(LibraryName)]
+            public static extern void wasm_engine_delete(IntPtr engine);
+        }
+
+        private readonly Handle handle;
     }
 }

@@ -9,20 +9,29 @@ namespace Example
         {
             using var engine = new Engine();
             using var module = Module.FromTextFile(engine, "memory.wat");
-            using var host = new Host(engine);
+            using var linker = new Linker(engine);
+            using var store = new Store(engine);
 
-            using var function = host.DefineFunction(
+            linker.Define(
                 "",
                 "log",
-                (Caller caller, int address, int length) =>
+                Function.FromCallback(store, (Caller caller, int address, int length) =>
                 {
-                    var message = caller.GetMemory("mem").ReadString(address, length);
+                    var message = caller.GetMemory("mem").ReadString(caller, address, length);
                     Console.WriteLine($"Message from WebAssembly: {message}");
                 }
-            );
+            ));
 
-            using dynamic instance = host.Instantiate(module);
-            instance.run();
+            var instance = linker.Instantiate(store, module);
+
+            var run = instance.GetFunction(store, "run");
+            if (run is null)
+            {
+                Console.WriteLine("error: run export is missing");
+                return;
+            }
+
+            run.Invoke(store);
         }
     }
 }

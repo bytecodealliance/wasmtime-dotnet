@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using FluentAssertions;
 using Xunit;
 
@@ -16,18 +14,21 @@ namespace Wasmtime.Tests
         public FuncRefTests(FuncRefFixture fixture)
         {
             Fixture = fixture;
+            Linker = new Linker(Fixture.Engine);
             Store = new Store(Fixture.Engine);
-            Host = new Host(Store);
 
-            Callback = Host.DefineFunction("", "callback", (Function f) => f.Invoke("testing"));
-            Assert = Host.DefineFunction("", "assert", (string s) => { s.Should().Be("testing"); return "asserted!"; });
+            Callback = Function.FromCallback(Store, (Caller caller, Function f) => f.Invoke(caller, "testing"));
+            Assert = Function.FromCallback(Store, (string s) => { s.Should().Be("testing"); return "asserted!"; });
+
+            Linker.Define("", "callback", Callback);
+            Linker.Define("", "assert", Assert);
         }
 
         private FuncRefFixture Fixture { get; set; }
 
         private Store Store { get; set; }
 
-        private Host Host { get; set; }
+        private Linker Linker { get; set; }
 
         private Function Callback { get; set; }
 
@@ -36,26 +37,29 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItPassesFunctionReferencesToWasm()
         {
-            using var func = Function.FromCallback(Store, (string s) => Assert.Invoke(s));
-            using dynamic instance = Host.Instantiate(Fixture.Module);
+            var f = Function.FromCallback(Store, (Caller caller, string s) => Assert.Invoke(caller, s));
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var func = instance.GetFunction(Store, "call_nested");
 
-            (instance.call_nested(Callback, func) as string).Should().Be("asserted!");
+            (func.Invoke(Store, Callback, f) as string).Should().Be("asserted!");
         }
 
         [Fact]
         public void ItAcceptsFunctionReferences()
         {
-            using dynamic instance = Host.Instantiate(Fixture.Module);
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var func = instance.GetFunction(Store, "call_callback");
 
-            (instance.call_callback() as string).Should().Be("asserted!");
+            (func.Invoke(Store) as string).Should().Be("asserted!");
         }
 
         [Fact]
         public void ItThrowsForInvokingANullFunctionReference()
         {
-            using dynamic instance = Host.Instantiate(Fixture.Module);
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var func = instance.GetFunction(Store, "call_with_null");
 
-            Action action = () => instance.call_with_null();
+            Action action = () => func.Invoke(Store);
 
             action
                 .Should()
@@ -66,9 +70,7 @@ namespace Wasmtime.Tests
         public void Dispose()
         {
             Store.Dispose();
-            Host.Dispose();
-            Callback.Dispose();
-            Assert.Dispose();
+            Linker.Dispose();
         }
     }
 }

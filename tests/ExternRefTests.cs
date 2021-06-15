@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using FluentAssertions;
 using Xunit;
 
@@ -16,31 +14,43 @@ namespace Wasmtime.Tests
         public ExternRefTests(ExternRefFixture fixture)
         {
             Fixture = fixture;
-            Host = new Host(Fixture.Engine);
+            Linker = new Linker(Fixture.Engine);
+            Store = new Store(Fixture.Engine);
 
-            Host.DefineFunction("", "inout", (object o) => o);
+            Linker.Define("", "inout", Function.FromCallback(Store, (object o) => o));
         }
 
         private ExternRefFixture Fixture { get; set; }
 
-        private Host Host { get; set; }
+        private Store Store { get; set; }
+
+        private Linker Linker { get; set; }
 
         [Fact]
         public void ItReturnsTheSameDotnetReference()
         {
-            using dynamic instance = Host.Instantiate(Fixture.Module);
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+
+            var inout = instance.GetFunction(Store, "inout");
+            inout.Should().NotBeNull();
 
             var input = "input";
-            (instance.inout(input) as string).Should().BeSameAs(input);
+            (inout.Invoke(Store, input) as string).Should().BeSameAs(input);
         }
 
         [Fact]
         public void ItHandlesNullReferences()
         {
-            using dynamic instance = Host.Instantiate(Fixture.Module);
+            var instance = Linker.Instantiate(Store, Fixture.Module);
 
-            (instance.inout(null) as object).Should().BeNull();
-            (instance.nullref() as object).Should().BeNull();
+            var inout = instance.GetFunction(Store, "inout");
+            inout.Should().NotBeNull();
+
+            var nullref = instance.GetFunction(Store, "nullref");
+            inout.Should().NotBeNull();
+
+            (inout.Invoke(Store, null)).Should().BeNull();
+            (nullref.Invoke(Store)).Should().BeNull();
         }
 
         unsafe class Value
@@ -74,27 +84,32 @@ namespace Wasmtime.Tests
 
             void RunTest(int* counter)
             {
-                // Use a separate host that can be disposed within this test
-                // TODO: for > 0.19.0, trigger a Wasmtime GC manually on the same host
-                using var host = new Host(Fixture.Engine);
-                using var function = host.DefineFunction("", "inout", (object o) => o);
-                using dynamic instance = host.Instantiate(Fixture.Module);
+                var instance = Linker.Instantiate(Store, Fixture.Module);
 
+                var inout = instance.GetFunction(Store, "inout");
+                inout.Should().NotBeNull();
                 for (int i = 0; i < 100; ++i)
                 {
-                    instance.inout(new Value(counter));
+                    inout.Invoke(Store, new Value(counter));
                 }
+
+                Store.Dispose();
+                Store = null;
             }
         }
 
         [Fact]
         public void ItThrowsForMismatchedTypes()
         {
-            using var host = new Host(Fixture.Engine);
-            using var function = host.DefineFunction("", "inout", (string o) => o);
-            using dynamic instance = host.Instantiate(Fixture.Module);
+            Linker.AllowShadowing = true;
+            Linker.Define("", "inout", Function.FromCallback(Store, (string o) => o));
 
-            Action action = () => instance.inout((object)5);
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+
+            var inout = instance.GetFunction(Store, "inout");
+            inout.Should().NotBeNull();
+
+            Action action = () => inout.Invoke(Store, (object)5);
 
             action
                 .Should()
@@ -104,7 +119,11 @@ namespace Wasmtime.Tests
 
         public void Dispose()
         {
-            Host.Dispose();
+            if (Store != null)
+            {
+                Store.Dispose();
+            }
+            Linker.Dispose();
         }
     }
 }

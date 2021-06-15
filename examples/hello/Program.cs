@@ -9,16 +9,25 @@ namespace Example
         {
             using var engine = new Engine();
             using var module = Module.FromTextFile(engine, "hello.wat");
-            using var host = new Host(engine);
+            using var linker = new Linker(engine);
+            using var store = new Store(engine);
 
-            using var function = host.DefineFunction(
+            linker.Define(
                 "",
                 "hello",
-                () => Console.WriteLine("Hello from C#, WebAssembly!")
+                Function.FromCallback(store, () => Console.WriteLine("Hello from C#, WebAssembly!"))
             );
 
-            using dynamic instance = host.Instantiate(module);
-            instance.run();
+            var instance = linker.Instantiate(store, module);
+
+            var run = instance.GetFunction(store, "run");
+            if (run is null)
+            {
+                Console.WriteLine("error: run export is missing");
+                return;
+            }
+
+            run.Invoke(store);
         }
     }
 }

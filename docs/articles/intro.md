@@ -66,31 +66,37 @@ namespace Tutorial
         static void Main(string[] args)
         {
             using var engine = new Engine();
+
             using var module = Module.FromText(
                 engine,
                 "hello",
                 "(module (func $hello (import \"\" \"hello\")) (func (export \"run\") (call $hello)))"
             );
-            using var host = new Host(engine);
 
-            using var function = host.DefineFunction(
+            using var linker = new Linker(engine);
+            using var store = new Store(engine);
+
+            linker.Define(
                 "",
                 "hello",
-                () => Console.WriteLine("Hello from C#!")
+                Function.FromCallback(store, () => Console.WriteLine("Hello from C#!"))
             );
 
-            using dynamic instance = host.Instantiate(module);
-            instance.run();
+            var instance = linker.Instantiate(store, module);
+            var run = instance.GetFunction(store, "run");
+            run?.Invoke(store);
         }
     }
 }
 ```
 
-The [`Host`](https://bytecodealliance.github.io/wasmtime-dotnet/api/Wasmtime.Host.html) class is responsible for providing an environment that WebAssembly modules can execute in.
+The [`Linker`](https://bytecodealliance.github.io/wasmtime-dotnet/api/Wasmtime.Linker.html) class is responsible for linking in hose defined functions, such as `hello` in this example.
 
-Here we are creating a host that is defining a function named `hello` that simply prints `Hello from C#!` when called from WebAssembly.
+Here we are defining a function named `hello` that simply prints `Hello from C#!` when called from WebAssembly.
 
-A WebAssembly module _instantiation_ is the stateful representation of a module that can be executed.  Here, the code is casting the [`Instance`](https://bytecodealliance.github.io/wasmtime-dotnet/api/Wasmtime.Instance.html) to [`dynamic`](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/types/using-type-dynamic) which allows us to easily invoke the `run` function that was exported by the WebAssembly module.
+A WebAssembly module _instantiation_ is the stateful representation of a module that can be executed.
+
+This code is calling the `run` function defined in WebAssembly that is exported by the instance; this function then calls the `hello` function defined in C#.
 
 ## Building the .NET application
 

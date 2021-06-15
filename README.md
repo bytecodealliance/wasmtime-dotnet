@@ -63,7 +63,7 @@ Replace the contents of `Program.cs` with the following code:
 using System;
 using Wasmtime;
 
-namespace Tutorial
+namespace WasmIntro
 {
     class Program
     {
@@ -72,21 +72,23 @@ namespace Tutorial
             using var engine = new Engine();
 
             using var module = Module.FromText(
-              engine,
-              "hello",
-              "(module (func $hello (import \"\" \"hello\")) (func (export \"run\") (call $hello)))"
+                engine,
+                "hello",
+                "(module (func $hello (import \"\" \"hello\")) (func (export \"run\") (call $hello)))"
             );
 
-            using var host = new Host(engine);
+            using var linker = new Linker(engine);
+            using var store = new Store(engine);
 
-            using var function = host.DefineFunction(
+            linker.Define(
                 "",
                 "hello",
-                () => Console.WriteLine("Hello from C#!")
+                Function.FromCallback(store, () => Console.WriteLine("Hello from C#!"))
             );
 
-            using dynamic instance = host.Instantiate(module);
-            instance.run();
+            var instance = linker.Instantiate(store, module);
+            var run = instance.GetFunction(store, "run");
+            run?.Invoke(store);
         }
     }
 }
@@ -94,9 +96,9 @@ namespace Tutorial
 
 An `Engine` is created and then a WebAssembly module is loaded from a string in WebAssembly text format.
 
-A `Host` defines a function called `hello` that simply prints a hello message.
+A `Linker` defines a function called `hello` that simply prints a hello message.
 
-The module is instantiated into the host and the module's `run` export is invoked.
+The module is instantiated and the instance's `run` export is invoked.
 
 To run the application, simply use `dotnet`:
 

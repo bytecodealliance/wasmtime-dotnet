@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Text;
 
@@ -13,18 +14,18 @@ namespace Wasmtime
     {
         unsafe internal TrapFrame(IntPtr frame)
         {
-            FunctionOffset = (int)Interop.wasm_frame_func_offset(frame);
+            FunctionOffset = (int)Native.wasm_frame_func_offset(frame);
             FunctionName = null;
-            ModuleOffset = (int)Interop.wasm_frame_module_offset(frame);
+            ModuleOffset = (int)Native.wasm_frame_module_offset(frame);
             ModuleName = null;
 
-            var bytes = Interop.wasmtime_frame_func_name(frame);
+            var bytes = Native.wasmtime_frame_func_name(frame);
             if (bytes != null && (int)bytes->size > 0)
             {
                 FunctionName = Encoding.UTF8.GetString(bytes->data, (int)bytes->size);
             }
 
-            bytes = Interop.wasmtime_frame_module_name(frame);
+            bytes = Native.wasmtime_frame_module_name(frame);
             if (bytes != null && (int)bytes->size > 0)
             {
                 ModuleName = Encoding.UTF8.GetString(bytes->data, (int)bytes->size);
@@ -50,6 +51,21 @@ namespace Wasmtime
         /// Gets the frame's module name.
         /// </summary>
         public string? ModuleName { get; private set; }
+
+        private static class Native
+        {
+            [DllImport(Engine.LibraryName)]
+            public static extern UIntPtr wasm_frame_func_offset(IntPtr frame);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern UIntPtr wasm_frame_module_offset(IntPtr frame);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern unsafe ByteArray* wasmtime_frame_func_name(IntPtr frame);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern unsafe ByteArray* wasmtime_frame_module_name(IntPtr frame);
+        }
     }
 
     /// <summary>
@@ -84,7 +100,7 @@ namespace Wasmtime
         {
             unsafe
             {
-                Interop.wasm_trap_message(trap, out var bytes);
+                Native.wasm_trap_message(trap, out var bytes);
                 var byteSpan = new ReadOnlySpan<byte>(bytes.data, checked((int)bytes.size));
 
                 int indexOfNull = byteSpan.LastIndexOf((byte)0);
@@ -94,22 +110,48 @@ namespace Wasmtime
                 }
 
                 var message = Encoding.UTF8.GetString(byteSpan);
-                Interop.wasm_byte_vec_delete(ref bytes);
+                bytes.Dispose();
 
-                Interop.wasm_trap_trace(trap, out var frames);
+                Native.wasm_trap_trace(trap, out var frames);
 
                 var trapFrames = new List<TrapFrame>((int)frames.size);
                 for (int i = 0; i < (int)frames.size; ++i)
                 {
                     trapFrames.Add(new TrapFrame(frames.data[i]));
                 }
+                frames.Dispose();
 
-                Interop.wasm_frame_vec_delete(ref frames);
-
-                Interop.wasm_trap_delete(trap);
+                Native.wasm_trap_delete(trap);
 
                 return new TrapException(message, trapFrames);
             }
+        }
+
+        private static class Native
+        {
+            [StructLayout(LayoutKind.Sequential)]
+            public unsafe struct FrameArray : IDisposable
+            {
+                public UIntPtr size;
+                public IntPtr* data;
+
+                public void Dispose()
+                {
+                    Native.wasm_frame_vec_delete(this);
+                }
+            }
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasm_trap_message(IntPtr trap, out ByteArray message);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasm_trap_trace(IntPtr trap, out FrameArray message);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasm_trap_delete(IntPtr trap);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasm_frame_vec_delete(in FrameArray vec);
         }
     }
 }

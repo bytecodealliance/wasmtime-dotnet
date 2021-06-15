@@ -7,25 +7,30 @@ namespace Example
     {
         static void Main(string[] args)
         {
-            using var engine = new EngineBuilder().WithModuleLinking(true).Build();
-            using var module = Module.FromTextFile(engine, "name.wat");
+            using var engine = new Engine(new Config().WithModuleLinking(true));
+            using var name = Module.FromTextFile(engine, "name.wat");
             using var program = Module.FromTextFile(engine, "program.wat");
-
+            using var linker = new Linker(engine);
             using var store = new Store(engine);
-            using var host = new Host(store);
 
-            using var memory = host.DefineMemory("", "mem");
-
-            host.DefineInstance("", "inst", module.Instantiate(store, memory));
-
-            host.DefineFunction("", "print", (Caller caller, int addr, int len) =>
+            var memory = new Memory(store, 1);
+            linker.Define("", "mem", memory);
+            linker.Define("", "inst", linker.Instantiate(store, name));
+            linker.Define("", "print", Function.FromCallback(store, (Caller caller, int addr, int len) =>
             {
-                Console.WriteLine(caller.GetMemory("mem").ReadString(addr, len));
-            });
+                Console.WriteLine(caller.GetMemory("mem").ReadString(caller, addr, len));
+            }));
 
-            using dynamic instance = host.Instantiate(program);
+            var instance = linker.Instantiate(store, program);
 
-            instance.run();
+            var run = instance.GetFunction(store, "run");
+            if (run is null)
+            {
+                Console.WriteLine("error: run export is missing");
+                return;
+            }
+
+            run.Invoke(store);
         }
     }
 }

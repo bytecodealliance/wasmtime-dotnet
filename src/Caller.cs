@@ -1,82 +1,84 @@
 using System;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Wasmtime
 {
     /// <summary>
-    /// Represents an exported memory of a host function caller.
+    /// Represents caller information for a function.
     /// </summary>
-    public class CallerMemory : MemoryBase, IDisposable
+    public class Caller : IStore, IDisposable
     {
-        /// <inheritdoc/>
-        public void Dispose()
+        internal Caller(IntPtr handle)
         {
-            if (!_extern.IsInvalid)
+            if (handle == IntPtr.Zero)
             {
-                _extern.Dispose();
-                _extern.SetHandleAsInvalid();
+                throw new InvalidOperationException();
             }
+
+            this.handle = handle;
         }
 
-        internal CallerMemory(Interop.ExternHandle ext, IntPtr memory)
-        {
-            _extern = ext;
-            _memory = memory;
-        }
-
-        /// <inheritdoc/>
-        protected override IntPtr MemoryHandle => _memory;
-
-        private Interop.ExternHandle _extern;
-
-        private IntPtr _memory;
-    }
-
-    /// <summary>
-    /// Represents information of the caller of a host function.
-    /// </summary>
-    public class Caller
-    {
         /// <summary>
         /// Gets an exported memory of the caller by the given name.
         /// </summary>
         /// <param name="name">The name of the exported memory.</param>
         /// <returns>Returns the exported memory if found or null if a memory of the requested name is not exported.</returns>
-        public CallerMemory? GetMemory(string name)
+        public Memory? GetMemory(string name)
         {
-            if (Handle == IntPtr.Zero)
-            {
-                throw new InvalidOperationException();
-            }
-
             unsafe
             {
                 var bytes = Encoding.UTF8.GetBytes(name);
 
                 fixed (byte* ptr = bytes)
                 {
-                    Interop.wasm_byte_vec_t nameVec = new Interop.wasm_byte_vec_t();
-                    nameVec.size = (UIntPtr)bytes.Length;
-                    nameVec.data = ptr;
-
-                    var export = Interop.wasmtime_caller_export_get(Handle, ref nameVec);
-                    if (export.IsInvalid)
+                    if (!Native.wasmtime_caller_export_get(NativeHandle, ptr, (UIntPtr)bytes.Length, out var item))
                     {
                         return null;
                     }
 
-                    var memory = Interop.wasm_extern_as_memory(export.DangerousGetHandle());
-                    if (memory == IntPtr.Zero)
+                    if (item.kind != ExternKind.Memory)
                     {
-                        export.Dispose();
+                        item.Dispose();
                         return null;
                     }
 
-                    return new CallerMemory(export, memory);
+                    return new Memory(((IStore)this).Context, item.of.memory);
                 }
             }
         }
 
-        internal IntPtr Handle { get; set; }
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            this.handle = IntPtr.Zero;
+        }
+
+        private IntPtr NativeHandle
+        {
+            get
+            {
+                if (this.handle == IntPtr.Zero)
+                {
+                    throw new ObjectDisposedException(typeof(Caller).FullName);
+                }
+
+                return this.handle;
+            }
+        }
+
+        StoreContext IStore.Context => new StoreContext(Native.wasmtime_caller_context(NativeHandle));
+
+        private static class Native
+        {
+            [DllImport(Engine.LibraryName)]
+            [return: MarshalAs(UnmanagedType.I1)]
+            public static unsafe extern bool wasmtime_caller_export_get(IntPtr caller, byte* name, UIntPtr len, out Extern item);
+
+            [DllImport(Engine.LibraryName)]
+            public static unsafe extern IntPtr wasmtime_caller_context(IntPtr caller);
+        }
+
+        private IntPtr handle;
     }
 }

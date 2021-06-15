@@ -44,15 +44,20 @@ namespace Simple
         [Benchmark]
         public void SayHello()
         {
-            using var host = new Host(_engine);
+            using var linker = new Linker(_engine);
+            using var store = new Store(_engine);
 
-            using var function = host.DefineFunction("", "hello", () => { });
+            linker.Define("", "hello", Function.FromCallback(store ,() => { }));
+            linker.Define("", "memory", new Memory(store, 3));
 
-            // Define a memory to add memory pressure if not disposed in the benchmark test
-            using var memory = host.DefineMemory("", "memory", 3);
-
-            using dynamic instance = host.Instantiate(_module);
-            instance.run();
+            var instance = linker.Instantiate(store, _module);
+            var run = instance.GetFunction(store, "run");
+            if (run == null)
+            {
+                throw new InvalidOperationException();
+            }
+            
+            run.Invoke(store);
         }
 
         private Engine _engine;

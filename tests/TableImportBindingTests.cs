@@ -11,24 +11,23 @@ namespace Wasmtime.Tests
 
     public class TableImportBindingTests : IClassFixture<TableImportBindingFixture>, IDisposable
     {
+        private TableImportBindingFixture Fixture { get; set; }
         private Store Store { get; set; }
-        private Host Host { get; set; }
+        private Linker Linker { get; set; }
 
         public TableImportBindingTests(TableImportBindingFixture fixture)
         {
             Fixture = fixture;
             Store = new Store(Fixture.Engine);
-            Host = new Host(Store);
+            Linker = new Linker(Fixture.Engine);
 
-            Host.DefineFunction("", "assert", (string s1, string s2) => { s1.Should().Be(s2); });
+            Linker.Define("", "assert", Function.FromCallback(Store, (string s1, string s2) => { s1.Should().Be(s2); }));
         }
-
-        private TableImportBindingFixture Fixture { get; set; }
 
         [Fact]
         public void ItFailsToInstantiateWithMissingImport()
         {
-            Action action = () => { using var instance = Host.Instantiate(Fixture.Module); };
+            Action action = () => { Linker.Instantiate(Store, Fixture.Module); };
 
             action
                 .Should()
@@ -39,28 +38,56 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItFailsToInstantiateWithTableTypeMismatch()
         {
-            Host.DefineTable<string>("", "funcs", null, 1);
-            Host.DefineTable<string>("", "externs", null, 1);
-            Action action = () => { using var instance = Host.Instantiate(Fixture.Module); };
+            var funcs = new Table(Store, ValueKind.ExternRef, null, 10);
+            var externs = new Table(Store, ValueKind.ExternRef, null, 10);
+
+            Linker.Define("", "funcs", funcs);
+            Linker.Define("", "externs", externs);
+
+            Action action = () => { Linker.Instantiate(Store, Fixture.Module); };
 
             action
                 .Should()
                 .Throw<WasmtimeException>()
-                .WithMessage("*table types incompatible*");
+                .WithMessage("incompatible import type for `::funcs`*");
+        }
+
+        [Fact]
+        public void ItFailsToInstantiateWithTableLimitsMismatch()
+        {
+            var funcs = new Table(Store, ValueKind.FuncRef, null, 10);
+            var externs = new Table(Store, ValueKind.ExternRef, null, 1);
+
+            Linker.Define("", "funcs", funcs);
+            Linker.Define("", "externs", externs);
+
+            Action action = () => { Linker.Instantiate(Store, Fixture.Module); };
+
+            action
+                .Should()
+                .Throw<WasmtimeException>()
+                .WithMessage("incompatible import type for `::externs`*");
         }
 
         [Fact]
         public void ItBindsTheTableCorrectly()
         {
-            using var funcs = Host.DefineTable<Function>("", "funcs", null, 10);
-            using var externs = Host.DefineTable<string>("", "externs", null, 10);
+            var funcs = new Table(Store, ValueKind.FuncRef, null, 10);
+            var externs = new Table(Store, ValueKind.ExternRef, null, 10);
 
-            using dynamic instance = Host.Instantiate(Fixture.Module);
+            Linker.Define("", "funcs", funcs);
+            Linker.Define("", "externs", externs);
+
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var is_null_func = instance.GetFunction(Store, "is_null_extern");
+            var is_null_extern = instance.GetFunction(Store, "is_null_extern");
+            var call = instance.GetFunction(Store, "call");
+            var assert_extern = instance.GetFunction(Store, "assert_extern");
 
             for (int i = 0; i < 10; ++i)
             {
-                Convert.ToBoolean(instance.is_null_func(i) as object).Should().BeTrue();
-                Convert.ToBoolean(instance.is_null_extern(i) as object).Should().BeTrue();
+                Convert.ToBoolean(is_null_func.Invoke(Store, i)).Should().BeTrue();
+                Convert.ToBoolean(is_null_extern.Invoke(Store, i)).Should().BeTrue();
             }
 
             var called = new bool[10];
@@ -68,24 +95,24 @@ namespace Wasmtime.Tests
             for (int i = 0; i < 10; ++i)
             {
                 int index = i;
-                funcs[(uint)i] = Function.FromCallback(Store, () => { called[index] = true; });
-                externs[(uint)i] = string.Format("string{0}", i);
+                funcs.SetElement(Store, (uint)i, Function.FromCallback(Store, () => { called[index] = true; }));
+                externs.SetElement(Store, (uint)i, string.Format("string{0}", i));
             }
 
             for (int i = 0; i < 10; ++i)
             {
-                Convert.ToBoolean(instance.is_null_func(i) as object).Should().BeFalse();
-                Convert.ToBoolean(instance.is_null_extern(i) as object).Should().BeFalse();
-                instance.call(i);
-                instance.assert_extern(i, string.Format("string{0}", i));
-                funcs[(uint)i] = Function.Null;
-                externs[(uint)i] = null;
+                Convert.ToBoolean(is_null_func.Invoke(Store, i)).Should().BeFalse();
+                Convert.ToBoolean(is_null_extern.Invoke(Store, i)).Should().BeFalse();
+                call.Invoke(Store, i);
+                assert_extern.Invoke(Store, i, string.Format("string{0}", i));
+                funcs.SetElement(Store, (uint)i, Function.Null);
+                externs.SetElement(Store, (uint)i, null);
             }
 
             for (int i = 0; i < 10; ++i)
             {
-                Convert.ToBoolean(instance.is_null_func(i) as object).Should().BeTrue();
-                Convert.ToBoolean(instance.is_null_extern(i) as object).Should().BeTrue();
+                Convert.ToBoolean(is_null_func.Invoke(Store, i)).Should().BeTrue();
+                Convert.ToBoolean(is_null_extern.Invoke(Store, i)).Should().BeTrue();
                 called[i].Should().BeTrue();
             }
         }
@@ -93,34 +120,50 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItGrowsATable()
         {
-            using var funcs = Host.DefineTable<Function>("", "funcs", null, 10, 20);
-            using var externs = Host.DefineTable<string>("", "externs", null, 10, 20);
+            var funcs = new Table(Store, ValueKind.FuncRef, null, 10, 20);
+            var externs = new Table(Store, ValueKind.ExternRef, null, 10, 20);
 
-            using dynamic instance = Host.Instantiate(Fixture.Module);
+            Linker.Define("", "funcs", funcs);
+            Linker.Define("", "externs", externs);
 
-            funcs.Size.Should().Be(10);
-            externs.Size.Should().Be(10);
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var grow_funcs = instance.GetFunction(Store, "grow_funcs");
+            var grow_externs = instance.GetFunction(Store, "grow_externs");
 
-            instance.grow_funcs(5);
-            instance.grow_externs(5);
+            funcs.GetSize(Store).Should().Be(10);
+            externs.GetSize(Store).Should().Be(10);
 
-            funcs.Size.Should().Be(15);
-            externs.Size.Should().Be(15);
+            grow_funcs.Invoke(Store, 5);
+            grow_externs.Invoke(Store, 3);
 
-            funcs.Grow(5, null).Should().Be(true);
-            externs.Grow(5, null).Should().Be(true);
+            funcs.GetSize(Store).Should().Be(15);
+            externs.GetSize(Store).Should().Be(13);
 
-            funcs.Size.Should().Be(20);
-            externs.Size.Should().Be(20);
+            funcs.Grow(Store, 5, null).Should().Be(15);
+            externs.Grow(Store, 5, null).Should().Be(13);
 
-            funcs.Grow(5, null).Should().Be(false);
-            externs.Grow(5, null).Should().Be(false);
+            funcs.GetSize(Store).Should().Be(20);
+            externs.GetSize(Store).Should().Be(18);
+
+            Action action = () => { funcs.Grow(Store, 5, null); };
+
+            action
+                .Should()
+                .Throw<WasmtimeException>()
+                .WithMessage("failed to grow table by `5`");
+
+            action = () => { externs.Grow(Store, 3, null); };
+
+            action
+                .Should()
+                .Throw<WasmtimeException>()
+                .WithMessage("failed to grow table by `3`");
         }
 
         public void Dispose()
         {
             Store.Dispose();
-            Host.Dispose();
+            Linker.Dispose();
         }
     }
 }

@@ -9,21 +9,32 @@ namespace Example
         {
             using var engine = new Engine();
             using var module = Module.FromTextFile(engine, "global.wat");
-            using var host = new Host(engine);
+            using var linker = new Linker(engine);
+            using var store = new Store(engine);
 
-            using var global = host.DefineMutableGlobal("", "global", 1);
+            var global = new Global(store, ValueKind.Int32, 1, Mutability.Mutable);
 
-            using var function = host.DefineFunction(
+            linker.Define("", "global", global);
+
+            linker.Define(
                 "",
                 "print_global",
-                () =>
+                Function.FromCallback(store, (Caller caller) =>
                 {
-                    Console.WriteLine($"The value of the global is: {global.Value}.");
+                    Console.WriteLine($"The value of the global is: {global.GetValue(caller)}.");
                 }
-            );
+            ));
 
-            using dynamic instance = host.Instantiate(module);
-            instance.run(20);
+            var instance = linker.Instantiate(store, module);
+
+            var run = instance.GetFunction(store, "run");
+            if (run is null)
+            {
+                Console.WriteLine("error: run export is missing");
+                return;
+            }
+
+            run.Invoke(store, 20);
         }
     }
 }
