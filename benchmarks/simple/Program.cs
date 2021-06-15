@@ -47,18 +47,17 @@ namespace Simple
             using var linker = new Linker(_engine);
             using var store = new Store(_engine);
 
-            var context = store.Context;
-            linker.Define("", "hello", Function.FromCallback(context ,() => { }));
-            linker.Define("", "memory", new Memory(context, 3));
+            linker.Define("", "hello", Function.FromCallback(store ,() => { }));
+            linker.Define("", "memory", new Memory(store, 3));
 
-            var instance = linker.Instantiate(context, _module);
-            var run = instance.GetFunction(context, "run");
+            var instance = linker.Instantiate(store, _module);
+            var run = instance.GetFunction(store, "run");
             if (run == null)
             {
                 throw new InvalidOperationException();
             }
             
-            run.Invoke(context);
+            run.Invoke(store);
         }
 
         private Engine _engine;

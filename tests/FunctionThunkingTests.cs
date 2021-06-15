@@ -23,13 +23,12 @@ namespace Wasmtime.Tests
             Linker = new Linker(Fixture.Engine);
             Store = new Store(Fixture.Engine);
 
-            var context = Store.Context;
-            Linker.Define("env", "add", Function.FromCallback(context, (int x, int y) => x + y));
-            Linker.Define("env", "swap", Function.FromCallback(context, (int x, int y) => (y, x)));
-            Linker.Define("env", "do_throw", Function.FromCallback(context, () => throw new Exception(THROW_MESSAGE)));
-            Linker.Define("env", "check_string", Function.FromCallback(context, (Caller caller, int address, int length) =>
+            Linker.Define("env", "add", Function.FromCallback(Store, (int x, int y) => x + y));
+            Linker.Define("env", "swap", Function.FromCallback(Store, (int x, int y) => (y, x)));
+            Linker.Define("env", "do_throw", Function.FromCallback(Store, () => throw new Exception(THROW_MESSAGE)));
+            Linker.Define("env", "check_string", Function.FromCallback(Store, (Caller caller, int address, int length) =>
             {
-                caller.GetMemory("mem").ReadString(caller.Context, address, length).Should().Be("Hello World");
+                caller.GetMemory("mem").ReadString(caller, address, length).Should().Be("Hello World");
             }));
         }
 
@@ -38,43 +37,41 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItBindsImportMethodsAndCallsThemCorrectly()
         {
-            var context = Store.Context;
-            var instance = Linker.Instantiate(context, Fixture.Module);
-            var add = instance.GetFunction(context, "add");
-            var swap = instance.GetFunction(context, "swap");
-            var check = instance.GetFunction(context, "check_string");
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var add = instance.GetFunction(Store, "add");
+            var swap = instance.GetFunction(Store, "swap");
+            var check = instance.GetFunction(Store, "check_string");
 
-            int x = (int)add.Invoke(context, 40, 2);
+            int x = (int)add.Invoke(Store, 40, 2);
             x.Should().Be(42);
-            x = (int)add.Invoke(context, 22, 5);
+            x = (int)add.Invoke(Store, 22, 5);
             x.Should().Be(27);
 
-            object[] results = (object[])swap.Invoke(context, 10, 100);
+            object[] results = (object[])swap.Invoke(Store, 10, 100);
             results.Should().Equal(new object[] { 100, 10 });
 
-            check.Invoke(context);
+            check.Invoke(Store);
 
             // Collect garbage to make sure delegate function pointers passed to wasmtime are rooted.
             GC.Collect();
             GC.WaitForPendingFinalizers();
 
-            x = (int)add.Invoke(context, 1970, 50);
+            x = (int)add.Invoke(Store, 1970, 50);
             x.Should().Be(2020);
 
-            results = (object[])swap.Invoke(context, 2020, 1970);
+            results = (object[])swap.Invoke(Store, 2020, 1970);
             results.Should().Equal(new object[] { 1970, 2020 });
 
-            check.Invoke(context);
+            check.Invoke(Store);
         }
 
         [Fact]
         public void ItPropagatesExceptionsToCallersViaTraps()
         {
-            var context = Store.Context;
-            var instance = Linker.Instantiate(context, Fixture.Module);
-            var thrower = instance.GetFunction(context, "do_throw");
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var thrower = instance.GetFunction(Store, "do_throw");
 
-            Action action = () => thrower.Invoke(Store.Context);
+            Action action = () => thrower.Invoke(Store);
 
             action
                 .Should()

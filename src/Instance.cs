@@ -13,11 +13,16 @@ namespace Wasmtime
         /// <summary>
         /// Creates a new WebAssembly instance.
         /// </summary>
-        /// <param name="context">The store context to create the instance in.</param>
+        /// <param name="store">The store to create the instance in.</param>
         /// <param name="module">The module to create the instance for.</param>
         /// <param name="imports">The imports for the instance.</param>
-        public Instance(StoreContext context, Module module, params object[] imports)
+        public Instance(IStore store, Module module, params object[] imports)
         {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
             if (module is null)
             {
                 throw new ArgumentNullException(nameof(module));
@@ -41,7 +46,7 @@ namespace Wasmtime
                     externs[i] = external.AsExtern();
                 }
 
-                var error = Native.wasmtime_instance_new(context.handle, module.NativeHandle, externs, (UIntPtr)imports.Length, out this.instance, out var trap);
+                var error = Native.wasmtime_instance_new(store.Context.handle, module.NativeHandle, externs, (UIntPtr)imports.Length, out this.instance, out var trap);
 
                 if (error != IntPtr.Zero)
                 {
@@ -58,11 +63,17 @@ namespace Wasmtime
         /// <summary>
         /// Gets an exported function from the instance.
         /// </summary>
-        /// <param name="context">The store context of the instance.</param>
+        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported function.</param>
         /// <returns>Returns the function if a function of that name was exported or null if not.</returns>
-        public Function? GetFunction(StoreContext context, string name)
+        public Function? GetFunction(IStore store, string name)
         {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            var context = store.Context;
             if (!TryGetExtern(context, name, out var ext) || ext.kind != ExternKind.Func)
             {
                 return null;
@@ -74,11 +85,17 @@ namespace Wasmtime
         /// <summary>
         /// Gets an exported table from the instance.
         /// </summary>
-        /// <param name="context">The store context of the instance.</param>
+        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported table.</param>
         /// <returns>Returns the table if a table of that name was exported or null if not.</returns>
-        public Table? GetTable(StoreContext context, string name)
+        public Table? GetTable(IStore store, string name)
         {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            var context = store.Context;
             if (!TryGetExtern(context, name, out var ext) || ext.kind != ExternKind.Table)
             {
                 return null;
@@ -90,11 +107,17 @@ namespace Wasmtime
         /// <summary>
         /// Gets an exported memory from the instance.
         /// </summary>
-        /// <param name="context">The store context of the instance.</param>
+        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported memory.</param>
         /// <returns>Returns the memory if a memory of that name was exported or null if not.</returns>
-        public Memory? GetMemory(StoreContext context, string name)
+        public Memory? GetMemory(IStore store, string name)
         {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            var context = store.Context;
             if (!TryGetExtern(context, name, out var ext) || ext.kind != ExternKind.Memory)
             {
                 return null;
@@ -106,11 +129,17 @@ namespace Wasmtime
         /// <summary>
         /// Gets an exported global from the instance.
         /// </summary>
-        /// <param name="context">The store context of the instance.</param>
+        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported global.</param>
         /// <returns>Returns the global if a global of that name was exported or null if not.</returns>
-        public Global? GetGlobal(StoreContext context, string name)
+        public Global? GetGlobal(IStore store, string name)
         {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            var context = store.Context;
             if (!TryGetExtern(context, name, out var ext) || ext.kind != ExternKind.Global)
             {
                 return null;
@@ -122,11 +151,17 @@ namespace Wasmtime
         /// <summary>
         /// Gets an exported instance from the instance.
         /// </summary>
-        /// <param name="context">The store context of the instance.</param>
+        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported instance.</param>
         /// <returns>Returns the instance if a instance of that name was exported or null if not.</returns>
-        public Instance? GetInstance(StoreContext context, string name)
+        public Instance? GetInstance(IStore store, string name)
         {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            var context = store.Context;
             if (!TryGetExtern(context, name, out var ext) || ext.kind != ExternKind.Instance)
             {
                 return null;
@@ -138,11 +173,17 @@ namespace Wasmtime
         /// <summary>
         /// Gets an exported module from the instance.
         /// </summary>
-        /// <param name="context">The store context of the instance.</param>
+        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported module.</param>
         /// <returns>Returns the module if a module of that name was exported or null if not.</returns>
-        public Module? GetModule(StoreContext context, string name)
+        public Module? GetModule(IStore store, string name)
         {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            var context = store.Context;
             if (!TryGetExtern(context, name, out var ext) || ext.kind != ExternKind.Module)
             {
                 return null;

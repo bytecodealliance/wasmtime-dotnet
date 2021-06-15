@@ -11,24 +11,23 @@ namespace Example
             using var module = Module.FromTextFile(engine, "hello.wat");
             using var linker = new Linker(engine);
             using var store = new Store(engine);
-            var context = store.Context;
 
             linker.Define(
                 "",
                 "hello",
-                Function.FromCallback(context, () => Console.WriteLine("Hello from C#, WebAssembly!"))
+                Function.FromCallback(store, () => Console.WriteLine("Hello from C#, WebAssembly!"))
             );
 
-            var instance = linker.Instantiate(context, module);
+            var instance = linker.Instantiate(store, module);
 
-            var run = instance.GetFunction(context, "run");
+            var run = instance.GetFunction(store, "run");
             if (run is null)
             {
                 Console.WriteLine("error: run export is missing");
                 return;
             }
 
-            run.Invoke(context);
+            run.Invoke(store);
         }
     }
 }

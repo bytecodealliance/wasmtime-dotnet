@@ -27,7 +27,7 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItFailsToInstantiateWithMissingImport()
         {
-            Action action = () => { Linker.Instantiate(Store.Context, Fixture.Module); };
+            Action action = () => { Linker.Instantiate(Store, Fixture.Module); };
 
             action
                 .Should()
@@ -38,7 +38,7 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItFailsToDefineAGlobalWithInvalidValue()
         {
-            Action action = () => { Linker.Define("", "global_i32_mut", new Global(Store.Context, ValueKind.Int32, null, Mutability.Mutable)); };
+            Action action = () => { Linker.Define("", "global_i32_mut", new Global(Store, ValueKind.Int32, null, Mutability.Mutable)); };
 
             action
                 .Should()
@@ -49,17 +49,16 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItFailsToInstantiateWithGlobalTypeMismatch()
         {
-            var context = Store.Context;
-            Linker.Define("", "global_i32_mut", new Global(context, ValueKind.Int64, 0, Mutability.Mutable));
-            Linker.Define("", "global_i32", new Global(context, ValueKind.Int32, 0, Mutability.Immutable));
-            Linker.Define("", "global_i64_mut", new Global(context, ValueKind.Int64, 0, Mutability.Mutable));
-            Linker.Define("", "global_i64", new Global(context, ValueKind.Int64, 0, Mutability.Immutable));
-            Linker.Define("", "global_f32_mut", new Global(context, ValueKind.Float32, 0, Mutability.Mutable));
-            Linker.Define("", "global_f32", new Global(context, ValueKind.Float32, 0, Mutability.Immutable));
-            Linker.Define("", "global_f64_mut", new Global(context, ValueKind.Float64, 0, Mutability.Mutable));
-            Linker.Define("", "global_f64", new Global(context, ValueKind.Float64, 0, Mutability.Immutable));
+            Linker.Define("", "global_i32_mut", new Global(Store, ValueKind.Int64, 0, Mutability.Mutable));
+            Linker.Define("", "global_i32", new Global(Store, ValueKind.Int32, 0, Mutability.Immutable));
+            Linker.Define("", "global_i64_mut", new Global(Store, ValueKind.Int64, 0, Mutability.Mutable));
+            Linker.Define("", "global_i64", new Global(Store, ValueKind.Int64, 0, Mutability.Immutable));
+            Linker.Define("", "global_f32_mut", new Global(Store, ValueKind.Float32, 0, Mutability.Mutable));
+            Linker.Define("", "global_f32", new Global(Store, ValueKind.Float32, 0, Mutability.Immutable));
+            Linker.Define("", "global_f64_mut", new Global(Store, ValueKind.Float64, 0, Mutability.Mutable));
+            Linker.Define("", "global_f64", new Global(Store, ValueKind.Float64, 0, Mutability.Immutable));
 
-            Action action = () => { Linker.Instantiate(Store.Context, Fixture.Module); };
+            Action action = () => { Linker.Instantiate(Store, Fixture.Module); };
 
             action
                 .Should()
@@ -70,17 +69,16 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItFailsToInstantiateWhenGlobalIsNotMut()
         {
-            var context = Store.Context;
-            Linker.Define("", "global_i32_mut", new Global(context, ValueKind.Int32, 0, Mutability.Immutable));
-            Linker.Define("", "global_i32", new Global(context, ValueKind.Int32, 0, Mutability.Immutable));
-            Linker.Define("", "global_i64_mut", new Global(context, ValueKind.Int64, 0, Mutability.Mutable));
-            Linker.Define("", "global_i64", new Global(context, ValueKind.Int64, 0, Mutability.Immutable));
-            Linker.Define("", "global_f32_mut", new Global(context, ValueKind.Float32, 0, Mutability.Mutable));
-            Linker.Define("", "global_f32", new Global(context, ValueKind.Float32, 0, Mutability.Immutable));
-            Linker.Define("", "global_f64_mut", new Global(context, ValueKind.Float64, 0, Mutability.Mutable));
-            Linker.Define("", "global_f64", new Global(context, ValueKind.Float64, 0, Mutability.Immutable));
+            Linker.Define("", "global_i32_mut", new Global(Store, ValueKind.Int32, 0, Mutability.Immutable));
+            Linker.Define("", "global_i32", new Global(Store, ValueKind.Int32, 0, Mutability.Immutable));
+            Linker.Define("", "global_i64_mut", new Global(Store, ValueKind.Int64, 0, Mutability.Mutable));
+            Linker.Define("", "global_i64", new Global(Store, ValueKind.Int64, 0, Mutability.Immutable));
+            Linker.Define("", "global_f32_mut", new Global(Store, ValueKind.Float32, 0, Mutability.Mutable));
+            Linker.Define("", "global_f32", new Global(Store, ValueKind.Float32, 0, Mutability.Immutable));
+            Linker.Define("", "global_f64_mut", new Global(Store, ValueKind.Float64, 0, Mutability.Mutable));
+            Linker.Define("", "global_f64", new Global(Store, ValueKind.Float64, 0, Mutability.Immutable));
 
-            Action action = () => { Linker.Instantiate(Store.Context, Fixture.Module); };
+            Action action = () => { Linker.Instantiate(Store, Fixture.Module); };
 
             action
                 .Should()
@@ -91,17 +89,16 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItFailsToInstantiateWhenGlobalIsMut()
         {
-            var context = Store.Context;
-            Linker.Define("", "global_i32_mut", new Global(context, ValueKind.Int32, 0, Mutability.Mutable));
-            Linker.Define("", "global_i32", new Global(context, ValueKind.Int32, 0, Mutability.Mutable));
-            Linker.Define("", "global_i64_mut", new Global(context, ValueKind.Int64, 0, Mutability.Mutable));
-            Linker.Define("", "global_i64", new Global(context, ValueKind.Int64, 0, Mutability.Immutable));
-            Linker.Define("", "global_f32_mut", new Global(context, ValueKind.Float32, 0, Mutability.Mutable));
-            Linker.Define("", "global_f32", new Global(context, ValueKind.Float32, 0, Mutability.Immutable));
-            Linker.Define("", "global_f64_mut", new Global(context, ValueKind.Float64, 0, Mutability.Mutable));
-            Linker.Define("", "global_f64", new Global(context, ValueKind.Float64, 0, Mutability.Immutable));
+            Linker.Define("", "global_i32_mut", new Global(Store, ValueKind.Int32, 0, Mutability.Mutable));
+            Linker.Define("", "global_i32", new Global(Store, ValueKind.Int32, 0, Mutability.Mutable));
+            Linker.Define("", "global_i64_mut", new Global(Store, ValueKind.Int64, 0, Mutability.Mutable));
+            Linker.Define("", "global_i64", new Global(Store, ValueKind.Int64, 0, Mutability.Immutable));
+            Linker.Define("", "global_f32_mut", new Global(Store, ValueKind.Float32, 0, Mutability.Mutable));
+            Linker.Define("", "global_f32", new Global(Store, ValueKind.Float32, 0, Mutability.Immutable));
+            Linker.Define("", "global_f64_mut", new Global(Store, ValueKind.Float64, 0, Mutability.Mutable));
+            Linker.Define("", "global_f64", new Global(Store, ValueKind.Float64, 0, Mutability.Immutable));
 
-            Action action = () => { Linker.Instantiate(Store.Context, Fixture.Module); };
+            Action action = () => { Linker.Instantiate(Store, Fixture.Module); };
 
             action
                 .Should()
@@ -112,16 +109,14 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItBindsTheGlobalsCorrectly()
         {
-            var context = Store.Context;
-
-            var global_i32_mut = new Global(context, ValueKind.Int32, 0, Mutability.Mutable);
-            var global_i32 = new Global(context, ValueKind.Int32, 1, Mutability.Immutable);
-            var global_i64_mut = new Global(context, ValueKind.Int64, 2, Mutability.Mutable);
-            var global_i64 = new Global(context, ValueKind.Int64, 3, Mutability.Immutable);
-            var global_f32_mut = new Global(context, ValueKind.Float32, 4, Mutability.Mutable);
-            var global_f32 = new Global(context, ValueKind.Float32, 5, Mutability.Immutable);
-            var global_f64_mut = new Global(context, ValueKind.Float64, 6, Mutability.Mutable);
-            var global_f64 = new Global(context, ValueKind.Float64, 7, Mutability.Immutable);
+            var global_i32_mut = new Global(Store, ValueKind.Int32, 0, Mutability.Mutable);
+            var global_i32 = new Global(Store, ValueKind.Int32, 1, Mutability.Immutable);
+            var global_i64_mut = new Global(Store, ValueKind.Int64, 2, Mutability.Mutable);
+            var global_i64 = new Global(Store, ValueKind.Int64, 3, Mutability.Immutable);
+            var global_f32_mut = new Global(Store, ValueKind.Float32, 4, Mutability.Mutable);
+            var global_f32 = new Global(Store, ValueKind.Float32, 5, Mutability.Immutable);
+            var global_f64_mut = new Global(Store, ValueKind.Float64, 6, Mutability.Mutable);
+            var global_f64 = new Global(Store, ValueKind.Float64, 7, Mutability.Immutable);
 
             Linker.Define("", "global_i32_mut", global_i32_mut);
             Linker.Define("", "global_i32", global_i32);
@@ -132,56 +127,56 @@ namespace Wasmtime.Tests
             Linker.Define("", "global_f64_mut", global_f64_mut);
             Linker.Define("", "global_f64", global_f64);
 
-            var instance = Linker.Instantiate(context, Fixture.Module);
-            var get_global_i32_mut = instance.GetFunction(context, "get_global_i32_mut");
-            var set_global_i32_mut = instance.GetFunction(context, "set_global_i32_mut");
-            var get_global_i32 = instance.GetFunction(context, "get_global_i32");
-            var get_global_i64_mut = instance.GetFunction(context, "get_global_i64_mut");
-            var set_global_i64_mut = instance.GetFunction(context, "set_global_i64_mut");
-            var get_global_i64 = instance.GetFunction(context, "get_global_i64");
-            var get_global_f32_mut = instance.GetFunction(context, "get_global_f32_mut");
-            var set_global_f32_mut = instance.GetFunction(context, "set_global_f32_mut");
-            var get_global_f32 = instance.GetFunction(context, "get_global_f32");
-            var get_global_f64_mut = instance.GetFunction(context, "get_global_f64_mut");
-            var set_global_f64_mut = instance.GetFunction(context, "set_global_f64_mut");
-            var get_global_f64 = instance.GetFunction(context, "get_global_f64");
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var get_global_i32_mut = instance.GetFunction(Store, "get_global_i32_mut");
+            var set_global_i32_mut = instance.GetFunction(Store, "set_global_i32_mut");
+            var get_global_i32 = instance.GetFunction(Store, "get_global_i32");
+            var get_global_i64_mut = instance.GetFunction(Store, "get_global_i64_mut");
+            var set_global_i64_mut = instance.GetFunction(Store, "set_global_i64_mut");
+            var get_global_i64 = instance.GetFunction(Store, "get_global_i64");
+            var get_global_f32_mut = instance.GetFunction(Store, "get_global_f32_mut");
+            var set_global_f32_mut = instance.GetFunction(Store, "set_global_f32_mut");
+            var get_global_f32 = instance.GetFunction(Store, "get_global_f32");
+            var get_global_f64_mut = instance.GetFunction(Store, "get_global_f64_mut");
+            var set_global_f64_mut = instance.GetFunction(Store, "set_global_f64_mut");
+            var get_global_f64 = instance.GetFunction(Store, "get_global_f64");
 
-            global_i32_mut.GetValue(context).Should().Be(0);
-            get_global_i32_mut.Invoke(context).Should().Be(0);
-            global_i32.GetValue(context).Should().Be(1);
-            get_global_i32.Invoke(context).Should().Be(1);
-            global_i64_mut.GetValue(context).Should().Be(2);
-            get_global_i64_mut.Invoke(context).Should().Be(2);
-            global_i64.GetValue(context).Should().Be(3);
-            get_global_i64.Invoke(context).Should().Be(3);
-            global_f32_mut.GetValue(context).Should().Be(4);
-            get_global_f32_mut.Invoke(context).Should().Be(4);
-            global_f32.GetValue(context).Should().Be(5);
-            get_global_f32.Invoke(context).Should().Be(5);
-            global_f64_mut.GetValue(context).Should().Be(6);
-            get_global_f64_mut.Invoke(context).Should().Be(6);
-            global_f64.GetValue(context).Should().Be(7);
-            get_global_f64.Invoke(context).Should().Be(7);
+            global_i32_mut.GetValue(Store).Should().Be(0);
+            get_global_i32_mut.Invoke(Store).Should().Be(0);
+            global_i32.GetValue(Store).Should().Be(1);
+            get_global_i32.Invoke(Store).Should().Be(1);
+            global_i64_mut.GetValue(Store).Should().Be(2);
+            get_global_i64_mut.Invoke(Store).Should().Be(2);
+            global_i64.GetValue(Store).Should().Be(3);
+            get_global_i64.Invoke(Store).Should().Be(3);
+            global_f32_mut.GetValue(Store).Should().Be(4);
+            get_global_f32_mut.Invoke(Store).Should().Be(4);
+            global_f32.GetValue(Store).Should().Be(5);
+            get_global_f32.Invoke(Store).Should().Be(5);
+            global_f64_mut.GetValue(Store).Should().Be(6);
+            get_global_f64_mut.Invoke(Store).Should().Be(6);
+            global_f64.GetValue(Store).Should().Be(7);
+            get_global_f64.Invoke(Store).Should().Be(7);
 
-            global_i32_mut.SetValue(context, 10);
-            global_i32_mut.GetValue(context).Should().Be(10);
-            set_global_i32_mut.Invoke(context, 11);
-            get_global_i32_mut.Invoke(context).Should().Be(11);
+            global_i32_mut.SetValue(Store, 10);
+            global_i32_mut.GetValue(Store).Should().Be(10);
+            set_global_i32_mut.Invoke(Store, 11);
+            get_global_i32_mut.Invoke(Store).Should().Be(11);
 
-            global_i64_mut.SetValue(context, 12);
-            global_i64_mut.GetValue(context).Should().Be(12);
-            set_global_i64_mut.Invoke(context, 13);
-            get_global_i64_mut.Invoke(context).Should().Be(13);
+            global_i64_mut.SetValue(Store, 12);
+            global_i64_mut.GetValue(Store).Should().Be(12);
+            set_global_i64_mut.Invoke(Store, 13);
+            get_global_i64_mut.Invoke(Store).Should().Be(13);
 
-            global_f32_mut.SetValue(context, 14);
-            global_f32_mut.GetValue(context).Should().Be(14);
-            set_global_f32_mut.Invoke(context, 15);
-            get_global_f32_mut.Invoke(context).Should().Be(15);
+            global_f32_mut.SetValue(Store, 14);
+            global_f32_mut.GetValue(Store).Should().Be(14);
+            set_global_f32_mut.Invoke(Store, 15);
+            get_global_f32_mut.Invoke(Store).Should().Be(15);
 
-            global_f64_mut.SetValue(context, 16);
-            global_f64_mut.GetValue(context).Should().Be(16);
-            set_global_f64_mut.Invoke(context, 17);
-            get_global_f64_mut.Invoke(context).Should().Be(17);
+            global_f64_mut.SetValue(Store, 16);
+            global_f64_mut.GetValue(Store).Should().Be(16);
+            set_global_f64_mut.Invoke(Store, 17);
+            get_global_f64_mut.Invoke(Store).Should().Be(17);
         }
 
         public void Dispose()

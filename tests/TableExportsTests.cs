@@ -46,22 +46,21 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItCreatesExternsForTheTables()
         {
-            var context = Store.Context;
-            var instance = Linker.Instantiate(context, Fixture.Module);
+            var instance = Linker.Instantiate(Store, Fixture.Module);
 
-            var table1 = instance.GetTable(context, "table1");
+            var table1 = instance.GetTable(Store, "table1");
             table1.Should().NotBeNull();
             table1.Kind.Should().Be(ValueKind.FuncRef);
             table1.Minimum.Should().Be(1);
             table1.Maximum.Should().Be(10);
 
-            var table2 = instance.GetTable(context, "table2");
+            var table2 = instance.GetTable(Store, "table2");
             table2.Should().NotBeNull();
             table2.Kind.Should().Be(ValueKind.FuncRef);
             table2.Minimum.Should().Be(10);
             table2.Maximum.Should().Be(uint.MaxValue);
 
-            var table3 = instance.GetTable(context, "table3");
+            var table3 = instance.GetTable(Store, "table3");
             table3.Should().NotBeNull();
             table3.Kind.Should().Be(ValueKind.FuncRef);
             table3.Minimum.Should().Be(100);

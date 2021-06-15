@@ -5,24 +5,9 @@ using System.Text;
 namespace Wasmtime
 {
     /// <summary>
-    /// Represents an exported memory of a function's caller.
-    /// </summary>
-    public class CallerMemory : MemoryBase
-    {
-        internal CallerMemory(ExternMemory memory)
-        {
-            this.memory = memory;
-        }
-
-        internal override ExternMemory Extern => memory;
-
-        private readonly ExternMemory memory;
-    }
-
-    /// <summary>
     /// Represents caller information for a function.
     /// </summary>
-    public class Caller
+    public class Caller : IStore, IDisposable
     {
         internal Caller(IntPtr handle)
         {
@@ -39,7 +24,7 @@ namespace Wasmtime
         /// </summary>
         /// <param name="name">The name of the exported memory.</param>
         /// <returns>Returns the exported memory if found or null if a memory of the requested name is not exported.</returns>
-        public CallerMemory? GetMemory(string name)
+        public Memory? GetMemory(string name)
         {
             unsafe
             {
@@ -47,7 +32,7 @@ namespace Wasmtime
 
                 fixed (byte* ptr = bytes)
                 {
-                    if (!Native.wasmtime_caller_export_get(handle, ptr, (UIntPtr)bytes.Length, out var item))
+                    if (!Native.wasmtime_caller_export_get(NativeHandle, ptr, (UIntPtr)bytes.Length, out var item))
                     {
                         return null;
                     }
@@ -58,15 +43,31 @@ namespace Wasmtime
                         return null;
                     }
 
-                    return new CallerMemory(item.of.memory);
+                    return new Memory(((IStore)this).Context, item.of.memory);
                 }
             }
         }
 
-        /// <summary>
-        /// Gets the store context of the caller.
-        /// </summary>
-        public StoreContext Context => new StoreContext(Native.wasmtime_caller_context(handle));
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            this.handle = IntPtr.Zero;
+        }
+
+        private IntPtr NativeHandle
+        {
+            get
+            {
+                if (this.handle == IntPtr.Zero)
+                {
+                    throw new ObjectDisposedException(typeof(Caller).FullName);
+                }
+
+                return this.handle;
+            }
+        }
+
+        StoreContext IStore.Context => new StoreContext(Native.wasmtime_caller_context(NativeHandle));
 
         private static class Native
         {
@@ -78,6 +79,6 @@ namespace Wasmtime
             public static unsafe extern IntPtr wasmtime_caller_context(IntPtr caller);
         }
 
-        private readonly IntPtr handle;
+        private IntPtr handle;
     }
 }

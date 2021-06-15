@@ -21,18 +21,17 @@ namespace Wasmtime.Tests
 
             linker.DefineWasi();
 
-            var context = store.Context;
-            context.SetWasiConfiguration(new WasiConfiguration());
-            var instance = linker.Instantiate(context, module);
+            store.SetWasiConfiguration(new WasiConfiguration());
+            var instance = linker.Instantiate(store, module);
 
-            var memory = instance.GetMemory(context, "memory");
+            var memory = instance.GetMemory(store, "memory");
             memory.Should().NotBeNull();
-            var call_environ_sizes_get = instance.GetFunction(context, "call_environ_sizes_get");
+            var call_environ_sizes_get = instance.GetFunction(store, "call_environ_sizes_get");
             call_environ_sizes_get.Should().NotBeNull();
 
-            Assert.Equal(0, call_environ_sizes_get.Invoke(context, 0, 4));
-            Assert.Equal(0, memory.ReadInt32(context, 0));
-            Assert.Equal(0, memory.ReadInt32(context, 4));
+            Assert.Equal(0, call_environ_sizes_get.Invoke(store, 0, 4));
+            Assert.Equal(0, memory.ReadInt32(store, 0));
+            Assert.Equal(0, memory.ReadInt32(store, 4));
         }
 
         [Theory]
@@ -56,25 +55,24 @@ namespace Wasmtime.Tests
 
             linker.DefineWasi();
 
-            var context = store.Context;
-            context.SetWasiConfiguration(config);
-            var instance = linker.Instantiate(context, module);
+            store.SetWasiConfiguration(config);
+            var instance = linker.Instantiate(store, module);
 
-            var memory = instance.GetMemory(context, "memory");
+            var memory = instance.GetMemory(store, "memory");
             memory.Should().NotBeNull();
-            var call_environ_sizes_get = instance.GetFunction(context, "call_environ_sizes_get");
+            var call_environ_sizes_get = instance.GetFunction(store, "call_environ_sizes_get");
             call_environ_sizes_get.Should().NotBeNull();
-            var call_environ_get = instance.GetFunction(context, "call_environ_get");
+            var call_environ_get = instance.GetFunction(store, "call_environ_get");
             call_environ_sizes_get.Should().NotBeNull();
 
-            Assert.Equal(0, call_environ_sizes_get.Invoke(context, 0, 4));
-            Assert.Equal(env.Count, memory.ReadInt32(context, 0));
-            Assert.Equal(env.Sum(kvp => kvp.Key.Length + kvp.Value.Length + 2), memory.ReadInt32(context, 4));
-            Assert.Equal(0, call_environ_get.Invoke(context, 0, 4 * env.Count));
+            Assert.Equal(0, call_environ_sizes_get.Invoke(store, 0, 4));
+            Assert.Equal(env.Count, memory.ReadInt32(store, 0));
+            Assert.Equal(env.Sum(kvp => kvp.Key.Length + kvp.Value.Length + 2), memory.ReadInt32(store, 4));
+            Assert.Equal(0, call_environ_get.Invoke(store, 0, 4 * env.Count));
 
             for (int i = 0; i < env.Count; ++i)
             {
-                var kvp = memory.ReadNullTerminatedString(context, memory.ReadInt32(context, i * 4)).Split("=");
+                var kvp = memory.ReadNullTerminatedString(store, memory.ReadInt32(store, i * 4)).Split("=");
                 Assert.Equal(env[kvp[0]], kvp[1]);
             }
         }
@@ -94,17 +92,16 @@ namespace Wasmtime.Tests
 
             linker.DefineWasi();
 
-            var context = store.Context;
-            context.SetWasiConfiguration(config);
-            var instance = linker.Instantiate(context, module);
+            store.SetWasiConfiguration(config);
+            var instance = linker.Instantiate(store, module);
 
-            var memory = instance.GetMemory(context, "memory");
+            var memory = instance.GetMemory(store, "memory");
             memory.Should().NotBeNull();
-            var call_environ_sizes_get = instance.GetFunction(context, "call_environ_sizes_get");
+            var call_environ_sizes_get = instance.GetFunction(store, "call_environ_sizes_get");
             call_environ_sizes_get.Should().NotBeNull();
 
-            Assert.Equal(0, call_environ_sizes_get.Invoke(context, 0, 4));
-            Assert.Equal(Environment.GetEnvironmentVariables().Keys.Count, memory.ReadInt32(context, 0));
+            Assert.Equal(0, call_environ_sizes_get.Invoke(store, 0, 4));
+            Assert.Equal(Environment.GetEnvironmentVariables().Keys.Count, memory.ReadInt32(store, 0));
         }
 
         [Theory]
@@ -119,18 +116,17 @@ namespace Wasmtime.Tests
 
             linker.DefineWasi();
 
-            var context = store.Context;
-            context.SetWasiConfiguration(new WasiConfiguration());
-            var instance = linker.Instantiate(context, module);
+            store.SetWasiConfiguration(new WasiConfiguration());
+            var instance = linker.Instantiate(store, module);
 
-            var memory = instance.GetMemory(context, "memory");
+            var memory = instance.GetMemory(store, "memory");
             memory.Should().NotBeNull();
-            var call_args_sizes_get = instance.GetFunction(context, "call_args_sizes_get");
+            var call_args_sizes_get = instance.GetFunction(store, "call_args_sizes_get");
             call_args_sizes_get.Should().NotBeNull();
 
-            Assert.Equal(0, call_args_sizes_get.Invoke(context, 0, 4));
-            Assert.Equal(0, memory.ReadInt32(context, 0));
-            Assert.Equal(0, memory.ReadInt32(context, 4));
+            Assert.Equal(0, call_args_sizes_get.Invoke(store, 0, 4));
+            Assert.Equal(0, memory.ReadInt32(store, 0));
+            Assert.Equal(0, memory.ReadInt32(store, 4));
         }
 
         [Theory]
@@ -155,25 +151,24 @@ namespace Wasmtime.Tests
 
             linker.DefineWasi();
 
-            var context = store.Context;
-            context.SetWasiConfiguration(config);
-            var instance = linker.Instantiate(context, module);
+            store.SetWasiConfiguration(config);
+            var instance = linker.Instantiate(store, module);
 
-            var memory = instance.GetMemory(context, "memory");
+            var memory = instance.GetMemory(store, "memory");
             memory.Should().NotBeNull();
-            var call_args_sizes_get = instance.GetFunction(context, "call_args_sizes_get");
+            var call_args_sizes_get = instance.GetFunction(store, "call_args_sizes_get");
             call_args_sizes_get.Should().NotBeNull();
-            var call_args_get = instance.GetFunction(context, "call_args_get");
+            var call_args_get = instance.GetFunction(store, "call_args_get");
             call_args_get.Should().NotBeNull();
 
-            Assert.Equal(0, call_args_sizes_get.Invoke(context, 0, 4));
-            Assert.Equal(args.Count, memory.ReadInt32(context, 0));
-            Assert.Equal(args.Sum(a => a.Length + 1), memory.ReadInt32(context, 4));
-            Assert.Equal(0, call_args_get.Invoke(context, 0, 4 * args.Count));
+            Assert.Equal(0, call_args_sizes_get.Invoke(store, 0, 4));
+            Assert.Equal(args.Count, memory.ReadInt32(store, 0));
+            Assert.Equal(args.Sum(a => a.Length + 1), memory.ReadInt32(store, 4));
+            Assert.Equal(0, call_args_get.Invoke(store, 0, 4 * args.Count));
 
             for (int i = 0; i < args.Count; ++i)
             {
-                var arg = memory.ReadNullTerminatedString(context, memory.ReadInt32(context, i * 4));
+                var arg = memory.ReadNullTerminatedString(store, memory.ReadInt32(store, i * 4));
                 Assert.Equal(args[i], arg);
             }
         }
@@ -193,17 +188,16 @@ namespace Wasmtime.Tests
 
             linker.DefineWasi();
 
-            var context = store.Context;
-            context.SetWasiConfiguration(config);
-            var instance = linker.Instantiate(context, module);
+            store.SetWasiConfiguration(config);
+            var instance = linker.Instantiate(store, module);
 
-            var memory = instance.GetMemory(context, "memory");
+            var memory = instance.GetMemory(store, "memory");
             memory.Should().NotBeNull();
-            var call_args_sizes_get = instance.GetFunction(context, "call_args_sizes_get");
+            var call_args_sizes_get = instance.GetFunction(store, "call_args_sizes_get");
             call_args_sizes_get.Should().NotBeNull();
 
-            Assert.Equal(0, call_args_sizes_get.Invoke(context, 0, 4));
-            Assert.Equal(Environment.GetCommandLineArgs().Length, memory.ReadInt32(context, 0));
+            Assert.Equal(0, call_args_sizes_get.Invoke(store, 0, 4));
+            Assert.Equal(Environment.GetCommandLineArgs().Length, memory.ReadInt32(store, 0));
         }
 
         [Theory]
@@ -226,21 +220,20 @@ namespace Wasmtime.Tests
 
             linker.DefineWasi();
 
-            var context = store.Context;
-            context.SetWasiConfiguration(config);
-            var instance = linker.Instantiate(context, module);
+            store.SetWasiConfiguration(config);
+            var instance = linker.Instantiate(store, module);
 
-            var memory = instance.GetMemory(context, "memory");
+            var memory = instance.GetMemory(store, "memory");
             memory.Should().NotBeNull();
-            var call_fd_read = instance.GetFunction(context, "call_fd_read");
+            var call_fd_read = instance.GetFunction(store, "call_fd_read");
             call_fd_read.Should().NotBeNull();
 
-            memory.WriteInt32(context, 0, 8);
-            memory.WriteInt32(context, 4, MESSAGE.Length);
+            memory.WriteInt32(store, 0, 8);
+            memory.WriteInt32(store, 4, MESSAGE.Length);
 
-            Assert.Equal(0, call_fd_read.Invoke(context, 0, 0, 1, 32));
-            Assert.Equal(MESSAGE.Length, memory.ReadInt32(context, 32));
-            Assert.Equal(MESSAGE, memory.ReadString(context, 8, MESSAGE.Length));
+            Assert.Equal(0, call_fd_read.Invoke(store, 0, 0, 1, 32));
+            Assert.Equal(MESSAGE.Length, memory.ReadInt32(store, 32));
+            Assert.Equal(MESSAGE, memory.ReadString(store, 8, MESSAGE.Length));
         }
 
         [Theory]
@@ -271,24 +264,23 @@ namespace Wasmtime.Tests
 
             linker.DefineWasi();
 
-            var context = store.Context;
-            context.SetWasiConfiguration(config);
-            var instance = linker.Instantiate(context, module);
+            store.SetWasiConfiguration(config);
+            var instance = linker.Instantiate(store, module);
 
-            var memory = instance.GetMemory(context, "memory");
+            var memory = instance.GetMemory(store, "memory");
             memory.Should().NotBeNull();
-            var call_fd_write = instance.GetFunction(context, "call_fd_write");
+            var call_fd_write = instance.GetFunction(store, "call_fd_write");
             call_fd_write.Should().NotBeNull();
-            var call_fd_close = instance.GetFunction(context, "call_fd_close");
+            var call_fd_close = instance.GetFunction(store, "call_fd_close");
             call_fd_close.Should().NotBeNull();
 
-            memory.WriteInt32(context, 0, 8);
-            memory.WriteInt32(context, 4, MESSAGE.Length);
-            memory.WriteString(context, 8, MESSAGE);
+            memory.WriteInt32(store, 0, 8);
+            memory.WriteInt32(store, 4, MESSAGE.Length);
+            memory.WriteString(store, 8, MESSAGE);
 
-            Assert.Equal(0, call_fd_write.Invoke(context, fd, 0, 1, 32));
-            Assert.Equal(MESSAGE.Length, memory.ReadInt32(context, 32));
-            Assert.Equal(0, call_fd_close.Invoke(context, fd));
+            Assert.Equal(0, call_fd_write.Invoke(store, fd, 0, 1, 32));
+            Assert.Equal(MESSAGE.Length, memory.ReadInt32(store, 32));
+            Assert.Equal(0, call_fd_close.Invoke(store, fd));
             Assert.Equal(MESSAGE, File.ReadAllText(file.Path));
         }
 
@@ -311,24 +303,23 @@ namespace Wasmtime.Tests
 
             linker.DefineWasi();
 
-            var context = store.Context;
-            context.SetWasiConfiguration(config);
-            var instance = linker.Instantiate(context, module);
+            store.SetWasiConfiguration(config);
+            var instance = linker.Instantiate(store, module);
 
-            var memory = instance.GetMemory(context, "memory");
+            var memory = instance.GetMemory(store, "memory");
             memory.Should().NotBeNull();
-            var call_path_open = instance.GetFunction(context, "call_path_open");
+            var call_path_open = instance.GetFunction(store, "call_path_open");
             call_path_open.Should().NotBeNull();
-            var call_fd_write = instance.GetFunction(context, "call_fd_write");
+            var call_fd_write = instance.GetFunction(store, "call_fd_write");
             call_fd_write.Should().NotBeNull();
-            var call_fd_close = instance.GetFunction(context, "call_fd_close");
+            var call_fd_close = instance.GetFunction(store, "call_fd_close");
             call_fd_close.Should().NotBeNull();
 
             var fileName = Path.GetFileName(file.Path);
-            memory.WriteString(context, 0, fileName);
+            memory.WriteString(store, 0, fileName);
 
             Assert.Equal(0, call_path_open.Invoke(
-                    context,
+                    store,
                     3,
                     0,
                     0,
@@ -341,16 +332,16 @@ namespace Wasmtime.Tests
                 )
             );
 
-            var fileFd = (int)memory.ReadInt32(context, 64);
+            var fileFd = (int)memory.ReadInt32(store, 64);
             Assert.True(fileFd > 3);
 
-            memory.WriteInt32(context, 0, 8);
-            memory.WriteInt32(context, 4, MESSAGE.Length);
-            memory.WriteString(context, 8, MESSAGE);
+            memory.WriteInt32(store, 0, 8);
+            memory.WriteInt32(store, 4, MESSAGE.Length);
+            memory.WriteString(store, 8, MESSAGE);
 
-            Assert.Equal(0, call_fd_write.Invoke(context, fileFd, 0, 1, 64));
-            Assert.Equal(MESSAGE.Length, memory.ReadInt32(context, 64));
-            Assert.Equal(0, call_fd_close.Invoke(context, fileFd));
+            Assert.Equal(0, call_fd_write.Invoke(store, fileFd, 0, 1, 64));
+            Assert.Equal(MESSAGE.Length, memory.ReadInt32(store, 64));
+            Assert.Equal(0, call_fd_close.Invoke(store, fileFd));
             Assert.Equal(MESSAGE, File.ReadAllText(file.Path));
         }
     }

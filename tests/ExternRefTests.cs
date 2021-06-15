@@ -17,7 +17,7 @@ namespace Wasmtime.Tests
             Linker = new Linker(Fixture.Engine);
             Store = new Store(Fixture.Engine);
 
-            Linker.Define("", "inout", Function.FromCallback(Store.Context, (object o) => o));
+            Linker.Define("", "inout", Function.FromCallback(Store, (object o) => o));
         }
 
         private ExternRefFixture Fixture { get; set; }
@@ -29,30 +29,28 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItReturnsTheSameDotnetReference()
         {
-            var context = Store.Context;
-            var instance = Linker.Instantiate(context, Fixture.Module);
+            var instance = Linker.Instantiate(Store, Fixture.Module);
 
-            var inout = instance.GetFunction(context, "inout");
+            var inout = instance.GetFunction(Store, "inout");
             inout.Should().NotBeNull();
 
             var input = "input";
-            (inout.Invoke(context, input) as string).Should().BeSameAs(input);
+            (inout.Invoke(Store, input) as string).Should().BeSameAs(input);
         }
 
         [Fact]
         public void ItHandlesNullReferences()
         {
-            var context = Store.Context;
-            var instance = Linker.Instantiate(context, Fixture.Module);
+            var instance = Linker.Instantiate(Store, Fixture.Module);
 
-            var inout = instance.GetFunction(context, "inout");
+            var inout = instance.GetFunction(Store, "inout");
             inout.Should().NotBeNull();
 
-            var nullref = instance.GetFunction(context, "nullref");
+            var nullref = instance.GetFunction(Store, "nullref");
             inout.Should().NotBeNull();
 
-            (inout.Invoke(context, null)).Should().BeNull();
-            (nullref.Invoke(context)).Should().BeNull();
+            (inout.Invoke(Store, null)).Should().BeNull();
+            (nullref.Invoke(Store)).Should().BeNull();
         }
 
         unsafe class Value
@@ -86,14 +84,13 @@ namespace Wasmtime.Tests
 
             void RunTest(int* counter)
             {
-                var context = Store.Context;
-                var instance = Linker.Instantiate(context, Fixture.Module);
+                var instance = Linker.Instantiate(Store, Fixture.Module);
 
-                var inout = instance.GetFunction(context, "inout");
+                var inout = instance.GetFunction(Store, "inout");
                 inout.Should().NotBeNull();
                 for (int i = 0; i < 100; ++i)
                 {
-                    inout.Invoke(context, new Value(counter));
+                    inout.Invoke(Store, new Value(counter));
                 }
 
                 Store.Dispose();
@@ -104,17 +101,15 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItThrowsForMismatchedTypes()
         {
-            var context = Store.Context;
-
             Linker.AllowShadowing = true;
-            Linker.Define("", "inout", Function.FromCallback(context, (string o) => o));
+            Linker.Define("", "inout", Function.FromCallback(Store, (string o) => o));
 
-            var instance = Linker.Instantiate(context, Fixture.Module);
+            var instance = Linker.Instantiate(Store, Fixture.Module);
 
-            var inout = instance.GetFunction(context, "inout");
+            var inout = instance.GetFunction(Store, "inout");
             inout.Should().NotBeNull();
 
-            Action action = () => inout.Invoke(Store.Context, (object)5);
+            Action action = () => inout.Invoke(Store, (object)5);
 
             action
                 .Should()

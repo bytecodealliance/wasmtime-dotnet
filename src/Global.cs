@@ -27,12 +27,17 @@ namespace Wasmtime
         /// <summary>
         /// Creates a new WebAssembly global value.
         /// </summary>
-        /// <param name="context">The store context to create the global in.</param>
+        /// <param name="store">The store to create the global in.</param>
         /// <param name="kind">The kind of value stored in the global.</param>
         /// <param name="initialValue">The global's initial value.</param>
         /// <param name="mutability">The mutability of the global being created.</param>
-        public Global(StoreContext context, ValueKind kind, object? initialValue, Mutability mutability)
+        public Global(IStore store, ValueKind kind, object? initialValue, Mutability mutability)
         {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
             Kind = kind;
             Mutability = mutability;
 
@@ -42,7 +47,7 @@ namespace Wasmtime
             ));
 
             var value = Wasmtime.Value.FromObject(initialValue, Kind);
-            var error = Native.wasmtime_global_new(context.handle, globalType, in value, out this.global);
+            var error = Native.wasmtime_global_new(store.Context.handle, globalType, in value, out this.global);
             value.Dispose();
 
             if (error != IntPtr.Zero)
@@ -54,10 +59,16 @@ namespace Wasmtime
         /// <summary>
         /// Gets the value of the global.
         /// </summary>
-        /// <param name="context">The store context that owns the global.</param>
+        /// <param name="store">The store that owns the global.</param>
         /// <returns>Returns the global's value.</returns>
-        public object? GetValue(StoreContext context)
+        public object? GetValue(IStore store)
         {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            var context = store.Context;
             Native.wasmtime_global_get(context.handle, this.global, out var v);
             var val = v.ToObject(context);
             v.Dispose();
@@ -67,17 +78,22 @@ namespace Wasmtime
         /// <summary>
         /// Sets the value of the global.
         /// </summary>
-        /// <param name="context">The store context that owns the global.</param>
+        /// <param name="store">The store that owns the global.</param>
         /// <param name="value">The value to set.</param>
-        public void SetValue(StoreContext context, object? value)
+        public void SetValue(IStore store, object? value)
         {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
             if (Mutability != Mutability.Mutable)
             {
                 throw new InvalidOperationException("The global is immutable and cannot be changed.");
             }
 
             var v = Value.FromObject(value, Kind);
-            Native.wasmtime_global_set(context.handle, this.global, in v);
+            Native.wasmtime_global_set(store.Context.handle, this.global, in v);
             v.Dispose();
         }
 
@@ -124,7 +140,6 @@ namespace Wasmtime
                 return true;
             }
         }
-
 
         internal static class Native
         {

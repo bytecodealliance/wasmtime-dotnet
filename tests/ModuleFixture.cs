@@ -8,9 +8,7 @@ namespace Wasmtime.Tests
     {
         public ModuleFixture()
         {
-            Engine = new EngineBuilder()
-                .WithReferenceTypes(true)
-                .Build();
+            Engine = new Engine(new Config().WithReferenceTypes(true));
 
             Module = Wasmtime.Module.FromTextFile(Engine, Path.Combine("Modules", ModuleFileName));
         }

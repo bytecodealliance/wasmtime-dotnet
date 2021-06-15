@@ -19,9 +19,15 @@ namespace Wasmtime
             handle = new Handle(Native.wasm_engine_new());
         }
 
-        internal Engine(IntPtr config)
+        /// <summary>
+        /// Constructs a new engine using the given configuration.
+        /// </summary>
+        /// <param name="config">The configuration to use for the engine.</param>
+        /// <remarks>This method will dispose the given configuration.</remarks>
+        public Engine(Config config)
         {
-            handle = new Handle(Native.wasm_engine_new_with_config(config));
+            handle = new Handle(Native.wasm_engine_new_with_config(config.NativeHandle));
+            config.NativeHandle.SetHandleAsInvalid();
         }
 
         /// <inheritdoc/>
@@ -64,7 +70,7 @@ namespace Wasmtime
             public static extern IntPtr wasm_engine_new();
 
             [DllImport(LibraryName)]
-            public static extern IntPtr wasm_engine_new_with_config(IntPtr config);
+            public static extern IntPtr wasm_engine_new_with_config(Config.Handle config);
 
             [DllImport(LibraryName)]
             public static extern void wasm_engine_delete(IntPtr engine);

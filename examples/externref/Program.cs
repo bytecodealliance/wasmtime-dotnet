@@ -7,31 +7,27 @@ namespace Example
     {
         static void Main(string[] args)
         {
-            using var engine = new EngineBuilder()
-                .WithReferenceTypes(true)
-                .Build();
-
+            using var engine = new Engine(new Config().WithReferenceTypes(true));
             using var module = Module.FromTextFile(engine, "externref.wat");
             using var linker = new Linker(engine);
             using var store = new Store(engine);
-            var context = store.Context;
 
             linker.Define(
                 "",
                 "concat",
-                Function.FromCallback(context, (string a, string b) => $"{a} {b}")
+                Function.FromCallback(store, (string a, string b) => $"{a} {b}")
             );
 
-            var instance = linker.Instantiate(context, module);
+            var instance = linker.Instantiate(store, module);
 
-            var run = instance.GetFunction(context, "run");
+            var run = instance.GetFunction(store, "run");
             if (run is null)
             {
                 Console.WriteLine("error: run export is missing");
                 return;
             }
 
-            Console.WriteLine(run.Invoke(context, "hello", "world!"));
+            Console.WriteLine(run.Invoke(store, "hello", "world!"));
         }
     }
 }

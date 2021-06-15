@@ -96,11 +96,16 @@ namespace Wasmtime
         /// <summary>
         /// Defines an instance with the specified name in the linker.
         /// </summary>
-        /// <param name="context">The store context that owns the instance.</param>
+        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the instance to define.</param>
         /// <param name="instance">The instance to define.</param>
-        public void DefineInstance(StoreContext context, string name, Instance instance)
+        public void DefineInstance(IStore store, string name, Instance instance)
         {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
             if (name is null)
             {
                 throw new ArgumentNullException(nameof(name));
@@ -116,7 +121,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_instance(handle, context.handle, namePtr, (UIntPtr)nameBytes.Length, instance.instance);
+                    var error = Native.wasmtime_linker_define_instance(handle, store.Context.handle, namePtr, (UIntPtr)nameBytes.Length, instance.instance);
                     if (error != IntPtr.Zero)
                     {
                         throw WasmtimeException.FromOwnedError(error);
@@ -128,17 +133,22 @@ namespace Wasmtime
         /// <summary>
         /// Instantiates a module with imports from items defined in the linker.
         /// </summary>
-        /// <param name="context">The store context to instantiate in.</param>
+        /// <param name="store">The store to instantiate in.</param>
         /// <param name="module">The module to instantiate.</param>
         /// <returns>Returns the new instance.</returns>
-        public Instance Instantiate(StoreContext context, Module module)
+        public Instance Instantiate(IStore store, Module module)
         {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
             if (module is null)
             {
                 throw new ArgumentNullException(nameof(module));
             }
 
-            var error = Native.wasmtime_linker_instantiate(handle, context.handle, module.NativeHandle, out var instance, out var trap);
+            var error = Native.wasmtime_linker_instantiate(handle, store.Context.handle, module.NativeHandle, out var instance, out var trap);
             if (error != IntPtr.Zero)
             {
                 throw WasmtimeException.FromOwnedError(error);
@@ -155,10 +165,15 @@ namespace Wasmtime
         /// <summary>
         /// Defines automatic instantiations of a module in this linker.
         /// </summary>
-        /// <param name="context">The store context to instantiate in.</param>
+        /// <param name="store">The store to instantiate in.</param>
         /// <param name="module">The module to automatically instantiate.</param>
-        public void DefineModule(StoreContext context, Module module)
+        public void DefineModule(IStore store, Module module)
         {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
             if (module is null)
             {
                 throw new ArgumentNullException(nameof(module));
@@ -169,7 +184,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(module.Name);
                 fixed (byte* namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_module(handle, context.handle, namePtr, (UIntPtr)nameBytes.Length, module.NativeHandle);
+                    var error = Native.wasmtime_linker_module(handle, store.Context.handle, namePtr, (UIntPtr)nameBytes.Length, module.NativeHandle);
                     if (error != IntPtr.Zero)
                     {
                         throw WasmtimeException.FromOwnedError(error);
@@ -181,15 +196,22 @@ namespace Wasmtime
         /// <summary>
         /// Gets the "default" function export for a module with the given name defined in the linker.
         /// </summary>
-        /// <param name="context">The store context for the function.</param>
+        /// <param name="store">The store for the function.</param>
         /// <param name="name">Tha name of the module to get the default function export.</param>
         /// <returns></returns>
-        public Function GetDefaultFunction(StoreContext context, string name)
+        public Function GetDefaultFunction(IStore store, string name)
         {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
             if (name is null)
             {
                 throw new ArgumentNullException(nameof(name));
             }
+
+            var context = store.Context;
 
             unsafe
             {
@@ -210,12 +232,18 @@ namespace Wasmtime
         /// <summary>
         /// Gets an exported function from the linker.
         /// </summary>
-        /// <param name="context">The store context of the function.</param>
+        /// <param name="store">The store of the function.</param>
         /// <param name="module">The module of the exported function.</param>
         /// <param name="name">The name of the exported function.</param>
         /// <returns>Returns the function if a function of that name was exported or null if not.</returns>
-        public Function? GetFunction(StoreContext context, string module, string name)
+        public Function? GetFunction(IStore store, string module, string name)
         {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            var context = store.Context;
             if (!TryGetExtern(context, module, name, out var ext) || ext.kind != ExternKind.Func)
             {
                 return null;
@@ -227,12 +255,18 @@ namespace Wasmtime
         /// <summary>
         /// Gets an exported table from the linker.
         /// </summary>
-        /// <param name="context">The store context of the table.</param>
+        /// <param name="store">The store of the table.</param>
         /// <param name="module">The module of the exported table.</param>
         /// <param name="name">The name of the exported table.</param>
         /// <returns>Returns the table if a table of that name was exported or null if not.</returns>
-        public Table? GetTable(StoreContext context, string module, string name)
+        public Table? GetTable(IStore store, string module, string name)
         {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            var context = store.Context;
             if (!TryGetExtern(context, module, name, out var ext) || ext.kind != ExternKind.Table)
             {
                 return null;
@@ -244,12 +278,18 @@ namespace Wasmtime
         /// <summary>
         /// Gets an exported memory from the linker.
         /// </summary>
-        /// <param name="context">The store context of the memory.</param>
+        /// <param name="store">The store of the memory.</param>
         /// <param name="module">The module of the exported memory.</param>
         /// <param name="name">The name of the exported memory.</param>
         /// <returns>Returns the memory if a memory of that name was exported or null if not.</returns>
-        public Memory? GetMemory(StoreContext context, string module, string name)
+        public Memory? GetMemory(IStore store, string module, string name)
         {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            var context = store.Context;
             if (!TryGetExtern(context, module, name, out var ext) || ext.kind != ExternKind.Memory)
             {
                 return null;
@@ -261,12 +301,18 @@ namespace Wasmtime
         /// <summary>
         /// Gets an exported global from the linker.
         /// </summary>
-        /// <param name="context">The store context of the global.</param>
+        /// <param name="store">The store of the global.</param>
         /// <param name="module">The module of the exported global.</param>
         /// <param name="name">The name of the exported global.</param>
         /// <returns>Returns the global if a global of that name was exported or null if not.</returns>
-        public Global? GetGlobal(StoreContext context, string module, string name)
+        public Global? GetGlobal(IStore store, string module, string name)
         {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            var context = store.Context;
             if (!TryGetExtern(context, module, name, out var ext) || ext.kind != ExternKind.Global)
             {
                 return null;
@@ -278,12 +324,18 @@ namespace Wasmtime
         /// <summary>
         /// Gets an exported instance from the linker.
         /// </summary>
-        /// <param name="context">The store context of the instance.</param>
+        /// <param name="store">The store of the instance.</param>
         /// <param name="module">The module name of the exported instance.</param>
         /// <param name="name">The name of the exported instance.</param>
         /// <returns>Returns the instance if a instance of that name was exported or null if not.</returns>
-        public Instance? GetInstance(StoreContext context, string module, string name)
+        public Instance? GetInstance(IStore store, string module, string name)
         {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            var context = store.Context;
             if (!TryGetExtern(context, module, name, out var ext) || ext.kind != ExternKind.Instance)
             {
                 return null;
@@ -295,12 +347,18 @@ namespace Wasmtime
         /// <summary>
         /// Gets an exported module from the linker.
         /// </summary>
-        /// <param name="context">The store context of the module.</param>
+        /// <param name="store">The store of the module.</param>
         /// <param name="module">The module name of the exported module.</param>
         /// <param name="name">The name of the exported module.</param>
         /// <returns>Returns the module if a module of that name was exported or null if not.</returns>
-        public Module? GetModule(StoreContext context, string module, string name)
+        public Module? GetModule(IStore store, string module, string name)
         {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            var context = store.Context;
             if (!TryGetExtern(context, module, name, out var ext) || ext.kind != ExternKind.Module)
             {
                 return null;

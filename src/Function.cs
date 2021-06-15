@@ -17,341 +17,511 @@ namespace Wasmtime
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback(StoreContext context, Action callback)
+        public static Function FromCallback(IStore store, Action callback)
         {
-            return new Function(context, callback, false);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, false);
         }
 
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<T>(StoreContext context, Action<T> callback)
+        public static Function FromCallback<T>(IStore store, Action<T> callback)
         {
-            return new Function(context, callback, false);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, false);
         }
 
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<T1, T2>(StoreContext context, Action<T1, T2> callback)
+        public static Function FromCallback<T1, T2>(IStore store, Action<T1, T2> callback)
         {
-            return new Function(context, callback, false);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, false);
         }
 
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<T1, T2, T3>(StoreContext context, Action<T1, T2, T3> callback)
+        public static Function FromCallback<T1, T2, T3>(IStore store, Action<T1, T2, T3> callback)
         {
-            return new Function(context, callback, false);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, false);
         }
 
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<T1, T2, T3, T4>(StoreContext context, Action<T1, T2, T3, T4> callback)
+        public static Function FromCallback<T1, T2, T3, T4>(IStore store, Action<T1, T2, T3, T4> callback)
         {
-            return new Function(context, callback, false);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, false);
         }
 
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<T1, T2, T3, T4, T5>(StoreContext context, Action<T1, T2, T3, T4, T5> callback)
+        public static Function FromCallback<T1, T2, T3, T4, T5>(IStore store, Action<T1, T2, T3, T4, T5> callback)
         {
-            return new Function(context, callback, false);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, false);
         }
 
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<T1, T2, T3, T4, T5, T6>(StoreContext context, Action<T1, T2, T3, T4, T5, T6> callback)
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6>(IStore store, Action<T1, T2, T3, T4, T5, T6> callback)
         {
-            return new Function(context, callback, false);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, false);
         }
 
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7>(StoreContext context, Action<T1, T2, T3, T4, T5, T6, T7> callback)
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7>(IStore store, Action<T1, T2, T3, T4, T5, T6, T7> callback)
         {
-            return new Function(context, callback, false);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, false);
         }
 
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8>(StoreContext context, Action<T1, T2, T3, T4, T5, T6, T7, T8> callback)
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8>(IStore store, Action<T1, T2, T3, T4, T5, T6, T7, T8> callback)
         {
-            return new Function(context, callback, false);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, false);
         }
 
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9>(StoreContext context, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9> callback)
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9>(IStore store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9> callback)
         {
-            return new Function(context, callback, false);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, false);
         }
 
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(StoreContext context, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> callback)
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(IStore store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> callback)
         {
-            return new Function(context, callback, false);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, false);
         }
 
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(StoreContext context, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> callback)
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(IStore store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> callback)
         {
-            return new Function(context, callback, false);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, false);
         }
 
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(StoreContext context, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> callback)
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(IStore store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> callback)
         {
-            return new Function(context, callback, false);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, false);
         }
 
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(StoreContext context, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> callback)
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(IStore store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> callback)
         {
-            return new Function(context, callback, false);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, false);
         }
 
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(StoreContext context, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> callback)
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(IStore store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> callback)
         {
-            return new Function(context, callback, false);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, false);
         }
 
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(StoreContext context, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> callback)
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(IStore store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> callback)
         {
-            return new Function(context, callback, false);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, false);
         }
 
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(StoreContext context, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> callback)
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(IStore store, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> callback)
         {
-            return new Function(context, callback, false);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, false);
         }
 
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<TResult>(StoreContext context, Func<TResult> callback)
+        public static Function FromCallback<TResult>(IStore store, Func<TResult> callback)
         {
-            return new Function(context, callback, true);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, true);
         }
 
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<T, TResult>(StoreContext context, Func<T, TResult> callback)
+        public static Function FromCallback<T, TResult>(IStore store, Func<T, TResult> callback)
         {
-            return new Function(context, callback, true);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, true);
         }
 
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<T1, T2, TResult>(StoreContext context, Func<T1, T2, TResult> callback)
+        public static Function FromCallback<T1, T2, TResult>(IStore store, Func<T1, T2, TResult> callback)
         {
-            return new Function(context, callback, true);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, true);
         }
 
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<T1, T2, T3, TResult>(StoreContext context, Func<T1, T2, T3, TResult> callback)
+        public static Function FromCallback<T1, T2, T3, TResult>(IStore store, Func<T1, T2, T3, TResult> callback)
         {
-            return new Function(context, callback, true);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, true);
         }
 
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<T1, T2, T3, T4, TResult>(StoreContext context, Func<T1, T2, T3, T4, TResult> callback)
+        public static Function FromCallback<T1, T2, T3, T4, TResult>(IStore store, Func<T1, T2, T3, T4, TResult> callback)
         {
-            return new Function(context, callback, true);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, true);
         }
 
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<T1, T2, T3, T4, T5, TResult>(StoreContext context, Func<T1, T2, T3, T4, T5, TResult> callback)
+        public static Function FromCallback<T1, T2, T3, T4, T5, TResult>(IStore store, Func<T1, T2, T3, T4, T5, TResult> callback)
         {
-            return new Function(context, callback, true);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, true);
         }
 
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<T1, T2, T3, T4, T5, T6, TResult>(StoreContext context, Func<T1, T2, T3, T4, T5, T6, TResult> callback)
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, TResult>(IStore store, Func<T1, T2, T3, T4, T5, T6, TResult> callback)
         {
-            return new Function(context, callback, true);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, true);
         }
 
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, TResult>(StoreContext context, Func<T1, T2, T3, T4, T5, T6, T7, TResult> callback)
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, TResult>(IStore store, Func<T1, T2, T3, T4, T5, T6, T7, TResult> callback)
         {
-            return new Function(context, callback, true);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, true);
         }
 
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(StoreContext context, Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult> callback)
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(IStore store, Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult> callback)
         {
-            return new Function(context, callback, true);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, true);
         }
 
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(StoreContext context, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> callback)
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(IStore store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> callback)
         {
-            return new Function(context, callback, true);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, true);
         }
 
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(StoreContext context, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> callback)
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(IStore store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> callback)
         {
-            return new Function(context, callback, true);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, true);
         }
 
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult>(StoreContext context, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult> callback)
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult>(IStore store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult> callback)
         {
-            return new Function(context, callback, true);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, true);
         }
 
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult>(StoreContext context, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult> callback)
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult>(IStore store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult> callback)
         {
-            return new Function(context, callback, true);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, true);
         }
 
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult>(StoreContext context, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult> callback)
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult>(IStore store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult> callback)
         {
-            return new Function(context, callback, true);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, true);
         }
 
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult>(StoreContext context, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult> callback)
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult>(IStore store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult> callback)
         {
-            return new Function(context, callback, true);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, true);
         }
 
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult>(StoreContext context, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult> callback)
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult>(IStore store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult> callback)
         {
-            return new Function(context, callback, true);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, true);
         }
 
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
-        /// <param name="context">The store context to create the function in.</param>
+        /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult>(StoreContext context, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult> callback)
+        public static Function FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult>(IStore store, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult> callback)
         {
-            return new Function(context, callback, true);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return new Function(store.Context, callback, true);
         }
 
         /// <summary>
@@ -377,21 +547,21 @@ namespace Wasmtime
         /// <summary>
         /// Invokes the Wasmtime function.
         /// </summary>
-        /// <param name="context">The store context of the store that owns this function.</param>
+        /// <param name="store">The store that owns this function.</param>
         /// <param name="arguments">The array of arguments to pass to the function.</param>
         /// <returns>
         ///   Returns null if the function has no return value.
         ///   Returns the value if the function returns a single value.
         ///   Returns an array of values if the function returns more than one value.
         /// </returns>
-        public object? Invoke(StoreContext context, params object?[] arguments)
+        public object? Invoke(IStore store, params object?[] arguments)
         {
-            if (IsNull)
+            if (store is null)
             {
-                throw new InvalidOperationException("Cannot invoke a null function reference.");
+                throw new ArgumentNullException(nameof(store));
             }
 
-            return Invoke(context, (ReadOnlySpan<object?>)(arguments ?? NullParams));
+            return Invoke(store.Context, (ReadOnlySpan<object?>)(arguments ?? NullParams));
         }
 
         // TODO: remove overload when https://github.com/dotnet/csharplang/issues/1757 is resolved
@@ -512,13 +682,19 @@ namespace Wasmtime
                 Native.WasmtimeFuncCallback? func = null;
                 if (hasCaller)
                 {
-                    func = (env, caller, args, nargs, results, nresults) =>
-                        InvokeCallback(callback, new Caller(caller), true, args, (int)nargs, results, (int)nresults, Results);
+                    func = (env, callerPtr, args, nargs, results, nresults) =>
+                    {
+                        using var caller = new Caller(callerPtr);
+                        return InvokeCallback(callback, caller, true, args, (int)nargs, results, (int)nresults, Results);
+                    };
                 }
                 else
                 {
-                    func = (env, caller, args, nargs, results, nresults) =>
-                        InvokeCallback(callback, new Caller(caller), false, args, (int)nargs, results, (int)nresults, Results);
+                    func = (env, callerPtr, args, nargs, results, nresults) =>
+                    {
+                        using var caller = new Caller(callerPtr);
+                        return InvokeCallback(callback, caller, false, args, (int)nargs, results, (int)nresults, Results);
+                    };
                 }
 
                 Native.wasmtime_func_new(
@@ -646,9 +822,10 @@ namespace Wasmtime
                 }
 
                 var invokeArgsSpan = new Span<object?>(invokeArgs, offset, nargs);
+                var context = ((IStore)caller).Context;
                 for (int i = 0; i < invokeArgsSpan.Length; ++i)
                 {
-                    invokeArgsSpan[i] = args[i].ToObject(caller.Context);
+                    invokeArgsSpan[i] = args[i].ToObject(context);
                 }
 
                 // NOTE: reflection is extremely slow for invoking methods. in the future, perhaps this could be replaced with

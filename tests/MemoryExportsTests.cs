@@ -45,43 +45,42 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItCreatesExternsForTheMemories()
         {
-            var context = Store.Context;
-            var instance = Linker.Instantiate(context, Fixture.Module);
-            var memory = instance.GetMemory(context, "mem");
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var memory = instance.GetMemory(Store, "mem");
 
             memory.Should().NotBeNull();
 
-            memory.ReadString(context, 0, 11).Should().Be("Hello World");
-            int written = memory.WriteString(context, 0, "WebAssembly Rocks!");
-            memory.ReadString(context, 0, written).Should().Be("WebAssembly Rocks!");
+            memory.ReadString(Store, 0, 11).Should().Be("Hello World");
+            int written = memory.WriteString(Store, 0, "WebAssembly Rocks!");
+            memory.ReadString(Store, 0, written).Should().Be("WebAssembly Rocks!");
 
-            memory.ReadByte(context, 20).Should().Be(1);
-            memory.WriteByte(context, 20, 11);
-            memory.ReadByte(context, 20).Should().Be(11);
+            memory.ReadByte(Store, 20).Should().Be(1);
+            memory.WriteByte(Store, 20, 11);
+            memory.ReadByte(Store, 20).Should().Be(11);
 
-            memory.ReadInt16(context, 21).Should().Be(2);
-            memory.WriteInt16(context, 21, 12);
-            memory.ReadInt16(context, 21).Should().Be(12);
+            memory.ReadInt16(Store, 21).Should().Be(2);
+            memory.WriteInt16(Store, 21, 12);
+            memory.ReadInt16(Store, 21).Should().Be(12);
 
-            memory.ReadInt32(context, 23).Should().Be(3);
-            memory.WriteInt32(context, 23, 13);
-            memory.ReadInt32(context, 23).Should().Be(13);
+            memory.ReadInt32(Store, 23).Should().Be(3);
+            memory.WriteInt32(Store, 23, 13);
+            memory.ReadInt32(Store, 23).Should().Be(13);
 
-            memory.ReadInt64(context, 27).Should().Be(4);
-            memory.WriteInt64(context, 27, 14);
-            memory.ReadInt64(context, 27).Should().Be(14);
+            memory.ReadInt64(Store, 27).Should().Be(4);
+            memory.WriteInt64(Store, 27, 14);
+            memory.ReadInt64(Store, 27).Should().Be(14);
 
-            memory.ReadSingle(context, 35).Should().Be(5);
-            memory.WriteSingle(context, 35, 15);
-            memory.ReadSingle(context, 35).Should().Be(15);
+            memory.ReadSingle(Store, 35).Should().Be(5);
+            memory.WriteSingle(Store, 35, 15);
+            memory.ReadSingle(Store, 35).Should().Be(15);
 
-            memory.ReadDouble(context, 39).Should().Be(6);
-            memory.WriteDouble(context, 39, 16);
-            memory.ReadDouble(context, 39).Should().Be(16);
+            memory.ReadDouble(Store, 39).Should().Be(6);
+            memory.WriteDouble(Store, 39, 16);
+            memory.ReadDouble(Store, 39).Should().Be(16);
 
-            memory.ReadIntPtr(context, 48).Should().Be((IntPtr)7);
-            memory.WriteIntPtr(context, 48, (IntPtr)17);
-            memory.ReadIntPtr(context, 48).Should().Be((IntPtr)17);
+            memory.ReadIntPtr(Store, 48).Should().Be((IntPtr)7);
+            memory.WriteIntPtr(Store, 48, (IntPtr)17);
+            memory.ReadIntPtr(Store, 48).Should().Be((IntPtr)17);
         }
 
         public static IEnumerable<object[]> GetMemoryExports()

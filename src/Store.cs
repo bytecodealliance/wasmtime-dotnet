@@ -4,7 +4,9 @@ using Microsoft.Win32.SafeHandles;
 
 namespace Wasmtime
 {
-    /// Represents a Wasmtime store context.
+    /// <summary>
+    /// Represents context about a <see cref="Store"/>.
+    /// </summary>
     public readonly ref struct StoreContext
     {
         internal StoreContext(IntPtr handle)
@@ -12,19 +14,12 @@ namespace Wasmtime
             this.handle = handle;
         }
 
-        /// <summary>
-        /// Perform garbage collection within the given store context.
-        /// </summary>
-        public void GC()
+        internal void GC()
         {
             Native.wasmtime_context_gc(handle);
         }
 
-        /// <summary>
-        /// Adds fuel to this context's store for WebAssembly code to consume while executing.
-        /// </summary>
-        /// <param name="fuel">The fuel to add to the context's store.</param>
-        public void AddFuel(ulong fuel)
+        internal void AddFuel(ulong fuel)
         {
             var error = Native.wasmtime_context_add_fuel(handle, fuel);
             if (error != IntPtr.Zero)
@@ -33,11 +28,7 @@ namespace Wasmtime
             }
         }
 
-        /// <summary>
-        /// Gets the fuel consumed by the executing WebAssembly code.
-        /// </summary>
-        /// <returns>Returns the fuel consumed by the executing WebAssembly code or 0 if fuel consumption was not enabled.</returns>
-        public ulong GetConsumedFuel()
+        internal ulong GetConsumedFuel()
         {
             if (!Native.wasmtime_context_fuel_consumed(handle, out var fuel))
             {
@@ -47,11 +38,7 @@ namespace Wasmtime
             return fuel;
         }
 
-        /// <summary>
-        /// Configres WASI within the context's store.
-        /// </summary>
-        /// <param name="config">The WASI configuration to use.</param>
-        public void SetWasiConfiguration(WasiConfiguration config)
+        internal void SetWasiConfiguration(WasiConfiguration config)
         {
             var wasi = config.Build();
             var error = Native.wasmtime_context_set_wasi(handle, wasi.DangerousGetHandle());
@@ -88,12 +75,17 @@ namespace Wasmtime
     public class InterruptHandle : IDisposable
     {
         /// <summary>
-        /// Creates a new interrupt handle from the given store context.
+        /// Creates a new interrupt handle from the given store.
         /// </summary>
-        /// <param name="context">The store context to create the interrupt handle for.</param>
-        public InterruptHandle(StoreContext context)
+        /// <param name="store">The store to create the interrupt handle for.</param>
+        public InterruptHandle(IStore store)
         {
-            handle = new Handle(Native.wasmtime_interrupt_handle_new(context.handle));
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            handle = new Handle(Native.wasmtime_interrupt_handle_new(store.Context.handle));
         }
 
         /// <summary>
@@ -154,13 +146,24 @@ namespace Wasmtime
     }
 
     /// <summary>
+    /// An interface implemented on types that behave like stores.
+    /// </summary>
+    public interface IStore
+    {
+        /// <summary>
+        /// Gets the context of the store.
+        /// </summary>
+        StoreContext Context { get; }
+    }
+
+    /// <summary>
     /// Represents a Wasmtime store.
     /// </summary>
     /// <remarks>
     /// A Wasmtime store may be sent between threads but cannot be used from more than one thread
     /// simultaneously.
     /// </remarks>
-    public class Store : IDisposable
+    public class Store : IStore, IDisposable
     {
         /// <summary>
         /// Constructs a new store.
@@ -177,9 +180,29 @@ namespace Wasmtime
         }
 
         /// <summary>
-        /// Get the context for this store.
+        /// Perform garbage collection within the given store.
         /// </summary>
-        public StoreContext Context => new StoreContext(Native.wasmtime_store_context(NativeHandle));
+        public void GC() => ((IStore)this).Context.GC();
+
+        /// <summary>
+        /// Adds fuel to this store for WebAssembly code to consume while executing.
+        /// </summary>
+        /// <param name="fuel">The fuel to add to the store.</param>
+        public void AddFuel(ulong fuel) => ((IStore)this).Context.AddFuel(fuel);
+
+        /// <summary>
+        /// Gets the fuel consumed by the executing WebAssembly code.
+        /// </summary>
+        /// <returns>Returns the fuel consumed by the executing WebAssembly code or 0 if fuel consumption was not enabled.</returns>
+        public ulong GetConsumedFuel() => ((IStore)this).Context.GetConsumedFuel();
+
+        /// <summary>
+        /// Configres WASI within the store.
+        /// </summary>
+        /// <param name="config">The WASI configuration to use.</param>
+        public void SetWasiConfiguration(WasiConfiguration config) => ((IStore)this).Context.SetWasiConfiguration(config);
+
+        StoreContext IStore.Context => new StoreContext(Native.wasmtime_store_context(NativeHandle));
 
         /// <inheritdoc/>
         public void Dispose()

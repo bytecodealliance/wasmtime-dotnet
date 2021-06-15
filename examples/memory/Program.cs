@@ -11,28 +11,27 @@ namespace Example
             using var module = Module.FromTextFile(engine, "memory.wat");
             using var linker = new Linker(engine);
             using var store = new Store(engine);
-            var context = store.Context;
 
             linker.Define(
                 "",
                 "log",
-                Function.FromCallback(context, (Caller caller, int address, int length) =>
+                Function.FromCallback(store, (Caller caller, int address, int length) =>
                 {
-                    var message = caller.GetMemory("mem").ReadString(caller.Context, address, length);
+                    var message = caller.GetMemory("mem").ReadString(caller, address, length);
                     Console.WriteLine($"Message from WebAssembly: {message}");
                 }
             ));
 
-            var instance = linker.Instantiate(context, module);
+            var instance = linker.Instantiate(store, module);
 
-            var run = instance.GetFunction(context, "run");
+            var run = instance.GetFunction(store, "run");
             if (run is null)
             {
                 Console.WriteLine("error: run export is missing");
                 return;
             }
 
-            run.Invoke(context);
+            run.Invoke(store);
         }
     }
 }

@@ -12,13 +12,18 @@ namespace Wasmtime
         /// <summary>
         /// Creates a new WebAssembly table.
         /// </summary>
-        /// <param name="context">The store context to create the table in.</param>
+        /// <param name="store">The store to create the table in.</param>
         /// <param name="kind">The value kind for the elements in the table.</param>
         /// <param name="initialValue">The initial value for elements in the table.</param>
         /// <param name="initial">The number of initial elements in the table.</param>
         /// <param name="maximum">The maximum number of elements in the table.</param>
-        public Table(StoreContext context, ValueKind kind, object? initialValue, uint initial, uint maximum = uint.MaxValue)
+        public Table(IStore store, ValueKind kind, object? initialValue, uint initial, uint maximum = uint.MaxValue)
         {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
             if (kind != ValueKind.ExternRef && kind != ValueKind.FuncRef)
             {
                 throw new WasmtimeException($"Table elements must be externref or funcref.");
@@ -43,7 +48,7 @@ namespace Wasmtime
             ));
 
             var value = Wasmtime.Value.FromObject(initialValue, Kind);
-            var error = Native.wasmtime_table_new(context.handle, tableType, in value, out this.table);
+            var error = Native.wasmtime_table_new(store.Context.handle, tableType, in value, out this.table);
             value.Dispose();
 
             if (error != IntPtr.Zero)
@@ -71,11 +76,17 @@ namespace Wasmtime
         /// <summary>
         /// Gets an element from the table.
         /// </summary>
-        /// <param name="context">The store context for the table.</param>
+        /// <param name="store">The store that owns the table.</param>
         /// <param name="index">The index in the table to get the element of.</param>
         /// <returns>Returns the table element.</returns>
-        public object? GetElement(StoreContext context, uint index)
+        public object? GetElement(IStore store, uint index)
         {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            var context = store.Context;
             if (!Native.wasmtime_table_get(context.handle, this.table, index, out var v))
             {
                 throw new IndexOutOfRangeException();
@@ -89,13 +100,18 @@ namespace Wasmtime
         /// <summary>
         /// Sets an element in the table.
         /// </summary>
-        /// <param name="context">The store context for the table.</param>
+        /// <param name="store">The store that owns the table.</param>
         /// <param name="index">The index in the table to set the element of.</param>
         /// <param name="value">The value to set.</param>
-        public void SetElement(StoreContext context, uint index, object? value)
+        public void SetElement(IStore store, uint index, object? value)
         {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
             var v = Value.FromObject(value, Kind);
-            var error = Native.wasmtime_table_set(context.handle, this.table, index, v);
+            var error = Native.wasmtime_table_set(store.Context.handle, this.table, index, v);
             v.Dispose();
 
             if (error != IntPtr.Zero)
@@ -107,25 +123,35 @@ namespace Wasmtime
         /// <summary>
         /// Gets the current size of the table.
         /// </summary>
-        /// <param name="context">The store context for the table.</param>
+        /// <param name="store">The store that owns the table.</param>
         /// <value>Returns the current size of the table.</value>
-        public uint GetSize(StoreContext context)
+        public uint GetSize(IStore store)
         {
-            return Native.wasmtime_table_size(context.handle, this.table);
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return Native.wasmtime_table_size(store.Context.handle, this.table);
         }
 
         /// <summary>
         /// Grows the table by the given number of elements.
         /// </summary>
-        /// <param name="context">The store context for the table.</param>
+        /// <param name="store">The store that owns the table.</param>
         /// <param name="delta">The number of elements to grow the table.</param>
         /// <param name="initialValue">The initial value for the new elements.</param>
         /// <returns>Returns the previous number of elements in the table.</returns>
-        public uint Grow(StoreContext context, uint delta, object? initialValue)
+        public uint Grow(IStore store, uint delta, object? initialValue)
         {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
             var v = Value.FromObject(initialValue, Kind);
 
-            var error = Native.wasmtime_table_grow(context.handle, this.table, delta, v, out var prev);
+            var error = Native.wasmtime_table_grow(store.Context.handle, this.table, delta, v, out var prev);
             v.Dispose();
 
             if (error != IntPtr.Zero)

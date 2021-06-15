@@ -11,31 +11,30 @@ namespace Example
             using var module = Module.FromTextFile(engine, "global.wat");
             using var linker = new Linker(engine);
             using var store = new Store(engine);
-            var context = store.Context;
 
-            var global = new Global(context, ValueKind.Int32, 1, Mutability.Mutable);
+            var global = new Global(store, ValueKind.Int32, 1, Mutability.Mutable);
 
             linker.Define("", "global", global);
 
             linker.Define(
                 "",
                 "print_global",
-                Function.FromCallback(context, (Caller caller) =>
+                Function.FromCallback(store, (Caller caller) =>
                 {
-                    Console.WriteLine($"The value of the global is: {global.GetValue(caller.Context)}.");
+                    Console.WriteLine($"The value of the global is: {global.GetValue(caller)}.");
                 }
             ));
 
-            var instance = linker.Instantiate(context, module);
+            var instance = linker.Instantiate(store, module);
 
-            var run = instance.GetFunction(context, "run");
+            var run = instance.GetFunction(store, "run");
             if (run is null)
             {
                 Console.WriteLine("error: run export is missing");
                 return;
             }
 
-            run.Invoke(context, 20);
+            run.Invoke(store, 20);
         }
     }
 }

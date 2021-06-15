@@ -29,10 +29,9 @@ namespace Wasmtime.Tests
         {
             Action action = () =>
             {
-                var context = Store.Context;
-                var instance = Linker.Instantiate(context, Fixture.Module);
-                var run = instance.GetFunction(context, "run");
-                run.Invoke(context);
+                var instance = Linker.Instantiate(Store, Fixture.Module);
+                var run = instance.GetFunction(Store, "run");
+                run.Invoke(Store);
             };
 
             action

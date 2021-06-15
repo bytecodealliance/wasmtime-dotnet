@@ -76,16 +76,15 @@ namespace Tutorial
             using var linker = new Linker(engine);
             using var store = new Store(engine);
 
-            var context = store.Context;
             linker.Define(
                 "",
                 "hello",
-                Function.FromCallback(context, () => Console.WriteLine("Hello from C#!"))
+                Function.FromCallback(store, () => Console.WriteLine("Hello from C#!"))
             );
 
-            var instance = linker.Instantiate(context, module);
-            var run = instance.GetFunction(context, "run");
-            run?.Invoke(context);
+            var instance = linker.Instantiate(store, module);
+            var run = instance.GetFunction(store, "run");
+            run?.Invoke(store);
         }
     }
 }

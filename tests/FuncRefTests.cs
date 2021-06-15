@@ -17,8 +17,8 @@ namespace Wasmtime.Tests
             Linker = new Linker(Fixture.Engine);
             Store = new Store(Fixture.Engine);
 
-            Callback = Function.FromCallback(Store.Context, (Caller caller, Function f) => f.Invoke(caller.Context, "testing"));
-            Assert = Function.FromCallback(Store.Context, (string s) => { s.Should().Be("testing"); return "asserted!"; });
+            Callback = Function.FromCallback(Store, (Caller caller, Function f) => f.Invoke(caller, "testing"));
+            Assert = Function.FromCallback(Store, (string s) => { s.Should().Be("testing"); return "asserted!"; });
 
             Linker.Define("", "callback", Callback);
             Linker.Define("", "assert", Assert);
@@ -37,32 +37,29 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItPassesFunctionReferencesToWasm()
         {
-            var context = Store.Context;
-            var f = Function.FromCallback(context, (Caller caller, string s) => Assert.Invoke(caller.Context, s));
-            var instance = Linker.Instantiate(context, Fixture.Module);
-            var func = instance.GetFunction(context, "call_nested");
+            var f = Function.FromCallback(Store, (Caller caller, string s) => Assert.Invoke(caller, s));
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var func = instance.GetFunction(Store, "call_nested");
 
-            (func.Invoke(context, Callback, f) as string).Should().Be("asserted!");
+            (func.Invoke(Store, Callback, f) as string).Should().Be("asserted!");
         }
 
         [Fact]
         public void ItAcceptsFunctionReferences()
         {
-            var context = Store.Context;
-            var instance = Linker.Instantiate(context, Fixture.Module);
-            var func = instance.GetFunction(context, "call_callback");
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var func = instance.GetFunction(Store, "call_callback");
 
-            (func.Invoke(context) as string).Should().Be("asserted!");
+            (func.Invoke(Store) as string).Should().Be("asserted!");
         }
 
         [Fact]
         public void ItThrowsForInvokingANullFunctionReference()
         {
-            var context = Store.Context;
-            var instance = Linker.Instantiate(context, Fixture.Module);
-            var func = instance.GetFunction(context, "call_with_null");
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var func = instance.GetFunction(Store, "call_with_null");
 
-            Action action = () => func.Invoke(Store.Context);
+            Action action = () => func.Invoke(Store);
 
             action
                 .Should()

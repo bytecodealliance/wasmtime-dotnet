@@ -9,9 +9,7 @@ namespace Wasmtime.Tests
     {
         public ModuleLinkingTests()
         {
-            Engine = new EngineBuilder()
-                .WithModuleLinking(true)
-                .Build();
+            Engine = new Engine(new Config().WithModuleLinking(true));
             Store = new Store(Engine);
             Linker = new Linker(Engine);
         }
@@ -100,18 +98,17 @@ namespace Wasmtime.Tests
 
             var called = false;
 
-            var context = Store.Context;
-            Linker.Define("", "a", Function.FromCallback(Store.Context, () => { called = true; }));
+            Linker.Define("", "a", Function.FromCallback(Store, () => { called = true; }));
 
-            var instanceA = Linker.Instantiate(context, a);
+            var instanceA = Linker.Instantiate(Store, a);
 
             Linker.AllowShadowing = true;
             Linker.Define("", "a", instanceA);
 
-            var instanceC = Linker.Instantiate(context, c);
+            var instanceC = Linker.Instantiate(Store, c);
 
-            var d = instanceC.GetFunction(context, "d");
-            d.Invoke(context);
+            var d = instanceC.GetFunction(Store, "d");
+            d.Invoke(Store);
             called.Should().BeTrue();
         }
 
