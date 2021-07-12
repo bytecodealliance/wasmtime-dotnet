@@ -179,6 +179,17 @@ namespace Wasmtime
         }
 
         /// <summary>
+        /// Sets whether or not enable WebAssembly multi-memory support.
+        /// </summary>
+        /// <param name="enable">True to enable WebAssembly multi-memory support or false to disable.</param>
+        /// <returns>Returns the current config.</returns>
+        public Config WithMultiMemory(bool enable)
+        {
+            Native.wasmtime_config_wasm_multi_memory_set(handle, enable);
+            return this;
+        }
+
+        /// <summary>
         /// Sets whether or not enable WebAssembly module linking support.
         /// </summary>
         /// <param name="enable">True to enable WebAssembly module linking support or false to disable.</param>
@@ -378,6 +389,9 @@ namespace Wasmtime
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_config_wasm_multi_value_set(Handle config, bool enable);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_wasm_multi_memory_set(Handle config, bool enable);
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_config_wasm_module_linking_set(Handle config, bool enable);
