@@ -648,34 +648,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var type = callback.GetType();
-            Span<Type> parameterTypes = null;
-            Type? returnType = null;
-
-            if (hasReturn)
-            {
-                parameterTypes = type.GenericTypeArguments[0..^1];
-                returnType = type.GenericTypeArguments[^1];
-            }
-            else
-            {
-                parameterTypes = type.GenericTypeArguments;
-                returnType = null;
-            }
-
-            bool hasCaller = parameterTypes.Length > 0 && parameterTypes[0] == typeof(Caller);
-
-            if (hasCaller)
-            {
-                parameterTypes = parameterTypes[1..];
-            }
-
-            AddParameters(parameterTypes);
-            AddResults(EnumerateReturnTypes(returnType));
-
-            var parameters = new ValueTypeArray(Parameters);
-            var results = new ValueTypeArray(Results);
-            using var funcType = new TypeHandle(Native.wasm_functype_new(parameters, results));
+            using var funcType = GetFunctionType(callback.GetType(), hasReturn, this.parameters, this.results, out var hasCaller);
 
             unsafe
             {
@@ -730,36 +703,6 @@ namespace Wasmtime
             }
         }
 
-        private void AddParameters(Span<Type> parameters)
-        {
-            for (int i = 0; i < parameters.Length; ++i)
-            {
-                if (parameters[i] == typeof(Caller))
-                {
-                    throw new WasmtimeException($"A 'Caller' parameter must be the first parameter of the function.");
-                }
-
-                if (!Value.TryGetKind(parameters[i], out var kind))
-                {
-                    throw new WasmtimeException($"Unable to create a function with parameter of type '{parameters[i].ToString()}'.");
-                }
-
-                this.parameters.Add(kind);
-            }
-        }
-
-        private void AddResults(IEnumerable<Type> returnTypes)
-        {
-            this.results.AddRange(returnTypes.Select(t =>
-            {
-                if (!Value.TryGetKind(t, out var kind))
-                {
-                    throw new WasmtimeException($"Unable to create a function with a return type of type '{t.ToString()}'.");
-                }
-                return kind;
-            }));
-        }
-
         private static IEnumerable<Type> EnumerateReturnTypes(Type? returnType)
         {
             if (returnType is null)
@@ -809,7 +752,57 @@ namespace Wasmtime
                    definition == typeof(ValueTuple<,,,,,,,>);
         }
 
-        private unsafe static IntPtr InvokeCallback(Delegate callback, Caller caller, bool passCaller, Value* args, int nargs, Value* results, int nresults, IReadOnlyList<ValueKind> resultKinds)
+        internal static TypeHandle GetFunctionType(Type type, bool hasReturn, List<ValueKind> parameters, List<ValueKind> results, out bool hasCaller)
+        {
+            Span<Type> parameterTypes = null;
+            Type? returnType = null;
+
+            if (hasReturn)
+            {
+                parameterTypes = type.GenericTypeArguments[0..^1];
+                returnType = type.GenericTypeArguments[^1];
+            }
+            else
+            {
+                parameterTypes = type.GenericTypeArguments;
+                returnType = null;
+            }
+
+            hasCaller = parameterTypes.Length > 0 && parameterTypes[0] == typeof(Caller);
+
+            if (hasCaller)
+            {
+                parameterTypes = parameterTypes[1..];
+            }
+
+            for (int i = 0; i < parameterTypes.Length; ++i)
+            {
+                if (parameterTypes[i] == typeof(Caller))
+                {
+                    throw new WasmtimeException($"A 'Caller' parameter must be the first parameter of the function.");
+                }
+
+                if (!Value.TryGetKind(parameterTypes[i], out var kind))
+                {
+                    throw new WasmtimeException($"Unable to create a function with parameter of type '{parameterTypes[i].ToString()}'.");
+                }
+
+                parameters.Add(kind);
+            }
+
+            results.AddRange(EnumerateReturnTypes(returnType).Select(t =>
+            {
+                if (!Value.TryGetKind(t, out var kind))
+                {
+                    throw new WasmtimeException($"Unable to create a function with a return type of type '{t.ToString()}'.");
+                }
+                return kind;
+            }));
+
+            return new Function.TypeHandle(Function.Native.wasm_functype_new(new ValueTypeArray(parameters), new ValueTypeArray(results)));
+        }
+
+        internal unsafe static IntPtr InvokeCallback(Delegate callback, Caller caller, bool passCaller, Value* args, int nargs, Value* results, int nresults, IReadOnlyList<ValueKind> resultKinds)
         {
             try
             {
@@ -910,11 +903,9 @@ namespace Wasmtime
         internal readonly ExternFunc func;
         internal readonly List<ValueKind> parameters = new List<ValueKind>();
         internal readonly List<ValueKind> results = new List<ValueKind>();
+        internal static readonly Native.Finalizer Finalizer = (p) => GCHandle.FromIntPtr(p).Free();
 
         private static readonly Function _null = new Function();
-
-        private static readonly Native.Finalizer Finalizer = (p) => GCHandle.FromIntPtr(p).Free();
-
         private static readonly object?[] NullParams = new object?[1];
     }
 }

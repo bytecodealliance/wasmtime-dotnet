@@ -4,12 +4,12 @@ using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class FunctionThunkingFixture : ModuleFixture
+    public class FunctionsFixture : ModuleFixture
     {
-        protected override string ModuleFileName => "FunctionThunking.wat";
+        protected override string ModuleFileName => "Functions.wat";
     }
 
-    public class FunctionThunkingTests : IClassFixture<FunctionThunkingFixture>, IDisposable
+    public class FunctionTests : IClassFixture<FunctionsFixture>, IDisposable
     {
         const string THROW_MESSAGE = "Test error message for wasmtime dotnet unit tests.";
 
@@ -17,7 +17,7 @@ namespace Wasmtime.Tests
 
         private Linker Linker { get; set; }
 
-        public FunctionThunkingTests(FunctionThunkingFixture fixture)
+        public FunctionTests(FunctionsFixture fixture)
         {
             Fixture = fixture;
             Linker = new Linker(Fixture.Engine);
@@ -32,7 +32,7 @@ namespace Wasmtime.Tests
             }));
         }
 
-        private FunctionThunkingFixture Fixture { get; }
+        private FunctionsFixture Fixture { get; }
 
         [Fact]
         public void ItBindsImportMethodsAndCallsThemCorrectly()
