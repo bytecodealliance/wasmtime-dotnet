@@ -7,7 +7,7 @@ namespace Wasmtime
     /// <summary>
     /// Represents the Wasmtime compiler strategy.
     /// </summary>
-    public enum CompilerStrategy
+    public enum CompilerStrategy : byte
     {
         /// <summary>
         /// Automatically pick the compiler strategy.
@@ -26,7 +26,7 @@ namespace Wasmtime
     /// <summary>
     /// Represents the Wasmtime optimization level.
     /// </summary>
-    public enum OptimizationLevel
+    public enum OptimizationLevel : byte
     {
         /// <summary>
         /// Disable optimizations.
@@ -45,7 +45,7 @@ namespace Wasmtime
     /// <summary>
     /// Represents the Wasmtime code profiling strategy.
     /// </summary>
-    public enum ProfilingStrategy
+    public enum ProfilingStrategy : byte
     {
         /// <summary>
         /// Disable code profiling.
@@ -253,7 +253,7 @@ namespace Wasmtime
         /// </summary>
         /// <param name="strategy">The profiling strategy to use.</param>
         /// <returns>Returns the current config.</returns>
-        public Config WithOptimizationLevel(ProfilingStrategy strategy)
+        public Config WithProfilingStrategy(ProfilingStrategy strategy)
         {
             if (!Enum.IsDefined(typeof(ProfilingStrategy), (byte)strategy))
             {
