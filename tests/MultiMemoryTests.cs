@@ -19,7 +19,7 @@ namespace Wasmtime.Tests
             action
                 .Should()
                 .Throw<WasmtimeException>()
-                .WithMessage("WebAssembly module 'test' is not valid: WebAssembly failed to compile*");
+                .WithMessage("WebAssembly module 'test' is not valid: failed to parse WebAssembly module*");
         }
 
         [Fact]
