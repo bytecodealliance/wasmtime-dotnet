@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class Engine
+    <title>Class ModuleExport
    </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class Engine
+    <meta name="title" content="Class ModuleExport
    ">
     <meta name="generator" content="docfx 2.58.0.0">
     
@@ -68,97 +68,99 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="Wasmtime.Engine">
+            <article class="content wrap" id="_content" data-uid="Wasmtime.ModuleExport">
   
   
-  <h1 id="Wasmtime_Engine" data-uid="Wasmtime.Engine" class="text-break">Class Engine
+  <h1 id="Wasmtime_ModuleExport" data-uid="Wasmtime.ModuleExport" class="text-break">Class ModuleExport
   </h1>
-  <div class="markdown level0 summary"><p>Represents the Wasmtime engine.</p>
+  <div class="markdown level0 summary"><p>Represents a module exported from a WebAssembly module or instance.</p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><span class="xref">System.Object</span></div>
-    <div class="level1"><span class="xref">Engine</span></div>
+    <div class="level1"><a class="xref" href="Wasmtime.Export.html">Export</a></div>
+    <div class="level2"><span class="xref">ModuleExport</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="Wasmtime.Export.html#Wasmtime_Export_Name">Export.Name</a>
+    </div>
+    <div>
+      <a class="xref" href="Wasmtime.Export.html#Wasmtime_Export_ToString">Export.ToString()</a>
+    </div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Wasmtime.html">Wasmtime</a></h6>
   <h6><strong>Assembly</strong>: Wasmtime.Dotnet.dll</h6>
-  <h5 id="Wasmtime_Engine_syntax">Syntax</h5>
+  <h5 id="Wasmtime_ModuleExport_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class Engine : IDisposable</code></pre>
+    <pre><code class="lang-csharp hljs">public class ModuleExport : Export</code></pre>
   </div>
-  <h3 id="constructors">Constructors
+  <h3 id="properties">Properties
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Engine__ctor.md&amp;value=---%0Auid%3A%20Wasmtime.Engine.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_ModuleExport_Exports.md&amp;value=---%0Auid%3A%20Wasmtime.ModuleExport.Exports%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Engine.cs/#L17">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Export.cs/#L345">View Source</a>
   </span>
-  <a id="Wasmtime_Engine__ctor_" data-uid="Wasmtime.Engine.#ctor*"></a>
-  <h4 id="Wasmtime_Engine__ctor" data-uid="Wasmtime.Engine.#ctor">Engine()</h4>
-  <div class="markdown level1 summary"><p>Constructs a new default engine.</p>
+  <a id="Wasmtime_ModuleExport_Exports_" data-uid="Wasmtime.ModuleExport.Exports*"></a>
+  <h4 id="Wasmtime_ModuleExport_Exports" data-uid="Wasmtime.ModuleExport.Exports">Exports</h4>
+  <div class="markdown level1 summary"><p>The exports of the module.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Engine()</code></pre>
+    <pre><code class="lang-csharp hljs">public IReadOnlyList&lt;Export&gt; Exports { get; }</code></pre>
   </div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Engine__ctor_Wasmtime_Config_.md&amp;value=---%0Auid%3A%20Wasmtime.Engine.%23ctor(Wasmtime.Config)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Engine.cs/#L27">View Source</a>
-  </span>
-  <a id="Wasmtime_Engine__ctor_" data-uid="Wasmtime.Engine.#ctor*"></a>
-  <h4 id="Wasmtime_Engine__ctor_Wasmtime_Config_" data-uid="Wasmtime.Engine.#ctor(Wasmtime.Config)">Engine(Config)</h4>
-  <div class="markdown level1 summary"><p>Constructs a new engine using the given configuration.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Engine(Config config)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
+  <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
       <tr>
         <th>Type</th>
-        <th>Name</th>
         <th>Description</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Wasmtime.Config.html">Config</a></td>
-        <td><span class="parametername">config</span></td>
-        <td><p>The configuration to use for the engine.</p>
-</td>
+        <td><span class="xref">IReadOnlyList</span>&lt;<a class="xref" href="Wasmtime.Export.html">Export</a>&gt;</td>
+        <td></td>
       </tr>
     </tbody>
   </table>
-  <h5 id="Wasmtime_Engine__ctor_Wasmtime_Config__remarks">Remarks</h5>
-  <div class="markdown level1 remarks"><p>This method will dispose the given configuration.</p>
-</div>
-  <h3 id="methods">Methods
-  </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Engine_Dispose.md&amp;value=---%0Auid%3A%20Wasmtime.Engine.Dispose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_ModuleExport_Imports.md&amp;value=---%0Auid%3A%20Wasmtime.ModuleExport.Imports%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Engine.cs/#L34">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Export.cs/#L340">View Source</a>
   </span>
-  <a id="Wasmtime_Engine_Dispose_" data-uid="Wasmtime.Engine.Dispose*"></a>
-  <h4 id="Wasmtime_Engine_Dispose" data-uid="Wasmtime.Engine.Dispose">Dispose()</h4>
-  <div class="markdown level1 summary"></div>
+  <a id="Wasmtime_ModuleExport_Imports_" data-uid="Wasmtime.ModuleExport.Imports*"></a>
+  <h4 id="Wasmtime_ModuleExport_Imports" data-uid="Wasmtime.ModuleExport.Imports">Imports</h4>
+  <div class="markdown level1 summary"><p>The imports of the module.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
+    <pre><code class="lang-csharp hljs">public IReadOnlyList&lt;Import&gt; Imports { get; }</code></pre>
   </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IReadOnlyList</span>&lt;<a class="xref" href="Wasmtime.Import.html">Import</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
 </article>
           </div>
           
@@ -167,10 +169,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Engine.md&amp;value=---%0Auid%3A%20Wasmtime.Engine%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_ModuleExport.md&amp;value=---%0Auid%3A%20Wasmtime.ModuleExport%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Engine.cs/#L10" class="contribution-link">View Source</a>
+                    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Export.cs/#L312" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

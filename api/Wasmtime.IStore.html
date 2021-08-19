@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Enum ValueKind
+    <title>Interface IStore
    </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Enum ValueKind
+    <meta name="title" content="Interface IStore
    ">
     <meta name="generator" content="docfx 2.58.0.0">
     
@@ -68,67 +68,53 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="Wasmtime.ValueKind">
+            <article class="content wrap" id="_content" data-uid="Wasmtime.IStore">
   
   
-  <h1 id="Wasmtime_ValueKind" data-uid="Wasmtime.ValueKind" class="text-break">Enum ValueKind
+  <h1 id="Wasmtime_IStore" data-uid="Wasmtime.IStore" class="text-break">Interface IStore
   </h1>
-  <div class="markdown level0 summary"><p>Represents the possible kinds of WebAssembly values.</p>
+  <div class="markdown level0 summary"><p>An interface implemented on types that behave like stores.</p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Wasmtime.html">Wasmtime</a></h6>
   <h6><strong>Assembly</strong>: Wasmtime.Dotnet.dll</h6>
-  <h5 id="Wasmtime_ValueKind_syntax">Syntax</h5>
+  <h5 id="Wasmtime_IStore_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public enum ValueKind : byte</code></pre>
+    <pre><code class="lang-csharp hljs">public interface IStore</code></pre>
   </div>
-  <h3 id="fields">Fields
+  <h3 id="properties">Properties
   </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_IStore_Context.md&amp;value=---%0Auid%3A%20Wasmtime.IStore.Context%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Store.cs/#L156">View Source</a>
+  </span>
+  <a id="Wasmtime_IStore_Context_" data-uid="Wasmtime.IStore.Context*"></a>
+  <h4 id="Wasmtime_IStore_Context" data-uid="Wasmtime.IStore.Context">Context</h4>
+  <div class="markdown level1 summary"><p>Gets the context of the store.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">StoreContext Context { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
       <tr>
-        <th>Name</th>
+        <th>Type</th>
         <th>Description</th>
       </tr>
-    <thead>
+    </thead>
     <tbody>
       <tr>
-        <td id="Wasmtime_ValueKind_ExternRef">ExternRef</td>
-        <td><p>The value is an external reference.</p>
-</td>
-      </tr>
-      <tr>
-        <td id="Wasmtime_ValueKind_Float32">Float32</td>
-        <td><p>The value is a 32-bit floating point number.</p>
-</td>
-      </tr>
-      <tr>
-        <td id="Wasmtime_ValueKind_Float64">Float64</td>
-        <td><p>The value is a 64-bit floating point number.</p>
-</td>
-      </tr>
-      <tr>
-        <td id="Wasmtime_ValueKind_FuncRef">FuncRef</td>
-        <td><p>The value is a function reference.</p>
-</td>
-      </tr>
-      <tr>
-        <td id="Wasmtime_ValueKind_Int32">Int32</td>
-        <td><p>The value is a 32-bit integer.</p>
-</td>
-      </tr>
-      <tr>
-        <td id="Wasmtime_ValueKind_Int64">Int64</td>
-        <td><p>The value is a 64-bit integer.</p>
-</td>
-      </tr>
-      <tr>
-        <td id="Wasmtime_ValueKind_V128">V128</td>
-        <td><p>The value is a 128-bit value representing the WebAssembly <code>v128</code> type.</p>
-</td>
+        <td><a class="xref" href="Wasmtime.StoreContext.html">StoreContext</a></td>
+        <td></td>
       </tr>
     </tbody>
-  </thead></thead></table>
+  </table>
 </article>
           </div>
           
@@ -137,10 +123,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_ValueKind.md&amp;value=---%0Auid%3A%20Wasmtime.ValueKind%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_IStore.md&amp;value=---%0Auid%3A%20Wasmtime.IStore%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Value.cs/#L10" class="contribution-link">View Source</a>
+                    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Store.cs/#L151" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

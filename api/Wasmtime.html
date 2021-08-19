@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Namespace Wasmtime
    ">
-    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="generator" content="docfx 2.58.0.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -78,45 +78,83 @@
     <h3 id="classes">Classes
   </h3>
       <h4><a class="xref" href="Wasmtime.Caller.html">Caller</a></h4>
-      <section><p>Represents information of the caller of a host function.</p>
+      <section><p>Represents caller information for a function.</p>
 </section>
-      <h4><a class="xref" href="Wasmtime.CallerMemory.html">CallerMemory</a></h4>
-      <section><p>Represents an exported memory of a host function caller.</p>
+      <h4><a class="xref" href="Wasmtime.Config.html">Config</a></h4>
+      <section><p>Represents a configuration used to create <a class="xref" href="Wasmtime.Engine.html">Engine</a> instances.</p>
 </section>
       <h4><a class="xref" href="Wasmtime.Engine.html">Engine</a></h4>
-      <section><p>Represents a WebAssembly engine.</p>
+      <section><p>Represents the Wasmtime engine.</p>
 </section>
-      <h4><a class="xref" href="Wasmtime.EngineBuilder.html">EngineBuilder</a></h4>
-      <section><p>Represents a builder of <a class="xref" href="Wasmtime.Engine.html">Engine</a> instances.</p>
+      <h4><a class="xref" href="Wasmtime.Export.html">Export</a></h4>
+      <section><p>Represents an export of a WebAssembly module or instance.</p>
 </section>
       <h4><a class="xref" href="Wasmtime.Function.html">Function</a></h4>
-      <section><p>Represents a WebAsssembly function.</p>
+      <section><p>Represents a Wasmtime function.</p>
 </section>
-      <h4><a class="xref" href="Wasmtime.Global-1.html">Global&lt;T&gt;</a></h4>
-      <section><p>Represents a constant WebAssembly global value.</p>
+      <h4><a class="xref" href="Wasmtime.FunctionExport.html">FunctionExport</a></h4>
+      <section><p>Represents a function exported from a WebAssembly module or instance.</p>
 </section>
-      <h4><a class="xref" href="Wasmtime.Host.html">Host</a></h4>
-      <section><p>Represents a WebAssembly host environment.</p>
+      <h4><a class="xref" href="Wasmtime.FunctionImport.html">FunctionImport</a></h4>
+      <section><p>Represents a function imported to a WebAssembly module.</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.Global.html">Global</a></h4>
+      <section><p>Represents a WebAssembly global value.</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.GlobalExport.html">GlobalExport</a></h4>
+      <section><p>Represents a global variable exported from a WebAssembly module or instance.</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.GlobalImport.html">GlobalImport</a></h4>
+      <section><p>Represents a global variable imported to a WebAssembly module.</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.Import.html">Import</a></h4>
+      <section><p>The base class for import types.</p>
 </section>
       <h4><a class="xref" href="Wasmtime.Instance.html">Instance</a></h4>
       <section><p>Represents an instantiated WebAssembly module.</p>
 </section>
+      <h4><a class="xref" href="Wasmtime.InstanceExport.html">InstanceExport</a></h4>
+      <section><p>Represents an instance exported from a WebAssembly module or instance.</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.InstanceImport.html">InstanceImport</a></h4>
+      <section><p>Represents an instance imported to a WebAssembly module.</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.InterruptHandle.html">InterruptHandle</a></h4>
+      <section><p>Represents a Wasmtime interrupt handle.</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.Linker.html">Linker</a></h4>
+      <section><p>Represents the Wasmtime linker that can be used to define imports
+and instantiate WebAssembly modules.</p>
+</section>
       <h4><a class="xref" href="Wasmtime.Memory.html">Memory</a></h4>
       <section><p>Represents a WebAssembly memory.</p>
 </section>
-      <h4><a class="xref" href="Wasmtime.MemoryBase.html">MemoryBase</a></h4>
-      <section></section>
+      <h4><a class="xref" href="Wasmtime.MemoryExport.html">MemoryExport</a></h4>
+      <section><p>Represents a memory exported from a WebAssembly module or instance.</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.MemoryImport.html">MemoryImport</a></h4>
+      <section><p>Represents a memory imported to a WebAssembly module.</p>
+</section>
       <h4><a class="xref" href="Wasmtime.Module.html">Module</a></h4>
       <section><p>Represents a WebAssembly module.</p>
 </section>
-      <h4><a class="xref" href="Wasmtime.MutableGlobal-1.html">MutableGlobal&lt;T&gt;</a></h4>
-      <section><p>Represents a mutable WebAssembly global value.</p>
+      <h4><a class="xref" href="Wasmtime.ModuleExport.html">ModuleExport</a></h4>
+      <section><p>Represents a module exported from a WebAssembly module or instance.</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.ModuleImport.html">ModuleImport</a></h4>
+      <section><p>Represents a module imported to a WebAssembly module.</p>
 </section>
       <h4><a class="xref" href="Wasmtime.Store.html">Store</a></h4>
-      <section><p>Represents a WebAssembly store.</p>
+      <section><p>Represents a Wasmtime store.</p>
 </section>
-      <h4><a class="xref" href="Wasmtime.Table-1.html">Table&lt;T&gt;</a></h4>
+      <h4><a class="xref" href="Wasmtime.Table.html">Table</a></h4>
       <section><p>Represents a WebAssembly table.</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.TableExport.html">TableExport</a></h4>
+      <section><p>Represents a table exported from a WebAssembly module or instance.</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.TableImport.html">TableImport</a></h4>
+      <section><p>Represents a table imported to a WebAssembly module.</p>
 </section>
       <h4><a class="xref" href="Wasmtime.TrapException.html">TrapException</a></h4>
       <section><p>The exception for WebAssembly traps.</p>
@@ -130,18 +168,29 @@
       <h4><a class="xref" href="Wasmtime.WasmtimeException.html">WasmtimeException</a></h4>
       <section><p>The base type for Wasmtime exceptions.</p>
 </section>
+    <h3 id="structs">Structs
+  </h3>
+      <h4><a class="xref" href="Wasmtime.StoreContext.html">StoreContext</a></h4>
+      <section><p>Represents context about a <a class="xref" href="Wasmtime.Store.html">Store</a>.</p>
+</section>
     <h3 id="interfaces">Interfaces
   </h3>
-      <h4><a class="xref" href="Wasmtime.IImportable.html">IImportable</a></h4>
-      <section><p>Implemented by types that can be imported by WebAssembly modules.</p>
+      <h4><a class="xref" href="Wasmtime.IStore.html">IStore</a></h4>
+      <section><p>An interface implemented on types that behave like stores.</p>
 </section>
     <h3 id="enums">Enums
   </h3>
       <h4><a class="xref" href="Wasmtime.CompilerStrategy.html">CompilerStrategy</a></h4>
       <section><p>Represents the Wasmtime compiler strategy.</p>
 </section>
+      <h4><a class="xref" href="Wasmtime.Mutability.html">Mutability</a></h4>
+      <section><p>Represents the mutability of a WebAssembly global value.</p>
+</section>
       <h4><a class="xref" href="Wasmtime.OptimizationLevel.html">OptimizationLevel</a></h4>
       <section><p>Represents the Wasmtime optimization level.</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.ProfilingStrategy.html">ProfilingStrategy</a></h4>
+      <section><p>Represents the Wasmtime code profiling strategy.</p>
 </section>
       <h4><a class="xref" href="Wasmtime.ValueKind.html">ValueKind</a></h4>
       <section><p>Represents the possible kinds of WebAssembly values.</p>

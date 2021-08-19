@@ -1,0 +1,4039 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class Linker
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class Linker
+   ">
+    <meta name="generator" content="docfx 2.58.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Wasmtime.Linker">
+  
+  
+  <h1 id="Wasmtime_Linker" data-uid="Wasmtime.Linker" class="text-break">Class Linker
+  </h1>
+  <div class="markdown level0 summary"><p>Represents the Wasmtime linker that can be used to define imports
+and instantiate WebAssembly modules.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">Linker</span></div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Wasmtime.html">Wasmtime</a></h6>
+  <h6><strong>Assembly</strong>: Wasmtime.Dotnet.dll</h6>
+  <h5 id="Wasmtime_Linker_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class Linker : IDisposable</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker__ctor_Wasmtime_Engine_.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.%23ctor(Wasmtime.Engine)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L19">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker__ctor_" data-uid="Wasmtime.Linker.#ctor*"></a>
+  <h4 id="Wasmtime_Linker__ctor_Wasmtime_Engine_" data-uid="Wasmtime.Linker.#ctor(Wasmtime.Engine)">Linker(Engine)</h4>
+  <div class="markdown level1 summary"><p>Constructs a new linker from the given engine.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Linker(Engine engine)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Engine.html">Engine</a></td>
+        <td><span class="parametername">engine</span></td>
+        <td><p>The Wasmtime engine to use for the linker.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_AllowShadowing.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.AllowShadowing%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L32">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_AllowShadowing_" data-uid="Wasmtime.Linker.AllowShadowing*"></a>
+  <h4 id="Wasmtime_Linker_AllowShadowing" data-uid="Wasmtime.Linker.AllowShadowing">AllowShadowing</h4>
+  <div class="markdown level1 summary"><p>Configures whether or not the linker allows later definitions to shadow previous definitions.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool AllowShadowing { set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_Define_System_String_System_String_System_Object_.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.Define(System.String%2CSystem.String%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L46">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_Define_" data-uid="Wasmtime.Linker.Define*"></a>
+  <h4 id="Wasmtime_Linker_Define_System_String_System_String_System_Object_" data-uid="Wasmtime.Linker.Define(System.String,System.String,System.Object)">Define(String, String, Object)</h4>
+  <div class="markdown level1 summary"><p>Defines an item in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Define(string module, string name, object item)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the item.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the item.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">item</span></td>
+        <td><p>The item being defined (e.g. function, global, table, etc.).</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction_System_String_System_String_Action_.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction(System.String%2CSystem.String%2CAction)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L88">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction_System_String_System_String_Action_" data-uid="Wasmtime.Linker.DefineFunction(System.String,System.String,Action)">DefineFunction(String, String, Action)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction(string module, string name, Action callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span></td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction_System_String_System_String_Action__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction__1_System_String_System_String_Action___0__.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction%60%601(System.String%2CSystem.String%2CAction%7B%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L100">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction__1_System_String_System_String_Action___0__" data-uid="Wasmtime.Linker.DefineFunction``1(System.String,System.String,Action{``0})">DefineFunction&lt;T&gt;(String, String, Action&lt;T&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction&lt;T&gt;(string module, string name, Action&lt;T&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span>&lt;T&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction__1_System_String_System_String_Action___0___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction__1_System_String_System_String_Func___0__.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction%60%601(System.String%2CSystem.String%2CFunc%7B%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L292">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction__1_System_String_System_String_Func___0__" data-uid="Wasmtime.Linker.DefineFunction``1(System.String,System.String,Func{``0})">DefineFunction&lt;TResult&gt;(String, String, Func&lt;TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction&lt;TResult&gt;(string module, string name, Func&lt;TResult&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;TResult&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction__1_System_String_System_String_Func___0___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction__10_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9__.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction%60%6010(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L208">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction__10_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9__" data-uid="Wasmtime.Linker.DefineFunction``10(System.String,System.String,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10&gt;(String, String, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10&gt;(string module, string name, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T9</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T10</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction__10_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction__10_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9__.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction%60%6010(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L400">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction__10_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9__" data-uid="Wasmtime.Linker.DefineFunction``10(System.String,System.String,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult&gt;(string module, string name, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T9</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction__10_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction__11_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10__.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction%60%6011(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L220">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction__11_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10__" data-uid="Wasmtime.Linker.DefineFunction``11(System.String,System.String,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11&gt;(String, String, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11&gt;(string module, string name, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T9</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T10</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T11</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction__11_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction__11_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10__.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction%60%6011(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L412">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction__11_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10__" data-uid="Wasmtime.Linker.DefineFunction``11(System.String,System.String,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult&gt;(string module, string name, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T9</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T10</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction__11_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction__12_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11__.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction%60%6012(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L232">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction__12_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11__" data-uid="Wasmtime.Linker.DefineFunction``12(System.String,System.String,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12&gt;(String, String, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12&gt;(string module, string name, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T9</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T10</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T11</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T12</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction__12_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction__12_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11__.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction%60%6012(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L424">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction__12_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11__" data-uid="Wasmtime.Linker.DefineFunction``12(System.String,System.String,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult&gt;(string module, string name, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T9</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T10</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T11</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction__12_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction__13_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11___12__.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction%60%6013(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L244">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction__13_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11___12__" data-uid="Wasmtime.Linker.DefineFunction``13(System.String,System.String,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13&gt;(String, String, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13&gt;(string module, string name, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T9</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T10</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T11</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T12</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T13</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction__13_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11___12___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction__13_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12__.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction%60%6013(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L436">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction__13_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12__" data-uid="Wasmtime.Linker.DefineFunction``13(System.String,System.String,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult&gt;(string module, string name, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T9</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T10</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T11</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T12</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction__13_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction__14_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11___12___13__.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction%60%6014(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%2C%60%6013%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L256">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction__14_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11___12___13__" data-uid="Wasmtime.Linker.DefineFunction``14(System.String,System.String,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14&gt;(String, String, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14&gt;(string module, string name, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T9</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T10</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T11</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T12</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T13</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T14</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction__14_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11___12___13___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction__14_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13__.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction%60%6014(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%2C%60%6013%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L448">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction__14_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13__" data-uid="Wasmtime.Linker.DefineFunction``14(System.String,System.String,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult&gt;(string module, string name, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T9</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T10</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T11</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T12</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T13</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction__14_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction__15_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14__.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction%60%6015(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%2C%60%6013%2C%60%6014%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L268">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction__15_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14__" data-uid="Wasmtime.Linker.DefineFunction``15(System.String,System.String,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15&gt;(String, String, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15&gt;(string module, string name, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T9</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T10</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T11</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T12</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T13</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T14</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T15</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction__15_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction__15_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14__.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction%60%6015(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%2C%60%6013%2C%60%6014%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L460">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction__15_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14__" data-uid="Wasmtime.Linker.DefineFunction``15(System.String,System.String,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult&gt;(string module, string name, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T9</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T10</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T11</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T12</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T13</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T14</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction__15_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction__16_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14___15__.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction%60%6016(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%2C%60%6013%2C%60%6014%2C%60%6015%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L280">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction__16_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14___15__" data-uid="Wasmtime.Linker.DefineFunction``16(System.String,System.String,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16&gt;(String, String, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16&gt;(string module, string name, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T9</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T10</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T11</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T12</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T13</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T14</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T15</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T16</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction__16_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14___15___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction__16_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14___15__.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction%60%6016(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%2C%60%6013%2C%60%6014%2C%60%6015%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L472">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction__16_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14___15__" data-uid="Wasmtime.Linker.DefineFunction``16(System.String,System.String,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult&gt;(string module, string name, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T9</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T10</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T11</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T12</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T13</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T14</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T15</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction__16_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14___15___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction__17_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14___15___16__.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction%60%6017(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%2C%60%609%2C%60%6010%2C%60%6011%2C%60%6012%2C%60%6013%2C%60%6014%2C%60%6015%2C%60%6016%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L484">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction__17_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14___15___16__" data-uid="Wasmtime.Linker.DefineFunction``17(System.String,System.String,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15,``16})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult&gt;(string module, string name, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T9</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T10</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T11</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T12</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T13</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T14</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T15</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T16</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction__17_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___9___10___11___12___13___14___15___16___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction__2_System_String_System_String_Action___0___1__.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction%60%602(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L112">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction__2_System_String_System_String_Action___0___1__" data-uid="Wasmtime.Linker.DefineFunction``2(System.String,System.String,Action{``0,``1})">DefineFunction&lt;T1, T2&gt;(String, String, Action&lt;T1, T2&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction&lt;T1, T2&gt;(string module, string name, Action&lt;T1, T2&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span>&lt;T1, T2&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction__2_System_String_System_String_Action___0___1___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction__2_System_String_System_String_Func___0___1__.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction%60%602(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L304">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction__2_System_String_System_String_Func___0___1__" data-uid="Wasmtime.Linker.DefineFunction``2(System.String,System.String,Func{``0,``1})">DefineFunction&lt;T, TResult&gt;(String, String, Func&lt;T, TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction&lt;T, TResult&gt;(string module, string name, Func&lt;T, TResult&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;T, TResult&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction__2_System_String_System_String_Func___0___1___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction__3_System_String_System_String_Action___0___1___2__.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction%60%603(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L124">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction__3_System_String_System_String_Action___0___1___2__" data-uid="Wasmtime.Linker.DefineFunction``3(System.String,System.String,Action{``0,``1,``2})">DefineFunction&lt;T1, T2, T3&gt;(String, String, Action&lt;T1, T2, T3&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction&lt;T1, T2, T3&gt;(string module, string name, Action&lt;T1, T2, T3&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span>&lt;T1, T2, T3&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction__3_System_String_System_String_Action___0___1___2___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction__3_System_String_System_String_Func___0___1___2__.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction%60%603(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L316">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction__3_System_String_System_String_Func___0___1___2__" data-uid="Wasmtime.Linker.DefineFunction``3(System.String,System.String,Func{``0,``1,``2})">DefineFunction&lt;T1, T2, TResult&gt;(String, String, Func&lt;T1, T2, TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction&lt;T1, T2, TResult&gt;(string module, string name, Func&lt;T1, T2, TResult&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;T1, T2, TResult&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction__3_System_String_System_String_Func___0___1___2___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction__4_System_String_System_String_Action___0___1___2___3__.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction%60%604(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L136">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction__4_System_String_System_String_Action___0___1___2___3__" data-uid="Wasmtime.Linker.DefineFunction``4(System.String,System.String,Action{``0,``1,``2,``3})">DefineFunction&lt;T1, T2, T3, T4&gt;(String, String, Action&lt;T1, T2, T3, T4&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction&lt;T1, T2, T3, T4&gt;(string module, string name, Action&lt;T1, T2, T3, T4&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span>&lt;T1, T2, T3, T4&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction__4_System_String_System_String_Action___0___1___2___3___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction__4_System_String_System_String_Func___0___1___2___3__.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction%60%604(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L328">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction__4_System_String_System_String_Func___0___1___2___3__" data-uid="Wasmtime.Linker.DefineFunction``4(System.String,System.String,Func{``0,``1,``2,``3})">DefineFunction&lt;T1, T2, T3, TResult&gt;(String, String, Func&lt;T1, T2, T3, TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction&lt;T1, T2, T3, TResult&gt;(string module, string name, Func&lt;T1, T2, T3, TResult&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;T1, T2, T3, TResult&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction__4_System_String_System_String_Func___0___1___2___3___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction__5_System_String_System_String_Action___0___1___2___3___4__.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction%60%605(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L148">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction__5_System_String_System_String_Action___0___1___2___3___4__" data-uid="Wasmtime.Linker.DefineFunction``5(System.String,System.String,Action{``0,``1,``2,``3,``4})">DefineFunction&lt;T1, T2, T3, T4, T5&gt;(String, String, Action&lt;T1, T2, T3, T4, T5&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction&lt;T1, T2, T3, T4, T5&gt;(string module, string name, Action&lt;T1, T2, T3, T4, T5&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span>&lt;T1, T2, T3, T4, T5&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction__5_System_String_System_String_Action___0___1___2___3___4___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction__5_System_String_System_String_Func___0___1___2___3___4__.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction%60%605(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L340">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction__5_System_String_System_String_Func___0___1___2___3___4__" data-uid="Wasmtime.Linker.DefineFunction``5(System.String,System.String,Func{``0,``1,``2,``3,``4})">DefineFunction&lt;T1, T2, T3, T4, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction&lt;T1, T2, T3, T4, TResult&gt;(string module, string name, Func&lt;T1, T2, T3, T4, TResult&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;T1, T2, T3, T4, TResult&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction__5_System_String_System_String_Func___0___1___2___3___4___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction__6_System_String_System_String_Action___0___1___2___3___4___5__.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction%60%606(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L160">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction__6_System_String_System_String_Action___0___1___2___3___4___5__" data-uid="Wasmtime.Linker.DefineFunction``6(System.String,System.String,Action{``0,``1,``2,``3,``4,``5})">DefineFunction&lt;T1, T2, T3, T4, T5, T6&gt;(String, String, Action&lt;T1, T2, T3, T4, T5, T6&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction&lt;T1, T2, T3, T4, T5, T6&gt;(string module, string name, Action&lt;T1, T2, T3, T4, T5, T6&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span>&lt;T1, T2, T3, T4, T5, T6&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction__6_System_String_System_String_Action___0___1___2___3___4___5___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction__6_System_String_System_String_Func___0___1___2___3___4___5__.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction%60%606(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L352">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction__6_System_String_System_String_Func___0___1___2___3___4___5__" data-uid="Wasmtime.Linker.DefineFunction``6(System.String,System.String,Func{``0,``1,``2,``3,``4,``5})">DefineFunction&lt;T1, T2, T3, T4, T5, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction&lt;T1, T2, T3, T4, T5, TResult&gt;(string module, string name, Func&lt;T1, T2, T3, T4, T5, TResult&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;T1, T2, T3, T4, T5, TResult&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction__6_System_String_System_String_Func___0___1___2___3___4___5___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction__7_System_String_System_String_Action___0___1___2___3___4___5___6__.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction%60%607(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L172">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction__7_System_String_System_String_Action___0___1___2___3___4___5___6__" data-uid="Wasmtime.Linker.DefineFunction``7(System.String,System.String,Action{``0,``1,``2,``3,``4,``5,``6})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7&gt;(String, String, Action&lt;T1, T2, T3, T4, T5, T6, T7&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7&gt;(string module, string name, Action&lt;T1, T2, T3, T4, T5, T6, T7&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span>&lt;T1, T2, T3, T4, T5, T6, T7&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction__7_System_String_System_String_Action___0___1___2___3___4___5___6___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction__7_System_String_System_String_Func___0___1___2___3___4___5___6__.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction%60%607(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L364">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction__7_System_String_System_String_Func___0___1___2___3___4___5___6__" data-uid="Wasmtime.Linker.DefineFunction``7(System.String,System.String,Func{``0,``1,``2,``3,``4,``5,``6})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, T6, TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction&lt;T1, T2, T3, T4, T5, T6, TResult&gt;(string module, string name, Func&lt;T1, T2, T3, T4, T5, T6, TResult&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;T1, T2, T3, T4, T5, T6, TResult&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction__7_System_String_System_String_Func___0___1___2___3___4___5___6___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction__8_System_String_System_String_Action___0___1___2___3___4___5___6___7__.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction%60%608(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L184">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction__8_System_String_System_String_Action___0___1___2___3___4___5___6___7__" data-uid="Wasmtime.Linker.DefineFunction``8(System.String,System.String,Action{``0,``1,``2,``3,``4,``5,``6,``7})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8&gt;(String, String, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8&gt;(string module, string name, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction__8_System_String_System_String_Action___0___1___2___3___4___5___6___7___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction__8_System_String_System_String_Func___0___1___2___3___4___5___6___7__.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction%60%608(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L376">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction__8_System_String_System_String_Func___0___1___2___3___4___5___6___7__" data-uid="Wasmtime.Linker.DefineFunction``8(System.String,System.String,Func{``0,``1,``2,``3,``4,``5,``6,``7})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, T6, T7, TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, TResult&gt;(string module, string name, Func&lt;T1, T2, T3, T4, T5, T6, T7, TResult&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;T1, T2, T3, T4, T5, T6, T7, TResult&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction__8_System_String_System_String_Func___0___1___2___3___4___5___6___7___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction__9_System_String_System_String_Action___0___1___2___3___4___5___6___7___8__.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction%60%609(System.String%2CSystem.String%2CAction%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L196">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction__9_System_String_System_String_Action___0___1___2___3___4___5___6___7___8__" data-uid="Wasmtime.Linker.DefineFunction``9(System.String,System.String,Action{``0,``1,``2,``3,``4,``5,``6,``7,``8})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9&gt;(String, String, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9&gt;(string module, string name, Action&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T9</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction__9_System_String_System_String_Action___0___1___2___3___4___5___6___7___8___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineFunction__9_System_String_System_String_Func___0___1___2___3___4___5___6___7___8__.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineFunction%60%609(System.String%2CSystem.String%2CFunc%7B%60%600%2C%60%601%2C%60%602%2C%60%603%2C%60%604%2C%60%605%2C%60%606%2C%60%607%2C%60%608%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L388">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineFunction_" data-uid="Wasmtime.Linker.DefineFunction*"></a>
+  <h4 id="Wasmtime_Linker_DefineFunction__9_System_String_System_String_Func___0___1___2___3___4___5___6___7___8__" data-uid="Wasmtime.Linker.DefineFunction``9(System.String,System.String,Func{``0,``1,``2,``3,``4,``5,``6,``7,``8})">DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, TResult&gt;(String, String, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, TResult&gt;)</h4>
+  <div class="markdown level1 summary"><p>Defines a function in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineFunction&lt;T1, T2, T3, T4, T5, T6, T7, T8, TResult&gt;(string module, string name, Func&lt;T1, T2, T3, T4, T5, T6, T7, T8, TResult&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Func</span>&lt;T1, T2, T3, T4, T5, T6, T7, T8, TResult&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>The callback for when the function is invoked.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T6</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T7</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T8</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Linker_DefineFunction__9_System_String_System_String_Func___0___1___2___3___4___5___6___7___8___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Functions defined with this method are store-independent.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineInstance_Wasmtime_IStore_System_String_Wasmtime_Instance_.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineInstance(Wasmtime.IStore%2CSystem.String%2CWasmtime.Instance)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L511">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineInstance_" data-uid="Wasmtime.Linker.DefineInstance*"></a>
+  <h4 id="Wasmtime_Linker_DefineInstance_Wasmtime_IStore_System_String_Wasmtime_Instance_" data-uid="Wasmtime.Linker.DefineInstance(Wasmtime.IStore,System.String,Wasmtime.Instance)">DefineInstance(IStore, String, Instance)</h4>
+  <div class="markdown level1 summary"><p>Defines an instance with the specified name in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineInstance(IStore store, string name, Instance instance)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store that owns the instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the instance to define.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Instance.html">Instance</a></td>
+        <td><span class="parametername">instance</span></td>
+        <td><p>The instance to define.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineModule_Wasmtime_IStore_Wasmtime_Module_.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineModule(Wasmtime.IStore%2CWasmtime.Module)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L579">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineModule_" data-uid="Wasmtime.Linker.DefineModule*"></a>
+  <h4 id="Wasmtime_Linker_DefineModule_Wasmtime_IStore_Wasmtime_Module_" data-uid="Wasmtime.Linker.DefineModule(Wasmtime.IStore,Wasmtime.Module)">DefineModule(IStore, Module)</h4>
+  <div class="markdown level1 summary"><p>Defines automatic instantiations of a module in this linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineModule(IStore store, Module module)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store to instantiate in.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Module.html">Module</a></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module to automatically instantiate.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_DefineWasi.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.DefineWasi%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L496">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_DefineWasi_" data-uid="Wasmtime.Linker.DefineWasi*"></a>
+  <h4 id="Wasmtime_Linker_DefineWasi" data-uid="Wasmtime.Linker.DefineWasi">DefineWasi()</h4>
+  <div class="markdown level1 summary"><p>Defines WASI functions in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefineWasi()</code></pre>
+  </div>
+  <h5 id="Wasmtime_Linker_DefineWasi_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>When WASI functions are defined in the linker, a store must be configured with a WASI
+configuration.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_Dispose.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.Dispose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L780">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_Dispose_" data-uid="Wasmtime.Linker.Dispose*"></a>
+  <h4 id="Wasmtime_Linker_Dispose" data-uid="Wasmtime.Linker.Dispose">Dispose()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_GetDefaultFunction_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.GetDefaultFunction(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L611">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_GetDefaultFunction_" data-uid="Wasmtime.Linker.GetDefaultFunction*"></a>
+  <h4 id="Wasmtime_Linker_GetDefaultFunction_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Linker.GetDefaultFunction(Wasmtime.IStore,System.String)">GetDefaultFunction(IStore, String)</h4>
+  <div class="markdown level1 summary"><p>Gets the &quot;default&quot; function export for a module with the given name defined in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function GetDefaultFunction(IStore store, string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store for the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>Tha name of the module to get the default function export.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_GetFunction_Wasmtime_IStore_System_String_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.GetFunction(Wasmtime.IStore%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L648">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_GetFunction_" data-uid="Wasmtime.Linker.GetFunction*"></a>
+  <h4 id="Wasmtime_Linker_GetFunction_Wasmtime_IStore_System_String_System_String_" data-uid="Wasmtime.Linker.GetFunction(Wasmtime.IStore,System.String,System.String)">GetFunction(IStore, String, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported function from the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function GetFunction(IStore store, string module, string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store of the function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module of the exported function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns the function if a function of that name was exported or null if not.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_GetGlobal_Wasmtime_IStore_System_String_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.GetGlobal(Wasmtime.IStore%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L717">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_GetGlobal_" data-uid="Wasmtime.Linker.GetGlobal*"></a>
+  <h4 id="Wasmtime_Linker_GetGlobal_Wasmtime_IStore_System_String_System_String_" data-uid="Wasmtime.Linker.GetGlobal(Wasmtime.IStore,System.String,System.String)">GetGlobal(IStore, String, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported global from the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Global GetGlobal(IStore store, string module, string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store of the global.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module of the exported global.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported global.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Global.html">Global</a></td>
+        <td><p>Returns the global if a global of that name was exported or null if not.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_GetInstance_Wasmtime_IStore_System_String_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.GetInstance(Wasmtime.IStore%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L740">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_GetInstance_" data-uid="Wasmtime.Linker.GetInstance*"></a>
+  <h4 id="Wasmtime_Linker_GetInstance_Wasmtime_IStore_System_String_System_String_" data-uid="Wasmtime.Linker.GetInstance(Wasmtime.IStore,System.String,System.String)">GetInstance(IStore, String, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported instance from the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Instance GetInstance(IStore store, string module, string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store of the instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the exported instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported instance.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Instance.html">Instance</a></td>
+        <td><p>Returns the instance if a instance of that name was exported or null if not.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_GetMemory_Wasmtime_IStore_System_String_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.GetMemory(Wasmtime.IStore%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L694">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_GetMemory_" data-uid="Wasmtime.Linker.GetMemory*"></a>
+  <h4 id="Wasmtime_Linker_GetMemory_Wasmtime_IStore_System_String_System_String_" data-uid="Wasmtime.Linker.GetMemory(Wasmtime.IStore,System.String,System.String)">GetMemory(IStore, String, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported memory from the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Memory GetMemory(IStore store, string module, string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store of the memory.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module of the exported memory.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported memory.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Memory.html">Memory</a></td>
+        <td><p>Returns the memory if a memory of that name was exported or null if not.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_GetModule_Wasmtime_IStore_System_String_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.GetModule(Wasmtime.IStore%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L763">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_GetModule_" data-uid="Wasmtime.Linker.GetModule*"></a>
+  <h4 id="Wasmtime_Linker_GetModule_Wasmtime_IStore_System_String_System_String_" data-uid="Wasmtime.Linker.GetModule(Wasmtime.IStore,System.String,System.String)">GetModule(IStore, String, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported module from the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Module GetModule(IStore store, string module, string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store of the module.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module name of the exported module.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported module.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Module.html">Module</a></td>
+        <td><p>Returns the module if a module of that name was exported or null if not.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_GetTable_Wasmtime_IStore_System_String_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.GetTable(Wasmtime.IStore%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L671">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_GetTable_" data-uid="Wasmtime.Linker.GetTable*"></a>
+  <h4 id="Wasmtime_Linker_GetTable_Wasmtime_IStore_System_String_System_String_" data-uid="Wasmtime.Linker.GetTable(Wasmtime.IStore,System.String,System.String)">GetTable(IStore, String, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported table from the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Table GetTable(IStore store, string module, string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store of the table.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module of the exported table.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported table.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Table.html">Table</a></td>
+        <td><p>Returns the table if a table of that name was exported or null if not.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_Instantiate_Wasmtime_IStore_Wasmtime_Module_.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.Instantiate(Wasmtime.IStore%2CWasmtime.Module)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L548">View Source</a>
+  </span>
+  <a id="Wasmtime_Linker_Instantiate_" data-uid="Wasmtime.Linker.Instantiate*"></a>
+  <h4 id="Wasmtime_Linker_Instantiate_Wasmtime_IStore_Wasmtime_Module_" data-uid="Wasmtime.Linker.Instantiate(Wasmtime.IStore,Wasmtime.Module)">Instantiate(IStore, Module)</h4>
+  <div class="markdown level1 summary"><p>Instantiates a module with imports from items defined in the linker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Instance Instantiate(IStore store, Module module)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store to instantiate in.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Module.html">Module</a></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module to instantiate.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Instance.html">Instance</a></td>
+        <td><p>Returns the new instance.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker.md&amp;value=---%0Auid%3A%20Wasmtime.Linker%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L13" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class Instance
    ">
-    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="generator" content="docfx 2.58.0.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -81,202 +81,57 @@
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">Instance</span></div>
   </div>
-  <div classs="implements">
-    <h5>Implements</h5>
-    <div><span class="xref">IDisposable</span></div>
-    <div><a class="xref" href="Wasmtime.IImportable.html">IImportable</a></div>
-  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Wasmtime.html">Wasmtime</a></h6>
   <h6><strong>Assembly</strong>: Wasmtime.Dotnet.dll</h6>
   <h5 id="Wasmtime_Instance_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class Instance : DynamicObject, IDisposable, IImportable</code></pre>
+    <pre><code class="lang-csharp hljs">public class Instance : object, IExternal</code></pre>
   </div>
-  <h3 id="properties">Properties
+  <h3 id="constructors">Constructors
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_Functions.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.Functions%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance__ctor_Wasmtime_IStore_Wasmtime_Module_System_Object___.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.%23ctor(Wasmtime.IStore%2CWasmtime.Module%2CSystem.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L17">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L19">View Source</a>
   </span>
-  <a id="Wasmtime_Instance_Functions_" data-uid="Wasmtime.Instance.Functions*"></a>
-  <h4 id="Wasmtime_Instance_Functions" data-uid="Wasmtime.Instance.Functions">Functions</h4>
-  <div class="markdown level1 summary"><p>The exported functions of the instance.</p>
+  <a id="Wasmtime_Instance__ctor_" data-uid="Wasmtime.Instance.#ctor*"></a>
+  <h4 id="Wasmtime_Instance__ctor_Wasmtime_IStore_Wasmtime_Module_System_Object___" data-uid="Wasmtime.Instance.#ctor(Wasmtime.IStore,Wasmtime.Module,System.Object[])">Instance(IStore, Module, Object[])</h4>
+  <div class="markdown level1 summary"><p>Creates a new WebAssembly instance.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IReadOnlyList&lt;ExternFunction&gt; Functions { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public Instance(IStore store, Module module, params object[] imports)</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
+  <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
       <tr>
         <th>Type</th>
+        <th>Name</th>
         <th>Description</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IReadOnlyList</span>&lt;<a class="xref" href="Wasmtime.Externs.ExternFunction.html">ExternFunction</a>&gt;</td>
-        <td></td>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store to create the instance in.</p>
+</td>
       </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_Globals.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.Globals%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L22">View Source</a>
-  </span>
-  <a id="Wasmtime_Instance_Globals_" data-uid="Wasmtime.Instance.Globals*"></a>
-  <h4 id="Wasmtime_Instance_Globals" data-uid="Wasmtime.Instance.Globals">Globals</h4>
-  <div class="markdown level1 summary"><p>The exported globals of the instance.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IReadOnlyList&lt;ExternGlobal&gt; Globals { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
       <tr>
-        <th>Type</th>
-        <th>Description</th>
+        <td><a class="xref" href="Wasmtime.Module.html">Module</a></td>
+        <td><span class="parametername">module</span></td>
+        <td><p>The module to create the instance for.</p>
+</td>
       </tr>
-    </thead>
-    <tbody>
       <tr>
-        <td><span class="xref">IReadOnlyList</span>&lt;<a class="xref" href="Wasmtime.Externs.ExternGlobal.html">ExternGlobal</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_Instances.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.Instances%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L37">View Source</a>
-  </span>
-  <a id="Wasmtime_Instance_Instances_" data-uid="Wasmtime.Instance.Instances*"></a>
-  <h4 id="Wasmtime_Instance_Instances" data-uid="Wasmtime.Instance.Instances">Instances</h4>
-  <div class="markdown level1 summary"><p>The exported instances of the instance.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IReadOnlyList&lt;ExternInstance&gt; Instances { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">IReadOnlyList</span>&lt;<a class="xref" href="Wasmtime.Externs.ExternInstance.html">ExternInstance</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_Memories.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.Memories%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L32">View Source</a>
-  </span>
-  <a id="Wasmtime_Instance_Memories_" data-uid="Wasmtime.Instance.Memories*"></a>
-  <h4 id="Wasmtime_Instance_Memories" data-uid="Wasmtime.Instance.Memories">Memories</h4>
-  <div class="markdown level1 summary"><p>The exported memories of the instance.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IReadOnlyList&lt;ExternMemory&gt; Memories { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">IReadOnlyList</span>&lt;<a class="xref" href="Wasmtime.Externs.ExternMemory.html">ExternMemory</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_Modules.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.Modules%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L42">View Source</a>
-  </span>
-  <a id="Wasmtime_Instance_Modules_" data-uid="Wasmtime.Instance.Modules*"></a>
-  <h4 id="Wasmtime_Instance_Modules" data-uid="Wasmtime.Instance.Modules">Modules</h4>
-  <div class="markdown level1 summary"><p>The exported modules of the instance.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IReadOnlyList&lt;ExternModule&gt; Modules { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">IReadOnlyList</span>&lt;<a class="xref" href="Wasmtime.Externs.ExternModule.html">ExternModule</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_Tables.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.Tables%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L27">View Source</a>
-  </span>
-  <a id="Wasmtime_Instance_Tables_" data-uid="Wasmtime.Instance.Tables*"></a>
-  <h4 id="Wasmtime_Instance_Tables" data-uid="Wasmtime.Instance.Tables">Tables</h4>
-  <div class="markdown level1 summary"><p>The exported tables of the instance.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IReadOnlyList&lt;ExternTable&gt; Tables { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">IReadOnlyList</span>&lt;<a class="xref" href="Wasmtime.Externs.ExternTable.html">ExternTable</a>&gt;</td>
-        <td></td>
+        <td><span class="xref">System.Object</span>[]</td>
+        <td><span class="parametername">imports</span></td>
+        <td><p>The imports for the instance.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -284,33 +139,19 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_Dispose.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.Dispose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetFunction_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetFunction(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L45">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L69">View Source</a>
   </span>
-  <a id="Wasmtime_Instance_Dispose_" data-uid="Wasmtime.Instance.Dispose*"></a>
-  <h4 id="Wasmtime_Instance_Dispose" data-uid="Wasmtime.Instance.Dispose">Dispose()</h4>
-  <div class="markdown level1 summary"></div>
+  <a id="Wasmtime_Instance_GetFunction_" data-uid="Wasmtime.Instance.GetFunction*"></a>
+  <h4 id="Wasmtime_Instance_GetFunction_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetFunction(Wasmtime.IStore,System.String)">GetFunction(IStore, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported function from the instance.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
-  </div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_TryGetMember_GetMemberBinder_System_Nullable_System_Object___.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.TryGetMember(GetMemberBinder%2CSystem.Nullable%7BSystem.Object%7D%40)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L70">View Source</a>
-  </span>
-  <a id="Wasmtime_Instance_TryGetMember_" data-uid="Wasmtime.Instance.TryGetMember*"></a>
-  <h4 id="Wasmtime_Instance_TryGetMember_GetMemberBinder_System_Nullable_System_Object___" data-uid="Wasmtime.Instance.TryGetMember(GetMemberBinder,System.Nullable{System.Object}@)">TryGetMember(GetMemberBinder, out Nullable&lt;Object&gt;)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public override bool TryGetMember(GetMemberBinder binder, out object? result)</code></pre>
+    <pre><code class="lang-csharp hljs">public Function GetFunction(IStore store, string name)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -323,14 +164,16 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">GetMemberBinder</span></td>
-        <td><span class="parametername">binder</span></td>
-        <td></td>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store that owns the instance.</p>
+</td>
       </tr>
       <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Object</span>&gt;</td>
-        <td><span class="parametername">result</span></td>
-        <td></td>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported function.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -344,25 +187,27 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Boolean</span></td>
-        <td></td>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns the function if a function of that name was exported or null if not.</p>
+</td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_TryInvokeMember_InvokeMemberBinder_System_Nullable_System_Object____System_Nullable_System_Object___.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.TryInvokeMember(InvokeMemberBinder%2CSystem.Nullable%7BSystem.Object%7D%5B%5D%2CSystem.Nullable%7BSystem.Object%7D%40)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetGlobal_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetGlobal(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L93">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L135">View Source</a>
   </span>
-  <a id="Wasmtime_Instance_TryInvokeMember_" data-uid="Wasmtime.Instance.TryInvokeMember*"></a>
-  <h4 id="Wasmtime_Instance_TryInvokeMember_InvokeMemberBinder_System_Nullable_System_Object____System_Nullable_System_Object___" data-uid="Wasmtime.Instance.TryInvokeMember(InvokeMemberBinder,System.Nullable{System.Object}[],System.Nullable{System.Object}@)">TryInvokeMember(InvokeMemberBinder, Nullable&lt;Object&gt;[], out Nullable&lt;Object&gt;)</h4>
-  <div class="markdown level1 summary"></div>
+  <a id="Wasmtime_Instance_GetGlobal_" data-uid="Wasmtime.Instance.GetGlobal*"></a>
+  <h4 id="Wasmtime_Instance_GetGlobal_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetGlobal(Wasmtime.IStore,System.String)">GetGlobal(IStore, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported global from the instance.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public override bool TryInvokeMember(InvokeMemberBinder binder, object? [] args, out object? result)</code></pre>
+    <pre><code class="lang-csharp hljs">public Global GetGlobal(IStore store, string name)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -375,19 +220,16 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">InvokeMemberBinder</span></td>
-        <td><span class="parametername">binder</span></td>
-        <td></td>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store that owns the instance.</p>
+</td>
       </tr>
       <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Object</span>&gt;[]</td>
-        <td><span class="parametername">args</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Object</span>&gt;</td>
-        <td><span class="parametername">result</span></td>
-        <td></td>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported global.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -401,25 +243,27 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Boolean</span></td>
-        <td></td>
+        <td><a class="xref" href="Wasmtime.Global.html">Global</a></td>
+        <td><p>Returns the global if a global of that name was exported or null if not.</p>
+</td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_TrySetMember_SetMemberBinder_System_Object_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.TrySetMember(SetMemberBinder%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetInstance_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetInstance(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L82">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L157">View Source</a>
   </span>
-  <a id="Wasmtime_Instance_TrySetMember_" data-uid="Wasmtime.Instance.TrySetMember*"></a>
-  <h4 id="Wasmtime_Instance_TrySetMember_SetMemberBinder_System_Object_" data-uid="Wasmtime.Instance.TrySetMember(SetMemberBinder,System.Object)">TrySetMember(SetMemberBinder, Object)</h4>
-  <div class="markdown level1 summary"></div>
+  <a id="Wasmtime_Instance_GetInstance_" data-uid="Wasmtime.Instance.GetInstance*"></a>
+  <h4 id="Wasmtime_Instance_GetInstance_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetInstance(Wasmtime.IStore,System.String)">GetInstance(IStore, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported instance from the instance.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public override bool TrySetMember(SetMemberBinder binder, object value)</code></pre>
+    <pre><code class="lang-csharp hljs">public Instance GetInstance(IStore store, string name)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -432,14 +276,16 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">SetMemberBinder</span></td>
-        <td><span class="parametername">binder</span></td>
-        <td></td>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store that owns the instance.</p>
+</td>
       </tr>
       <tr>
-        <td><span class="xref">System.Object</span></td>
-        <td><span class="parametername">value</span></td>
-        <td></td>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported instance.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -453,28 +299,52 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Boolean</span></td>
-        <td></td>
+        <td><a class="xref" href="Wasmtime.Instance.html">Instance</a></td>
+        <td><p>Returns the instance if a instance of that name was exported or null if not.</p>
+</td>
       </tr>
     </tbody>
   </table>
-  <h3 id="eii">Explicit Interface Implementations
-  </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_Wasmtime_IImportable_GetHandle.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.Wasmtime%23IImportable%23GetHandle%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetMemory_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetMemory(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L64">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L113">View Source</a>
   </span>
-  <a id="Wasmtime_Instance_Wasmtime_IImportable_GetHandle_" data-uid="Wasmtime.Instance.Wasmtime#IImportable#GetHandle*"></a>
-  <h4 id="Wasmtime_Instance_Wasmtime_IImportable_GetHandle" data-uid="Wasmtime.Instance.Wasmtime#IImportable#GetHandle">IImportable.GetHandle()</h4>
-  <div class="markdown level1 summary"></div>
+  <a id="Wasmtime_Instance_GetMemory_" data-uid="Wasmtime.Instance.GetMemory*"></a>
+  <h4 id="Wasmtime_Instance_GetMemory_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetMemory(Wasmtime.IStore,System.String)">GetMemory(IStore, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported memory from the instance.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">IntPtr IImportable.GetHandle()</code></pre>
+    <pre><code class="lang-csharp hljs">public Memory GetMemory(IStore store, string name)</code></pre>
   </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store that owns the instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported memory.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
   <h5 class="returns">Returns</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
@@ -485,18 +355,124 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IntPtr</span></td>
-        <td></td>
+        <td><a class="xref" href="Wasmtime.Memory.html">Memory</a></td>
+        <td><p>Returns the memory if a memory of that name was exported or null if not.</p>
+</td>
       </tr>
     </tbody>
   </table>
-  <h3 id="implements">Implements</h3>
-  <div>
-      <span class="xref">IDisposable</span>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetModule_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetModule(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L179">View Source</a>
+  </span>
+  <a id="Wasmtime_Instance_GetModule_" data-uid="Wasmtime.Instance.GetModule*"></a>
+  <h4 id="Wasmtime_Instance_GetModule_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetModule(Wasmtime.IStore,System.String)">GetModule(IStore, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported module from the instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Module GetModule(IStore store, string name)</code></pre>
   </div>
-  <div>
-      <a class="xref" href="Wasmtime.IImportable.html">IImportable</a>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store that owns the instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported module.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Module.html">Module</a></td>
+        <td><p>Returns the module if a module of that name was exported or null if not.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetTable_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetTable(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L91">View Source</a>
+  </span>
+  <a id="Wasmtime_Instance_GetTable_" data-uid="Wasmtime.Instance.GetTable*"></a>
+  <h4 id="Wasmtime_Instance_GetTable_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetTable(Wasmtime.IStore,System.String)">GetTable(IStore, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported table from the instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Table GetTable(IStore store, string name)</code></pre>
   </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store that owns the instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported table.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Table.html">Table</a></td>
+        <td><p>Returns the table if a table of that name was exported or null if not.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
 </article>
           </div>
           
@@ -508,7 +484,7 @@
                     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance.md&amp;value=---%0Auid%3A%20Wasmtime.Instance%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L12" class="contribution-link">View Source</a>
+                    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L11" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
