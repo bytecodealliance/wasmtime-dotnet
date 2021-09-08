@@ -48,8 +48,35 @@ namespace Wasmtime
         /// <summary>
         /// The exports of the module.
         /// </summary>
-        /// <value></value>
         public IReadOnlyList<Export> Exports => exports;
+
+        /// <summary>
+        /// Validates the given WebAssembly module.
+        /// </summary>
+        /// <param name="engine">The engine to use for validation.</param>
+        /// <param name="bytes">The bytes of the WebAssembly module to validate.</param>
+        /// <returns>Returns null if the module is valid or an error message if the module is not valid.</returns>
+        public static string? Validate(Engine engine, ReadOnlySpan<byte> bytes)
+        {
+            if (engine is null)
+            {
+                throw new ArgumentNullException(nameof(engine));
+            }
+
+            unsafe
+            {
+                fixed (byte* ptr = bytes)
+                {
+                    var error = Native.wasmtime_module_validate(engine.NativeHandle, ptr, (UIntPtr)bytes.Length);
+                    if (error != IntPtr.Zero)
+                    {
+                        return WasmtimeException.FromOwnedError(error).Message;
+                    }
+
+                    return null;
+                }
+            }
+        }
 
         /// <summary>
         /// Creates a <see cref="Module"/> given the module name and bytes.
@@ -306,6 +333,9 @@ namespace Wasmtime
 
             [DllImport(Engine.LibraryName)]
             public static unsafe extern IntPtr wasmtime_wat2wasm(byte* text, UIntPtr len, out ByteArray bytes);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern unsafe IntPtr wasmtime_module_validate(Engine.Handle engine, byte* bytes, UIntPtr size);
         }
 
         private readonly Handle handle;
