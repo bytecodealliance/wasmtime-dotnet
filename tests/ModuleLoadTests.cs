@@ -24,6 +24,20 @@ namespace Wasmtime.Tests
         }
 
         [Fact]
+        public void ItValidatesModuleFromEmbeddedResource()
+        {
+            using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("hello.wasm");
+            stream.Should().NotBeNull();
+
+            byte[] buffer = new byte[stream.Length];
+
+            stream.Read(buffer, 0, buffer.Length);
+
+            using var engine = new Engine();
+            Module.Validate(engine, buffer).Should().BeNull();
+        }
+
+        [Fact]
         public void ItLoadsModuleTextFromEmbeddedResource()
         {
             using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("hello.wat");

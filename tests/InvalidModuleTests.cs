@@ -18,5 +18,12 @@ namespace Wasmtime.Tests
                 .Throw<WasmtimeException>()
                 .WithMessage("WebAssembly module 'invalid' is not valid: failed to parse WebAssembly module*");
         }
+
+        [Fact]
+        public void ItReturnsAnErrorWhenValidatingAnInvalidModule()
+        {
+            using var engine = new Engine();
+            Module.Validate(engine, Array.Empty<byte>()).Should().Be("Unexpected EOF (at offset 0)");
+        }
     }
 }

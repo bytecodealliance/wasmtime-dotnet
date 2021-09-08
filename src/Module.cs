@@ -48,8 +48,35 @@ namespace Wasmtime
         /// <summary>
         /// The exports of the module.
         /// </summary>
-        /// <value></value>
         public IReadOnlyList<Export> Exports => exports;
+
+        /// <summary>
+        /// Validates the given WebAssembly module.
+        /// </summary>
+        /// <param name="engine">The engine to use for validation.</param>
+        /// <param name="bytes">The bytes of the WebAssembly module to validate.</param>
+        /// <returns>Returns null if the module is valid or an error message if the module is invalid.</returns>
+        public static string? Validate(Engine engine, ReadOnlySpan<byte> bytes)
+        {
+            if (engine is null)
+            {
+                throw new ArgumentNullException(nameof(engine));
+            }
+
+            unsafe
+            {
+                fixed (byte* ptr = bytes)
+                {
+                    var error = Native.wasmtime_module_validate(engine.NativeHandle, ptr, (UIntPtr)bytes.Length);
+                    if (error != IntPtr.Zero)
+                    {
+                        return WasmtimeException.FromOwnedError(error).Message;
+                    }
+
+                    return null;
+                }
+            }
+        }
 
         /// <summary>
         /// Creates a <see cref="Module"/> given the module name and bytes.
@@ -201,6 +228,94 @@ namespace Wasmtime
             return FromText(engine, name, reader.ReadToEnd());
         }
 
+        /// <summary>
+        /// Serializes the module to an array of bytes.
+        /// </summary>
+        /// <returns>Returns the serialized module as an array of bytes.</returns>
+        public byte[] Serialize()
+        {
+            var error = Native.wasmtime_module_serialize(this.handle, out var array);
+            if (error != IntPtr.Zero)
+            {
+                throw WasmtimeException.FromOwnedError(error);
+            }
+
+            using (array)
+            {
+                var len = Convert.ToInt32(array.size.ToUInt32());
+                var bytes = new byte[len];
+                unsafe
+                {
+                    Marshal.Copy((IntPtr)array.data, bytes, 0, len);
+                }
+                return bytes;
+            }
+        }
+
+        /// <summary>
+        /// Deserializes a previously serialized module from a span of bytes.
+        /// </summary>
+        /// <param name="engine">The engine to use to deserialize the module.</param>
+        /// <param name="name">The name of the module being deserialized.</param>
+        /// <param name="bytes">The previously serialized module bytes.</param>
+        /// <returns>Returns the <see cref="Module" /> that was previously serialized.</returns>
+        /// <remarks>The passed bytes must come from a previous call to <see cref="Module.Serialize" />.</remarks>
+        public static Module Deserialize(Engine engine, string name, ReadOnlySpan<byte> bytes)
+        {
+            if (engine is null)
+            {
+                throw new ArgumentNullException(nameof(engine));
+            }
+
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            unsafe
+            {
+                fixed (byte* ptr = bytes)
+                {
+                    var error = Native.wasmtime_module_deserialize(engine.NativeHandle, ptr, (UIntPtr)bytes.Length, out var handle);
+                    if (error != IntPtr.Zero)
+                    {
+                        throw WasmtimeException.FromOwnedError(error);
+                    }
+
+                    return new Module(handle, name);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Deserializes a previously serialized module from a file.
+        /// </summary>
+        /// <param name="engine">The engine to deserialize the module with.</param>
+        /// <param name="name">The name of the deserialized module.</param>
+        /// <param name="path">The path to the previously serialized module.</param>
+        /// <returns>Returns the <see cref="Module" /> that was previously serialized.</returns>
+        /// <remarks>The file's contents must come from a previous call to <see cref="Module.Serialize" />.</remarks>
+        public static Module DeserializeFile(Engine engine, string name, string path)
+        {
+            if (engine is null)
+            {
+                throw new ArgumentNullException(nameof(engine));
+            }
+
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            var error = Native.wasmtime_module_deserialize_file(engine.NativeHandle, path, out var handle);
+            if (error != IntPtr.Zero)
+            {
+                throw WasmtimeException.FromOwnedError(error);
+            }
+
+            return new Module(handle, name);
+        }
+
         /// <inheritdoc/>
         public void Dispose()
         {
@@ -306,6 +421,18 @@ namespace Wasmtime
 
             [DllImport(Engine.LibraryName)]
             public static unsafe extern IntPtr wasmtime_wat2wasm(byte* text, UIntPtr len, out ByteArray bytes);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern unsafe IntPtr wasmtime_module_validate(Engine.Handle engine, byte* bytes, UIntPtr size);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasmtime_module_serialize(Handle module, out ByteArray bytes);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern unsafe IntPtr wasmtime_module_deserialize(Engine.Handle engine, byte* bytes, UIntPtr size, out IntPtr handle);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern unsafe IntPtr wasmtime_module_deserialize_file(Engine.Handle engine, [MarshalAs(UnmanagedType.LPUTF8Str)] string path, out IntPtr handle);
         }
 
         private readonly Handle handle;
