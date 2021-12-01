@@ -42,7 +42,7 @@ namespace Wasmtime.Tests
                             e.Frames[1].FunctionName == "second" &&
                             e.Frames[2].FunctionName == "first" &&
                             e.Frames[3].FunctionName == "run")
-                .WithMessage("wasm trap: unreachable*");
+                .WithMessage("wasm trap: wasm `unreachable` instruction executed*");
         }
 
         public void Dispose()
