@@ -21,7 +21,7 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <RepositoryUrl>https://github.com/bytecodealliance/wasmtime-dotnet</RepositoryUrl>
-    <PackageReleaseNotes>Update Wasmtime to 0.32.1.</PackageReleaseNotes>
+    <PackageReleaseNotes>Update Wasmtime to 0.33.0.</PackageReleaseNotes>
     <Summary>A .NET API for Wasmtime, a standalone WebAssembly runtime</Summary>
     <PackageTags>webassembly, .net, wasm, wasmtime</PackageTags>
     <Title>Wasmtime</Title>
