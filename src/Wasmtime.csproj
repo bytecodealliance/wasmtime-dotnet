@@ -15,13 +15,14 @@
   <PropertyGroup>
     <AssemblyName>Wasmtime.Dotnet</AssemblyName>
     <PackageId>Wasmtime</PackageId>
-    <Version>$(WasmtimePackageVersion)</Version>
+    <!-- TODO: restore this back to $(WasmtimePackageVersion) when once again sync'd -->
+    <Version>0.33.1</Version>
     <Authors>Peter Huene</Authors>
     <Owners>Peter Huene</Owners>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <RepositoryUrl>https://github.com/bytecodealliance/wasmtime-dotnet</RepositoryUrl>
-    <PackageReleaseNotes>Update Wasmtime to 0.33.0.</PackageReleaseNotes>
+    <PackageReleaseNotes>Fixed package layout (still Wasmtime 0.33.0).</PackageReleaseNotes>
     <Summary>A .NET API for Wasmtime, a standalone WebAssembly runtime</Summary>
     <PackageTags>webassembly, .net, wasm, wasmtime</PackageTags>
     <Title>Wasmtime</Title>
@@ -49,7 +50,7 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
         <DownloadFilename>linux.tar.xz</DownloadFilename>
         <IsZip>false</IsZip>
         <WasmtimeLibraryFilename>libwasmtime.so</WasmtimeLibraryFilename>
-        <PackagePath>runtimes/linux-x64/native/lib/$(WasmtimeLibraryFilename)</PackagePath>
+        <PackagePath>runtimes/linux-x64/native/lib/libwasmtime.so</PackagePath>
       </WasmtimeDownload>
       <WasmtimeDownload Include="macOS" Condition="'$(DevBuild)' != 'true' Or $([MSBuild]::IsOsPlatform('OSX'))">
         <URL>$(ReleaseURLBase)-macos-c-api.tar.xz</URL>
@@ -57,7 +58,7 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
         <DownloadFilename>macos.tar.xz</DownloadFilename>
         <IsZip>false</IsZip>
         <WasmtimeLibraryFilename>libwasmtime.dylib</WasmtimeLibraryFilename>
-        <PackagePath>runtimes/osx-x64/native/lib/$(WasmtimeLibraryFilename)</PackagePath>
+        <PackagePath>runtimes/osx-x64/native/lib/libwasmtime.dylib</PackagePath>
       </WasmtimeDownload>
       <WasmtimeDownload Include="Windows" Condition="'$(DevBuild)' != 'true' Or $([MSBuild]::IsOsPlatform('Windows'))">
         <URL>$(ReleaseURLBase)-windows-c-api.zip</URL>
@@ -65,7 +66,7 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
         <DownloadFilename>windows.zip</DownloadFilename>
         <IsZip>true</IsZip>
         <WasmtimeLibraryFilename>wasmtime.dll</WasmtimeLibraryFilename>
-        <PackagePath>runtimes/win-x64/native/lib/$(WasmtimeLibraryFilename)</PackagePath>
+        <PackagePath>runtimes/win-x64/native/lib/wasmtime.dll</PackagePath>
       </WasmtimeDownload>
     </ItemGroup>
 
