@@ -15,8 +15,7 @@
   <PropertyGroup>
     <AssemblyName>Wasmtime.Dotnet</AssemblyName>
     <PackageId>Wasmtime</PackageId>
-    <!-- TODO: restore this back to $(WasmtimePackageVersion) when once again sync'd -->
-    <Version>0.33.1</Version>
+    <Version>$(WasmtimePackageVersion)</Version>
     <Authors>Peter Huene</Authors>
     <Owners>Peter Huene</Owners>
     <IncludeSymbols>true</IncludeSymbols>
