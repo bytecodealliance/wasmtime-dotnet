@@ -49,7 +49,7 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
         <DownloadFilename>linux.tar.xz</DownloadFilename>
         <IsZip>false</IsZip>
         <WasmtimeLibraryFilename>libwasmtime.so</WasmtimeLibraryFilename>
-        <PackagePath>runtimes/linux-x64/native/lib/$(WasmtimeLibraryFilename)</PackagePath>
+        <PackagePath>runtimes/linux-x64/native/lib/libwasmtime.so</PackagePath>
       </WasmtimeDownload>
       <WasmtimeDownload Include="macOS" Condition="'$(DevBuild)' != 'true' Or $([MSBuild]::IsOsPlatform('OSX'))">
         <URL>$(ReleaseURLBase)-macos-c-api.tar.xz</URL>
@@ -57,7 +57,7 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
         <DownloadFilename>macos.tar.xz</DownloadFilename>
         <IsZip>false</IsZip>
         <WasmtimeLibraryFilename>libwasmtime.dylib</WasmtimeLibraryFilename>
-        <PackagePath>runtimes/osx-x64/native/lib/$(WasmtimeLibraryFilename)</PackagePath>
+        <PackagePath>runtimes/osx-x64/native/lib/libwasmtime.dylib</PackagePath>
       </WasmtimeDownload>
       <WasmtimeDownload Include="Windows" Condition="'$(DevBuild)' != 'true' Or $([MSBuild]::IsOsPlatform('Windows'))">
         <URL>$(ReleaseURLBase)-windows-c-api.zip</URL>
@@ -65,7 +65,7 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
         <DownloadFilename>windows.zip</DownloadFilename>
         <IsZip>true</IsZip>
         <WasmtimeLibraryFilename>wasmtime.dll</WasmtimeLibraryFilename>
-        <PackagePath>runtimes/win-x64/native/lib/$(WasmtimeLibraryFilename)</PackagePath>
+        <PackagePath>runtimes/win-x64/native/lib/wasmtime.dll</PackagePath>
       </WasmtimeDownload>
     </ItemGroup>
 
