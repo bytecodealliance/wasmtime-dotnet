@@ -21,6 +21,8 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <RepositoryUrl>https://github.com/bytecodealliance/wasmtime-dotnet</RepositoryUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <PackageReleaseNotes>Update Wasmtime to 0.34.0.</PackageReleaseNotes>
     <Summary>A .NET API for Wasmtime, a standalone WebAssembly runtime</Summary>
     <PackageTags>webassembly, .net, wasm, wasmtime</PackageTags>
@@ -34,6 +36,10 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
     </PackageDescription>
     <PackageLicenseExpression>Apache-2.0 WITH LLVM-exception</PackageLicenseExpression>
   </PropertyGroup>
+	
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
+  </ItemGroup>
 
   <Target Name="DownloadWasmtime" BeforeTargets="BeforeBuild">
     <PropertyGroup>
