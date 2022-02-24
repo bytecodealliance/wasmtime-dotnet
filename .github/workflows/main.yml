@@ -39,7 +39,7 @@ jobs:
     - uses: actions/checkout@v2
     - uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '6.0.2'
+        dotnet-version: '6.0.x'
     #  workaround for actions/setup-dotnet#155
     - name: Clear package cache
       run: dotnet clean && dotnet nuget locals all --clear
