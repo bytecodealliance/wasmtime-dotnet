@@ -1,16 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Nullable>enable</Nullable>
     <WarningsAsErrors>nullable</WarningsAsErrors>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.CSharp" Version="4.6.0" />
-  </ItemGroup>
 
   <PropertyGroup>
     <AssemblyName>Wasmtime.Dotnet</AssemblyName>
@@ -38,7 +34,7 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
   </PropertyGroup>
 	
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
   </ItemGroup>
 
   <Target Name="DownloadWasmtime" BeforeTargets="BeforeBuild">
@@ -75,22 +71,22 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
       </WasmtimeDownload>
     </ItemGroup>
 
-    <DownloadFile Condition="!Exists('%(WasmtimeDownload.DownloadFolder)/%(WasmtimeDownload.DownloadFilename)')" 
-                  SourceUrl="%(WasmtimeDownload.URL)" 
-                  DestinationFolder="%(WasmtimeDownload.DownloadFolder)" 
-                  DestinationFileName="%(WasmtimeDownload.DownloadFilename)" 
-                  SkipUnchangedFiles="true" />
-
+	<DownloadFile Condition="!Exists('%(WasmtimeDownload.DownloadFolder)/%(WasmtimeDownload.DownloadFilename)')"
+					  SourceUrl="%(WasmtimeDownload.URL)"
+					  DestinationFolder="%(WasmtimeDownload.DownloadFolder)"
+					  DestinationFileName="%(WasmtimeDownload.DownloadFilename)"
+					  SkipUnchangedFiles="true" />
+	  
     <!-- Workaround for https://github.com/msys2/MSYS2-packages/issues/1548 -->
-    <Exec Condition="!%(WasmtimeDownload.IsZip) And !Exists('%(WasmtimeDownload.DownloadFolder)/lib/%(WasmtimeDownload.WasmtimeLibraryFilename)')" 
-          Command="xz --decompress --stdout %(WasmtimeDownload.DownloadFilename) | tar --strip-components 1 -vxf -" 
-          WorkingDirectory="%(WasmtimeDownload.DownloadFolder)" 
-          StandardOutputImportance="Low" StandardErrorImportance="Low" />
-    <Exec Condition="%(WasmtimeDownload.IsZip) And !Exists('%(WasmtimeDownload.DownloadFolder)/lib/%(WasmtimeDownload.WasmtimeLibraryFilename)')" 
-          Command="tar --strip-components 1 -vxzf %(WasmtimeDownload.DownloadFilename)" 
-          WorkingDirectory="%(WasmtimeDownload.DownloadFolder)" 
-          StandardOutputImportance="Low" StandardErrorImportance="Low" />
-
+	<Exec Condition="!%(WasmtimeDownload.IsZip) And !Exists('%(WasmtimeDownload.DownloadFolder)/lib/%(WasmtimeDownload.WasmtimeLibraryFilename)')"
+		Command="xz --decompress --stdout %(WasmtimeDownload.DownloadFilename) | tar --strip-components 1 -vxf -"
+		WorkingDirectory="%(WasmtimeDownload.DownloadFolder)"
+		StandardOutputImportance="Low" StandardErrorImportance="Low" />
+	<Exec Condition="%(WasmtimeDownload.IsZip) And !Exists('%(WasmtimeDownload.DownloadFolder)/lib/%(WasmtimeDownload.WasmtimeLibraryFilename)')"
+		Command="tar --strip-components 1 -vxzf %(WasmtimeDownload.DownloadFilename)"
+		WorkingDirectory="%(WasmtimeDownload.DownloadFolder)"
+		StandardOutputImportance="Low" StandardErrorImportance="Low" />
+	  
     <ItemGroup>
       <Content Include="%(WasmtimeDownload.DownloadFolder)/lib/%(WasmtimeDownload.WasmtimeLibraryFilename)">
         <PackagePath>%(WasmtimeDownload.PackagePath)</PackagePath>

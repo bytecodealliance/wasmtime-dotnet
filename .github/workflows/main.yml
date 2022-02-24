@@ -39,16 +39,16 @@ jobs:
     - uses: actions/checkout@v2
     - uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '5.0.102'
+        dotnet-version: '6.0.x'
     #  workaround for actions/setup-dotnet#155
     - name: Clear package cache
-      run: dotnet clean && dotnet nuget locals all --clear
+      run: dotnet clean Wasmtime.sln && dotnet nuget locals all --clear
     - name: Restore packages
-      run: dotnet restore
+      run: dotnet restore Wasmtime.sln
     - name: Build
-      run: dotnet build -c ${{ matrix.config }} --no-restore
+      run: dotnet build Wasmtime.sln -c ${{ matrix.config }} --no-restore
     - name: Test
-      run: dotnet test -c ${{ matrix.config }}
+      run: dotnet test Wasmtime.sln -c ${{ matrix.config }}
     - name: Benchmark
       if: matrix.config == 'release'
       run: dotnet run -c ${{ matrix.config }} --project benchmarks/simple/simple.csproj

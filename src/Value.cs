@@ -209,18 +209,26 @@ namespace Wasmtime
                 switch (kind)
                 {
                     case ValueKind.Int32:
+                        if (o is null)
+                            throw new WasmtimeException($"The value `null` is not valid for WebAssembly type {kind}.");
                         value.of.i32 = (int)Convert.ChangeType(o, TypeCode.Int32);
                         break;
 
                     case ValueKind.Int64:
+                        if (o is null)
+                            throw new WasmtimeException($"The value `null` is not valid for WebAssembly type {kind}.");
                         value.of.i64 = (long)Convert.ChangeType(o, TypeCode.Int64);
                         break;
 
                     case ValueKind.Float32:
+                        if (o is null)
+                            throw new WasmtimeException($"The value `null` is not valid for WebAssembly type {kind}.");
                         value.of.f32 = (float)Convert.ChangeType(o, TypeCode.Single);
                         break;
 
                     case ValueKind.Float64:
+                        if (o is null)
+                            throw new WasmtimeException($"The value `null` is not valid for WebAssembly type {kind}.");
                         value.of.f64 = (double)Convert.ChangeType(o, TypeCode.Double);
                         break;
 
