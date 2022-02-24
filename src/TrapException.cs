@@ -7,6 +7,39 @@ using System.Text;
 namespace Wasmtime
 {
     /// <summary>
+    /// Code of an instruction trap. wasmtime_trap_code_enum
+    /// </summary>
+    public enum TrapCode
+    {
+        /// <summary>
+        /// Undefined Trapcode
+        /// </summary>
+        UNDEFINED = -1,
+        /// <summary> The current stack space was exhausted.</summary>
+        STACK_OVERFLOW = 0,
+        /// <summary>   An out-of-bounds memory access..</summary>
+        MEMORY_OUT_OF_BOUNDS = 1,
+        /// <summary>   A wasm atomic operation was presented with a not-naturally-aligned linear-memory address..</summary>
+        HEAP_MISALIGNED = 2,
+        /// <summary>   An out-of-bounds acces,s to a table..</summary>
+        TABLE_OUT_OF_BOUNDS = 3,
+        /// <summary>   Indirect call to a null table entry..</summary>
+        INDIRECT_CALL_TO_NULL = 4,
+        /// <summary>   Signature mismatch on indirect call..</summary>
+        BAD_SIGNATURE = 5,
+        /// <summary>   An integer arithmetic operation caused an overflow..</summary>
+        INTEGER_OVERFLOW = 6,
+        /// <summary>   An integer division by zero..</summary>
+        INTEGER_DIVISION_BY_ZERO = 7,
+        /// <summary>    Failed float-to-int conversion..</summary>
+        BAD_CONVERSION_TO_INTEGER = 8,
+        /// <summary>  Code that was supposed to have been unreachable was reached..</summary>
+        UNREACHABLE = 9,
+        /// <summary>  Execution has potentially run too long and may be interrupted..</summary>
+        INTERRUPT = 10,
+    }
+
+    /// <summary>
     /// Represents a WebAssembly trap frame.
     /// </summary>
     [Serializable]
@@ -86,7 +119,13 @@ namespace Wasmtime
         /// <summary>
         /// Gets the trap's frames.
         /// </summary>
-        public IReadOnlyList<TrapFrame>? Frames { get; private set; }
+        public IReadOnlyList<TrapFrame>? Frames { get; protected set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+
+        public int? ExitCode { get; private set; }
 
         /// <inheritdoc/>
         protected TrapException(SerializationInfo info, StreamingContext context) : base(info, context) { }
@@ -96,11 +135,33 @@ namespace Wasmtime
             Frames = frames;
         }
 
+        /// <summary>
+        /// Returns an optional `TrapCode` that corresponds to why this trap happened. 
+        /// Note that `Unknown` may be returned for manually created traps which do 
+        /// not have an associated code with them.
+        /// </summary>
+        /// <param name="trap"></param>
+        /// <returns></returns>
+
+        private static TrapCode GetTrapCode(IntPtr trap)
+        {
+
+            if (Native.wasmtime_trap_code(trap, out TrapCode code))
+            {
+                return code;
+            }
+            return TrapCode.UNDEFINED;
+        }
         internal static TrapException FromOwnedTrap(IntPtr trap)
         {
             unsafe
             {
                 Native.wasm_trap_message(trap, out var bytes);
+
+                var trapCode = GetTrapCode(trap);
+
+                bool trappedExit = Native.wasmtime_trap_exit_status(trap, out int exitStatus);
+
                 var byteSpan = new ReadOnlySpan<byte>(bytes.data, checked((int)bytes.size));
 
                 int indexOfNull = byteSpan.LastIndexOf((byte)0);
@@ -123,7 +184,12 @@ namespace Wasmtime
 
                 Native.wasm_trap_delete(trap);
 
-                return new TrapException(message, trapFrames);
+                var trappedException = new TrapException(message, trapFrames);
+                if (trappedExit)
+                    trappedException.ExitCode = exitStatus;
+
+                return trappedException;
+
             }
         }
 
@@ -152,6 +218,12 @@ namespace Wasmtime
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasm_frame_vec_delete(in FrameArray vec);
+
+            [DllImport(Engine.LibraryName)]
+            internal static extern bool wasmtime_trap_exit_status(IntPtr trap, out int exitStatus);
+
+            [DllImport(Engine.LibraryName)]
+            internal static extern bool wasmtime_trap_code(IntPtr trap, out TrapCode exitCode);
         }
     }
 }
