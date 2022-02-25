@@ -126,7 +126,6 @@ namespace Wasmtime
         ///
         /// The value is null if the trap was not an exit trap.
         /// </summary>
-
         public int? ExitCode { get; private set; }
 
         /// <inheritdoc/>
