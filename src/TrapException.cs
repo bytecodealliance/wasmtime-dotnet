@@ -27,7 +27,7 @@ namespace Wasmtime
         INDIRECT_CALL_TO_NULL = 4,
         /// <summary>The trap was the result of a signature mismatch on indirect call.</summary>
         BAD_SIGNATURE = 5,
-        /// <summary>   An integer arithmetic operation caused an overflow..</summary>
+        /// <summary>The trap was the result of an integer arithmetic operation that overflowed.</summary>
         INTEGER_OVERFLOW = 6,
         /// <summary>   An integer division by zero..</summary>
         INTEGER_DIVISION_BY_ZERO = 7,
