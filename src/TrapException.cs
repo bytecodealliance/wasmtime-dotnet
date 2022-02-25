@@ -14,29 +14,29 @@ namespace Wasmtime
         /// <summary>
         /// The trap has no associated trap code.
         /// </summary>
-        UNDEFINED = -1,
+        Undefined = -1,
         /// <summary>The trap was the result of exhausting the available stack space.</summary>
-        STACK_OVERFLOW = 0,
+        StackOverflow = 0,
         /// <summary>The trap was the result of an out-of-bounds memory access.</summary>
-        MEMORY_OUT_OF_BOUNDS = 1,
+        MemoryOutOfBounds = 1,
         /// <summary>The trap was the result of a wasm atomic operation that was presented with a misaligned linear-memory address.</summary>
-        HEAP_MISALIGNED = 2,
+        HeapMisaligned = 2,
         /// <summary>The trap was the result of an out-of-bounds access to a table.</summary>
-        TABLE_OUT_OF_BOUNDS = 3,
+        TableOutOfBounds = 3,
         /// <summary>The trap was the result of an indirect call to a null table entry.</summary>
-        INDIRECT_CALL_TO_NULL = 4,
+        IndirectCallToNull = 4,
         /// <summary>The trap was the result of a signature mismatch on indirect call.</summary>
-        BAD_SIGNATURE = 5,
+        BadSignature = 5,
         /// <summary>The trap was the result of an integer arithmetic operation that overflowed.</summary>
-        INTEGER_OVERFLOW = 6,
+        IntegerOverflow = 6,
         /// <summary>The trap was the result of an integer division by zero.</summary>
-        INTEGER_DIVISION_BY_ZERO = 7,
+        IntegerDivisionByZero = 7,
         /// <summary>The trap was the result of a failed float-to-int conversion.</summary>
-        BAD_CONVERSION_TO_INTEGER = 8,
+        BadConversionToInteger = 8,
         /// <summary>The trap was the result of executing the `unreachable` instruction.</summary>
-        UNREACHABLE = 9,
+        Unreachable = 9,
         /// <summary>The trap was the result of interrupting execution.</summary>
-        INTERRUPT = 10,
+        Interrupt = 10,
     }
 
     /// <summary>
@@ -141,7 +141,7 @@ namespace Wasmtime
             {
                 return code;
             }
-            return TrapCode.UNDEFINED;
+            return TrapCode.Undefined;
         }
 
         internal static TrapException FromOwnedTrap(IntPtr trap)
