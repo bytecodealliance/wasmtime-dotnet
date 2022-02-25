@@ -143,6 +143,7 @@ namespace Wasmtime
             }
             return TrapCode.UNDEFINED;
         }
+
         internal static TrapException FromOwnedTrap(IntPtr trap)
         {
             unsafe
