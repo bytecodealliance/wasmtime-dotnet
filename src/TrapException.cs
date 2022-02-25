@@ -15,7 +15,7 @@ namespace Wasmtime
         /// The trap has no associated trap code.
         /// </summary>
         UNDEFINED = -1,
-        /// <summary> The current stack space was exhausted.</summary>
+        /// <summary>The trap was the result of exhausting the available stack space.</summary>
         STACK_OVERFLOW = 0,
         /// <summary>   An out-of-bounds memory access..</summary>
         MEMORY_OUT_OF_BOUNDS = 1,
