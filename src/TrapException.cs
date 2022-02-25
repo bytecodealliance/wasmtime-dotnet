@@ -12,7 +12,7 @@ namespace Wasmtime
     public enum TrapCode
     {
         /// <summary>
-        /// Undefined Trapcode
+        /// The trap has no associated trap code.
         /// </summary>
         UNDEFINED = -1,
         /// <summary> The current stack space was exhausted.</summary>
