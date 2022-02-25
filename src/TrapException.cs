@@ -17,7 +17,7 @@ namespace Wasmtime
         UNDEFINED = -1,
         /// <summary>The trap was the result of exhausting the available stack space.</summary>
         STACK_OVERFLOW = 0,
-        /// <summary>   An out-of-bounds memory access..</summary>
+        /// <summary>The trap was the result of an out-of-bounds memory access.</summary>
         MEMORY_OUT_OF_BOUNDS = 1,
         /// <summary>   A wasm atomic operation was presented with a not-naturally-aligned linear-memory address..</summary>
         HEAP_MISALIGNED = 2,
