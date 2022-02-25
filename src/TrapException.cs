@@ -19,7 +19,7 @@ namespace Wasmtime
         STACK_OVERFLOW = 0,
         /// <summary>The trap was the result of an out-of-bounds memory access.</summary>
         MEMORY_OUT_OF_BOUNDS = 1,
-        /// <summary>   A wasm atomic operation was presented with a not-naturally-aligned linear-memory address..</summary>
+        /// <summary>The trap was the result of a wasm atomic operation that was presented with a misaligned linear-memory address.</summary>
         HEAP_MISALIGNED = 2,
         /// <summary>   An out-of-bounds acces,s to a table..</summary>
         TABLE_OUT_OF_BOUNDS = 3,
