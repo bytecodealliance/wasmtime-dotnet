@@ -21,7 +21,7 @@ namespace Wasmtime
         MEMORY_OUT_OF_BOUNDS = 1,
         /// <summary>The trap was the result of a wasm atomic operation that was presented with a misaligned linear-memory address.</summary>
         HEAP_MISALIGNED = 2,
-        /// <summary>   An out-of-bounds acces,s to a table..</summary>
+        /// <summary>The trap was the result of an out-of-bounds access to a table.</summary>
         TABLE_OUT_OF_BOUNDS = 3,
         /// <summary>   Indirect call to a null table entry..</summary>
         INDIRECT_CALL_TO_NULL = 4,
