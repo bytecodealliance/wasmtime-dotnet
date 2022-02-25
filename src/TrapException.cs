@@ -35,7 +35,7 @@ namespace Wasmtime
         BAD_CONVERSION_TO_INTEGER = 8,
         /// <summary>  Code that was supposed to have been unreachable was reached..</summary>
         UNREACHABLE = 9,
-        /// <summary>  Execution has potentially run too long and may be interrupted..</summary>
+        /// <summary>The trap was the result of interrupting execution.</summary>
         INTERRUPT = 10,
     }
 
