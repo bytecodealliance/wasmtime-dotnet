@@ -178,7 +178,9 @@ namespace Wasmtime
 
                 var trappedException = new TrapException(message, trapFrames);
                 if (trappedExit)
+                {
                     trappedException.ExitCode = exitStatus;
+                }
 
                 return trappedException;
             }
