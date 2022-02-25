@@ -33,7 +33,7 @@ namespace Wasmtime
         INTEGER_DIVISION_BY_ZERO = 7,
         /// <summary>The trap was the result of a failed float-to-int conversion.</summary>
         BAD_CONVERSION_TO_INTEGER = 8,
-        /// <summary>  Code that was supposed to have been unreachable was reached..</summary>
+        /// <summary>The trap was the result of executing the `unreachable` instruction.</summary>
         UNREACHABLE = 9,
         /// <summary>The trap was the result of interrupting execution.</summary>
         INTERRUPT = 10,
