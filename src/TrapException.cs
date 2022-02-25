@@ -31,7 +31,7 @@ namespace Wasmtime
         INTEGER_OVERFLOW = 6,
         /// <summary>The trap was the result of an integer division by zero.</summary>
         INTEGER_DIVISION_BY_ZERO = 7,
-        /// <summary>    Failed float-to-int conversion..</summary>
+        /// <summary>The trap was the result of a failed float-to-int conversion.</summary>
         BAD_CONVERSION_TO_INTEGER = 8,
         /// <summary>  Code that was supposed to have been unreachable was reached..</summary>
         UNREACHABLE = 9,
