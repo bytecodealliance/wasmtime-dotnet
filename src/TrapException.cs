@@ -122,7 +122,9 @@ namespace Wasmtime
         public IReadOnlyList<TrapFrame>? Frames { get; protected set; }
 
         /// <summary>
-        /// 
+        /// The exit code when the trap results from executing the WASI `proc_exit` function.
+        ///
+        /// The value is null if the trap was not an exit trap.
         /// </summary>
 
         public int? ExitCode { get; private set; }
