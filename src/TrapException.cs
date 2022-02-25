@@ -134,15 +134,6 @@ namespace Wasmtime
         {
             Frames = frames;
         }
-
-        /// <summary>
-        /// Returns an optional `TrapCode` that corresponds to why this trap happened. 
-        /// Note that `Unknown` may be returned for manually created traps which do 
-        /// not have an associated code with them.
-        /// </summary>
-        /// <param name="trap"></param>
-        /// <returns></returns>
-
         private static TrapCode GetTrapCode(IntPtr trap)
         {
 
