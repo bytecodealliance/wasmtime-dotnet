@@ -181,7 +181,6 @@ namespace Wasmtime
                     trappedException.ExitCode = exitStatus;
 
                 return trappedException;
-
             }
         }
 
