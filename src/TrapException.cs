@@ -7,7 +7,7 @@ using System.Text;
 namespace Wasmtime
 {
     /// <summary>
-    /// Code of an instruction trap. wasmtime_trap_code_enum
+    /// Represents the code associated with a trap.
     /// </summary>
     public enum TrapCode
     {
