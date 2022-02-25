@@ -25,7 +25,7 @@ namespace Wasmtime
         TABLE_OUT_OF_BOUNDS = 3,
         /// <summary>The trap was the result of an indirect call to a null table entry.</summary>
         INDIRECT_CALL_TO_NULL = 4,
-        /// <summary>   Signature mismatch on indirect call..</summary>
+        /// <summary>The trap was the result of a signature mismatch on indirect call.</summary>
         BAD_SIGNATURE = 5,
         /// <summary>   An integer arithmetic operation caused an overflow..</summary>
         INTEGER_OVERFLOW = 6,
