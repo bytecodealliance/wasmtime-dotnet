@@ -29,7 +29,7 @@ namespace Wasmtime
         BAD_SIGNATURE = 5,
         /// <summary>The trap was the result of an integer arithmetic operation that overflowed.</summary>
         INTEGER_OVERFLOW = 6,
-        /// <summary>   An integer division by zero..</summary>
+        /// <summary>The trap was the result of an integer division by zero.</summary>
         INTEGER_DIVISION_BY_ZERO = 7,
         /// <summary>    Failed float-to-int conversion..</summary>
         BAD_CONVERSION_TO_INTEGER = 8,
