@@ -136,7 +136,6 @@ namespace Wasmtime
         }
         private static TrapCode GetTrapCode(IntPtr trap)
         {
-
             if (Native.wasmtime_trap_code(trap, out TrapCode code))
             {
                 return code;
