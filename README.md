@@ -27,7 +27,7 @@
 You can add a package reference with the [.NET SDK](https://dotnet.microsoft.com/):
 
 ```text
-$ dotnet add package --version 0.34.0-preview1 wasmtime
+$ dotnet add package --version 0.35.0-preview1 wasmtime
 ```
 
 _Note that the `--version` option is required because the package is currently prerelease._
@@ -54,7 +54,7 @@ $ dotnet new console
 Next, add a reference to the [Wasmtime package](https://www.nuget.org/packages/Wasmtime):
 
 ```
-$ dotnet add package --version 0.34.0-preview1 wasmtime
+$ dotnet add package --version 0.35.0-preview1 wasmtime
 ```
 
 Replace the contents of `Program.cs` with the following code:
@@ -115,7 +115,7 @@ This should print `Hello from C#!`.
 Use `dotnet` to build the repository:
 
 ```
-$ dotnet build
+$ dotnet build Wasmtime.sln
 ```
 
 This will download the latest development snapshot of Wasmtime for your platform.
@@ -125,7 +125,7 @@ This will download the latest development snapshot of Wasmtime for your platform
 Use `dotnet` to run the unit tests:
 
 ```
-$ dotnet test
+$ dotnet test Wasmtime.sln
 ```
 
 ### Creating the NuGet package
@@ -134,7 +134,7 @@ Use `dotnet` to create a NuGet package:
 
 ```
 $ cd src
-$ dotnet pack -c Release
+$ dotnet pack Wasmtime.sln -c Release
 ```
 
 This will create a `.nupkg` file in `src/bin/Release`.
