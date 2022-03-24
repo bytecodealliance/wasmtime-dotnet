@@ -43,14 +43,6 @@ namespace Wasmtime
                             exports[i] = new MemoryExport(exportType, externType);
                             break;
 
-                        case WasmExternKind.Instance:
-                            exports[i] = new InstanceExport(exportType, externType);
-                            break;
-
-                        case WasmExternKind.Module:
-                            exports[i] = new ModuleExport(exportType, externType);
-                            break;
-
                         default:
                             throw new NotSupportedException("Unsupported export extern type.");
                     }
@@ -266,91 +258,5 @@ namespace Wasmtime
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasm_externtype_as_tabletype_const(IntPtr type);
         }
-    }
-
-    /// <summary>
-    /// Represents an instance exported from a WebAssembly module or instance.
-    /// </summary>
-    public class InstanceExport : Export
-    {
-        internal InstanceExport(IntPtr exportType, IntPtr externType) : base(exportType)
-        {
-            var type = Native.wasmtime_externtype_as_instancetype(externType);
-            if (type == IntPtr.Zero)
-            {
-                throw new InvalidOperationException();
-            }
-
-            Native.wasmtime_instancetype_exports(type, out var exports);
-
-            using (var _ = exports)
-            {
-                this.exports = exports.ToExportArray();
-            }
-        }
-
-        internal static class Native
-        {
-            [DllImport(Engine.LibraryName)]
-            public static extern IntPtr wasmtime_externtype_as_instancetype(IntPtr type);
-
-            [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_instancetype_exports(IntPtr type, out ExportTypeArray exports);
-        }
-
-        /// <summary>
-        /// The exports of the instance.
-        /// </summary>
-        public IReadOnlyList<Export> Exports => exports;
-
-        private readonly Export[] exports;
-    }
-
-    /// <summary>
-    /// Represents a module exported from a WebAssembly module or instance.
-    /// </summary>
-    public class ModuleExport : Export
-    {
-        internal ModuleExport(IntPtr exportType, IntPtr externType) : base(exportType)
-        {
-            var type = Native.wasmtime_externtype_as_moduletype(externType);
-            if (type == IntPtr.Zero)
-            {
-                throw new InvalidOperationException();
-            }
-
-            Module.Native.wasmtime_moduletype_imports(type, out var imports);
-
-            using (var _ = imports)
-            {
-                this.imports = imports.ToImportArray();
-            }
-
-            Module.Native.wasmtime_moduletype_exports(type, out var exports);
-
-            using (var _ = exports)
-            {
-                this.exports = exports.ToExportArray();
-            }
-        }
-
-        /// <summary>
-        /// The imports of the module.
-        /// </summary>
-        public IReadOnlyList<Import> Imports => imports;
-
-        /// <summary>
-        /// The exports of the module.
-        /// </summary>
-        public IReadOnlyList<Export> Exports => exports;
-
-        internal static class Native
-        {
-            [DllImport(Engine.LibraryName)]
-            public static extern IntPtr wasmtime_externtype_as_moduletype(IntPtr type);
-        }
-
-        private readonly Import[] imports;
-        private readonly Export[] exports;
     }
 }

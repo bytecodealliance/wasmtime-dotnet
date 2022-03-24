@@ -8,7 +8,7 @@ namespace Wasmtime
     /// <summary>
     /// Represents an instantiated WebAssembly module.
     /// </summary>
-    public class Instance : IExternal
+    public class Instance
     {
         /// <summary>
         /// Creates a new WebAssembly instance.
@@ -148,50 +148,6 @@ namespace Wasmtime
             return new Global(context, ext.of.global);
         }
 
-        /// <summary>
-        /// Gets an exported instance from the instance.
-        /// </summary>
-        /// <param name="store">The store that owns the instance.</param>
-        /// <param name="name">The name of the exported instance.</param>
-        /// <returns>Returns the instance if a instance of that name was exported or null if not.</returns>
-        public Instance? GetInstance(IStore store, string name)
-        {
-            if (store is null)
-            {
-                throw new ArgumentNullException(nameof(store));
-            }
-
-            var context = store.Context;
-            if (!TryGetExtern(context, name, out var ext) || ext.kind != ExternKind.Instance)
-            {
-                return null;
-            }
-
-            return new Instance(ext.of.instance);
-        }
-
-        /// <summary>
-        /// Gets an exported module from the instance.
-        /// </summary>
-        /// <param name="store">The store that owns the instance.</param>
-        /// <param name="name">The name of the exported module.</param>
-        /// <returns>Returns the module if a module of that name was exported or null if not.</returns>
-        public Module? GetModule(IStore store, string name)
-        {
-            if (store is null)
-            {
-                throw new ArgumentNullException(nameof(store));
-            }
-
-            var context = store.Context;
-            if (!TryGetExtern(context, name, out var ext) || ext.kind != ExternKind.Module)
-            {
-                return null;
-            }
-
-            return new Module(ext.of.module, name);
-        }
-
         private bool TryGetExtern(StoreContext context, string name, out Extern ext)
         {
             unsafe
@@ -202,15 +158,6 @@ namespace Wasmtime
                     return Native.wasmtime_instance_export_get(context.handle, this.instance, ptr, (UIntPtr)nameBytes.Length, out ext);
                 }
             }
-        }
-
-        Extern IExternal.AsExtern()
-        {
-            return new Extern
-            {
-                kind = ExternKind.Instance,
-                of = new ExternUnion { instance = this.instance }
-            };
         }
 
         internal Instance(ExternInstance instance)

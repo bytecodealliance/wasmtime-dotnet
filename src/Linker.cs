@@ -730,52 +730,6 @@ namespace Wasmtime
             return new Global(context, ext.of.global);
         }
 
-        /// <summary>
-        /// Gets an exported instance from the linker.
-        /// </summary>
-        /// <param name="store">The store of the instance.</param>
-        /// <param name="module">The module name of the exported instance.</param>
-        /// <param name="name">The name of the exported instance.</param>
-        /// <returns>Returns the instance if a instance of that name was exported or null if not.</returns>
-        public Instance? GetInstance(IStore store, string module, string name)
-        {
-            if (store is null)
-            {
-                throw new ArgumentNullException(nameof(store));
-            }
-
-            var context = store.Context;
-            if (!TryGetExtern(context, module, name, out var ext) || ext.kind != ExternKind.Instance)
-            {
-                return null;
-            }
-
-            return new Instance(ext.of.instance);
-        }
-
-        /// <summary>
-        /// Gets an exported module from the linker.
-        /// </summary>
-        /// <param name="store">The store of the module.</param>
-        /// <param name="module">The module name of the exported module.</param>
-        /// <param name="name">The name of the exported module.</param>
-        /// <returns>Returns the module if a module of that name was exported or null if not.</returns>
-        public Module? GetModule(IStore store, string module, string name)
-        {
-            if (store is null)
-            {
-                throw new ArgumentNullException(nameof(store));
-            }
-
-            var context = store.Context;
-            if (!TryGetExtern(context, module, name, out var ext) || ext.kind != ExternKind.Module)
-            {
-                return null;
-            }
-
-            return new Module(ext.of.module, name);
-        }
-
         /// <inheritdoc/>
         public void Dispose()
         {

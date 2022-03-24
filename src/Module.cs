@@ -33,7 +33,7 @@ namespace Wasmtime
     /// <summary>
     /// Represents a WebAssembly module.
     /// </summary>
-    public class Module : IDisposable, IExternal
+    public class Module : IDisposable
     {
         /// <summary>
         /// The name of the module.
@@ -322,30 +322,20 @@ namespace Wasmtime
             handle.Dispose();
         }
 
-        Extern IExternal.AsExtern()
-        {
-            return new Extern
-            {
-                kind = ExternKind.Module,
-                of = new ExternUnion { module = NativeHandle.DangerousGetHandle() }
-            };
-        }
 
         internal Module(IntPtr handle, string name)
         {
             this.Name = name;
             this.handle = new Handle(handle);
 
-            using var type = new TypeHandle(Native.wasmtime_module_type(this.handle));
-
-            Native.wasmtime_moduletype_imports(type.DangerousGetHandle(), out var imports);
+            Native.wasmtime_module_imports(handle, out var imports);
 
             using (var _ = imports)
             {
                 this.imports = imports.ToImportArray();
             }
 
-            Native.wasmtime_moduletype_exports(type.DangerousGetHandle(), out var exports);
+            Native.wasmtime_module_exports(handle, out var exports);
 
             using (var _ = exports)
             {
@@ -381,21 +371,6 @@ namespace Wasmtime
             }
         }
 
-        internal class TypeHandle : SafeHandleZeroOrMinusOneIsInvalid
-        {
-            public TypeHandle(IntPtr handle)
-                : base(true)
-            {
-                SetHandle(handle);
-            }
-
-            protected override bool ReleaseHandle()
-            {
-                Native.wasmtime_moduletype_delete(handle);
-                return true;
-            }
-        }
-
         internal static class Native
         {
             [DllImport(Engine.LibraryName)]
@@ -405,19 +380,10 @@ namespace Wasmtime
             public static extern void wasmtime_module_delete(IntPtr module);
 
             [DllImport(Engine.LibraryName)]
-            public static extern IntPtr wasmtime_module_type(Handle module);
+            public static extern void wasmtime_module_imports(IntPtr module, out ImportTypeArray imports);
 
             [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_moduletype_imports(IntPtr type, out ImportTypeArray imports);
-
-            [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_moduletype_exports(IntPtr type, out ExportTypeArray exports);
-
-            [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_moduletype_delete(IntPtr type);
-
-            [DllImport(Engine.LibraryName)]
-            public static extern IntPtr wasm_module_as_extern(IntPtr module);
+            public static extern void wasmtime_module_exports(IntPtr module, out ExportTypeArray exports);
 
             [DllImport(Engine.LibraryName)]
             public static unsafe extern IntPtr wasmtime_wat2wasm(byte* text, UIntPtr len, out ByteArray bytes);
