@@ -12,8 +12,6 @@ namespace Wasmtime
         Global,
         Table,
         Memory,
-        Module,
-        Instance,
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -56,14 +54,6 @@ namespace Wasmtime
 
                         case WasmExternKind.Memory:
                             imports[i] = new MemoryImport(importType, externType);
-                            break;
-
-                        case WasmExternKind.Instance:
-                            imports[i] = new InstanceImport(importType, externType);
-                            break;
-
-                        case WasmExternKind.Module:
-                            imports[i] = new ModuleImport(importType, externType);
                             break;
 
                         default:
@@ -275,76 +265,5 @@ namespace Wasmtime
         /// The maximum number of elements in the table.
         /// </summary>
         public uint Maximum { get; private set; }
-    }
-
-    /// <summary>
-    /// Represents an instance imported to a WebAssembly module.
-    /// </summary>
-    public class InstanceImport : Import
-    {
-        internal InstanceImport(IntPtr importType, IntPtr externType) : base(importType)
-        {
-            var type = InstanceExport.Native.wasmtime_externtype_as_instancetype(externType);
-            if (type == IntPtr.Zero)
-            {
-                throw new InvalidOperationException();
-            }
-
-            InstanceExport.Native.wasmtime_instancetype_exports(type, out var exports);
-
-            using (var _ = exports)
-            {
-                this.exports = exports.ToExportArray();
-            }
-        }
-
-        /// <summary>
-        /// The exports of the instance.
-        /// </summary>
-        public IReadOnlyList<Export> Exports => exports;
-
-        private readonly Export[] exports;
-    }
-
-    /// <summary>
-    /// Represents a module imported to a WebAssembly module.
-    /// </summary>
-    public class ModuleImport : Import
-    {
-        internal ModuleImport(IntPtr importType, IntPtr externType) : base(importType)
-        {
-            var type = ModuleExport.Native.wasmtime_externtype_as_moduletype(externType);
-            if (type == IntPtr.Zero)
-            {
-                throw new InvalidOperationException();
-            }
-
-            Module.Native.wasmtime_moduletype_imports(type, out var imports);
-
-            using (var _ = imports)
-            {
-                this.imports = imports.ToImportArray();
-            }
-
-            Module.Native.wasmtime_moduletype_exports(type, out var exports);
-
-            using (var _ = exports)
-            {
-                this.exports = exports.ToExportArray();
-            }
-        }
-
-        /// <summary>
-        /// The imports of the module.
-        /// </summary>
-        public IReadOnlyList<Import> Imports => imports;
-
-        /// <summary>
-        /// The exports of the module.
-        /// </summary>
-        public IReadOnlyList<Export> Exports => exports;
-
-        private readonly Import[] imports;
-        private readonly Export[] exports;
     }
 }

@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "global", "examples\global\g
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hello", "examples\hello\hello.csproj", "{D3D124D2-AE6F-49F5-81F4-8FE41451856B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "linking", "examples\linking\linking.csproj", "{5C690486-153E-4221-A3FD-BE6B8B4FE579}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "memory", "examples\memory\memory.csproj", "{9F2BF53D-F96F-4E74-82D1-DC1F940B7B54}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "table", "examples\table\table.csproj", "{14C0359D-E39E-4CD6-BD25-486B37079E1C}"

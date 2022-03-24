@@ -190,17 +190,6 @@ namespace Wasmtime
         }
 
         /// <summary>
-        /// Sets whether or not enable WebAssembly module linking support.
-        /// </summary>
-        /// <param name="enable">True to enable WebAssembly module linking support or false to disable.</param>
-        /// <returns>Returns the current config.</returns>
-        public Config WithModuleLinking(bool enable)
-        {
-            Native.wasmtime_config_wasm_module_linking_set(handle, enable);
-            return this;
-        }
-
-        /// <summary>
         /// Sets the compiler strategy to use.
         /// </summary>
         /// <param name="strategy">The compiler strategy to use.</param>
@@ -392,9 +381,6 @@ namespace Wasmtime
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_config_wasm_multi_memory_set(Handle config, bool enable);
-
-            [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_config_wasm_module_linking_set(Handle config, bool enable);
 
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasmtime_config_strategy_set(Handle config, byte strategy);

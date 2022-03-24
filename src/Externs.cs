@@ -44,8 +44,6 @@ namespace Wasmtime
         Global,
         Table,
         Memory,
-        Instance,
-        Module
     }
 
     [StructLayout(LayoutKind.Explicit)]

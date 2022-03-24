@@ -90,7 +90,7 @@ namespace Tutorial
 }
 ```
 
-The [`Linker`](https://bytecodealliance.github.io/wasmtime-dotnet/api/Wasmtime.Linker.html) class is responsible for linking in hose defined functions, such as `hello` in this example.
+The [`Linker`](https://bytecodealliance.github.io/wasmtime-dotnet/api/Wasmtime.Linker.html) class is responsible for linking in those defined functions, such as `hello` in this example.
 
 Here we are defining a function named `hello` that simply prints `Hello from C#!` when called from WebAssembly.
 
