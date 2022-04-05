@@ -1,10 +1,10 @@
 name: CI
 on:
   push:
-    branches: [main]
+    branches: [main, 'release-*']
     tags-ignore: [dev]
   pull_request:
-    branches: [main]
+    branches: [main, 'release-*']
   schedule:
     - cron: '0 0 * * *' # run at 00:00 UTC
 
