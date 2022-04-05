@@ -43,6 +43,11 @@ jobs:
     #  workaround for actions/setup-dotnet#155
     - name: Clear package cache
       run: dotnet clean Wasmtime.sln && dotnet nuget locals all --clear
+    - name: Disable dev builds for release branches
+      if: startsWith(github.base_ref, 'release-')
+      shell: bash
+      run: |
+        echo "DevBuild=false" >> $GITHUB_ENV
     - name: Restore packages
       run: dotnet restore Wasmtime.sln
     - name: Build
