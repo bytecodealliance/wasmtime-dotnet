@@ -44,7 +44,7 @@ dotnet new console
 To use the .NET embedding of Wasmtime from the project, we need to add a reference to the [Wasmtime NuGet package](https://www.nuget.org/packages/Wasmtime):
 
 ```text
-dotnet add package --version 0.35.0-preview1 wasmtime
+dotnet add package --version 0.35.1-preview1 wasmtime
 ```
 
 _Note that the `--version` option is required because the package is currently prerelease._
