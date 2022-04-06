@@ -23,7 +23,7 @@ namespace Wasmtime.Tests
         public void ItReturnsAnErrorWhenValidatingAnInvalidModule()
         {
             using var engine = new Engine();
-            Module.Validate(engine, Array.Empty<byte>()).Should().Be("Unexpected EOF (at offset 0)");
+            Module.Validate(engine, Array.Empty<byte>()).Should().Be("unexpected end-of-file (at offset 0)");
         }
     }
 }
