@@ -176,10 +176,7 @@ namespace Wasmtime.Tests
             action
                 .Should()
                 .Throw<TrapException>()
-                .WithMessage(
-                    "not enough fuel remaining in store\n" +
-                    "wasm backtrace:\n" +
-                    "    0:   0x4c - <unknown>!expensive\n");
+                .WithMessage("not enough fuel remaining in store*");
 
             var consumed = Store.GetConsumedFuel();
             consumed.Should().Be(2UL);
