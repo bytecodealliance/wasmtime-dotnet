@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Wasmtime;
 
 namespace Example
@@ -18,7 +18,7 @@ namespace Example
                 "expensive",
                 Function.FromCallback(store, (Caller caller) =>
                 {
-                    var remaining = store.ConsumeFuel(1000UL);
+                    var remaining = caller.ConsumeFuel(1000UL);
                     Console.WriteLine($"Called an expensive function which consumed 1000 fuel. {remaining} units of fuel remaining.");
                 }
             ));

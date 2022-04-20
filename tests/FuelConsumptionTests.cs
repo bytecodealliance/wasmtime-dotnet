@@ -33,9 +33,9 @@ namespace Wasmtime.Tests
             {
                 // do nothing
             }));
-            Linker.Define("env", "expensive", Function.FromCallback(Store, () =>
+            Linker.Define("env", "expensive", Function.FromCallback(Store, (Caller caller) =>
             {
-                Store.ConsumeFuel(100UL);
+                caller.ConsumeFuel(100UL);
             }));
         }
 
