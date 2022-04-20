@@ -62,7 +62,7 @@ jobs:
     - name: Run examples
       shell: bash
       env:
-        EXAMPLES: externref funcref global hello memory table
+        EXAMPLES: externref funcref global hello memory table consumefuel
       run: |
         for e in $EXAMPLES; do cd examples/$e && dotnet run -c ${{ matrix.config }} && cd ../..; done
     - name: Create package
