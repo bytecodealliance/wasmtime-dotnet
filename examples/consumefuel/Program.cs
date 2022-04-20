@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Wasmtime;
 
 namespace Example
@@ -41,7 +41,15 @@ namespace Example
             }
 
             Console.WriteLine("Calling the expensive function one more time, which will throw an exception.");
-            expensive.Invoke(store);
+            try
+            {
+                expensive.Invoke(store);
+            }
+            catch (TrapException ex)
+            {
+                Console.WriteLine("Exception caught with the following message:");
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }
