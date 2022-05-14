@@ -222,6 +222,25 @@ namespace Wasmtime
         }
 
         /// <summary>
+        /// Configures whether Cranelift should perform a NaN-canonicalization pass.
+        /// 
+        /// When Cranelift is used as a code generation backend this will configure
+        /// it to replace NaNs with a single canonical value.This is useful for users
+        /// requiring entirely deterministic WebAssembly computation.
+        /// 
+        /// This is not required by the WebAssembly spec, so it is not enabled by default.
+        /// 
+        /// The default value for this is `false`
+        /// </summary>
+        /// <param name="enable">True to enable the Cranelift nan canonicalization or false to disable.</param>
+        /// <returns>Returns the current config.</returns>
+        public Config WithCraneliftNaNCanonicalization(bool enable)
+        {
+            Native.wasmtime_config_cranelift_nan_canonicalization_set(handle, enable);
+            return this;
+        }
+
+        /// <summary>
         /// Sets the optimization level to use.
         /// </summary>
         /// <param name="level">The optimization level to use.</param>
@@ -387,6 +406,9 @@ namespace Wasmtime
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_config_cranelift_debug_verifier_set(Handle config, bool enable);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_cranelift_nan_canonicalization_set(Handle config, bool enable);
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_config_cranelift_opt_level_set(Handle config, byte level);
