@@ -48,6 +48,35 @@ namespace Wasmtime
             }
         }
 
+        /// <summary>
+        /// Gets an exported function of the caller by the given name.
+        /// </summary>
+        /// <param name="name">The name of the exported function.</param>
+        /// <returns>Returns the exported function if found or null if a function of the requested name is not exported.</returns>
+        public Function? GetFunction(string name)
+        {
+            unsafe
+            {
+                var bytes = Encoding.UTF8.GetBytes(name);
+
+                fixed (byte* ptr = bytes)
+                {
+                    if (!Native.wasmtime_caller_export_get(NativeHandle, ptr, (UIntPtr)bytes.Length, out var item))
+                    {
+                        return null;
+                    }
+
+                    if (item.kind != ExternKind.Func)
+                    {
+                        item.Dispose();
+                        return null;
+                    }
+
+                    return new Function(((IStore)this).Context, item.of.func);
+                }
+            }
+        }
+
         /// <inheritdoc/>
         public void Dispose()
         {
