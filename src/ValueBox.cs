@@ -148,7 +148,7 @@ namespace Wasmtime
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static ValueBox AsArg<T>(T value)
+        public static ValueBox AsBox<T>(T value)
             where T : class
         {
             return new ValueBox(value);
