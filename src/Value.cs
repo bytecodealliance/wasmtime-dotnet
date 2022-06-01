@@ -199,7 +199,7 @@ namespace Wasmtime
             return false;
         }
 
-        public static Value FromArgBox(ValueBox box)
+        public static Value FromValueBox(ValueBox box)
         {
             var value = new Value();
             value.kind = box.Kind;

@@ -66,7 +66,7 @@ namespace Wasmtime.Tests
         }
 
         [Fact]
-        public void ItWrapsArgumentsInArgbox()
+        public void ItWrapsArgumentsInValueBox()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
             var add = instance.GetFunction(Store, "add");

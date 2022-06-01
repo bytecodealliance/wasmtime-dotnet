@@ -18,7 +18,7 @@ namespace Wasmtime
             ExternRefObject = null;
         }
 
-        internal ValueBox(object externref)
+        internal ValueBox(object? externref)
         {
             Kind = ValueKind.ExternRef;
             Union = default;
@@ -28,9 +28,9 @@ namespace Wasmtime
         internal Value ToValue(ValueKind convertTo)
         {
             if (convertTo != Kind)
-                return Value.FromArgBox(ConvertTo(convertTo));
+                return Value.FromValueBox(ConvertTo(convertTo));
 
-            return Value.FromArgBox(this);
+            return Value.FromValueBox(this);
         }
 
         internal ValueBox ConvertTo(ValueKind convertTo)
@@ -148,7 +148,7 @@ namespace Wasmtime
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static ValueBox AsBox<T>(T value)
+        public static ValueBox AsBox<T>(T? value)
             where T : class
         {
             return new ValueBox(value);

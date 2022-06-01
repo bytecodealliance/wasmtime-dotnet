@@ -599,13 +599,19 @@ namespace Wasmtime
         public object? Invoke(IStore store, ReadOnlySpan<ValueBox> arguments)
         {
             if (IsNull)
+            {
                 throw new InvalidOperationException("Cannot invoke a null function reference.");
+            }
 
             if (arguments.Length != Parameters.Count)
+            {
                 throw new WasmtimeException($"Argument mismatch when invoking function: requires {Parameters.Count} but was given {arguments.Length}.");
+            }
 
             if (store is null)
+            {
                 throw new ArgumentNullException(nameof(store));
+            }
 
             var context = store.Context;
             unsafe
@@ -618,31 +624,46 @@ namespace Wasmtime
 
                 var error = Native.wasmtime_func_call(context.handle, func, args, (UIntPtr)Parameters.Count, results, (UIntPtr)Results.Count, out var trap);
                 if (error != IntPtr.Zero)
+                {
                     throw WasmtimeException.FromOwnedError(error);
+                }
 
                 for (int i = 0; i < arguments.Length; ++i)
+                {
                     args[i].Dispose();
+                }
 
                 if (trap != IntPtr.Zero)
+                {
                     throw TrapException.FromOwnedTrap(trap);
+                }
 
                 if (Results.Count == 0)
+                {
                     return null;
+                }
 
                 try
                 {
                     if (Results.Count == 1)
+                    {
                         return results[0].ToObject(context);
+                    }
 
                     var ret = new object?[Results.Count];
                     for (int i = 0; i < Results.Count; ++i)
+                    {
                         ret[i] = results[i].ToObject(context);
+                    }
+
                     return ret;
                 }
                 finally
                 {
                     for (int i = 0; i < Results.Count; ++i)
+                    {
                         results[i].Dispose();
+                    }
                 }
             }
         }

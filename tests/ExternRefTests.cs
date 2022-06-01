@@ -49,7 +49,7 @@ namespace Wasmtime.Tests
             var nullref = instance.GetFunction(Store, "nullref");
             inout.Should().NotBeNull();
 
-            (inout.Invoke(Store, ValueBox.AsBox((object?)null))).Should().BeNull();
+            (inout.Invoke(Store, ValueBox.AsBox((object)null))).Should().BeNull();
             (nullref.Invoke(Store)).Should().BeNull();
         }
 
