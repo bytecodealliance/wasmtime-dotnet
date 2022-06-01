@@ -86,7 +86,7 @@ namespace Wasmtime.Tests
             action
                 .Should()
                 .Throw<WasmtimeException>()
-                .WithMessage("not enough fuel remaining in store");
+                .WithMessage("not enough fuel remaining in store*");
 
             var consumed = Store.GetConsumedFuel();
             consumed.Should().Be(0UL);
@@ -132,7 +132,7 @@ namespace Wasmtime.Tests
             action
                 .Should()
                 .Throw<TrapException>()
-                .WithMessage("all fuel consumed by WebAssembly");
+                .WithMessage("all fuel consumed by WebAssembly*");
 
             var consumed = Store.GetConsumedFuel();
             consumed.Should().Be(1UL);
@@ -158,7 +158,7 @@ namespace Wasmtime.Tests
             action
                 .Should()
                 .Throw<TrapException>()
-                .WithMessage("all fuel consumed by WebAssembly");
+                .WithMessage("all fuel consumed by WebAssembly*");
 
             consumed = Store.GetConsumedFuel();
             consumed.Should().Be(5UL);
@@ -202,7 +202,7 @@ namespace Wasmtime.Tests
             action
                 .Should()
                 .Throw<TrapException>()
-                .WithMessage("all fuel consumed by WebAssembly");
+                .WithMessage("all fuel consumed by WebAssembly*");
 
             consumed = Store.GetConsumedFuel();
             consumed.Should().Be(5UL);
@@ -216,7 +216,7 @@ namespace Wasmtime.Tests
             action
                 .Should()
                 .Throw<TrapException>()
-                .WithMessage("all fuel consumed by WebAssembly");
+                .WithMessage("all fuel consumed by WebAssembly*");
 
             consumed = Store.GetConsumedFuel();
             consumed.Should().Be(8UL);
