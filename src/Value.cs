@@ -199,6 +199,28 @@ namespace Wasmtime
             return false;
         }
 
+        public static Value FromArgBox(ValueBox box)
+        {
+            var value = new Value();
+            value.kind = box.Kind;
+            value.of = box.Union;
+
+            if (value.kind == ValueKind.ExternRef)
+            {
+                value.of.externref = IntPtr.Zero;
+
+                if (box.ExternRefObject is not null)
+                {
+                    value.of.externref = Native.wasmtime_externref_new(
+                        GCHandle.ToIntPtr(GCHandle.Alloc(box.ExternRefObject)),
+                        Finalizer
+                    );
+                }
+            }
+
+            return value;
+        }
+
         public static Value FromObject(object? o, ValueKind kind)
         {
             var value = new Value();
@@ -339,31 +361,6 @@ namespace Wasmtime
         {
             public delegate void Finalizer(IntPtr data);
 
-            [StructLayout(LayoutKind.Explicit)]
-            public unsafe struct ValueUnion
-            {
-                [FieldOffset(0)]
-                public int i32;
-
-                [FieldOffset(0)]
-                public long i64;
-
-                [FieldOffset(0)]
-                public float f32;
-
-                [FieldOffset(0)]
-                public double f64;
-
-                [FieldOffset(0)]
-                public ExternFunc funcref;
-
-                [FieldOffset(0)]
-                public IntPtr externref;
-
-                [FieldOffset(0)]
-                public fixed byte v128[16];
-            }
-
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_val_delete(in Value val);
 
@@ -378,6 +375,31 @@ namespace Wasmtime
         private static readonly Native.Finalizer Finalizer = (p) => GCHandle.FromIntPtr(p).Free();
 
         private ValueKind kind;
-        private Native.ValueUnion of;
+        private ValueUnion of;
+    }
+
+    [StructLayout(LayoutKind.Explicit)]
+    internal unsafe struct ValueUnion
+    {
+        [FieldOffset(0)]
+        public int i32;
+
+        [FieldOffset(0)]
+        public long i64;
+
+        [FieldOffset(0)]
+        public float f32;
+
+        [FieldOffset(0)]
+        public double f64;
+
+        [FieldOffset(0)]
+        public ExternFunc funcref;
+
+        [FieldOffset(0)]
+        public IntPtr externref;
+
+        [FieldOffset(0)]
+        public fixed byte v128[16];
     }
 }

@@ -66,6 +66,17 @@ namespace Wasmtime.Tests
         }
 
         [Fact]
+        public void ItWrapsArgumentsInArgbox()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var add = instance.GetFunction(Store, "add");
+
+            var args = new ValueBox[] { 40, 2 };
+            int x = (int)add.Invoke(Store, args.AsSpan());
+            x.Should().Be(42);
+        }
+
+        [Fact]
         public void ItPropagatesExceptionsToCallersViaTraps()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
