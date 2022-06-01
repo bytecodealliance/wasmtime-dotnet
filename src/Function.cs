@@ -590,7 +590,7 @@ namespace Wasmtime
         /// Invokes the Wasmtime function.
         /// </summary>
         /// <param name="store">The store that owns this function.</param>
-        /// <param name="arguments">The arguments to pass to the function, wrapped in `ArgBox`</param>
+        /// <param name="arguments">The arguments to pass to the function, wrapped in `ValueBox`</param>
         /// <returns>
         ///   Returns null if the function has no return value.
         ///   Returns the value if the function returns a single value.
