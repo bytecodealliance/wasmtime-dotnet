@@ -86,13 +86,13 @@ namespace Wasmtime
         }
 
         /// <summary>
-        /// Sets whether or not to enable interruptability of WebAssembly code.
+        /// Sets whether or not to enable epoch-based interruption of WebAssembly code.
         /// </summary>
-        /// <param name="enable">True to enable interruptability or false to disable.</param>
+        /// <param name="enable">True to enable epoch-based interruption or false to disable.</param>
         /// <returns>Returns the current config.</returns>
-        public Config WithInterruptability(bool enable)
+        public Config WithEpochInterruption(bool enable)
         {
-            Native.wasmtime_config_interruptable_set(handle, enable);
+            Native.wasmtime_config_epoch_interruption_set(handle, enable);
             return this;
         }
 
@@ -365,7 +365,7 @@ namespace Wasmtime
             public static extern void wasmtime_config_debug_info_set(Handle config, bool enable);
 
             [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_config_interruptable_set(Handle config, bool enable);
+            public static extern void wasmtime_config_epoch_interruption_set(Handle config, bool enable);
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_config_consume_fuel_set(Handle config, bool enable);
