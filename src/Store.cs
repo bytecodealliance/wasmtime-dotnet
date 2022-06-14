@@ -61,12 +61,16 @@ namespace Wasmtime
             }
         }
 
+        /// <summary>
+        /// Configures the relative deadline at which point WebAssembly code will trap.
+        /// </summary>
+        /// <param name="deadline"></param>
         public void SetEpochDeadline(ulong deadline)
         {
             Native.wasmtime_context_set_epoch_deadline(handle, deadline);
         }
 
-        public static class Native
+        private static class Native
         {
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_context_gc(IntPtr handle);
@@ -85,7 +89,7 @@ namespace Wasmtime
             public static extern IntPtr wasmtime_context_set_wasi(IntPtr handle, IntPtr config);
             
             [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_context_set_epoch_deadline(IntPtr handle, ulong ticks_beyond_current);
+            public static extern void wasmtime_context_set_epoch_deadline(IntPtr handle, ulong ticksBeyondCurrent);
         }
 
         internal readonly IntPtr handle;
@@ -244,8 +248,8 @@ namespace Wasmtime
         /// <summary>
         /// Configures the relative deadline at which point WebAssembly code will trap.
         /// </summary>
-        /// <param name="ticks_beyond_current"></param>
-        public void SetEpochDeadline(ulong ticks_beyond_current) => ((IStore)this).Context.SetEpochDeadline(ticks_beyond_current);
+        /// <param name="ticksBeyondCurrent"></param>
+        public void SetEpochDeadline(ulong ticksBeyondCurrent) => ((IStore)this).Context.SetEpochDeadline(ticksBeyondCurrent);
 
         StoreContext IStore.Context => new StoreContext(Native.wasmtime_store_context(NativeHandle));
 

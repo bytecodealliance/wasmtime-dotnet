@@ -38,18 +38,14 @@ public class EpochInterruptionTests : IClassFixture<EpochInterruptionFixture>, I
 
         var action = () => {
             using (var timer = new Timer(state => Fixture.Engine.IncrementEpoch())) {
-                try {
-                    timer.Change(TimeSpan.FromMilliseconds(100), TimeSpan.FromMilliseconds(Timeout.Infinite));
-                    run.Invoke(Store);
-                }
-                catch (TrapException trap) {
-                    throw new TimeoutException("Invocation timed out", trap);
-                }
+                timer.Change(TimeSpan.FromMilliseconds(100), TimeSpan.FromMilliseconds(Timeout.Infinite));
+                run.Invoke(Store);
             }
         };
 
         action.Should()
-            .Throw<TimeoutException>();
+            .Throw<TrapException>()
+            .WithMessage("epoch deadline reached during execution*");
     }
         
     public void Dispose()

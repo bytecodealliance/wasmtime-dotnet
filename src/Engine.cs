@@ -36,6 +36,9 @@ namespace Wasmtime
             handle.Dispose();
         }
         
+        /// <summary>
+        /// Increments the epoch for epoch-based interruption
+        /// </summary>
         public void IncrementEpoch() {
             Native.wasmtime_engine_increment_epoch(handle.DangerousGetHandle());
         }
