@@ -201,12 +201,7 @@ namespace Wasmtime
                 throw new ArgumentOutOfRangeException(nameof(strategy));
             }
 
-            var error = Native.wasmtime_config_strategy_set(handle, (byte)strategy);
-            if (error != IntPtr.Zero)
-            {
-                throw WasmtimeException.FromOwnedError(error);
-            }
-
+            Native.wasmtime_config_strategy_set(handle, (byte)strategy);
             return this;
         }
 
@@ -268,12 +263,7 @@ namespace Wasmtime
                 throw new ArgumentOutOfRangeException(nameof(strategy));
             }
 
-            var error = Native.wasmtime_config_profiler_set(handle, (byte)strategy);
-            if (error != IntPtr.Zero)
-            {
-                throw WasmtimeException.FromOwnedError(error);
-            }
-
+            Native.wasmtime_config_profiler_set(handle, (byte)strategy);
             return this;
         }
 
@@ -402,7 +392,7 @@ namespace Wasmtime
             public static extern void wasmtime_config_wasm_multi_memory_set(Handle config, bool enable);
 
             [DllImport(Engine.LibraryName)]
-            public static extern IntPtr wasmtime_config_strategy_set(Handle config, byte strategy);
+            public static extern void wasmtime_config_strategy_set(Handle config, byte strategy);
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_config_cranelift_debug_verifier_set(Handle config, bool enable);
@@ -414,7 +404,7 @@ namespace Wasmtime
             public static extern void wasmtime_config_cranelift_opt_level_set(Handle config, byte level);
 
             [DllImport(Engine.LibraryName)]
-            public static extern IntPtr wasmtime_config_profiler_set(Handle config, byte strategy);
+            public static extern void wasmtime_config_profiler_set(Handle config, byte strategy);
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_config_static_memory_maximum_size_set(Handle config, ulong size);
