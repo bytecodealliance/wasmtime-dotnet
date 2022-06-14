@@ -35,13 +35,23 @@ namespace Wasmtime.Tests
 
             using var engine = new Engine(config);
         }
-        
+
         [Fact]
         public void ItSetsNanCanonicalization()
         {
             var config = new Config();
 
             config.WithCraneliftNaNCanonicalization(true);
+
+            using var engine = new Engine(config);
+        }
+
+        [Fact]
+        public void ItSetsEpochInterruption()
+        {
+            var config = new Config();
+
+            config.WithEpochInterruption(true);
 
             using var engine = new Engine(config);
         }
