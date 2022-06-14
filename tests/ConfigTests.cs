@@ -35,7 +35,7 @@ namespace Wasmtime.Tests
 
             using var engine = new Engine(config);
         }
-        
+
         [Fact]
         public void ItSetsNanCanonicalization()
         {
@@ -52,7 +52,7 @@ namespace Wasmtime.Tests
             var config = new Config();
 
             config.WithEpochInterruption(true);
-            
+
             using var engine = new Engine(config);
         }
     }
