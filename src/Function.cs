@@ -624,6 +624,40 @@ namespace Wasmtime
             };
         }
 
+        internal Action<TA, TB> WrapAction<TA, TB>(IStore store)
+        {
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+
+            return (a, b) =>
+            {
+                Span<Value> args = stackalloc Value[2];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+
+                InvokeWithoutReturn(store, args);
+            };
+        }
+
+        internal Action<TA, TB, TC> WrapAction<TA, TB, TC>(IStore store)
+        {
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+
+            return (a, b, c) =>
+            {
+                Span<Value> args = stackalloc Value[3];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+
+                InvokeWithoutReturn(store, args);
+            };
+        }
+
         internal Func<TR> WrapFunc<TR>(IStore store)
         {
             // Create a factory for the return type
@@ -666,6 +700,482 @@ namespace Wasmtime
                 Span<Value> args = stackalloc Value[2];
                 args[0] = Value.FromValueBox(ca.Box(a));
                 args[1] = Value.FromValueBox(cb.Box(b));
+
+                return InvokeWithReturn(store, args, factory);
+            };
+        }
+
+        internal Func<TA, TB, TC, TR> WrapFunc<TA, TB, TC, TR>(IStore store)
+        {
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return (a, b, c) =>
+            {
+                Span<Value> args = stackalloc Value[3];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+
+                return InvokeWithReturn(store, args, factory);
+            };
+        }
+
+        internal Func<TA, TB, TC, TD, TR> WrapFunc<TA, TB, TC, TD, TR>(IStore store)
+        {
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+            var cd = ValueBox.Converter<TD>();
+
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return (a, b, c, d) =>
+            {
+                Span<Value> args = stackalloc Value[4];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+                args[3] = Value.FromValueBox(cd.Box(d));
+
+                return InvokeWithReturn(store, args, factory);
+            };
+        }
+
+        internal Func<TA, TB, TC, TD, TE, TR> WrapFunc<TA, TB, TC, TD, TE, TR>(IStore store)
+        {
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+            var cd = ValueBox.Converter<TD>();
+            var ce = ValueBox.Converter<TE>();
+
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return (a, b, c, d, e) =>
+            {
+                Span<Value> args = stackalloc Value[5];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+                args[3] = Value.FromValueBox(cd.Box(d));
+                args[4] = Value.FromValueBox(ce.Box(e));
+
+                return InvokeWithReturn(store, args, factory);
+            };
+        }
+
+        internal Func<TA, TB, TC, TD, TE, TF, TR> WrapFunc<TA, TB, TC, TD, TE, TF, TR>(IStore store)
+        {
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+            var cd = ValueBox.Converter<TD>();
+            var ce = ValueBox.Converter<TE>();
+            var cf = ValueBox.Converter<TF>();
+
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return (a, b, c, d, e, f) =>
+            {
+                Span<Value> args = stackalloc Value[6];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+                args[3] = Value.FromValueBox(cd.Box(d));
+                args[4] = Value.FromValueBox(ce.Box(e));
+                args[5] = Value.FromValueBox(cf.Box(f));
+
+                return InvokeWithReturn(store, args, factory);
+            };
+        }
+
+        internal Func<TA, TB, TC, TD, TE, TF, TG, TR> WrapFunc<TA, TB, TC, TD, TE, TF, TG, TR>(IStore store)
+        {
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+            var cd = ValueBox.Converter<TD>();
+            var ce = ValueBox.Converter<TE>();
+            var cf = ValueBox.Converter<TF>();
+            var cg = ValueBox.Converter<TG>();
+
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return (a, b, c, d, e, f, g) =>
+            {
+                Span<Value> args = stackalloc Value[7];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+                args[3] = Value.FromValueBox(cd.Box(d));
+                args[4] = Value.FromValueBox(ce.Box(e));
+                args[5] = Value.FromValueBox(cf.Box(f));
+                args[6] = Value.FromValueBox(cg.Box(g));
+
+                return InvokeWithReturn(store, args, factory);
+            };
+        }
+
+        internal Func<TA, TB, TC, TD, TE, TF, TG, TH, TR> WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TR>(IStore store)
+        {
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+            var cd = ValueBox.Converter<TD>();
+            var ce = ValueBox.Converter<TE>();
+            var cf = ValueBox.Converter<TF>();
+            var cg = ValueBox.Converter<TG>();
+            var ch = ValueBox.Converter<TH>();
+
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return (a, b, c, d, e, f, g, h) =>
+            {
+                Span<Value> args = stackalloc Value[8];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+                args[3] = Value.FromValueBox(cd.Box(d));
+                args[4] = Value.FromValueBox(ce.Box(e));
+                args[5] = Value.FromValueBox(cf.Box(f));
+                args[6] = Value.FromValueBox(cg.Box(g));
+                args[7] = Value.FromValueBox(ch.Box(h));
+
+                return InvokeWithReturn(store, args, factory);
+            };
+        }
+
+        internal Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR> WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>(IStore store)
+        {
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+            var cd = ValueBox.Converter<TD>();
+            var ce = ValueBox.Converter<TE>();
+            var cf = ValueBox.Converter<TF>();
+            var cg = ValueBox.Converter<TG>();
+            var ch = ValueBox.Converter<TH>();
+            var ci = ValueBox.Converter<TI>();
+
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return (a, b, c, d, e, f, g, h, i) =>
+            {
+                Span<Value> args = stackalloc Value[9];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+                args[3] = Value.FromValueBox(cd.Box(d));
+                args[4] = Value.FromValueBox(ce.Box(e));
+                args[5] = Value.FromValueBox(cf.Box(f));
+                args[6] = Value.FromValueBox(cg.Box(g));
+                args[7] = Value.FromValueBox(ch.Box(h));
+                args[8] = Value.FromValueBox(ci.Box(i));
+
+                return InvokeWithReturn(store, args, factory);
+            };
+        }
+
+        internal Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR> WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>(IStore store)
+        {
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+            var cd = ValueBox.Converter<TD>();
+            var ce = ValueBox.Converter<TE>();
+            var cf = ValueBox.Converter<TF>();
+            var cg = ValueBox.Converter<TG>();
+            var ch = ValueBox.Converter<TH>();
+            var ci = ValueBox.Converter<TI>();
+            var cj = ValueBox.Converter<TJ>();
+
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return (a, b, c, d, e, f, g, h, i, j) =>
+            {
+                Span<Value> args = stackalloc Value[10];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+                args[3] = Value.FromValueBox(cd.Box(d));
+                args[4] = Value.FromValueBox(ce.Box(e));
+                args[5] = Value.FromValueBox(cf.Box(f));
+                args[6] = Value.FromValueBox(cg.Box(g));
+                args[7] = Value.FromValueBox(ch.Box(h));
+                args[8] = Value.FromValueBox(ci.Box(i));
+                args[9] = Value.FromValueBox(cj.Box(j));
+
+                return InvokeWithReturn(store, args, factory);
+            };
+        }
+
+        internal Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR> WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>(IStore store)
+        {
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+            var cd = ValueBox.Converter<TD>();
+            var ce = ValueBox.Converter<TE>();
+            var cf = ValueBox.Converter<TF>();
+            var cg = ValueBox.Converter<TG>();
+            var ch = ValueBox.Converter<TH>();
+            var ci = ValueBox.Converter<TI>();
+            var cj = ValueBox.Converter<TJ>();
+            var ck = ValueBox.Converter<TK>();
+
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return (a, b, c, d, e, f, g, h, i, j, k) =>
+            {
+                Span<Value> args = stackalloc Value[11];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+                args[3] = Value.FromValueBox(cd.Box(d));
+                args[4] = Value.FromValueBox(ce.Box(e));
+                args[5] = Value.FromValueBox(cf.Box(f));
+                args[6] = Value.FromValueBox(cg.Box(g));
+                args[7] = Value.FromValueBox(ch.Box(h));
+                args[8] = Value.FromValueBox(ci.Box(i));
+                args[9] = Value.FromValueBox(cj.Box(j));
+                args[10] = Value.FromValueBox(ck.Box(k));
+
+                return InvokeWithReturn(store, args, factory);
+            };
+        }
+
+        internal Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR> WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>(IStore store)
+        {
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+            var cd = ValueBox.Converter<TD>();
+            var ce = ValueBox.Converter<TE>();
+            var cf = ValueBox.Converter<TF>();
+            var cg = ValueBox.Converter<TG>();
+            var ch = ValueBox.Converter<TH>();
+            var ci = ValueBox.Converter<TI>();
+            var cj = ValueBox.Converter<TJ>();
+            var ck = ValueBox.Converter<TK>();
+            var cl = ValueBox.Converter<TL>();
+
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return (a, b, c, d, e, f, g, h, i, j, k, l) =>
+            {
+                Span<Value> args = stackalloc Value[12];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+                args[3] = Value.FromValueBox(cd.Box(d));
+                args[4] = Value.FromValueBox(ce.Box(e));
+                args[5] = Value.FromValueBox(cf.Box(f));
+                args[6] = Value.FromValueBox(cg.Box(g));
+                args[7] = Value.FromValueBox(ch.Box(h));
+                args[8] = Value.FromValueBox(ci.Box(i));
+                args[9] = Value.FromValueBox(cj.Box(j));
+                args[10] = Value.FromValueBox(ck.Box(k));
+                args[11] = Value.FromValueBox(cl.Box(l));
+
+                return InvokeWithReturn(store, args, factory);
+            };
+        }
+
+        internal Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR> WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>(IStore store)
+        {
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+            var cd = ValueBox.Converter<TD>();
+            var ce = ValueBox.Converter<TE>();
+            var cf = ValueBox.Converter<TF>();
+            var cg = ValueBox.Converter<TG>();
+            var ch = ValueBox.Converter<TH>();
+            var ci = ValueBox.Converter<TI>();
+            var cj = ValueBox.Converter<TJ>();
+            var ck = ValueBox.Converter<TK>();
+            var cl = ValueBox.Converter<TL>();
+            var cm = ValueBox.Converter<TM>();
+
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return (a, b, c, d, e, f, g, h, i, j, k, l, m) =>
+            {
+                Span<Value> args = stackalloc Value[13];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+                args[3] = Value.FromValueBox(cd.Box(d));
+                args[4] = Value.FromValueBox(ce.Box(e));
+                args[5] = Value.FromValueBox(cf.Box(f));
+                args[6] = Value.FromValueBox(cg.Box(g));
+                args[7] = Value.FromValueBox(ch.Box(h));
+                args[8] = Value.FromValueBox(ci.Box(i));
+                args[9] = Value.FromValueBox(cj.Box(j));
+                args[10] = Value.FromValueBox(ck.Box(k));
+                args[11] = Value.FromValueBox(cl.Box(l));
+                args[12] = Value.FromValueBox(cm.Box(m));
+
+                return InvokeWithReturn(store, args, factory);
+            };
+        }
+
+        internal Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR> WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>(IStore store)
+        {
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+            var cd = ValueBox.Converter<TD>();
+            var ce = ValueBox.Converter<TE>();
+            var cf = ValueBox.Converter<TF>();
+            var cg = ValueBox.Converter<TG>();
+            var ch = ValueBox.Converter<TH>();
+            var ci = ValueBox.Converter<TI>();
+            var cj = ValueBox.Converter<TJ>();
+            var ck = ValueBox.Converter<TK>();
+            var cl = ValueBox.Converter<TL>();
+            var cm = ValueBox.Converter<TM>();
+            var cn = ValueBox.Converter<TN>();
+
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return (a, b, c, d, e, f, g, h, i, j, k, l, m, n) =>
+            {
+                Span<Value> args = stackalloc Value[14];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+                args[3] = Value.FromValueBox(cd.Box(d));
+                args[4] = Value.FromValueBox(ce.Box(e));
+                args[5] = Value.FromValueBox(cf.Box(f));
+                args[6] = Value.FromValueBox(cg.Box(g));
+                args[7] = Value.FromValueBox(ch.Box(h));
+                args[8] = Value.FromValueBox(ci.Box(i));
+                args[9] = Value.FromValueBox(cj.Box(j));
+                args[10] = Value.FromValueBox(ck.Box(k));
+                args[11] = Value.FromValueBox(cl.Box(l));
+                args[12] = Value.FromValueBox(cm.Box(m));
+                args[13] = Value.FromValueBox(cn.Box(n));
+
+                return InvokeWithReturn(store, args, factory);
+            };
+        }
+
+        internal Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR> WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>(IStore store)
+        {
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+            var cd = ValueBox.Converter<TD>();
+            var ce = ValueBox.Converter<TE>();
+            var cf = ValueBox.Converter<TF>();
+            var cg = ValueBox.Converter<TG>();
+            var ch = ValueBox.Converter<TH>();
+            var ci = ValueBox.Converter<TI>();
+            var cj = ValueBox.Converter<TJ>();
+            var ck = ValueBox.Converter<TK>();
+            var cl = ValueBox.Converter<TL>();
+            var cm = ValueBox.Converter<TM>();
+            var cn = ValueBox.Converter<TN>();
+            var co = ValueBox.Converter<TO>();
+
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o) =>
+            {
+                Span<Value> args = stackalloc Value[15];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+                args[3] = Value.FromValueBox(cd.Box(d));
+                args[4] = Value.FromValueBox(ce.Box(e));
+                args[5] = Value.FromValueBox(cf.Box(f));
+                args[6] = Value.FromValueBox(cg.Box(g));
+                args[7] = Value.FromValueBox(ch.Box(h));
+                args[8] = Value.FromValueBox(ci.Box(i));
+                args[9] = Value.FromValueBox(cj.Box(j));
+                args[10] = Value.FromValueBox(ck.Box(k));
+                args[11] = Value.FromValueBox(cl.Box(l));
+                args[12] = Value.FromValueBox(cm.Box(m));
+                args[13] = Value.FromValueBox(cn.Box(n));
+                args[14] = Value.FromValueBox(co.Box(o));
+
+                return InvokeWithReturn(store, args, factory);
+            };
+        }
+
+        internal Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR> WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>(IStore store)
+        {
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+            var cd = ValueBox.Converter<TD>();
+            var ce = ValueBox.Converter<TE>();
+            var cf = ValueBox.Converter<TF>();
+            var cg = ValueBox.Converter<TG>();
+            var ch = ValueBox.Converter<TH>();
+            var ci = ValueBox.Converter<TI>();
+            var cj = ValueBox.Converter<TJ>();
+            var ck = ValueBox.Converter<TK>();
+            var cl = ValueBox.Converter<TL>();
+            var cm = ValueBox.Converter<TM>();
+            var cn = ValueBox.Converter<TN>();
+            var co = ValueBox.Converter<TO>();
+            var cp = ValueBox.Converter<TP>();
+
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p) =>
+            {
+                Span<Value> args = stackalloc Value[16];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+                args[3] = Value.FromValueBox(cd.Box(d));
+                args[4] = Value.FromValueBox(ce.Box(e));
+                args[5] = Value.FromValueBox(cf.Box(f));
+                args[6] = Value.FromValueBox(cg.Box(g));
+                args[7] = Value.FromValueBox(ch.Box(h));
+                args[8] = Value.FromValueBox(ci.Box(i));
+                args[9] = Value.FromValueBox(cj.Box(j));
+                args[10] = Value.FromValueBox(ck.Box(k));
+                args[11] = Value.FromValueBox(cl.Box(l));
+                args[12] = Value.FromValueBox(cm.Box(m));
+                args[13] = Value.FromValueBox(cn.Box(n));
+                args[14] = Value.FromValueBox(co.Box(o));
+                args[15] = Value.FromValueBox(cp.Box(p));
 
                 return InvokeWithReturn(store, args, factory);
             };
