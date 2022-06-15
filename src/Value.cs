@@ -40,6 +40,24 @@ namespace Wasmtime
         ExternRef,
     }
 
+    internal static class ValueKindExtensions
+    {
+        public static bool IsAssignableFrom(this ValueKind kind, Type type)
+        {
+            return (kind) switch
+            {
+                ValueKind.Int32 => type == typeof(int),
+                ValueKind.Int64 => type == typeof(long),
+                ValueKind.Float32 => type == typeof(float),
+                ValueKind.Float64 => type == typeof(double),
+                ValueKind.V128 => type == typeof(byte[]),
+                ValueKind.FuncRef => type == typeof(Function),
+                ValueKind.ExternRef => type.IsClass,
+                _ => throw new ArgumentOutOfRangeException(nameof(kind), kind, null)
+            };
+        }
+    }
+
     internal static class ValueType
     {
         public static IntPtr FromKind(ValueKind kind)

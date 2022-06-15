@@ -547,6 +547,132 @@ namespace Wasmtime
         public static Function Null => _null;
 
         /// <summary>
+        /// Check if this function has the given type signature
+        /// </summary>
+        /// <param name="returnType">Return type (use a tuple for multiple return types)</param>
+        /// <param name="parameters">The parameters of the function</param>
+        /// <returns></returns>
+        public bool CheckTypeSignature(Type? returnType, params Type[] parameters)
+        {
+            // Check if the func returns no values if that's expected
+            if (Results.Count == 0 && returnType != null)
+                return false;
+
+            // Validate the return type(s)
+            if (returnType != null)
+            {
+                // Multiple return types are represented by a tuple.
+                if (typeof(ITuple).IsAssignableFrom(returnType))
+                {
+                    // Get the types from the tuple
+                    var returnTypes = returnType.GetGenericArguments();
+
+                    // If the list lengths are different that's an instant fail
+                    if (returnTypes.Length != Results.Count)
+                        return false;
+
+                    // Validate the types one by one
+                    for (int i = 0; i < returnTypes.Length; i++)
+                    {
+                        if (!Results[i].IsAssignableFrom(returnTypes[i]))
+                        {
+                            return false;
+                        }
+                    }
+                }
+                else
+                {
+                    // Return type is not a tuple, so if there are multiple results this is not valid.
+                    if (Results.Count != 1)
+                        return false;
+
+                    // If the return type is not compatible then this is not valid.
+                    if (!Results[0].IsAssignableFrom(returnType))
+                        return false;
+                }
+            }
+
+            // Check if the parameter lists are the same length
+            if (parameters.Length != Parameters.Count)
+                return false;
+
+            // Validate the parameter types one by one
+            for (int i = 0; i < parameters.Length; i++)
+            {
+                if (!Parameters[i].IsAssignableFrom(parameters[i]))
+                {
+                    return false;
+                }
+            }
+
+            // All ok!
+            return true;
+        }
+
+        #region wrap
+        internal Action<TA> WrapAction<TA>(IStore store)
+        {
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+
+            return (a) =>
+            {
+                Span<Value> args = stackalloc Value[1];
+                args[0] = Value.FromValueBox(ca.Box(a));
+
+                InvokeWithoutReturn(store, args);
+            };
+        }
+
+        internal Func<TR> WrapFunc<TR>(IStore store)
+        {
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return () =>
+            {
+                return InvokeWithReturn(store, stackalloc Value[0], factory);
+            };
+        }
+
+        internal Func<TA, TR> WrapFunc<TA, TR>(IStore store)
+        {
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return (a) =>
+            {
+                Span<Value> args = stackalloc Value[1];
+                args[0] = Value.FromValueBox(ca.Box(a));
+
+                return InvokeWithReturn(store, args, factory);
+            };
+        }
+
+        internal Func<TA, TB, TR> WrapFunc<TA, TB, TR>(IStore store)
+        {
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return (a, b) =>
+            {
+                Span<Value> args = stackalloc Value[2];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+
+                return InvokeWithReturn(store, args, factory);
+            };
+        }
+        #endregion
+
+        /// <summary>
         /// Invokes the Wasmtime function with no arguments.
         /// </summary>
         /// <param name="store">The store that owns this function.</param>
