@@ -14,6 +14,11 @@ namespace Wasmtime
 
         internal ValueBox(ValueKind kind, ValueUnion of)
         {
+            if (kind == ValueKind.ExternRef)
+            {
+                throw new InvalidOperationException("Must pass in `object?` for an externref ValueBox`");
+            }
+
             Kind = kind;
             Union = of;
             ExternRefObject = null;
@@ -168,6 +173,156 @@ namespace Wasmtime
             where T : class
         {
             return new ValueBox(value);
+        }
+
+        internal static IValueBoxConverter<T> Converter<T>()
+        {
+            if (typeof(T) == typeof(int))
+                return (IValueBoxConverter<T>)Int32ValueBoxConverter.Instance;
+            if (typeof(T) == typeof(long))
+                return (IValueBoxConverter<T>)Int64ValueBoxConverter.Instance;
+            if (typeof(T) == typeof(float))
+                return (IValueBoxConverter<T>)Float32ValueBoxConverter.Instance;
+            if (typeof(T) == typeof(double))
+                return (IValueBoxConverter<T>)Float64ValueBoxConverter.Instance;
+            if (typeof(T) == typeof(Function))
+                return (IValueBoxConverter<T>)FuncRefValueBoxConverter.Instance;
+
+            // todo: byte[] (16 bytes)
+            // todo: ReadOnlySpan<byte> (16 bytes)
+            // todo: object
+
+            if (typeof(T).IsClass)
+                return (IValueBoxConverter<T>)GenericValueBoxConverter<T>.Instance;
+
+            throw new InvalidOperationException($"Cannot convert type '{typeof(T).Name}' into a WASM parameter type");
+        }
+    }
+
+    internal interface IValueBoxConverter<T>
+    {
+        public ValueBox Box(T value);
+
+        public T Unbox(StoreContext context, ValueBox value);
+    }
+
+    internal class Int32ValueBoxConverter
+        : IValueBoxConverter<int>
+    {
+        public static readonly Int32ValueBoxConverter Instance = new Int32ValueBoxConverter();
+
+        private Int32ValueBoxConverter()
+        {
+        }
+
+        public ValueBox Box(int value)
+        {
+            return value;
+        }
+
+        public int Unbox(StoreContext context, ValueBox value)
+        {
+            return value.Union.i32;
+        }
+    }
+
+    internal class Int64ValueBoxConverter
+        : IValueBoxConverter<long>
+    {
+        public static readonly Int64ValueBoxConverter Instance = new Int64ValueBoxConverter();
+
+        private Int64ValueBoxConverter()
+        {
+        }
+
+        public ValueBox Box(long value)
+        {
+            return value;
+        }
+
+        public long Unbox(StoreContext context, ValueBox value)
+        {
+            return value.Union.i64;
+        }
+    }
+
+    internal class Float32ValueBoxConverter
+        : IValueBoxConverter<float>
+    {
+        public static readonly Float32ValueBoxConverter Instance = new Float32ValueBoxConverter();
+
+        private Float32ValueBoxConverter()
+        {
+        }
+
+        public ValueBox Box(float value)
+        {
+            return value;
+        }
+
+        public float Unbox(StoreContext context, ValueBox value)
+        {
+            return value.Union.f32;
+        }
+    }
+
+    internal class Float64ValueBoxConverter
+        : IValueBoxConverter<double>
+    {
+        public static readonly Float64ValueBoxConverter Instance = new Float64ValueBoxConverter();
+
+        private Float64ValueBoxConverter()
+        {
+        }
+
+        public ValueBox Box(double value)
+        {
+            return value;
+        }
+
+        public double Unbox(StoreContext context, ValueBox value)
+        {
+            return value.Union.f64;
+        }
+    }
+
+    internal class FuncRefValueBoxConverter
+        : IValueBoxConverter<Function>
+    {
+        public static readonly FuncRefValueBoxConverter Instance = new FuncRefValueBoxConverter();
+
+        private FuncRefValueBoxConverter()
+        {
+        }
+
+        public ValueBox Box(Function value)
+        {
+            return value;
+        }
+
+        public Function Unbox(StoreContext context, ValueBox value)
+        {
+            return new Function(context, value.Union.funcref);
+        }
+    }
+
+    internal class GenericValueBoxConverter<T>
+        : IValueBoxConverter<T?>
+    {
+        public static readonly GenericValueBoxConverter<T> Instance = new GenericValueBoxConverter<T>();
+
+        private GenericValueBoxConverter()
+        {
+        }
+
+        public ValueBox Box(T? value)
+        {
+            return ValueBox.AsBox((object?)value);
+        }
+
+        public T? Unbox(StoreContext context, ValueBox value)
+        {
+            return (T?)value.ExternRefObject;
         }
     }
 }

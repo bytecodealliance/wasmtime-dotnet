@@ -240,6 +240,14 @@ namespace Wasmtime
             return value;
         }
 
+        public ValueBox ToValueBox()
+        {
+            if (kind != ValueKind.ExternRef)
+                return new ValueBox(kind, of);
+            else
+                return new ValueBox(ResolveExternRef());
+        }
+
         public static Value FromObject(object? o, ValueKind kind)
         {
             var value = new Value();
@@ -348,17 +356,10 @@ namespace Wasmtime
                         }
                     }
 
+                    return bytes;
+
                 case ValueKind.ExternRef:
-                    if (of.externref == IntPtr.Zero)
-                    {
-                        return null;
-                    }
-                    var data = Native.wasmtime_externref_data(of.externref);
-                    if (data == IntPtr.Zero)
-                    {
-                        return null;
-                    }
-                    return GCHandle.FromIntPtr(data).Target;
+                    return ResolveExternRef();
 
                 case ValueKind.FuncRef:
                     return new Function(context, of.funcref);
@@ -366,6 +367,20 @@ namespace Wasmtime
                 default:
                     throw new NotSupportedException("Unsupported value kind.");
             }
+        }
+
+        private object? ResolveExternRef()
+        {
+            if (of.externref == IntPtr.Zero)
+            {
+                return null;
+            }
+            var data = Native.wasmtime_externref_data(of.externref);
+            if (data == IntPtr.Zero)
+            {
+                return null;
+            }
+            return GCHandle.FromIntPtr(data).Target;
         }
 
         private static class Native

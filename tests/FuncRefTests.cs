@@ -39,18 +39,22 @@ namespace Wasmtime.Tests
         {
             var f = Function.FromCallback(Store, (Caller caller, string s) => Assert.Invoke(caller, s));
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var func = instance.GetFunction(Store, "call_nested");
 
-            (func.Invoke(Store, Callback, f) as string).Should().Be("asserted!");
+            var func = instance.GetFunction<Function, Function, string>(Store, "call_nested");
+            func.Should().NotBeNull();
+
+            func(Callback, f).Should().Be("asserted!");
         }
 
         [Fact]
         public void ItAcceptsFunctionReferences()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var func = instance.GetFunction(Store, "call_callback");
 
-            (func.Invoke(Store) as string).Should().Be("asserted!");
+            var func = instance.GetFunction<string>(Store, "call_callback");
+            func.Should().NotBeNull();
+
+            func().Should().Be("asserted!");
         }
 
         [Fact]

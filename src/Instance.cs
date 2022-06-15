@@ -60,6 +60,7 @@ namespace Wasmtime
             }
         }
 
+        #region typed wrappers
         /// <summary>
         /// Gets an exported function from the instance.
         /// </summary>
@@ -453,6 +454,7 @@ namespace Wasmtime
             );
             return func?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>(store);
         }
+        #endregion
 
         /// <summary>
         /// Gets an exported function from the instance.

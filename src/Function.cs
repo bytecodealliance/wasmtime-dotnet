@@ -552,10 +552,12 @@ namespace Wasmtime
         /// <param name="returnType">Return type (use a tuple for multiple return types)</param>
         /// <param name="parameters">The parameters of the function</param>
         /// <returns></returns>
-        public bool CheckTypeSignature(Type? returnType, params Type[] parameters)
+        public bool CheckTypeSignature(Type? returnType = null, params Type[] parameters)
         {
             // Check if the func returns no values if that's expected
             if (Results.Count == 0 && returnType != null)
+                return false;
+            if (Results.Count != 0 && returnType == null)
                 return false;
 
             // Validate the return type(s)

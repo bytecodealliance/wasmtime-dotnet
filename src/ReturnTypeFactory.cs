@@ -79,7 +79,7 @@ namespace Wasmtime
 
         public TReturn Create(StoreContext context, Span<Value> values)
         {
-            return converter.Unbox(values[0].ToValueBox());
+            return converter.Unbox(context, values[0].ToValueBox());
         }
     }
 
@@ -117,8 +117,8 @@ namespace Wasmtime
         public override TReturn Create(StoreContext context, Span<Value> values)
         {
             return Factory(
-                converterA.Unbox(values[0].ToValueBox()),
-                converterB.Unbox(values[1].ToValueBox())
+                converterA.Unbox(context, values[0].ToValueBox()),
+                converterB.Unbox(context, values[1].ToValueBox())
             );
         }
     }
@@ -140,9 +140,9 @@ namespace Wasmtime
         public override TReturn Create(StoreContext context, Span<Value> values)
         {
             return Factory(
-                converterA.Unbox(values[0].ToValueBox()),
-                converterB.Unbox(values[1].ToValueBox()),
-                converterC.Unbox(values[2].ToValueBox())
+                converterA.Unbox(context, values[0].ToValueBox()),
+                converterB.Unbox(context, values[1].ToValueBox()),
+                converterC.Unbox(context, values[2].ToValueBox())
             );
         }
     }
@@ -166,10 +166,10 @@ namespace Wasmtime
         public override TReturn Create(StoreContext context, Span<Value> values)
         {
             return Factory(
-                converterA.Unbox(values[0].ToValueBox()),
-                converterB.Unbox(values[1].ToValueBox()),
-                converterC.Unbox(values[2].ToValueBox()),
-                converterD.Unbox(values[3].ToValueBox())
+                converterA.Unbox(context, values[0].ToValueBox()),
+                converterB.Unbox(context, values[1].ToValueBox()),
+                converterC.Unbox(context, values[2].ToValueBox()),
+                converterD.Unbox(context, values[3].ToValueBox())
             );
         }
     }
@@ -195,11 +195,11 @@ namespace Wasmtime
         public override TReturn Create(StoreContext context, Span<Value> values)
         {
             return Factory(
-                converterA.Unbox(values[0].ToValueBox()),
-                converterB.Unbox(values[1].ToValueBox()),
-                converterC.Unbox(values[2].ToValueBox()),
-                converterD.Unbox(values[3].ToValueBox()),
-                converterE.Unbox(values[4].ToValueBox())
+                converterA.Unbox(context, values[0].ToValueBox()),
+                converterB.Unbox(context, values[1].ToValueBox()),
+                converterC.Unbox(context, values[2].ToValueBox()),
+                converterD.Unbox(context, values[3].ToValueBox()),
+                converterE.Unbox(context, values[4].ToValueBox())
             );
         }
     }
@@ -227,12 +227,12 @@ namespace Wasmtime
         public override TReturn Create(StoreContext context, Span<Value> values)
         {
             return Factory(
-                converterA.Unbox(values[0].ToValueBox()),
-                converterB.Unbox(values[1].ToValueBox()),
-                converterC.Unbox(values[2].ToValueBox()),
-                converterD.Unbox(values[3].ToValueBox()),
-                converterE.Unbox(values[4].ToValueBox()),
-                converterF.Unbox(values[5].ToValueBox())
+                converterA.Unbox(context, values[0].ToValueBox()),
+                converterB.Unbox(context, values[1].ToValueBox()),
+                converterC.Unbox(context, values[2].ToValueBox()),
+                converterD.Unbox(context, values[3].ToValueBox()),
+                converterE.Unbox(context, values[4].ToValueBox()),
+                converterF.Unbox(context, values[5].ToValueBox())
             );
         }
     }
@@ -262,13 +262,13 @@ namespace Wasmtime
         public override TReturn Create(StoreContext context, Span<Value> values)
         {
             return Factory(
-                converterA.Unbox(values[0].ToValueBox()),
-                converterB.Unbox(values[1].ToValueBox()),
-                converterC.Unbox(values[2].ToValueBox()),
-                converterD.Unbox(values[3].ToValueBox()),
-                converterE.Unbox(values[4].ToValueBox()),
-                converterF.Unbox(values[5].ToValueBox()),
-                converterG.Unbox(values[6].ToValueBox())
+                converterA.Unbox(context, values[0].ToValueBox()),
+                converterB.Unbox(context, values[1].ToValueBox()),
+                converterC.Unbox(context, values[2].ToValueBox()),
+                converterD.Unbox(context, values[3].ToValueBox()),
+                converterE.Unbox(context, values[4].ToValueBox()),
+                converterF.Unbox(context, values[5].ToValueBox()),
+                converterG.Unbox(context, values[6].ToValueBox())
             );
         }
     }
@@ -300,14 +300,14 @@ namespace Wasmtime
         public override TReturn Create(StoreContext context, Span<Value> values)
         {
             return Factory(
-                converterA.Unbox(values[0].ToValueBox()),
-                converterB.Unbox(values[1].ToValueBox()),
-                converterC.Unbox(values[2].ToValueBox()),
-                converterD.Unbox(values[3].ToValueBox()),
-                converterE.Unbox(values[4].ToValueBox()),
-                converterF.Unbox(values[5].ToValueBox()),
-                converterG.Unbox(values[6].ToValueBox()),
-                converterH.Unbox(values[7].ToValueBox())
+                converterA.Unbox(context, values[0].ToValueBox()),
+                converterB.Unbox(context, values[1].ToValueBox()),
+                converterC.Unbox(context, values[2].ToValueBox()),
+                converterD.Unbox(context, values[3].ToValueBox()),
+                converterE.Unbox(context, values[4].ToValueBox()),
+                converterF.Unbox(context, values[5].ToValueBox()),
+                converterG.Unbox(context, values[6].ToValueBox()),
+                converterH.Unbox(context, values[7].ToValueBox())
             );
         }
     }

@@ -31,11 +31,11 @@ namespace Wasmtime.Tests
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
 
-            var inout = instance.GetFunction(Store, "inout");
+            var inout = instance.GetFunction<string, string>(Store, "inout");
             inout.Should().NotBeNull();
 
             var input = "input";
-            (inout.Invoke(Store, input) as string).Should().BeSameAs(input);
+            inout(input).Should().BeSameAs(input);
         }
 
         [Fact]
