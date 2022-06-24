@@ -102,15 +102,12 @@ namespace Wasmtime
         /// "Box" a 16 element vector of bytes without any heap allocations
         /// </summary>
         /// <param name="value"></param>
-        public static implicit operator ValueBox(Vector128<byte> value)
+        public static implicit operator ValueBox(V128 value)
         {
             var union = new ValueUnion();
             unsafe
             {
-                for (int i = 0; i < 16; i++)
-                {
-                    union.v128[i] = value.GetElement(i);
-                }
+                value.CopyTo(union.v128);
             }
 
             return new ValueBox(ValueKind.V128, union);

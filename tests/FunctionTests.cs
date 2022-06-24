@@ -99,11 +99,11 @@ namespace Wasmtime.Tests
             var instance = Linker.Instantiate(Store, Fixture.Module);
             var echo = instance.GetFunction(Store, "$echo_v128");
 
-            var result = (Vector128<byte>)echo.Invoke(Store, Vector128<byte>.AllBitsSet);
+            var result = (V128)echo.Invoke(Store, V128.AllBitsSet);
 
             result
                 .Should()
-                .Be(Vector128<byte>.AllBitsSet);
+                .Be(V128.AllBitsSet);
         }
 
         public void Dispose()

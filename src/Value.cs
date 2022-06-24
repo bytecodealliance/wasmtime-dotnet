@@ -178,7 +178,7 @@ namespace Wasmtime
                 return true;
             }
 
-            if (type == typeof(Vector128<byte>))
+            if (type == typeof(V128))
             {
                 kind = ValueKind.V128;
                 return true;
@@ -258,14 +258,10 @@ namespace Wasmtime
                     case ValueKind.V128:
                         if (o is null)
                             throw new WasmtimeException($"The value `null` is not valid for WebAssembly type {kind}.");
-                        var bytes = (Vector128<byte>)o;
-
+                        var bytes = (V128)o;
                         unsafe
                         {
-                            for (int i = 0; i < 16; ++i)
-                            {
-                                value.of.v128[i] = bytes.GetElement(i);
-                            }
+                            bytes.CopyTo(value.of.v128);
                         }
                         break;
 
@@ -328,24 +324,8 @@ namespace Wasmtime
                 case ValueKind.V128:
                     unsafe
                     {
-                        return Vector128.Create(
-                            of.v128[0],
-                            of.v128[1],
-                            of.v128[2],
-                            of.v128[3],
-                            of.v128[4],
-                            of.v128[5],
-                            of.v128[6],
-                            of.v128[7],
-                            of.v128[8],
-                            of.v128[9],
-                            of.v128[10],
-                            of.v128[11],
-                            of.v128[12],
-                            of.v128[13],
-                            of.v128[14],
-                            of.v128[15]
-                        );
+                        fixed (byte* v128 = of.v128)
+                            return new V128(v128);
                     }
 
                 case ValueKind.ExternRef:
