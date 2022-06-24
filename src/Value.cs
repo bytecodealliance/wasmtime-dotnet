@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Runtime.Intrinsics;
 
 namespace Wasmtime
 {
@@ -177,7 +178,7 @@ namespace Wasmtime
                 return true;
             }
 
-            if (type == typeof(byte[]))
+            if (type == typeof(Vector128<byte>))
             {
                 kind = ValueKind.V128;
                 return true;
@@ -195,7 +196,7 @@ namespace Wasmtime
                 return true;
             }
 
-            kind = default(ValueKind);
+            kind = default;
             return false;
         }
 
@@ -255,17 +256,15 @@ namespace Wasmtime
                         break;
 
                     case ValueKind.V128:
-                        var bytes = o as byte[];
-                        if ((bytes is null) || bytes.Length != 16)
-                        {
-                            throw new ArgumentException("expected a 16 byte array for a v128 value", nameof(o));
-                        }
+                        if (o is null)
+                            throw new WasmtimeException($"The value `null` is not valid for WebAssembly type {kind}.");
+                        var bytes = (Vector128<byte>)o;
 
                         unsafe
                         {
                             for (int i = 0; i < 16; ++i)
                             {
-                                value.of.v128[i] = bytes[i];
+                                value.of.v128[i] = bytes.GetElement(i);
                             }
                         }
                         break;
@@ -327,15 +326,27 @@ namespace Wasmtime
                     return of.f64;
 
                 case ValueKind.V128:
-                    var bytes = new byte[16];
                     unsafe
                     {
-                        for (int i = 0; i < 16; ++i)
-                        {
-                            bytes[i] = of.v128[i];
-                        }
+                        return Vector128.Create(
+                            of.v128[0],
+                            of.v128[1],
+                            of.v128[2],
+                            of.v128[3],
+                            of.v128[4],
+                            of.v128[5],
+                            of.v128[6],
+                            of.v128[7],
+                            of.v128[8],
+                            of.v128[9],
+                            of.v128[10],
+                            of.v128[11],
+                            of.v128[12],
+                            of.v128[13],
+                            of.v128[14],
+                            of.v128[15]
+                        );
                     }
-                    return bytes;
 
                 case ValueKind.ExternRef:
                     if (of.externref == IntPtr.Zero)

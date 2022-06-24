@@ -1,5 +1,6 @@
 using FluentAssertions;
 using System;
+using System.Runtime.Intrinsics;
 using Xunit;
 
 namespace Wasmtime.Tests
@@ -90,6 +91,19 @@ namespace Wasmtime.Tests
                 // Ideally this should contain a check for the backtrace
                 // See: https://github.com/bytecodealliance/wasmtime/issues/1845
                 .WithMessage(THROW_MESSAGE + "*");
+        }
+
+        [Fact]
+        public void ItEchoesV128()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var echo = instance.GetFunction(Store, "$echo_v128");
+
+            var result = (Vector128<byte>)echo.Invoke(Store, Vector128<byte>.AllBitsSet);
+
+            result
+                .Should()
+                .Be(Vector128<byte>.AllBitsSet);
         }
 
         public void Dispose()

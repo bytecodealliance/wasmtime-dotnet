@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Intrinsics;
 
 namespace Wasmtime
 {
@@ -95,6 +96,24 @@ namespace Wasmtime
         public static implicit operator ValueBox(double value)
         {
             return new ValueBox(ValueKind.Float64, new ValueUnion { f64 = value });
+        }
+
+        /// <summary>
+        /// "Box" a 16 element vector of bytes without any heap allocations
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator ValueBox(Vector128<byte> value)
+        {
+            var union = new ValueUnion();
+            unsafe
+            {
+                for (int i = 0; i < 16; i++)
+                {
+                    union.v128[i] = value.GetElement(i);
+                }
+            }
+
+            return new ValueBox(ValueKind.V128, union);
         }
 
         /// <summary>
