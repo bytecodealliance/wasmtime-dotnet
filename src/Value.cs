@@ -325,7 +325,9 @@ namespace Wasmtime
                     unsafe
                     {
                         fixed (byte* v128 = of.v128)
+                        {
                             return new V128(v128);
+                        }
                     }
 
                 case ValueKind.ExternRef:
