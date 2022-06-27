@@ -78,6 +78,31 @@ namespace Wasmtime.Tests
         }
 
         [Fact]
+        public void ItGetsArgumentsFromGenericSpecification()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+
+            var add = instance.GetFunction<int, int, int>(Store, "add");
+            add.Should().NotBeNull();
+
+            int x = add(40, 2);
+            x.Should().Be(42);
+        }
+
+        [Fact]
+        public void ItGetsArgumentsFromGenericSpecificationWithMultipleReturns()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+
+            var swap = instance.GetFunction<int, int, (int, int)>(Store, "swap");
+            swap.Should().NotBeNull();
+
+            (int x, int y) = swap(100, 10);
+            x.Should().Be(10);
+            y.Should().Be(100);
+        }
+
+        [Fact]
         public void ItPropagatesExceptionsToCallersViaTraps()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);

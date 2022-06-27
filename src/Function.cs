@@ -1185,6 +1185,62 @@ namespace Wasmtime
         #endregion
 
         /// <summary>
+        /// Invokes the wasmtime function and processes the results through a return type factory.
+        /// Assumes arguments are the correct type. Disposes the arguments.
+        /// </summary>
+        /// <typeparam name="TR"></typeparam>
+        /// <param name="store"></param>
+        /// <param name="arguments"></param>
+        /// <param name="factory"></param>
+        /// <returns></returns>
+        internal unsafe TR InvokeWithReturn<TR>(IStore store, ReadOnlySpan<Value> arguments, IReturnTypeFactory<TR> factory)
+        {
+            Span<Value> output = stackalloc Value[Results.Count];
+
+            try
+            {
+                Invoke(store, arguments, output);
+                return factory.Create(store.Context, output);
+            }
+            finally
+            {
+                for (int i = 0; i < output.Length; i++)
+                {
+                    output[i].Dispose();
+                }
+
+                for (int i = 0; i < arguments.Length; i++)
+                {
+                    var argument = arguments[i];
+                    argument.Dispose();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Invokes the wasmtime function
+        /// Assumes arguments are the correct type. Disposes the arguments.
+        /// </summary>
+        /// <param name="store"></param>
+        /// <param name="arguments"></param>
+        /// <returns></returns>
+        internal unsafe void InvokeWithoutReturn(IStore store, ReadOnlySpan<Value> arguments)
+        {
+            try
+            {
+                Invoke(store, arguments, stackalloc Value[0]);
+            }
+            finally
+            {
+                for (int i = 0; i < arguments.Length; i++)
+                {
+                    var argument = arguments[i];
+                    argument.Dispose();
+                }
+            }
+        }
+
+        /// <summary>
         /// Invokes the Wasmtime function with no arguments.
         /// </summary>
         /// <param name="store">The store that owns this function.</param>
@@ -1252,29 +1308,18 @@ namespace Wasmtime
             }
 
             var context = store.Context;
-            unsafe
+
+            // Convert arguments (ValueBox) into a form wasm can consume (Value)
+            Span<Value> args = stackalloc Value[Parameters.Count];
+            for (int i = 0; i < arguments.Length; ++i)
+                args[i] = arguments[i].ToValue(Parameters[i]);
+
+            // Make some space to store the return results
+            Span<Value> resultsSpan = stackalloc Value[Results.Count];
+
+            try
             {
-                Value* args = stackalloc Value[Parameters.Count];
-                Value* results = stackalloc Value[Results.Count];
-
-                for (int i = 0; i < arguments.Length; ++i)
-                    args[i] = arguments[i].ToValue(Parameters[i]);
-
-                var error = Native.wasmtime_func_call(context.handle, func, args, (UIntPtr)Parameters.Count, results, (UIntPtr)Results.Count, out var trap);
-                if (error != IntPtr.Zero)
-                {
-                    throw WasmtimeException.FromOwnedError(error);
-                }
-
-                for (int i = 0; i < arguments.Length; ++i)
-                {
-                    args[i].Dispose();
-                }
-
-                if (trap != IntPtr.Zero)
-                {
-                    throw TrapException.FromOwnedTrap(trap);
-                }
+                Invoke(store, args, resultsSpan);
 
                 if (Results.Count == 0)
                 {
@@ -1285,13 +1330,13 @@ namespace Wasmtime
                 {
                     if (Results.Count == 1)
                     {
-                        return results[0].ToObject(context);
+                        return resultsSpan[0].ToObject(context);
                     }
 
                     var ret = new object?[Results.Count];
                     for (int i = 0; i < Results.Count; ++i)
                     {
-                        ret[i] = results[i].ToObject(context);
+                        ret[i] = resultsSpan[i].ToObject(context);
                     }
 
                     return ret;
@@ -1300,9 +1345,57 @@ namespace Wasmtime
                 {
                     for (int i = 0; i < Results.Count; ++i)
                     {
-                        results[i].Dispose();
+                        resultsSpan[i].Dispose();
                     }
                 }
+            }
+            finally
+            {
+                for (int i = 0; i < arguments.Length; ++i)
+                {
+                    args[i].Dispose();
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// Invokes the Wasmtime function. Assumes arguments are the correct type and return span is the correct size.
+        /// </summary>
+        /// <param name="store">The store that owns this function.</param>
+        /// <param name="arguments">The arguments to pass to the function, wrapped as `Value`</param>
+        /// <param name="resultsOut">Output span to store the results in, must be the correct length</param>
+        /// <returns>
+        ///   Returns null if the function has no return value.
+        /// </returns>
+        private unsafe void Invoke(IStore store, ReadOnlySpan<Value> arguments, Span<Value> resultsOut)
+        {
+            if (IsNull)
+            {
+                throw new InvalidOperationException("Cannot invoke a null function reference.");
+            }
+
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            var context = store.Context;
+
+            IntPtr error;
+            IntPtr trap;
+            fixed (Value* argsPtr = arguments)
+            fixed (Value* resultsPtr = resultsOut)
+                error = Native.wasmtime_func_call(context.handle, func, argsPtr, (UIntPtr)Parameters.Count, resultsPtr, (UIntPtr)Results.Count, out trap);
+
+            if (error != IntPtr.Zero)
+            {
+                throw WasmtimeException.FromOwnedError(error);
+            }
+
+            if (trap != IntPtr.Zero)
+            {
+                throw TrapException.FromOwnedTrap(trap);
             }
         }
 

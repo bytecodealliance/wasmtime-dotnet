@@ -356,8 +356,6 @@ namespace Wasmtime
                         }
                     }
 
-                    return bytes;
-
                 case ValueKind.ExternRef:
                     return ResolveExternRef();
 
