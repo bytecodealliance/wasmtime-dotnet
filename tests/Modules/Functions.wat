@@ -21,4 +21,9 @@
   (call $env.check_string (i32.const 0) (i32.const 11))
  )
  (data (i32.const 0) "Hello World")
+
+ (func $echo_v128 (param v128) (result v128)
+	local.get 0
+ )
+ (export "$echo_v128" (func $echo_v128))
 )

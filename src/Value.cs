@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Runtime.Intrinsics;
 
 namespace Wasmtime
 {
@@ -177,7 +178,7 @@ namespace Wasmtime
                 return true;
             }
 
-            if (type == typeof(byte[]))
+            if (type == typeof(V128))
             {
                 kind = ValueKind.V128;
                 return true;
@@ -195,8 +196,30 @@ namespace Wasmtime
                 return true;
             }
 
-            kind = default(ValueKind);
+            kind = default;
             return false;
+        }
+
+        public static Value FromValueBox(ValueBox box)
+        {
+            var value = new Value();
+            value.kind = box.Kind;
+            value.of = box.Union;
+
+            if (value.kind == ValueKind.ExternRef)
+            {
+                value.of.externref = IntPtr.Zero;
+
+                if (box.ExternRefObject is not null)
+                {
+                    value.of.externref = Native.wasmtime_externref_new(
+                        GCHandle.ToIntPtr(GCHandle.Alloc(box.ExternRefObject)),
+                        Finalizer
+                    );
+                }
+            }
+
+            return value;
         }
 
         public static Value FromObject(object? o, ValueKind kind)
@@ -233,18 +256,12 @@ namespace Wasmtime
                         break;
 
                     case ValueKind.V128:
-                        var bytes = o as byte[];
-                        if ((bytes is null) || bytes.Length != 16)
-                        {
-                            throw new ArgumentException("expected a 16 byte array for a v128 value", nameof(o));
-                        }
-
+                        if (o is null)
+                            throw new WasmtimeException($"The value `null` is not valid for WebAssembly type {kind}.");
+                        var bytes = (V128)o;
                         unsafe
                         {
-                            for (int i = 0; i < 16; ++i)
-                            {
-                                value.of.v128[i] = bytes[i];
-                            }
+                            bytes.CopyTo(value.of.v128);
                         }
                         break;
 
@@ -305,15 +322,13 @@ namespace Wasmtime
                     return of.f64;
 
                 case ValueKind.V128:
-                    var bytes = new byte[16];
                     unsafe
                     {
-                        for (int i = 0; i < 16; ++i)
+                        fixed (byte* v128 = of.v128)
                         {
-                            bytes[i] = of.v128[i];
+                            return new V128(v128);
                         }
                     }
-                    return bytes;
 
                 case ValueKind.ExternRef:
                     if (of.externref == IntPtr.Zero)
@@ -339,31 +354,6 @@ namespace Wasmtime
         {
             public delegate void Finalizer(IntPtr data);
 
-            [StructLayout(LayoutKind.Explicit)]
-            public unsafe struct ValueUnion
-            {
-                [FieldOffset(0)]
-                public int i32;
-
-                [FieldOffset(0)]
-                public long i64;
-
-                [FieldOffset(0)]
-                public float f32;
-
-                [FieldOffset(0)]
-                public double f64;
-
-                [FieldOffset(0)]
-                public ExternFunc funcref;
-
-                [FieldOffset(0)]
-                public IntPtr externref;
-
-                [FieldOffset(0)]
-                public fixed byte v128[16];
-            }
-
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_val_delete(in Value val);
 
@@ -378,6 +368,31 @@ namespace Wasmtime
         private static readonly Native.Finalizer Finalizer = (p) => GCHandle.FromIntPtr(p).Free();
 
         private ValueKind kind;
-        private Native.ValueUnion of;
+        private ValueUnion of;
+    }
+
+    [StructLayout(LayoutKind.Explicit)]
+    internal unsafe struct ValueUnion
+    {
+        [FieldOffset(0)]
+        public int i32;
+
+        [FieldOffset(0)]
+        public long i64;
+
+        [FieldOffset(0)]
+        public float f32;
+
+        [FieldOffset(0)]
+        public double f64;
+
+        [FieldOffset(0)]
+        public ExternFunc funcref;
+
+        [FieldOffset(0)]
+        public IntPtr externref;
+
+        [FieldOffset(0)]
+        public fixed byte v128[16];
     }
 }

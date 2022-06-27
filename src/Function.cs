@@ -14,6 +14,7 @@ namespace Wasmtime
     /// </summary>
     public class Function : IExternal
     {
+        #region FromCallback
         /// <summary>
         /// Creates a function given a callback.
         /// </summary>
@@ -523,6 +524,7 @@ namespace Wasmtime
 
             return new Function(store.Context, callback, true);
         }
+        #endregion
 
         /// <summary>
         /// The parameters of the WebAssembly function.
@@ -545,6 +547,25 @@ namespace Wasmtime
         public static Function Null => _null;
 
         /// <summary>
+        /// Invokes the Wasmtime function with no arguments.
+        /// </summary>
+        /// <param name="store">The store that owns this function.</param>
+        /// <returns>
+        ///   Returns null if the function has no return value.
+        ///   Returns the value if the function returns a single value.
+        ///   Returns an array of values if the function returns more than one value.
+        /// </returns>
+        public object? Invoke(IStore store)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            return Invoke(store, new ReadOnlySpan<ValueBox>());
+        }
+
+        /// <summary>
         /// Invokes the Wasmtime function.
         /// </summary>
         /// <param name="store">The store that owns this function.</param>
@@ -554,18 +575,28 @@ namespace Wasmtime
         ///   Returns the value if the function returns a single value.
         ///   Returns an array of values if the function returns more than one value.
         /// </returns>
-        public object? Invoke(IStore store, params object?[] arguments)
+        // TODO: remove overload when https://github.com/dotnet/csharplang/issues/1757 is resolved
+        public object? Invoke(IStore store, params ValueBox[] arguments)
         {
             if (store is null)
             {
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return Invoke(store.Context, (ReadOnlySpan<object?>)(arguments ?? NullParams));
+            return Invoke(store, (ReadOnlySpan<ValueBox>)arguments);
         }
 
-        // TODO: remove overload when https://github.com/dotnet/csharplang/issues/1757 is resolved
-        private object? Invoke(StoreContext context, ReadOnlySpan<object?> arguments)
+        /// <summary>
+        /// Invokes the Wasmtime function.
+        /// </summary>
+        /// <param name="store">The store that owns this function.</param>
+        /// <param name="arguments">The arguments to pass to the function, wrapped in `ValueBox`</param>
+        /// <returns>
+        ///   Returns null if the function has no return value.
+        ///   Returns the value if the function returns a single value.
+        ///   Returns an array of values if the function returns more than one value.
+        /// </returns>
+        public object? Invoke(IStore store, ReadOnlySpan<ValueBox> arguments)
         {
             if (IsNull)
             {
@@ -577,17 +608,21 @@ namespace Wasmtime
                 throw new WasmtimeException($"Argument mismatch when invoking function: requires {Parameters.Count} but was given {arguments.Length}.");
             }
 
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            var context = store.Context;
             unsafe
             {
                 Value* args = stackalloc Value[Parameters.Count];
                 Value* results = stackalloc Value[Results.Count];
 
                 for (int i = 0; i < arguments.Length; ++i)
-                {
-                    args[i] = Value.FromObject(arguments[i], Parameters[i]);
-                }
+                    args[i] = arguments[i].ToValue(Parameters[i]);
 
-                var error = Native.wasmtime_func_call(context.handle, this.func, args, (UIntPtr)Parameters.Count, results, (UIntPtr)Results.Count, out var trap);
+                var error = Native.wasmtime_func_call(context.handle, func, args, (UIntPtr)Parameters.Count, results, (UIntPtr)Results.Count, out var trap);
                 if (error != IntPtr.Zero)
                 {
                     throw WasmtimeException.FromOwnedError(error);
@@ -620,6 +655,7 @@ namespace Wasmtime
                     {
                         ret[i] = results[i].ToObject(context);
                     }
+
                     return ret;
                 }
                 finally

@@ -1,5 +1,6 @@
 using FluentAssertions;
 using System;
+using System.Runtime.Intrinsics;
 using Xunit;
 
 namespace Wasmtime.Tests
@@ -66,6 +67,17 @@ namespace Wasmtime.Tests
         }
 
         [Fact]
+        public void ItWrapsArgumentsInValueBox()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var add = instance.GetFunction(Store, "add");
+
+            var args = new ValueBox[] { 40, 2 };
+            int x = (int)add.Invoke(Store, args.AsSpan());
+            x.Should().Be(42);
+        }
+
+        [Fact]
         public void ItPropagatesExceptionsToCallersViaTraps()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
@@ -79,6 +91,19 @@ namespace Wasmtime.Tests
                 // Ideally this should contain a check for the backtrace
                 // See: https://github.com/bytecodealliance/wasmtime/issues/1845
                 .WithMessage(THROW_MESSAGE + "*");
+        }
+
+        [Fact]
+        public void ItEchoesV128()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var echo = instance.GetFunction(Store, "$echo_v128");
+
+            var result = (V128)echo.Invoke(Store, V128.AllBitsSet);
+
+            result
+                .Should()
+                .Be(V128.AllBitsSet);
         }
 
         public void Dispose()
