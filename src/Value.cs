@@ -50,7 +50,7 @@ namespace Wasmtime
                 ValueKind.Int64 => type == typeof(long),
                 ValueKind.Float32 => type == typeof(float),
                 ValueKind.Float64 => type == typeof(double),
-                ValueKind.V128 => type == typeof(byte[]),
+                ValueKind.V128 => type == typeof(V128),
                 ValueKind.FuncRef => type == typeof(Function),
                 ValueKind.ExternRef => type.IsClass,
                 _ => throw new ArgumentOutOfRangeException(nameof(kind), kind, null)

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Intrinsics;
 
 namespace Wasmtime
 {
@@ -187,10 +186,8 @@ namespace Wasmtime
                 return (IValueBoxConverter<T>)Float64ValueBoxConverter.Instance;
             if (typeof(T) == typeof(Function))
                 return (IValueBoxConverter<T>)FuncRefValueBoxConverter.Instance;
-
-            // todo: byte[] (16 bytes)
-            // todo: ReadOnlySpan<byte> (16 bytes)
-            // todo: object
+            if (typeof(T) == typeof(V128))
+                return (IValueBoxConverter<T>)V128ValueBoxConverter.Instance;
 
             if (typeof(T).IsClass)
                 return (IValueBoxConverter<T>)GenericValueBoxConverter<T>.Instance;
@@ -303,6 +300,29 @@ namespace Wasmtime
         public Function Unbox(StoreContext context, ValueBox value)
         {
             return new Function(context, value.Union.funcref);
+        }
+    }
+
+    internal class V128ValueBoxConverter
+        : IValueBoxConverter<V128>
+    {
+        public static readonly V128ValueBoxConverter Instance = new V128ValueBoxConverter();
+
+        private V128ValueBoxConverter()
+        {
+        }
+
+        public ValueBox Box(V128 value)
+        {
+            return value;
+        }
+
+        public V128 Unbox(StoreContext context, ValueBox value)
+        {
+            unsafe
+            {
+                return new V128(value.Union.v128);
+            }
         }
     }
 
