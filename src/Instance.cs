@@ -41,7 +41,7 @@ namespace Wasmtime
                     var external = imports[i] as IExternal;
                     if (external is null)
                     {
-                        throw new ArgumentException($"Objects of type `{imports[i].GetType().ToString()}` cannot be imported.");
+                        throw new ArgumentException($"Objects of type `{imports[i].GetType()}` cannot be imported.");
                     }
                     externs[i] = external.AsExtern();
                 }
@@ -70,8 +70,70 @@ namespace Wasmtime
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
         public Action<TA>? GetAction<TA>(IStore store, string name)
         {
-            var func = GetFunction(store, name, null, typeof(TA));
-            return func?.WrapAction<TA>(store);
+            return GetFunction(store, name)
+                 ?.WrapAction<TA>(store);
+        }
+
+        /// <summary>
+        /// Gets an exported function from the instance.
+        /// </summary>
+        /// <param name="store">The store that owns the instance.</param>
+        /// <param name="name">The name of the exported function.</param>
+        /// <typeparam name="TA">First parameter type</typeparam>
+        /// <typeparam name="TB">Second parameter type</typeparam>
+        /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
+        public Action<TA, TB>? GetAction<TA, TB>(IStore store, string name)
+        {
+            return GetFunction(store, name)
+                 ?.WrapAction<TA, TB>(store);
+        }
+
+        /// <summary>
+        /// Gets an exported function from the instance.
+        /// </summary>
+        /// <param name="store">The store that owns the instance.</param>
+        /// <param name="name">The name of the exported function.</param>
+        /// <typeparam name="TA">First parameter type</typeparam>
+        /// <typeparam name="TB">Second parameter type</typeparam>
+        /// <typeparam name="TC">Third parameter type</typeparam>
+        /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
+        public Action<TA, TB, TC>? GetAction<TA, TB, TC>(IStore store, string name)
+        {
+            return GetFunction(store, name)
+                 ?.WrapAction<TA, TB, TC>(store);
+        }
+
+        /// <summary>
+        /// Gets an exported function from the instance.
+        /// </summary>
+        /// <param name="store">The store that owns the instance.</param>
+        /// <param name="name">The name of the exported function.</param>
+        /// <typeparam name="TA">First parameter type</typeparam>
+        /// <typeparam name="TB">Second parameter type</typeparam>
+        /// <typeparam name="TC">Third parameter type</typeparam>
+        /// <typeparam name="TD">Fourth parameter type</typeparam>
+        /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
+        public Action<TA, TB, TC, TD>? GetAction<TA, TB, TC, TD>(IStore store, string name)
+        {
+            return GetFunction(store, name)
+                 ?.WrapAction<TA, TB, TC, TD>(store);
+        }
+
+        /// <summary>
+        /// Gets an exported function from the instance.
+        /// </summary>
+        /// <param name="store">The store that owns the instance.</param>
+        /// <param name="name">The name of the exported function.</param>
+        /// <typeparam name="TA">First parameter type</typeparam>
+        /// <typeparam name="TB">Second parameter type</typeparam>
+        /// <typeparam name="TC">Third parameter type</typeparam>
+        /// <typeparam name="TD">Fourth parameter type</typeparam>
+        /// <typeparam name="TE">Fifth parameter type</typeparam>
+        /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
+        public Action<TA, TB, TC, TD, TE>? GetAction<TA, TB, TC, TD, TE>(IStore store, string name)
+        {
+            return GetFunction(store, name)
+                 ?.WrapAction<TA, TB, TC, TD, TE>(store);
         }
 
         /// <summary>
@@ -83,8 +145,8 @@ namespace Wasmtime
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
         public Func<TR>? GetFunction<TR>(IStore store, string name)
         {
-            var func = GetFunction(store, name, typeof(TR));
-            return func?.WrapFunc<TR>(store);
+            return GetFunction(store, name)
+                 ?.WrapFunc<TR>(store);
         }
 
         /// <summary>
@@ -97,8 +159,8 @@ namespace Wasmtime
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
         public Func<TA, TR>? GetFunction<TA, TR>(IStore store, string name)
         {
-            var func = GetFunction(store, name, typeof(TR), typeof(TA));
-            return func?.WrapFunc<TA, TR>(store);
+            return GetFunction(store, name)
+                 ?.WrapFunc<TA, TR>(store);
         }
 
         /// <summary>
@@ -112,8 +174,8 @@ namespace Wasmtime
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
         public Func<TA, TB, TR>? GetFunction<TA, TB, TR>(IStore store, string name)
         {
-            Function? func = GetFunction(store, name, typeof(TR), typeof(TA), typeof(TB));
-            return func?.WrapFunc<TA, TB, TR>(store);
+            return GetFunction(store, name)
+                 ?.WrapFunc<TA, TB, TR>(store);
         }
 
         /// <summary>
@@ -128,8 +190,8 @@ namespace Wasmtime
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
         public Func<TA, TB, TC, TR>? GetFunction<TA, TB, TC, TR>(IStore store, string name)
         {
-            Function? func = GetFunction(store, name, typeof(TR), typeof(TA), typeof(TB), typeof(TC));
-            return func?.WrapFunc<TA, TB, TC, TR>(store);
+            return GetFunction(store, name)
+                 ?.WrapFunc<TA, TB, TC, TR>(store);
         }
 
         /// <summary>
@@ -145,8 +207,8 @@ namespace Wasmtime
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
         public Func<TA, TB, TC, TD, TR>? GetFunction<TA, TB, TC, TD, TR>(IStore store, string name)
         {
-            Function? func = GetFunction(store, name, typeof(TR), typeof(TA), typeof(TB), typeof(TC), typeof(TD));
-            return func?.WrapFunc<TA, TB, TC, TD, TR>(store);
+            return GetFunction(store, name)
+                 ?.WrapFunc<TA, TB, TC, TD, TR>(store);
         }
 
         /// <summary>
@@ -163,8 +225,8 @@ namespace Wasmtime
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
         public Func<TA, TB, TC, TD, TE, TR>? GetFunction<TA, TB, TC, TD, TE, TR>(IStore store, string name)
         {
-            Function? func = GetFunction(store, name, typeof(TR), typeof(TA), typeof(TB), typeof(TC), typeof(TD), typeof(TE));
-            return func?.WrapFunc<TA, TB, TC, TD, TE, TR>(store);
+            return GetFunction(store, name)
+                 ?.WrapFunc<TA, TB, TC, TD, TE, TR>(store);
         }
 
         /// <summary>
@@ -182,8 +244,8 @@ namespace Wasmtime
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
         public Func<TA, TB, TC, TD, TE, TF, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TR>(IStore store, string name)
         {
-            Function? func = GetFunction(store, name, typeof(TR), typeof(TA), typeof(TB), typeof(TC), typeof(TD), typeof(TE), typeof(TF));
-            return func?.WrapFunc<TA, TB, TC, TD, TE, TF, TR>(store);
+            return GetFunction(store, name)
+                 ?.WrapFunc<TA, TB, TC, TD, TE, TF, TR>(store);
         }
 
         /// <summary>
@@ -202,8 +264,8 @@ namespace Wasmtime
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
         public Func<TA, TB, TC, TD, TE, TF, TG, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TR>(IStore store, string name)
         {
-            Function? func = GetFunction(store, name, typeof(TR), typeof(TA), typeof(TB), typeof(TC), typeof(TD), typeof(TE), typeof(TF), typeof(TG));
-            return func?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TR>(store);
+            return GetFunction(store, name)
+                 ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TR>(store);
         }
 
         /// <summary>
@@ -223,8 +285,8 @@ namespace Wasmtime
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TR>(IStore store, string name)
         {
-            Function? func = GetFunction(store, name, typeof(TR), typeof(TA), typeof(TB), typeof(TC), typeof(TD), typeof(TE), typeof(TF), typeof(TG), typeof(TH));
-            return func?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TR>(store);
+            return GetFunction(store, name)
+                 ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TR>(store);
         }
 
         /// <summary>
@@ -245,8 +307,8 @@ namespace Wasmtime
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>(IStore store, string name)
         {
-            Function? func = GetFunction(store, name, typeof(TR), typeof(TA), typeof(TB), typeof(TC), typeof(TD), typeof(TE), typeof(TF), typeof(TG), typeof(TH), typeof(TI));
-            return func?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>(store);
+            return GetFunction(store, name)
+                 ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>(store);
         }
 
         /// <summary>
@@ -268,8 +330,8 @@ namespace Wasmtime
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>(IStore store, string name)
         {
-            Function? func = GetFunction(store, name, typeof(TR), typeof(TA), typeof(TB), typeof(TC), typeof(TD), typeof(TE), typeof(TF), typeof(TG), typeof(TH), typeof(TI), typeof(TJ));
-            return func?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>(store);
+            return GetFunction(store, name)
+                 ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>(store);
         }
 
         /// <summary>
@@ -292,8 +354,8 @@ namespace Wasmtime
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>(IStore store, string name)
         {
-            Function? func = GetFunction(store, name, typeof(TR), typeof(TA), typeof(TB), typeof(TC), typeof(TD), typeof(TE), typeof(TF), typeof(TG), typeof(TH), typeof(TI), typeof(TJ), typeof(TK));
-            return func?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>(store);
+            return GetFunction(store, name)
+                 ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>(store);
         }
 
         /// <summary>
@@ -317,12 +379,8 @@ namespace Wasmtime
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>(IStore store, string name)
         {
-            Function? func = GetFunction(store, name, typeof(TR),
-                typeof(TA), typeof(TB), typeof(TC), typeof(TD),
-                typeof(TE), typeof(TF), typeof(TG), typeof(TH),
-                typeof(TI), typeof(TJ), typeof(TK), typeof(TL)
-            );
-            return func?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>(store);
+            return GetFunction(store, name)
+                 ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>(store);
         }
 
         /// <summary>
@@ -347,13 +405,8 @@ namespace Wasmtime
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>(IStore store, string name)
         {
-            Function? func = GetFunction(store, name, typeof(TR),
-                typeof(TA), typeof(TB), typeof(TC), typeof(TD),
-                typeof(TE), typeof(TF), typeof(TG), typeof(TH),
-                typeof(TI), typeof(TJ), typeof(TK), typeof(TL),
-                typeof(TM)
-            );
-            return func?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>(store);
+            return GetFunction(store, name)
+                 ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>(store);
         }
 
         /// <summary>
@@ -379,13 +432,8 @@ namespace Wasmtime
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>(IStore store, string name)
         {
-            Function? func = GetFunction(store, name, typeof(TR),
-                typeof(TA), typeof(TB), typeof(TC), typeof(TD),
-                typeof(TE), typeof(TF), typeof(TG), typeof(TH),
-                typeof(TI), typeof(TJ), typeof(TK), typeof(TL),
-                typeof(TM), typeof(TN)
-            );
-            return func?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>(store);
+            return GetFunction(store, name)
+                 ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>(store);
         }
 
         /// <summary>
@@ -412,13 +460,8 @@ namespace Wasmtime
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>(IStore store, string name)
         {
-            Function? func = GetFunction(store, name, typeof(TR),
-                typeof(TA), typeof(TB), typeof(TC), typeof(TD),
-                typeof(TE), typeof(TF), typeof(TG), typeof(TH),
-                typeof(TI), typeof(TJ), typeof(TK), typeof(TL),
-                typeof(TM), typeof(TN), typeof(TO)
-            );
-            return func?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>(store);
+            return GetFunction(store, name)
+                 ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>(store);
         }
 
         /// <summary>
@@ -446,18 +489,13 @@ namespace Wasmtime
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>(IStore store, string name)
         {
-            Function? func = GetFunction(store, name, typeof(TR),
-                typeof(TA), typeof(TB), typeof(TC), typeof(TD),
-                typeof(TE), typeof(TF), typeof(TG), typeof(TH),
-                typeof(TI), typeof(TJ), typeof(TK), typeof(TL),
-                typeof(TM), typeof(TN), typeof(TO), typeof(TP)
-            );
-            return func?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>(store);
+            return GetFunction(store, name)
+                 ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>(store);
         }
         #endregion
 
         /// <summary>
-        /// Gets an exported function from the instance.
+        /// Gets an exported function from the instance and check the type signature.
         /// </summary>
         /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported function.</param>
