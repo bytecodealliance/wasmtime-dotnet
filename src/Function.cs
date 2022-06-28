@@ -569,6 +569,13 @@ namespace Wasmtime
                     // Get the types from the tuple
                     var returnTypes = returnType.GetGenericArguments();
 
+                    // Tuples with more than seven items are not. This is because under the hood only tuples
+                    // up to 8 items are supported, longer tuples are faked by having a tuple with seven items
+                    // and then the last field is a tuple of the remaining items. To avoid having to deal with this,
+                    // simply don't support tuple that long.
+                    if (returnTypes.Length >= 8)
+                        return false;
+
                     // If the list lengths are different that's an instant fail
                     if (returnTypes.Length != Results.Count)
                         return false;

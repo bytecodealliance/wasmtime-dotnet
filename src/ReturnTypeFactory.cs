@@ -37,11 +37,7 @@ namespace Wasmtime
                 5 => typeof(TupleFactory5<,,,,,>),
                 6 => typeof(TupleFactory6<,,,,,,>),
                 7 => typeof(TupleFactory7<,,,,,,,>),
-                8 => typeof(TupleFactory8<,,,,,,,,>),
-
-                // In theory this isn't possible, since C# itself only supports tuples up to 8 items long.
-                // It's possible that could change in the future, in which case this should be extended with more tuple factories.
-                _ => throw new InvalidOperationException("Too many return types"),
+                _ => throw new InvalidOperationException("Too many return types in tuple"),
             };
         }
 
@@ -269,45 +265,6 @@ namespace Wasmtime
                 converterE.Unbox(context, values[4].ToValueBox()),
                 converterF.Unbox(context, values[5].ToValueBox()),
                 converterG.Unbox(context, values[6].ToValueBox())
-            );
-        }
-    }
-
-    internal class TupleFactory8<TReturn, TA, TB, TC, TD, TE, TF, TG, TH>
-        : BaseTupleFactory<TReturn, Func<TA, TB, TC, TD, TE, TF, TG, TH, TReturn>>
-    {
-        private readonly IValueBoxConverter<TA> converterA;
-        private readonly IValueBoxConverter<TB> converterB;
-        private readonly IValueBoxConverter<TC> converterC;
-        private readonly IValueBoxConverter<TD> converterD;
-        private readonly IValueBoxConverter<TE> converterE;
-        private readonly IValueBoxConverter<TF> converterF;
-        private readonly IValueBoxConverter<TG> converterG;
-        private readonly IValueBoxConverter<TH> converterH;
-
-        public TupleFactory8()
-        {
-            converterA = ValueBox.Converter<TA>();
-            converterB = ValueBox.Converter<TB>();
-            converterC = ValueBox.Converter<TC>();
-            converterD = ValueBox.Converter<TD>();
-            converterE = ValueBox.Converter<TE>();
-            converterF = ValueBox.Converter<TF>();
-            converterG = ValueBox.Converter<TG>();
-            converterH = ValueBox.Converter<TH>();
-        }
-
-        public override TReturn Create(StoreContext context, Span<Value> values)
-        {
-            return Factory(
-                converterA.Unbox(context, values[0].ToValueBox()),
-                converterB.Unbox(context, values[1].ToValueBox()),
-                converterC.Unbox(context, values[2].ToValueBox()),
-                converterD.Unbox(context, values[3].ToValueBox()),
-                converterE.Unbox(context, values[4].ToValueBox()),
-                converterF.Unbox(context, values[5].ToValueBox()),
-                converterG.Unbox(context, values[6].ToValueBox()),
-                converterH.Unbox(context, values[7].ToValueBox())
             );
         }
     }
