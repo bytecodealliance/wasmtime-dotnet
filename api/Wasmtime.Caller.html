@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class Caller
    ">
-    <meta name="generator" content="docfx 2.58.0.0">
+    <meta name="generator" content="docfx 2.59.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -90,16 +90,122 @@
   <h6><strong>Assembly</strong>: Wasmtime.Dotnet.dll</h6>
   <h5 id="Wasmtime_Caller_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class Caller : object, IStore, IDisposable</code></pre>
+    <pre><code class="lang-csharp hljs">public class Caller : object, IStore</code></pre>
   </div>
   <h3 id="methods">Methods
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Caller_AddFuel_System_UInt64_.md&amp;value=---%0Auid%3A%20Wasmtime.Caller.AddFuel(System.UInt64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Caller.cs/#L105">View Source</a>
+  </span>
+  <a id="Wasmtime_Caller_AddFuel_" data-uid="Wasmtime.Caller.AddFuel*"></a>
+  <h4 id="Wasmtime_Caller_AddFuel_System_UInt64_" data-uid="Wasmtime.Caller.AddFuel(System.UInt64)">AddFuel(UInt64)</h4>
+  <div class="markdown level1 summary"><p>Adds fuel to this store for WebAssembly code to consume while executing.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddFuel(ulong fuel)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.UInt64</span></td>
+        <td><span class="parametername">fuel</span></td>
+        <td><p>The fuel to add to the store.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Caller_ConsumeFuel_System_UInt64_.md&amp;value=---%0Auid%3A%20Wasmtime.Caller.ConsumeFuel(System.UInt64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Caller.cs/#L122">View Source</a>
+  </span>
+  <a id="Wasmtime_Caller_ConsumeFuel_" data-uid="Wasmtime.Caller.ConsumeFuel*"></a>
+  <h4 id="Wasmtime_Caller_ConsumeFuel_System_UInt64_" data-uid="Wasmtime.Caller.ConsumeFuel(System.UInt64)">ConsumeFuel(UInt64)</h4>
+  <div class="markdown level1 summary"><p>Synthetically consumes fuel from this store.</p>
+<p>For this method to work fuel consumption must be enabled via <a class="xref" href="Wasmtime.Config.html#Wasmtime_Config_WithFuelConsumption_System_Boolean_">WithFuelConsumption(Boolean)</a>.</p>
+<p>WebAssembly execution will automatically consume fuel but if so desired the embedder can also consume fuel manually
+to account for relative costs of host functions, for example.</p>
+<p>This method will attempt to consume <code data-dev-comment-type="paramref" class="paramref">fuel</code> units of fuel from within this store. If the remaining
+amount of fuel allows this then the amount of remaining fuel is returned. Otherwise, a <a class="xref" href="Wasmtime.WasmtimeException.html">WasmtimeException</a>
+is thrown and no fuel is consumed.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ulong ConsumeFuel(ulong fuel)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.UInt64</span></td>
+        <td><span class="parametername">fuel</span></td>
+        <td><p>The fuel to consume from the store.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.UInt64</span></td>
+        <td><p>Returns the remaining amount of fuel.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.WasmtimeException.html">WasmtimeException</a></td>
+        <td><p>Thrown if more fuel is consumed than the store currently has.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Caller_Dispose.md&amp;value=---%0Auid%3A%20Wasmtime.Caller.Dispose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Caller.cs/#L52">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Caller.cs/#L81">View Source</a>
   </span>
   <a id="Wasmtime_Caller_Dispose_" data-uid="Wasmtime.Caller.Dispose*"></a>
   <h4 id="Wasmtime_Caller_Dispose" data-uid="Wasmtime.Caller.Dispose">Dispose()</h4>
@@ -109,6 +215,88 @@
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
   </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Caller_GetConsumedFuel.md&amp;value=---%0Auid%3A%20Wasmtime.Caller.GetConsumedFuel%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Caller.cs/#L128">View Source</a>
+  </span>
+  <a id="Wasmtime_Caller_GetConsumedFuel_" data-uid="Wasmtime.Caller.GetConsumedFuel*"></a>
+  <h4 id="Wasmtime_Caller_GetConsumedFuel" data-uid="Wasmtime.Caller.GetConsumedFuel">GetConsumedFuel()</h4>
+  <div class="markdown level1 summary"><p>Gets the fuel consumed by the executing WebAssembly code.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ulong GetConsumedFuel()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.UInt64</span></td>
+        <td><p>Returns the fuel consumed by the executing WebAssembly code or 0 if fuel consumption was not enabled.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Caller_GetFunction_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Caller.GetFunction(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Caller.cs/#L56">View Source</a>
+  </span>
+  <a id="Wasmtime_Caller_GetFunction_" data-uid="Wasmtime.Caller.GetFunction*"></a>
+  <h4 id="Wasmtime_Caller_GetFunction_System_String_" data-uid="Wasmtime.Caller.GetFunction(System.String)">GetFunction(String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported function of the caller by the given name.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function GetFunction(string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns the exported function if found or null if a function of the requested name is not exported.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Caller_GetMemory_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Caller.GetMemory(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -166,7 +354,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Caller_Wasmtime_IStore_Context.md&amp;value=---%0Auid%3A%20Wasmtime.Caller.Wasmtime%23IStore%23Context%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Caller.cs/#L70">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Caller.cs/#L99">View Source</a>
   </span>
   <a id="Wasmtime_Caller_Wasmtime_IStore_Context_" data-uid="Wasmtime.Caller.Wasmtime#IStore#Context*"></a>
   <h4 id="Wasmtime_Caller_Wasmtime_IStore_Context" data-uid="Wasmtime.Caller.Wasmtime#IStore#Context">IStore.Context</h4>

@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Enum ProfilingStrategy
+    <title>Enum TrapCode
    </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Enum ProfilingStrategy
+    <meta name="title" content="Enum TrapCode
    ">
     <meta name="generator" content="docfx 2.59.2.0">
     
@@ -68,19 +68,19 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="Wasmtime.ProfilingStrategy">
+            <article class="content wrap" id="_content" data-uid="Wasmtime.TrapCode">
   
   
-  <h1 id="Wasmtime_ProfilingStrategy" data-uid="Wasmtime.ProfilingStrategy" class="text-break">Enum ProfilingStrategy
+  <h1 id="Wasmtime_TrapCode" data-uid="Wasmtime.TrapCode" class="text-break">Enum TrapCode
   </h1>
-  <div class="markdown level0 summary"><p>Represents the Wasmtime code profiling strategy.</p>
+  <div class="markdown level0 summary"><p>Represents the code associated with a trap.</p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Wasmtime.html">Wasmtime</a></h6>
   <h6><strong>Assembly</strong>: Wasmtime.Dotnet.dll</h6>
-  <h5 id="Wasmtime_ProfilingStrategy_syntax">Syntax</h5>
+  <h5 id="Wasmtime_TrapCode_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public enum ProfilingStrategy : byte</code></pre>
+    <pre><code class="lang-csharp hljs">public enum TrapCode : int</code></pre>
   </div>
   <h3 id="fields">Fields
   </h3>
@@ -93,18 +93,63 @@
     <thead>
     <tbody>
       <tr>
-        <td id="Wasmtime_ProfilingStrategy_JitDump">JitDump</td>
-        <td><p>Linux &quot;jitdump&quot; profiling.</p>
+        <td id="Wasmtime_TrapCode_BadConversionToInteger">BadConversionToInteger</td>
+        <td><p>The trap was the result of a failed float-to-int conversion.</p>
 </td>
       </tr>
       <tr>
-        <td id="Wasmtime_ProfilingStrategy_None">None</td>
-        <td><p>Disable code profiling.</p>
+        <td id="Wasmtime_TrapCode_BadSignature">BadSignature</td>
+        <td><p>The trap was the result of a signature mismatch on indirect call.</p>
 </td>
       </tr>
       <tr>
-        <td id="Wasmtime_ProfilingStrategy_VTune">VTune</td>
-        <td><p>VTune code profiling.</p>
+        <td id="Wasmtime_TrapCode_HeapMisaligned">HeapMisaligned</td>
+        <td><p>The trap was the result of a wasm atomic operation that was presented with a misaligned linear-memory address.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Wasmtime_TrapCode_IndirectCallToNull">IndirectCallToNull</td>
+        <td><p>The trap was the result of an indirect call to a null table entry.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Wasmtime_TrapCode_IntegerDivisionByZero">IntegerDivisionByZero</td>
+        <td><p>The trap was the result of an integer division by zero.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Wasmtime_TrapCode_IntegerOverflow">IntegerOverflow</td>
+        <td><p>The trap was the result of an integer arithmetic operation that overflowed.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Wasmtime_TrapCode_Interrupt">Interrupt</td>
+        <td><p>The trap was the result of interrupting execution.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Wasmtime_TrapCode_MemoryOutOfBounds">MemoryOutOfBounds</td>
+        <td><p>The trap was the result of an out-of-bounds memory access.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Wasmtime_TrapCode_StackOverflow">StackOverflow</td>
+        <td><p>The trap was the result of exhausting the available stack space.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Wasmtime_TrapCode_TableOutOfBounds">TableOutOfBounds</td>
+        <td><p>The trap was the result of an out-of-bounds access to a table.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Wasmtime_TrapCode_Undefined">Undefined</td>
+        <td><p>The trap has no associated trap code.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Wasmtime_TrapCode_Unreachable">Unreachable</td>
+        <td><p>The trap was the result of executing the <code>unreachable</code> instruction.</p>
 </td>
       </tr>
     </tbody>
@@ -117,10 +162,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_ProfilingStrategy.md&amp;value=---%0Auid%3A%20Wasmtime.ProfilingStrategy%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_TrapCode.md&amp;value=---%0Auid%3A%20Wasmtime.TrapCode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Config.cs/#L48" class="contribution-link">View Source</a>
+                    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/TrapException.cs/#L12" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

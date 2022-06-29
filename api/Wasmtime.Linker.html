@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class Linker
    ">
-    <meta name="generator" content="docfx 2.58.0.0">
+    <meta name="generator" content="docfx 2.59.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -3501,7 +3501,7 @@ configuration.</p>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_Dispose.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.Dispose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L780">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L734">View Source</a>
   </span>
   <a id="Wasmtime_Linker_Dispose_" data-uid="Wasmtime.Linker.Dispose*"></a>
   <h4 id="Wasmtime_Linker_Dispose" data-uid="Wasmtime.Linker.Dispose">Dispose()</h4>
@@ -3692,68 +3692,6 @@ configuration.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_GetInstance_Wasmtime_IStore_System_String_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.GetInstance(Wasmtime.IStore%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L740">View Source</a>
-  </span>
-  <a id="Wasmtime_Linker_GetInstance_" data-uid="Wasmtime.Linker.GetInstance*"></a>
-  <h4 id="Wasmtime_Linker_GetInstance_Wasmtime_IStore_System_String_System_String_" data-uid="Wasmtime.Linker.GetInstance(Wasmtime.IStore,System.String,System.String)">GetInstance(IStore, String, String)</h4>
-  <div class="markdown level1 summary"><p>Gets an exported instance from the linker.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Instance GetInstance(IStore store, string module, string name)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
-        <td><span class="parametername">store</span></td>
-        <td><p>The store of the instance.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.String</span></td>
-        <td><span class="parametername">module</span></td>
-        <td><p>The module name of the exported instance.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.String</span></td>
-        <td><span class="parametername">name</span></td>
-        <td><p>The name of the exported instance.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Wasmtime.Instance.html">Instance</a></td>
-        <td><p>Returns the instance if a instance of that name was exported or null if not.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_GetMemory_Wasmtime_IStore_System_String_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.GetMemory(Wasmtime.IStore%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
@@ -3810,68 +3748,6 @@ configuration.</p>
       <tr>
         <td><a class="xref" href="Wasmtime.Memory.html">Memory</a></td>
         <td><p>Returns the memory if a memory of that name was exported or null if not.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Linker_GetModule_Wasmtime_IStore_System_String_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Linker.GetModule(Wasmtime.IStore%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Linker.cs/#L763">View Source</a>
-  </span>
-  <a id="Wasmtime_Linker_GetModule_" data-uid="Wasmtime.Linker.GetModule*"></a>
-  <h4 id="Wasmtime_Linker_GetModule_Wasmtime_IStore_System_String_System_String_" data-uid="Wasmtime.Linker.GetModule(Wasmtime.IStore,System.String,System.String)">GetModule(IStore, String, String)</h4>
-  <div class="markdown level1 summary"><p>Gets an exported module from the linker.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Module GetModule(IStore store, string module, string name)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
-        <td><span class="parametername">store</span></td>
-        <td><p>The store of the module.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.String</span></td>
-        <td><span class="parametername">module</span></td>
-        <td><p>The module name of the exported module.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.String</span></td>
-        <td><span class="parametername">name</span></td>
-        <td><p>The name of the exported module.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Wasmtime.Module.html">Module</a></td>
-        <td><p>Returns the module if a module of that name was exported or null if not.</p>
 </td>
       </tr>
     </tbody>

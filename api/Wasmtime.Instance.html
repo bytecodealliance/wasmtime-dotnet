@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class Instance
    ">
-    <meta name="generator" content="docfx 2.58.0.0">
+    <meta name="generator" content="docfx 2.59.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -85,7 +85,7 @@
   <h6><strong>Assembly</strong>: Wasmtime.Dotnet.dll</h6>
   <h5 id="Wasmtime_Instance_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class Instance : object, IExternal</code></pre>
+    <pre><code class="lang-csharp hljs">public class Instance : object</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
@@ -139,10 +139,476 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetAction_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetAction(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L70">View Source</a>
+  </span>
+  <a id="Wasmtime_Instance_GetAction_" data-uid="Wasmtime.Instance.GetAction*"></a>
+  <h4 id="Wasmtime_Instance_GetAction_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetAction(Wasmtime.IStore,System.String)">GetAction(IStore, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported function from the instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Action? GetAction(IStore store, string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store that owns the instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Action</span>&gt;</td>
+        <td><p>Returns the function if a function of that name and type was exported or null if not.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetAction__1_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetAction%60%601(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L83">View Source</a>
+  </span>
+  <a id="Wasmtime_Instance_GetAction_" data-uid="Wasmtime.Instance.GetAction*"></a>
+  <h4 id="Wasmtime_Instance_GetAction__1_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetAction``1(Wasmtime.IStore,System.String)">GetAction&lt;TA&gt;(IStore, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported function from the instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Action&lt;TA&gt;? GetAction&lt;TA&gt;(IStore store, string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store that owns the instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Action</span>&lt;TA&gt;&gt;</td>
+        <td><p>Returns the function if a function of that name and type was exported or null if not.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TA</span></td>
+        <td><p>Parameter type</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetAction__2_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetAction%60%602(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L97">View Source</a>
+  </span>
+  <a id="Wasmtime_Instance_GetAction_" data-uid="Wasmtime.Instance.GetAction*"></a>
+  <h4 id="Wasmtime_Instance_GetAction__2_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetAction``2(Wasmtime.IStore,System.String)">GetAction&lt;TA, TB&gt;(IStore, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported function from the instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Action&lt;TA, TB&gt;? GetAction&lt;TA, TB&gt;(IStore store, string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store that owns the instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Action</span>&lt;TA, TB&gt;&gt;</td>
+        <td><p>Returns the function if a function of that name and type was exported or null if not.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TA</span></td>
+        <td><p>First parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TB</span></td>
+        <td><p>Second parameter type</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetAction__3_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetAction%60%603(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L112">View Source</a>
+  </span>
+  <a id="Wasmtime_Instance_GetAction_" data-uid="Wasmtime.Instance.GetAction*"></a>
+  <h4 id="Wasmtime_Instance_GetAction__3_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetAction``3(Wasmtime.IStore,System.String)">GetAction&lt;TA, TB, TC&gt;(IStore, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported function from the instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Action&lt;TA, TB, TC&gt;? GetAction&lt;TA, TB, TC&gt;(IStore store, string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store that owns the instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Action</span>&lt;TA, TB, TC&gt;&gt;</td>
+        <td><p>Returns the function if a function of that name and type was exported or null if not.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TA</span></td>
+        <td><p>First parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TB</span></td>
+        <td><p>Second parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TC</span></td>
+        <td><p>Third parameter type</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetAction__4_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetAction%60%604(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L128">View Source</a>
+  </span>
+  <a id="Wasmtime_Instance_GetAction_" data-uid="Wasmtime.Instance.GetAction*"></a>
+  <h4 id="Wasmtime_Instance_GetAction__4_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetAction``4(Wasmtime.IStore,System.String)">GetAction&lt;TA, TB, TC, TD&gt;(IStore, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported function from the instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Action&lt;TA, TB, TC, TD&gt;? GetAction&lt;TA, TB, TC, TD&gt;(IStore store, string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store that owns the instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Action</span>&lt;TA, TB, TC, TD&gt;&gt;</td>
+        <td><p>Returns the function if a function of that name and type was exported or null if not.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TA</span></td>
+        <td><p>First parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TB</span></td>
+        <td><p>Second parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TC</span></td>
+        <td><p>Third parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TD</span></td>
+        <td><p>Fourth parameter type</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetAction__5_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetAction%60%605(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L145">View Source</a>
+  </span>
+  <a id="Wasmtime_Instance_GetAction_" data-uid="Wasmtime.Instance.GetAction*"></a>
+  <h4 id="Wasmtime_Instance_GetAction__5_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetAction``5(Wasmtime.IStore,System.String)">GetAction&lt;TA, TB, TC, TD, TE&gt;(IStore, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported function from the instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Action&lt;TA, TB, TC, TD, TE&gt;? GetAction&lt;TA, TB, TC, TD, TE&gt;(IStore store, string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store that owns the instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Action</span>&lt;TA, TB, TC, TD, TE&gt;&gt;</td>
+        <td><p>Returns the function if a function of that name and type was exported or null if not.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TA</span></td>
+        <td><p>First parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TB</span></td>
+        <td><p>Second parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TC</span></td>
+        <td><p>Third parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TD</span></td>
+        <td><p>Fourth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TE</span></td>
+        <td><p>Fifth parameter type</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetFunction_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetFunction(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L69">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L539">View Source</a>
   </span>
   <a id="Wasmtime_Instance_GetFunction_" data-uid="Wasmtime.Instance.GetFunction*"></a>
   <h4 id="Wasmtime_Instance_GetFunction_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetFunction(Wasmtime.IStore,System.String)">GetFunction(IStore, String)</h4>
@@ -195,10 +661,1982 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetFunction_Wasmtime_IStore_System_String_System_Nullable_Type__Type___.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetFunction(Wasmtime.IStore%2CSystem.String%2CSystem.Nullable%7BType%7D%2CType%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L517">View Source</a>
+  </span>
+  <a id="Wasmtime_Instance_GetFunction_" data-uid="Wasmtime.Instance.GetFunction*"></a>
+  <h4 id="Wasmtime_Instance_GetFunction_Wasmtime_IStore_System_String_System_Nullable_Type__Type___" data-uid="Wasmtime.Instance.GetFunction(Wasmtime.IStore,System.String,System.Nullable{Type},Type[])">GetFunction(IStore, String, Nullable&lt;Type&gt;, Type[])</h4>
+  <div class="markdown level1 summary"><p>Gets an exported function from the instance and check the type signature.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Function GetFunction(IStore store, string name, Type? returnType, params Type[] parameterTypes)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store that owns the instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported function.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Type</span>&gt;</td>
+        <td><span class="parametername">returnType</span></td>
+        <td><p>The return type of the function. Null if no return type. Tuple of types is multiple returns expected.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Type</span>[]</td>
+        <td><span class="parametername">parameterTypes</span></td>
+        <td><p>The expected parameters to the function</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Function.html">Function</a></td>
+        <td><p>Returns the function if a function of that name and type signature was exported or null if not.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetFunction__1_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetFunction%60%601(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L158">View Source</a>
+  </span>
+  <a id="Wasmtime_Instance_GetFunction_" data-uid="Wasmtime.Instance.GetFunction*"></a>
+  <h4 id="Wasmtime_Instance_GetFunction__1_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetFunction``1(Wasmtime.IStore,System.String)">GetFunction&lt;TR&gt;(IStore, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported function from the instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Func&lt;TR&gt;? GetFunction&lt;TR&gt;(IStore store, string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store that owns the instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Func</span>&lt;TR&gt;&gt;</td>
+        <td><p>Returns the function if a function of that name and type was exported or null if not.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TR</span></td>
+        <td><p>Return type. Use a tuple for multiple return values</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetFunction__10_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetFunction%60%6010(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L320">View Source</a>
+  </span>
+  <a id="Wasmtime_Instance_GetFunction_" data-uid="Wasmtime.Instance.GetFunction*"></a>
+  <h4 id="Wasmtime_Instance_GetFunction__10_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetFunction``10(Wasmtime.IStore,System.String)">GetFunction&lt;TA, TB, TC, TD, TE, TF, TG, TH, TI, TR&gt;(IStore, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported function from the instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Func&lt;TA, TB, TC, TD, TE, TF, TG, TH, TI, TR&gt;? GetFunction&lt;TA, TB, TC, TD, TE, TF, TG, TH, TI, TR&gt;(IStore store, string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store that owns the instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Func</span>&lt;TA, TB, TC, TD, TE, TF, TG, TH, TI, TR&gt;&gt;</td>
+        <td><p>Returns the function if a function of that name and type was exported or null if not.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TA</span></td>
+        <td><p>First parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TB</span></td>
+        <td><p>Second parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TC</span></td>
+        <td><p>Third parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TD</span></td>
+        <td><p>Fourth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TE</span></td>
+        <td><p>Fifth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TF</span></td>
+        <td><p>Sixth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TG</span></td>
+        <td><p>Seventh parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TH</span></td>
+        <td><p>Eighth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TI</span></td>
+        <td><p>Ninth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TR</span></td>
+        <td><p>Return type. Use a tuple for multiple return values</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetFunction__11_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetFunction%60%6011(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L343">View Source</a>
+  </span>
+  <a id="Wasmtime_Instance_GetFunction_" data-uid="Wasmtime.Instance.GetFunction*"></a>
+  <h4 id="Wasmtime_Instance_GetFunction__11_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetFunction``11(Wasmtime.IStore,System.String)">GetFunction&lt;TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR&gt;(IStore, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported function from the instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Func&lt;TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR&gt;? GetFunction&lt;TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR&gt;(IStore store, string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store that owns the instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Func</span>&lt;TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR&gt;&gt;</td>
+        <td><p>Returns the function if a function of that name and type was exported or null if not.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TA</span></td>
+        <td><p>First parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TB</span></td>
+        <td><p>Second parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TC</span></td>
+        <td><p>Third parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TD</span></td>
+        <td><p>Fourth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TE</span></td>
+        <td><p>Fifth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TF</span></td>
+        <td><p>Sixth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TG</span></td>
+        <td><p>Seventh parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TH</span></td>
+        <td><p>Eighth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TI</span></td>
+        <td><p>Ninth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TJ</span></td>
+        <td><p>Tenth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TR</span></td>
+        <td><p>Return type. Use a tuple for multiple return values</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetFunction__12_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetFunction%60%6012(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L367">View Source</a>
+  </span>
+  <a id="Wasmtime_Instance_GetFunction_" data-uid="Wasmtime.Instance.GetFunction*"></a>
+  <h4 id="Wasmtime_Instance_GetFunction__12_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetFunction``12(Wasmtime.IStore,System.String)">GetFunction&lt;TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR&gt;(IStore, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported function from the instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Func&lt;TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR&gt;? GetFunction&lt;TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR&gt;(IStore store, string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store that owns the instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Func</span>&lt;TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR&gt;&gt;</td>
+        <td><p>Returns the function if a function of that name and type was exported or null if not.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TA</span></td>
+        <td><p>First parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TB</span></td>
+        <td><p>Second parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TC</span></td>
+        <td><p>Third parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TD</span></td>
+        <td><p>Fourth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TE</span></td>
+        <td><p>Fifth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TF</span></td>
+        <td><p>Sixth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TG</span></td>
+        <td><p>Seventh parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TH</span></td>
+        <td><p>Eighth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TI</span></td>
+        <td><p>Ninth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TJ</span></td>
+        <td><p>Tenth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TK</span></td>
+        <td><p>Eleventh parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TR</span></td>
+        <td><p>Return type. Use a tuple for multiple return values</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetFunction__13_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetFunction%60%6013(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L392">View Source</a>
+  </span>
+  <a id="Wasmtime_Instance_GetFunction_" data-uid="Wasmtime.Instance.GetFunction*"></a>
+  <h4 id="Wasmtime_Instance_GetFunction__13_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetFunction``13(Wasmtime.IStore,System.String)">GetFunction&lt;TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR&gt;(IStore, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported function from the instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Func&lt;TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR&gt;? GetFunction&lt;TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR&gt;(IStore store, string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store that owns the instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Func</span>&lt;TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR&gt;&gt;</td>
+        <td><p>Returns the function if a function of that name and type was exported or null if not.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TA</span></td>
+        <td><p>First parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TB</span></td>
+        <td><p>Second parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TC</span></td>
+        <td><p>Third parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TD</span></td>
+        <td><p>Fourth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TE</span></td>
+        <td><p>Fifth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TF</span></td>
+        <td><p>Sixth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TG</span></td>
+        <td><p>Seventh parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TH</span></td>
+        <td><p>Eighth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TI</span></td>
+        <td><p>Ninth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TJ</span></td>
+        <td><p>Tenth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TK</span></td>
+        <td><p>Eleventh parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TL</span></td>
+        <td><p>Twelfth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TR</span></td>
+        <td><p>Return type. Use a tuple for multiple return values</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetFunction__14_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetFunction%60%6014(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L418">View Source</a>
+  </span>
+  <a id="Wasmtime_Instance_GetFunction_" data-uid="Wasmtime.Instance.GetFunction*"></a>
+  <h4 id="Wasmtime_Instance_GetFunction__14_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetFunction``14(Wasmtime.IStore,System.String)">GetFunction&lt;TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR&gt;(IStore, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported function from the instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Func&lt;TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR&gt;? GetFunction&lt;TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR&gt;(IStore store, string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store that owns the instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Func</span>&lt;TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR&gt;&gt;</td>
+        <td><p>Returns the function if a function of that name and type was exported or null if not.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TA</span></td>
+        <td><p>First parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TB</span></td>
+        <td><p>Second parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TC</span></td>
+        <td><p>Third parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TD</span></td>
+        <td><p>Fourth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TE</span></td>
+        <td><p>Fifth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TF</span></td>
+        <td><p>Sixth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TG</span></td>
+        <td><p>Seventh parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TH</span></td>
+        <td><p>Eighth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TI</span></td>
+        <td><p>Ninth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TJ</span></td>
+        <td><p>Tenth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TK</span></td>
+        <td><p>Eleventh parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TL</span></td>
+        <td><p>Twelfth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TM</span></td>
+        <td><p>Thirteenth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TR</span></td>
+        <td><p>Return type. Use a tuple for multiple return values</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetFunction__15_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetFunction%60%6015(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L445">View Source</a>
+  </span>
+  <a id="Wasmtime_Instance_GetFunction_" data-uid="Wasmtime.Instance.GetFunction*"></a>
+  <h4 id="Wasmtime_Instance_GetFunction__15_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetFunction``15(Wasmtime.IStore,System.String)">GetFunction&lt;TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR&gt;(IStore, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported function from the instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Func&lt;TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR&gt;? GetFunction&lt;TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR&gt;(IStore store, string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store that owns the instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Func</span>&lt;TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR&gt;&gt;</td>
+        <td><p>Returns the function if a function of that name and type was exported or null if not.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TA</span></td>
+        <td><p>First parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TB</span></td>
+        <td><p>Second parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TC</span></td>
+        <td><p>Third parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TD</span></td>
+        <td><p>Fourth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TE</span></td>
+        <td><p>Fifth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TF</span></td>
+        <td><p>Sixth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TG</span></td>
+        <td><p>Seventh parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TH</span></td>
+        <td><p>Eighth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TI</span></td>
+        <td><p>Ninth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TJ</span></td>
+        <td><p>Tenth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TK</span></td>
+        <td><p>Eleventh parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TL</span></td>
+        <td><p>Twelfth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TM</span></td>
+        <td><p>Thirteenth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TN</span></td>
+        <td><p>Fourteenth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TR</span></td>
+        <td><p>Return type. Use a tuple for multiple return values</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetFunction__16_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetFunction%60%6016(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L473">View Source</a>
+  </span>
+  <a id="Wasmtime_Instance_GetFunction_" data-uid="Wasmtime.Instance.GetFunction*"></a>
+  <h4 id="Wasmtime_Instance_GetFunction__16_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetFunction``16(Wasmtime.IStore,System.String)">GetFunction&lt;TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR&gt;(IStore, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported function from the instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Func&lt;TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR&gt;? GetFunction&lt;TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR&gt;(IStore store, string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store that owns the instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Func</span>&lt;TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR&gt;&gt;</td>
+        <td><p>Returns the function if a function of that name and type was exported or null if not.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TA</span></td>
+        <td><p>First parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TB</span></td>
+        <td><p>Second parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TC</span></td>
+        <td><p>Third parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TD</span></td>
+        <td><p>Fourth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TE</span></td>
+        <td><p>Fifth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TF</span></td>
+        <td><p>Sixth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TG</span></td>
+        <td><p>Seventh parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TH</span></td>
+        <td><p>Eighth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TI</span></td>
+        <td><p>Ninth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TJ</span></td>
+        <td><p>Tenth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TK</span></td>
+        <td><p>Eleventh parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TL</span></td>
+        <td><p>Twelfth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TM</span></td>
+        <td><p>Thirteenth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TN</span></td>
+        <td><p>Fourteenth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TO</span></td>
+        <td><p>Fifteenth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TR</span></td>
+        <td><p>Return type. Use a tuple for multiple return values</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetFunction__17_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetFunction%60%6017(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L502">View Source</a>
+  </span>
+  <a id="Wasmtime_Instance_GetFunction_" data-uid="Wasmtime.Instance.GetFunction*"></a>
+  <h4 id="Wasmtime_Instance_GetFunction__17_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetFunction``17(Wasmtime.IStore,System.String)">GetFunction&lt;TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR&gt;(IStore, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported function from the instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Func&lt;TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR&gt;? GetFunction&lt;TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR&gt;(IStore store, string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store that owns the instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Func</span>&lt;TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR&gt;&gt;</td>
+        <td><p>Returns the function if a function of that name and type was exported or null if not.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TA</span></td>
+        <td><p>First parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TB</span></td>
+        <td><p>Second parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TC</span></td>
+        <td><p>Third parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TD</span></td>
+        <td><p>Fourth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TE</span></td>
+        <td><p>Fifth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TF</span></td>
+        <td><p>Sixth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TG</span></td>
+        <td><p>Seventh parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TH</span></td>
+        <td><p>Eighth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TI</span></td>
+        <td><p>Ninth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TJ</span></td>
+        <td><p>Tenth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TK</span></td>
+        <td><p>Eleventh parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TL</span></td>
+        <td><p>Twelfth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TM</span></td>
+        <td><p>Thirteenth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TN</span></td>
+        <td><p>Fourteenth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TO</span></td>
+        <td><p>Fifteenth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TP</span></td>
+        <td><p>Sixteenth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TR</span></td>
+        <td><p>Return type. Use a tuple for multiple return values</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetFunction__2_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetFunction%60%602(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L172">View Source</a>
+  </span>
+  <a id="Wasmtime_Instance_GetFunction_" data-uid="Wasmtime.Instance.GetFunction*"></a>
+  <h4 id="Wasmtime_Instance_GetFunction__2_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetFunction``2(Wasmtime.IStore,System.String)">GetFunction&lt;TA, TR&gt;(IStore, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported function from the instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Func&lt;TA, TR&gt;? GetFunction&lt;TA, TR&gt;(IStore store, string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store that owns the instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Func</span>&lt;TA, TR&gt;&gt;</td>
+        <td><p>Returns the function if a function of that name and type was exported or null if not.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TA</span></td>
+        <td><p>First parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TR</span></td>
+        <td><p>Return type. Use a tuple for multiple return values</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetFunction__3_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetFunction%60%603(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L187">View Source</a>
+  </span>
+  <a id="Wasmtime_Instance_GetFunction_" data-uid="Wasmtime.Instance.GetFunction*"></a>
+  <h4 id="Wasmtime_Instance_GetFunction__3_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetFunction``3(Wasmtime.IStore,System.String)">GetFunction&lt;TA, TB, TR&gt;(IStore, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported function from the instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Func&lt;TA, TB, TR&gt;? GetFunction&lt;TA, TB, TR&gt;(IStore store, string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store that owns the instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Func</span>&lt;TA, TB, TR&gt;&gt;</td>
+        <td><p>Returns the function if a function of that name and type was exported or null if not.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TA</span></td>
+        <td><p>First parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TB</span></td>
+        <td><p>Second parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TR</span></td>
+        <td><p>Return type. Use a tuple for multiple return values</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetFunction__4_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetFunction%60%604(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L203">View Source</a>
+  </span>
+  <a id="Wasmtime_Instance_GetFunction_" data-uid="Wasmtime.Instance.GetFunction*"></a>
+  <h4 id="Wasmtime_Instance_GetFunction__4_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetFunction``4(Wasmtime.IStore,System.String)">GetFunction&lt;TA, TB, TC, TR&gt;(IStore, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported function from the instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Func&lt;TA, TB, TC, TR&gt;? GetFunction&lt;TA, TB, TC, TR&gt;(IStore store, string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store that owns the instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Func</span>&lt;TA, TB, TC, TR&gt;&gt;</td>
+        <td><p>Returns the function if a function of that name and type was exported or null if not.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TA</span></td>
+        <td><p>First parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TB</span></td>
+        <td><p>Second parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TC</span></td>
+        <td><p>Third parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TR</span></td>
+        <td><p>Return type. Use a tuple for multiple return values</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetFunction__5_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetFunction%60%605(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L220">View Source</a>
+  </span>
+  <a id="Wasmtime_Instance_GetFunction_" data-uid="Wasmtime.Instance.GetFunction*"></a>
+  <h4 id="Wasmtime_Instance_GetFunction__5_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetFunction``5(Wasmtime.IStore,System.String)">GetFunction&lt;TA, TB, TC, TD, TR&gt;(IStore, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported function from the instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Func&lt;TA, TB, TC, TD, TR&gt;? GetFunction&lt;TA, TB, TC, TD, TR&gt;(IStore store, string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store that owns the instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Func</span>&lt;TA, TB, TC, TD, TR&gt;&gt;</td>
+        <td><p>Returns the function if a function of that name and type was exported or null if not.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TA</span></td>
+        <td><p>First parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TB</span></td>
+        <td><p>Second parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TC</span></td>
+        <td><p>Third parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TD</span></td>
+        <td><p>Fourth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TR</span></td>
+        <td><p>Return type. Use a tuple for multiple return values</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetFunction__6_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetFunction%60%606(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L238">View Source</a>
+  </span>
+  <a id="Wasmtime_Instance_GetFunction_" data-uid="Wasmtime.Instance.GetFunction*"></a>
+  <h4 id="Wasmtime_Instance_GetFunction__6_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetFunction``6(Wasmtime.IStore,System.String)">GetFunction&lt;TA, TB, TC, TD, TE, TR&gt;(IStore, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported function from the instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Func&lt;TA, TB, TC, TD, TE, TR&gt;? GetFunction&lt;TA, TB, TC, TD, TE, TR&gt;(IStore store, string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store that owns the instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Func</span>&lt;TA, TB, TC, TD, TE, TR&gt;&gt;</td>
+        <td><p>Returns the function if a function of that name and type was exported or null if not.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TA</span></td>
+        <td><p>First parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TB</span></td>
+        <td><p>Second parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TC</span></td>
+        <td><p>Third parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TD</span></td>
+        <td><p>Fourth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TE</span></td>
+        <td><p>Fifth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TR</span></td>
+        <td><p>Return type. Use a tuple for multiple return values</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetFunction__7_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetFunction%60%607(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L257">View Source</a>
+  </span>
+  <a id="Wasmtime_Instance_GetFunction_" data-uid="Wasmtime.Instance.GetFunction*"></a>
+  <h4 id="Wasmtime_Instance_GetFunction__7_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetFunction``7(Wasmtime.IStore,System.String)">GetFunction&lt;TA, TB, TC, TD, TE, TF, TR&gt;(IStore, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported function from the instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Func&lt;TA, TB, TC, TD, TE, TF, TR&gt;? GetFunction&lt;TA, TB, TC, TD, TE, TF, TR&gt;(IStore store, string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store that owns the instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Func</span>&lt;TA, TB, TC, TD, TE, TF, TR&gt;&gt;</td>
+        <td><p>Returns the function if a function of that name and type was exported or null if not.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TA</span></td>
+        <td><p>First parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TB</span></td>
+        <td><p>Second parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TC</span></td>
+        <td><p>Third parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TD</span></td>
+        <td><p>Fourth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TE</span></td>
+        <td><p>Fifth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TF</span></td>
+        <td><p>Sixth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TR</span></td>
+        <td><p>Return type. Use a tuple for multiple return values</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetFunction__8_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetFunction%60%608(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L277">View Source</a>
+  </span>
+  <a id="Wasmtime_Instance_GetFunction_" data-uid="Wasmtime.Instance.GetFunction*"></a>
+  <h4 id="Wasmtime_Instance_GetFunction__8_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetFunction``8(Wasmtime.IStore,System.String)">GetFunction&lt;TA, TB, TC, TD, TE, TF, TG, TR&gt;(IStore, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported function from the instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Func&lt;TA, TB, TC, TD, TE, TF, TG, TR&gt;? GetFunction&lt;TA, TB, TC, TD, TE, TF, TG, TR&gt;(IStore store, string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store that owns the instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Func</span>&lt;TA, TB, TC, TD, TE, TF, TG, TR&gt;&gt;</td>
+        <td><p>Returns the function if a function of that name and type was exported or null if not.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TA</span></td>
+        <td><p>First parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TB</span></td>
+        <td><p>Second parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TC</span></td>
+        <td><p>Third parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TD</span></td>
+        <td><p>Fourth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TE</span></td>
+        <td><p>Fifth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TF</span></td>
+        <td><p>Sixth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TG</span></td>
+        <td><p>Seventh parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TR</span></td>
+        <td><p>Return type. Use a tuple for multiple return values</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetFunction__9_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetFunction%60%609(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L298">View Source</a>
+  </span>
+  <a id="Wasmtime_Instance_GetFunction_" data-uid="Wasmtime.Instance.GetFunction*"></a>
+  <h4 id="Wasmtime_Instance_GetFunction__9_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetFunction``9(Wasmtime.IStore,System.String)">GetFunction&lt;TA, TB, TC, TD, TE, TF, TG, TH, TR&gt;(IStore, String)</h4>
+  <div class="markdown level1 summary"><p>Gets an exported function from the instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Func&lt;TA, TB, TC, TD, TE, TF, TG, TH, TR&gt;? GetFunction&lt;TA, TB, TC, TD, TE, TF, TG, TH, TR&gt;(IStore store, string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><span class="parametername">store</span></td>
+        <td><p>The store that owns the instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the exported function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Func</span>&lt;TA, TB, TC, TD, TE, TF, TG, TH, TR&gt;&gt;</td>
+        <td><p>Returns the function if a function of that name and type was exported or null if not.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TA</span></td>
+        <td><p>First parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TB</span></td>
+        <td><p>Second parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TC</span></td>
+        <td><p>Third parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TD</span></td>
+        <td><p>Fourth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TE</span></td>
+        <td><p>Fifth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TF</span></td>
+        <td><p>Sixth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TG</span></td>
+        <td><p>Seventh parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TH</span></td>
+        <td><p>Eighth parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TR</span></td>
+        <td><p>Return type. Use a tuple for multiple return values</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetGlobal_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetGlobal(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L135">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L605">View Source</a>
   </span>
   <a id="Wasmtime_Instance_GetGlobal_" data-uid="Wasmtime.Instance.GetGlobal*"></a>
   <h4 id="Wasmtime_Instance_GetGlobal_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetGlobal(Wasmtime.IStore,System.String)">GetGlobal(IStore, String)</h4>
@@ -251,66 +2689,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetInstance_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetInstance(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L157">View Source</a>
-  </span>
-  <a id="Wasmtime_Instance_GetInstance_" data-uid="Wasmtime.Instance.GetInstance*"></a>
-  <h4 id="Wasmtime_Instance_GetInstance_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetInstance(Wasmtime.IStore,System.String)">GetInstance(IStore, String)</h4>
-  <div class="markdown level1 summary"><p>Gets an exported instance from the instance.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Instance GetInstance(IStore store, string name)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
-        <td><span class="parametername">store</span></td>
-        <td><p>The store that owns the instance.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.String</span></td>
-        <td><span class="parametername">name</span></td>
-        <td><p>The name of the exported instance.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Wasmtime.Instance.html">Instance</a></td>
-        <td><p>Returns the instance if a instance of that name was exported or null if not.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetMemory_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetMemory(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L113">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L583">View Source</a>
   </span>
   <a id="Wasmtime_Instance_GetMemory_" data-uid="Wasmtime.Instance.GetMemory*"></a>
   <h4 id="Wasmtime_Instance_GetMemory_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetMemory(Wasmtime.IStore,System.String)">GetMemory(IStore, String)</h4>
@@ -363,66 +2745,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetModule_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetModule(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L179">View Source</a>
-  </span>
-  <a id="Wasmtime_Instance_GetModule_" data-uid="Wasmtime.Instance.GetModule*"></a>
-  <h4 id="Wasmtime_Instance_GetModule_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetModule(Wasmtime.IStore,System.String)">GetModule(IStore, String)</h4>
-  <div class="markdown level1 summary"><p>Gets an exported module from the instance.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Module GetModule(IStore store, string name)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
-        <td><span class="parametername">store</span></td>
-        <td><p>The store that owns the instance.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.String</span></td>
-        <td><span class="parametername">name</span></td>
-        <td><p>The name of the exported module.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Wasmtime.Module.html">Module</a></td>
-        <td><p>Returns the module if a module of that name was exported or null if not.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Instance_GetTable_Wasmtime_IStore_System_String_.md&amp;value=---%0Auid%3A%20Wasmtime.Instance.GetTable(Wasmtime.IStore%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L91">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Instance.cs/#L561">View Source</a>
   </span>
   <a id="Wasmtime_Instance_GetTable_" data-uid="Wasmtime.Instance.GetTable*"></a>
   <h4 id="Wasmtime_Instance_GetTable_Wasmtime_IStore_System_String_" data-uid="Wasmtime.Instance.GetTable(Wasmtime.IStore,System.String)">GetTable(IStore, String)</h4>
