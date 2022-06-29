@@ -1,483 +1,15 @@
 {
   "homepages": [],
-  "source_base_path": "/Users/phuene/src/wasmtime-dotnet/docs",
+  "source_base_path": "/Users/phuene/src/bytecodealliance/wasmtime-dotnet/docs",
   "xrefmap": "xrefmap.yml",
   "files": [
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.Caller.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.Caller.html",
-          "hash": "wCE8o/mO28DJzoUQq50+NpWDyomUHxC6Kp0t7p3ZsQE="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.CompilerStrategy.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.CompilerStrategy.html",
-          "hash": "tIk9qRjrq1pmVRXNzqAg/aRnwoYzpSnYEi5Dx/66mu0="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.Config.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.Config.html",
-          "hash": "wWxxLulboJzTjOAGasZXlebytcgKir11KrdBiCBVupQ="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.Engine.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.Engine.html",
-          "hash": "iiaM1StPRICKlbLZWKGh7DcKqffbehf17MlY5fMWQgg="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.Export.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.Export.html",
-          "hash": "8GguckhINxZuP3k07MaUShcKMyyFipp3/C55vpRgKO8="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.Function.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.Function.html",
-          "hash": "ZElpxS9t1XQW+5x2s8h3wBMZDwPCu2Ra2Xn+ZJtA3ck="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.FunctionExport.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.FunctionExport.html",
-          "hash": "5ITNzpV1RSNkEofLNA3vZS112+4pZVF3vhe8l+hWVzQ="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.FunctionImport.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.FunctionImport.html",
-          "hash": "g5yibhQSeXBkuVtqEYGIUGyf5a/B/HrdU1vUelTwaf0="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.Global.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.Global.html",
-          "hash": "+j6A4t4ZnNIF+zcmp63Bl2fJh7e8Gsm3E4C1Vn4IxBk="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.GlobalExport.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.GlobalExport.html",
-          "hash": "4nne/+qj13B6S+5RhZ7HryJ2LWxxHWy2zbHZFuNYX1k="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.GlobalImport.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.GlobalImport.html",
-          "hash": "H6y0pr/p3zjJDd3LfQiUF/mBNkmLDkUlVFWSLivHLpo="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.IStore.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.IStore.html",
-          "hash": "myy5DO6N82csNG+0kZTsWq1B9lcZ7KkIqjZR1O5xQG4="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.Import.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.Import.html",
-          "hash": "Xsowiu46CD2UMnnuM/vtqCptVWuCFKmhknNwh46AJtU="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.Instance.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.Instance.html",
-          "hash": "/i31D8YMkAJIKIVkyyTkuDmUvMhkfpqoMtfC/pJcWwA="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.InstanceExport.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.InstanceExport.html",
-          "hash": "sOD8Mm6aW5vWNtgm/qRsR2X134IpmkWdjCpe6lP5skQ="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.InstanceImport.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.InstanceImport.html",
-          "hash": "yALMvZB5Sle3qXO/OJDPiqNOm5syOXq8rGzZ1kwtBJM="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.InterruptHandle.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.InterruptHandle.html",
-          "hash": "RTczQ3hz9nBQHCsFSHCXg7YvlNlndww+vEnZggT2Gvk="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.Linker.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.Linker.html",
-          "hash": "XDmRQySM2t5gmsZ1NdgMOqo+40Vi0YDgTZ2mC+gVxBA="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.Memory.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.Memory.html",
-          "hash": "qtkgal1x0ID4By8Rnb8PEEjUfz7+9I4J1iAZ7koucM8="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.MemoryExport.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.MemoryExport.html",
-          "hash": "jtIWTuqHF/I3ZrQ2asv2re2Xv8EhzunGe3dvtk6chOE="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.MemoryImport.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.MemoryImport.html",
-          "hash": "ImBvBHmLiQ7lbRjqvY9C/ErckWmPRDqTjQQOZ0p9fA8="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.Module.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.Module.html",
-          "hash": "FMSaE7w1o/1D5zFsDP+MFtYOqRLMY2rq7/oKzNdtUNA="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.ModuleExport.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.ModuleExport.html",
-          "hash": "K+pz7n9BMcyhxthS/jZWILXZrkU1xxKC/4nW0LM7wh4="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.ModuleImport.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.ModuleImport.html",
-          "hash": "t4npkP21mydrAr8/0yhKe9A4hW1if33gTY9oiho6H+w="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.Mutability.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.Mutability.html",
-          "hash": "Fn/mE9NKz3CEVXBWPUVNkJCyiPqPwnNKq4pP38OOcOg="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.OptimizationLevel.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.OptimizationLevel.html",
-          "hash": "pteSIfVgdmkfbNUA98p01OhwTajiRFtCwVj49aShBhU="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.ProfilingStrategy.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.ProfilingStrategy.html",
-          "hash": "pSkZIpwMUII04FUij5L8JalZNtEK1MVUudFN8nHslSc="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.Store.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.Store.html",
-          "hash": "SC5lKAcjNA5t/8AibIokCSsNDiJhubDexCnylqppuks="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.StoreContext.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.StoreContext.html",
-          "hash": "LnSl4YKAUMGdfaVzhzS9wnO2Gs2EbEJJfjnFhYaTD6w="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.Table.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.Table.html",
-          "hash": "oVcU4zAkiSjUWtxYr6DZiNyK17oZJ7TwP1iqIkSON+Y="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.TableExport.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.TableExport.html",
-          "hash": "+FuZ8hs3lFXsq8PHypvBeDiqCpsFS/W6Pz/Ur+DE4uM="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.TableImport.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.TableImport.html",
-          "hash": "ZD2irW2yM/2DI2YSsxoRTf1VsoPCUBRCOS453lPC5m0="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.TrapException.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.TrapException.html",
-          "hash": "OVxCuujK2ZHeqMJ8GwSKjVojaNsU7TlHawjlYNbiIOE="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.TrapFrame.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.TrapFrame.html",
-          "hash": "KZyE4mg8Nnd2l277w/K4Sje1jWWNAKvbILeuEypRm1A="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.ValueKind.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.ValueKind.html",
-          "hash": "K0MpFgZki+t2MhEianbW9hl2/3EpyRL00uplOOaKXMI="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.WasiConfiguration.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.WasiConfiguration.html",
-          "hash": "1pBcYuenPqWSMN3EWfJjtUzUauGKGgk7JG93M9uJiss="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.WasmtimeException.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.WasmtimeException.html",
-          "hash": "5iCXZGGEJjWE4xpAXr6RO8YSZAEmi0g1kvfjKXfkCLw="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Wasmtime.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Wasmtime.html",
-          "hash": "EO8HDEUW7H221MVp3NilNesAAZVWZ/TLMcN+Alqj/r8="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
     {
       "type": "Conceptual",
       "source_relative_path": "api/index.md",
       "output": {
         ".html": {
           "relative_path": "api/index.html",
-          "hash": "4trKsWQtSCjuFdp6A/LTLzTgaDGfv41xBEy5LjRrS8A="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "Toc",
-      "source_relative_path": "api/toc.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/toc.html",
-          "hash": "JQni/5iJb2jd35EN0Amuc1KwCDJKEy9+WEEQqhvb/pk="
+          "hash": "BoE1NbJ30/2x6koJjU39W9mZuCh5yOCjnuSjo6VFnis="
         }
       },
       "is_incremental": false,
@@ -489,10 +21,10 @@
       "output": {
         ".html": {
           "relative_path": "articles/intro.html",
-          "hash": "PaF91Hth5sDrzSNkHahAJsaa0zqnq7nov7b6Q6RVv+k="
+          "hash": "WLuLv+sOwxAtfzYn4RrfTNEsLsF7EOLWoD/lQtqOC+g="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -513,10 +45,10 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "e4GPMuorzS4JpldNDLugyeR7Mwnj7q4L1+Sq6cCOp1E="
+          "hash": "JAeq3w2MSJYtOjfn1lQsLz0wuuDM0STgcpkgAqSHxtw="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -525,7 +57,7 @@
       "output": {
         ".html": {
           "relative_path": "toc.html",
-          "hash": "nwc+83+tQTSuudrVJCK3v8LA32xxtixYLt3EaFxgpNw="
+          "hash": "9OL1EID5FAdVlSHCJhNEqGn678dhnelYqvzr/D7ssfQ="
         }
       },
       "is_incremental": false,
@@ -535,23 +67,19 @@
   "incremental_info": [
     {
       "status": {
-        "can_incremental": true,
+        "can_incremental": false,
+        "details": "Cannot build incrementally because last build info is missing.",
         "incrementalPhase": "build",
         "total_file_count": 0,
-        "skipped_file_count": 0
+        "skipped_file_count": 0,
+        "full_build_reason_code": "NoAvailableBuildCache"
       },
       "processors": {
         "ConceptualDocumentProcessor": {
-          "can_incremental": true,
+          "can_incremental": false,
           "incrementalPhase": "build",
           "total_file_count": 3,
-          "skipped_file_count": 3
-        },
-        "ManagedReferenceDocumentProcessor": {
-          "can_incremental": true,
-          "incrementalPhase": "build",
-          "total_file_count": 38,
-          "skipped_file_count": 38
+          "skipped_file_count": 0
         },
         "TocDocumentProcessor": {
           "can_incremental": false,
@@ -564,8 +92,8 @@
     },
     {
       "status": {
-        "can_incremental": true,
-        "details": "Can support incremental post processing.",
+        "can_incremental": false,
+        "details": "Cannot support incremental post processing, the reason is: last post processor info is null.",
         "incrementalPhase": "postProcessing",
         "total_file_count": 0,
         "skipped_file_count": 0

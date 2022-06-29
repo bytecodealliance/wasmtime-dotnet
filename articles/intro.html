@@ -8,7 +8,7 @@
     <title>Introduction to .NET embedding of Wasmtime </title>
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Introduction to .NET embedding of Wasmtime ">
-    <meta name="generator" content="docfx 2.58.0.0">
+    <meta name="generator" content="docfx 2.59.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -93,7 +93,7 @@ dotnet new console
 </code></pre>
 <h2 id="referencing-the-wasmtime-package">Referencing the Wasmtime package</h2>
 <p>To use the .NET embedding of Wasmtime from the project, we need to add a reference to the <a href="https://www.nuget.org/packages/Wasmtime">Wasmtime NuGet package</a>:</p>
-<pre><code class="lang-text">dotnet add package --version 0.29.0-preview1 wasmtime
+<pre><code class="lang-text">dotnet add package --version 0.38.0-preview1 wasmtime
 </code></pre>
 <p><em>Note that the <code>--version</code> option is required because the package is currently prerelease.</em></p>
 <p>This will add a <code>PackageReference</code> to the project file so that .NET embedding for Wasmtime can be used.</p>
@@ -126,13 +126,13 @@ namespace Tutorial
             );
 
             var instance = linker.Instantiate(store, module);
-            var run = instance.GetFunction(store, &quot;run&quot;);
-            run?.Invoke(store);
+            var run = instance.GetAction(store, &quot;run&quot;);
+            run();
         }
     }
 }
 </code></pre>
-<p>The <a href="https://bytecodealliance.github.io/wasmtime-dotnet/api/Wasmtime.Linker.html"><code>Linker</code></a> class is responsible for linking in hose defined functions, such as <code>hello</code> in this example.</p>
+<p>The <a href="https://bytecodealliance.github.io/wasmtime-dotnet/api/Wasmtime.Linker.html"><code>Linker</code></a> class is responsible for linking in those defined functions, such as <code>hello</code> in this example.</p>
 <p>Here we are defining a function named <code>hello</code> that simply prints <code>Hello from C#!</code> when called from WebAssembly.</p>
 <p>A WebAssembly module <em>instantiation</em> is the stateful representation of a module that can be executed.</p>
 <p>This code is calling the <code>run</code> function defined in WebAssembly that is exported by the instance; this function then calls the <code>hello</code> function defined in C#.</p>
