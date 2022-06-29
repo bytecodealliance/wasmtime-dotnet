@@ -67,6 +67,15 @@ namespace Wasmtime.Tests
         }
 
         [Fact]
+        public void ItWrapsASimpleAction()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var noop = instance.GetAction(Store, "noop");
+            noop.Should().NotBeNull();
+            noop();
+        }
+
+        [Fact]
         public void ItWrapsArgumentsInValueBox()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
