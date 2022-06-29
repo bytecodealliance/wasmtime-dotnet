@@ -25,7 +25,7 @@ namespace Example
 
             var instance = linker.Instantiate(store, module);
 
-            var expensive = instance.GetFunction(store, "expensive");
+            var expensive = instance.GetAction(store, "expensive");
             if (expensive is null)
             {
                 Console.WriteLine("error: expensive export is missing");
@@ -37,13 +37,13 @@ namespace Example
 
             for (var i = 0; i < 4; i++)
             {
-                expensive.Invoke(store);
+                expensive();
             }
 
             Console.WriteLine("Calling the expensive function one more time, which will throw an exception.");
             try
             {
-                expensive.Invoke(store);
+                expensive();
             }
             catch (TrapException ex)
             {

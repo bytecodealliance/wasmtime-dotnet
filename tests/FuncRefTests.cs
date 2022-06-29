@@ -61,11 +61,10 @@ namespace Wasmtime.Tests
         public void ItThrowsForInvokingANullFunctionReference()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var func = instance.GetFunction(Store, "call_with_null");
+            var func = instance.GetFunction<object>(Store, "call_with_null");
+            func.Should().NotBeNull();
 
-            Action action = () => func.Invoke(Store);
-
-            action
+            func
                 .Should()
                 .Throw<TrapException>()
                 .WithMessage("Cannot invoke a null function reference.*");

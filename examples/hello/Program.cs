@@ -20,14 +20,14 @@ namespace Example
 
             var instance = linker.Instantiate(store, module);
 
-            var run = instance.GetFunction(store, "run");
+            var run = instance.GetAction(store, "run");
             if (run is null)
             {
                 Console.WriteLine("error: run export is missing");
                 return;
             }
 
-            run.Invoke(store);
+            run();
         }
     }
 }

@@ -29,23 +29,23 @@ namespace Example
 
             var instance = linker.Instantiate(store, module);
 
-            var call = instance.GetFunction(store, "call");
+            var call = instance.GetAction<Function, string>(store, "call");
             if (call is null)
             {
                 Console.WriteLine("error: `call` export is missing");
                 return;
             }
 
-            var f = instance.GetFunction(store, "f");
+            var f = instance.GetAction(store, "f");
             if (f is null)
             {
                 Console.WriteLine("error: `f` export is missing");
                 return;
             }
 
-            call.Invoke(store, func1, "Hello");
-            call.Invoke(store, func2, "Hello");
-            f.Invoke(store);
+            call(func1, "Hello");
+            call(func2, "Hello");
+            f();
         }
     }
 }
