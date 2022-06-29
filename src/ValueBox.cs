@@ -177,20 +177,39 @@ namespace Wasmtime
         internal static IValueBoxConverter<T> Converter<T>()
         {
             if (typeof(T) == typeof(int))
+            {
                 return (IValueBoxConverter<T>)Int32ValueBoxConverter.Instance;
+            }
+
             if (typeof(T) == typeof(long))
+            {
                 return (IValueBoxConverter<T>)Int64ValueBoxConverter.Instance;
+            }
+
             if (typeof(T) == typeof(float))
+            {
                 return (IValueBoxConverter<T>)Float32ValueBoxConverter.Instance;
+            }
+
             if (typeof(T) == typeof(double))
+            {
                 return (IValueBoxConverter<T>)Float64ValueBoxConverter.Instance;
+            }
+
             if (typeof(T) == typeof(Function))
+            {
                 return (IValueBoxConverter<T>)FuncRefValueBoxConverter.Instance;
+            }
+
             if (typeof(T) == typeof(V128))
+            {
                 return (IValueBoxConverter<T>)V128ValueBoxConverter.Instance;
+            }
 
             if (typeof(T).IsClass)
+            {
                 return (IValueBoxConverter<T>)GenericValueBoxConverter<T>.Instance;
+            }
 
             throw new InvalidOperationException($"Cannot convert type '{typeof(T).Name}' into a WASM parameter type");
         }

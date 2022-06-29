@@ -243,9 +243,13 @@ namespace Wasmtime
         public ValueBox ToValueBox()
         {
             if (kind != ValueKind.ExternRef)
+            {
                 return new ValueBox(kind, of);
+            }
             else
+            {
                 return new ValueBox(ResolveExternRef());
+            }
         }
 
         public static Value FromObject(object? o, ValueKind kind)

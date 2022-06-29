@@ -556,9 +556,15 @@ namespace Wasmtime
         {
             // Check if the func returns no values if that's expected
             if (Results.Count == 0 && returnType != null)
+            {
                 return false;
+            }
+
+            // Check if the func does return a value if that's expected
             if (Results.Count != 0 && returnType == null)
+            {
                 return false;
+            }
 
             // Validate the return type(s)
             if (returnType != null)
@@ -574,11 +580,15 @@ namespace Wasmtime
                     // and then the last field is a tuple of the remaining items. To avoid having to deal with this,
                     // simply don't support tuple that long.
                     if (returnTypes.Length >= 8)
+                    {
                         return false;
+                    }
 
                     // If the list lengths are different that's an instant fail
                     if (returnTypes.Length != Results.Count)
+                    {
                         return false;
+                    }
 
                     // Validate the types one by one
                     for (int i = 0; i < returnTypes.Length; i++)
@@ -593,17 +603,23 @@ namespace Wasmtime
                 {
                     // Return type is not a tuple, so if there are multiple results this is not valid.
                     if (Results.Count != 1)
+                    {
                         return false;
+                    }
 
                     // If the return type is not compatible then this is not valid.
                     if (!Results[0].IsAssignableFrom(returnType))
+                    {
                         return false;
+                    }
                 }
             }
 
             // Check if the parameter lists are the same length
             if (parameters.Length != Parameters.Count)
+            {
                 return false;
+            }
 
             // Validate the parameter types one by one
             for (int i = 0; i < parameters.Length; i++)
@@ -623,7 +639,7 @@ namespace Wasmtime
         /// Attempt to wrap this function as an Action. Wrapped action is faster than a normal Invoke call.
         /// </summary>
         /// <typeparam name="TA">First parameter</typeparam>
-        /// <param name="store"></param>
+        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>An action to invoke this function. Null if the type signature is incompatible</returns>
         public Action<TA>? WrapAction<TA>(IStore store)
         {
@@ -650,7 +666,7 @@ namespace Wasmtime
         /// </summary>
         /// <typeparam name="TA">First parameter</typeparam>
         /// <typeparam name="TB">Second parameter</typeparam>
-        /// <param name="store"></param>
+        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>An action to invoke this function. Null if the type signature is incompatible</returns>
         public Action<TA, TB>? WrapAction<TA, TB>(IStore store)
         {
@@ -680,7 +696,7 @@ namespace Wasmtime
         /// <typeparam name="TA">First parameter</typeparam>
         /// <typeparam name="TB">Second parameter</typeparam>
         /// <typeparam name="TC">Third parameter</typeparam>
-        /// <param name="store"></param>
+        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>An action to invoke this function. Null if the type signature is incompatible</returns>
         public Action<TA, TB, TC>? WrapAction<TA, TB, TC>(IStore store)
         {
@@ -713,7 +729,7 @@ namespace Wasmtime
         /// <typeparam name="TB">Second parameter</typeparam>
         /// <typeparam name="TC">Third parameter</typeparam>
         /// <typeparam name="TD">Fourth parameter</typeparam>
-        /// <param name="store"></param>
+        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>An action to invoke this function. Null if the type signature is incompatible</returns>
         public Action<TA, TB, TC, TD>? WrapAction<TA, TB, TC, TD>(IStore store)
         {
@@ -749,7 +765,7 @@ namespace Wasmtime
         /// <typeparam name="TC">Third parameter</typeparam>
         /// <typeparam name="TD">Fourth parameter</typeparam>
         /// <typeparam name="TE">Fifth parameter</typeparam>
-        /// <param name="store"></param>
+        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>An action to invoke this function. Null if the type signature is incompatible</returns>
         public Action<TA, TB, TC, TD, TE>? WrapAction<TA, TB, TC, TD, TE>(IStore store)
         {
@@ -789,7 +805,7 @@ namespace Wasmtime
         /// <typeparam name="TD">Fourth parameter</typeparam>
         /// <typeparam name="TE">Fifth parameter</typeparam>
         /// <typeparam name="TF">Sixth parameter</typeparam>
-        /// <param name="store"></param>
+        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>An action to invoke this function. Null if the type signature is incompatible</returns>
         public Action<TA, TB, TC, TD, TE, TF>? WrapAction<TA, TB, TC, TD, TE, TF>(IStore store)
         {
@@ -832,7 +848,7 @@ namespace Wasmtime
         /// <typeparam name="TE">Fifth parameter</typeparam>
         /// <typeparam name="TF">Sixth parameter</typeparam>
         /// <typeparam name="TG">Seventh parameter</typeparam>
-        /// <param name="store"></param>
+        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>An action to invoke this function. Null if the type signature is incompatible</returns>
         public Action<TA, TB, TC, TD, TE, TF, TG>? WrapAction<TA, TB, TC, TD, TE, TF, TG>(IStore store)
         {
@@ -878,7 +894,7 @@ namespace Wasmtime
         /// <typeparam name="TF">Sixth parameter</typeparam>
         /// <typeparam name="TG">Seventh parameter</typeparam>
         /// <typeparam name="TH">Eighth parameter</typeparam>
-        /// <param name="store"></param>
+        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>An action to invoke this function. Null if the type signature is incompatible</returns>
         public Action<TA, TB, TC, TD, TE, TF, TG, TH>? WrapAction<TA, TB, TC, TD, TE, TF, TG, TH>(IStore store)
         {
@@ -927,7 +943,7 @@ namespace Wasmtime
         /// <typeparam name="TG">Seventh parameter</typeparam>
         /// <typeparam name="TH">Eighth parameter</typeparam>
         /// <typeparam name="TI">Ninth parameter</typeparam>
-        /// <param name="store"></param>
+        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>An action to invoke this function. Null if the type signature is incompatible</returns>
         public Action<TA, TB, TC, TD, TE, TF, TG, TH, TI>? WrapAction<TA, TB, TC, TD, TE, TF, TG, TH, TI>(IStore store)
         {
@@ -971,7 +987,7 @@ namespace Wasmtime
         /// Attempt to wrap this function as a Func. Wrapped func is faster than a normal Invoke call.
         /// </summary>
         /// <typeparam name="TR">Return type</typeparam>
-        /// <param name="store"></param>
+        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
         public Func<TR>? WrapFunc<TR>(IStore store)
         {
@@ -995,7 +1011,7 @@ namespace Wasmtime
         /// </summary>
         /// <typeparam name="TR">Return type</typeparam>
         /// <typeparam name="TA">First parameter</typeparam>
-        /// <param name="store"></param>
+        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
         public Func<TA, TR>? WrapFunc<TA, TR>(IStore store)
         {
@@ -1025,7 +1041,7 @@ namespace Wasmtime
         /// <typeparam name="TR">Return type</typeparam>
         /// <typeparam name="TA">First parameter</typeparam>
         /// <typeparam name="TB">First parameter</typeparam>
-        /// <param name="store"></param>
+        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
         public Func<TA, TB, TR>? WrapFunc<TA, TB, TR>(IStore store)
         {
@@ -1059,7 +1075,7 @@ namespace Wasmtime
         /// <typeparam name="TA">First parameter</typeparam>
         /// <typeparam name="TB">Second parameter</typeparam>
         /// <typeparam name="TC">Third parameter</typeparam>
-        /// <param name="store"></param>
+        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
         public Func<TA, TB, TC, TR>? WrapFunc<TA, TB, TC, TR>(IStore store)
         {
@@ -1096,7 +1112,7 @@ namespace Wasmtime
         /// <typeparam name="TB">Second parameter</typeparam>
         /// <typeparam name="TC">Third parameter</typeparam>
         /// <typeparam name="TD">Fourth parameter</typeparam>
-        /// <param name="store"></param>
+        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
         public Func<TA, TB, TC, TD, TR>? WrapFunc<TA, TB, TC, TD, TR>(IStore store)
         {
@@ -1136,7 +1152,7 @@ namespace Wasmtime
         /// <typeparam name="TC">Third parameter</typeparam>
         /// <typeparam name="TD">Fourth parameter</typeparam>
         /// <typeparam name="TE">Fifth parameter</typeparam>
-        /// <param name="store"></param>
+        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
         public Func<TA, TB, TC, TD, TE, TR>? WrapFunc<TA, TB, TC, TD, TE, TR>(IStore store)
         {
@@ -1179,7 +1195,7 @@ namespace Wasmtime
         /// <typeparam name="TD">Fourth parameter</typeparam>
         /// <typeparam name="TE">Fifth parameter</typeparam>
         /// <typeparam name="TF">Sixth parameter</typeparam>
-        /// <param name="store"></param>
+        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
         public Func<TA, TB, TC, TD, TE, TF, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TR>(IStore store)
         {
@@ -1225,7 +1241,7 @@ namespace Wasmtime
         /// <typeparam name="TE">Fifth parameter</typeparam>
         /// <typeparam name="TF">Sixth parameter</typeparam>
         /// <typeparam name="TG">Seventh parameter</typeparam>
-        /// <param name="store"></param>
+        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
         public Func<TA, TB, TC, TD, TE, TF, TG, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TR>(IStore store)
         {
@@ -1274,7 +1290,7 @@ namespace Wasmtime
         /// <typeparam name="TF">Sixth parameter</typeparam>
         /// <typeparam name="TG">Seventh parameter</typeparam>
         /// <typeparam name="TH">Eighth parameter</typeparam>
-        /// <param name="store"></param>
+        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TR>(IStore store)
         {
@@ -1326,7 +1342,7 @@ namespace Wasmtime
         /// <typeparam name="TG">Seventh parameter</typeparam>
         /// <typeparam name="TH">Eighth parameter</typeparam>
         /// <typeparam name="TI">Ninth parameter</typeparam>
-        /// <param name="store"></param>
+        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>(IStore store)
         {
@@ -1381,7 +1397,7 @@ namespace Wasmtime
         /// <typeparam name="TH">Eighth parameter</typeparam>
         /// <typeparam name="TI">Ninth parameter</typeparam>
         /// <typeparam name="TJ">Tenth parameter</typeparam>
-        /// <param name="store"></param>
+        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>(IStore store)
         {
@@ -1441,7 +1457,7 @@ namespace Wasmtime
         /// <typeparam name="TI">Ninth parameter</typeparam>
         /// <typeparam name="TJ">Tenth parameter</typeparam>
         /// <typeparam name="TK">Eleventh parameter</typeparam>
-        /// <param name="store"></param>
+        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>(IStore store)
         {
@@ -1504,7 +1520,7 @@ namespace Wasmtime
         /// <typeparam name="TJ">Tenth parameter</typeparam>
         /// <typeparam name="TK">Eleventh parameter</typeparam>
         /// <typeparam name="TL">Twelfth parameter</typeparam>
-        /// <param name="store"></param>
+        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>(IStore store)
         {
@@ -1571,7 +1587,7 @@ namespace Wasmtime
         /// <typeparam name="TK">Eleventh parameter</typeparam>
         /// <typeparam name="TL">Twelfth parameter</typeparam>
         /// <typeparam name="TM">Thirteenth parameter</typeparam>
-        /// <param name="store"></param>
+        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>(IStore store)
         {
@@ -1641,7 +1657,7 @@ namespace Wasmtime
         /// <typeparam name="TL">Twelfth parameter</typeparam>
         /// <typeparam name="TM">Thirteenth parameter</typeparam>
         /// <typeparam name="TN">Fourteenth parameter</typeparam>
-        /// <param name="store"></param>
+        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>(IStore store)
         {
@@ -1714,7 +1730,7 @@ namespace Wasmtime
         /// <typeparam name="TM">Thirteenth parameter</typeparam>
         /// <typeparam name="TN">Fourteenth parameter</typeparam>
         /// <typeparam name="TO">Fifteenth parameter</typeparam>
-        /// <param name="store"></param>
+        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>(IStore store)
         {
@@ -1790,7 +1806,7 @@ namespace Wasmtime
         /// <typeparam name="TN">Fourteenth parameter</typeparam>
         /// <typeparam name="TO">Fifteenth parameter</typeparam>
         /// <typeparam name="TP">Sixteenth parameter</typeparam>
-        /// <param name="store"></param>
+        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>(IStore store)
         {
@@ -1854,11 +1870,11 @@ namespace Wasmtime
         /// Assumes arguments are the correct type. Disposes the arguments.
         /// </summary>
         /// <typeparam name="TR"></typeparam>
-        /// <param name="store"></param>
-        /// <param name="arguments"></param>
-        /// <param name="factory"></param>
-        /// <returns></returns>
-        internal unsafe TR InvokeWithReturn<TR>(IStore store, ReadOnlySpan<Value> arguments, IReturnTypeFactory<TR> factory)
+        /// <param name="store">The store to use when calling the function.</param>
+        /// <param name="arguments">Span of arguments, will be diposed after use.</param>
+        /// <param name="factory">Factory to use to construct the return item</param>
+        /// <returns>The return value from the function</returns>
+        private unsafe TR InvokeWithReturn<TR>(IStore store, ReadOnlySpan<Value> arguments, IReturnTypeFactory<TR> factory)
         {
             Span<Value> output = stackalloc Value[Results.Count];
 
@@ -1886,10 +1902,10 @@ namespace Wasmtime
         /// Invokes the wasmtime function
         /// Assumes arguments are the correct type. Disposes the arguments.
         /// </summary>
-        /// <param name="store"></param>
-        /// <param name="arguments"></param>
+        /// <param name="store">The store to use when calling the function.</param>
+        /// <param name="arguments">Span of arguments, will be diposed after use.</param>
         /// <returns></returns>
-        internal unsafe void InvokeWithoutReturn(IStore store, ReadOnlySpan<Value> arguments)
+        private unsafe void InvokeWithoutReturn(IStore store, ReadOnlySpan<Value> arguments)
         {
             try
             {
@@ -2051,7 +2067,9 @@ namespace Wasmtime
             IntPtr trap;
             fixed (Value* argsPtr = arguments)
             fixed (Value* resultsPtr = resultsOut)
+            {
                 error = Native.wasmtime_func_call(context.handle, func, argsPtr, (UIntPtr)Parameters.Count, resultsPtr, (UIntPtr)Results.Count, out trap);
+            }
 
             if (error != IntPtr.Zero)
             {
