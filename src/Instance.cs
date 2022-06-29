@@ -66,7 +66,19 @@ namespace Wasmtime
         /// </summary>
         /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported function.</param>
-        /// <typeparam name="TA">Paramerter type</typeparam>
+        /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
+        public Action? GetAction(IStore store, string name)
+        {
+            return GetFunction(store, name)
+                 ?.WrapAction(store);
+        }
+
+        /// <summary>
+        /// Gets an exported function from the instance.
+        /// </summary>
+        /// <param name="store">The store that owns the instance.</param>
+        /// <param name="name">The name of the exported function.</param>
+        /// <typeparam name="TA">Parameter type</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
         public Action<TA>? GetAction<TA>(IStore store, string name)
         {

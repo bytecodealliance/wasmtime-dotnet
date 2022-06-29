@@ -22,7 +22,7 @@
  )
  (data (i32.const 0) "Hello World")
 
-
+ (func (export "noop"))
  (func $echo_i32 (param i32) (result i32) local.get 0)
  (export "$echo_i32" (func $echo_i32))
  (func $echo_i64 (param i64) (result i64) local.get 0)

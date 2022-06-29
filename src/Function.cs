@@ -638,6 +638,26 @@ namespace Wasmtime
         /// <summary>
         /// Attempt to wrap this function as an Action. Wrapped action is faster than a normal Invoke call.
         /// </summary>
+        /// <param name="store">The store to use when calling the function.</param>
+        /// <returns>An action to invoke this function. Null if the type signature is incompatible</returns>
+        public Action? WrapAction(IStore store)
+        {
+            // Check that the requested type signature is compatible
+            if (!CheckTypeSignature())
+            {
+                return null;
+            }
+
+            return () =>
+            {
+                Span<Value> args = stackalloc Value[0];
+                InvokeWithoutReturn(store, args);
+            };
+        }
+
+        /// <summary>
+        /// Attempt to wrap this function as an Action. Wrapped action is faster than a normal Invoke call.
+        /// </summary>
         /// <typeparam name="TA">First parameter</typeparam>
         /// <param name="store">The store to use when calling the function.</param>
         /// <returns>An action to invoke this function. Null if the type signature is incompatible</returns>

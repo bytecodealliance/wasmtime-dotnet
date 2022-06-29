@@ -83,8 +83,8 @@ namespace Tutorial
             );
 
             var instance = linker.Instantiate(store, module);
-            var run = instance.GetFunction(store, "run");
-            run?.Invoke(store);
+            var run = instance.GetAction(store, "run");
+            run();
         }
     }
 }

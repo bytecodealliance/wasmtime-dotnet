@@ -23,17 +23,17 @@ namespace Example
 
             var instance = linker.Instantiate(store, module);
 
-            var call_indirect = instance.GetFunction(store, "call_indirect");
+            var call_indirect = instance.GetFunction<int, int, int, int>(store, "call_indirect");
             if (call_indirect is null)
             {
                 Console.WriteLine("error: `call_indirect` export is missing");
                 return;
             }
 
-            Console.WriteLine($"100 + 25 = {call_indirect.Invoke(store, 0, 100, 25)}");
-            Console.WriteLine($"100 - 25 = {call_indirect.Invoke(store, 1, 100, 25)}");
-            Console.WriteLine($"100 * 25 = {call_indirect.Invoke(store, 2, 100, 25)}");
-            Console.WriteLine($"100 / 25 = {call_indirect.Invoke(store, 3, 100, 25)}");
+            Console.WriteLine($"100 + 25 = {call_indirect(0, 100, 25)}");
+            Console.WriteLine($"100 - 25 = {call_indirect(1, 100, 25)}");
+            Console.WriteLine($"100 * 25 = {call_indirect(2, 100, 25)}");
+            Console.WriteLine($"100 / 25 = {call_indirect(3, 100, 25)}");
         }
     }
 }
