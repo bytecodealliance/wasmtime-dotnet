@@ -23,8 +23,8 @@ namespace Wasmtime
         /// <summary>
         /// Construct a new V128 from a 16 element byte span
         /// </summary>
-        /// <param name="bytes"></param>
-        /// <exception cref="ArgumentException"></exception>
+        /// <param name="bytes">The bytes to construct the V128 with.</param>
+        /// <exception cref="System.ArgumentException">Thrown if the number of bytes in the span is not 16.</exception>
         public V128(ReadOnlySpan<byte> bytes)
         {
             if (bytes.Length != 16)
