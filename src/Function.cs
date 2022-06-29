@@ -547,6 +547,1381 @@ namespace Wasmtime
         public static Function Null => _null;
 
         /// <summary>
+        /// Check if this function has the given type signature
+        /// </summary>
+        /// <param name="returnType">Return type (use a tuple for multiple return types)</param>
+        /// <param name="parameters">The parameters of the function</param>
+        /// <returns>Returns true if the type signature of the function is valid or false if not.</returns>
+        public bool CheckTypeSignature(Type? returnType = null, params Type[] parameters)
+        {
+            // Check if the func returns no values if that's expected
+            if (Results.Count == 0 && returnType != null)
+            {
+                return false;
+            }
+
+            // Check if the func does return a value if that's expected
+            if (Results.Count != 0 && returnType == null)
+            {
+                return false;
+            }
+
+            // Validate the return type(s)
+            if (returnType != null)
+            {
+                // Multiple return types are represented by a tuple.
+                if (typeof(ITuple).IsAssignableFrom(returnType))
+                {
+                    // Get the types from the tuple
+                    var returnTypes = returnType.GetGenericArguments();
+
+                    // Tuples with more than seven items are not. This is because under the hood only tuples
+                    // up to 8 items are supported, longer tuples are faked by having a tuple with seven items
+                    // and then the last field is a tuple of the remaining items. To avoid having to deal with this,
+                    // simply don't support tuple that long.
+                    if (returnTypes.Length >= 8)
+                    {
+                        return false;
+                    }
+
+                    // If the list lengths are different that's an instant fail
+                    if (returnTypes.Length != Results.Count)
+                    {
+                        return false;
+                    }
+
+                    // Validate the types one by one
+                    for (int i = 0; i < returnTypes.Length; i++)
+                    {
+                        if (!Results[i].IsAssignableFrom(returnTypes[i]))
+                        {
+                            return false;
+                        }
+                    }
+                }
+                else
+                {
+                    // Return type is not a tuple, so if there are multiple results this is not valid.
+                    if (Results.Count != 1)
+                    {
+                        return false;
+                    }
+
+                    // If the return type is not compatible then this is not valid.
+                    if (!Results[0].IsAssignableFrom(returnType))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            // Check if the parameter lists are the same length
+            if (parameters.Length != Parameters.Count)
+            {
+                return false;
+            }
+
+            // Validate the parameter types one by one
+            for (int i = 0; i < parameters.Length; i++)
+            {
+                if (!Parameters[i].IsAssignableFrom(parameters[i]))
+                {
+                    return false;
+                }
+            }
+
+            // All ok!
+            return true;
+        }
+
+        #region wrap
+        /// <summary>
+        /// Attempt to wrap this function as an Action. Wrapped action is faster than a normal Invoke call.
+        /// </summary>
+        /// <typeparam name="TA">First parameter</typeparam>
+        /// <param name="store">The store to use when calling the function.</param>
+        /// <returns>An action to invoke this function. Null if the type signature is incompatible</returns>
+        public Action<TA>? WrapAction<TA>(IStore store)
+        {
+            // Check that the requested type signature is compatible
+            if (!CheckTypeSignature(null, typeof(TA)))
+            {
+                return null;
+            }
+
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+
+            return (a) =>
+            {
+                Span<Value> args = stackalloc Value[1];
+                args[0] = Value.FromValueBox(ca.Box(a));
+
+                InvokeWithoutReturn(store, args);
+            };
+        }
+
+        /// <summary>
+        /// Attempt to wrap this function as an Action. Wrapped action is faster than a normal Invoke call.
+        /// </summary>
+        /// <typeparam name="TA">First parameter</typeparam>
+        /// <typeparam name="TB">Second parameter</typeparam>
+        /// <param name="store">The store to use when calling the function.</param>
+        /// <returns>An action to invoke this function. Null if the type signature is incompatible</returns>
+        public Action<TA, TB>? WrapAction<TA, TB>(IStore store)
+        {
+            // Check that the requested type signature is compatible
+            if (!CheckTypeSignature(null, typeof(TA), typeof(TB)))
+            {
+                return null;
+            }
+
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+
+            return (a, b) =>
+            {
+                Span<Value> args = stackalloc Value[2];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+
+                InvokeWithoutReturn(store, args);
+            };
+        }
+
+        /// <summary>
+        /// Attempt to wrap this function as an Action. Wrapped action is faster than a normal Invoke call.
+        /// </summary>
+        /// <typeparam name="TA">First parameter</typeparam>
+        /// <typeparam name="TB">Second parameter</typeparam>
+        /// <typeparam name="TC">Third parameter</typeparam>
+        /// <param name="store">The store to use when calling the function.</param>
+        /// <returns>An action to invoke this function. Null if the type signature is incompatible</returns>
+        public Action<TA, TB, TC>? WrapAction<TA, TB, TC>(IStore store)
+        {
+            // Check that the requested type signature is compatible
+            if (!CheckTypeSignature(null, typeof(TA), typeof(TB), typeof(TC)))
+            {
+                return null;
+            }
+
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+
+            return (a, b, c) =>
+            {
+                Span<Value> args = stackalloc Value[3];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+
+                InvokeWithoutReturn(store, args);
+            };
+        }
+
+        /// <summary>
+        /// Attempt to wrap this function as an Action. Wrapped action is faster than a normal Invoke call.
+        /// </summary>
+        /// <typeparam name="TA">First parameter</typeparam>
+        /// <typeparam name="TB">Second parameter</typeparam>
+        /// <typeparam name="TC">Third parameter</typeparam>
+        /// <typeparam name="TD">Fourth parameter</typeparam>
+        /// <param name="store">The store to use when calling the function.</param>
+        /// <returns>An action to invoke this function. Null if the type signature is incompatible</returns>
+        public Action<TA, TB, TC, TD>? WrapAction<TA, TB, TC, TD>(IStore store)
+        {
+            // Check that the requested type signature is compatible
+            if (!CheckTypeSignature(null, typeof(TA), typeof(TB), typeof(TC), typeof(TD)))
+            {
+                return null;
+            }
+
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+            var cd = ValueBox.Converter<TD>();
+
+            return (a, b, c, d) =>
+            {
+                Span<Value> args = stackalloc Value[4];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+                args[3] = Value.FromValueBox(cd.Box(d));
+
+                InvokeWithoutReturn(store, args);
+            };
+        }
+
+        /// <summary>
+        /// Attempt to wrap this function as an Action. Wrapped action is faster than a normal Invoke call.
+        /// </summary>
+        /// <typeparam name="TA">First parameter</typeparam>
+        /// <typeparam name="TB">Second parameter</typeparam>
+        /// <typeparam name="TC">Third parameter</typeparam>
+        /// <typeparam name="TD">Fourth parameter</typeparam>
+        /// <typeparam name="TE">Fifth parameter</typeparam>
+        /// <param name="store">The store to use when calling the function.</param>
+        /// <returns>An action to invoke this function. Null if the type signature is incompatible</returns>
+        public Action<TA, TB, TC, TD, TE>? WrapAction<TA, TB, TC, TD, TE>(IStore store)
+        {
+            // Check that the requested type signature is compatible
+            if (!CheckTypeSignature(null, typeof(TA), typeof(TB), typeof(TC), typeof(TD),
+                                          typeof(TE)))
+            {
+                return null;
+            }
+
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+            var cd = ValueBox.Converter<TD>();
+            var ce = ValueBox.Converter<TE>();
+
+            return (a, b, c, d, e) =>
+            {
+                Span<Value> args = stackalloc Value[5];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+                args[3] = Value.FromValueBox(cd.Box(d));
+                args[4] = Value.FromValueBox(ce.Box(e));
+
+                InvokeWithoutReturn(store, args);
+            };
+        }
+
+        /// <summary>
+        /// Attempt to wrap this function as an Action. Wrapped action is faster than a normal Invoke call.
+        /// </summary>
+        /// <typeparam name="TA">First parameter</typeparam>
+        /// <typeparam name="TB">Second parameter</typeparam>
+        /// <typeparam name="TC">Third parameter</typeparam>
+        /// <typeparam name="TD">Fourth parameter</typeparam>
+        /// <typeparam name="TE">Fifth parameter</typeparam>
+        /// <typeparam name="TF">Sixth parameter</typeparam>
+        /// <param name="store">The store to use when calling the function.</param>
+        /// <returns>An action to invoke this function. Null if the type signature is incompatible</returns>
+        public Action<TA, TB, TC, TD, TE, TF>? WrapAction<TA, TB, TC, TD, TE, TF>(IStore store)
+        {
+            // Check that the requested type signature is compatible
+            if (!CheckTypeSignature(null, typeof(TA), typeof(TB), typeof(TC), typeof(TD),
+                                          typeof(TE), typeof(TF)))
+            {
+                return null;
+            }
+
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+            var cd = ValueBox.Converter<TD>();
+            var ce = ValueBox.Converter<TE>();
+            var cf = ValueBox.Converter<TF>();
+
+            return (a, b, c, d, e, f) =>
+            {
+                Span<Value> args = stackalloc Value[6];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+                args[3] = Value.FromValueBox(cd.Box(d));
+                args[4] = Value.FromValueBox(ce.Box(e));
+                args[5] = Value.FromValueBox(cf.Box(f));
+
+                InvokeWithoutReturn(store, args);
+            };
+        }
+
+        /// <summary>
+        /// Attempt to wrap this function as an Action. Wrapped action is faster than a normal Invoke call.
+        /// </summary>
+        /// <typeparam name="TA">First parameter</typeparam>
+        /// <typeparam name="TB">Second parameter</typeparam>
+        /// <typeparam name="TC">Third parameter</typeparam>
+        /// <typeparam name="TD">Fourth parameter</typeparam>
+        /// <typeparam name="TE">Fifth parameter</typeparam>
+        /// <typeparam name="TF">Sixth parameter</typeparam>
+        /// <typeparam name="TG">Seventh parameter</typeparam>
+        /// <param name="store">The store to use when calling the function.</param>
+        /// <returns>An action to invoke this function. Null if the type signature is incompatible</returns>
+        public Action<TA, TB, TC, TD, TE, TF, TG>? WrapAction<TA, TB, TC, TD, TE, TF, TG>(IStore store)
+        {
+            // Check that the requested type signature is compatible
+            if (!CheckTypeSignature(null, typeof(TA), typeof(TB), typeof(TC), typeof(TD),
+                                          typeof(TE), typeof(TF), typeof(TG)))
+            {
+                return null;
+            }
+
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+            var cd = ValueBox.Converter<TD>();
+            var ce = ValueBox.Converter<TE>();
+            var cf = ValueBox.Converter<TF>();
+            var cg = ValueBox.Converter<TG>();
+
+            return (a, b, c, d, e, f, g) =>
+            {
+                Span<Value> args = stackalloc Value[7];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+                args[3] = Value.FromValueBox(cd.Box(d));
+                args[4] = Value.FromValueBox(ce.Box(e));
+                args[5] = Value.FromValueBox(cf.Box(f));
+                args[6] = Value.FromValueBox(cg.Box(g));
+
+                InvokeWithoutReturn(store, args);
+            };
+        }
+
+        /// <summary>
+        /// Attempt to wrap this function as an Action. Wrapped action is faster than a normal Invoke call.
+        /// </summary>
+        /// <typeparam name="TA">First parameter</typeparam>
+        /// <typeparam name="TB">Second parameter</typeparam>
+        /// <typeparam name="TC">Third parameter</typeparam>
+        /// <typeparam name="TD">Fourth parameter</typeparam>
+        /// <typeparam name="TE">Fifth parameter</typeparam>
+        /// <typeparam name="TF">Sixth parameter</typeparam>
+        /// <typeparam name="TG">Seventh parameter</typeparam>
+        /// <typeparam name="TH">Eighth parameter</typeparam>
+        /// <param name="store">The store to use when calling the function.</param>
+        /// <returns>An action to invoke this function. Null if the type signature is incompatible</returns>
+        public Action<TA, TB, TC, TD, TE, TF, TG, TH>? WrapAction<TA, TB, TC, TD, TE, TF, TG, TH>(IStore store)
+        {
+            // Check that the requested type signature is compatible
+            if (!CheckTypeSignature(null, typeof(TA), typeof(TB), typeof(TC), typeof(TD),
+                                          typeof(TE), typeof(TF), typeof(TG), typeof(TH)))
+            {
+                return null;
+            }
+
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+            var cd = ValueBox.Converter<TD>();
+            var ce = ValueBox.Converter<TE>();
+            var cf = ValueBox.Converter<TF>();
+            var cg = ValueBox.Converter<TG>();
+            var ch = ValueBox.Converter<TH>();
+
+            return (a, b, c, d, e, f, g, h) =>
+            {
+                Span<Value> args = stackalloc Value[8];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+                args[3] = Value.FromValueBox(cd.Box(d));
+                args[4] = Value.FromValueBox(ce.Box(e));
+                args[5] = Value.FromValueBox(cf.Box(f));
+                args[6] = Value.FromValueBox(cg.Box(g));
+                args[7] = Value.FromValueBox(ch.Box(h));
+
+                InvokeWithoutReturn(store, args);
+            };
+        }
+
+        /// <summary>
+        /// Attempt to wrap this function as an Action. Wrapped action is faster than a normal Invoke call.
+        /// </summary>
+        /// <typeparam name="TA">First parameter</typeparam>
+        /// <typeparam name="TB">Second parameter</typeparam>
+        /// <typeparam name="TC">Third parameter</typeparam>
+        /// <typeparam name="TD">Fourth parameter</typeparam>
+        /// <typeparam name="TE">Fifth parameter</typeparam>
+        /// <typeparam name="TF">Sixth parameter</typeparam>
+        /// <typeparam name="TG">Seventh parameter</typeparam>
+        /// <typeparam name="TH">Eighth parameter</typeparam>
+        /// <typeparam name="TI">Ninth parameter</typeparam>
+        /// <param name="store">The store to use when calling the function.</param>
+        /// <returns>An action to invoke this function. Null if the type signature is incompatible</returns>
+        public Action<TA, TB, TC, TD, TE, TF, TG, TH, TI>? WrapAction<TA, TB, TC, TD, TE, TF, TG, TH, TI>(IStore store)
+        {
+            // Check that the requested type signature is compatible
+            if (!CheckTypeSignature(null, typeof(TA), typeof(TB), typeof(TC), typeof(TD),
+                                          typeof(TE), typeof(TF), typeof(TG), typeof(TH),
+                                          typeof(TI)))
+            {
+                return null;
+            }
+
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+            var cd = ValueBox.Converter<TD>();
+            var ce = ValueBox.Converter<TE>();
+            var cf = ValueBox.Converter<TF>();
+            var cg = ValueBox.Converter<TG>();
+            var ch = ValueBox.Converter<TH>();
+            var ci = ValueBox.Converter<TI>();
+
+            return (a, b, c, d, e, f, g, h, i) =>
+            {
+                Span<Value> args = stackalloc Value[9];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+                args[3] = Value.FromValueBox(cd.Box(d));
+                args[4] = Value.FromValueBox(ce.Box(e));
+                args[5] = Value.FromValueBox(cf.Box(f));
+                args[6] = Value.FromValueBox(cg.Box(g));
+                args[7] = Value.FromValueBox(ch.Box(h));
+                args[8] = Value.FromValueBox(ci.Box(i));
+
+                InvokeWithoutReturn(store, args);
+            };
+        }
+
+        /// <summary>
+        /// Attempt to wrap this function as a Func. Wrapped func is faster than a normal Invoke call.
+        /// </summary>
+        /// <typeparam name="TR">Return type</typeparam>
+        /// <param name="store">The store to use when calling the function.</param>
+        /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
+        public Func<TR>? WrapFunc<TR>(IStore store)
+        {
+            // Check that the requested type signature is compatible
+            if (!CheckTypeSignature(typeof(TR)))
+            {
+                return null;
+            }
+
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return () =>
+            {
+                return InvokeWithReturn(store, stackalloc Value[0], factory);
+            };
+        }
+
+        /// <summary>
+        /// Attempt to wrap this function as a Func. Wrapped func is faster than a normal Invoke call.
+        /// </summary>
+        /// <typeparam name="TR">Return type</typeparam>
+        /// <typeparam name="TA">First parameter</typeparam>
+        /// <param name="store">The store to use when calling the function.</param>
+        /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
+        public Func<TA, TR>? WrapFunc<TA, TR>(IStore store)
+        {
+            if (!CheckTypeSignature(typeof(TR), typeof(TA)))
+            {
+                return null;
+            }
+
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return (a) =>
+            {
+                Span<Value> args = stackalloc Value[1];
+                args[0] = Value.FromValueBox(ca.Box(a));
+
+                return InvokeWithReturn(store, args, factory);
+            };
+        }
+
+        /// <summary>
+        /// Attempt to wrap this function as a Func. Wrapped func is faster than a normal Invoke call.
+        /// </summary>
+        /// <typeparam name="TR">Return type</typeparam>
+        /// <typeparam name="TA">First parameter</typeparam>
+        /// <typeparam name="TB">First parameter</typeparam>
+        /// <param name="store">The store to use when calling the function.</param>
+        /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
+        public Func<TA, TB, TR>? WrapFunc<TA, TB, TR>(IStore store)
+        {
+            // Check that the requested type signature is compatible
+            if (!CheckTypeSignature(typeof(TR), typeof(TA), typeof(TB)))
+            {
+                return null;
+            }
+
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return (a, b) =>
+            {
+                Span<Value> args = stackalloc Value[2];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+
+                return InvokeWithReturn(store, args, factory);
+            };
+        }
+
+        /// <summary>
+        /// Attempt to wrap this function as a Func. Wrapped func is faster than a normal Invoke call.
+        /// </summary>
+        /// <typeparam name="TR">Return type</typeparam>
+        /// <typeparam name="TA">First parameter</typeparam>
+        /// <typeparam name="TB">Second parameter</typeparam>
+        /// <typeparam name="TC">Third parameter</typeparam>
+        /// <param name="store">The store to use when calling the function.</param>
+        /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
+        public Func<TA, TB, TC, TR>? WrapFunc<TA, TB, TC, TR>(IStore store)
+        {
+            // Check that the requested type signature is compatible
+            if (!CheckTypeSignature(typeof(TR), typeof(TA), typeof(TB), typeof(TC)))
+            {
+                return null;
+            }
+
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return (a, b, c) =>
+            {
+                Span<Value> args = stackalloc Value[3];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+
+                return InvokeWithReturn(store, args, factory);
+            };
+        }
+
+        /// <summary>
+        /// Attempt to wrap this function as a Func. Wrapped func is faster than a normal Invoke call.
+        /// </summary>
+        /// <typeparam name="TR">Return type</typeparam>
+        /// <typeparam name="TA">First parameter</typeparam>
+        /// <typeparam name="TB">Second parameter</typeparam>
+        /// <typeparam name="TC">Third parameter</typeparam>
+        /// <typeparam name="TD">Fourth parameter</typeparam>
+        /// <param name="store">The store to use when calling the function.</param>
+        /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
+        public Func<TA, TB, TC, TD, TR>? WrapFunc<TA, TB, TC, TD, TR>(IStore store)
+        {
+            // Check that the requested type signature is compatible
+            if (!CheckTypeSignature(typeof(TR), typeof(TA), typeof(TB), typeof(TC), typeof(TD)))
+            {
+                return null;
+            }
+
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+            var cd = ValueBox.Converter<TD>();
+
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return (a, b, c, d) =>
+            {
+                Span<Value> args = stackalloc Value[4];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+                args[3] = Value.FromValueBox(cd.Box(d));
+
+                return InvokeWithReturn(store, args, factory);
+            };
+        }
+
+        /// <summary>
+        /// Attempt to wrap this function as a Func. Wrapped func is faster than a normal Invoke call.
+        /// </summary>
+        /// <typeparam name="TR">Return type</typeparam>
+        /// <typeparam name="TA">First parameter</typeparam>
+        /// <typeparam name="TB">Second parameter</typeparam>
+        /// <typeparam name="TC">Third parameter</typeparam>
+        /// <typeparam name="TD">Fourth parameter</typeparam>
+        /// <typeparam name="TE">Fifth parameter</typeparam>
+        /// <param name="store">The store to use when calling the function.</param>
+        /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
+        public Func<TA, TB, TC, TD, TE, TR>? WrapFunc<TA, TB, TC, TD, TE, TR>(IStore store)
+        {
+            // Check that the requested type signature is compatible
+            if (!CheckTypeSignature(typeof(TR), typeof(TA), typeof(TB), typeof(TC), typeof(TD), typeof(TE)))
+            {
+                return null;
+            }
+
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+            var cd = ValueBox.Converter<TD>();
+            var ce = ValueBox.Converter<TE>();
+
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return (a, b, c, d, e) =>
+            {
+                Span<Value> args = stackalloc Value[5];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+                args[3] = Value.FromValueBox(cd.Box(d));
+                args[4] = Value.FromValueBox(ce.Box(e));
+
+                return InvokeWithReturn(store, args, factory);
+            };
+        }
+
+        /// <summary>
+        /// Attempt to wrap this function as a Func. Wrapped func is faster than a normal Invoke call.
+        /// </summary>
+        /// <typeparam name="TR">Return type</typeparam>
+        /// <typeparam name="TA">First parameter</typeparam>
+        /// <typeparam name="TB">Second parameter</typeparam>
+        /// <typeparam name="TC">Third parameter</typeparam>
+        /// <typeparam name="TD">Fourth parameter</typeparam>
+        /// <typeparam name="TE">Fifth parameter</typeparam>
+        /// <typeparam name="TF">Sixth parameter</typeparam>
+        /// <param name="store">The store to use when calling the function.</param>
+        /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
+        public Func<TA, TB, TC, TD, TE, TF, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TR>(IStore store)
+        {
+            // Check that the requested type signature is compatible
+            if (!CheckTypeSignature(typeof(TR), typeof(TA), typeof(TB), typeof(TC), typeof(TD), typeof(TE), typeof(TF)))
+            {
+                return null;
+            }
+
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+            var cd = ValueBox.Converter<TD>();
+            var ce = ValueBox.Converter<TE>();
+            var cf = ValueBox.Converter<TF>();
+
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return (a, b, c, d, e, f) =>
+            {
+                Span<Value> args = stackalloc Value[6];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+                args[3] = Value.FromValueBox(cd.Box(d));
+                args[4] = Value.FromValueBox(ce.Box(e));
+                args[5] = Value.FromValueBox(cf.Box(f));
+
+                return InvokeWithReturn(store, args, factory);
+            };
+        }
+
+        /// <summary>
+        /// Attempt to wrap this function as a Func. Wrapped func is faster than a normal Invoke call.
+        /// </summary>
+        /// <typeparam name="TR">Return type</typeparam>
+        /// <typeparam name="TA">First parameter</typeparam>
+        /// <typeparam name="TB">Second parameter</typeparam>
+        /// <typeparam name="TC">Third parameter</typeparam>
+        /// <typeparam name="TD">Fourth parameter</typeparam>
+        /// <typeparam name="TE">Fifth parameter</typeparam>
+        /// <typeparam name="TF">Sixth parameter</typeparam>
+        /// <typeparam name="TG">Seventh parameter</typeparam>
+        /// <param name="store">The store to use when calling the function.</param>
+        /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
+        public Func<TA, TB, TC, TD, TE, TF, TG, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TR>(IStore store)
+        {
+            // Check that the requested type signature is compatible
+            if (!CheckTypeSignature(typeof(TR), typeof(TA), typeof(TB), typeof(TC), typeof(TD), typeof(TE), typeof(TF), typeof(TG)))
+            {
+                return null;
+            }
+
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+            var cd = ValueBox.Converter<TD>();
+            var ce = ValueBox.Converter<TE>();
+            var cf = ValueBox.Converter<TF>();
+            var cg = ValueBox.Converter<TG>();
+
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return (a, b, c, d, e, f, g) =>
+            {
+                Span<Value> args = stackalloc Value[7];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+                args[3] = Value.FromValueBox(cd.Box(d));
+                args[4] = Value.FromValueBox(ce.Box(e));
+                args[5] = Value.FromValueBox(cf.Box(f));
+                args[6] = Value.FromValueBox(cg.Box(g));
+
+                return InvokeWithReturn(store, args, factory);
+            };
+        }
+
+        /// <summary>
+        /// Attempt to wrap this function as a Func. Wrapped func is faster than a normal Invoke call.
+        /// </summary>
+        /// <typeparam name="TR">Return type</typeparam>
+        /// <typeparam name="TA">First parameter</typeparam>
+        /// <typeparam name="TB">Second parameter</typeparam>
+        /// <typeparam name="TC">Third parameter</typeparam>
+        /// <typeparam name="TD">Fourth parameter</typeparam>
+        /// <typeparam name="TE">Fifth parameter</typeparam>
+        /// <typeparam name="TF">Sixth parameter</typeparam>
+        /// <typeparam name="TG">Seventh parameter</typeparam>
+        /// <typeparam name="TH">Eighth parameter</typeparam>
+        /// <param name="store">The store to use when calling the function.</param>
+        /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TR>(IStore store)
+        {
+            // Check that the requested type signature is compatible
+            if (!CheckTypeSignature(typeof(TR), typeof(TA), typeof(TB), typeof(TC), typeof(TD), typeof(TE), typeof(TF), typeof(TG), typeof(TH)))
+            {
+                return null;
+            }
+
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+            var cd = ValueBox.Converter<TD>();
+            var ce = ValueBox.Converter<TE>();
+            var cf = ValueBox.Converter<TF>();
+            var cg = ValueBox.Converter<TG>();
+            var ch = ValueBox.Converter<TH>();
+
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return (a, b, c, d, e, f, g, h) =>
+            {
+                Span<Value> args = stackalloc Value[8];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+                args[3] = Value.FromValueBox(cd.Box(d));
+                args[4] = Value.FromValueBox(ce.Box(e));
+                args[5] = Value.FromValueBox(cf.Box(f));
+                args[6] = Value.FromValueBox(cg.Box(g));
+                args[7] = Value.FromValueBox(ch.Box(h));
+
+                return InvokeWithReturn(store, args, factory);
+            };
+        }
+
+        /// <summary>
+        /// Attempt to wrap this function as a Func. Wrapped func is faster than a normal Invoke call.
+        /// </summary>
+        /// <typeparam name="TR">Return type</typeparam>
+        /// <typeparam name="TA">First parameter</typeparam>
+        /// <typeparam name="TB">Second parameter</typeparam>
+        /// <typeparam name="TC">Third parameter</typeparam>
+        /// <typeparam name="TD">Fourth parameter</typeparam>
+        /// <typeparam name="TE">Fifth parameter</typeparam>
+        /// <typeparam name="TF">Sixth parameter</typeparam>
+        /// <typeparam name="TG">Seventh parameter</typeparam>
+        /// <typeparam name="TH">Eighth parameter</typeparam>
+        /// <typeparam name="TI">Ninth parameter</typeparam>
+        /// <param name="store">The store to use when calling the function.</param>
+        /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>(IStore store)
+        {
+            // Check that the requested type signature is compatible
+            if (!CheckTypeSignature(typeof(TR), typeof(TA), typeof(TB), typeof(TC), typeof(TD), typeof(TE), typeof(TF), typeof(TG), typeof(TH), typeof(TI)))
+            {
+                return null;
+            }
+
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+            var cd = ValueBox.Converter<TD>();
+            var ce = ValueBox.Converter<TE>();
+            var cf = ValueBox.Converter<TF>();
+            var cg = ValueBox.Converter<TG>();
+            var ch = ValueBox.Converter<TH>();
+            var ci = ValueBox.Converter<TI>();
+
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return (a, b, c, d, e, f, g, h, i) =>
+            {
+                Span<Value> args = stackalloc Value[9];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+                args[3] = Value.FromValueBox(cd.Box(d));
+                args[4] = Value.FromValueBox(ce.Box(e));
+                args[5] = Value.FromValueBox(cf.Box(f));
+                args[6] = Value.FromValueBox(cg.Box(g));
+                args[7] = Value.FromValueBox(ch.Box(h));
+                args[8] = Value.FromValueBox(ci.Box(i));
+
+                return InvokeWithReturn(store, args, factory);
+            };
+        }
+
+        /// <summary>
+        /// Attempt to wrap this function as a Func. Wrapped func is faster than a normal Invoke call.
+        /// </summary>
+        /// <typeparam name="TR">Return type</typeparam>
+        /// <typeparam name="TA">First parameter</typeparam>
+        /// <typeparam name="TB">Second parameter</typeparam>
+        /// <typeparam name="TC">Third parameter</typeparam>
+        /// <typeparam name="TD">Fourth parameter</typeparam>
+        /// <typeparam name="TE">Fifth parameter</typeparam>
+        /// <typeparam name="TF">Sixth parameter</typeparam>
+        /// <typeparam name="TG">Seventh parameter</typeparam>
+        /// <typeparam name="TH">Eighth parameter</typeparam>
+        /// <typeparam name="TI">Ninth parameter</typeparam>
+        /// <typeparam name="TJ">Tenth parameter</typeparam>
+        /// <param name="store">The store to use when calling the function.</param>
+        /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>(IStore store)
+        {
+            // Check that the requested type signature is compatible
+            if (!CheckTypeSignature(typeof(TR), typeof(TA), typeof(TB), typeof(TC),
+                                    typeof(TD), typeof(TE), typeof(TF), typeof(TG),
+                                    typeof(TH), typeof(TI), typeof(TJ)))
+            {
+                return null;
+            }
+
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+            var cd = ValueBox.Converter<TD>();
+            var ce = ValueBox.Converter<TE>();
+            var cf = ValueBox.Converter<TF>();
+            var cg = ValueBox.Converter<TG>();
+            var ch = ValueBox.Converter<TH>();
+            var ci = ValueBox.Converter<TI>();
+            var cj = ValueBox.Converter<TJ>();
+
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return (a, b, c, d, e, f, g, h, i, j) =>
+            {
+                Span<Value> args = stackalloc Value[10];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+                args[3] = Value.FromValueBox(cd.Box(d));
+                args[4] = Value.FromValueBox(ce.Box(e));
+                args[5] = Value.FromValueBox(cf.Box(f));
+                args[6] = Value.FromValueBox(cg.Box(g));
+                args[7] = Value.FromValueBox(ch.Box(h));
+                args[8] = Value.FromValueBox(ci.Box(i));
+                args[9] = Value.FromValueBox(cj.Box(j));
+
+                return InvokeWithReturn(store, args, factory);
+            };
+        }
+
+        /// <summary>
+        /// Attempt to wrap this function as a Func. Wrapped func is faster than a normal Invoke call.
+        /// </summary>
+        /// <typeparam name="TR">Return type</typeparam>
+        /// <typeparam name="TA">First parameter</typeparam>
+        /// <typeparam name="TB">Second parameter</typeparam>
+        /// <typeparam name="TC">Third parameter</typeparam>
+        /// <typeparam name="TD">Fourth parameter</typeparam>
+        /// <typeparam name="TE">Fifth parameter</typeparam>
+        /// <typeparam name="TF">Sixth parameter</typeparam>
+        /// <typeparam name="TG">Seventh parameter</typeparam>
+        /// <typeparam name="TH">Eighth parameter</typeparam>
+        /// <typeparam name="TI">Ninth parameter</typeparam>
+        /// <typeparam name="TJ">Tenth parameter</typeparam>
+        /// <typeparam name="TK">Eleventh parameter</typeparam>
+        /// <param name="store">The store to use when calling the function.</param>
+        /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>(IStore store)
+        {
+            // Check that the requested type signature is compatible
+            if (!CheckTypeSignature(typeof(TR), typeof(TA), typeof(TB), typeof(TC),
+                                    typeof(TD), typeof(TE), typeof(TF), typeof(TG),
+                                    typeof(TH), typeof(TI), typeof(TJ), typeof(TK)))
+            {
+                return null;
+            }
+
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+            var cd = ValueBox.Converter<TD>();
+            var ce = ValueBox.Converter<TE>();
+            var cf = ValueBox.Converter<TF>();
+            var cg = ValueBox.Converter<TG>();
+            var ch = ValueBox.Converter<TH>();
+            var ci = ValueBox.Converter<TI>();
+            var cj = ValueBox.Converter<TJ>();
+            var ck = ValueBox.Converter<TK>();
+
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return (a, b, c, d, e, f, g, h, i, j, k) =>
+            {
+                Span<Value> args = stackalloc Value[11];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+                args[3] = Value.FromValueBox(cd.Box(d));
+                args[4] = Value.FromValueBox(ce.Box(e));
+                args[5] = Value.FromValueBox(cf.Box(f));
+                args[6] = Value.FromValueBox(cg.Box(g));
+                args[7] = Value.FromValueBox(ch.Box(h));
+                args[8] = Value.FromValueBox(ci.Box(i));
+                args[9] = Value.FromValueBox(cj.Box(j));
+                args[10] = Value.FromValueBox(ck.Box(k));
+
+                return InvokeWithReturn(store, args, factory);
+            };
+        }
+
+        /// <summary>
+        /// Attempt to wrap this function as a Func. Wrapped func is faster than a normal Invoke call.
+        /// </summary>
+        /// <typeparam name="TR">Return type</typeparam>
+        /// <typeparam name="TA">First parameter</typeparam>
+        /// <typeparam name="TB">Second parameter</typeparam>
+        /// <typeparam name="TC">Third parameter</typeparam>
+        /// <typeparam name="TD">Fourth parameter</typeparam>
+        /// <typeparam name="TE">Fifth parameter</typeparam>
+        /// <typeparam name="TF">Sixth parameter</typeparam>
+        /// <typeparam name="TG">Seventh parameter</typeparam>
+        /// <typeparam name="TH">Eighth parameter</typeparam>
+        /// <typeparam name="TI">Ninth parameter</typeparam>
+        /// <typeparam name="TJ">Tenth parameter</typeparam>
+        /// <typeparam name="TK">Eleventh parameter</typeparam>
+        /// <typeparam name="TL">Twelfth parameter</typeparam>
+        /// <param name="store">The store to use when calling the function.</param>
+        /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>(IStore store)
+        {
+            // Check that the requested type signature is compatible
+            if (!CheckTypeSignature(typeof(TR), typeof(TA), typeof(TB), typeof(TC),
+                                    typeof(TD), typeof(TE), typeof(TF), typeof(TG),
+                                    typeof(TH), typeof(TI), typeof(TJ), typeof(TK),
+                                    typeof(TL)))
+            {
+                return null;
+            }
+
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+            var cd = ValueBox.Converter<TD>();
+            var ce = ValueBox.Converter<TE>();
+            var cf = ValueBox.Converter<TF>();
+            var cg = ValueBox.Converter<TG>();
+            var ch = ValueBox.Converter<TH>();
+            var ci = ValueBox.Converter<TI>();
+            var cj = ValueBox.Converter<TJ>();
+            var ck = ValueBox.Converter<TK>();
+            var cl = ValueBox.Converter<TL>();
+
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return (a, b, c, d, e, f, g, h, i, j, k, l) =>
+            {
+                Span<Value> args = stackalloc Value[12];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+                args[3] = Value.FromValueBox(cd.Box(d));
+                args[4] = Value.FromValueBox(ce.Box(e));
+                args[5] = Value.FromValueBox(cf.Box(f));
+                args[6] = Value.FromValueBox(cg.Box(g));
+                args[7] = Value.FromValueBox(ch.Box(h));
+                args[8] = Value.FromValueBox(ci.Box(i));
+                args[9] = Value.FromValueBox(cj.Box(j));
+                args[10] = Value.FromValueBox(ck.Box(k));
+                args[11] = Value.FromValueBox(cl.Box(l));
+
+                return InvokeWithReturn(store, args, factory);
+            };
+        }
+
+        /// <summary>
+        /// Attempt to wrap this function as a Func. Wrapped func is faster than a normal Invoke call.
+        /// </summary>
+        /// <typeparam name="TR">Return type</typeparam>
+        /// <typeparam name="TA">First parameter</typeparam>
+        /// <typeparam name="TB">Second parameter</typeparam>
+        /// <typeparam name="TC">Third parameter</typeparam>
+        /// <typeparam name="TD">Fourth parameter</typeparam>
+        /// <typeparam name="TE">Fifth parameter</typeparam>
+        /// <typeparam name="TF">Sixth parameter</typeparam>
+        /// <typeparam name="TG">Seventh parameter</typeparam>
+        /// <typeparam name="TH">Eighth parameter</typeparam>
+        /// <typeparam name="TI">Ninth parameter</typeparam>
+        /// <typeparam name="TJ">Tenth parameter</typeparam>
+        /// <typeparam name="TK">Eleventh parameter</typeparam>
+        /// <typeparam name="TL">Twelfth parameter</typeparam>
+        /// <typeparam name="TM">Thirteenth parameter</typeparam>
+        /// <param name="store">The store to use when calling the function.</param>
+        /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>(IStore store)
+        {
+            // Check that the requested type signature is compatible
+            if (!CheckTypeSignature(typeof(TR), typeof(TA), typeof(TB), typeof(TC),
+                                    typeof(TD), typeof(TE), typeof(TF), typeof(TG),
+                                    typeof(TH), typeof(TI), typeof(TJ), typeof(TK),
+                                    typeof(TL), typeof(TM)))
+            {
+                return null;
+            }
+
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+            var cd = ValueBox.Converter<TD>();
+            var ce = ValueBox.Converter<TE>();
+            var cf = ValueBox.Converter<TF>();
+            var cg = ValueBox.Converter<TG>();
+            var ch = ValueBox.Converter<TH>();
+            var ci = ValueBox.Converter<TI>();
+            var cj = ValueBox.Converter<TJ>();
+            var ck = ValueBox.Converter<TK>();
+            var cl = ValueBox.Converter<TL>();
+            var cm = ValueBox.Converter<TM>();
+
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return (a, b, c, d, e, f, g, h, i, j, k, l, m) =>
+            {
+                Span<Value> args = stackalloc Value[13];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+                args[3] = Value.FromValueBox(cd.Box(d));
+                args[4] = Value.FromValueBox(ce.Box(e));
+                args[5] = Value.FromValueBox(cf.Box(f));
+                args[6] = Value.FromValueBox(cg.Box(g));
+                args[7] = Value.FromValueBox(ch.Box(h));
+                args[8] = Value.FromValueBox(ci.Box(i));
+                args[9] = Value.FromValueBox(cj.Box(j));
+                args[10] = Value.FromValueBox(ck.Box(k));
+                args[11] = Value.FromValueBox(cl.Box(l));
+                args[12] = Value.FromValueBox(cm.Box(m));
+
+                return InvokeWithReturn(store, args, factory);
+            };
+        }
+
+        /// <summary>
+        /// Attempt to wrap this function as a Func. Wrapped func is faster than a normal Invoke call.
+        /// </summary>
+        /// <typeparam name="TR">Return type</typeparam>
+        /// <typeparam name="TA">First parameter</typeparam>
+        /// <typeparam name="TB">Second parameter</typeparam>
+        /// <typeparam name="TC">Third parameter</typeparam>
+        /// <typeparam name="TD">Fourth parameter</typeparam>
+        /// <typeparam name="TE">Fifth parameter</typeparam>
+        /// <typeparam name="TF">Sixth parameter</typeparam>
+        /// <typeparam name="TG">Seventh parameter</typeparam>
+        /// <typeparam name="TH">Eighth parameter</typeparam>
+        /// <typeparam name="TI">Ninth parameter</typeparam>
+        /// <typeparam name="TJ">Tenth parameter</typeparam>
+        /// <typeparam name="TK">Eleventh parameter</typeparam>
+        /// <typeparam name="TL">Twelfth parameter</typeparam>
+        /// <typeparam name="TM">Thirteenth parameter</typeparam>
+        /// <typeparam name="TN">Fourteenth parameter</typeparam>
+        /// <param name="store">The store to use when calling the function.</param>
+        /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>(IStore store)
+        {
+            // Check that the requested type signature is compatible
+            if (!CheckTypeSignature(typeof(TR), typeof(TA), typeof(TB), typeof(TC),
+                                    typeof(TD), typeof(TE), typeof(TF), typeof(TG),
+                                    typeof(TH), typeof(TI), typeof(TJ), typeof(TK),
+                                    typeof(TL), typeof(TM), typeof(TN)))
+            {
+                return null;
+            }
+
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+            var cd = ValueBox.Converter<TD>();
+            var ce = ValueBox.Converter<TE>();
+            var cf = ValueBox.Converter<TF>();
+            var cg = ValueBox.Converter<TG>();
+            var ch = ValueBox.Converter<TH>();
+            var ci = ValueBox.Converter<TI>();
+            var cj = ValueBox.Converter<TJ>();
+            var ck = ValueBox.Converter<TK>();
+            var cl = ValueBox.Converter<TL>();
+            var cm = ValueBox.Converter<TM>();
+            var cn = ValueBox.Converter<TN>();
+
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return (a, b, c, d, e, f, g, h, i, j, k, l, m, n) =>
+            {
+                Span<Value> args = stackalloc Value[14];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+                args[3] = Value.FromValueBox(cd.Box(d));
+                args[4] = Value.FromValueBox(ce.Box(e));
+                args[5] = Value.FromValueBox(cf.Box(f));
+                args[6] = Value.FromValueBox(cg.Box(g));
+                args[7] = Value.FromValueBox(ch.Box(h));
+                args[8] = Value.FromValueBox(ci.Box(i));
+                args[9] = Value.FromValueBox(cj.Box(j));
+                args[10] = Value.FromValueBox(ck.Box(k));
+                args[11] = Value.FromValueBox(cl.Box(l));
+                args[12] = Value.FromValueBox(cm.Box(m));
+                args[13] = Value.FromValueBox(cn.Box(n));
+
+                return InvokeWithReturn(store, args, factory);
+            };
+        }
+
+        /// <summary>
+        /// Attempt to wrap this function as a Func. Wrapped func is faster than a normal Invoke call.
+        /// </summary>
+        /// <typeparam name="TR">Return type</typeparam>
+        /// <typeparam name="TA">First parameter</typeparam>
+        /// <typeparam name="TB">Second parameter</typeparam>
+        /// <typeparam name="TC">Third parameter</typeparam>
+        /// <typeparam name="TD">Fourth parameter</typeparam>
+        /// <typeparam name="TE">Fifth parameter</typeparam>
+        /// <typeparam name="TF">Sixth parameter</typeparam>
+        /// <typeparam name="TG">Seventh parameter</typeparam>
+        /// <typeparam name="TH">Eighth parameter</typeparam>
+        /// <typeparam name="TI">Ninth parameter</typeparam>
+        /// <typeparam name="TJ">Tenth parameter</typeparam>
+        /// <typeparam name="TK">Eleventh parameter</typeparam>
+        /// <typeparam name="TL">Twelfth parameter</typeparam>
+        /// <typeparam name="TM">Thirteenth parameter</typeparam>
+        /// <typeparam name="TN">Fourteenth parameter</typeparam>
+        /// <typeparam name="TO">Fifteenth parameter</typeparam>
+        /// <param name="store">The store to use when calling the function.</param>
+        /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>(IStore store)
+        {
+            // Check that the requested type signature is compatible
+            if (!CheckTypeSignature(typeof(TR), typeof(TA), typeof(TB), typeof(TC),
+                                    typeof(TD), typeof(TE), typeof(TF), typeof(TG),
+                                    typeof(TH), typeof(TI), typeof(TJ), typeof(TK),
+                                    typeof(TL), typeof(TM), typeof(TN), typeof(TO)))
+            {
+                return null;
+            }
+
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+            var cd = ValueBox.Converter<TD>();
+            var ce = ValueBox.Converter<TE>();
+            var cf = ValueBox.Converter<TF>();
+            var cg = ValueBox.Converter<TG>();
+            var ch = ValueBox.Converter<TH>();
+            var ci = ValueBox.Converter<TI>();
+            var cj = ValueBox.Converter<TJ>();
+            var ck = ValueBox.Converter<TK>();
+            var cl = ValueBox.Converter<TL>();
+            var cm = ValueBox.Converter<TM>();
+            var cn = ValueBox.Converter<TN>();
+            var co = ValueBox.Converter<TO>();
+
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o) =>
+            {
+                Span<Value> args = stackalloc Value[15];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+                args[3] = Value.FromValueBox(cd.Box(d));
+                args[4] = Value.FromValueBox(ce.Box(e));
+                args[5] = Value.FromValueBox(cf.Box(f));
+                args[6] = Value.FromValueBox(cg.Box(g));
+                args[7] = Value.FromValueBox(ch.Box(h));
+                args[8] = Value.FromValueBox(ci.Box(i));
+                args[9] = Value.FromValueBox(cj.Box(j));
+                args[10] = Value.FromValueBox(ck.Box(k));
+                args[11] = Value.FromValueBox(cl.Box(l));
+                args[12] = Value.FromValueBox(cm.Box(m));
+                args[13] = Value.FromValueBox(cn.Box(n));
+                args[14] = Value.FromValueBox(co.Box(o));
+
+                return InvokeWithReturn(store, args, factory);
+            };
+        }
+
+        /// <summary>
+        /// Attempt to wrap this function as a Func. Wrapped func is faster than a normal Invoke call.
+        /// </summary>
+        /// <typeparam name="TR">Return type</typeparam>
+        /// <typeparam name="TA">First parameter</typeparam>
+        /// <typeparam name="TB">Second parameter</typeparam>
+        /// <typeparam name="TC">Third parameter</typeparam>
+        /// <typeparam name="TD">Fourth parameter</typeparam>
+        /// <typeparam name="TE">Fifth parameter</typeparam>
+        /// <typeparam name="TF">Sixth parameter</typeparam>
+        /// <typeparam name="TG">Seventh parameter</typeparam>
+        /// <typeparam name="TH">Eighth parameter</typeparam>
+        /// <typeparam name="TI">Ninth parameter</typeparam>
+        /// <typeparam name="TJ">Tenth parameter</typeparam>
+        /// <typeparam name="TK">Eleventh parameter</typeparam>
+        /// <typeparam name="TL">Twelfth parameter</typeparam>
+        /// <typeparam name="TM">Thirteenth parameter</typeparam>
+        /// <typeparam name="TN">Fourteenth parameter</typeparam>
+        /// <typeparam name="TO">Fifteenth parameter</typeparam>
+        /// <typeparam name="TP">Sixteenth parameter</typeparam>
+        /// <param name="store">The store to use when calling the function.</param>
+        /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>(IStore store)
+        {
+            // Check that the requested type signature is compatible
+            if (!CheckTypeSignature(typeof(TR), typeof(TA), typeof(TB), typeof(TC),
+                                    typeof(TD), typeof(TE), typeof(TF), typeof(TG),
+                                    typeof(TH), typeof(TI), typeof(TJ), typeof(TK),
+                                    typeof(TL), typeof(TM), typeof(TN), typeof(TO), typeof(TP)))
+            {
+                return null;
+            }
+
+            // Fetch a converter for each parameter type to box it
+            var ca = ValueBox.Converter<TA>();
+            var cb = ValueBox.Converter<TB>();
+            var cc = ValueBox.Converter<TC>();
+            var cd = ValueBox.Converter<TD>();
+            var ce = ValueBox.Converter<TE>();
+            var cf = ValueBox.Converter<TF>();
+            var cg = ValueBox.Converter<TG>();
+            var ch = ValueBox.Converter<TH>();
+            var ci = ValueBox.Converter<TI>();
+            var cj = ValueBox.Converter<TJ>();
+            var ck = ValueBox.Converter<TK>();
+            var cl = ValueBox.Converter<TL>();
+            var cm = ValueBox.Converter<TM>();
+            var cn = ValueBox.Converter<TN>();
+            var co = ValueBox.Converter<TO>();
+            var cp = ValueBox.Converter<TP>();
+
+            // Create a factory for the return type
+            var factory = IReturnTypeFactory<TR>.Create();
+
+            return (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p) =>
+            {
+                Span<Value> args = stackalloc Value[16];
+                args[0] = Value.FromValueBox(ca.Box(a));
+                args[1] = Value.FromValueBox(cb.Box(b));
+                args[2] = Value.FromValueBox(cc.Box(c));
+                args[3] = Value.FromValueBox(cd.Box(d));
+                args[4] = Value.FromValueBox(ce.Box(e));
+                args[5] = Value.FromValueBox(cf.Box(f));
+                args[6] = Value.FromValueBox(cg.Box(g));
+                args[7] = Value.FromValueBox(ch.Box(h));
+                args[8] = Value.FromValueBox(ci.Box(i));
+                args[9] = Value.FromValueBox(cj.Box(j));
+                args[10] = Value.FromValueBox(ck.Box(k));
+                args[11] = Value.FromValueBox(cl.Box(l));
+                args[12] = Value.FromValueBox(cm.Box(m));
+                args[13] = Value.FromValueBox(cn.Box(n));
+                args[14] = Value.FromValueBox(co.Box(o));
+                args[15] = Value.FromValueBox(cp.Box(p));
+
+                return InvokeWithReturn(store, args, factory);
+            };
+        }
+        #endregion
+
+        /// <summary>
+        /// Invokes the wasmtime function and processes the results through a return type factory.
+        /// Assumes arguments are the correct type. Disposes the arguments.
+        /// </summary>
+        /// <typeparam name="TR"></typeparam>
+        /// <param name="store">The store to use when calling the function.</param>
+        /// <param name="arguments">Span of arguments, will be diposed after use.</param>
+        /// <param name="factory">Factory to use to construct the return item</param>
+        /// <returns>The return value from the function</returns>
+        private unsafe TR InvokeWithReturn<TR>(IStore store, ReadOnlySpan<Value> arguments, IReturnTypeFactory<TR> factory)
+        {
+            Span<Value> output = stackalloc Value[Results.Count];
+
+            try
+            {
+                Invoke(store, arguments, output);
+                return factory.Create(store.Context, output);
+            }
+            finally
+            {
+                for (int i = 0; i < output.Length; i++)
+                {
+                    output[i].Dispose();
+                }
+
+                for (int i = 0; i < arguments.Length; i++)
+                {
+                    var argument = arguments[i];
+                    argument.Dispose();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Invokes the wasmtime function
+        /// Assumes arguments are the correct type. Disposes the arguments.
+        /// </summary>
+        /// <param name="store">The store to use when calling the function.</param>
+        /// <param name="arguments">Span of arguments, will be diposed after use.</param>
+        /// <returns></returns>
+        private unsafe void InvokeWithoutReturn(IStore store, ReadOnlySpan<Value> arguments)
+        {
+            try
+            {
+                Invoke(store, arguments, stackalloc Value[0]);
+            }
+            finally
+            {
+                for (int i = 0; i < arguments.Length; i++)
+                {
+                    var argument = arguments[i];
+                    argument.Dispose();
+                }
+            }
+        }
+
+        /// <summary>
         /// Invokes the Wasmtime function with no arguments.
         /// </summary>
         /// <param name="store">The store that owns this function.</param>
@@ -614,29 +1989,18 @@ namespace Wasmtime
             }
 
             var context = store.Context;
-            unsafe
+
+            // Convert arguments (ValueBox) into a form wasm can consume (Value)
+            Span<Value> args = stackalloc Value[Parameters.Count];
+            for (int i = 0; i < arguments.Length; ++i)
+                args[i] = arguments[i].ToValue(Parameters[i]);
+
+            // Make some space to store the return results
+            Span<Value> resultsSpan = stackalloc Value[Results.Count];
+
+            try
             {
-                Value* args = stackalloc Value[Parameters.Count];
-                Value* results = stackalloc Value[Results.Count];
-
-                for (int i = 0; i < arguments.Length; ++i)
-                    args[i] = arguments[i].ToValue(Parameters[i]);
-
-                var error = Native.wasmtime_func_call(context.handle, func, args, (UIntPtr)Parameters.Count, results, (UIntPtr)Results.Count, out var trap);
-                if (error != IntPtr.Zero)
-                {
-                    throw WasmtimeException.FromOwnedError(error);
-                }
-
-                for (int i = 0; i < arguments.Length; ++i)
-                {
-                    args[i].Dispose();
-                }
-
-                if (trap != IntPtr.Zero)
-                {
-                    throw TrapException.FromOwnedTrap(trap);
-                }
+                Invoke(store, args, resultsSpan);
 
                 if (Results.Count == 0)
                 {
@@ -647,13 +2011,13 @@ namespace Wasmtime
                 {
                     if (Results.Count == 1)
                     {
-                        return results[0].ToObject(context);
+                        return resultsSpan[0].ToObject(context);
                     }
 
                     var ret = new object?[Results.Count];
                     for (int i = 0; i < Results.Count; ++i)
                     {
-                        ret[i] = results[i].ToObject(context);
+                        ret[i] = resultsSpan[i].ToObject(context);
                     }
 
                     return ret;
@@ -662,9 +2026,59 @@ namespace Wasmtime
                 {
                     for (int i = 0; i < Results.Count; ++i)
                     {
-                        results[i].Dispose();
+                        resultsSpan[i].Dispose();
                     }
                 }
+            }
+            finally
+            {
+                for (int i = 0; i < arguments.Length; ++i)
+                {
+                    args[i].Dispose();
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// Invokes the Wasmtime function. Assumes arguments are the correct type and return span is the correct size.
+        /// </summary>
+        /// <param name="store">The store that owns this function.</param>
+        /// <param name="arguments">The arguments to pass to the function, wrapped as `Value`</param>
+        /// <param name="resultsOut">Output span to store the results in, must be the correct length</param>
+        /// <returns>
+        ///   Returns null if the function has no return value.
+        /// </returns>
+        private unsafe void Invoke(IStore store, ReadOnlySpan<Value> arguments, Span<Value> resultsOut)
+        {
+            if (IsNull)
+            {
+                throw new InvalidOperationException("Cannot invoke a null function reference.");
+            }
+
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            var context = store.Context;
+
+            IntPtr error;
+            IntPtr trap;
+            fixed (Value* argsPtr = arguments)
+            fixed (Value* resultsPtr = resultsOut)
+            {
+                error = Native.wasmtime_func_call(context.handle, func, argsPtr, (UIntPtr)Parameters.Count, resultsPtr, (UIntPtr)Results.Count, out trap);
+            }
+
+            if (error != IntPtr.Zero)
+            {
+                throw WasmtimeException.FromOwnedError(error);
+            }
+
+            if (trap != IntPtr.Zero)
+            {
+                throw TrapException.FromOwnedTrap(trap);
             }
         }
 

@@ -78,6 +78,43 @@ namespace Wasmtime.Tests
         }
 
         [Fact]
+        public void ItGetsArgumentsFromGenericSpecification()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+
+            var add = instance.GetFunction<int, int, int>(Store, "add");
+            add.Should().NotBeNull();
+
+            int x = add(40, 2);
+            x.Should().Be(42);
+        }
+
+        [Fact]
+        public void ItReturnsNullForInvalidTypeSpecification()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+
+            instance.GetFunction<double, int, int>(Store, "add").Should().BeNull();
+            instance.GetFunction<int, double, int>(Store, "add").Should().BeNull();
+            instance.GetFunction<int, int, double>(Store, "add").Should().BeNull();
+            instance.GetFunction<int, int, int, int>(Store, "add").Should().BeNull();
+            instance.GetAction<int, int>(Store, "add").Should().BeNull();
+        }
+
+        [Fact]
+        public void ItGetsArgumentsFromGenericSpecificationWithMultipleReturns()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+
+            var swap = instance.GetFunction<int, int, (int, int)>(Store, "swap");
+            swap.Should().NotBeNull();
+
+            (int x, int y) = swap(100, 10);
+            x.Should().Be(10);
+            y.Should().Be(100);
+        }
+
+        [Fact]
         public void ItPropagatesExceptionsToCallersViaTraps()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
@@ -94,16 +131,180 @@ namespace Wasmtime.Tests
         }
 
         [Fact]
+        public void ItEchoesInt32()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var echo = instance.GetFunction<int, int>(Store, "$echo_i32");
+            echo.Should().NotBeNull();
+
+            var result = echo.Invoke(42);
+            result.Should().Be(42);
+        }
+
+        [Fact]
+        public void ItEchoesInt64()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var echo = instance.GetFunction<long, long>(Store, "$echo_i64");
+            echo.Should().NotBeNull();
+
+            var result = echo.Invoke(42);
+            result.Should().Be(42);
+        }
+
+        [Fact]
+        public void ItEchoesFloat32()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var echo = instance.GetFunction<float, float>(Store, "$echo_f32");
+            echo.Should().NotBeNull();
+
+            var result = echo.Invoke(42);
+            result.Should().Be(42);
+        }
+
+        [Fact]
+        public void ItEchoesFloat64()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var echo = instance.GetFunction<double, double>(Store, "$echo_f64");
+            echo.Should().NotBeNull();
+
+            var result = echo.Invoke(42);
+            result.Should().Be(42);
+        }
+
+        [Fact]
         public void ItEchoesV128()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var echo = instance.GetFunction(Store, "$echo_v128");
+            var echo = instance.GetFunction<V128, V128>(Store, "$echo_v128");
+            echo.Should().NotBeNull();
 
-            var result = (V128)echo.Invoke(Store, V128.AllBitsSet);
+            var result = echo.Invoke(V128.AllBitsSet);
+            result.Should().Be(V128.AllBitsSet);
+        }
 
-            result
+        [Fact]
+        public void ItEchoesFuncref()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var func = instance.GetFunction(Store, "$echo_funcref");
+            var echo = func.WrapFunc<Function, Function>(Store);
+            echo.Should().NotBeNull();
+
+            var result = echo.Invoke(func);
+
+            result.Should().NotBeNull();
+            result.CheckTypeSignature(typeof(Function), typeof(Function)).Should().BeTrue();
+        }
+
+        [Fact]
+        public void ItEchoesExternref()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var echo = instance.GetFunction<object, object>(Store, "$echo_externref");
+            echo.Should().NotBeNull();
+
+            var obj = new object();
+
+            var result = echo.Invoke(obj);
+
+            result.Should().NotBeNull();
+            result.Should().BeSameAs(obj);
+        }
+
+        [Fact]
+        public void ItEchoesExternrefString()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var echo = instance.GetFunction<object, object>(Store, "$echo_externref");
+            echo.Should().NotBeNull();
+
+            var str = "Hello Wasmtime";
+
+            var result = echo.Invoke(str);
+
+            result.Should().NotBeNull();
+            result.Should().BeSameAs(str);
+        }
+
+        [Fact]
+        public void ItReturnsTwoItemTuple()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var echo = instance.GetFunction<(int, int)>(Store, "$echo_tuple2");
+            echo.Should().NotBeNull();
+
+            var result = echo.Invoke();
+            result.Should().Be((1, 2));
+        }
+
+        [Fact]
+        public void ItReturnsThreeItemTuple()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var echo = instance.GetFunction<(int, int, int)>(Store, "$echo_tuple3");
+            echo.Should().NotBeNull();
+
+            var result = echo.Invoke();
+            result.Should().Be((1, 2, 3));
+        }
+
+        [Fact]
+        public void ItReturnsFourItemTuple()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var echo = instance.GetFunction<(int, int, int, float)>(Store, "$echo_tuple4");
+            echo.Should().NotBeNull();
+
+            var result = echo.Invoke();
+            result.Should().Be((1, 2, 3, 3.141f));
+        }
+
+        [Fact]
+        public void ItReturnsFiveItemTuple()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var echo = instance.GetFunction<(int, int, int, float, double)>(Store, "$echo_tuple5");
+            echo.Should().NotBeNull();
+
+            var result = echo.Invoke();
+            result.Should().Be((1, 2, 3, 3.141f, 2.71828));
+        }
+
+        [Fact]
+        public void ItReturnsSixItemTuple()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var echo = instance.GetFunction<(int, int, int, float, double, int)>(Store, "$echo_tuple6");
+            echo.Should().NotBeNull();
+
+            var result = echo.Invoke();
+            result.Should().Be((1, 2, 3, 3.141f, 2.71828, 6));
+        }
+
+        [Fact]
+        public void ItReturnsSevenItemTuple()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var echo = instance.GetFunction<(int, int, int, float, double, int, int)>(Store, "$echo_tuple7");
+            echo.Should().NotBeNull();
+
+            var result = echo.Invoke();
+            result.Should().Be((1, 2, 3, 3.141f, 2.71828, 6, 7));
+        }
+
+        [Fact]
+        public void ItReturnsNullForVeryLongTuples()
+        {
+            // Note that this test is about the current limitations of the system. It's possible
+            // to support longer tuples, in which case this test will need modifying.
+
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            instance.GetFunction<(int, int, int, float, double, int, int, int)>(Store, "$echo_tuple8")
                 .Should()
-                .Be(V128.AllBitsSet);
+                .BeNull();
         }
 
         public void Dispose()

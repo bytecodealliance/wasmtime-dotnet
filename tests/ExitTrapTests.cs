@@ -25,12 +25,12 @@ namespace Wasmtime.Tests
             var memory = instance.GetMemory(store, "memory");
             memory.Should().NotBeNull();
 
-            var exit = instance.GetFunction(store, "exit");
+            var exit = instance.GetAction<int>(store, "exit")!;
             exit.Should().NotBeNull();
 
             try
             {
-                exit.Invoke(store, exitCode);
+                exit(exitCode);
                 Assert.False(bool.Parse(bool.TrueString));
             }
             catch (TrapException ex)
