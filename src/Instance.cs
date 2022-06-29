@@ -292,7 +292,7 @@ namespace Wasmtime
         /// <typeparam name="TE">Fifth parameter type</typeparam>
         /// <typeparam name="TF">Sixth parameter type</typeparam>
         /// <typeparam name="TG">Seventh parameter type</typeparam>
-        /// <typeparam name="TH">Eigth parameter type</typeparam>
+        /// <typeparam name="TH">Eighth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TR>(IStore store, string name)
