@@ -90,9 +90,9 @@ namespace Wasmtime
             // Get all the generic arguments of TFunc. All of the Parameters, followed by the return type
             var args = typeof(TFunc).GetGenericArguments();
 
-            Factory = IReturnTypeFactory<TReturn>.GetCreateMethodInfo(args.Length - 1)
+            Factory = (TFunc)IReturnTypeFactory<TReturn>.GetCreateMethodInfo(args.Length - 1)
                 .MakeGenericMethod(args[..^1])
-                .CreateDelegate<TFunc>();
+                .CreateDelegate(typeof(TFunc));
         }
 
         public abstract TReturn Create(StoreContext context, Span<Value> values);

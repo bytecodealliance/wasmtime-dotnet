@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 
 namespace Wasmtime
 {
@@ -84,11 +83,8 @@ namespace Wasmtime
         }
 
         internal unsafe V128(byte* src)
+            : this(new ReadOnlySpan<byte>(src, 16))
         {
-            fixed (byte* dest = bytes)
-            {
-                Unsafe.CopyBlock(dest, src, 16);
-            }
         }
 
         internal unsafe void CopyTo(byte* dest)
