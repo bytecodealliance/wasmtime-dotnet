@@ -194,16 +194,14 @@ namespace Wasmtime
         {
             private readonly Global _global;
             private readonly IStore _store;
-
-            private readonly IReturnTypeFactory<T> _factory;
+            
             private readonly IValueBoxConverter<T> _converter;
 
             internal Accessor(Global global, IStore store)
             {
                 _global = global ?? throw new ArgumentNullException(nameof(global));
                 _store = store ?? throw new ArgumentNullException(nameof(store));
-
-                _factory = IReturnTypeFactory<T>.Create();
+                
                 _converter = ValueBox.Converter<T>();
             }
 
@@ -224,9 +222,7 @@ namespace Wasmtime
                 var context = _store.Context;
                 Native.wasmtime_global_get(context.handle, _global.global, out var v);
 
-                Span<Value> vals = stackalloc Value[1];
-                vals[0] = v;
-                var result = _factory.Create(context, vals);
+                var result = _converter.Unbox(context, v.ToValueBox());
                 v.Dispose();
 
                 return result;
