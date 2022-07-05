@@ -316,6 +316,44 @@ namespace Wasmtime
             return new Module(handle, name);
         }
 
+        /// <summary>
+        /// Convert WAT (Web Assembly Text) into WASM bytes
+        /// </summary>
+        /// <param name="wat">A string containing WAT (Web Assembly Text)</param>
+        /// <returns>Returns a byte array containing the WebAssembly module represented by the given text.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if text is null</exception>
+        /// <exception cref="WasmtimeException">Thrown if text is not valid WAT</exception>
+        public static byte[] ConvertText(string wat)
+        {
+            if (wat is null)
+            {
+                throw new ArgumentNullException(nameof(wat));
+            }
+
+            unsafe
+            {
+                var textBytes = Encoding.UTF8.GetBytes(wat);
+                fixed (byte* ptr = textBytes)
+                {
+                    var error = Native.wasmtime_wat2wasm(ptr, (UIntPtr)textBytes.Length, out var moduleBytes);
+                    if (error != IntPtr.Zero)
+                    {
+                        throw WasmtimeException.FromOwnedError(error);
+                    }
+
+                    using (moduleBytes)
+                    {
+                        var arr = new byte[(int)moduleBytes.size];
+
+                        var src = new Span<byte>(moduleBytes.data, (int)moduleBytes.size);
+                        src.CopyTo(arr);
+
+                        return arr;
+                    }
+                }
+            }
+        }
+
         /// <inheritdoc/>
         public void Dispose()
         {
