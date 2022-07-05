@@ -98,6 +98,21 @@ namespace Wasmtime
         }
 
         /// <summary>
+        /// Wrap this global as a specific type, accessing through the wrapper avoids any boxing.
+        /// </summary>
+        /// <typeparam name="T">Type of this global</typeparam>
+        /// <returns>An accessor for this global, or null if the type is incorrect</returns>
+        public Accessor<T>? Wrap<T>(IStore store)
+        {
+            if (!Kind.IsAssignableFrom(typeof(T)))
+            {
+                return null;
+            }
+
+            return new Accessor<T>(this, store);
+        }
+
+        /// <summary>
         /// Gets the value kind of the global.
         /// </summary>
         public ValueKind Kind { get; private set; }
@@ -169,5 +184,72 @@ namespace Wasmtime
         }
 
         private readonly ExternGlobal global;
+
+        /// <summary>
+        /// A typed accessor for a WebAssembly global value.
+        /// </summary>
+        /// <typeparam name="T">Type of the global being accessed.</typeparam>
+        public class Accessor<T>
+            : IExternal
+        {
+            private readonly Global _global;
+            private readonly IStore _store;
+            
+            private readonly IValueBoxConverter<T> _converter;
+
+            internal Accessor(Global global, IStore store)
+            {
+                _global = global ?? throw new ArgumentNullException(nameof(global));
+                _store = store ?? throw new ArgumentNullException(nameof(store));
+                
+                _converter = ValueBox.Converter<T>();
+            }
+
+            /// <summary>
+            /// Gets the mutability of the global.
+            /// </summary>
+            public Mutability Mutability
+            {
+                get => _global.Mutability;
+            }
+
+            /// <summary>
+            /// Gets the value of the global.
+            /// </summary>
+            /// <returns>Returns the global's value.</returns>
+            public T GetValue()
+            {
+                var context = _store.Context;
+                Native.wasmtime_global_get(context.handle, _global.global, out var v);
+
+                var result = _converter.Unbox(context, v.ToValueBox());
+                v.Dispose();
+
+                return result;
+            }
+
+            /// <summary>
+            /// Sets the value of the global.
+            /// </summary>
+            /// <param name="value">The value to set.</param>
+            public void SetValue(T value)
+            {
+                if (Mutability != Mutability.Mutable)
+                {
+                    throw new InvalidOperationException("The global is immutable and cannot be changed.");
+                }
+
+                using (var v = _converter.Box(value).ToValue(_global.Kind))
+                {
+                    var context = _store.Context;
+                    Native.wasmtime_global_set(context.handle, _global.global, in v);
+                }
+            }
+
+            Extern IExternal.AsExtern()
+            {
+                return ((IExternal)_global).AsExtern();
+            }
+        }
     }
 }
