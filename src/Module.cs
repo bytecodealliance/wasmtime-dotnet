@@ -319,19 +319,20 @@ namespace Wasmtime
         /// <summary>
         /// Convert WAT (Web Assembly Text) into WASM bytes
         /// </summary>
-        /// <param name="text"></param>
+        /// <param name="wat">A string containing WAT (Web Assembly Text)</param>
         /// <returns></returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        public static byte[] Wat2Wasm(string text)
+        /// <exception cref="ArgumentNullException">Thrown if text is null</exception>
+        /// <exception cref="WasmtimeException">Thrown if text is not valid WAT</exception>
+        public static byte[] ConvertText(string wat)
         {
-            if (text is null)
+            if (wat is null)
             {
-                throw new ArgumentNullException(nameof(text));
+                throw new ArgumentNullException(nameof(wat));
             }
 
             unsafe
             {
-                var textBytes = Encoding.UTF8.GetBytes(text);
+                var textBytes = Encoding.UTF8.GetBytes(wat);
                 fixed (byte* ptr = textBytes)
                 {
                     var error = Native.wasmtime_wat2wasm(ptr, (UIntPtr)textBytes.Length, out var moduleBytes);
