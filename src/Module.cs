@@ -320,7 +320,7 @@ namespace Wasmtime
         /// Convert WAT (Web Assembly Text) into WASM bytes
         /// </summary>
         /// <param name="wat">A string containing WAT (Web Assembly Text)</param>
-        /// <returns></returns>
+        /// <returns>Returns a byte array containing the WebAssembly module represented by the given text.</returns>
         /// <exception cref="ArgumentNullException">Thrown if text is null</exception>
         /// <exception cref="WasmtimeException">Thrown if text is not valid WAT</exception>
         public static byte[] ConvertText(string wat)
