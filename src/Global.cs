@@ -188,7 +188,7 @@ namespace Wasmtime
         /// <summary>
         /// A typed accessor for a WebAssembly global value.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">Type of the global being accessed.</typeparam>
         public class Accessor<T>
             : IExternal
         {
