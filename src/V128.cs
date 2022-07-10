@@ -32,13 +32,7 @@ namespace Wasmtime
                 throw new ArgumentException("Must supply exactly 16 bytes to construct V128");
             }
 
-            unsafe
-            {
-                fixed (byte* bytesPtr = this.bytes)
-                {
-                    bytes.CopyTo(new Span<byte>(bytesPtr, 16));
-                }
-            }
+            bytes.CopyTo(AsSpan());
         }
 
         /// <summary>
