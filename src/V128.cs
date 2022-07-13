@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 namespace Wasmtime
 {
@@ -31,13 +32,7 @@ namespace Wasmtime
                 throw new ArgumentException("Must supply exactly 16 bytes to construct V128");
             }
 
-            unsafe
-            {
-                fixed (byte* bytesPtr = this.bytes)
-                {
-                    bytes.CopyTo(new Span<byte>(bytesPtr, 16));
-                }
-            }
+            bytes.CopyTo(AsSpan());
         }
 
         /// <summary>
@@ -87,19 +82,31 @@ namespace Wasmtime
         {
         }
 
+        /// <summary>
+        /// Creates a new writeable span over the bytes of this V128
+        /// </summary>
+        /// <returns>The span representation of this V128.</returns>
+        public Span<byte> AsSpan()
+        {
+            unsafe
+            {
+                return MemoryMarshal.CreateSpan(ref bytes[0], 16);
+            }
+        }
+
         internal unsafe void CopyTo(byte* dest)
         {
             var dst = new Span<byte>(dest, 16);
             CopyTo(dst);
         }
 
-        internal unsafe void CopyTo(Span<byte> dest)
+        /// <summary>
+        /// Copy bytes into a span
+        /// </summary>
+        /// <param name="dest">span to copy bytes into</param>
+        public void CopyTo(Span<byte> dest)
         {
-            fixed (byte* bytesPtr = bytes)
-            {
-                var src = new Span<byte>(bytesPtr, 16);
-                src.CopyTo(dest);
-            }
+            AsSpan().CopyTo(dest);
         }
     }
 }
