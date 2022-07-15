@@ -64,6 +64,11 @@ namespace Wasmtime
         public uint Maximum { get; private set; }
 
         /// <summary>
+        /// The memory encoding for string operations.
+        /// </summary>
+        public Encoding MemoryEncoding { get; set; } = Encoding.UTF8;
+
+        /// <summary>
         /// Gets the current size of the memory, in WebAssembly page units.
         /// </summary>
         /// <returns>Returns the current size of the memory, in WebAssembly page units.</returns>
@@ -100,10 +105,10 @@ namespace Wasmtime
         /// <returns>Returns the span of the memory.</returns>
         /// <remarks>
         /// The span may become invalid if the memory grows.
-        /// 
+        ///
         /// This may happen if the memory is explicitly requested to grow or
         /// grows as a result of WebAssembly execution.
-        /// 
+        ///
         /// Therefore, the returned span should not be used after calling the grow method or
         /// after calling into WebAssembly code.
         /// </remarks>
@@ -145,7 +150,7 @@ namespace Wasmtime
         /// <returns>Returns the string read from memory.</returns>
         public string ReadString(int address, int length)
         {
-            return Encoding.UTF8.GetString(GetSpan().Slice(address, length));
+            return MemoryEncoding.GetString(GetSpan().Slice(address, length));
         }
 
         /// <summary>
@@ -162,7 +167,7 @@ namespace Wasmtime
                 throw new InvalidOperationException("string is not null terminated");
             }
 
-            return Encoding.UTF8.GetString(slice.Slice(0, terminator));
+            return MemoryEncoding.GetString(slice.Slice(0, terminator));
         }
 
         /// <summary>
@@ -173,7 +178,7 @@ namespace Wasmtime
         /// <return>Returns the number of bytes written.</return>
         public int WriteString(int address, string value)
         {
-            return Encoding.UTF8.GetBytes(value, GetSpan().Slice(address));
+            return MemoryEncoding.GetBytes(value, GetSpan().Slice(address));
         }
 
         /// <summary>
