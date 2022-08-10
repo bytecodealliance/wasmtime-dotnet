@@ -63,6 +63,15 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
         <WasmtimeLibraryFilename>libwasmtime.dylib</WasmtimeLibraryFilename>
         <PackagePath>runtimes/osx-x64/native/lib/libwasmtime.dylib</PackagePath>
       </WasmtimeDownload>
+      <WasmtimeDownload Include="macOS" Condition="'$(DevBuild)' != 'true' Or $([MSBuild]::IsOsPlatform('OSX'))">
+        <ReleaseFileExtension>.tar.xz</ReleaseFileExtension>
+        <ReleaseDirectory Condition="'$(DevBuild)'=='true'">wasmtime-dev-aarch64-macos-c-api</ReleaseDirectory>
+        <ReleaseDirectory Condition="'$(ReleaseDirectory)'==''">wasmtime-v$(WasmtimeVersion)-aarch64-macos-c-api</ReleaseDirectory>
+        <ReleaseFileName>%(ReleaseDirectory)%(ReleaseFileExtension)</ReleaseFileName>
+        <URL>$(ReleaseURLBase)%(ReleaseFileName)</URL>
+        <WasmtimeLibraryFilename>libwasmtime.dylib</WasmtimeLibraryFilename>
+        <PackagePath>runtimes/osx-aarch64/native/lib/libwasmtime.dylib</PackagePath>
+      </WasmtimeDownload>
       <WasmtimeDownload Include="Windows" Condition="'$(DevBuild)' != 'true' Or $([MSBuild]::IsOsPlatform('Windows'))">
         <ReleaseFileExtension>.zip</ReleaseFileExtension>
         <ReleaseDirectory>$(ReleaseFileNameBase)-windows-c-api</ReleaseDirectory>
