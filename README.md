@@ -134,7 +134,7 @@ Use `dotnet` to create a NuGet package:
 
 ```
 $ cd src
-$ dotnet pack Wasmtime.sln -c Release
+$ dotnet pack Wasmtime.sln -c Release /p:Packing=true
 ```
 
 This will create a `.nupkg` file in `src/bin/Release`.
