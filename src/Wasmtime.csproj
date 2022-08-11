@@ -99,14 +99,14 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
 
     <!-- Workaround for https://github.com/msys2/MSYS2-packages/issues/1548 -->
     <Exec
-      Condition="%(WasmtimeDownload.FileExtension) == 'tar.xz' And !Exists('$(IntermediateOutputPath)$(ReleaseFileNameBase)-%(WasmtimeDownload.OS)-c-api')"
+      Condition="%(WasmtimeDownload.FileExtension) == 'tar.xz' And !Exists('$(IntermediateOutputPath)$(ReleaseFileNameBase)-%(WasmtimeDownload.Arch)-%(WasmtimeDownload.OS)-c-api')"
       Command="xz --decompress --stdout $(ReleaseFileNameBase)-%(WasmtimeDownload.Arch)-%(WasmtimeDownload.OS)-c-api.%(WasmtimeDownload.FileExtension) | tar xf -"
       WorkingDirectory="$(IntermediateOutputPath)"
       StandardOutputImportance="Low"
       StandardErrorImportance="Low"
     />
     <Exec
-      Condition="%(WasmtimeDownload.FileExtension) == 'zip' And !Exists('$(IntermediateOutputPath)$(ReleaseFileNameBase)-%(WasmtimeDownload.OS)-c-api')"
+      Condition="%(WasmtimeDownload.FileExtension) == 'zip' And !Exists('$(IntermediateOutputPath)$(ReleaseFileNameBase)-%(WasmtimeDownload.Arch)-%(WasmtimeDownload.OS)-c-api')"
       Command="unzip $(ReleaseFileNameBase)-%(WasmtimeDownload.Arch)-%(WasmtimeDownload.OS)-c-api.%(WasmtimeDownload.FileExtension)"
       WorkingDirectory="$(IntermediateOutputPath)"
       StandardOutputImportance="Low"
