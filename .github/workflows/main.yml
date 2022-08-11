@@ -68,4 +68,4 @@ jobs:
     - name: Create package
       run: |
         cd src
-        dotnet pack -c ${{ matrix.config }}
+        dotnet pack -c ${{ matrix.config }} /p:Packing=true
