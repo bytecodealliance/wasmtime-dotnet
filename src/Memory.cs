@@ -105,6 +105,53 @@ namespace Wasmtime
         }
 
         /// <summary>
+        /// Gets the span of the memory viewed as a specific type, starting at a given address.
+        /// </summary>
+        /// <param name="store">The store that owns the memory.</param>
+        /// <param name="address">The zero-based address of the start of the span.</param>
+        /// <returns>Returns the span of the memory.</returns>
+        /// <remarks>
+        /// The span may become invalid if the memory grows.
+        /// 
+        /// This may happen if the memory is explicitly requested to grow or
+        /// grows as a result of WebAssembly execution.
+        /// 
+        /// Therefore, the returned span should not be used after calling the grow method or
+        /// after calling into WebAssembly code.
+        /// </remarks>
+        public unsafe Span<T> GetSpan<T>(IStore store, int address)
+            where T : unmanaged
+        {
+            return MemoryMarshal.Cast<byte, T>(GetSpan(store)[address..]);
+        }
+
+        /// <summary>
+        /// Read a struct from memory.
+        /// </summary>
+        /// <typeparam name="T">Type of the struct to read. Ensure layout in C# is identical to layout in WASM.</typeparam>
+        /// <param name="store">The store that owns the memory.</param>
+        /// <param name="address">The zero-based address to read from.</param>
+        /// <returns>Returns the struct read from memory.</returns>
+        public T Read<T>(IStore store, int address)
+            where T : unmanaged
+        {
+            return GetSpan<T>(store, address)[0];
+        }
+
+        /// <summary>
+        /// Write a struct to memory.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="store">The store that owns the memory.</param>
+        /// <param name="address">The zero-based address to read from.</param>
+        /// <param name="value">The struct to write.</param>
+        public void Write<T>(IStore store, int address, T value)
+            where T : unmanaged
+        {
+            GetSpan<T>(store, address)[0] = value;
+        }
+
+        /// <summary>
         /// Reads a UTF-8 string from memory.
         /// </summary>
         /// <param name="store">The store that owns the memory.</param>

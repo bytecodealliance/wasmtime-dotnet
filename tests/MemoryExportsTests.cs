@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using FluentAssertions;
 using Xunit;
 
@@ -40,6 +41,27 @@ namespace Wasmtime.Tests
         public void ItHasTheExpectedNumberOfExportedTables()
         {
             GetMemoryExports().Count().Should().Be(Fixture.Module.Exports.Count(e => e is MemoryExport));
+        }
+
+        [Fact]
+        public void ItReadsAndWritesGenericTypes()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var memory = instance.GetMemory(Store, "mem");
+
+            memory.Should().NotBeNull();
+
+            memory.Write(Store, 11, new TestStruct { A = 17, B = -34346});
+            var result = memory.Read<TestStruct>(Store, 11);
+
+            result.A.Should().Be(17);
+            result.B.Should().Be(-34346);
+        }
+
+        struct TestStruct
+        {
+            public byte A;
+            public int B;
         }
 
         [Fact]
