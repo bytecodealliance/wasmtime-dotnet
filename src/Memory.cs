@@ -108,7 +108,7 @@ namespace Wasmtime
         /// Gets the span of the memory viewed as a specific type, starting at a given address.
         /// </summary>
         /// <param name="store">The store that owns the memory.</param>
-        /// /// <param name="address">The zero-based address of the start of the span.</param>
+        /// <param name="address">The zero-based address of the start of the span.</param>
         /// <returns>Returns the span of the memory.</returns>
         /// <remarks>
         /// The span may become invalid if the memory grows.
