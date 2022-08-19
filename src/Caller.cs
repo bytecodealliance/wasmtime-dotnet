@@ -43,7 +43,7 @@ namespace Wasmtime
                         return null;
                     }
 
-                    return new Memory(((IStore)this).Context, item.of.memory);
+                    return new Memory(this, item.of.memory);
                 }
             }
         }
