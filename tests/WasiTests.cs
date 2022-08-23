@@ -30,8 +30,8 @@ namespace Wasmtime.Tests
             call_environ_sizes_get.Should().NotBeNull();
 
             Assert.Equal(0, call_environ_sizes_get.Invoke(store, 0, 4));
-            Assert.Equal(0, memory.ReadInt32(store, 0));
-            Assert.Equal(0, memory.ReadInt32(store, 4));
+            Assert.Equal(0, memory.ReadInt32(0));
+            Assert.Equal(0, memory.ReadInt32(4));
         }
 
         [Theory]
@@ -66,13 +66,13 @@ namespace Wasmtime.Tests
             call_environ_sizes_get.Should().NotBeNull();
 
             Assert.Equal(0, call_environ_sizes_get.Invoke(store, 0, 4));
-            Assert.Equal(env.Count, memory.ReadInt32(store, 0));
-            Assert.Equal(env.Sum(kvp => kvp.Key.Length + kvp.Value.Length + 2), memory.ReadInt32(store, 4));
+            Assert.Equal(env.Count, memory.ReadInt32(0));
+            Assert.Equal(env.Sum(kvp => kvp.Key.Length + kvp.Value.Length + 2), memory.ReadInt32(4));
             Assert.Equal(0, call_environ_get.Invoke(store, 0, 4 * env.Count));
 
             for (int i = 0; i < env.Count; ++i)
             {
-                var kvp = memory.ReadNullTerminatedString(store, memory.ReadInt32(store, i * 4)).Split("=");
+                var kvp = memory.ReadNullTerminatedString(memory.ReadInt32(i * 4)).Split("=");
                 Assert.Equal(env[kvp[0]], kvp[1]);
             }
         }
@@ -101,7 +101,7 @@ namespace Wasmtime.Tests
             call_environ_sizes_get.Should().NotBeNull();
 
             Assert.Equal(0, call_environ_sizes_get.Invoke(store, 0, 4));
-            Assert.Equal(Environment.GetEnvironmentVariables().Keys.Count, memory.ReadInt32(store, 0));
+            Assert.Equal(Environment.GetEnvironmentVariables().Keys.Count, memory.ReadInt32(0));
         }
 
         [Theory]
@@ -125,8 +125,8 @@ namespace Wasmtime.Tests
             call_args_sizes_get.Should().NotBeNull();
 
             Assert.Equal(0, call_args_sizes_get.Invoke(store, 0, 4));
-            Assert.Equal(0, memory.ReadInt32(store, 0));
-            Assert.Equal(0, memory.ReadInt32(store, 4));
+            Assert.Equal(0, memory.ReadInt32(0));
+            Assert.Equal(0, memory.ReadInt32(4));
         }
 
         [Theory]
@@ -162,13 +162,13 @@ namespace Wasmtime.Tests
             call_args_get.Should().NotBeNull();
 
             Assert.Equal(0, call_args_sizes_get.Invoke(store, 0, 4));
-            Assert.Equal(args.Count, memory.ReadInt32(store, 0));
-            Assert.Equal(args.Sum(a => a.Length + 1), memory.ReadInt32(store, 4));
+            Assert.Equal(args.Count, memory.ReadInt32(0));
+            Assert.Equal(args.Sum(a => a.Length + 1), memory.ReadInt32(4));
             Assert.Equal(0, call_args_get.Invoke(store, 0, 4 * args.Count));
 
             for (int i = 0; i < args.Count; ++i)
             {
-                var arg = memory.ReadNullTerminatedString(store, memory.ReadInt32(store, i * 4));
+                var arg = memory.ReadNullTerminatedString(memory.ReadInt32(i * 4));
                 Assert.Equal(args[i], arg);
             }
         }
@@ -197,7 +197,7 @@ namespace Wasmtime.Tests
             call_args_sizes_get.Should().NotBeNull();
 
             Assert.Equal(0, call_args_sizes_get.Invoke(store, 0, 4));
-            Assert.Equal(Environment.GetCommandLineArgs().Length, memory.ReadInt32(store, 0));
+            Assert.Equal(Environment.GetCommandLineArgs().Length, memory.ReadInt32(0));
         }
 
         [Theory]
@@ -228,12 +228,12 @@ namespace Wasmtime.Tests
             var call_fd_read = instance.GetFunction(store, "call_fd_read");
             call_fd_read.Should().NotBeNull();
 
-            memory.WriteInt32(store, 0, 8);
-            memory.WriteInt32(store, 4, MESSAGE.Length);
+            memory.WriteInt32(0, 8);
+            memory.WriteInt32(4, MESSAGE.Length);
 
             Assert.Equal(0, call_fd_read.Invoke(store, 0, 0, 1, 32));
-            Assert.Equal(MESSAGE.Length, memory.ReadInt32(store, 32));
-            Assert.Equal(MESSAGE, memory.ReadString(store, 8, MESSAGE.Length));
+            Assert.Equal(MESSAGE.Length, memory.ReadInt32(32));
+            Assert.Equal(MESSAGE, memory.ReadString(8, MESSAGE.Length));
         }
 
         [Theory]
@@ -274,12 +274,12 @@ namespace Wasmtime.Tests
             var call_fd_close = instance.GetFunction(store, "call_fd_close");
             call_fd_close.Should().NotBeNull();
 
-            memory.WriteInt32(store, 0, 8);
-            memory.WriteInt32(store, 4, MESSAGE.Length);
-            memory.WriteString(store, 8, MESSAGE);
+            memory.WriteInt32(0, 8);
+            memory.WriteInt32(4, MESSAGE.Length);
+            memory.WriteString(8, MESSAGE);
 
             Assert.Equal(0, call_fd_write.Invoke(store, fd, 0, 1, 32));
-            Assert.Equal(MESSAGE.Length, memory.ReadInt32(store, 32));
+            Assert.Equal(MESSAGE.Length, memory.ReadInt32(32));
             Assert.Equal(0, call_fd_close.Invoke(store, fd));
             Assert.Equal(MESSAGE, File.ReadAllText(file.Path));
         }
@@ -316,7 +316,7 @@ namespace Wasmtime.Tests
             call_fd_close.Should().NotBeNull();
 
             var fileName = Path.GetFileName(file.Path);
-            memory.WriteString(store, 0, fileName);
+            memory.WriteString(0, fileName);
 
             Assert.Equal(0, call_path_open.Invoke(
                     store,
@@ -332,15 +332,15 @@ namespace Wasmtime.Tests
                 )
             );
 
-            var fileFd = (int)memory.ReadInt32(store, 64);
+            var fileFd = (int)memory.ReadInt32(64);
             Assert.True(fileFd > 3);
 
-            memory.WriteInt32(store, 0, 8);
-            memory.WriteInt32(store, 4, MESSAGE.Length);
-            memory.WriteString(store, 8, MESSAGE);
+            memory.WriteInt32(0, 8);
+            memory.WriteInt32(4, MESSAGE.Length);
+            memory.WriteString(8, MESSAGE);
 
             Assert.Equal(0, call_fd_write.Invoke(store, fileFd, 0, 1, 64));
-            Assert.Equal(MESSAGE.Length, memory.ReadInt32(store, 64));
+            Assert.Equal(MESSAGE.Length, memory.ReadInt32(64));
             Assert.Equal(0, call_fd_close.Invoke(store, fileFd));
             Assert.Equal(MESSAGE, File.ReadAllText(file.Path));
         }

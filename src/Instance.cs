@@ -587,13 +587,12 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            var context = store.Context;
-            if (!TryGetExtern(context, name, out var ext) || ext.kind != ExternKind.Memory)
+            if (!TryGetExtern(store.Context, name, out var ext) || ext.kind != ExternKind.Memory)
             {
                 return null;
             }
 
-            return new Memory(context, ext.of.memory);
+            return new Memory(store, ext.of.memory);
         }
 
         /// <summary>

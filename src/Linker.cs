@@ -704,7 +704,7 @@ namespace Wasmtime
                 return null;
             }
 
-            return new Memory(context, ext.of.memory);
+            return new Memory(store, ext.of.memory);
         }
 
         /// <summary>
