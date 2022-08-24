@@ -34,6 +34,7 @@ namespace Wasmtime
                 throw new ArgumentException("The maximum number of elements cannot be less than the minimum.", nameof(maximum));
             }
 
+            this.store = store;
             Kind = kind;
             Minimum = initial;
             Maximum = maximum;
@@ -76,16 +77,10 @@ namespace Wasmtime
         /// <summary>
         /// Gets an element from the table.
         /// </summary>
-        /// <param name="store">The store that owns the table.</param>
         /// <param name="index">The index in the table to get the element of.</param>
         /// <returns>Returns the table element.</returns>
-        public object? GetElement(IStore store, uint index)
+        public object? GetElement(uint index)
         {
-            if (store is null)
-            {
-                throw new ArgumentNullException(nameof(store));
-            }
-
             var context = store.Context;
             if (!Native.wasmtime_table_get(context.handle, this.table, index, out var v))
             {
@@ -100,16 +95,10 @@ namespace Wasmtime
         /// <summary>
         /// Sets an element in the table.
         /// </summary>
-        /// <param name="store">The store that owns the table.</param>
         /// <param name="index">The index in the table to set the element of.</param>
         /// <param name="value">The value to set.</param>
-        public void SetElement(IStore store, uint index, object? value)
+        public void SetElement(uint index, object? value)
         {
-            if (store is null)
-            {
-                throw new ArgumentNullException(nameof(store));
-            }
-
             var v = Value.FromObject(value, Kind);
             var error = Native.wasmtime_table_set(store.Context.handle, this.table, index, v);
             v.Dispose();
@@ -123,32 +112,20 @@ namespace Wasmtime
         /// <summary>
         /// Gets the current size of the table.
         /// </summary>
-        /// <param name="store">The store that owns the table.</param>
         /// <value>Returns the current size of the table.</value>
-        public uint GetSize(IStore store)
+        public uint GetSize()
         {
-            if (store is null)
-            {
-                throw new ArgumentNullException(nameof(store));
-            }
-
             return Native.wasmtime_table_size(store.Context.handle, this.table);
         }
 
         /// <summary>
         /// Grows the table by the given number of elements.
         /// </summary>
-        /// <param name="store">The store that owns the table.</param>
         /// <param name="delta">The number of elements to grow the table.</param>
         /// <param name="initialValue">The initial value for the new elements.</param>
         /// <returns>Returns the previous number of elements in the table.</returns>
-        public uint Grow(IStore store, uint delta, object? initialValue)
+        public uint Grow(uint delta, object? initialValue)
         {
-            if (store is null)
-            {
-                throw new ArgumentNullException(nameof(store));
-            }
-
             var v = Value.FromObject(initialValue, Kind);
 
             var error = Native.wasmtime_table_grow(store.Context.handle, this.table, delta, v, out var prev);
@@ -162,11 +139,12 @@ namespace Wasmtime
             return prev;
         }
 
-        internal Table(StoreContext context, ExternTable table)
+        internal Table(IStore store, ExternTable table)
         {
+            this.store = store;
             this.table = table;
 
-            using var type = new TypeHandle(Native.wasmtime_table_type(context.handle, this.table));
+            using var type = new TypeHandle(Native.wasmtime_table_type(store.Context.handle, this.table));
 
             this.Kind = ValueType.ToKind(Native.wasm_tabletype_element(type.DangerousGetHandle()));
 
@@ -244,6 +222,7 @@ namespace Wasmtime
             public static extern void wasm_tabletype_delete(IntPtr handle);
         }
 
+        private readonly IStore store;
         private readonly ExternTable table;
     }
 }
