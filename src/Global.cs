@@ -65,7 +65,7 @@ namespace Wasmtime
         {
             var context = store.Context;
             Native.wasmtime_global_get(context.handle, this.global, out var v);
-            var val = v.ToObject(context);
+            var val = v.ToObject(store);
             v.Dispose();
             return val;
         }
@@ -213,7 +213,7 @@ namespace Wasmtime
                 var context = _store.Context;
                 Native.wasmtime_global_get(context.handle, _global.global, out var v);
 
-                var result = _converter.Unbox(context, v.ToValueBox());
+                var result = _converter.Unbox(_store, v.ToValueBox());
                 v.Dispose();
 
                 return result;

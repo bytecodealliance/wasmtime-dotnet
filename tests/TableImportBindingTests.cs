@@ -86,8 +86,8 @@ namespace Wasmtime.Tests
 
             for (int i = 0; i < 10; ++i)
             {
-                Convert.ToBoolean(is_null_func.Invoke(Store, i)).Should().BeTrue();
-                Convert.ToBoolean(is_null_extern.Invoke(Store, i)).Should().BeTrue();
+                Convert.ToBoolean(is_null_func.Invoke(i)).Should().BeTrue();
+                Convert.ToBoolean(is_null_extern.Invoke(i)).Should().BeTrue();
             }
 
             var called = new bool[10];
@@ -95,24 +95,24 @@ namespace Wasmtime.Tests
             for (int i = 0; i < 10; ++i)
             {
                 int index = i;
-                funcs.SetElement((uint)i, Function.FromCallback(Store, () => { called[index] = true; }));
-                externs.SetElement((uint)i, string.Format("string{0}", i));
+                funcs.SetElement(Store, (uint)i, Function.FromCallback(Store, () => { called[index] = true; }));
+                externs.SetElement(Store, (uint)i, string.Format("string{0}", i));
             }
 
             for (int i = 0; i < 10; ++i)
             {
-                Convert.ToBoolean(is_null_func.Invoke(Store, i)).Should().BeFalse();
-                Convert.ToBoolean(is_null_extern.Invoke(Store, i)).Should().BeFalse();
-                call.Invoke(Store, i);
-                assert_extern.Invoke(Store, i, string.Format("string{0}", i));
-                funcs.SetElement((uint)i, Function.Null);
-                externs.SetElement((uint)i, null);
+                Convert.ToBoolean(is_null_func.Invoke(i)).Should().BeFalse();
+                Convert.ToBoolean(is_null_extern.Invoke(i)).Should().BeFalse();
+                call.Invoke(i);
+                assert_extern.Invoke(i, string.Format("string{0}", i));
+                funcs.SetElement(Store, (uint)i, Function.Null);
+                externs.SetElement(Store, (uint)i, null);
             }
 
             for (int i = 0; i < 10; ++i)
             {
-                Convert.ToBoolean(is_null_func.Invoke(Store, i)).Should().BeTrue();
-                Convert.ToBoolean(is_null_extern.Invoke(Store, i)).Should().BeTrue();
+                Convert.ToBoolean(is_null_func.Invoke(i)).Should().BeTrue();
+                Convert.ToBoolean(is_null_extern.Invoke(i)).Should().BeTrue();
                 called[i].Should().BeTrue();
             }
         }
@@ -130,29 +130,29 @@ namespace Wasmtime.Tests
             var grow_funcs = instance.GetFunction(Store, "grow_funcs");
             var grow_externs = instance.GetFunction(Store, "grow_externs");
 
-            funcs.GetSize().Should().Be(10);
-            externs.GetSize().Should().Be(10);
+            funcs.GetSize(Store).Should().Be(10);
+            externs.GetSize(Store).Should().Be(10);
 
-            grow_funcs.Invoke(Store, 5);
-            grow_externs.Invoke(Store, 3);
+            grow_funcs.Invoke(5);
+            grow_externs.Invoke(3);
 
-            funcs.GetSize().Should().Be(15);
-            externs.GetSize().Should().Be(13);
+            funcs.GetSize(Store).Should().Be(15);
+            externs.GetSize(Store).Should().Be(13);
 
-            funcs.Grow(5, null).Should().Be(15);
-            externs.Grow(5, null).Should().Be(13);
+            funcs.Grow(Store, 5, null).Should().Be(15);
+            externs.Grow(Store, 5, null).Should().Be(13);
 
-            funcs.GetSize().Should().Be(20);
-            externs.GetSize().Should().Be(18);
+            funcs.GetSize(Store).Should().Be(20);
+            externs.GetSize(Store).Should().Be(18);
 
-            Action action = () => { funcs.Grow(5, null); };
+            Action action = () => { funcs.Grow(Store, 5, null); };
 
             action
                 .Should()
                 .Throw<WasmtimeException>()
                 .WithMessage("failed to grow table by `5`");
 
-            action = () => { externs.Grow(3, null); };
+            action = () => { externs.Grow(Store, 3, null); };
 
             action
                 .Should()

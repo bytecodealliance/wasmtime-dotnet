@@ -87,7 +87,7 @@ namespace Wasmtime
                 throw new IndexOutOfRangeException();
             }
 
-            var val = v.ToObject(context);
+            var val = v.ToObject(store);
             v.Dispose();
             return val;
         }

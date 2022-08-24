@@ -44,7 +44,7 @@ public class EpochInterruptionTests : IClassFixture<EpochInterruptionFixture>, I
             using (var timer = new Timer(state => Fixture.Engine.IncrementEpoch()))
             {
                 timer.Change(TimeSpan.FromMilliseconds(100), TimeSpan.FromMilliseconds(Timeout.Infinite));
-                run.Invoke(Store);
+                run.Invoke();
             }
         };
 

@@ -633,7 +633,7 @@ namespace Wasmtime
                         throw WasmtimeException.FromOwnedError(error);
                     }
 
-                    return new Function(context, func);
+                    return new Function(store, func);
                 }
             }
         }
@@ -658,7 +658,7 @@ namespace Wasmtime
                 return null;
             }
 
-            return new Function(context, ext.of.func);
+            return new Function(store, ext.of.func);
         }
 
         /// <summary>

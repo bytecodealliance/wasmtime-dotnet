@@ -100,11 +100,11 @@ namespace Wasmtime.Tests
 
             Store.AddFuel(1000UL);
 
-            free.Invoke(Store);
+            free.Invoke();
             var consumed = Store.GetConsumedFuel();
             consumed.Should().Be(2UL);
 
-            free.Invoke(Store);
+            free.Invoke();
             consumed = Store.GetConsumedFuel();
             consumed.Should().Be(4UL);
         }
@@ -117,7 +117,7 @@ namespace Wasmtime.Tests
 
             Store.AddFuel(1000UL);
 
-            expensive.Invoke(Store);
+            expensive.Invoke();
             var consumed = Store.GetConsumedFuel();
             consumed.Should().Be(102UL);
         }
@@ -128,7 +128,7 @@ namespace Wasmtime.Tests
             var instance = Linker.Instantiate(Store, Fixture.Module);
             var free = instance.GetFunction(Store, "free");
 
-            Action action = () => free.Invoke(Store);
+            Action action = () => free.Invoke();
             action
                 .Should()
                 .Throw<TrapException>()
@@ -146,15 +146,15 @@ namespace Wasmtime.Tests
 
             Store.AddFuel(4UL);
 
-            free.Invoke(Store);
+            free.Invoke();
             var consumed = Store.GetConsumedFuel();
             consumed.Should().Be(2UL);
 
-            free.Invoke(Store);
+            free.Invoke();
             consumed = Store.GetConsumedFuel();
             consumed.Should().Be(4UL);
 
-            Action action = () => free.Invoke(Store);
+            Action action = () => free.Invoke();
             action
                 .Should()
                 .Throw<TrapException>()
@@ -172,7 +172,7 @@ namespace Wasmtime.Tests
 
             Store.AddFuel(50UL);
 
-            Action action = () => expensive.Invoke(Store);
+            Action action = () => expensive.Invoke();
             action
                 .Should()
                 .Throw<TrapException>()
@@ -190,15 +190,15 @@ namespace Wasmtime.Tests
 
             Store.AddFuel(4UL);
 
-            free.Invoke(Store);
+            free.Invoke();
             var consumed = Store.GetConsumedFuel();
             consumed.Should().Be(2UL);
 
-            free.Invoke(Store);
+            free.Invoke();
             consumed = Store.GetConsumedFuel();
             consumed.Should().Be(4UL);
 
-            Action action = () => free.Invoke(Store);
+            Action action = () => free.Invoke();
             action
                 .Should()
                 .Throw<TrapException>()
@@ -209,7 +209,7 @@ namespace Wasmtime.Tests
 
             Store.AddFuel(3UL);
 
-            free.Invoke(Store);
+            free.Invoke();
             consumed = Store.GetConsumedFuel();
             consumed.Should().Be(7UL);
 

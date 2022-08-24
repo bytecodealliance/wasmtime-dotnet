@@ -17,7 +17,7 @@ namespace Wasmtime.Tests
             Linker = new Linker(Fixture.Engine);
             Store = new Store(Fixture.Engine);
 
-            Callback = Function.FromCallback(Store, (Caller caller, Function f) => f.Invoke(caller, "testing"));
+            Callback = Function.FromCallback(Store, (Caller caller, Function f) => f.Invoke("testing"));
             Assert = Function.FromCallback(Store, (string s) => { s.Should().Be("testing"); return "asserted!"; });
 
             Linker.Define("", "callback", Callback);
@@ -37,7 +37,7 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItPassesFunctionReferencesToWasm()
         {
-            var f = Function.FromCallback(Store, (Caller caller, string s) => Assert.Invoke(caller, s));
+            var f = Function.FromCallback(Store, (Caller caller, string s) => Assert.Invoke(s));
             var instance = Linker.Instantiate(Store, Fixture.Module);
 
             var func = instance.GetFunction<Function, Function, string>(Store, "call_nested");

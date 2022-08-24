@@ -29,13 +29,13 @@ namespace Wasmtime.Tests
             {
                 var shiftLeftFunc = caller.GetFunction("shiftLeft");
 
-                return (int)shiftLeftFunc.Invoke(caller, arg);
+                return (int)shiftLeftFunc.Invoke(arg);
             });
 
             var instance = Linker.Instantiate(Store, Fixture.Module);
             var testFunction = instance.GetFunction(Store, "testFunction");
 
-            var result = (int)testFunction.Invoke(Store, 2);
+            var result = (int)testFunction.Invoke(2);
             result.Should().Be(2 << 1);
         }
 

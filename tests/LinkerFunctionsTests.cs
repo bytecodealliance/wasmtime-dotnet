@@ -42,27 +42,27 @@ namespace Wasmtime.Tests
             var swap = instance.GetFunction(Store, "swap");
             var check = instance.GetFunction(Store, "check_string");
 
-            int x = (int)add.Invoke(Store, 40, 2);
+            int x = (int)add.Invoke(40, 2);
             x.Should().Be(42);
-            x = (int)add.Invoke(Store, 22, 5);
+            x = (int)add.Invoke(22, 5);
             x.Should().Be(27);
 
-            object[] results = (object[])swap.Invoke(Store, 10, 100);
+            object[] results = (object[])swap.Invoke(10, 100);
             results.Should().Equal(new object[] { 100, 10 });
 
-            check.Invoke(Store);
+            check.Invoke();
 
             // Collect garbage to make sure delegate function pointers passed to wasmtime are rooted.
             GC.Collect();
             GC.WaitForPendingFinalizers();
 
-            x = (int)add.Invoke(Store, 1970, 50);
+            x = (int)add.Invoke(1970, 50);
             x.Should().Be(2020);
 
-            results = (object[])swap.Invoke(Store, 2020, 1970);
+            results = (object[])swap.Invoke(2020, 1970);
             results.Should().Equal(new object[] { 1970, 2020 });
 
-            check.Invoke(Store);
+            check.Invoke();
         }
 
         [Fact]
@@ -71,7 +71,7 @@ namespace Wasmtime.Tests
             var instance = Linker.Instantiate(Store, Fixture.Module);
             var thrower = instance.GetFunction(Store, "do_throw");
 
-            Action action = () => thrower.Invoke(Store);
+            Action action = () => thrower.Invoke();
 
             action
                 .Should()
