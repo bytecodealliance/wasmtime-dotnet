@@ -38,6 +38,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
+            this.store = store;
             Kind = kind;
             Mutability = mutability;
 
@@ -46,7 +47,7 @@ namespace Wasmtime
                 mutability
             ));
 
-            var value = Wasmtime.Value.FromObject(initialValue, Kind);
+            var value = Value.FromObject(initialValue, Kind);
             var error = Native.wasmtime_global_new(store.Context.handle, globalType, in value, out this.global);
             value.Dispose();
 
@@ -59,15 +60,9 @@ namespace Wasmtime
         /// <summary>
         /// Gets the value of the global.
         /// </summary>
-        /// <param name="store">The store that owns the global.</param>
         /// <returns>Returns the global's value.</returns>
-        public object? GetValue(IStore store)
+        public object? GetValue()
         {
-            if (store is null)
-            {
-                throw new ArgumentNullException(nameof(store));
-            }
-
             var context = store.Context;
             Native.wasmtime_global_get(context.handle, this.global, out var v);
             var val = v.ToObject(context);
@@ -78,15 +73,9 @@ namespace Wasmtime
         /// <summary>
         /// Sets the value of the global.
         /// </summary>
-        /// <param name="store">The store that owns the global.</param>
         /// <param name="value">The value to set.</param>
-        public void SetValue(IStore store, object? value)
+        public void SetValue(object? value)
         {
-            if (store is null)
-            {
-                throw new ArgumentNullException(nameof(store));
-            }
-
             if (Mutability != Mutability.Mutable)
             {
                 throw new InvalidOperationException("The global is immutable and cannot be changed.");
@@ -102,7 +91,7 @@ namespace Wasmtime
         /// </summary>
         /// <typeparam name="T">Type of this global</typeparam>
         /// <returns>An accessor for this global, or null if the type is incorrect</returns>
-        public Accessor<T>? Wrap<T>(IStore store)
+        public Accessor<T>? Wrap<T>()
         {
             if (!Kind.IsAssignableFrom(typeof(T)))
             {
@@ -131,11 +120,12 @@ namespace Wasmtime
             };
         }
 
-        internal Global(StoreContext context, ExternGlobal global)
+        internal Global(IStore store, ExternGlobal global)
         {
             this.global = global;
+            this.store = store;
 
-            using var type = new TypeHandle(Native.wasmtime_global_type(context.handle, this.global));
+            using var type = new TypeHandle(Native.wasmtime_global_type(store.Context.handle, this.global));
 
             this.Kind = ValueType.ToKind(Native.wasm_globaltype_content(type.DangerousGetHandle()));
             this.Mutability = (Mutability)Native.wasm_globaltype_mutability(type.DangerousGetHandle());
@@ -183,6 +173,7 @@ namespace Wasmtime
             public static extern void wasm_globaltype_delete(IntPtr type);
         }
 
+        private readonly IStore store;
         private readonly ExternGlobal global;
 
         /// <summary>

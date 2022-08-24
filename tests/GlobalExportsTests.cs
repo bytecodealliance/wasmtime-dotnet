@@ -50,70 +50,70 @@ namespace Wasmtime.Tests
             var i32 = instance.GetGlobal(Store, "global_i32");
             i32.Kind.Should().Be(ValueKind.Int32);
             i32.Mutability.Should().Be(Mutability.Immutable);
-            i32.GetValue(Store).Should().Be(0);
+            i32.GetValue().Should().Be(0);
 
             var i32Mut = instance.GetGlobal(Store, "global_i32_mut");
             i32Mut.Kind.Should().Be(ValueKind.Int32);
             i32Mut.Mutability.Should().Be(Mutability.Mutable);
-            i32Mut.GetValue(Store).Should().Be(1);
-            i32Mut.SetValue(Store, 11);
-            i32Mut.GetValue(Store).Should().Be(11);
+            i32Mut.GetValue().Should().Be(1);
+            i32Mut.SetValue(11);
+            i32Mut.GetValue().Should().Be(11);
 
             var i64 = instance.GetGlobal(Store, "global_i64");
             i64.Kind.Should().Be(ValueKind.Int64);
             i64.Mutability.Should().Be(Mutability.Immutable);
-            i64.GetValue(Store).Should().Be(2);
+            i64.GetValue().Should().Be(2);
 
             var i64Mut = instance.GetGlobal(Store, "global_i64_mut");
             i64Mut.Kind.Should().Be(ValueKind.Int64);
             i64Mut.Mutability.Should().Be(Mutability.Mutable);
-            i64Mut.GetValue(Store).Should().Be(3);
-            i64Mut.SetValue(Store, 13);
-            i64Mut.GetValue(Store).Should().Be(13);
+            i64Mut.GetValue().Should().Be(3);
+            i64Mut.SetValue(13);
+            i64Mut.GetValue().Should().Be(13);
 
             var f32 = instance.GetGlobal(Store, "global_f32");
             f32.Kind.Should().Be(ValueKind.Float32);
             f32.Mutability.Should().Be(Mutability.Immutable);
-            f32.GetValue(Store).Should().Be(4);
+            f32.GetValue().Should().Be(4);
 
             var f32Mut = instance.GetGlobal(Store, "global_f32_mut");
             f32Mut.Kind.Should().Be(ValueKind.Float32);
             f32Mut.Mutability.Should().Be(Mutability.Mutable);
-            f32Mut.GetValue(Store).Should().Be(5);
-            f32Mut.SetValue(Store, 15);
-            f32Mut.GetValue(Store).Should().Be(15);
+            f32Mut.GetValue().Should().Be(5);
+            f32Mut.SetValue(15);
+            f32Mut.GetValue().Should().Be(15);
 
             var f64 = instance.GetGlobal(Store, "global_f64");
             f64.Kind.Should().Be(ValueKind.Float64);
             f64.Mutability.Should().Be(Mutability.Immutable);
-            f64.GetValue(Store).Should().Be(6);
+            f64.GetValue().Should().Be(6);
 
             var f64Mut = instance.GetGlobal(Store, "global_f64_mut");
             f64Mut.Kind.Should().Be(ValueKind.Float64);
             f64Mut.Mutability.Should().Be(Mutability.Mutable);
-            f64Mut.GetValue(Store).Should().Be(7);
-            f64Mut.SetValue(Store, 17);
-            f64Mut.GetValue(Store).Should().Be(17);
+            f64Mut.GetValue().Should().Be(7);
+            f64Mut.SetValue(17);
+            f64Mut.GetValue().Should().Be(17);
 
-            Action action = () => i32.SetValue(Store, 0);
+            Action action = () => i32.SetValue(0);
             action
                 .Should()
                 .Throw<InvalidOperationException>()
                 .WithMessage("The global is immutable and cannot be changed.");
 
-            action = () => i64.SetValue(Store, 0);
+            action = () => i64.SetValue(0);
             action
                 .Should()
                 .Throw<InvalidOperationException>()
                 .WithMessage("The global is immutable and cannot be changed.");
 
-            action = () => f32.SetValue(Store, 0);
+            action = () => f32.SetValue(0);
             action
                 .Should()
                 .Throw<InvalidOperationException>()
                 .WithMessage("The global is immutable and cannot be changed.");
 
-            action = () => f64.SetValue(Store, 0);
+            action = () => f64.SetValue(0);
             action
                 .Should()
                 .Throw<InvalidOperationException>()
