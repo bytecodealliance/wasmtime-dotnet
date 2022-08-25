@@ -1773,7 +1773,6 @@ namespace Wasmtime
         /// <typeparam name="TL">Twelfth parameter</typeparam>
         /// <typeparam name="TM">Thirteenth parameter</typeparam>
         /// <typeparam name="TN">Fourteenth parameter</typeparam>
-        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>()
         {
