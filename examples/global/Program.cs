@@ -21,7 +21,7 @@ namespace Example
                 "print_global",
                 Function.FromCallback(store, (Caller caller) =>
                 {
-                    Console.WriteLine($"The value of the global is: {global.GetValue(caller)}.");
+                    Console.WriteLine($"The value of the global is: {global.GetValue()}.");
                 }
             ));
 

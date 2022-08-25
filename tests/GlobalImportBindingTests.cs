@@ -109,14 +109,14 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItBindsTheGlobalsCorrectly()
         {
-            var global_i32_mut = new Global(Store, ValueKind.Int32, 0, Mutability.Mutable).Wrap<int>(Store);
-            var global_i32 = new Global(Store, ValueKind.Int32, 1, Mutability.Immutable).Wrap<int>(Store);
-            var global_i64_mut = new Global(Store, ValueKind.Int64, 2, Mutability.Mutable).Wrap<long>(Store);
-            var global_i64 = new Global(Store, ValueKind.Int64, 3, Mutability.Immutable).Wrap<long>(Store);
-            var global_f32_mut = new Global(Store, ValueKind.Float32, 4, Mutability.Mutable).Wrap<float>(Store);
-            var global_f32 = new Global(Store, ValueKind.Float32, 5, Mutability.Immutable).Wrap<float>(Store);
-            var global_f64_mut = new Global(Store, ValueKind.Float64, 6, Mutability.Mutable).Wrap<double>(Store);
-            var global_f64 = new Global(Store, ValueKind.Float64, 7, Mutability.Immutable).Wrap<double>(Store);
+            var global_i32_mut = new Global(Store, ValueKind.Int32, 0, Mutability.Mutable).Wrap<int>();
+            var global_i32 = new Global(Store, ValueKind.Int32, 1, Mutability.Immutable).Wrap<int>();
+            var global_i64_mut = new Global(Store, ValueKind.Int64, 2, Mutability.Mutable).Wrap<long>();
+            var global_i64 = new Global(Store, ValueKind.Int64, 3, Mutability.Immutable).Wrap<long>();
+            var global_f32_mut = new Global(Store, ValueKind.Float32, 4, Mutability.Mutable).Wrap<float>();
+            var global_f32 = new Global(Store, ValueKind.Float32, 5, Mutability.Immutable).Wrap<float>();
+            var global_f64_mut = new Global(Store, ValueKind.Float64, 6, Mutability.Mutable).Wrap<double>();
+            var global_f64 = new Global(Store, ValueKind.Float64, 7, Mutability.Immutable).Wrap<double>();
 
             Linker.Define("", "global_i32_mut", global_i32_mut);
             Linker.Define("", "global_i32", global_i32);

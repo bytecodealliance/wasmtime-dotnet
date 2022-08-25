@@ -614,7 +614,7 @@ namespace Wasmtime
                 return null;
             }
 
-            return new Global(context, ext.of.global);
+            return new Global(store, ext.of.global);
         }
 
         private bool TryGetExtern(StoreContext context, string name, out Extern ext)
