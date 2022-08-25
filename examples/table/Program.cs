@@ -14,10 +14,10 @@ namespace Example
 
             var table = new Table(store, ValueKind.FuncRef, null, 4);
 
-            table.SetElement(store, 0, Function.FromCallback(store, (int a, int b) => a + b));
-            table.SetElement(store, 1, Function.FromCallback(store, (int a, int b) => a - b));
-            table.SetElement(store, 2, Function.FromCallback(store, (int a, int b) => a * b));
-            table.SetElement(store, 3, Function.FromCallback(store, (int a, int b) => a / b));
+            table.SetElement(0, Function.FromCallback(store, (int a, int b) => a + b));
+            table.SetElement(1, Function.FromCallback(store, (int a, int b) => a - b));
+            table.SetElement(2, Function.FromCallback(store, (int a, int b) => a * b));
+            table.SetElement(3, Function.FromCallback(store, (int a, int b) => a / b));
 
             linker.Define("", "table", table);
 

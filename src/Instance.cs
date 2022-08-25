@@ -571,7 +571,7 @@ namespace Wasmtime
                 return null;
             }
 
-            return new Table(context, ext.of.table);
+            return new Table(store, ext.of.table);
         }
 
         /// <summary>

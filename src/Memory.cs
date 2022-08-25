@@ -87,11 +87,6 @@ namespace Wasmtime
         /// </remarks>
         public unsafe Span<byte> GetSpan()
         {
-            if (store is null)
-            {
-                throw new ArgumentNullException(nameof(store));
-            }
-
             var context = store.Context;
             var data = Native.wasmtime_memory_data(context.handle, this.memory);
             var size = Convert.ToInt32(Native.wasmtime_memory_data_size(context.handle, this.memory).ToUInt32());
