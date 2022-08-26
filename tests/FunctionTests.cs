@@ -43,27 +43,27 @@ namespace Wasmtime.Tests
             var swap = instance.GetFunction(Store, "swap");
             var check = instance.GetFunction(Store, "check_string");
 
-            int x = (int)add.Invoke(Store, 40, 2);
+            int x = (int)add.Invoke(40, 2);
             x.Should().Be(42);
-            x = (int)add.Invoke(Store, 22, 5);
+            x = (int)add.Invoke(22, 5);
             x.Should().Be(27);
 
-            object[] results = (object[])swap.Invoke(Store, 10, 100);
+            object[] results = (object[])swap.Invoke(10, 100);
             results.Should().Equal(new object[] { 100, 10 });
 
-            check.Invoke(Store);
+            check.Invoke();
 
             // Collect garbage to make sure delegate function pointers passed to wasmtime are rooted.
             GC.Collect();
             GC.WaitForPendingFinalizers();
 
-            x = (int)add.Invoke(Store, 1970, 50);
+            x = (int)add.Invoke(1970, 50);
             x.Should().Be(2020);
 
-            results = (object[])swap.Invoke(Store, 2020, 1970);
+            results = (object[])swap.Invoke(2020, 1970);
             results.Should().Equal(new object[] { 1970, 2020 });
 
-            check.Invoke(Store);
+            check.Invoke();
         }
 
         [Fact]
@@ -82,7 +82,7 @@ namespace Wasmtime.Tests
             var add = instance.GetFunction(Store, "add");
 
             var args = new ValueBox[] { 40, 2 };
-            int x = (int)add.Invoke(Store, args.AsSpan());
+            int x = (int)add.Invoke(args.AsSpan());
             x.Should().Be(42);
         }
 
@@ -129,7 +129,7 @@ namespace Wasmtime.Tests
             var instance = Linker.Instantiate(Store, Fixture.Module);
             var thrower = instance.GetFunction(Store, "do_throw");
 
-            Action action = () => thrower.Invoke(Store);
+            Action action = () => thrower.Invoke();
 
             action
                 .Should()
@@ -199,7 +199,7 @@ namespace Wasmtime.Tests
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
             var func = instance.GetFunction(Store, "$echo_funcref");
-            var echo = func.WrapFunc<Function, Function>(Store);
+            var echo = func.WrapFunc<Function, Function>();
             echo.Should().NotBeNull();
 
             var result = echo.Invoke(func);

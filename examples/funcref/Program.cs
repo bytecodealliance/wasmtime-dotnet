@@ -15,7 +15,7 @@ namespace Example
             linker.Define(
                 "",
                 "g",
-                Function.FromCallback(store, (Caller caller, Function h) => { h.Invoke(caller); })
+                Function.FromCallback(store, (Caller caller, Function h) => { h.Invoke(); })
             );
 
             linker.Define(

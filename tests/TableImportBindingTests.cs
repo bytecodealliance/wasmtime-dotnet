@@ -86,8 +86,8 @@ namespace Wasmtime.Tests
 
             for (int i = 0; i < 10; ++i)
             {
-                Convert.ToBoolean(is_null_func.Invoke(Store, i)).Should().BeTrue();
-                Convert.ToBoolean(is_null_extern.Invoke(Store, i)).Should().BeTrue();
+                Convert.ToBoolean(is_null_func.Invoke(i)).Should().BeTrue();
+                Convert.ToBoolean(is_null_extern.Invoke(i)).Should().BeTrue();
             }
 
             var called = new bool[10];
@@ -101,18 +101,18 @@ namespace Wasmtime.Tests
 
             for (int i = 0; i < 10; ++i)
             {
-                Convert.ToBoolean(is_null_func.Invoke(Store, i)).Should().BeFalse();
-                Convert.ToBoolean(is_null_extern.Invoke(Store, i)).Should().BeFalse();
-                call.Invoke(Store, i);
-                assert_extern.Invoke(Store, i, string.Format("string{0}", i));
+                Convert.ToBoolean(is_null_func.Invoke(i)).Should().BeFalse();
+                Convert.ToBoolean(is_null_extern.Invoke(i)).Should().BeFalse();
+                call.Invoke(i);
+                assert_extern.Invoke(i, string.Format("string{0}", i));
                 funcs.SetElement((uint)i, Function.Null);
                 externs.SetElement((uint)i, null);
             }
 
             for (int i = 0; i < 10; ++i)
             {
-                Convert.ToBoolean(is_null_func.Invoke(Store, i)).Should().BeTrue();
-                Convert.ToBoolean(is_null_extern.Invoke(Store, i)).Should().BeTrue();
+                Convert.ToBoolean(is_null_func.Invoke(i)).Should().BeTrue();
+                Convert.ToBoolean(is_null_extern.Invoke(i)).Should().BeTrue();
                 called[i].Should().BeTrue();
             }
         }
@@ -133,8 +133,8 @@ namespace Wasmtime.Tests
             funcs.GetSize().Should().Be(10);
             externs.GetSize().Should().Be(10);
 
-            grow_funcs.Invoke(Store, 5);
-            grow_externs.Invoke(Store, 3);
+            grow_funcs.Invoke(5);
+            grow_externs.Invoke(3);
 
             funcs.GetSize().Should().Be(15);
             externs.GetSize().Should().Be(13);

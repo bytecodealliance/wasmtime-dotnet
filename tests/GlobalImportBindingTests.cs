@@ -142,41 +142,41 @@ namespace Wasmtime.Tests
             var get_global_f64 = instance.GetFunction(Store, "get_global_f64");
 
             global_i32_mut.GetValue().Should().Be(0);
-            get_global_i32_mut.Invoke(Store).Should().Be(0);
+            get_global_i32_mut.Invoke().Should().Be(0);
             global_i32.GetValue().Should().Be(1);
-            get_global_i32.Invoke(Store).Should().Be(1);
+            get_global_i32.Invoke().Should().Be(1);
             global_i64_mut.GetValue().Should().Be(2);
-            get_global_i64_mut.Invoke(Store).Should().Be(2);
+            get_global_i64_mut.Invoke().Should().Be(2);
             global_i64.GetValue().Should().Be(3);
-            get_global_i64.Invoke(Store).Should().Be(3);
+            get_global_i64.Invoke().Should().Be(3);
             global_f32_mut.GetValue().Should().Be(4);
-            get_global_f32_mut.Invoke(Store).Should().Be(4);
+            get_global_f32_mut.Invoke().Should().Be(4);
             global_f32.GetValue().Should().Be(5);
-            get_global_f32.Invoke(Store).Should().Be(5);
+            get_global_f32.Invoke().Should().Be(5);
             global_f64_mut.GetValue().Should().Be(6);
-            get_global_f64_mut.Invoke(Store).Should().Be(6);
+            get_global_f64_mut.Invoke().Should().Be(6);
             global_f64.GetValue().Should().Be(7);
-            get_global_f64.Invoke(Store).Should().Be(7);
+            get_global_f64.Invoke().Should().Be(7);
 
             global_i32_mut.SetValue(10);
             global_i32_mut.GetValue().Should().Be(10);
-            set_global_i32_mut.Invoke(Store, 11);
-            get_global_i32_mut.Invoke(Store).Should().Be(11);
+            set_global_i32_mut.Invoke(11);
+            get_global_i32_mut.Invoke().Should().Be(11);
 
             global_i64_mut.SetValue(12);
             global_i64_mut.GetValue().Should().Be(12);
-            set_global_i64_mut.Invoke(Store, 13);
-            get_global_i64_mut.Invoke(Store).Should().Be(13);
+            set_global_i64_mut.Invoke(13);
+            get_global_i64_mut.Invoke().Should().Be(13);
 
             global_f32_mut.SetValue(14);
             global_f32_mut.GetValue().Should().Be(14);
-            set_global_f32_mut.Invoke(Store, 15);
-            get_global_f32_mut.Invoke(Store).Should().Be(15);
+            set_global_f32_mut.Invoke(15);
+            get_global_f32_mut.Invoke().Should().Be(15);
 
             global_f64_mut.SetValue(16);
             global_f64_mut.GetValue().Should().Be(16);
-            set_global_f64_mut.Invoke(Store, 17);
-            get_global_f64_mut.Invoke(Store).Should().Be(17);
+            set_global_f64_mut.Invoke(17);
+            get_global_f64_mut.Invoke().Should().Be(17);
         }
 
         public void Dispose()

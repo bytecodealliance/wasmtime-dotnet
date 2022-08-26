@@ -27,7 +27,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, false);
+            return new Function(store, callback, false);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, false);
+            return new Function(store, callback, false);
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, false);
+            return new Function(store, callback, false);
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, false);
+            return new Function(store, callback, false);
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, false);
+            return new Function(store, callback, false);
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, false);
+            return new Function(store, callback, false);
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, false);
+            return new Function(store, callback, false);
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, false);
+            return new Function(store, callback, false);
         }
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, false);
+            return new Function(store, callback, false);
         }
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, false);
+            return new Function(store, callback, false);
         }
 
         /// <summary>
@@ -177,7 +177,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, false);
+            return new Function(store, callback, false);
         }
 
         /// <summary>
@@ -192,7 +192,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, false);
+            return new Function(store, callback, false);
         }
 
         /// <summary>
@@ -207,7 +207,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, false);
+            return new Function(store, callback, false);
         }
 
         /// <summary>
@@ -222,7 +222,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, false);
+            return new Function(store, callback, false);
         }
 
         /// <summary>
@@ -237,7 +237,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, false);
+            return new Function(store, callback, false);
         }
 
         /// <summary>
@@ -252,7 +252,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, false);
+            return new Function(store, callback, false);
         }
 
         /// <summary>
@@ -267,7 +267,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, false);
+            return new Function(store, callback, false);
         }
 
         /// <summary>
@@ -282,7 +282,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, true);
+            return new Function(store, callback, true);
         }
 
         /// <summary>
@@ -297,7 +297,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, true);
+            return new Function(store, callback, true);
         }
 
         /// <summary>
@@ -312,7 +312,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, true);
+            return new Function(store, callback, true);
         }
 
         /// <summary>
@@ -327,7 +327,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, true);
+            return new Function(store, callback, true);
         }
 
         /// <summary>
@@ -342,7 +342,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, true);
+            return new Function(store, callback, true);
         }
 
         /// <summary>
@@ -357,7 +357,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, true);
+            return new Function(store, callback, true);
         }
 
         /// <summary>
@@ -372,7 +372,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, true);
+            return new Function(store, callback, true);
         }
 
         /// <summary>
@@ -387,7 +387,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, true);
+            return new Function(store, callback, true);
         }
 
         /// <summary>
@@ -402,7 +402,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, true);
+            return new Function(store, callback, true);
         }
 
         /// <summary>
@@ -417,7 +417,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, true);
+            return new Function(store, callback, true);
         }
 
         /// <summary>
@@ -432,7 +432,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, true);
+            return new Function(store, callback, true);
         }
 
         /// <summary>
@@ -447,7 +447,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, true);
+            return new Function(store, callback, true);
         }
 
         /// <summary>
@@ -462,7 +462,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, true);
+            return new Function(store, callback, true);
         }
 
         /// <summary>
@@ -477,7 +477,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, true);
+            return new Function(store, callback, true);
         }
 
         /// <summary>
@@ -492,7 +492,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, true);
+            return new Function(store, callback, true);
         }
 
         /// <summary>
@@ -507,7 +507,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, true);
+            return new Function(store, callback, true);
         }
 
         /// <summary>
@@ -522,7 +522,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store.Context, callback, true);
+            return new Function(store, callback, true);
         }
         #endregion
 
@@ -638,10 +638,14 @@ namespace Wasmtime
         /// <summary>
         /// Attempt to wrap this function as an Action. Wrapped action is faster than a normal Invoke call.
         /// </summary>
-        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>An action to invoke this function. Null if the type signature is incompatible</returns>
-        public Action? WrapAction(IStore store)
+        public Action? WrapAction()
         {
+            if (store is null)
+            {
+                throw new InvalidOperationException("Cannot Wrap null function");
+            }
+
             // Check that the requested type signature is compatible
             if (!CheckTypeSignature())
             {
@@ -651,7 +655,7 @@ namespace Wasmtime
             return () =>
             {
                 Span<Value> args = stackalloc Value[0];
-                InvokeWithoutReturn(store, args);
+                InvokeWithoutReturn(args);
             };
         }
 
@@ -659,10 +663,14 @@ namespace Wasmtime
         /// Attempt to wrap this function as an Action. Wrapped action is faster than a normal Invoke call.
         /// </summary>
         /// <typeparam name="TA">First parameter</typeparam>
-        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>An action to invoke this function. Null if the type signature is incompatible</returns>
-        public Action<TA>? WrapAction<TA>(IStore store)
+        public Action<TA>? WrapAction<TA>()
         {
+            if (store is null)
+            {
+                throw new InvalidOperationException("Cannot Wrap null function");
+            }
+
             // Check that the requested type signature is compatible
             if (!CheckTypeSignature(null, typeof(TA)))
             {
@@ -677,7 +685,7 @@ namespace Wasmtime
                 Span<Value> args = stackalloc Value[1];
                 args[0] = Value.FromValueBox(ca.Box(a));
 
-                InvokeWithoutReturn(store, args);
+                InvokeWithoutReturn(args);
             };
         }
 
@@ -686,10 +694,14 @@ namespace Wasmtime
         /// </summary>
         /// <typeparam name="TA">First parameter</typeparam>
         /// <typeparam name="TB">Second parameter</typeparam>
-        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>An action to invoke this function. Null if the type signature is incompatible</returns>
-        public Action<TA, TB>? WrapAction<TA, TB>(IStore store)
+        public Action<TA, TB>? WrapAction<TA, TB>()
         {
+            if (store is null)
+            {
+                throw new InvalidOperationException("Cannot Wrap null function");
+            }
+
             // Check that the requested type signature is compatible
             if (!CheckTypeSignature(null, typeof(TA), typeof(TB)))
             {
@@ -706,7 +718,7 @@ namespace Wasmtime
                 args[0] = Value.FromValueBox(ca.Box(a));
                 args[1] = Value.FromValueBox(cb.Box(b));
 
-                InvokeWithoutReturn(store, args);
+                InvokeWithoutReturn(args);
             };
         }
 
@@ -716,10 +728,14 @@ namespace Wasmtime
         /// <typeparam name="TA">First parameter</typeparam>
         /// <typeparam name="TB">Second parameter</typeparam>
         /// <typeparam name="TC">Third parameter</typeparam>
-        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>An action to invoke this function. Null if the type signature is incompatible</returns>
-        public Action<TA, TB, TC>? WrapAction<TA, TB, TC>(IStore store)
+        public Action<TA, TB, TC>? WrapAction<TA, TB, TC>()
         {
+            if (store is null)
+            {
+                throw new InvalidOperationException("Cannot Wrap null function");
+            }
+
             // Check that the requested type signature is compatible
             if (!CheckTypeSignature(null, typeof(TA), typeof(TB), typeof(TC)))
             {
@@ -738,7 +754,7 @@ namespace Wasmtime
                 args[1] = Value.FromValueBox(cb.Box(b));
                 args[2] = Value.FromValueBox(cc.Box(c));
 
-                InvokeWithoutReturn(store, args);
+                InvokeWithoutReturn(args);
             };
         }
 
@@ -749,10 +765,14 @@ namespace Wasmtime
         /// <typeparam name="TB">Second parameter</typeparam>
         /// <typeparam name="TC">Third parameter</typeparam>
         /// <typeparam name="TD">Fourth parameter</typeparam>
-        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>An action to invoke this function. Null if the type signature is incompatible</returns>
-        public Action<TA, TB, TC, TD>? WrapAction<TA, TB, TC, TD>(IStore store)
+        public Action<TA, TB, TC, TD>? WrapAction<TA, TB, TC, TD>()
         {
+            if (store is null)
+            {
+                throw new InvalidOperationException("Cannot Wrap null function");
+            }
+
             // Check that the requested type signature is compatible
             if (!CheckTypeSignature(null, typeof(TA), typeof(TB), typeof(TC), typeof(TD)))
             {
@@ -773,7 +793,7 @@ namespace Wasmtime
                 args[2] = Value.FromValueBox(cc.Box(c));
                 args[3] = Value.FromValueBox(cd.Box(d));
 
-                InvokeWithoutReturn(store, args);
+                InvokeWithoutReturn(args);
             };
         }
 
@@ -785,10 +805,14 @@ namespace Wasmtime
         /// <typeparam name="TC">Third parameter</typeparam>
         /// <typeparam name="TD">Fourth parameter</typeparam>
         /// <typeparam name="TE">Fifth parameter</typeparam>
-        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>An action to invoke this function. Null if the type signature is incompatible</returns>
-        public Action<TA, TB, TC, TD, TE>? WrapAction<TA, TB, TC, TD, TE>(IStore store)
+        public Action<TA, TB, TC, TD, TE>? WrapAction<TA, TB, TC, TD, TE>()
         {
+            if (store is null)
+            {
+                throw new InvalidOperationException("Cannot Wrap null function");
+            }
+
             // Check that the requested type signature is compatible
             if (!CheckTypeSignature(null, typeof(TA), typeof(TB), typeof(TC), typeof(TD),
                                           typeof(TE)))
@@ -812,7 +836,7 @@ namespace Wasmtime
                 args[3] = Value.FromValueBox(cd.Box(d));
                 args[4] = Value.FromValueBox(ce.Box(e));
 
-                InvokeWithoutReturn(store, args);
+                InvokeWithoutReturn(args);
             };
         }
 
@@ -825,10 +849,14 @@ namespace Wasmtime
         /// <typeparam name="TD">Fourth parameter</typeparam>
         /// <typeparam name="TE">Fifth parameter</typeparam>
         /// <typeparam name="TF">Sixth parameter</typeparam>
-        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>An action to invoke this function. Null if the type signature is incompatible</returns>
-        public Action<TA, TB, TC, TD, TE, TF>? WrapAction<TA, TB, TC, TD, TE, TF>(IStore store)
+        public Action<TA, TB, TC, TD, TE, TF>? WrapAction<TA, TB, TC, TD, TE, TF>()
         {
+            if (store is null)
+            {
+                throw new InvalidOperationException("Cannot Wrap null function");
+            }
+
             // Check that the requested type signature is compatible
             if (!CheckTypeSignature(null, typeof(TA), typeof(TB), typeof(TC), typeof(TD),
                                           typeof(TE), typeof(TF)))
@@ -854,7 +882,7 @@ namespace Wasmtime
                 args[4] = Value.FromValueBox(ce.Box(e));
                 args[5] = Value.FromValueBox(cf.Box(f));
 
-                InvokeWithoutReturn(store, args);
+                InvokeWithoutReturn(args);
             };
         }
 
@@ -868,10 +896,14 @@ namespace Wasmtime
         /// <typeparam name="TE">Fifth parameter</typeparam>
         /// <typeparam name="TF">Sixth parameter</typeparam>
         /// <typeparam name="TG">Seventh parameter</typeparam>
-        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>An action to invoke this function. Null if the type signature is incompatible</returns>
-        public Action<TA, TB, TC, TD, TE, TF, TG>? WrapAction<TA, TB, TC, TD, TE, TF, TG>(IStore store)
+        public Action<TA, TB, TC, TD, TE, TF, TG>? WrapAction<TA, TB, TC, TD, TE, TF, TG>()
         {
+            if (store is null)
+            {
+                throw new InvalidOperationException("Cannot Wrap null function");
+            }
+
             // Check that the requested type signature is compatible
             if (!CheckTypeSignature(null, typeof(TA), typeof(TB), typeof(TC), typeof(TD),
                                           typeof(TE), typeof(TF), typeof(TG)))
@@ -899,7 +931,7 @@ namespace Wasmtime
                 args[5] = Value.FromValueBox(cf.Box(f));
                 args[6] = Value.FromValueBox(cg.Box(g));
 
-                InvokeWithoutReturn(store, args);
+                InvokeWithoutReturn(args);
             };
         }
 
@@ -914,10 +946,14 @@ namespace Wasmtime
         /// <typeparam name="TF">Sixth parameter</typeparam>
         /// <typeparam name="TG">Seventh parameter</typeparam>
         /// <typeparam name="TH">Eighth parameter</typeparam>
-        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>An action to invoke this function. Null if the type signature is incompatible</returns>
-        public Action<TA, TB, TC, TD, TE, TF, TG, TH>? WrapAction<TA, TB, TC, TD, TE, TF, TG, TH>(IStore store)
+        public Action<TA, TB, TC, TD, TE, TF, TG, TH>? WrapAction<TA, TB, TC, TD, TE, TF, TG, TH>()
         {
+            if (store is null)
+            {
+                throw new InvalidOperationException("Cannot Wrap null function");
+            }
+
             // Check that the requested type signature is compatible
             if (!CheckTypeSignature(null, typeof(TA), typeof(TB), typeof(TC), typeof(TD),
                                           typeof(TE), typeof(TF), typeof(TG), typeof(TH)))
@@ -947,7 +983,7 @@ namespace Wasmtime
                 args[6] = Value.FromValueBox(cg.Box(g));
                 args[7] = Value.FromValueBox(ch.Box(h));
 
-                InvokeWithoutReturn(store, args);
+                InvokeWithoutReturn(args);
             };
         }
 
@@ -963,10 +999,14 @@ namespace Wasmtime
         /// <typeparam name="TG">Seventh parameter</typeparam>
         /// <typeparam name="TH">Eighth parameter</typeparam>
         /// <typeparam name="TI">Ninth parameter</typeparam>
-        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>An action to invoke this function. Null if the type signature is incompatible</returns>
-        public Action<TA, TB, TC, TD, TE, TF, TG, TH, TI>? WrapAction<TA, TB, TC, TD, TE, TF, TG, TH, TI>(IStore store)
+        public Action<TA, TB, TC, TD, TE, TF, TG, TH, TI>? WrapAction<TA, TB, TC, TD, TE, TF, TG, TH, TI>()
         {
+            if (store is null)
+            {
+                throw new InvalidOperationException("Cannot Wrap null function");
+            }
+
             // Check that the requested type signature is compatible
             if (!CheckTypeSignature(null, typeof(TA), typeof(TB), typeof(TC), typeof(TD),
                                           typeof(TE), typeof(TF), typeof(TG), typeof(TH),
@@ -999,7 +1039,7 @@ namespace Wasmtime
                 args[7] = Value.FromValueBox(ch.Box(h));
                 args[8] = Value.FromValueBox(ci.Box(i));
 
-                InvokeWithoutReturn(store, args);
+                InvokeWithoutReturn(args);
             };
         }
 
@@ -1007,10 +1047,14 @@ namespace Wasmtime
         /// Attempt to wrap this function as a Func. Wrapped func is faster than a normal Invoke call.
         /// </summary>
         /// <typeparam name="TR">Return type</typeparam>
-        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
-        public Func<TR>? WrapFunc<TR>(IStore store)
+        public Func<TR>? WrapFunc<TR>()
         {
+            if (store is null)
+            {
+                throw new InvalidOperationException("Cannot Wrap null function");
+            }
+
             // Check that the requested type signature is compatible
             if (!CheckTypeSignature(typeof(TR)))
             {
@@ -1022,7 +1066,7 @@ namespace Wasmtime
 
             return () =>
             {
-                return InvokeWithReturn(store, stackalloc Value[0], factory);
+                return InvokeWithReturn(stackalloc Value[0], factory);
             };
         }
 
@@ -1031,10 +1075,14 @@ namespace Wasmtime
         /// </summary>
         /// <typeparam name="TR">Return type</typeparam>
         /// <typeparam name="TA">First parameter</typeparam>
-        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
-        public Func<TA, TR>? WrapFunc<TA, TR>(IStore store)
+        public Func<TA, TR>? WrapFunc<TA, TR>()
         {
+            if (store is null)
+            {
+                throw new InvalidOperationException("Cannot Wrap null function");
+            }
+
             if (!CheckTypeSignature(typeof(TR), typeof(TA)))
             {
                 return null;
@@ -1051,7 +1099,7 @@ namespace Wasmtime
                 Span<Value> args = stackalloc Value[1];
                 args[0] = Value.FromValueBox(ca.Box(a));
 
-                return InvokeWithReturn(store, args, factory);
+                return InvokeWithReturn(args, factory);
             };
         }
 
@@ -1061,10 +1109,14 @@ namespace Wasmtime
         /// <typeparam name="TR">Return type</typeparam>
         /// <typeparam name="TA">First parameter</typeparam>
         /// <typeparam name="TB">First parameter</typeparam>
-        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
-        public Func<TA, TB, TR>? WrapFunc<TA, TB, TR>(IStore store)
+        public Func<TA, TB, TR>? WrapFunc<TA, TB, TR>()
         {
+            if (store is null)
+            {
+                throw new InvalidOperationException("Cannot Wrap null function");
+            }
+
             // Check that the requested type signature is compatible
             if (!CheckTypeSignature(typeof(TR), typeof(TA), typeof(TB)))
             {
@@ -1084,7 +1136,7 @@ namespace Wasmtime
                 args[0] = Value.FromValueBox(ca.Box(a));
                 args[1] = Value.FromValueBox(cb.Box(b));
 
-                return InvokeWithReturn(store, args, factory);
+                return InvokeWithReturn(args, factory);
             };
         }
 
@@ -1095,10 +1147,14 @@ namespace Wasmtime
         /// <typeparam name="TA">First parameter</typeparam>
         /// <typeparam name="TB">Second parameter</typeparam>
         /// <typeparam name="TC">Third parameter</typeparam>
-        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
-        public Func<TA, TB, TC, TR>? WrapFunc<TA, TB, TC, TR>(IStore store)
+        public Func<TA, TB, TC, TR>? WrapFunc<TA, TB, TC, TR>()
         {
+            if (store is null)
+            {
+                throw new InvalidOperationException("Cannot Wrap null function");
+            }
+
             // Check that the requested type signature is compatible
             if (!CheckTypeSignature(typeof(TR), typeof(TA), typeof(TB), typeof(TC)))
             {
@@ -1120,7 +1176,7 @@ namespace Wasmtime
                 args[1] = Value.FromValueBox(cb.Box(b));
                 args[2] = Value.FromValueBox(cc.Box(c));
 
-                return InvokeWithReturn(store, args, factory);
+                return InvokeWithReturn(args, factory);
             };
         }
 
@@ -1132,10 +1188,14 @@ namespace Wasmtime
         /// <typeparam name="TB">Second parameter</typeparam>
         /// <typeparam name="TC">Third parameter</typeparam>
         /// <typeparam name="TD">Fourth parameter</typeparam>
-        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
-        public Func<TA, TB, TC, TD, TR>? WrapFunc<TA, TB, TC, TD, TR>(IStore store)
+        public Func<TA, TB, TC, TD, TR>? WrapFunc<TA, TB, TC, TD, TR>()
         {
+            if (store is null)
+            {
+                throw new InvalidOperationException("Cannot Wrap null function");
+            }
+
             // Check that the requested type signature is compatible
             if (!CheckTypeSignature(typeof(TR), typeof(TA), typeof(TB), typeof(TC), typeof(TD)))
             {
@@ -1159,7 +1219,7 @@ namespace Wasmtime
                 args[2] = Value.FromValueBox(cc.Box(c));
                 args[3] = Value.FromValueBox(cd.Box(d));
 
-                return InvokeWithReturn(store, args, factory);
+                return InvokeWithReturn(args, factory);
             };
         }
 
@@ -1172,10 +1232,14 @@ namespace Wasmtime
         /// <typeparam name="TC">Third parameter</typeparam>
         /// <typeparam name="TD">Fourth parameter</typeparam>
         /// <typeparam name="TE">Fifth parameter</typeparam>
-        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
-        public Func<TA, TB, TC, TD, TE, TR>? WrapFunc<TA, TB, TC, TD, TE, TR>(IStore store)
+        public Func<TA, TB, TC, TD, TE, TR>? WrapFunc<TA, TB, TC, TD, TE, TR>()
         {
+            if (store is null)
+            {
+                throw new InvalidOperationException("Cannot Wrap null function");
+            }
+
             // Check that the requested type signature is compatible
             if (!CheckTypeSignature(typeof(TR), typeof(TA), typeof(TB), typeof(TC), typeof(TD), typeof(TE)))
             {
@@ -1201,7 +1265,7 @@ namespace Wasmtime
                 args[3] = Value.FromValueBox(cd.Box(d));
                 args[4] = Value.FromValueBox(ce.Box(e));
 
-                return InvokeWithReturn(store, args, factory);
+                return InvokeWithReturn(args, factory);
             };
         }
 
@@ -1215,10 +1279,14 @@ namespace Wasmtime
         /// <typeparam name="TD">Fourth parameter</typeparam>
         /// <typeparam name="TE">Fifth parameter</typeparam>
         /// <typeparam name="TF">Sixth parameter</typeparam>
-        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
-        public Func<TA, TB, TC, TD, TE, TF, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TR>(IStore store)
+        public Func<TA, TB, TC, TD, TE, TF, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TR>()
         {
+            if (store is null)
+            {
+                throw new InvalidOperationException("Cannot Wrap null function");
+            }
+
             // Check that the requested type signature is compatible
             if (!CheckTypeSignature(typeof(TR), typeof(TA), typeof(TB), typeof(TC), typeof(TD), typeof(TE), typeof(TF)))
             {
@@ -1246,7 +1314,7 @@ namespace Wasmtime
                 args[4] = Value.FromValueBox(ce.Box(e));
                 args[5] = Value.FromValueBox(cf.Box(f));
 
-                return InvokeWithReturn(store, args, factory);
+                return InvokeWithReturn(args, factory);
             };
         }
 
@@ -1261,10 +1329,14 @@ namespace Wasmtime
         /// <typeparam name="TE">Fifth parameter</typeparam>
         /// <typeparam name="TF">Sixth parameter</typeparam>
         /// <typeparam name="TG">Seventh parameter</typeparam>
-        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
-        public Func<TA, TB, TC, TD, TE, TF, TG, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TR>(IStore store)
+        public Func<TA, TB, TC, TD, TE, TF, TG, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TR>()
         {
+            if (store is null)
+            {
+                throw new InvalidOperationException("Cannot Wrap null function");
+            }
+
             // Check that the requested type signature is compatible
             if (!CheckTypeSignature(typeof(TR), typeof(TA), typeof(TB), typeof(TC), typeof(TD), typeof(TE), typeof(TF), typeof(TG)))
             {
@@ -1294,7 +1366,7 @@ namespace Wasmtime
                 args[5] = Value.FromValueBox(cf.Box(f));
                 args[6] = Value.FromValueBox(cg.Box(g));
 
-                return InvokeWithReturn(store, args, factory);
+                return InvokeWithReturn(args, factory);
             };
         }
 
@@ -1310,10 +1382,14 @@ namespace Wasmtime
         /// <typeparam name="TF">Sixth parameter</typeparam>
         /// <typeparam name="TG">Seventh parameter</typeparam>
         /// <typeparam name="TH">Eighth parameter</typeparam>
-        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
-        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TR>(IStore store)
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TR>()
         {
+            if (store is null)
+            {
+                throw new InvalidOperationException("Cannot Wrap null function");
+            }
+
             // Check that the requested type signature is compatible
             if (!CheckTypeSignature(typeof(TR), typeof(TA), typeof(TB), typeof(TC), typeof(TD), typeof(TE), typeof(TF), typeof(TG), typeof(TH)))
             {
@@ -1345,7 +1421,7 @@ namespace Wasmtime
                 args[6] = Value.FromValueBox(cg.Box(g));
                 args[7] = Value.FromValueBox(ch.Box(h));
 
-                return InvokeWithReturn(store, args, factory);
+                return InvokeWithReturn(args, factory);
             };
         }
 
@@ -1362,10 +1438,14 @@ namespace Wasmtime
         /// <typeparam name="TG">Seventh parameter</typeparam>
         /// <typeparam name="TH">Eighth parameter</typeparam>
         /// <typeparam name="TI">Ninth parameter</typeparam>
-        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
-        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>(IStore store)
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>()
         {
+            if (store is null)
+            {
+                throw new InvalidOperationException("Cannot Wrap null function");
+            }
+
             // Check that the requested type signature is compatible
             if (!CheckTypeSignature(typeof(TR), typeof(TA), typeof(TB), typeof(TC), typeof(TD), typeof(TE), typeof(TF), typeof(TG), typeof(TH), typeof(TI)))
             {
@@ -1399,7 +1479,7 @@ namespace Wasmtime
                 args[7] = Value.FromValueBox(ch.Box(h));
                 args[8] = Value.FromValueBox(ci.Box(i));
 
-                return InvokeWithReturn(store, args, factory);
+                return InvokeWithReturn(args, factory);
             };
         }
 
@@ -1417,10 +1497,14 @@ namespace Wasmtime
         /// <typeparam name="TH">Eighth parameter</typeparam>
         /// <typeparam name="TI">Ninth parameter</typeparam>
         /// <typeparam name="TJ">Tenth parameter</typeparam>
-        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
-        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>(IStore store)
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>()
         {
+            if (store is null)
+            {
+                throw new InvalidOperationException("Cannot Wrap null function");
+            }
+
             // Check that the requested type signature is compatible
             if (!CheckTypeSignature(typeof(TR), typeof(TA), typeof(TB), typeof(TC),
                                     typeof(TD), typeof(TE), typeof(TF), typeof(TG),
@@ -1458,7 +1542,7 @@ namespace Wasmtime
                 args[8] = Value.FromValueBox(ci.Box(i));
                 args[9] = Value.FromValueBox(cj.Box(j));
 
-                return InvokeWithReturn(store, args, factory);
+                return InvokeWithReturn(args, factory);
             };
         }
 
@@ -1477,10 +1561,14 @@ namespace Wasmtime
         /// <typeparam name="TI">Ninth parameter</typeparam>
         /// <typeparam name="TJ">Tenth parameter</typeparam>
         /// <typeparam name="TK">Eleventh parameter</typeparam>
-        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
-        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>(IStore store)
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>()
         {
+            if (store is null)
+            {
+                throw new InvalidOperationException("Cannot Wrap null function");
+            }
+
             // Check that the requested type signature is compatible
             if (!CheckTypeSignature(typeof(TR), typeof(TA), typeof(TB), typeof(TC),
                                     typeof(TD), typeof(TE), typeof(TF), typeof(TG),
@@ -1520,7 +1608,7 @@ namespace Wasmtime
                 args[9] = Value.FromValueBox(cj.Box(j));
                 args[10] = Value.FromValueBox(ck.Box(k));
 
-                return InvokeWithReturn(store, args, factory);
+                return InvokeWithReturn(args, factory);
             };
         }
 
@@ -1540,10 +1628,14 @@ namespace Wasmtime
         /// <typeparam name="TJ">Tenth parameter</typeparam>
         /// <typeparam name="TK">Eleventh parameter</typeparam>
         /// <typeparam name="TL">Twelfth parameter</typeparam>
-        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
-        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>(IStore store)
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>()
         {
+            if (store is null)
+            {
+                throw new InvalidOperationException("Cannot Wrap null function");
+            }
+
             // Check that the requested type signature is compatible
             if (!CheckTypeSignature(typeof(TR), typeof(TA), typeof(TB), typeof(TC),
                                     typeof(TD), typeof(TE), typeof(TF), typeof(TG),
@@ -1586,7 +1678,7 @@ namespace Wasmtime
                 args[10] = Value.FromValueBox(ck.Box(k));
                 args[11] = Value.FromValueBox(cl.Box(l));
 
-                return InvokeWithReturn(store, args, factory);
+                return InvokeWithReturn(args, factory);
             };
         }
 
@@ -1607,10 +1699,14 @@ namespace Wasmtime
         /// <typeparam name="TK">Eleventh parameter</typeparam>
         /// <typeparam name="TL">Twelfth parameter</typeparam>
         /// <typeparam name="TM">Thirteenth parameter</typeparam>
-        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
-        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>(IStore store)
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>()
         {
+            if (store is null)
+            {
+                throw new InvalidOperationException("Cannot Wrap null function");
+            }
+
             // Check that the requested type signature is compatible
             if (!CheckTypeSignature(typeof(TR), typeof(TA), typeof(TB), typeof(TC),
                                     typeof(TD), typeof(TE), typeof(TF), typeof(TG),
@@ -1655,7 +1751,7 @@ namespace Wasmtime
                 args[11] = Value.FromValueBox(cl.Box(l));
                 args[12] = Value.FromValueBox(cm.Box(m));
 
-                return InvokeWithReturn(store, args, factory);
+                return InvokeWithReturn(args, factory);
             };
         }
 
@@ -1677,10 +1773,14 @@ namespace Wasmtime
         /// <typeparam name="TL">Twelfth parameter</typeparam>
         /// <typeparam name="TM">Thirteenth parameter</typeparam>
         /// <typeparam name="TN">Fourteenth parameter</typeparam>
-        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
-        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>(IStore store)
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>()
         {
+            if (store is null)
+            {
+                throw new InvalidOperationException("Cannot Wrap null function");
+            }
+
             // Check that the requested type signature is compatible
             if (!CheckTypeSignature(typeof(TR), typeof(TA), typeof(TB), typeof(TC),
                                     typeof(TD), typeof(TE), typeof(TF), typeof(TG),
@@ -1727,7 +1827,7 @@ namespace Wasmtime
                 args[12] = Value.FromValueBox(cm.Box(m));
                 args[13] = Value.FromValueBox(cn.Box(n));
 
-                return InvokeWithReturn(store, args, factory);
+                return InvokeWithReturn(args, factory);
             };
         }
 
@@ -1750,10 +1850,14 @@ namespace Wasmtime
         /// <typeparam name="TM">Thirteenth parameter</typeparam>
         /// <typeparam name="TN">Fourteenth parameter</typeparam>
         /// <typeparam name="TO">Fifteenth parameter</typeparam>
-        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
-        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>(IStore store)
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>()
         {
+            if (store is null)
+            {
+                throw new InvalidOperationException("Cannot Wrap null function");
+            }
+
             // Check that the requested type signature is compatible
             if (!CheckTypeSignature(typeof(TR), typeof(TA), typeof(TB), typeof(TC),
                                     typeof(TD), typeof(TE), typeof(TF), typeof(TG),
@@ -1802,7 +1906,7 @@ namespace Wasmtime
                 args[13] = Value.FromValueBox(cn.Box(n));
                 args[14] = Value.FromValueBox(co.Box(o));
 
-                return InvokeWithReturn(store, args, factory);
+                return InvokeWithReturn(args, factory);
             };
         }
 
@@ -1826,10 +1930,14 @@ namespace Wasmtime
         /// <typeparam name="TN">Fourteenth parameter</typeparam>
         /// <typeparam name="TO">Fifteenth parameter</typeparam>
         /// <typeparam name="TP">Sixteenth parameter</typeparam>
-        /// <param name="store">The store to use when calling the function.</param>
         /// <returns>A Func to invoke this function. Null if the type signature is incompatible</returns>
-        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>(IStore store)
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>? WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>()
         {
+            if (store is null)
+            {
+                throw new InvalidOperationException("Cannot Wrap null function");
+            }
+
             // Check that the requested type signature is compatible
             if (!CheckTypeSignature(typeof(TR), typeof(TA), typeof(TB), typeof(TC),
                                     typeof(TD), typeof(TE), typeof(TF), typeof(TG),
@@ -1880,7 +1988,7 @@ namespace Wasmtime
                 args[14] = Value.FromValueBox(co.Box(o));
                 args[15] = Value.FromValueBox(cp.Box(p));
 
-                return InvokeWithReturn(store, args, factory);
+                return InvokeWithReturn(args, factory);
             };
         }
         #endregion
@@ -1890,18 +1998,19 @@ namespace Wasmtime
         /// Assumes arguments are the correct type. Disposes the arguments.
         /// </summary>
         /// <typeparam name="TR"></typeparam>
-        /// <param name="store">The store to use when calling the function.</param>
         /// <param name="arguments">Span of arguments, will be diposed after use.</param>
         /// <param name="factory">Factory to use to construct the return item</param>
         /// <returns>The return value from the function</returns>
-        private unsafe TR InvokeWithReturn<TR>(IStore store, ReadOnlySpan<Value> arguments, IReturnTypeFactory<TR> factory)
+        private unsafe TR InvokeWithReturn<TR>(ReadOnlySpan<Value> arguments, IReturnTypeFactory<TR> factory)
         {
             Span<Value> output = stackalloc Value[Results.Count];
 
             try
             {
-                Invoke(store, arguments, output);
-                return factory.Create(store.Context, output);
+                Invoke(arguments, output);
+
+                // Note: null suppression is safe because `Invoke` checks that `store` is not null
+                return factory.Create(store!, output);
             }
             finally
             {
@@ -1922,14 +2031,13 @@ namespace Wasmtime
         /// Invokes the wasmtime function
         /// Assumes arguments are the correct type. Disposes the arguments.
         /// </summary>
-        /// <param name="store">The store to use when calling the function.</param>
         /// <param name="arguments">Span of arguments, will be diposed after use.</param>
         /// <returns></returns>
-        private unsafe void InvokeWithoutReturn(IStore store, ReadOnlySpan<Value> arguments)
+        private unsafe void InvokeWithoutReturn(ReadOnlySpan<Value> arguments)
         {
             try
             {
-                Invoke(store, arguments, stackalloc Value[0]);
+                Invoke(arguments, stackalloc Value[0]);
             }
             finally
             {
@@ -1944,26 +2052,19 @@ namespace Wasmtime
         /// <summary>
         /// Invokes the Wasmtime function with no arguments.
         /// </summary>
-        /// <param name="store">The store that owns this function.</param>
         /// <returns>
         ///   Returns null if the function has no return value.
         ///   Returns the value if the function returns a single value.
         ///   Returns an array of values if the function returns more than one value.
         /// </returns>
-        public object? Invoke(IStore store)
+        public object? Invoke()
         {
-            if (store is null)
-            {
-                throw new ArgumentNullException(nameof(store));
-            }
-
-            return Invoke(store, new ReadOnlySpan<ValueBox>());
+            return Invoke(new ReadOnlySpan<ValueBox>());
         }
 
         /// <summary>
         /// Invokes the Wasmtime function.
         /// </summary>
-        /// <param name="store">The store that owns this function.</param>
         /// <param name="arguments">The array of arguments to pass to the function.</param>
         /// <returns>
         ///   Returns null if the function has no return value.
@@ -1971,27 +2072,21 @@ namespace Wasmtime
         ///   Returns an array of values if the function returns more than one value.
         /// </returns>
         // TODO: remove overload when https://github.com/dotnet/csharplang/issues/1757 is resolved
-        public object? Invoke(IStore store, params ValueBox[] arguments)
+        public object? Invoke(params ValueBox[] arguments)
         {
-            if (store is null)
-            {
-                throw new ArgumentNullException(nameof(store));
-            }
-
-            return Invoke(store, (ReadOnlySpan<ValueBox>)arguments);
+            return Invoke((ReadOnlySpan<ValueBox>)arguments);
         }
 
         /// <summary>
         /// Invokes the Wasmtime function.
         /// </summary>
-        /// <param name="store">The store that owns this function.</param>
         /// <param name="arguments">The arguments to pass to the function, wrapped in `ValueBox`</param>
         /// <returns>
         ///   Returns null if the function has no return value.
         ///   Returns the value if the function returns a single value.
         ///   Returns an array of values if the function returns more than one value.
         /// </returns>
-        public object? Invoke(IStore store, ReadOnlySpan<ValueBox> arguments)
+        public object? Invoke(ReadOnlySpan<ValueBox> arguments)
         {
             if (IsNull)
             {
@@ -2020,7 +2115,7 @@ namespace Wasmtime
 
             try
             {
-                Invoke(store, args, resultsSpan);
+                Invoke(args, resultsSpan);
 
                 if (Results.Count == 0)
                 {
@@ -2031,13 +2126,13 @@ namespace Wasmtime
                 {
                     if (Results.Count == 1)
                     {
-                        return resultsSpan[0].ToObject(context);
+                        return resultsSpan[0].ToObject(store);
                     }
 
                     var ret = new object?[Results.Count];
                     for (int i = 0; i < Results.Count; ++i)
                     {
-                        ret[i] = resultsSpan[i].ToObject(context);
+                        ret[i] = resultsSpan[i].ToObject(store);
                     }
 
                     return ret;
@@ -2063,13 +2158,12 @@ namespace Wasmtime
         /// <summary>
         /// Invokes the Wasmtime function. Assumes arguments are the correct type and return span is the correct size.
         /// </summary>
-        /// <param name="store">The store that owns this function.</param>
         /// <param name="arguments">The arguments to pass to the function, wrapped as `Value`</param>
         /// <param name="resultsOut">Output span to store the results in, must be the correct length</param>
         /// <returns>
         ///   Returns null if the function has no return value.
         /// </returns>
-        private unsafe void Invoke(IStore store, ReadOnlySpan<Value> arguments, Span<Value> resultsOut)
+        private unsafe void Invoke(ReadOnlySpan<Value> arguments, Span<Value> resultsOut)
         {
             if (IsNull)
             {
@@ -2111,12 +2205,18 @@ namespace Wasmtime
             };
         }
 
-        internal Function(StoreContext context, Delegate callback, bool hasReturn)
+        internal Function(IStore store, Delegate callback, bool hasReturn)
         {
             if (callback is null)
             {
                 throw new ArgumentNullException(nameof(callback));
             }
+
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+            this.store = store;
 
             using var funcType = GetFunctionType(callback.GetType(), hasReturn, this.parameters, this.results, out var hasCaller);
 
@@ -2141,7 +2241,7 @@ namespace Wasmtime
                 }
 
                 Native.wasmtime_func_new(
-                    context.handle,
+                    store.Context.handle,
                     funcType,
                     func,
                     GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -2153,17 +2253,24 @@ namespace Wasmtime
 
         internal Function()
         {
+            this.store = null;
             this.func.store = 0;
             this.func.index = (UIntPtr)0;
         }
 
-        internal Function(StoreContext context, ExternFunc func)
+        internal Function(IStore store, ExternFunc func)
         {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+            this.store = store;
+
             this.func = func;
 
             if (!this.IsNull)
             {
-                using var type = new TypeHandle(Native.wasmtime_func_type(context.handle, this.func));
+                using var type = new TypeHandle(Native.wasmtime_func_type(store.Context.handle, this.func));
 
                 unsafe
                 {
@@ -2285,10 +2392,9 @@ namespace Wasmtime
                 }
 
                 var invokeArgsSpan = new Span<object?>(invokeArgs, offset, nargs);
-                var context = ((IStore)caller).Context;
                 for (int i = 0; i < invokeArgsSpan.Length; ++i)
                 {
-                    invokeArgsSpan[i] = args[i].ToObject(context);
+                    invokeArgsSpan[i] = args[i].ToObject(caller);
                 }
 
                 // NOTE: reflection is extremely slow for invoking methods. in the future, perhaps this could be replaced with
@@ -2370,6 +2476,7 @@ namespace Wasmtime
             public static unsafe extern IntPtr wasmtime_trap_new(byte* bytes, UIntPtr len);
         }
 
+        private readonly IStore? store;
         internal readonly ExternFunc func;
         internal readonly List<ValueKind> parameters = new List<ValueKind>();
         internal readonly List<ValueKind> results = new List<ValueKind>();

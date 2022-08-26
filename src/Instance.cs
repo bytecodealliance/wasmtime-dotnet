@@ -70,7 +70,7 @@ namespace Wasmtime
         public Action? GetAction(IStore store, string name)
         {
             return GetFunction(store, name)
-                 ?.WrapAction(store);
+                 ?.WrapAction();
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Wasmtime
         public Action<TA>? GetAction<TA>(IStore store, string name)
         {
             return GetFunction(store, name)
-                 ?.WrapAction<TA>(store);
+                 ?.WrapAction<TA>();
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Wasmtime
         public Action<TA, TB>? GetAction<TA, TB>(IStore store, string name)
         {
             return GetFunction(store, name)
-                 ?.WrapAction<TA, TB>(store);
+                 ?.WrapAction<TA, TB>();
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace Wasmtime
         public Action<TA, TB, TC>? GetAction<TA, TB, TC>(IStore store, string name)
         {
             return GetFunction(store, name)
-                 ?.WrapAction<TA, TB, TC>(store);
+                 ?.WrapAction<TA, TB, TC>();
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace Wasmtime
         public Action<TA, TB, TC, TD>? GetAction<TA, TB, TC, TD>(IStore store, string name)
         {
             return GetFunction(store, name)
-                 ?.WrapAction<TA, TB, TC, TD>(store);
+                 ?.WrapAction<TA, TB, TC, TD>();
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace Wasmtime
         public Action<TA, TB, TC, TD, TE>? GetAction<TA, TB, TC, TD, TE>(IStore store, string name)
         {
             return GetFunction(store, name)
-                 ?.WrapAction<TA, TB, TC, TD, TE>(store);
+                 ?.WrapAction<TA, TB, TC, TD, TE>();
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace Wasmtime
         public Func<TR>? GetFunction<TR>(IStore store, string name)
         {
             return GetFunction(store, name)
-                 ?.WrapFunc<TR>(store);
+                 ?.WrapFunc<TR>();
         }
 
         /// <summary>
@@ -172,7 +172,7 @@ namespace Wasmtime
         public Func<TA, TR>? GetFunction<TA, TR>(IStore store, string name)
         {
             return GetFunction(store, name)
-                 ?.WrapFunc<TA, TR>(store);
+                 ?.WrapFunc<TA, TR>();
         }
 
         /// <summary>
@@ -187,7 +187,7 @@ namespace Wasmtime
         public Func<TA, TB, TR>? GetFunction<TA, TB, TR>(IStore store, string name)
         {
             return GetFunction(store, name)
-                 ?.WrapFunc<TA, TB, TR>(store);
+                 ?.WrapFunc<TA, TB, TR>();
         }
 
         /// <summary>
@@ -203,7 +203,7 @@ namespace Wasmtime
         public Func<TA, TB, TC, TR>? GetFunction<TA, TB, TC, TR>(IStore store, string name)
         {
             return GetFunction(store, name)
-                 ?.WrapFunc<TA, TB, TC, TR>(store);
+                 ?.WrapFunc<TA, TB, TC, TR>();
         }
 
         /// <summary>
@@ -220,7 +220,7 @@ namespace Wasmtime
         public Func<TA, TB, TC, TD, TR>? GetFunction<TA, TB, TC, TD, TR>(IStore store, string name)
         {
             return GetFunction(store, name)
-                 ?.WrapFunc<TA, TB, TC, TD, TR>(store);
+                 ?.WrapFunc<TA, TB, TC, TD, TR>();
         }
 
         /// <summary>
@@ -238,7 +238,7 @@ namespace Wasmtime
         public Func<TA, TB, TC, TD, TE, TR>? GetFunction<TA, TB, TC, TD, TE, TR>(IStore store, string name)
         {
             return GetFunction(store, name)
-                 ?.WrapFunc<TA, TB, TC, TD, TE, TR>(store);
+                 ?.WrapFunc<TA, TB, TC, TD, TE, TR>();
         }
 
         /// <summary>
@@ -257,7 +257,7 @@ namespace Wasmtime
         public Func<TA, TB, TC, TD, TE, TF, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TR>(IStore store, string name)
         {
             return GetFunction(store, name)
-                 ?.WrapFunc<TA, TB, TC, TD, TE, TF, TR>(store);
+                 ?.WrapFunc<TA, TB, TC, TD, TE, TF, TR>();
         }
 
         /// <summary>
@@ -277,7 +277,7 @@ namespace Wasmtime
         public Func<TA, TB, TC, TD, TE, TF, TG, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TR>(IStore store, string name)
         {
             return GetFunction(store, name)
-                 ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TR>(store);
+                 ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TR>();
         }
 
         /// <summary>
@@ -298,7 +298,7 @@ namespace Wasmtime
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TR>(IStore store, string name)
         {
             return GetFunction(store, name)
-                 ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TR>(store);
+                 ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TR>();
         }
 
         /// <summary>
@@ -320,7 +320,7 @@ namespace Wasmtime
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>(IStore store, string name)
         {
             return GetFunction(store, name)
-                 ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>(store);
+                 ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>();
         }
 
         /// <summary>
@@ -343,7 +343,7 @@ namespace Wasmtime
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>(IStore store, string name)
         {
             return GetFunction(store, name)
-                 ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>(store);
+                 ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>();
         }
 
         /// <summary>
@@ -367,7 +367,7 @@ namespace Wasmtime
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>(IStore store, string name)
         {
             return GetFunction(store, name)
-                 ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>(store);
+                 ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>();
         }
 
         /// <summary>
@@ -392,7 +392,7 @@ namespace Wasmtime
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>(IStore store, string name)
         {
             return GetFunction(store, name)
-                 ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>(store);
+                 ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>();
         }
 
         /// <summary>
@@ -418,7 +418,7 @@ namespace Wasmtime
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>(IStore store, string name)
         {
             return GetFunction(store, name)
-                 ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>(store);
+                 ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>();
         }
 
         /// <summary>
@@ -445,7 +445,7 @@ namespace Wasmtime
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>(IStore store, string name)
         {
             return GetFunction(store, name)
-                 ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>(store);
+                 ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>();
         }
 
         /// <summary>
@@ -473,7 +473,7 @@ namespace Wasmtime
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>(IStore store, string name)
         {
             return GetFunction(store, name)
-                 ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>(store);
+                 ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>();
         }
 
         /// <summary>
@@ -502,7 +502,7 @@ namespace Wasmtime
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>(IStore store, string name)
         {
             return GetFunction(store, name)
-                 ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>(store);
+                 ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>();
         }
         #endregion
 
@@ -549,7 +549,7 @@ namespace Wasmtime
                 return null;
             }
 
-            return new Function(context, ext.of.func);
+            return new Function(store, ext.of.func);
         }
 
         /// <summary>

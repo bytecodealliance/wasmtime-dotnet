@@ -72,7 +72,7 @@ namespace Wasmtime
                         return null;
                     }
 
-                    return new Function(((IStore)this).Context, item.of.func);
+                    return new Function(this, item.of.func);
                 }
             }
         }

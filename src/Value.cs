@@ -334,7 +334,7 @@ namespace Wasmtime
             return value;
         }
 
-        public object? ToObject(StoreContext context)
+        public object? ToObject(IStore store)
         {
             switch (kind)
             {
@@ -363,7 +363,7 @@ namespace Wasmtime
                     return ResolveExternRef();
 
                 case ValueKind.FuncRef:
-                    return new Function(context, of.funcref);
+                    return new Function(store, of.funcref);
 
                 default:
                     throw new NotSupportedException("Unsupported value kind.");

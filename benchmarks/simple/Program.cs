@@ -51,17 +51,17 @@ namespace Simple
             linker.Define("", "memory", new Memory(store, 3));
 
             var instance = linker.Instantiate(store, _module);
-            var run = instance.GetFunction(store, "run");
+            var run = instance.GetFunction(store, "run")!.WrapAction();
             if (run == null)
             {
                 throw new InvalidOperationException();
             }
             
-            run.Invoke(store);
+            run.Invoke();
         }
 
-        private Engine _engine;
-        private Module _module;
+        private readonly Engine _engine;
+        private readonly Module _module;
     }
 
     class Program
@@ -70,7 +70,7 @@ namespace Simple
         {
             var summary = BenchmarkRunner.Run<Benchmark>();
 
-            var report = summary[summary.BenchmarksCases.Where(c => c.Descriptor.Type == typeof(Benchmark)).Single()];
+            var report = summary[summary.BenchmarksCases.Single(c => c.Descriptor.Type == typeof(Benchmark))];
             if (!(report is null))
             {
                 if (report.ExecuteResults.All(r => r.ExitCode == 0))

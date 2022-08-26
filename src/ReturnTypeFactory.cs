@@ -8,7 +8,7 @@ namespace Wasmtime
 {
     interface IReturnTypeFactory<out TReturn>
     {
-        TReturn Create(StoreContext context, Span<Value> values);
+        TReturn Create(IStore store, Span<Value> values);
 
         static IReturnTypeFactory<TReturn> Create()
         {
@@ -73,9 +73,9 @@ namespace Wasmtime
             converter = ValueBox.Converter<TReturn>();
         }
 
-        public TReturn Create(StoreContext context, Span<Value> values)
+        public TReturn Create(IStore store, Span<Value> values)
         {
-            return converter.Unbox(context, values[0].ToValueBox());
+            return converter.Unbox(store, values[0].ToValueBox());
         }
     }
 
@@ -95,7 +95,7 @@ namespace Wasmtime
                 .CreateDelegate(typeof(TFunc));
         }
 
-        public abstract TReturn Create(StoreContext context, Span<Value> values);
+        public abstract TReturn Create(IStore store, Span<Value> values);
     }
 
     internal class TupleFactory2<TReturn, TA, TB>
@@ -110,11 +110,11 @@ namespace Wasmtime
             converterB = ValueBox.Converter<TB>();
         }
 
-        public override TReturn Create(StoreContext context, Span<Value> values)
+        public override TReturn Create(IStore store, Span<Value> values)
         {
             return Factory(
-                converterA.Unbox(context, values[0].ToValueBox()),
-                converterB.Unbox(context, values[1].ToValueBox())
+                converterA.Unbox(store, values[0].ToValueBox()),
+                converterB.Unbox(store, values[1].ToValueBox())
             );
         }
     }
@@ -133,12 +133,12 @@ namespace Wasmtime
             converterC = ValueBox.Converter<TC>();
         }
 
-        public override TReturn Create(StoreContext context, Span<Value> values)
+        public override TReturn Create(IStore store, Span<Value> values)
         {
             return Factory(
-                converterA.Unbox(context, values[0].ToValueBox()),
-                converterB.Unbox(context, values[1].ToValueBox()),
-                converterC.Unbox(context, values[2].ToValueBox())
+                converterA.Unbox(store, values[0].ToValueBox()),
+                converterB.Unbox(store, values[1].ToValueBox()),
+                converterC.Unbox(store, values[2].ToValueBox())
             );
         }
     }
@@ -159,13 +159,13 @@ namespace Wasmtime
             converterD = ValueBox.Converter<TD>();
         }
 
-        public override TReturn Create(StoreContext context, Span<Value> values)
+        public override TReturn Create(IStore store, Span<Value> values)
         {
             return Factory(
-                converterA.Unbox(context, values[0].ToValueBox()),
-                converterB.Unbox(context, values[1].ToValueBox()),
-                converterC.Unbox(context, values[2].ToValueBox()),
-                converterD.Unbox(context, values[3].ToValueBox())
+                converterA.Unbox(store, values[0].ToValueBox()),
+                converterB.Unbox(store, values[1].ToValueBox()),
+                converterC.Unbox(store, values[2].ToValueBox()),
+                converterD.Unbox(store, values[3].ToValueBox())
             );
         }
     }
@@ -188,14 +188,14 @@ namespace Wasmtime
             converterE = ValueBox.Converter<TE>();
         }
 
-        public override TReturn Create(StoreContext context, Span<Value> values)
+        public override TReturn Create(IStore store, Span<Value> values)
         {
             return Factory(
-                converterA.Unbox(context, values[0].ToValueBox()),
-                converterB.Unbox(context, values[1].ToValueBox()),
-                converterC.Unbox(context, values[2].ToValueBox()),
-                converterD.Unbox(context, values[3].ToValueBox()),
-                converterE.Unbox(context, values[4].ToValueBox())
+                converterA.Unbox(store, values[0].ToValueBox()),
+                converterB.Unbox(store, values[1].ToValueBox()),
+                converterC.Unbox(store, values[2].ToValueBox()),
+                converterD.Unbox(store, values[3].ToValueBox()),
+                converterE.Unbox(store, values[4].ToValueBox())
             );
         }
     }
@@ -220,15 +220,15 @@ namespace Wasmtime
             converterF = ValueBox.Converter<TF>();
         }
 
-        public override TReturn Create(StoreContext context, Span<Value> values)
+        public override TReturn Create(IStore store, Span<Value> values)
         {
             return Factory(
-                converterA.Unbox(context, values[0].ToValueBox()),
-                converterB.Unbox(context, values[1].ToValueBox()),
-                converterC.Unbox(context, values[2].ToValueBox()),
-                converterD.Unbox(context, values[3].ToValueBox()),
-                converterE.Unbox(context, values[4].ToValueBox()),
-                converterF.Unbox(context, values[5].ToValueBox())
+                converterA.Unbox(store, values[0].ToValueBox()),
+                converterB.Unbox(store, values[1].ToValueBox()),
+                converterC.Unbox(store, values[2].ToValueBox()),
+                converterD.Unbox(store, values[3].ToValueBox()),
+                converterE.Unbox(store, values[4].ToValueBox()),
+                converterF.Unbox(store, values[5].ToValueBox())
             );
         }
     }
@@ -255,16 +255,16 @@ namespace Wasmtime
             converterG = ValueBox.Converter<TG>();
         }
 
-        public override TReturn Create(StoreContext context, Span<Value> values)
+        public override TReturn Create(IStore store, Span<Value> values)
         {
             return Factory(
-                converterA.Unbox(context, values[0].ToValueBox()),
-                converterB.Unbox(context, values[1].ToValueBox()),
-                converterC.Unbox(context, values[2].ToValueBox()),
-                converterD.Unbox(context, values[3].ToValueBox()),
-                converterE.Unbox(context, values[4].ToValueBox()),
-                converterF.Unbox(context, values[5].ToValueBox()),
-                converterG.Unbox(context, values[6].ToValueBox())
+                converterA.Unbox(store, values[0].ToValueBox()),
+                converterB.Unbox(store, values[1].ToValueBox()),
+                converterC.Unbox(store, values[2].ToValueBox()),
+                converterD.Unbox(store, values[3].ToValueBox()),
+                converterE.Unbox(store, values[4].ToValueBox()),
+                converterF.Unbox(store, values[5].ToValueBox()),
+                converterG.Unbox(store, values[6].ToValueBox())
             );
         }
     }

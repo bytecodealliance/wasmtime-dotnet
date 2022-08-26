@@ -49,8 +49,8 @@ namespace Wasmtime.Tests
             var nullref = instance.GetFunction(Store, "nullref");
             inout.Should().NotBeNull();
 
-            (inout.Invoke(Store, ValueBox.AsBox((object)null))).Should().BeNull();
-            (nullref.Invoke(Store)).Should().BeNull();
+            (inout.Invoke(ValueBox.AsBox((object)null))).Should().BeNull();
+            (nullref.Invoke()).Should().BeNull();
         }
 
         unsafe class Value
@@ -90,7 +90,7 @@ namespace Wasmtime.Tests
                 inout.Should().NotBeNull();
                 for (int i = 0; i < 100; ++i)
                 {
-                    inout.Invoke(Store, ValueBox.AsBox(new Value(counter)));
+                    inout.Invoke(ValueBox.AsBox(new Value(counter)));
                 }
 
                 Store.Dispose();
@@ -109,7 +109,7 @@ namespace Wasmtime.Tests
             var inout = instance.GetFunction(Store, "inout");
             inout.Should().NotBeNull();
 
-            Action action = () => inout.Invoke(Store, ValueBox.AsBox((object)5));
+            Action action = () => inout.Invoke(ValueBox.AsBox((object)5));
 
             action
                 .Should()
