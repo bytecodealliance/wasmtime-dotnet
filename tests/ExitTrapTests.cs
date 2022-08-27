@@ -22,10 +22,10 @@ namespace Wasmtime.Tests
             store.SetWasiConfiguration(new WasiConfiguration());
             var instance = linker.Instantiate(store, module);
 
-            var memory = instance.GetMemory(store, "memory");
+            var memory = instance.GetMemory("memory");
             memory.Should().NotBeNull();
 
-            var exit = instance.GetAction<int>(store, "exit")!;
+            var exit = instance.GetAction<int>("exit")!;
             exit.Should().NotBeNull();
 
             try

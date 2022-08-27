@@ -33,6 +33,8 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(imports));
             }
 
+            _store = store;
+
             unsafe
             {
                 var externs = stackalloc Extern[imports.Length];
@@ -64,77 +66,71 @@ namespace Wasmtime
         /// <summary>
         /// Gets an exported function from the instance.
         /// </summary>
-        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported function.</param>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Action? GetAction(IStore store, string name)
+        public Action? GetAction(string name)
         {
-            return GetFunction(store, name)
+            return GetFunction(name)
                  ?.WrapAction();
         }
 
         /// <summary>
         /// Gets an exported function from the instance.
         /// </summary>
-        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported function.</param>
         /// <typeparam name="TA">Parameter type</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Action<TA>? GetAction<TA>(IStore store, string name)
+        public Action<TA>? GetAction<TA>(string name)
         {
-            return GetFunction(store, name)
+            return GetFunction(name)
                  ?.WrapAction<TA>();
         }
 
         /// <summary>
         /// Gets an exported function from the instance.
         /// </summary>
-        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported function.</param>
         /// <typeparam name="TA">First parameter type</typeparam>
         /// <typeparam name="TB">Second parameter type</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Action<TA, TB>? GetAction<TA, TB>(IStore store, string name)
+        public Action<TA, TB>? GetAction<TA, TB>(string name)
         {
-            return GetFunction(store, name)
+            return GetFunction(name)
                  ?.WrapAction<TA, TB>();
         }
 
         /// <summary>
         /// Gets an exported function from the instance.
         /// </summary>
-        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported function.</param>
         /// <typeparam name="TA">First parameter type</typeparam>
         /// <typeparam name="TB">Second parameter type</typeparam>
         /// <typeparam name="TC">Third parameter type</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Action<TA, TB, TC>? GetAction<TA, TB, TC>(IStore store, string name)
+        public Action<TA, TB, TC>? GetAction<TA, TB, TC>(string name)
         {
-            return GetFunction(store, name)
+            return GetFunction(name)
                  ?.WrapAction<TA, TB, TC>();
         }
 
         /// <summary>
         /// Gets an exported function from the instance.
         /// </summary>
-        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported function.</param>
         /// <typeparam name="TA">First parameter type</typeparam>
         /// <typeparam name="TB">Second parameter type</typeparam>
         /// <typeparam name="TC">Third parameter type</typeparam>
         /// <typeparam name="TD">Fourth parameter type</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Action<TA, TB, TC, TD>? GetAction<TA, TB, TC, TD>(IStore store, string name)
+        public Action<TA, TB, TC, TD>? GetAction<TA, TB, TC, TD>(string name)
         {
-            return GetFunction(store, name)
+            return GetFunction(name)
                  ?.WrapAction<TA, TB, TC, TD>();
         }
 
         /// <summary>
         /// Gets an exported function from the instance.
         /// </summary>
-        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported function.</param>
         /// <typeparam name="TA">First parameter type</typeparam>
         /// <typeparam name="TB">Second parameter type</typeparam>
@@ -142,74 +138,69 @@ namespace Wasmtime
         /// <typeparam name="TD">Fourth parameter type</typeparam>
         /// <typeparam name="TE">Fifth parameter type</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Action<TA, TB, TC, TD, TE>? GetAction<TA, TB, TC, TD, TE>(IStore store, string name)
+        public Action<TA, TB, TC, TD, TE>? GetAction<TA, TB, TC, TD, TE>(string name)
         {
-            return GetFunction(store, name)
+            return GetFunction(name)
                  ?.WrapAction<TA, TB, TC, TD, TE>();
         }
 
         /// <summary>
         /// Gets an exported function from the instance.
         /// </summary>
-        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported function.</param>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TR>? GetFunction<TR>(IStore store, string name)
+        public Func<TR>? GetFunction<TR>(string name)
         {
-            return GetFunction(store, name)
+            return GetFunction(name)
                  ?.WrapFunc<TR>();
         }
 
         /// <summary>
         /// Gets an exported function from the instance.
         /// </summary>
-        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported function.</param>
         /// <typeparam name="TA">First parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TA, TR>? GetFunction<TA, TR>(IStore store, string name)
+        public Func<TA, TR>? GetFunction<TA, TR>(string name)
         {
-            return GetFunction(store, name)
+            return GetFunction(name)
                  ?.WrapFunc<TA, TR>();
         }
 
         /// <summary>
         /// Gets an exported function from the instance.
         /// </summary>
-        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported function.</param>
         /// <typeparam name="TA">First parameter type</typeparam>
         /// <typeparam name="TB">Second parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TA, TB, TR>? GetFunction<TA, TB, TR>(IStore store, string name)
+        public Func<TA, TB, TR>? GetFunction<TA, TB, TR>(string name)
         {
-            return GetFunction(store, name)
+            return GetFunction(name)
                  ?.WrapFunc<TA, TB, TR>();
         }
 
         /// <summary>
         /// Gets an exported function from the instance.
         /// </summary>
-        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported function.</param>
         /// <typeparam name="TA">First parameter type</typeparam>
         /// <typeparam name="TB">Second parameter type</typeparam>
         /// <typeparam name="TC">Third parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TA, TB, TC, TR>? GetFunction<TA, TB, TC, TR>(IStore store, string name)
+        public Func<TA, TB, TC, TR>? GetFunction<TA, TB, TC, TR>(string name)
         {
-            return GetFunction(store, name)
+            return GetFunction(name)
                  ?.WrapFunc<TA, TB, TC, TR>();
         }
 
         /// <summary>
         /// Gets an exported function from the instance.
         /// </summary>
-        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported function.</param>
         /// <typeparam name="TA">First parameter type</typeparam>
         /// <typeparam name="TB">Second parameter type</typeparam>
@@ -217,16 +208,15 @@ namespace Wasmtime
         /// <typeparam name="TD">Fourth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TA, TB, TC, TD, TR>? GetFunction<TA, TB, TC, TD, TR>(IStore store, string name)
+        public Func<TA, TB, TC, TD, TR>? GetFunction<TA, TB, TC, TD, TR>(string name)
         {
-            return GetFunction(store, name)
+            return GetFunction(name)
                  ?.WrapFunc<TA, TB, TC, TD, TR>();
         }
 
         /// <summary>
         /// Gets an exported function from the instance.
         /// </summary>
-        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported function.</param>
         /// <typeparam name="TA">First parameter type</typeparam>
         /// <typeparam name="TB">Second parameter type</typeparam>
@@ -235,16 +225,15 @@ namespace Wasmtime
         /// <typeparam name="TE">Fifth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TA, TB, TC, TD, TE, TR>? GetFunction<TA, TB, TC, TD, TE, TR>(IStore store, string name)
+        public Func<TA, TB, TC, TD, TE, TR>? GetFunction<TA, TB, TC, TD, TE, TR>(string name)
         {
-            return GetFunction(store, name)
+            return GetFunction(name)
                  ?.WrapFunc<TA, TB, TC, TD, TE, TR>();
         }
 
         /// <summary>
         /// Gets an exported function from the instance.
         /// </summary>
-        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported function.</param>
         /// <typeparam name="TA">First parameter type</typeparam>
         /// <typeparam name="TB">Second parameter type</typeparam>
@@ -254,16 +243,15 @@ namespace Wasmtime
         /// <typeparam name="TF">Sixth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TA, TB, TC, TD, TE, TF, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TR>(IStore store, string name)
+        public Func<TA, TB, TC, TD, TE, TF, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TR>(string name)
         {
-            return GetFunction(store, name)
+            return GetFunction(name)
                  ?.WrapFunc<TA, TB, TC, TD, TE, TF, TR>();
         }
 
         /// <summary>
         /// Gets an exported function from the instance.
         /// </summary>
-        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported function.</param>
         /// <typeparam name="TA">First parameter type</typeparam>
         /// <typeparam name="TB">Second parameter type</typeparam>
@@ -274,16 +262,15 @@ namespace Wasmtime
         /// <typeparam name="TG">Seventh parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TA, TB, TC, TD, TE, TF, TG, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TR>(IStore store, string name)
+        public Func<TA, TB, TC, TD, TE, TF, TG, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TR>(string name)
         {
-            return GetFunction(store, name)
+            return GetFunction(name)
                  ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TR>();
         }
 
         /// <summary>
         /// Gets an exported function from the instance.
         /// </summary>
-        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported function.</param>
         /// <typeparam name="TA">First parameter type</typeparam>
         /// <typeparam name="TB">Second parameter type</typeparam>
@@ -295,16 +282,15 @@ namespace Wasmtime
         /// <typeparam name="TH">Eighth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TR>(IStore store, string name)
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TR>(string name)
         {
-            return GetFunction(store, name)
+            return GetFunction(name)
                  ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TR>();
         }
 
         /// <summary>
         /// Gets an exported function from the instance.
         /// </summary>
-        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported function.</param>
         /// <typeparam name="TA">First parameter type</typeparam>
         /// <typeparam name="TB">Second parameter type</typeparam>
@@ -317,16 +303,15 @@ namespace Wasmtime
         /// <typeparam name="TI">Ninth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>(IStore store, string name)
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>(string name)
         {
-            return GetFunction(store, name)
+            return GetFunction(name)
                  ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>();
         }
 
         /// <summary>
         /// Gets an exported function from the instance.
         /// </summary>
-        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported function.</param>
         /// <typeparam name="TA">First parameter type</typeparam>
         /// <typeparam name="TB">Second parameter type</typeparam>
@@ -340,16 +325,15 @@ namespace Wasmtime
         /// <typeparam name="TJ">Tenth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>(IStore store, string name)
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>(string name)
         {
-            return GetFunction(store, name)
+            return GetFunction(name)
                  ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>();
         }
 
         /// <summary>
         /// Gets an exported function from the instance.
         /// </summary>
-        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported function.</param>
         /// <typeparam name="TA">First parameter type</typeparam>
         /// <typeparam name="TB">Second parameter type</typeparam>
@@ -364,16 +348,15 @@ namespace Wasmtime
         /// <typeparam name="TK">Eleventh parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>(IStore store, string name)
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>(string name)
         {
-            return GetFunction(store, name)
+            return GetFunction(name)
                  ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>();
         }
 
         /// <summary>
         /// Gets an exported function from the instance.
         /// </summary>
-        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported function.</param>
         /// <typeparam name="TA">First parameter type</typeparam>
         /// <typeparam name="TB">Second parameter type</typeparam>
@@ -389,16 +372,15 @@ namespace Wasmtime
         /// <typeparam name="TL">Twelfth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>(IStore store, string name)
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>(string name)
         {
-            return GetFunction(store, name)
+            return GetFunction(name)
                  ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>();
         }
 
         /// <summary>
         /// Gets an exported function from the instance.
         /// </summary>
-        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported function.</param>
         /// <typeparam name="TA">First parameter type</typeparam>
         /// <typeparam name="TB">Second parameter type</typeparam>
@@ -415,16 +397,15 @@ namespace Wasmtime
         /// <typeparam name="TM">Thirteenth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>(IStore store, string name)
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>(string name)
         {
-            return GetFunction(store, name)
+            return GetFunction(name)
                  ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>();
         }
 
         /// <summary>
         /// Gets an exported function from the instance.
         /// </summary>
-        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported function.</param>
         /// <typeparam name="TA">First parameter type</typeparam>
         /// <typeparam name="TB">Second parameter type</typeparam>
@@ -442,16 +423,15 @@ namespace Wasmtime
         /// <typeparam name="TN">Fourteenth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>(IStore store, string name)
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>(string name)
         {
-            return GetFunction(store, name)
+            return GetFunction(name)
                  ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>();
         }
 
         /// <summary>
         /// Gets an exported function from the instance.
         /// </summary>
-        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported function.</param>
         /// <typeparam name="TA">First parameter type</typeparam>
         /// <typeparam name="TB">Second parameter type</typeparam>
@@ -470,16 +450,15 @@ namespace Wasmtime
         /// <typeparam name="TO">Fifteenth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>(IStore store, string name)
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>(string name)
         {
-            return GetFunction(store, name)
+            return GetFunction(name)
                  ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>();
         }
 
         /// <summary>
         /// Gets an exported function from the instance.
         /// </summary>
-        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported function.</param>
         /// <typeparam name="TA">First parameter type</typeparam>
         /// <typeparam name="TB">Second parameter type</typeparam>
@@ -499,9 +478,9 @@ namespace Wasmtime
         /// <typeparam name="TP">Sixteenth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>(IStore store, string name)
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>(string name)
         {
-            return GetFunction(store, name)
+            return GetFunction(name)
                  ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>();
         }
         #endregion
@@ -509,14 +488,13 @@ namespace Wasmtime
         /// <summary>
         /// Gets an exported function from the instance and check the type signature.
         /// </summary>
-        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported function.</param>
         /// <param name="returnType">The return type of the function. Null if no return type. Tuple of types is multiple returns expected.</param>
         /// <param name="parameterTypes">The expected parameters to the function</param>
         /// <returns>Returns the function if a function of that name and type signature was exported or null if not.</returns>
-        public Function? GetFunction(IStore store, string name, Type? returnType, params Type[] parameterTypes)
+        public Function? GetFunction(string name, Type? returnType, params Type[] parameterTypes)
         {
-            var func = GetFunction(store, name);
+            var func = GetFunction(name);
             if (func is null)
             {
                 return null;
@@ -533,88 +511,64 @@ namespace Wasmtime
         /// <summary>
         /// Gets an exported function from the instance.
         /// </summary>
-        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported function.</param>
         /// <returns>Returns the function if a function of that name was exported or null if not.</returns>
-        public Function? GetFunction(IStore store, string name)
+        public Function? GetFunction(string name)
         {
-            if (store is null)
-            {
-                throw new ArgumentNullException(nameof(store));
-            }
-
-            var context = store.Context;
+            var context = _store.Context;
             if (!TryGetExtern(context, name, out var ext) || ext.kind != ExternKind.Func)
             {
                 return null;
             }
 
-            return new Function(store, ext.of.func);
+            return new Function(_store, ext.of.func);
         }
 
         /// <summary>
         /// Gets an exported table from the instance.
         /// </summary>
-        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported table.</param>
         /// <returns>Returns the table if a table of that name was exported or null if not.</returns>
-        public Table? GetTable(IStore store, string name)
+        public Table? GetTable(string name)
         {
-            if (store is null)
-            {
-                throw new ArgumentNullException(nameof(store));
-            }
-
-            var context = store.Context;
+            var context = _store.Context;
             if (!TryGetExtern(context, name, out var ext) || ext.kind != ExternKind.Table)
             {
                 return null;
             }
 
-            return new Table(store, ext.of.table);
+            return new Table(_store, ext.of.table);
         }
 
         /// <summary>
         /// Gets an exported memory from the instance.
         /// </summary>
-        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported memory.</param>
         /// <returns>Returns the memory if a memory of that name was exported or null if not.</returns>
-        public Memory? GetMemory(IStore store, string name)
+        public Memory? GetMemory(string name)
         {
-            if (store is null)
-            {
-                throw new ArgumentNullException(nameof(store));
-            }
-
-            if (!TryGetExtern(store.Context, name, out var ext) || ext.kind != ExternKind.Memory)
+            if (!TryGetExtern(_store.Context, name, out var ext) || ext.kind != ExternKind.Memory)
             {
                 return null;
             }
 
-            return new Memory(store, ext.of.memory);
+            return new Memory(_store, ext.of.memory);
         }
 
         /// <summary>
         /// Gets an exported global from the instance.
         /// </summary>
-        /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the exported global.</param>
         /// <returns>Returns the global if a global of that name was exported or null if not.</returns>
-        public Global? GetGlobal(IStore store, string name)
+        public Global? GetGlobal(string name)
         {
-            if (store is null)
-            {
-                throw new ArgumentNullException(nameof(store));
-            }
-
-            var context = store.Context;
+            var context = _store.Context;
             if (!TryGetExtern(context, name, out var ext) || ext.kind != ExternKind.Global)
             {
                 return null;
             }
 
-            return new Global(store, ext.of.global);
+            return new Global(_store, ext.of.global);
         }
 
         private bool TryGetExtern(StoreContext context, string name, out Extern ext)
@@ -629,8 +583,14 @@ namespace Wasmtime
             }
         }
 
-        internal Instance(ExternInstance instance)
+        internal Instance(IStore store, ExternInstance instance)
         {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            this._store = store;
             this.instance = instance;
         }
 
@@ -666,6 +626,7 @@ namespace Wasmtime
             public static extern void wasmtime_instancetype_delete(IntPtr handle);
         }
 
+        private readonly IStore _store;
         internal readonly ExternInstance instance;
     }
 }

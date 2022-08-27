@@ -51,7 +51,7 @@ namespace Simple
             linker.Define("", "memory", new Memory(store, 3));
 
             var instance = linker.Instantiate(store, _module);
-            var run = instance.GetFunction(store, "run")!.WrapAction();
+            var run = instance.GetFunction("run")!.WrapAction();
             if (run == null)
             {
                 throw new InvalidOperationException();

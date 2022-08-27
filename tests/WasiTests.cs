@@ -24,9 +24,9 @@ namespace Wasmtime.Tests
             store.SetWasiConfiguration(new WasiConfiguration());
             var instance = linker.Instantiate(store, module);
 
-            var memory = instance.GetMemory(store, "memory");
+            var memory = instance.GetMemory("memory");
             memory.Should().NotBeNull();
-            var call_environ_sizes_get = instance.GetFunction(store, "call_environ_sizes_get");
+            var call_environ_sizes_get = instance.GetFunction("call_environ_sizes_get");
             call_environ_sizes_get.Should().NotBeNull();
 
             Assert.Equal(0, call_environ_sizes_get.Invoke(0, 4));
@@ -58,11 +58,11 @@ namespace Wasmtime.Tests
             store.SetWasiConfiguration(config);
             var instance = linker.Instantiate(store, module);
 
-            var memory = instance.GetMemory(store, "memory");
+            var memory = instance.GetMemory("memory");
             memory.Should().NotBeNull();
-            var call_environ_sizes_get = instance.GetFunction(store, "call_environ_sizes_get");
+            var call_environ_sizes_get = instance.GetFunction("call_environ_sizes_get");
             call_environ_sizes_get.Should().NotBeNull();
-            var call_environ_get = instance.GetFunction(store, "call_environ_get");
+            var call_environ_get = instance.GetFunction("call_environ_get");
             call_environ_sizes_get.Should().NotBeNull();
 
             Assert.Equal(0, call_environ_sizes_get.Invoke(0, 4));
@@ -95,9 +95,9 @@ namespace Wasmtime.Tests
             store.SetWasiConfiguration(config);
             var instance = linker.Instantiate(store, module);
 
-            var memory = instance.GetMemory(store, "memory");
+            var memory = instance.GetMemory("memory");
             memory.Should().NotBeNull();
-            var call_environ_sizes_get = instance.GetFunction(store, "call_environ_sizes_get");
+            var call_environ_sizes_get = instance.GetFunction("call_environ_sizes_get");
             call_environ_sizes_get.Should().NotBeNull();
 
             Assert.Equal(0, call_environ_sizes_get.Invoke(0, 4));
@@ -119,9 +119,9 @@ namespace Wasmtime.Tests
             store.SetWasiConfiguration(new WasiConfiguration());
             var instance = linker.Instantiate(store, module);
 
-            var memory = instance.GetMemory(store, "memory");
+            var memory = instance.GetMemory("memory");
             memory.Should().NotBeNull();
-            var call_args_sizes_get = instance.GetFunction(store, "call_args_sizes_get");
+            var call_args_sizes_get = instance.GetFunction("call_args_sizes_get");
             call_args_sizes_get.Should().NotBeNull();
 
             Assert.Equal(0, call_args_sizes_get.Invoke(0, 4));
@@ -154,11 +154,11 @@ namespace Wasmtime.Tests
             store.SetWasiConfiguration(config);
             var instance = linker.Instantiate(store, module);
 
-            var memory = instance.GetMemory(store, "memory");
+            var memory = instance.GetMemory("memory");
             memory.Should().NotBeNull();
-            var call_args_sizes_get = instance.GetFunction(store, "call_args_sizes_get");
+            var call_args_sizes_get = instance.GetFunction("call_args_sizes_get");
             call_args_sizes_get.Should().NotBeNull();
-            var call_args_get = instance.GetFunction(store, "call_args_get");
+            var call_args_get = instance.GetFunction("call_args_get");
             call_args_get.Should().NotBeNull();
 
             Assert.Equal(0, call_args_sizes_get.Invoke(0, 4));
@@ -191,9 +191,9 @@ namespace Wasmtime.Tests
             store.SetWasiConfiguration(config);
             var instance = linker.Instantiate(store, module);
 
-            var memory = instance.GetMemory(store, "memory");
+            var memory = instance.GetMemory("memory");
             memory.Should().NotBeNull();
-            var call_args_sizes_get = instance.GetFunction(store, "call_args_sizes_get");
+            var call_args_sizes_get = instance.GetFunction("call_args_sizes_get");
             call_args_sizes_get.Should().NotBeNull();
 
             Assert.Equal(0, call_args_sizes_get.Invoke(0, 4));
@@ -223,9 +223,9 @@ namespace Wasmtime.Tests
             store.SetWasiConfiguration(config);
             var instance = linker.Instantiate(store, module);
 
-            var memory = instance.GetMemory(store, "memory");
+            var memory = instance.GetMemory("memory");
             memory.Should().NotBeNull();
-            var call_fd_read = instance.GetFunction(store, "call_fd_read");
+            var call_fd_read = instance.GetFunction("call_fd_read");
             call_fd_read.Should().NotBeNull();
 
             memory.WriteInt32(0, 8);
@@ -267,11 +267,11 @@ namespace Wasmtime.Tests
             store.SetWasiConfiguration(config);
             var instance = linker.Instantiate(store, module);
 
-            var memory = instance.GetMemory(store, "memory");
+            var memory = instance.GetMemory("memory");
             memory.Should().NotBeNull();
-            var call_fd_write = instance.GetFunction(store, "call_fd_write");
+            var call_fd_write = instance.GetFunction("call_fd_write");
             call_fd_write.Should().NotBeNull();
-            var call_fd_close = instance.GetFunction(store, "call_fd_close");
+            var call_fd_close = instance.GetFunction("call_fd_close");
             call_fd_close.Should().NotBeNull();
 
             memory.WriteInt32(0, 8);
@@ -306,13 +306,13 @@ namespace Wasmtime.Tests
             store.SetWasiConfiguration(config);
             var instance = linker.Instantiate(store, module);
 
-            var memory = instance.GetMemory(store, "memory");
+            var memory = instance.GetMemory("memory");
             memory.Should().NotBeNull();
-            var call_path_open = instance.GetFunction(store, "call_path_open");
+            var call_path_open = instance.GetFunction("call_path_open");
             call_path_open.Should().NotBeNull();
-            var call_fd_write = instance.GetFunction(store, "call_fd_write");
+            var call_fd_write = instance.GetFunction("call_fd_write");
             call_fd_write.Should().NotBeNull();
-            var call_fd_close = instance.GetFunction(store, "call_fd_close");
+            var call_fd_close = instance.GetFunction("call_fd_close");
             call_fd_close.Should().NotBeNull();
 
             var fileName = Path.GetFileName(file.Path);

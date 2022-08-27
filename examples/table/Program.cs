@@ -23,7 +23,7 @@ namespace Example
 
             var instance = linker.Instantiate(store, module);
 
-            var call_indirect = instance.GetFunction<int, int, int, int>(store, "call_indirect");
+            var call_indirect = instance.GetFunction<int, int, int, int>("call_indirect");
             if (call_indirect is null)
             {
                 Console.WriteLine("error: `call_indirect` export is missing");

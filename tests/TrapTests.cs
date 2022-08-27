@@ -30,7 +30,7 @@ namespace Wasmtime.Tests
             Action action = () =>
             {
                 var instance = Linker.Instantiate(Store, Fixture.Module);
-                var run = instance.GetAction(Store, "run");
+                var run = instance.GetAction("run");
                 run.Should().NotBeNull();
                 run();
             };

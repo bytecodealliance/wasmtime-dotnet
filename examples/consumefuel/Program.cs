@@ -25,7 +25,7 @@ namespace Example
 
             var instance = linker.Instantiate(store, module);
 
-            var expensive = instance.GetAction(store, "expensive");
+            var expensive = instance.GetAction("expensive");
             if (expensive is null)
             {
                 Console.WriteLine("error: expensive export is missing");

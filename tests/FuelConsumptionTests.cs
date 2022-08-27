@@ -96,7 +96,7 @@ namespace Wasmtime.Tests
         public void ItConsumesFuelWhenCallingImportMethods()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var free = instance.GetFunction(Store, "free");
+            var free = instance.GetFunction("free");
 
             Store.AddFuel(1000UL);
 
@@ -113,7 +113,7 @@ namespace Wasmtime.Tests
         public void ItConsumesFuelFromInsideAnImportMethod()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var expensive = instance.GetFunction(Store, "expensive");
+            var expensive = instance.GetFunction("expensive");
 
             Store.AddFuel(1000UL);
 
@@ -126,7 +126,7 @@ namespace Wasmtime.Tests
         public void ItThrowsOnCallingImportMethodIfNoFuelAdded()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var free = instance.GetFunction(Store, "free");
+            var free = instance.GetFunction("free");
 
             Action action = () => free.Invoke();
             action
@@ -142,7 +142,7 @@ namespace Wasmtime.Tests
         public void ItThrowsOnCallingImportMethodIfNotEnoughFuelAdded()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var free = instance.GetFunction(Store, "free");
+            var free = instance.GetFunction("free");
 
             Store.AddFuel(4UL);
 
@@ -168,7 +168,7 @@ namespace Wasmtime.Tests
         public void ItThrowsWhenConsumingTooMuchFuelFromInsideAnImportMethod()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var expensive = instance.GetFunction(Store, "expensive");
+            var expensive = instance.GetFunction("expensive");
 
             Store.AddFuel(50UL);
 
@@ -186,7 +186,7 @@ namespace Wasmtime.Tests
         public void ItAddsAdditonalFuelAfterCallingImportMethods()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var free = instance.GetFunction(Store, "free");
+            var free = instance.GetFunction("free");
 
             Store.AddFuel(4UL);
 

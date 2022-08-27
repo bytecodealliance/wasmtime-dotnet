@@ -20,7 +20,7 @@ namespace Example
 
             var instance = linker.Instantiate(store, module);
 
-            var run = instance.GetFunction<string, string, string>(store, "run");
+            var run = instance.GetFunction<string, string, string>("run");
             if (run is null)
             {
                 Console.WriteLine("error: run export is missing");
