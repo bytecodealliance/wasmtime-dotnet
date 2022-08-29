@@ -47,7 +47,7 @@ namespace Wasmtime.Tests
         public void ItReadsAndWritesGenericTypes()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var memory = instance.GetMemory(Store, "mem");
+            var memory = instance.GetMemory("mem");
 
             memory.Should().NotBeNull();
 
@@ -68,7 +68,7 @@ namespace Wasmtime.Tests
         public void ItCreatesExternsForTheMemories()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var memory = instance.GetMemory(Store, "mem");
+            var memory = instance.GetMemory("mem");
 
             memory.Should().NotBeNull();
 

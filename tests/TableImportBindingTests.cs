@@ -79,10 +79,10 @@ namespace Wasmtime.Tests
             Linker.Define("", "externs", externs);
 
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var is_null_func = instance.GetFunction(Store, "is_null_extern");
-            var is_null_extern = instance.GetFunction(Store, "is_null_extern");
-            var call = instance.GetFunction(Store, "call");
-            var assert_extern = instance.GetFunction(Store, "assert_extern");
+            var is_null_func = instance.GetFunction("is_null_extern");
+            var is_null_extern = instance.GetFunction("is_null_extern");
+            var call = instance.GetFunction("call");
+            var assert_extern = instance.GetFunction("assert_extern");
 
             for (int i = 0; i < 10; ++i)
             {
@@ -127,8 +127,8 @@ namespace Wasmtime.Tests
             Linker.Define("", "externs", externs);
 
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var grow_funcs = instance.GetFunction(Store, "grow_funcs");
-            var grow_externs = instance.GetFunction(Store, "grow_externs");
+            var grow_funcs = instance.GetFunction("grow_funcs");
+            var grow_externs = instance.GetFunction("grow_externs");
 
             funcs.GetSize().Should().Be(10);
             externs.GetSize().Should().Be(10);

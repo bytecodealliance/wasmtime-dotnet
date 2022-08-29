@@ -568,7 +568,7 @@ namespace Wasmtime
                 throw TrapException.FromOwnedTrap(trap);
             }
 
-            return new Instance(instance);
+            return new Instance(store, instance);
         }
 
         /// <summary>

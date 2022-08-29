@@ -128,18 +128,18 @@ namespace Wasmtime.Tests
             Linker.Define("", "global_f64", global_f64);
 
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var get_global_i32_mut = instance.GetFunction(Store, "get_global_i32_mut");
-            var set_global_i32_mut = instance.GetFunction(Store, "set_global_i32_mut");
-            var get_global_i32 = instance.GetFunction(Store, "get_global_i32");
-            var get_global_i64_mut = instance.GetFunction(Store, "get_global_i64_mut");
-            var set_global_i64_mut = instance.GetFunction(Store, "set_global_i64_mut");
-            var get_global_i64 = instance.GetFunction(Store, "get_global_i64");
-            var get_global_f32_mut = instance.GetFunction(Store, "get_global_f32_mut");
-            var set_global_f32_mut = instance.GetFunction(Store, "set_global_f32_mut");
-            var get_global_f32 = instance.GetFunction(Store, "get_global_f32");
-            var get_global_f64_mut = instance.GetFunction(Store, "get_global_f64_mut");
-            var set_global_f64_mut = instance.GetFunction(Store, "set_global_f64_mut");
-            var get_global_f64 = instance.GetFunction(Store, "get_global_f64");
+            var get_global_i32_mut = instance.GetFunction("get_global_i32_mut");
+            var set_global_i32_mut = instance.GetFunction("set_global_i32_mut");
+            var get_global_i32 = instance.GetFunction("get_global_i32");
+            var get_global_i64_mut = instance.GetFunction("get_global_i64_mut");
+            var set_global_i64_mut = instance.GetFunction("set_global_i64_mut");
+            var get_global_i64 = instance.GetFunction("get_global_i64");
+            var get_global_f32_mut = instance.GetFunction("get_global_f32_mut");
+            var set_global_f32_mut = instance.GetFunction("set_global_f32_mut");
+            var get_global_f32 = instance.GetFunction("get_global_f32");
+            var get_global_f64_mut = instance.GetFunction("get_global_f64_mut");
+            var set_global_f64_mut = instance.GetFunction("set_global_f64_mut");
+            var get_global_f64 = instance.GetFunction("get_global_f64");
 
             global_i32_mut.GetValue().Should().Be(0);
             get_global_i32_mut.Invoke().Should().Be(0);

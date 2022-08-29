@@ -31,7 +31,7 @@ namespace Wasmtime.Tests
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
 
-            var inout = instance.GetFunction<string, string>(Store, "inout");
+            var inout = instance.GetFunction<string, string>("inout");
             inout.Should().NotBeNull();
 
             var input = "input";
@@ -43,10 +43,10 @@ namespace Wasmtime.Tests
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
 
-            var inout = instance.GetFunction(Store, "inout");
+            var inout = instance.GetFunction("inout");
             inout.Should().NotBeNull();
 
-            var nullref = instance.GetFunction(Store, "nullref");
+            var nullref = instance.GetFunction("nullref");
             inout.Should().NotBeNull();
 
             (inout.Invoke(ValueBox.AsBox((object)null))).Should().BeNull();
@@ -86,7 +86,7 @@ namespace Wasmtime.Tests
             {
                 var instance = Linker.Instantiate(Store, Fixture.Module);
 
-                var inout = instance.GetFunction(Store, "inout");
+                var inout = instance.GetFunction("inout");
                 inout.Should().NotBeNull();
                 for (int i = 0; i < 100; ++i)
                 {
@@ -106,7 +106,7 @@ namespace Wasmtime.Tests
 
             var instance = Linker.Instantiate(Store, Fixture.Module);
 
-            var inout = instance.GetFunction(Store, "inout");
+            var inout = instance.GetFunction("inout");
             inout.Should().NotBeNull();
 
             Action action = () => inout.Invoke(ValueBox.AsBox((object)5));

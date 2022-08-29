@@ -41,13 +41,13 @@ namespace Wasmtime.Tests
             var mem = new Memory(Store, 1);
             Linker.Define("", "mem", mem);
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var readByte = instance.GetFunction(Store, "ReadByte");
-            var readInt16 = instance.GetFunction(Store, "ReadInt16");
-            var readInt32 = instance.GetFunction(Store, "ReadInt32");
-            var readInt64 = instance.GetFunction(Store, "ReadInt64");
-            var readFloat32 = instance.GetFunction(Store, "ReadFloat32");
-            var readFloat64 = instance.GetFunction(Store, "ReadFloat64");
-            var readIntPtr = instance.GetFunction(Store, "ReadIntPtr");
+            var readByte = instance.GetFunction("ReadByte");
+            var readInt16 = instance.GetFunction("ReadInt16");
+            var readInt32 = instance.GetFunction("ReadInt32");
+            var readInt64 = instance.GetFunction("ReadInt64");
+            var readFloat32 = instance.GetFunction("ReadFloat32");
+            var readFloat64 = instance.GetFunction("ReadFloat64");
+            var readIntPtr = instance.GetFunction("ReadIntPtr");
 
             mem.ReadString(0, 11).Should().Be("Hello World");
             int written = mem.WriteString(0, "WebAssembly Rocks!");

@@ -33,7 +33,7 @@ namespace Wasmtime.Tests
             });
 
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var testFunction = instance.GetFunction(Store, "testFunction");
+            var testFunction = instance.GetFunction("testFunction");
 
             var result = (int)testFunction.Invoke(2);
             result.Should().Be(2 << 1);

@@ -38,9 +38,9 @@ namespace Wasmtime.Tests
         public void ItBindsImportMethodsAndCallsThemCorrectly()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var add = instance.GetFunction(Store, "add");
-            var swap = instance.GetFunction(Store, "swap");
-            var check = instance.GetFunction(Store, "check_string");
+            var add = instance.GetFunction("add");
+            var swap = instance.GetFunction("swap");
+            var check = instance.GetFunction("check_string");
 
             int x = (int)add.Invoke(40, 2);
             x.Should().Be(42);
@@ -69,7 +69,7 @@ namespace Wasmtime.Tests
         public void ItPropagatesExceptionsToCallersViaTraps()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var thrower = instance.GetFunction(Store, "do_throw");
+            var thrower = instance.GetFunction("do_throw");
 
             Action action = () => thrower.Invoke();
 

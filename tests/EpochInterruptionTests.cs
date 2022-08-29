@@ -37,7 +37,7 @@ public class EpochInterruptionTests : IClassFixture<EpochInterruptionFixture>, I
         Store.SetEpochDeadline(1);
 
         var instance = Linker.Instantiate(Store, Fixture.Module);
-        var run = instance.GetFunction(Store, "run");
+        var run = instance.GetFunction("run");
 
         var action = () =>
         {
