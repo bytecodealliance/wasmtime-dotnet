@@ -100,10 +100,10 @@ namespace Wasmtime
         /// <returns>Returns the span of the memory.</returns>
         /// <remarks>
         /// The span may become invalid if the memory grows.
-        /// 
+        ///
         /// This may happen if the memory is explicitly requested to grow or
         /// grows as a result of WebAssembly execution.
-        /// 
+        ///
         /// Therefore, the returned span should not be used after calling the grow method or
         /// after calling into WebAssembly code.
         /// </remarks>
@@ -138,14 +138,20 @@ namespace Wasmtime
         }
 
         /// <summary>
-        /// Reads a UTF-8 string from memory.
+        /// Reads a string from memory with the specified encoding.
         /// </summary>
         /// <param name="address">The zero-based address to read from.</param>
         /// <param name="length">The length of bytes to read.</param>
+        /// <param name="encoding">The encoding to use when reading the string; if null, UTF-8 encoding is used.</param>
         /// <returns>Returns the string read from memory.</returns>
-        public string ReadString(int address, int length)
+        public string ReadString(int address, int length, Encoding? encoding = null)
         {
-            return Encoding.UTF8.GetString(GetSpan().Slice(address, length));
+            if (encoding is null)
+            {
+                encoding = Encoding.UTF8;
+            }
+
+            return encoding.GetString(GetSpan().Slice(address, length));
         }
 
         /// <summary>
@@ -166,14 +172,20 @@ namespace Wasmtime
         }
 
         /// <summary>
-        /// Writes a UTF-8 string at the given address.
+        /// Writes a string at the given address with the given encoding.
         /// </summary>
         /// <param name="address">The zero-based address to write to.</param>
         /// <param name="value">The string to write.</param>
+        /// <param name="encoding">The encoding to use when writing the string; if null, UTF-8 encoding is used.</param>
         /// <return>Returns the number of bytes written.</return>
-        public int WriteString(int address, string value)
+        public int WriteString(int address, string value, Encoding? encoding = null)
         {
-            return Encoding.UTF8.GetBytes(value, GetSpan().Slice(address));
+            if (encoding is null)
+            {
+                encoding = Encoding.UTF8;
+            }
+
+            return encoding.GetBytes(value, GetSpan().Slice(address));
         }
 
         /// <summary>
