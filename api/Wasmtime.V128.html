@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Struct V128
    ">
-    <meta name="generator" content="docfx 2.59.2.0">
+    <meta name="generator" content="docfx 2.59.3.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -123,7 +123,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_V128__ctor_System_Byte_System_Byte_System_Byte_System_Byte_System_Byte_System_Byte_System_Byte_System_Byte_System_Byte_System_Byte_System_Byte_System_Byte_System_Byte_System_Byte_System_Byte_System_Byte_.md&amp;value=---%0Auid%3A%20Wasmtime.V128.%23ctor(System.Byte%2CSystem.Byte%2CSystem.Byte%2CSystem.Byte%2CSystem.Byte%2CSystem.Byte%2CSystem.Byte%2CSystem.Byte%2CSystem.Byte%2CSystem.Byte%2CSystem.Byte%2CSystem.Byte%2CSystem.Byte%2CSystem.Byte%2CSystem.Byte%2CSystem.Byte)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/V128.cs/#L63">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/V128.cs/#L57">View Source</a>
   </span>
   <a id="Wasmtime_V128__ctor_" data-uid="Wasmtime.V128.#ctor*"></a>
   <h4 id="Wasmtime_V128__ctor_System_Byte_System_Byte_System_Byte_System_Byte_System_Byte_System_Byte_System_Byte_System_Byte_System_Byte_System_Byte_System_Byte_System_Byte_System_Byte_System_Byte_System_Byte_System_Byte_" data-uid="Wasmtime.V128.#ctor(System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte)">V128(Byte, Byte, Byte, Byte, Byte, Byte, Byte, Byte, Byte, Byte, Byte, Byte, Byte, Byte, Byte, Byte)</h4>
@@ -271,6 +271,74 @@
       <tr>
         <td><a class="xref" href="Wasmtime.V128.html">V128</a></td>
         <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_V128_AsSpan.md&amp;value=---%0Auid%3A%20Wasmtime.V128.AsSpan%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/V128.cs/#L89">View Source</a>
+  </span>
+  <a id="Wasmtime_V128_AsSpan_" data-uid="Wasmtime.V128.AsSpan*"></a>
+  <h4 id="Wasmtime_V128_AsSpan" data-uid="Wasmtime.V128.AsSpan">AsSpan()</h4>
+  <div class="markdown level1 summary"><p>Creates a new writeable span over the bytes of this V128</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Span&lt;byte&gt; AsSpan()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Span</span>&lt;<span class="xref">System.Byte</span>&gt;</td>
+        <td><p>The span representation of this V128.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_V128_CopyTo_Span_System_Byte__.md&amp;value=---%0Auid%3A%20Wasmtime.V128.CopyTo(Span%7BSystem.Byte%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/V128.cs/#L107">View Source</a>
+  </span>
+  <a id="Wasmtime_V128_CopyTo_" data-uid="Wasmtime.V128.CopyTo*"></a>
+  <h4 id="Wasmtime_V128_CopyTo_Span_System_Byte__" data-uid="Wasmtime.V128.CopyTo(Span{System.Byte})">CopyTo(Span&lt;Byte&gt;)</h4>
+  <div class="markdown level1 summary"><p>Copy bytes into a span</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void CopyTo(Span&lt;byte&gt; dest)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Span</span>&lt;<span class="xref">System.Byte</span>&gt;</td>
+        <td><span class="parametername">dest</span></td>
+        <td><p>span to copy bytes into</p>
+</td>
       </tr>
     </tbody>
   </table>

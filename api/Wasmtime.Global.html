@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class Global
    ">
-    <meta name="generator" content="docfx 2.59.2.0">
+    <meta name="generator" content="docfx 2.59.3.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -148,7 +148,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Global_Kind.md&amp;value=---%0Auid%3A%20Wasmtime.Global.Kind%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Global.cs/#L103">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Global.cs/#L107">View Source</a>
   </span>
   <a id="Wasmtime_Global_Kind_" data-uid="Wasmtime.Global.Kind*"></a>
   <h4 id="Wasmtime_Global_Kind" data-uid="Wasmtime.Global.Kind">Kind</h4>
@@ -179,7 +179,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Global_Mutability.md&amp;value=---%0Auid%3A%20Wasmtime.Global.Mutability%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Global.cs/#L108">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Global.cs/#L112">View Source</a>
   </span>
   <a id="Wasmtime_Global_Mutability_" data-uid="Wasmtime.Global.Mutability*"></a>
   <h4 id="Wasmtime_Global_Mutability" data-uid="Wasmtime.Global.Mutability">Mutability</h4>
@@ -209,38 +209,20 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Global_GetValue_Wasmtime_IStore_.md&amp;value=---%0Auid%3A%20Wasmtime.Global.GetValue(Wasmtime.IStore)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Global_GetValue.md&amp;value=---%0Auid%3A%20Wasmtime.Global.GetValue%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Global.cs/#L64">View Source</a>
   </span>
   <a id="Wasmtime_Global_GetValue_" data-uid="Wasmtime.Global.GetValue*"></a>
-  <h4 id="Wasmtime_Global_GetValue_Wasmtime_IStore_" data-uid="Wasmtime.Global.GetValue(Wasmtime.IStore)">GetValue(IStore)</h4>
+  <h4 id="Wasmtime_Global_GetValue" data-uid="Wasmtime.Global.GetValue">GetValue()</h4>
   <div class="markdown level1 summary"><p>Gets the value of the global.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public object? GetValue(IStore store)</code></pre>
+    <pre><code class="lang-csharp hljs">public object? GetValue()</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
-        <td><span class="parametername">store</span></td>
-        <td><p>The store that owns the global.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
   <h5 class="returns">Returns</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
@@ -259,19 +241,19 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Global_SetValue_Wasmtime_IStore_System_Nullable_System_Object__.md&amp;value=---%0Auid%3A%20Wasmtime.Global.SetValue(Wasmtime.IStore%2CSystem.Nullable%7BSystem.Object%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Global_SetValue_System_Nullable_System_Object__.md&amp;value=---%0Auid%3A%20Wasmtime.Global.SetValue(System.Nullable%7BSystem.Object%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Global.cs/#L83">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Global.cs/#L77">View Source</a>
   </span>
   <a id="Wasmtime_Global_SetValue_" data-uid="Wasmtime.Global.SetValue*"></a>
-  <h4 id="Wasmtime_Global_SetValue_Wasmtime_IStore_System_Nullable_System_Object__" data-uid="Wasmtime.Global.SetValue(Wasmtime.IStore,System.Nullable{System.Object})">SetValue(IStore, Nullable&lt;Object&gt;)</h4>
+  <h4 id="Wasmtime_Global_SetValue_System_Nullable_System_Object__" data-uid="Wasmtime.Global.SetValue(System.Nullable{System.Object})">SetValue(Nullable&lt;Object&gt;)</h4>
   <div class="markdown level1 summary"><p>Sets the value of the global.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void SetValue(IStore store, object? value)</code></pre>
+    <pre><code class="lang-csharp hljs">public void SetValue(object? value)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -284,15 +266,57 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
-        <td><span class="parametername">store</span></td>
-        <td><p>The store that owns the global.</p>
-</td>
-      </tr>
-      <tr>
         <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Object</span>&gt;</td>
         <td><span class="parametername">value</span></td>
         <td><p>The value to set.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Global_Wrap__1.md&amp;value=---%0Auid%3A%20Wasmtime.Global.Wrap%60%601%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Global.cs/#L94">View Source</a>
+  </span>
+  <a id="Wasmtime_Global_Wrap_" data-uid="Wasmtime.Global.Wrap*"></a>
+  <h4 id="Wasmtime_Global_Wrap__1" data-uid="Wasmtime.Global.Wrap``1">Wrap&lt;T&gt;()</h4>
+  <div class="markdown level1 summary"><p>Wrap this global as a specific type, accessing through the wrapper avoids any boxing.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Global.Accessor&lt;T&gt; Wrap&lt;T&gt;()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Global.Accessor-1.html">Global.Accessor</a>&lt;T&gt;</td>
+        <td><p>An accessor for this global, or null if the type is incorrect</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td><p>Type of this global</p>
 </td>
       </tr>
     </tbody>

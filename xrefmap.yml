@@ -829,30 +829,30 @@ references:
   fullName.vb: Wasmtime.Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, TResult)(Wasmtime.IStore, Func(Of T1, T2, T3, T4, T5, T6, T7, T8, TResult))
   nameWithType: Function.FromCallback<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(IStore, Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult>)
   nameWithType.vb: Function.FromCallback(Of T1, T2, T3, T4, T5, T6, T7, T8, TResult)(IStore, Func(Of T1, T2, T3, T4, T5, T6, T7, T8, TResult))
-- uid: Wasmtime.Function.Invoke(Wasmtime.IStore)
-  name: Invoke(IStore)
-  href: api/Wasmtime.Function.html#Wasmtime_Function_Invoke_Wasmtime_IStore_
-  commentId: M:Wasmtime.Function.Invoke(Wasmtime.IStore)
-  fullName: Wasmtime.Function.Invoke(Wasmtime.IStore)
-  nameWithType: Function.Invoke(IStore)
-- uid: Wasmtime.Function.Invoke(Wasmtime.IStore,ReadOnlySpan{Wasmtime.ValueBox})
-  name: Invoke(IStore, ReadOnlySpan<ValueBox>)
-  href: api/Wasmtime.Function.html#Wasmtime_Function_Invoke_Wasmtime_IStore_ReadOnlySpan_Wasmtime_ValueBox__
-  commentId: M:Wasmtime.Function.Invoke(Wasmtime.IStore,ReadOnlySpan{Wasmtime.ValueBox})
-  name.vb: Invoke(IStore, ReadOnlySpan(Of ValueBox))
-  fullName: Wasmtime.Function.Invoke(Wasmtime.IStore, ReadOnlySpan<Wasmtime.ValueBox>)
-  fullName.vb: Wasmtime.Function.Invoke(Wasmtime.IStore, ReadOnlySpan(Of Wasmtime.ValueBox))
-  nameWithType: Function.Invoke(IStore, ReadOnlySpan<ValueBox>)
-  nameWithType.vb: Function.Invoke(IStore, ReadOnlySpan(Of ValueBox))
-- uid: Wasmtime.Function.Invoke(Wasmtime.IStore,Wasmtime.ValueBox[])
-  name: Invoke(IStore, ValueBox[])
-  href: api/Wasmtime.Function.html#Wasmtime_Function_Invoke_Wasmtime_IStore_Wasmtime_ValueBox___
-  commentId: M:Wasmtime.Function.Invoke(Wasmtime.IStore,Wasmtime.ValueBox[])
-  name.vb: Invoke(IStore, ValueBox())
-  fullName: Wasmtime.Function.Invoke(Wasmtime.IStore, Wasmtime.ValueBox[])
-  fullName.vb: Wasmtime.Function.Invoke(Wasmtime.IStore, Wasmtime.ValueBox())
-  nameWithType: Function.Invoke(IStore, ValueBox[])
-  nameWithType.vb: Function.Invoke(IStore, ValueBox())
+- uid: Wasmtime.Function.Invoke
+  name: Invoke()
+  href: api/Wasmtime.Function.html#Wasmtime_Function_Invoke
+  commentId: M:Wasmtime.Function.Invoke
+  fullName: Wasmtime.Function.Invoke()
+  nameWithType: Function.Invoke()
+- uid: Wasmtime.Function.Invoke(ReadOnlySpan{Wasmtime.ValueBox})
+  name: Invoke(ReadOnlySpan<ValueBox>)
+  href: api/Wasmtime.Function.html#Wasmtime_Function_Invoke_ReadOnlySpan_Wasmtime_ValueBox__
+  commentId: M:Wasmtime.Function.Invoke(ReadOnlySpan{Wasmtime.ValueBox})
+  name.vb: Invoke(ReadOnlySpan(Of ValueBox))
+  fullName: Wasmtime.Function.Invoke(ReadOnlySpan<Wasmtime.ValueBox>)
+  fullName.vb: Wasmtime.Function.Invoke(ReadOnlySpan(Of Wasmtime.ValueBox))
+  nameWithType: Function.Invoke(ReadOnlySpan<ValueBox>)
+  nameWithType.vb: Function.Invoke(ReadOnlySpan(Of ValueBox))
+- uid: Wasmtime.Function.Invoke(Wasmtime.ValueBox[])
+  name: Invoke(ValueBox[])
+  href: api/Wasmtime.Function.html#Wasmtime_Function_Invoke_Wasmtime_ValueBox___
+  commentId: M:Wasmtime.Function.Invoke(Wasmtime.ValueBox[])
+  name.vb: Invoke(ValueBox())
+  fullName: Wasmtime.Function.Invoke(Wasmtime.ValueBox[])
+  fullName.vb: Wasmtime.Function.Invoke(Wasmtime.ValueBox())
+  nameWithType: Function.Invoke(ValueBox[])
+  nameWithType.vb: Function.Invoke(ValueBox())
 - uid: Wasmtime.Function.Invoke*
   name: Invoke
   href: api/Wasmtime.Function.html#Wasmtime_Function_Invoke_
@@ -912,12 +912,12 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Function.Results
   nameWithType: Function.Results
-- uid: Wasmtime.Function.WrapAction(Wasmtime.IStore)
-  name: WrapAction(IStore)
-  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapAction_Wasmtime_IStore_
-  commentId: M:Wasmtime.Function.WrapAction(Wasmtime.IStore)
-  fullName: Wasmtime.Function.WrapAction(Wasmtime.IStore)
-  nameWithType: Function.WrapAction(IStore)
+- uid: Wasmtime.Function.WrapAction
+  name: WrapAction()
+  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapAction
+  commentId: M:Wasmtime.Function.WrapAction
+  fullName: Wasmtime.Function.WrapAction()
+  nameWithType: Function.WrapAction()
 - uid: Wasmtime.Function.WrapAction*
   name: WrapAction
   href: api/Wasmtime.Function.html#Wasmtime_Function_WrapAction_
@@ -925,87 +925,87 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Function.WrapAction
   nameWithType: Function.WrapAction
-- uid: Wasmtime.Function.WrapAction``1(Wasmtime.IStore)
-  name: WrapAction<TA>(IStore)
-  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapAction__1_Wasmtime_IStore_
-  commentId: M:Wasmtime.Function.WrapAction``1(Wasmtime.IStore)
-  name.vb: WrapAction(Of TA)(IStore)
-  fullName: Wasmtime.Function.WrapAction<TA>(Wasmtime.IStore)
-  fullName.vb: Wasmtime.Function.WrapAction(Of TA)(Wasmtime.IStore)
-  nameWithType: Function.WrapAction<TA>(IStore)
-  nameWithType.vb: Function.WrapAction(Of TA)(IStore)
-- uid: Wasmtime.Function.WrapAction``2(Wasmtime.IStore)
-  name: WrapAction<TA, TB>(IStore)
-  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapAction__2_Wasmtime_IStore_
-  commentId: M:Wasmtime.Function.WrapAction``2(Wasmtime.IStore)
-  name.vb: WrapAction(Of TA, TB)(IStore)
-  fullName: Wasmtime.Function.WrapAction<TA, TB>(Wasmtime.IStore)
-  fullName.vb: Wasmtime.Function.WrapAction(Of TA, TB)(Wasmtime.IStore)
-  nameWithType: Function.WrapAction<TA, TB>(IStore)
-  nameWithType.vb: Function.WrapAction(Of TA, TB)(IStore)
-- uid: Wasmtime.Function.WrapAction``3(Wasmtime.IStore)
-  name: WrapAction<TA, TB, TC>(IStore)
-  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapAction__3_Wasmtime_IStore_
-  commentId: M:Wasmtime.Function.WrapAction``3(Wasmtime.IStore)
-  name.vb: WrapAction(Of TA, TB, TC)(IStore)
-  fullName: Wasmtime.Function.WrapAction<TA, TB, TC>(Wasmtime.IStore)
-  fullName.vb: Wasmtime.Function.WrapAction(Of TA, TB, TC)(Wasmtime.IStore)
-  nameWithType: Function.WrapAction<TA, TB, TC>(IStore)
-  nameWithType.vb: Function.WrapAction(Of TA, TB, TC)(IStore)
-- uid: Wasmtime.Function.WrapAction``4(Wasmtime.IStore)
-  name: WrapAction<TA, TB, TC, TD>(IStore)
-  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapAction__4_Wasmtime_IStore_
-  commentId: M:Wasmtime.Function.WrapAction``4(Wasmtime.IStore)
-  name.vb: WrapAction(Of TA, TB, TC, TD)(IStore)
-  fullName: Wasmtime.Function.WrapAction<TA, TB, TC, TD>(Wasmtime.IStore)
-  fullName.vb: Wasmtime.Function.WrapAction(Of TA, TB, TC, TD)(Wasmtime.IStore)
-  nameWithType: Function.WrapAction<TA, TB, TC, TD>(IStore)
-  nameWithType.vb: Function.WrapAction(Of TA, TB, TC, TD)(IStore)
-- uid: Wasmtime.Function.WrapAction``5(Wasmtime.IStore)
-  name: WrapAction<TA, TB, TC, TD, TE>(IStore)
-  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapAction__5_Wasmtime_IStore_
-  commentId: M:Wasmtime.Function.WrapAction``5(Wasmtime.IStore)
-  name.vb: WrapAction(Of TA, TB, TC, TD, TE)(IStore)
-  fullName: Wasmtime.Function.WrapAction<TA, TB, TC, TD, TE>(Wasmtime.IStore)
-  fullName.vb: Wasmtime.Function.WrapAction(Of TA, TB, TC, TD, TE)(Wasmtime.IStore)
-  nameWithType: Function.WrapAction<TA, TB, TC, TD, TE>(IStore)
-  nameWithType.vb: Function.WrapAction(Of TA, TB, TC, TD, TE)(IStore)
-- uid: Wasmtime.Function.WrapAction``6(Wasmtime.IStore)
-  name: WrapAction<TA, TB, TC, TD, TE, TF>(IStore)
-  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapAction__6_Wasmtime_IStore_
-  commentId: M:Wasmtime.Function.WrapAction``6(Wasmtime.IStore)
-  name.vb: WrapAction(Of TA, TB, TC, TD, TE, TF)(IStore)
-  fullName: Wasmtime.Function.WrapAction<TA, TB, TC, TD, TE, TF>(Wasmtime.IStore)
-  fullName.vb: Wasmtime.Function.WrapAction(Of TA, TB, TC, TD, TE, TF)(Wasmtime.IStore)
-  nameWithType: Function.WrapAction<TA, TB, TC, TD, TE, TF>(IStore)
-  nameWithType.vb: Function.WrapAction(Of TA, TB, TC, TD, TE, TF)(IStore)
-- uid: Wasmtime.Function.WrapAction``7(Wasmtime.IStore)
-  name: WrapAction<TA, TB, TC, TD, TE, TF, TG>(IStore)
-  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapAction__7_Wasmtime_IStore_
-  commentId: M:Wasmtime.Function.WrapAction``7(Wasmtime.IStore)
-  name.vb: WrapAction(Of TA, TB, TC, TD, TE, TF, TG)(IStore)
-  fullName: Wasmtime.Function.WrapAction<TA, TB, TC, TD, TE, TF, TG>(Wasmtime.IStore)
-  fullName.vb: Wasmtime.Function.WrapAction(Of TA, TB, TC, TD, TE, TF, TG)(Wasmtime.IStore)
-  nameWithType: Function.WrapAction<TA, TB, TC, TD, TE, TF, TG>(IStore)
-  nameWithType.vb: Function.WrapAction(Of TA, TB, TC, TD, TE, TF, TG)(IStore)
-- uid: Wasmtime.Function.WrapAction``8(Wasmtime.IStore)
-  name: WrapAction<TA, TB, TC, TD, TE, TF, TG, TH>(IStore)
-  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapAction__8_Wasmtime_IStore_
-  commentId: M:Wasmtime.Function.WrapAction``8(Wasmtime.IStore)
-  name.vb: WrapAction(Of TA, TB, TC, TD, TE, TF, TG, TH)(IStore)
-  fullName: Wasmtime.Function.WrapAction<TA, TB, TC, TD, TE, TF, TG, TH>(Wasmtime.IStore)
-  fullName.vb: Wasmtime.Function.WrapAction(Of TA, TB, TC, TD, TE, TF, TG, TH)(Wasmtime.IStore)
-  nameWithType: Function.WrapAction<TA, TB, TC, TD, TE, TF, TG, TH>(IStore)
-  nameWithType.vb: Function.WrapAction(Of TA, TB, TC, TD, TE, TF, TG, TH)(IStore)
-- uid: Wasmtime.Function.WrapAction``9(Wasmtime.IStore)
-  name: WrapAction<TA, TB, TC, TD, TE, TF, TG, TH, TI>(IStore)
-  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapAction__9_Wasmtime_IStore_
-  commentId: M:Wasmtime.Function.WrapAction``9(Wasmtime.IStore)
-  name.vb: WrapAction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI)(IStore)
-  fullName: Wasmtime.Function.WrapAction<TA, TB, TC, TD, TE, TF, TG, TH, TI>(Wasmtime.IStore)
-  fullName.vb: Wasmtime.Function.WrapAction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI)(Wasmtime.IStore)
-  nameWithType: Function.WrapAction<TA, TB, TC, TD, TE, TF, TG, TH, TI>(IStore)
-  nameWithType.vb: Function.WrapAction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI)(IStore)
+- uid: Wasmtime.Function.WrapAction``1
+  name: WrapAction<TA>()
+  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapAction__1
+  commentId: M:Wasmtime.Function.WrapAction``1
+  name.vb: WrapAction(Of TA)()
+  fullName: Wasmtime.Function.WrapAction<TA>()
+  fullName.vb: Wasmtime.Function.WrapAction(Of TA)()
+  nameWithType: Function.WrapAction<TA>()
+  nameWithType.vb: Function.WrapAction(Of TA)()
+- uid: Wasmtime.Function.WrapAction``2
+  name: WrapAction<TA, TB>()
+  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapAction__2
+  commentId: M:Wasmtime.Function.WrapAction``2
+  name.vb: WrapAction(Of TA, TB)()
+  fullName: Wasmtime.Function.WrapAction<TA, TB>()
+  fullName.vb: Wasmtime.Function.WrapAction(Of TA, TB)()
+  nameWithType: Function.WrapAction<TA, TB>()
+  nameWithType.vb: Function.WrapAction(Of TA, TB)()
+- uid: Wasmtime.Function.WrapAction``3
+  name: WrapAction<TA, TB, TC>()
+  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapAction__3
+  commentId: M:Wasmtime.Function.WrapAction``3
+  name.vb: WrapAction(Of TA, TB, TC)()
+  fullName: Wasmtime.Function.WrapAction<TA, TB, TC>()
+  fullName.vb: Wasmtime.Function.WrapAction(Of TA, TB, TC)()
+  nameWithType: Function.WrapAction<TA, TB, TC>()
+  nameWithType.vb: Function.WrapAction(Of TA, TB, TC)()
+- uid: Wasmtime.Function.WrapAction``4
+  name: WrapAction<TA, TB, TC, TD>()
+  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapAction__4
+  commentId: M:Wasmtime.Function.WrapAction``4
+  name.vb: WrapAction(Of TA, TB, TC, TD)()
+  fullName: Wasmtime.Function.WrapAction<TA, TB, TC, TD>()
+  fullName.vb: Wasmtime.Function.WrapAction(Of TA, TB, TC, TD)()
+  nameWithType: Function.WrapAction<TA, TB, TC, TD>()
+  nameWithType.vb: Function.WrapAction(Of TA, TB, TC, TD)()
+- uid: Wasmtime.Function.WrapAction``5
+  name: WrapAction<TA, TB, TC, TD, TE>()
+  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapAction__5
+  commentId: M:Wasmtime.Function.WrapAction``5
+  name.vb: WrapAction(Of TA, TB, TC, TD, TE)()
+  fullName: Wasmtime.Function.WrapAction<TA, TB, TC, TD, TE>()
+  fullName.vb: Wasmtime.Function.WrapAction(Of TA, TB, TC, TD, TE)()
+  nameWithType: Function.WrapAction<TA, TB, TC, TD, TE>()
+  nameWithType.vb: Function.WrapAction(Of TA, TB, TC, TD, TE)()
+- uid: Wasmtime.Function.WrapAction``6
+  name: WrapAction<TA, TB, TC, TD, TE, TF>()
+  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapAction__6
+  commentId: M:Wasmtime.Function.WrapAction``6
+  name.vb: WrapAction(Of TA, TB, TC, TD, TE, TF)()
+  fullName: Wasmtime.Function.WrapAction<TA, TB, TC, TD, TE, TF>()
+  fullName.vb: Wasmtime.Function.WrapAction(Of TA, TB, TC, TD, TE, TF)()
+  nameWithType: Function.WrapAction<TA, TB, TC, TD, TE, TF>()
+  nameWithType.vb: Function.WrapAction(Of TA, TB, TC, TD, TE, TF)()
+- uid: Wasmtime.Function.WrapAction``7
+  name: WrapAction<TA, TB, TC, TD, TE, TF, TG>()
+  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapAction__7
+  commentId: M:Wasmtime.Function.WrapAction``7
+  name.vb: WrapAction(Of TA, TB, TC, TD, TE, TF, TG)()
+  fullName: Wasmtime.Function.WrapAction<TA, TB, TC, TD, TE, TF, TG>()
+  fullName.vb: Wasmtime.Function.WrapAction(Of TA, TB, TC, TD, TE, TF, TG)()
+  nameWithType: Function.WrapAction<TA, TB, TC, TD, TE, TF, TG>()
+  nameWithType.vb: Function.WrapAction(Of TA, TB, TC, TD, TE, TF, TG)()
+- uid: Wasmtime.Function.WrapAction``8
+  name: WrapAction<TA, TB, TC, TD, TE, TF, TG, TH>()
+  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapAction__8
+  commentId: M:Wasmtime.Function.WrapAction``8
+  name.vb: WrapAction(Of TA, TB, TC, TD, TE, TF, TG, TH)()
+  fullName: Wasmtime.Function.WrapAction<TA, TB, TC, TD, TE, TF, TG, TH>()
+  fullName.vb: Wasmtime.Function.WrapAction(Of TA, TB, TC, TD, TE, TF, TG, TH)()
+  nameWithType: Function.WrapAction<TA, TB, TC, TD, TE, TF, TG, TH>()
+  nameWithType.vb: Function.WrapAction(Of TA, TB, TC, TD, TE, TF, TG, TH)()
+- uid: Wasmtime.Function.WrapAction``9
+  name: WrapAction<TA, TB, TC, TD, TE, TF, TG, TH, TI>()
+  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapAction__9
+  commentId: M:Wasmtime.Function.WrapAction``9
+  name.vb: WrapAction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI)()
+  fullName: Wasmtime.Function.WrapAction<TA, TB, TC, TD, TE, TF, TG, TH, TI>()
+  fullName.vb: Wasmtime.Function.WrapAction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI)()
+  nameWithType: Function.WrapAction<TA, TB, TC, TD, TE, TF, TG, TH, TI>()
+  nameWithType.vb: Function.WrapAction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI)()
 - uid: Wasmtime.Function.WrapFunc*
   name: WrapFunc
   href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc_
@@ -1013,159 +1013,159 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Function.WrapFunc
   nameWithType: Function.WrapFunc
-- uid: Wasmtime.Function.WrapFunc``1(Wasmtime.IStore)
-  name: WrapFunc<TR>(IStore)
-  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__1_Wasmtime_IStore_
-  commentId: M:Wasmtime.Function.WrapFunc``1(Wasmtime.IStore)
-  name.vb: WrapFunc(Of TR)(IStore)
-  fullName: Wasmtime.Function.WrapFunc<TR>(Wasmtime.IStore)
-  fullName.vb: Wasmtime.Function.WrapFunc(Of TR)(Wasmtime.IStore)
-  nameWithType: Function.WrapFunc<TR>(IStore)
-  nameWithType.vb: Function.WrapFunc(Of TR)(IStore)
-- uid: Wasmtime.Function.WrapFunc``10(Wasmtime.IStore)
-  name: WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>(IStore)
-  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__10_Wasmtime_IStore_
-  commentId: M:Wasmtime.Function.WrapFunc``10(Wasmtime.IStore)
-  name.vb: WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TR)(IStore)
-  fullName: Wasmtime.Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>(Wasmtime.IStore)
-  fullName.vb: Wasmtime.Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TR)(Wasmtime.IStore)
-  nameWithType: Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>(IStore)
-  nameWithType.vb: Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TR)(IStore)
-- uid: Wasmtime.Function.WrapFunc``11(Wasmtime.IStore)
-  name: WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>(IStore)
-  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__11_Wasmtime_IStore_
-  commentId: M:Wasmtime.Function.WrapFunc``11(Wasmtime.IStore)
-  name.vb: WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR)(IStore)
-  fullName: Wasmtime.Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>(Wasmtime.IStore)
-  fullName.vb: Wasmtime.Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR)(Wasmtime.IStore)
-  nameWithType: Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>(IStore)
-  nameWithType.vb: Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR)(IStore)
-- uid: Wasmtime.Function.WrapFunc``12(Wasmtime.IStore)
-  name: WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>(IStore)
-  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__12_Wasmtime_IStore_
-  commentId: M:Wasmtime.Function.WrapFunc``12(Wasmtime.IStore)
-  name.vb: WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR)(IStore)
-  fullName: Wasmtime.Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>(Wasmtime.IStore)
-  fullName.vb: Wasmtime.Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR)(Wasmtime.IStore)
-  nameWithType: Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>(IStore)
-  nameWithType.vb: Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR)(IStore)
-- uid: Wasmtime.Function.WrapFunc``13(Wasmtime.IStore)
-  name: WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>(IStore)
-  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__13_Wasmtime_IStore_
-  commentId: M:Wasmtime.Function.WrapFunc``13(Wasmtime.IStore)
-  name.vb: WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR)(IStore)
-  fullName: Wasmtime.Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>(Wasmtime.IStore)
-  fullName.vb: Wasmtime.Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR)(Wasmtime.IStore)
-  nameWithType: Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>(IStore)
-  nameWithType.vb: Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR)(IStore)
-- uid: Wasmtime.Function.WrapFunc``14(Wasmtime.IStore)
-  name: WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>(IStore)
-  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__14_Wasmtime_IStore_
-  commentId: M:Wasmtime.Function.WrapFunc``14(Wasmtime.IStore)
-  name.vb: WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR)(IStore)
-  fullName: Wasmtime.Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>(Wasmtime.IStore)
-  fullName.vb: Wasmtime.Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR)(Wasmtime.IStore)
-  nameWithType: Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>(IStore)
-  nameWithType.vb: Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR)(IStore)
-- uid: Wasmtime.Function.WrapFunc``15(Wasmtime.IStore)
-  name: WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>(IStore)
-  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__15_Wasmtime_IStore_
-  commentId: M:Wasmtime.Function.WrapFunc``15(Wasmtime.IStore)
-  name.vb: WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR)(IStore)
-  fullName: Wasmtime.Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>(Wasmtime.IStore)
-  fullName.vb: Wasmtime.Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR)(Wasmtime.IStore)
-  nameWithType: Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>(IStore)
-  nameWithType.vb: Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR)(IStore)
-- uid: Wasmtime.Function.WrapFunc``16(Wasmtime.IStore)
-  name: WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>(IStore)
-  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__16_Wasmtime_IStore_
-  commentId: M:Wasmtime.Function.WrapFunc``16(Wasmtime.IStore)
-  name.vb: WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR)(IStore)
-  fullName: Wasmtime.Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>(Wasmtime.IStore)
-  fullName.vb: Wasmtime.Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR)(Wasmtime.IStore)
-  nameWithType: Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>(IStore)
-  nameWithType.vb: Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR)(IStore)
-- uid: Wasmtime.Function.WrapFunc``17(Wasmtime.IStore)
-  name: WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>(IStore)
-  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__17_Wasmtime_IStore_
-  commentId: M:Wasmtime.Function.WrapFunc``17(Wasmtime.IStore)
-  name.vb: WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR)(IStore)
-  fullName: Wasmtime.Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>(Wasmtime.IStore)
-  fullName.vb: Wasmtime.Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR)(Wasmtime.IStore)
-  nameWithType: Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>(IStore)
-  nameWithType.vb: Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR)(IStore)
-- uid: Wasmtime.Function.WrapFunc``2(Wasmtime.IStore)
-  name: WrapFunc<TA, TR>(IStore)
-  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__2_Wasmtime_IStore_
-  commentId: M:Wasmtime.Function.WrapFunc``2(Wasmtime.IStore)
-  name.vb: WrapFunc(Of TA, TR)(IStore)
-  fullName: Wasmtime.Function.WrapFunc<TA, TR>(Wasmtime.IStore)
-  fullName.vb: Wasmtime.Function.WrapFunc(Of TA, TR)(Wasmtime.IStore)
-  nameWithType: Function.WrapFunc<TA, TR>(IStore)
-  nameWithType.vb: Function.WrapFunc(Of TA, TR)(IStore)
-- uid: Wasmtime.Function.WrapFunc``3(Wasmtime.IStore)
-  name: WrapFunc<TA, TB, TR>(IStore)
-  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__3_Wasmtime_IStore_
-  commentId: M:Wasmtime.Function.WrapFunc``3(Wasmtime.IStore)
-  name.vb: WrapFunc(Of TA, TB, TR)(IStore)
-  fullName: Wasmtime.Function.WrapFunc<TA, TB, TR>(Wasmtime.IStore)
-  fullName.vb: Wasmtime.Function.WrapFunc(Of TA, TB, TR)(Wasmtime.IStore)
-  nameWithType: Function.WrapFunc<TA, TB, TR>(IStore)
-  nameWithType.vb: Function.WrapFunc(Of TA, TB, TR)(IStore)
-- uid: Wasmtime.Function.WrapFunc``4(Wasmtime.IStore)
-  name: WrapFunc<TA, TB, TC, TR>(IStore)
-  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__4_Wasmtime_IStore_
-  commentId: M:Wasmtime.Function.WrapFunc``4(Wasmtime.IStore)
-  name.vb: WrapFunc(Of TA, TB, TC, TR)(IStore)
-  fullName: Wasmtime.Function.WrapFunc<TA, TB, TC, TR>(Wasmtime.IStore)
-  fullName.vb: Wasmtime.Function.WrapFunc(Of TA, TB, TC, TR)(Wasmtime.IStore)
-  nameWithType: Function.WrapFunc<TA, TB, TC, TR>(IStore)
-  nameWithType.vb: Function.WrapFunc(Of TA, TB, TC, TR)(IStore)
-- uid: Wasmtime.Function.WrapFunc``5(Wasmtime.IStore)
-  name: WrapFunc<TA, TB, TC, TD, TR>(IStore)
-  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__5_Wasmtime_IStore_
-  commentId: M:Wasmtime.Function.WrapFunc``5(Wasmtime.IStore)
-  name.vb: WrapFunc(Of TA, TB, TC, TD, TR)(IStore)
-  fullName: Wasmtime.Function.WrapFunc<TA, TB, TC, TD, TR>(Wasmtime.IStore)
-  fullName.vb: Wasmtime.Function.WrapFunc(Of TA, TB, TC, TD, TR)(Wasmtime.IStore)
-  nameWithType: Function.WrapFunc<TA, TB, TC, TD, TR>(IStore)
-  nameWithType.vb: Function.WrapFunc(Of TA, TB, TC, TD, TR)(IStore)
-- uid: Wasmtime.Function.WrapFunc``6(Wasmtime.IStore)
-  name: WrapFunc<TA, TB, TC, TD, TE, TR>(IStore)
-  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__6_Wasmtime_IStore_
-  commentId: M:Wasmtime.Function.WrapFunc``6(Wasmtime.IStore)
-  name.vb: WrapFunc(Of TA, TB, TC, TD, TE, TR)(IStore)
-  fullName: Wasmtime.Function.WrapFunc<TA, TB, TC, TD, TE, TR>(Wasmtime.IStore)
-  fullName.vb: Wasmtime.Function.WrapFunc(Of TA, TB, TC, TD, TE, TR)(Wasmtime.IStore)
-  nameWithType: Function.WrapFunc<TA, TB, TC, TD, TE, TR>(IStore)
-  nameWithType.vb: Function.WrapFunc(Of TA, TB, TC, TD, TE, TR)(IStore)
-- uid: Wasmtime.Function.WrapFunc``7(Wasmtime.IStore)
-  name: WrapFunc<TA, TB, TC, TD, TE, TF, TR>(IStore)
-  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__7_Wasmtime_IStore_
-  commentId: M:Wasmtime.Function.WrapFunc``7(Wasmtime.IStore)
-  name.vb: WrapFunc(Of TA, TB, TC, TD, TE, TF, TR)(IStore)
-  fullName: Wasmtime.Function.WrapFunc<TA, TB, TC, TD, TE, TF, TR>(Wasmtime.IStore)
-  fullName.vb: Wasmtime.Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TR)(Wasmtime.IStore)
-  nameWithType: Function.WrapFunc<TA, TB, TC, TD, TE, TF, TR>(IStore)
-  nameWithType.vb: Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TR)(IStore)
-- uid: Wasmtime.Function.WrapFunc``8(Wasmtime.IStore)
-  name: WrapFunc<TA, TB, TC, TD, TE, TF, TG, TR>(IStore)
-  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__8_Wasmtime_IStore_
-  commentId: M:Wasmtime.Function.WrapFunc``8(Wasmtime.IStore)
-  name.vb: WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TR)(IStore)
-  fullName: Wasmtime.Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TR>(Wasmtime.IStore)
-  fullName.vb: Wasmtime.Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TR)(Wasmtime.IStore)
-  nameWithType: Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TR>(IStore)
-  nameWithType.vb: Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TR)(IStore)
-- uid: Wasmtime.Function.WrapFunc``9(Wasmtime.IStore)
-  name: WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TR>(IStore)
-  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__9_Wasmtime_IStore_
-  commentId: M:Wasmtime.Function.WrapFunc``9(Wasmtime.IStore)
-  name.vb: WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TR)(IStore)
-  fullName: Wasmtime.Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TR>(Wasmtime.IStore)
-  fullName.vb: Wasmtime.Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TR)(Wasmtime.IStore)
-  nameWithType: Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TR>(IStore)
-  nameWithType.vb: Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TR)(IStore)
+- uid: Wasmtime.Function.WrapFunc``1
+  name: WrapFunc<TR>()
+  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__1
+  commentId: M:Wasmtime.Function.WrapFunc``1
+  name.vb: WrapFunc(Of TR)()
+  fullName: Wasmtime.Function.WrapFunc<TR>()
+  fullName.vb: Wasmtime.Function.WrapFunc(Of TR)()
+  nameWithType: Function.WrapFunc<TR>()
+  nameWithType.vb: Function.WrapFunc(Of TR)()
+- uid: Wasmtime.Function.WrapFunc``10
+  name: WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>()
+  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__10
+  commentId: M:Wasmtime.Function.WrapFunc``10
+  name.vb: WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TR)()
+  fullName: Wasmtime.Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>()
+  fullName.vb: Wasmtime.Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TR)()
+  nameWithType: Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>()
+  nameWithType.vb: Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TR)()
+- uid: Wasmtime.Function.WrapFunc``11
+  name: WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>()
+  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__11
+  commentId: M:Wasmtime.Function.WrapFunc``11
+  name.vb: WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR)()
+  fullName: Wasmtime.Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>()
+  fullName.vb: Wasmtime.Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR)()
+  nameWithType: Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>()
+  nameWithType.vb: Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR)()
+- uid: Wasmtime.Function.WrapFunc``12
+  name: WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>()
+  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__12
+  commentId: M:Wasmtime.Function.WrapFunc``12
+  name.vb: WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR)()
+  fullName: Wasmtime.Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>()
+  fullName.vb: Wasmtime.Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR)()
+  nameWithType: Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>()
+  nameWithType.vb: Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR)()
+- uid: Wasmtime.Function.WrapFunc``13
+  name: WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>()
+  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__13
+  commentId: M:Wasmtime.Function.WrapFunc``13
+  name.vb: WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR)()
+  fullName: Wasmtime.Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>()
+  fullName.vb: Wasmtime.Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR)()
+  nameWithType: Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>()
+  nameWithType.vb: Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR)()
+- uid: Wasmtime.Function.WrapFunc``14
+  name: WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>()
+  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__14
+  commentId: M:Wasmtime.Function.WrapFunc``14
+  name.vb: WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR)()
+  fullName: Wasmtime.Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>()
+  fullName.vb: Wasmtime.Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR)()
+  nameWithType: Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>()
+  nameWithType.vb: Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR)()
+- uid: Wasmtime.Function.WrapFunc``15
+  name: WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>()
+  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__15
+  commentId: M:Wasmtime.Function.WrapFunc``15
+  name.vb: WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR)()
+  fullName: Wasmtime.Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>()
+  fullName.vb: Wasmtime.Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR)()
+  nameWithType: Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>()
+  nameWithType.vb: Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR)()
+- uid: Wasmtime.Function.WrapFunc``16
+  name: WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>()
+  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__16
+  commentId: M:Wasmtime.Function.WrapFunc``16
+  name.vb: WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR)()
+  fullName: Wasmtime.Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>()
+  fullName.vb: Wasmtime.Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR)()
+  nameWithType: Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>()
+  nameWithType.vb: Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR)()
+- uid: Wasmtime.Function.WrapFunc``17
+  name: WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>()
+  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__17
+  commentId: M:Wasmtime.Function.WrapFunc``17
+  name.vb: WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR)()
+  fullName: Wasmtime.Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>()
+  fullName.vb: Wasmtime.Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR)()
+  nameWithType: Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>()
+  nameWithType.vb: Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR)()
+- uid: Wasmtime.Function.WrapFunc``2
+  name: WrapFunc<TA, TR>()
+  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__2
+  commentId: M:Wasmtime.Function.WrapFunc``2
+  name.vb: WrapFunc(Of TA, TR)()
+  fullName: Wasmtime.Function.WrapFunc<TA, TR>()
+  fullName.vb: Wasmtime.Function.WrapFunc(Of TA, TR)()
+  nameWithType: Function.WrapFunc<TA, TR>()
+  nameWithType.vb: Function.WrapFunc(Of TA, TR)()
+- uid: Wasmtime.Function.WrapFunc``3
+  name: WrapFunc<TA, TB, TR>()
+  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__3
+  commentId: M:Wasmtime.Function.WrapFunc``3
+  name.vb: WrapFunc(Of TA, TB, TR)()
+  fullName: Wasmtime.Function.WrapFunc<TA, TB, TR>()
+  fullName.vb: Wasmtime.Function.WrapFunc(Of TA, TB, TR)()
+  nameWithType: Function.WrapFunc<TA, TB, TR>()
+  nameWithType.vb: Function.WrapFunc(Of TA, TB, TR)()
+- uid: Wasmtime.Function.WrapFunc``4
+  name: WrapFunc<TA, TB, TC, TR>()
+  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__4
+  commentId: M:Wasmtime.Function.WrapFunc``4
+  name.vb: WrapFunc(Of TA, TB, TC, TR)()
+  fullName: Wasmtime.Function.WrapFunc<TA, TB, TC, TR>()
+  fullName.vb: Wasmtime.Function.WrapFunc(Of TA, TB, TC, TR)()
+  nameWithType: Function.WrapFunc<TA, TB, TC, TR>()
+  nameWithType.vb: Function.WrapFunc(Of TA, TB, TC, TR)()
+- uid: Wasmtime.Function.WrapFunc``5
+  name: WrapFunc<TA, TB, TC, TD, TR>()
+  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__5
+  commentId: M:Wasmtime.Function.WrapFunc``5
+  name.vb: WrapFunc(Of TA, TB, TC, TD, TR)()
+  fullName: Wasmtime.Function.WrapFunc<TA, TB, TC, TD, TR>()
+  fullName.vb: Wasmtime.Function.WrapFunc(Of TA, TB, TC, TD, TR)()
+  nameWithType: Function.WrapFunc<TA, TB, TC, TD, TR>()
+  nameWithType.vb: Function.WrapFunc(Of TA, TB, TC, TD, TR)()
+- uid: Wasmtime.Function.WrapFunc``6
+  name: WrapFunc<TA, TB, TC, TD, TE, TR>()
+  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__6
+  commentId: M:Wasmtime.Function.WrapFunc``6
+  name.vb: WrapFunc(Of TA, TB, TC, TD, TE, TR)()
+  fullName: Wasmtime.Function.WrapFunc<TA, TB, TC, TD, TE, TR>()
+  fullName.vb: Wasmtime.Function.WrapFunc(Of TA, TB, TC, TD, TE, TR)()
+  nameWithType: Function.WrapFunc<TA, TB, TC, TD, TE, TR>()
+  nameWithType.vb: Function.WrapFunc(Of TA, TB, TC, TD, TE, TR)()
+- uid: Wasmtime.Function.WrapFunc``7
+  name: WrapFunc<TA, TB, TC, TD, TE, TF, TR>()
+  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__7
+  commentId: M:Wasmtime.Function.WrapFunc``7
+  name.vb: WrapFunc(Of TA, TB, TC, TD, TE, TF, TR)()
+  fullName: Wasmtime.Function.WrapFunc<TA, TB, TC, TD, TE, TF, TR>()
+  fullName.vb: Wasmtime.Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TR)()
+  nameWithType: Function.WrapFunc<TA, TB, TC, TD, TE, TF, TR>()
+  nameWithType.vb: Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TR)()
+- uid: Wasmtime.Function.WrapFunc``8
+  name: WrapFunc<TA, TB, TC, TD, TE, TF, TG, TR>()
+  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__8
+  commentId: M:Wasmtime.Function.WrapFunc``8
+  name.vb: WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TR)()
+  fullName: Wasmtime.Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TR>()
+  fullName.vb: Wasmtime.Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TR)()
+  nameWithType: Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TR>()
+  nameWithType.vb: Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TR)()
+- uid: Wasmtime.Function.WrapFunc``9
+  name: WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TR>()
+  href: api/Wasmtime.Function.html#Wasmtime_Function_WrapFunc__9
+  commentId: M:Wasmtime.Function.WrapFunc``9
+  name.vb: WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TR)()
+  fullName: Wasmtime.Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TR>()
+  fullName.vb: Wasmtime.Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TR)()
+  nameWithType: Function.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TR>()
+  nameWithType.vb: Function.WrapFunc(Of TA, TB, TC, TD, TE, TF, TG, TH, TR)()
 - uid: Wasmtime.FunctionExport
   name: FunctionExport
   href: api/Wasmtime.FunctionExport.html
@@ -1252,12 +1252,72 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Global.Global
   nameWithType: Global.Global
-- uid: Wasmtime.Global.GetValue(Wasmtime.IStore)
-  name: GetValue(IStore)
-  href: api/Wasmtime.Global.html#Wasmtime_Global_GetValue_Wasmtime_IStore_
-  commentId: M:Wasmtime.Global.GetValue(Wasmtime.IStore)
-  fullName: Wasmtime.Global.GetValue(Wasmtime.IStore)
-  nameWithType: Global.GetValue(IStore)
+- uid: Wasmtime.Global.Accessor`1
+  name: Global.Accessor<T>
+  href: api/Wasmtime.Global.Accessor-1.html
+  commentId: T:Wasmtime.Global.Accessor`1
+  name.vb: Global.Accessor(Of T)
+  fullName: Wasmtime.Global.Accessor<T>
+  fullName.vb: Wasmtime.Global.Accessor(Of T)
+  nameWithType: Global.Accessor<T>
+  nameWithType.vb: Global.Accessor(Of T)
+- uid: Wasmtime.Global.Accessor`1.GetValue
+  name: GetValue()
+  href: api/Wasmtime.Global.Accessor-1.html#Wasmtime_Global_Accessor_1_GetValue
+  commentId: M:Wasmtime.Global.Accessor`1.GetValue
+  fullName: Wasmtime.Global.Accessor<T>.GetValue()
+  fullName.vb: Wasmtime.Global.Accessor(Of T).GetValue()
+  nameWithType: Global.Accessor<T>.GetValue()
+  nameWithType.vb: Global.Accessor(Of T).GetValue()
+- uid: Wasmtime.Global.Accessor`1.GetValue*
+  name: GetValue
+  href: api/Wasmtime.Global.Accessor-1.html#Wasmtime_Global_Accessor_1_GetValue_
+  commentId: Overload:Wasmtime.Global.Accessor`1.GetValue
+  isSpec: "True"
+  fullName: Wasmtime.Global.Accessor<T>.GetValue
+  fullName.vb: Wasmtime.Global.Accessor(Of T).GetValue
+  nameWithType: Global.Accessor<T>.GetValue
+  nameWithType.vb: Global.Accessor(Of T).GetValue
+- uid: Wasmtime.Global.Accessor`1.Mutability
+  name: Mutability
+  href: api/Wasmtime.Global.Accessor-1.html#Wasmtime_Global_Accessor_1_Mutability
+  commentId: P:Wasmtime.Global.Accessor`1.Mutability
+  fullName: Wasmtime.Global.Accessor<T>.Mutability
+  fullName.vb: Wasmtime.Global.Accessor(Of T).Mutability
+  nameWithType: Global.Accessor<T>.Mutability
+  nameWithType.vb: Global.Accessor(Of T).Mutability
+- uid: Wasmtime.Global.Accessor`1.Mutability*
+  name: Mutability
+  href: api/Wasmtime.Global.Accessor-1.html#Wasmtime_Global_Accessor_1_Mutability_
+  commentId: Overload:Wasmtime.Global.Accessor`1.Mutability
+  isSpec: "True"
+  fullName: Wasmtime.Global.Accessor<T>.Mutability
+  fullName.vb: Wasmtime.Global.Accessor(Of T).Mutability
+  nameWithType: Global.Accessor<T>.Mutability
+  nameWithType.vb: Global.Accessor(Of T).Mutability
+- uid: Wasmtime.Global.Accessor`1.SetValue(`0)
+  name: SetValue(T)
+  href: api/Wasmtime.Global.Accessor-1.html#Wasmtime_Global_Accessor_1_SetValue__0_
+  commentId: M:Wasmtime.Global.Accessor`1.SetValue(`0)
+  fullName: Wasmtime.Global.Accessor<T>.SetValue(T)
+  fullName.vb: Wasmtime.Global.Accessor(Of T).SetValue(T)
+  nameWithType: Global.Accessor<T>.SetValue(T)
+  nameWithType.vb: Global.Accessor(Of T).SetValue(T)
+- uid: Wasmtime.Global.Accessor`1.SetValue*
+  name: SetValue
+  href: api/Wasmtime.Global.Accessor-1.html#Wasmtime_Global_Accessor_1_SetValue_
+  commentId: Overload:Wasmtime.Global.Accessor`1.SetValue
+  isSpec: "True"
+  fullName: Wasmtime.Global.Accessor<T>.SetValue
+  fullName.vb: Wasmtime.Global.Accessor(Of T).SetValue
+  nameWithType: Global.Accessor<T>.SetValue
+  nameWithType.vb: Global.Accessor(Of T).SetValue
+- uid: Wasmtime.Global.GetValue
+  name: GetValue()
+  href: api/Wasmtime.Global.html#Wasmtime_Global_GetValue
+  commentId: M:Wasmtime.Global.GetValue
+  fullName: Wasmtime.Global.GetValue()
+  nameWithType: Global.GetValue()
 - uid: Wasmtime.Global.GetValue*
   name: GetValue
   href: api/Wasmtime.Global.html#Wasmtime_Global_GetValue_
@@ -1291,15 +1351,15 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Global.Mutability
   nameWithType: Global.Mutability
-- uid: Wasmtime.Global.SetValue(Wasmtime.IStore,System.Nullable{System.Object})
-  name: SetValue(IStore, Nullable<Object>)
-  href: api/Wasmtime.Global.html#Wasmtime_Global_SetValue_Wasmtime_IStore_System_Nullable_System_Object__
-  commentId: M:Wasmtime.Global.SetValue(Wasmtime.IStore,System.Nullable{System.Object})
-  name.vb: SetValue(IStore, Nullable(Of Object))
-  fullName: Wasmtime.Global.SetValue(Wasmtime.IStore, System.Nullable<System.Object>)
-  fullName.vb: Wasmtime.Global.SetValue(Wasmtime.IStore, System.Nullable(Of System.Object))
-  nameWithType: Global.SetValue(IStore, Nullable<Object>)
-  nameWithType.vb: Global.SetValue(IStore, Nullable(Of Object))
+- uid: Wasmtime.Global.SetValue(System.Nullable{System.Object})
+  name: SetValue(Nullable<Object>)
+  href: api/Wasmtime.Global.html#Wasmtime_Global_SetValue_System_Nullable_System_Object__
+  commentId: M:Wasmtime.Global.SetValue(System.Nullable{System.Object})
+  name.vb: SetValue(Nullable(Of Object))
+  fullName: Wasmtime.Global.SetValue(System.Nullable<System.Object>)
+  fullName.vb: Wasmtime.Global.SetValue(System.Nullable(Of System.Object))
+  nameWithType: Global.SetValue(Nullable<Object>)
+  nameWithType.vb: Global.SetValue(Nullable(Of Object))
 - uid: Wasmtime.Global.SetValue*
   name: SetValue
   href: api/Wasmtime.Global.html#Wasmtime_Global_SetValue_
@@ -1307,6 +1367,22 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Global.SetValue
   nameWithType: Global.SetValue
+- uid: Wasmtime.Global.Wrap*
+  name: Wrap
+  href: api/Wasmtime.Global.html#Wasmtime_Global_Wrap_
+  commentId: Overload:Wasmtime.Global.Wrap
+  isSpec: "True"
+  fullName: Wasmtime.Global.Wrap
+  nameWithType: Global.Wrap
+- uid: Wasmtime.Global.Wrap``1
+  name: Wrap<T>()
+  href: api/Wasmtime.Global.html#Wasmtime_Global_Wrap__1
+  commentId: M:Wasmtime.Global.Wrap``1
+  name.vb: Wrap(Of T)()
+  fullName: Wasmtime.Global.Wrap<T>()
+  fullName.vb: Wasmtime.Global.Wrap(Of T)()
+  nameWithType: Global.Wrap<T>()
+  nameWithType.vb: Global.Wrap(Of T)()
 - uid: Wasmtime.GlobalExport
   name: GlobalExport
   href: api/Wasmtime.GlobalExport.html
@@ -1438,12 +1514,12 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Instance.Instance
   nameWithType: Instance.Instance
-- uid: Wasmtime.Instance.GetAction(Wasmtime.IStore,System.String)
-  name: GetAction(IStore, String)
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetAction_Wasmtime_IStore_System_String_
-  commentId: M:Wasmtime.Instance.GetAction(Wasmtime.IStore,System.String)
-  fullName: Wasmtime.Instance.GetAction(Wasmtime.IStore, System.String)
-  nameWithType: Instance.GetAction(IStore, String)
+- uid: Wasmtime.Instance.GetAction(System.String)
+  name: GetAction(String)
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetAction_System_String_
+  commentId: M:Wasmtime.Instance.GetAction(System.String)
+  fullName: Wasmtime.Instance.GetAction(System.String)
+  nameWithType: Instance.GetAction(String)
 - uid: Wasmtime.Instance.GetAction*
   name: GetAction
   href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetAction_
@@ -1451,66 +1527,66 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Instance.GetAction
   nameWithType: Instance.GetAction
-- uid: Wasmtime.Instance.GetAction``1(Wasmtime.IStore,System.String)
-  name: GetAction<TA>(IStore, String)
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetAction__1_Wasmtime_IStore_System_String_
-  commentId: M:Wasmtime.Instance.GetAction``1(Wasmtime.IStore,System.String)
-  name.vb: GetAction(Of TA)(IStore, String)
-  fullName: Wasmtime.Instance.GetAction<TA>(Wasmtime.IStore, System.String)
-  fullName.vb: Wasmtime.Instance.GetAction(Of TA)(Wasmtime.IStore, System.String)
-  nameWithType: Instance.GetAction<TA>(IStore, String)
-  nameWithType.vb: Instance.GetAction(Of TA)(IStore, String)
-- uid: Wasmtime.Instance.GetAction``2(Wasmtime.IStore,System.String)
-  name: GetAction<TA, TB>(IStore, String)
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetAction__2_Wasmtime_IStore_System_String_
-  commentId: M:Wasmtime.Instance.GetAction``2(Wasmtime.IStore,System.String)
-  name.vb: GetAction(Of TA, TB)(IStore, String)
-  fullName: Wasmtime.Instance.GetAction<TA, TB>(Wasmtime.IStore, System.String)
-  fullName.vb: Wasmtime.Instance.GetAction(Of TA, TB)(Wasmtime.IStore, System.String)
-  nameWithType: Instance.GetAction<TA, TB>(IStore, String)
-  nameWithType.vb: Instance.GetAction(Of TA, TB)(IStore, String)
-- uid: Wasmtime.Instance.GetAction``3(Wasmtime.IStore,System.String)
-  name: GetAction<TA, TB, TC>(IStore, String)
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetAction__3_Wasmtime_IStore_System_String_
-  commentId: M:Wasmtime.Instance.GetAction``3(Wasmtime.IStore,System.String)
-  name.vb: GetAction(Of TA, TB, TC)(IStore, String)
-  fullName: Wasmtime.Instance.GetAction<TA, TB, TC>(Wasmtime.IStore, System.String)
-  fullName.vb: Wasmtime.Instance.GetAction(Of TA, TB, TC)(Wasmtime.IStore, System.String)
-  nameWithType: Instance.GetAction<TA, TB, TC>(IStore, String)
-  nameWithType.vb: Instance.GetAction(Of TA, TB, TC)(IStore, String)
-- uid: Wasmtime.Instance.GetAction``4(Wasmtime.IStore,System.String)
-  name: GetAction<TA, TB, TC, TD>(IStore, String)
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetAction__4_Wasmtime_IStore_System_String_
-  commentId: M:Wasmtime.Instance.GetAction``4(Wasmtime.IStore,System.String)
-  name.vb: GetAction(Of TA, TB, TC, TD)(IStore, String)
-  fullName: Wasmtime.Instance.GetAction<TA, TB, TC, TD>(Wasmtime.IStore, System.String)
-  fullName.vb: Wasmtime.Instance.GetAction(Of TA, TB, TC, TD)(Wasmtime.IStore, System.String)
-  nameWithType: Instance.GetAction<TA, TB, TC, TD>(IStore, String)
-  nameWithType.vb: Instance.GetAction(Of TA, TB, TC, TD)(IStore, String)
-- uid: Wasmtime.Instance.GetAction``5(Wasmtime.IStore,System.String)
-  name: GetAction<TA, TB, TC, TD, TE>(IStore, String)
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetAction__5_Wasmtime_IStore_System_String_
-  commentId: M:Wasmtime.Instance.GetAction``5(Wasmtime.IStore,System.String)
-  name.vb: GetAction(Of TA, TB, TC, TD, TE)(IStore, String)
-  fullName: Wasmtime.Instance.GetAction<TA, TB, TC, TD, TE>(Wasmtime.IStore, System.String)
-  fullName.vb: Wasmtime.Instance.GetAction(Of TA, TB, TC, TD, TE)(Wasmtime.IStore, System.String)
-  nameWithType: Instance.GetAction<TA, TB, TC, TD, TE>(IStore, String)
-  nameWithType.vb: Instance.GetAction(Of TA, TB, TC, TD, TE)(IStore, String)
-- uid: Wasmtime.Instance.GetFunction(Wasmtime.IStore,System.String)
-  name: GetFunction(IStore, String)
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction_Wasmtime_IStore_System_String_
-  commentId: M:Wasmtime.Instance.GetFunction(Wasmtime.IStore,System.String)
-  fullName: Wasmtime.Instance.GetFunction(Wasmtime.IStore, System.String)
-  nameWithType: Instance.GetFunction(IStore, String)
-- uid: Wasmtime.Instance.GetFunction(Wasmtime.IStore,System.String,System.Nullable{Type},Type[])
-  name: GetFunction(IStore, String, Nullable<Type>, Type[])
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction_Wasmtime_IStore_System_String_System_Nullable_Type__Type___
-  commentId: M:Wasmtime.Instance.GetFunction(Wasmtime.IStore,System.String,System.Nullable{Type},Type[])
-  name.vb: GetFunction(IStore, String, Nullable(Of Type), Type())
-  fullName: Wasmtime.Instance.GetFunction(Wasmtime.IStore, System.String, System.Nullable<Type>, Type[])
-  fullName.vb: Wasmtime.Instance.GetFunction(Wasmtime.IStore, System.String, System.Nullable(Of Type), Type())
-  nameWithType: Instance.GetFunction(IStore, String, Nullable<Type>, Type[])
-  nameWithType.vb: Instance.GetFunction(IStore, String, Nullable(Of Type), Type())
+- uid: Wasmtime.Instance.GetAction``1(System.String)
+  name: GetAction<TA>(String)
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetAction__1_System_String_
+  commentId: M:Wasmtime.Instance.GetAction``1(System.String)
+  name.vb: GetAction(Of TA)(String)
+  fullName: Wasmtime.Instance.GetAction<TA>(System.String)
+  fullName.vb: Wasmtime.Instance.GetAction(Of TA)(System.String)
+  nameWithType: Instance.GetAction<TA>(String)
+  nameWithType.vb: Instance.GetAction(Of TA)(String)
+- uid: Wasmtime.Instance.GetAction``2(System.String)
+  name: GetAction<TA, TB>(String)
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetAction__2_System_String_
+  commentId: M:Wasmtime.Instance.GetAction``2(System.String)
+  name.vb: GetAction(Of TA, TB)(String)
+  fullName: Wasmtime.Instance.GetAction<TA, TB>(System.String)
+  fullName.vb: Wasmtime.Instance.GetAction(Of TA, TB)(System.String)
+  nameWithType: Instance.GetAction<TA, TB>(String)
+  nameWithType.vb: Instance.GetAction(Of TA, TB)(String)
+- uid: Wasmtime.Instance.GetAction``3(System.String)
+  name: GetAction<TA, TB, TC>(String)
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetAction__3_System_String_
+  commentId: M:Wasmtime.Instance.GetAction``3(System.String)
+  name.vb: GetAction(Of TA, TB, TC)(String)
+  fullName: Wasmtime.Instance.GetAction<TA, TB, TC>(System.String)
+  fullName.vb: Wasmtime.Instance.GetAction(Of TA, TB, TC)(System.String)
+  nameWithType: Instance.GetAction<TA, TB, TC>(String)
+  nameWithType.vb: Instance.GetAction(Of TA, TB, TC)(String)
+- uid: Wasmtime.Instance.GetAction``4(System.String)
+  name: GetAction<TA, TB, TC, TD>(String)
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetAction__4_System_String_
+  commentId: M:Wasmtime.Instance.GetAction``4(System.String)
+  name.vb: GetAction(Of TA, TB, TC, TD)(String)
+  fullName: Wasmtime.Instance.GetAction<TA, TB, TC, TD>(System.String)
+  fullName.vb: Wasmtime.Instance.GetAction(Of TA, TB, TC, TD)(System.String)
+  nameWithType: Instance.GetAction<TA, TB, TC, TD>(String)
+  nameWithType.vb: Instance.GetAction(Of TA, TB, TC, TD)(String)
+- uid: Wasmtime.Instance.GetAction``5(System.String)
+  name: GetAction<TA, TB, TC, TD, TE>(String)
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetAction__5_System_String_
+  commentId: M:Wasmtime.Instance.GetAction``5(System.String)
+  name.vb: GetAction(Of TA, TB, TC, TD, TE)(String)
+  fullName: Wasmtime.Instance.GetAction<TA, TB, TC, TD, TE>(System.String)
+  fullName.vb: Wasmtime.Instance.GetAction(Of TA, TB, TC, TD, TE)(System.String)
+  nameWithType: Instance.GetAction<TA, TB, TC, TD, TE>(String)
+  nameWithType.vb: Instance.GetAction(Of TA, TB, TC, TD, TE)(String)
+- uid: Wasmtime.Instance.GetFunction(System.String)
+  name: GetFunction(String)
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction_System_String_
+  commentId: M:Wasmtime.Instance.GetFunction(System.String)
+  fullName: Wasmtime.Instance.GetFunction(System.String)
+  nameWithType: Instance.GetFunction(String)
+- uid: Wasmtime.Instance.GetFunction(System.String,System.Nullable{Type},Type[])
+  name: GetFunction(String, Nullable<Type>, Type[])
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction_System_String_System_Nullable_Type__Type___
+  commentId: M:Wasmtime.Instance.GetFunction(System.String,System.Nullable{Type},Type[])
+  name.vb: GetFunction(String, Nullable(Of Type), Type())
+  fullName: Wasmtime.Instance.GetFunction(System.String, System.Nullable<Type>, Type[])
+  fullName.vb: Wasmtime.Instance.GetFunction(System.String, System.Nullable(Of Type), Type())
+  nameWithType: Instance.GetFunction(String, Nullable<Type>, Type[])
+  nameWithType.vb: Instance.GetFunction(String, Nullable(Of Type), Type())
 - uid: Wasmtime.Instance.GetFunction*
   name: GetFunction
   href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction_
@@ -1518,165 +1594,165 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Instance.GetFunction
   nameWithType: Instance.GetFunction
-- uid: Wasmtime.Instance.GetFunction``1(Wasmtime.IStore,System.String)
-  name: GetFunction<TR>(IStore, String)
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__1_Wasmtime_IStore_System_String_
-  commentId: M:Wasmtime.Instance.GetFunction``1(Wasmtime.IStore,System.String)
-  name.vb: GetFunction(Of TR)(IStore, String)
-  fullName: Wasmtime.Instance.GetFunction<TR>(Wasmtime.IStore, System.String)
-  fullName.vb: Wasmtime.Instance.GetFunction(Of TR)(Wasmtime.IStore, System.String)
-  nameWithType: Instance.GetFunction<TR>(IStore, String)
-  nameWithType.vb: Instance.GetFunction(Of TR)(IStore, String)
-- uid: Wasmtime.Instance.GetFunction``10(Wasmtime.IStore,System.String)
-  name: GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>(IStore, String)
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__10_Wasmtime_IStore_System_String_
-  commentId: M:Wasmtime.Instance.GetFunction``10(Wasmtime.IStore,System.String)
-  name.vb: GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TR)(IStore, String)
-  fullName: Wasmtime.Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>(Wasmtime.IStore, System.String)
-  fullName.vb: Wasmtime.Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TR)(Wasmtime.IStore, System.String)
-  nameWithType: Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>(IStore, String)
-  nameWithType.vb: Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TR)(IStore, String)
-- uid: Wasmtime.Instance.GetFunction``11(Wasmtime.IStore,System.String)
-  name: GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>(IStore, String)
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__11_Wasmtime_IStore_System_String_
-  commentId: M:Wasmtime.Instance.GetFunction``11(Wasmtime.IStore,System.String)
-  name.vb: GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR)(IStore, String)
-  fullName: Wasmtime.Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>(Wasmtime.IStore, System.String)
-  fullName.vb: Wasmtime.Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR)(Wasmtime.IStore, System.String)
-  nameWithType: Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>(IStore, String)
-  nameWithType.vb: Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR)(IStore, String)
-- uid: Wasmtime.Instance.GetFunction``12(Wasmtime.IStore,System.String)
-  name: GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>(IStore, String)
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__12_Wasmtime_IStore_System_String_
-  commentId: M:Wasmtime.Instance.GetFunction``12(Wasmtime.IStore,System.String)
-  name.vb: GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR)(IStore, String)
-  fullName: Wasmtime.Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>(Wasmtime.IStore, System.String)
-  fullName.vb: Wasmtime.Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR)(Wasmtime.IStore, System.String)
-  nameWithType: Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>(IStore, String)
-  nameWithType.vb: Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR)(IStore, String)
-- uid: Wasmtime.Instance.GetFunction``13(Wasmtime.IStore,System.String)
-  name: GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>(IStore, String)
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__13_Wasmtime_IStore_System_String_
-  commentId: M:Wasmtime.Instance.GetFunction``13(Wasmtime.IStore,System.String)
-  name.vb: GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR)(IStore, String)
-  fullName: Wasmtime.Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>(Wasmtime.IStore, System.String)
-  fullName.vb: Wasmtime.Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR)(Wasmtime.IStore, System.String)
-  nameWithType: Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>(IStore, String)
-  nameWithType.vb: Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR)(IStore, String)
-- uid: Wasmtime.Instance.GetFunction``14(Wasmtime.IStore,System.String)
-  name: GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>(IStore, String)
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__14_Wasmtime_IStore_System_String_
-  commentId: M:Wasmtime.Instance.GetFunction``14(Wasmtime.IStore,System.String)
-  name.vb: GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR)(IStore, String)
-  fullName: Wasmtime.Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>(Wasmtime.IStore, System.String)
-  fullName.vb: Wasmtime.Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR)(Wasmtime.IStore, System.String)
-  nameWithType: Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>(IStore, String)
-  nameWithType.vb: Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR)(IStore, String)
-- uid: Wasmtime.Instance.GetFunction``15(Wasmtime.IStore,System.String)
-  name: GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>(IStore, String)
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__15_Wasmtime_IStore_System_String_
-  commentId: M:Wasmtime.Instance.GetFunction``15(Wasmtime.IStore,System.String)
-  name.vb: GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR)(IStore, String)
-  fullName: Wasmtime.Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>(Wasmtime.IStore, System.String)
-  fullName.vb: Wasmtime.Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR)(Wasmtime.IStore, System.String)
-  nameWithType: Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>(IStore, String)
-  nameWithType.vb: Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR)(IStore, String)
-- uid: Wasmtime.Instance.GetFunction``16(Wasmtime.IStore,System.String)
-  name: GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>(IStore, String)
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__16_Wasmtime_IStore_System_String_
-  commentId: M:Wasmtime.Instance.GetFunction``16(Wasmtime.IStore,System.String)
-  name.vb: GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR)(IStore, String)
-  fullName: Wasmtime.Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>(Wasmtime.IStore, System.String)
-  fullName.vb: Wasmtime.Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR)(Wasmtime.IStore, System.String)
-  nameWithType: Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>(IStore, String)
-  nameWithType.vb: Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR)(IStore, String)
-- uid: Wasmtime.Instance.GetFunction``17(Wasmtime.IStore,System.String)
-  name: GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>(IStore, String)
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__17_Wasmtime_IStore_System_String_
-  commentId: M:Wasmtime.Instance.GetFunction``17(Wasmtime.IStore,System.String)
-  name.vb: GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR)(IStore, String)
-  fullName: Wasmtime.Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>(Wasmtime.IStore, System.String)
-  fullName.vb: Wasmtime.Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR)(Wasmtime.IStore, System.String)
-  nameWithType: Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>(IStore, String)
-  nameWithType.vb: Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR)(IStore, String)
-- uid: Wasmtime.Instance.GetFunction``2(Wasmtime.IStore,System.String)
-  name: GetFunction<TA, TR>(IStore, String)
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__2_Wasmtime_IStore_System_String_
-  commentId: M:Wasmtime.Instance.GetFunction``2(Wasmtime.IStore,System.String)
-  name.vb: GetFunction(Of TA, TR)(IStore, String)
-  fullName: Wasmtime.Instance.GetFunction<TA, TR>(Wasmtime.IStore, System.String)
-  fullName.vb: Wasmtime.Instance.GetFunction(Of TA, TR)(Wasmtime.IStore, System.String)
-  nameWithType: Instance.GetFunction<TA, TR>(IStore, String)
-  nameWithType.vb: Instance.GetFunction(Of TA, TR)(IStore, String)
-- uid: Wasmtime.Instance.GetFunction``3(Wasmtime.IStore,System.String)
-  name: GetFunction<TA, TB, TR>(IStore, String)
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__3_Wasmtime_IStore_System_String_
-  commentId: M:Wasmtime.Instance.GetFunction``3(Wasmtime.IStore,System.String)
-  name.vb: GetFunction(Of TA, TB, TR)(IStore, String)
-  fullName: Wasmtime.Instance.GetFunction<TA, TB, TR>(Wasmtime.IStore, System.String)
-  fullName.vb: Wasmtime.Instance.GetFunction(Of TA, TB, TR)(Wasmtime.IStore, System.String)
-  nameWithType: Instance.GetFunction<TA, TB, TR>(IStore, String)
-  nameWithType.vb: Instance.GetFunction(Of TA, TB, TR)(IStore, String)
-- uid: Wasmtime.Instance.GetFunction``4(Wasmtime.IStore,System.String)
-  name: GetFunction<TA, TB, TC, TR>(IStore, String)
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__4_Wasmtime_IStore_System_String_
-  commentId: M:Wasmtime.Instance.GetFunction``4(Wasmtime.IStore,System.String)
-  name.vb: GetFunction(Of TA, TB, TC, TR)(IStore, String)
-  fullName: Wasmtime.Instance.GetFunction<TA, TB, TC, TR>(Wasmtime.IStore, System.String)
-  fullName.vb: Wasmtime.Instance.GetFunction(Of TA, TB, TC, TR)(Wasmtime.IStore, System.String)
-  nameWithType: Instance.GetFunction<TA, TB, TC, TR>(IStore, String)
-  nameWithType.vb: Instance.GetFunction(Of TA, TB, TC, TR)(IStore, String)
-- uid: Wasmtime.Instance.GetFunction``5(Wasmtime.IStore,System.String)
-  name: GetFunction<TA, TB, TC, TD, TR>(IStore, String)
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__5_Wasmtime_IStore_System_String_
-  commentId: M:Wasmtime.Instance.GetFunction``5(Wasmtime.IStore,System.String)
-  name.vb: GetFunction(Of TA, TB, TC, TD, TR)(IStore, String)
-  fullName: Wasmtime.Instance.GetFunction<TA, TB, TC, TD, TR>(Wasmtime.IStore, System.String)
-  fullName.vb: Wasmtime.Instance.GetFunction(Of TA, TB, TC, TD, TR)(Wasmtime.IStore, System.String)
-  nameWithType: Instance.GetFunction<TA, TB, TC, TD, TR>(IStore, String)
-  nameWithType.vb: Instance.GetFunction(Of TA, TB, TC, TD, TR)(IStore, String)
-- uid: Wasmtime.Instance.GetFunction``6(Wasmtime.IStore,System.String)
-  name: GetFunction<TA, TB, TC, TD, TE, TR>(IStore, String)
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__6_Wasmtime_IStore_System_String_
-  commentId: M:Wasmtime.Instance.GetFunction``6(Wasmtime.IStore,System.String)
-  name.vb: GetFunction(Of TA, TB, TC, TD, TE, TR)(IStore, String)
-  fullName: Wasmtime.Instance.GetFunction<TA, TB, TC, TD, TE, TR>(Wasmtime.IStore, System.String)
-  fullName.vb: Wasmtime.Instance.GetFunction(Of TA, TB, TC, TD, TE, TR)(Wasmtime.IStore, System.String)
-  nameWithType: Instance.GetFunction<TA, TB, TC, TD, TE, TR>(IStore, String)
-  nameWithType.vb: Instance.GetFunction(Of TA, TB, TC, TD, TE, TR)(IStore, String)
-- uid: Wasmtime.Instance.GetFunction``7(Wasmtime.IStore,System.String)
-  name: GetFunction<TA, TB, TC, TD, TE, TF, TR>(IStore, String)
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__7_Wasmtime_IStore_System_String_
-  commentId: M:Wasmtime.Instance.GetFunction``7(Wasmtime.IStore,System.String)
-  name.vb: GetFunction(Of TA, TB, TC, TD, TE, TF, TR)(IStore, String)
-  fullName: Wasmtime.Instance.GetFunction<TA, TB, TC, TD, TE, TF, TR>(Wasmtime.IStore, System.String)
-  fullName.vb: Wasmtime.Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TR)(Wasmtime.IStore, System.String)
-  nameWithType: Instance.GetFunction<TA, TB, TC, TD, TE, TF, TR>(IStore, String)
-  nameWithType.vb: Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TR)(IStore, String)
-- uid: Wasmtime.Instance.GetFunction``8(Wasmtime.IStore,System.String)
-  name: GetFunction<TA, TB, TC, TD, TE, TF, TG, TR>(IStore, String)
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__8_Wasmtime_IStore_System_String_
-  commentId: M:Wasmtime.Instance.GetFunction``8(Wasmtime.IStore,System.String)
-  name.vb: GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TR)(IStore, String)
-  fullName: Wasmtime.Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TR>(Wasmtime.IStore, System.String)
-  fullName.vb: Wasmtime.Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TR)(Wasmtime.IStore, System.String)
-  nameWithType: Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TR>(IStore, String)
-  nameWithType.vb: Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TR)(IStore, String)
-- uid: Wasmtime.Instance.GetFunction``9(Wasmtime.IStore,System.String)
-  name: GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TR>(IStore, String)
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__9_Wasmtime_IStore_System_String_
-  commentId: M:Wasmtime.Instance.GetFunction``9(Wasmtime.IStore,System.String)
-  name.vb: GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TR)(IStore, String)
-  fullName: Wasmtime.Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TR>(Wasmtime.IStore, System.String)
-  fullName.vb: Wasmtime.Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TR)(Wasmtime.IStore, System.String)
-  nameWithType: Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TR>(IStore, String)
-  nameWithType.vb: Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TR)(IStore, String)
-- uid: Wasmtime.Instance.GetGlobal(Wasmtime.IStore,System.String)
-  name: GetGlobal(IStore, String)
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetGlobal_Wasmtime_IStore_System_String_
-  commentId: M:Wasmtime.Instance.GetGlobal(Wasmtime.IStore,System.String)
-  fullName: Wasmtime.Instance.GetGlobal(Wasmtime.IStore, System.String)
-  nameWithType: Instance.GetGlobal(IStore, String)
+- uid: Wasmtime.Instance.GetFunction``1(System.String)
+  name: GetFunction<TR>(String)
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__1_System_String_
+  commentId: M:Wasmtime.Instance.GetFunction``1(System.String)
+  name.vb: GetFunction(Of TR)(String)
+  fullName: Wasmtime.Instance.GetFunction<TR>(System.String)
+  fullName.vb: Wasmtime.Instance.GetFunction(Of TR)(System.String)
+  nameWithType: Instance.GetFunction<TR>(String)
+  nameWithType.vb: Instance.GetFunction(Of TR)(String)
+- uid: Wasmtime.Instance.GetFunction``10(System.String)
+  name: GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>(String)
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__10_System_String_
+  commentId: M:Wasmtime.Instance.GetFunction``10(System.String)
+  name.vb: GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TR)(String)
+  fullName: Wasmtime.Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>(System.String)
+  fullName.vb: Wasmtime.Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TR)(System.String)
+  nameWithType: Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>(String)
+  nameWithType.vb: Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TR)(String)
+- uid: Wasmtime.Instance.GetFunction``11(System.String)
+  name: GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>(String)
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__11_System_String_
+  commentId: M:Wasmtime.Instance.GetFunction``11(System.String)
+  name.vb: GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR)(String)
+  fullName: Wasmtime.Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>(System.String)
+  fullName.vb: Wasmtime.Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR)(System.String)
+  nameWithType: Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>(String)
+  nameWithType.vb: Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR)(String)
+- uid: Wasmtime.Instance.GetFunction``12(System.String)
+  name: GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>(String)
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__12_System_String_
+  commentId: M:Wasmtime.Instance.GetFunction``12(System.String)
+  name.vb: GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR)(String)
+  fullName: Wasmtime.Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>(System.String)
+  fullName.vb: Wasmtime.Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR)(System.String)
+  nameWithType: Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>(String)
+  nameWithType.vb: Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR)(String)
+- uid: Wasmtime.Instance.GetFunction``13(System.String)
+  name: GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>(String)
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__13_System_String_
+  commentId: M:Wasmtime.Instance.GetFunction``13(System.String)
+  name.vb: GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR)(String)
+  fullName: Wasmtime.Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>(System.String)
+  fullName.vb: Wasmtime.Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR)(System.String)
+  nameWithType: Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>(String)
+  nameWithType.vb: Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR)(String)
+- uid: Wasmtime.Instance.GetFunction``14(System.String)
+  name: GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>(String)
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__14_System_String_
+  commentId: M:Wasmtime.Instance.GetFunction``14(System.String)
+  name.vb: GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR)(String)
+  fullName: Wasmtime.Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>(System.String)
+  fullName.vb: Wasmtime.Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR)(System.String)
+  nameWithType: Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>(String)
+  nameWithType.vb: Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR)(String)
+- uid: Wasmtime.Instance.GetFunction``15(System.String)
+  name: GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>(String)
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__15_System_String_
+  commentId: M:Wasmtime.Instance.GetFunction``15(System.String)
+  name.vb: GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR)(String)
+  fullName: Wasmtime.Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>(System.String)
+  fullName.vb: Wasmtime.Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR)(System.String)
+  nameWithType: Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>(String)
+  nameWithType.vb: Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR)(String)
+- uid: Wasmtime.Instance.GetFunction``16(System.String)
+  name: GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>(String)
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__16_System_String_
+  commentId: M:Wasmtime.Instance.GetFunction``16(System.String)
+  name.vb: GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR)(String)
+  fullName: Wasmtime.Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>(System.String)
+  fullName.vb: Wasmtime.Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR)(System.String)
+  nameWithType: Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>(String)
+  nameWithType.vb: Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR)(String)
+- uid: Wasmtime.Instance.GetFunction``17(System.String)
+  name: GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>(String)
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__17_System_String_
+  commentId: M:Wasmtime.Instance.GetFunction``17(System.String)
+  name.vb: GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR)(String)
+  fullName: Wasmtime.Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>(System.String)
+  fullName.vb: Wasmtime.Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR)(System.String)
+  nameWithType: Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>(String)
+  nameWithType.vb: Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR)(String)
+- uid: Wasmtime.Instance.GetFunction``2(System.String)
+  name: GetFunction<TA, TR>(String)
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__2_System_String_
+  commentId: M:Wasmtime.Instance.GetFunction``2(System.String)
+  name.vb: GetFunction(Of TA, TR)(String)
+  fullName: Wasmtime.Instance.GetFunction<TA, TR>(System.String)
+  fullName.vb: Wasmtime.Instance.GetFunction(Of TA, TR)(System.String)
+  nameWithType: Instance.GetFunction<TA, TR>(String)
+  nameWithType.vb: Instance.GetFunction(Of TA, TR)(String)
+- uid: Wasmtime.Instance.GetFunction``3(System.String)
+  name: GetFunction<TA, TB, TR>(String)
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__3_System_String_
+  commentId: M:Wasmtime.Instance.GetFunction``3(System.String)
+  name.vb: GetFunction(Of TA, TB, TR)(String)
+  fullName: Wasmtime.Instance.GetFunction<TA, TB, TR>(System.String)
+  fullName.vb: Wasmtime.Instance.GetFunction(Of TA, TB, TR)(System.String)
+  nameWithType: Instance.GetFunction<TA, TB, TR>(String)
+  nameWithType.vb: Instance.GetFunction(Of TA, TB, TR)(String)
+- uid: Wasmtime.Instance.GetFunction``4(System.String)
+  name: GetFunction<TA, TB, TC, TR>(String)
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__4_System_String_
+  commentId: M:Wasmtime.Instance.GetFunction``4(System.String)
+  name.vb: GetFunction(Of TA, TB, TC, TR)(String)
+  fullName: Wasmtime.Instance.GetFunction<TA, TB, TC, TR>(System.String)
+  fullName.vb: Wasmtime.Instance.GetFunction(Of TA, TB, TC, TR)(System.String)
+  nameWithType: Instance.GetFunction<TA, TB, TC, TR>(String)
+  nameWithType.vb: Instance.GetFunction(Of TA, TB, TC, TR)(String)
+- uid: Wasmtime.Instance.GetFunction``5(System.String)
+  name: GetFunction<TA, TB, TC, TD, TR>(String)
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__5_System_String_
+  commentId: M:Wasmtime.Instance.GetFunction``5(System.String)
+  name.vb: GetFunction(Of TA, TB, TC, TD, TR)(String)
+  fullName: Wasmtime.Instance.GetFunction<TA, TB, TC, TD, TR>(System.String)
+  fullName.vb: Wasmtime.Instance.GetFunction(Of TA, TB, TC, TD, TR)(System.String)
+  nameWithType: Instance.GetFunction<TA, TB, TC, TD, TR>(String)
+  nameWithType.vb: Instance.GetFunction(Of TA, TB, TC, TD, TR)(String)
+- uid: Wasmtime.Instance.GetFunction``6(System.String)
+  name: GetFunction<TA, TB, TC, TD, TE, TR>(String)
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__6_System_String_
+  commentId: M:Wasmtime.Instance.GetFunction``6(System.String)
+  name.vb: GetFunction(Of TA, TB, TC, TD, TE, TR)(String)
+  fullName: Wasmtime.Instance.GetFunction<TA, TB, TC, TD, TE, TR>(System.String)
+  fullName.vb: Wasmtime.Instance.GetFunction(Of TA, TB, TC, TD, TE, TR)(System.String)
+  nameWithType: Instance.GetFunction<TA, TB, TC, TD, TE, TR>(String)
+  nameWithType.vb: Instance.GetFunction(Of TA, TB, TC, TD, TE, TR)(String)
+- uid: Wasmtime.Instance.GetFunction``7(System.String)
+  name: GetFunction<TA, TB, TC, TD, TE, TF, TR>(String)
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__7_System_String_
+  commentId: M:Wasmtime.Instance.GetFunction``7(System.String)
+  name.vb: GetFunction(Of TA, TB, TC, TD, TE, TF, TR)(String)
+  fullName: Wasmtime.Instance.GetFunction<TA, TB, TC, TD, TE, TF, TR>(System.String)
+  fullName.vb: Wasmtime.Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TR)(System.String)
+  nameWithType: Instance.GetFunction<TA, TB, TC, TD, TE, TF, TR>(String)
+  nameWithType.vb: Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TR)(String)
+- uid: Wasmtime.Instance.GetFunction``8(System.String)
+  name: GetFunction<TA, TB, TC, TD, TE, TF, TG, TR>(String)
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__8_System_String_
+  commentId: M:Wasmtime.Instance.GetFunction``8(System.String)
+  name.vb: GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TR)(String)
+  fullName: Wasmtime.Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TR>(System.String)
+  fullName.vb: Wasmtime.Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TR)(System.String)
+  nameWithType: Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TR>(String)
+  nameWithType.vb: Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TR)(String)
+- uid: Wasmtime.Instance.GetFunction``9(System.String)
+  name: GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TR>(String)
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetFunction__9_System_String_
+  commentId: M:Wasmtime.Instance.GetFunction``9(System.String)
+  name.vb: GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TR)(String)
+  fullName: Wasmtime.Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TR>(System.String)
+  fullName.vb: Wasmtime.Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TR)(System.String)
+  nameWithType: Instance.GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TR>(String)
+  nameWithType.vb: Instance.GetFunction(Of TA, TB, TC, TD, TE, TF, TG, TH, TR)(String)
+- uid: Wasmtime.Instance.GetGlobal(System.String)
+  name: GetGlobal(String)
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetGlobal_System_String_
+  commentId: M:Wasmtime.Instance.GetGlobal(System.String)
+  fullName: Wasmtime.Instance.GetGlobal(System.String)
+  nameWithType: Instance.GetGlobal(String)
 - uid: Wasmtime.Instance.GetGlobal*
   name: GetGlobal
   href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetGlobal_
@@ -1684,12 +1760,12 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Instance.GetGlobal
   nameWithType: Instance.GetGlobal
-- uid: Wasmtime.Instance.GetMemory(Wasmtime.IStore,System.String)
-  name: GetMemory(IStore, String)
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetMemory_Wasmtime_IStore_System_String_
-  commentId: M:Wasmtime.Instance.GetMemory(Wasmtime.IStore,System.String)
-  fullName: Wasmtime.Instance.GetMemory(Wasmtime.IStore, System.String)
-  nameWithType: Instance.GetMemory(IStore, String)
+- uid: Wasmtime.Instance.GetMemory(System.String)
+  name: GetMemory(String)
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetMemory_System_String_
+  commentId: M:Wasmtime.Instance.GetMemory(System.String)
+  fullName: Wasmtime.Instance.GetMemory(System.String)
+  nameWithType: Instance.GetMemory(String)
 - uid: Wasmtime.Instance.GetMemory*
   name: GetMemory
   href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetMemory_
@@ -1697,12 +1773,12 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Instance.GetMemory
   nameWithType: Instance.GetMemory
-- uid: Wasmtime.Instance.GetTable(Wasmtime.IStore,System.String)
-  name: GetTable(IStore, String)
-  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetTable_Wasmtime_IStore_System_String_
-  commentId: M:Wasmtime.Instance.GetTable(Wasmtime.IStore,System.String)
-  fullName: Wasmtime.Instance.GetTable(Wasmtime.IStore, System.String)
-  nameWithType: Instance.GetTable(IStore, String)
+- uid: Wasmtime.Instance.GetTable(System.String)
+  name: GetTable(String)
+  href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetTable_System_String_
+  commentId: M:Wasmtime.Instance.GetTable(System.String)
+  fullName: Wasmtime.Instance.GetTable(System.String)
+  nameWithType: Instance.GetTable(String)
 - uid: Wasmtime.Instance.GetTable*
   name: GetTable
   href: api/Wasmtime.Instance.html#Wasmtime_Instance_GetTable_
@@ -2278,12 +2354,12 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Memory.Memory
   nameWithType: Memory.Memory
-- uid: Wasmtime.Memory.GetSize(Wasmtime.IStore)
-  name: GetSize(IStore)
-  href: api/Wasmtime.Memory.html#Wasmtime_Memory_GetSize_Wasmtime_IStore_
-  commentId: M:Wasmtime.Memory.GetSize(Wasmtime.IStore)
-  fullName: Wasmtime.Memory.GetSize(Wasmtime.IStore)
-  nameWithType: Memory.GetSize(IStore)
+- uid: Wasmtime.Memory.GetSize
+  name: GetSize()
+  href: api/Wasmtime.Memory.html#Wasmtime_Memory_GetSize
+  commentId: M:Wasmtime.Memory.GetSize
+  fullName: Wasmtime.Memory.GetSize()
+  nameWithType: Memory.GetSize()
 - uid: Wasmtime.Memory.GetSize*
   name: GetSize
   href: api/Wasmtime.Memory.html#Wasmtime_Memory_GetSize_
@@ -2291,12 +2367,12 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Memory.GetSize
   nameWithType: Memory.GetSize
-- uid: Wasmtime.Memory.GetSpan(Wasmtime.IStore)
-  name: GetSpan(IStore)
-  href: api/Wasmtime.Memory.html#Wasmtime_Memory_GetSpan_Wasmtime_IStore_
-  commentId: M:Wasmtime.Memory.GetSpan(Wasmtime.IStore)
-  fullName: Wasmtime.Memory.GetSpan(Wasmtime.IStore)
-  nameWithType: Memory.GetSpan(IStore)
+- uid: Wasmtime.Memory.GetSpan
+  name: GetSpan()
+  href: api/Wasmtime.Memory.html#Wasmtime_Memory_GetSpan
+  commentId: M:Wasmtime.Memory.GetSpan
+  fullName: Wasmtime.Memory.GetSpan()
+  nameWithType: Memory.GetSpan()
 - uid: Wasmtime.Memory.GetSpan*
   name: GetSpan
   href: api/Wasmtime.Memory.html#Wasmtime_Memory_GetSpan_
@@ -2304,12 +2380,21 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Memory.GetSpan
   nameWithType: Memory.GetSpan
-- uid: Wasmtime.Memory.Grow(Wasmtime.IStore,System.UInt32)
-  name: Grow(IStore, UInt32)
-  href: api/Wasmtime.Memory.html#Wasmtime_Memory_Grow_Wasmtime_IStore_System_UInt32_
-  commentId: M:Wasmtime.Memory.Grow(Wasmtime.IStore,System.UInt32)
-  fullName: Wasmtime.Memory.Grow(Wasmtime.IStore, System.UInt32)
-  nameWithType: Memory.Grow(IStore, UInt32)
+- uid: Wasmtime.Memory.GetSpan``1(System.Int32)
+  name: GetSpan<T>(Int32)
+  href: api/Wasmtime.Memory.html#Wasmtime_Memory_GetSpan__1_System_Int32_
+  commentId: M:Wasmtime.Memory.GetSpan``1(System.Int32)
+  name.vb: GetSpan(Of T)(Int32)
+  fullName: Wasmtime.Memory.GetSpan<T>(System.Int32)
+  fullName.vb: Wasmtime.Memory.GetSpan(Of T)(System.Int32)
+  nameWithType: Memory.GetSpan<T>(Int32)
+  nameWithType.vb: Memory.GetSpan(Of T)(Int32)
+- uid: Wasmtime.Memory.Grow(System.UInt32)
+  name: Grow(UInt32)
+  href: api/Wasmtime.Memory.html#Wasmtime_Memory_Grow_System_UInt32_
+  commentId: M:Wasmtime.Memory.Grow(System.UInt32)
+  fullName: Wasmtime.Memory.Grow(System.UInt32)
+  nameWithType: Memory.Grow(UInt32)
 - uid: Wasmtime.Memory.Grow*
   name: Grow
   href: api/Wasmtime.Memory.html#Wasmtime_Memory_Grow_
@@ -2349,12 +2434,28 @@ references:
   commentId: F:Wasmtime.Memory.PageSize
   fullName: Wasmtime.Memory.PageSize
   nameWithType: Memory.PageSize
-- uid: Wasmtime.Memory.ReadByte(Wasmtime.IStore,System.Int32)
-  name: ReadByte(IStore, Int32)
-  href: api/Wasmtime.Memory.html#Wasmtime_Memory_ReadByte_Wasmtime_IStore_System_Int32_
-  commentId: M:Wasmtime.Memory.ReadByte(Wasmtime.IStore,System.Int32)
-  fullName: Wasmtime.Memory.ReadByte(Wasmtime.IStore, System.Int32)
-  nameWithType: Memory.ReadByte(IStore, Int32)
+- uid: Wasmtime.Memory.Read*
+  name: Read
+  href: api/Wasmtime.Memory.html#Wasmtime_Memory_Read_
+  commentId: Overload:Wasmtime.Memory.Read
+  isSpec: "True"
+  fullName: Wasmtime.Memory.Read
+  nameWithType: Memory.Read
+- uid: Wasmtime.Memory.Read``1(System.Int32)
+  name: Read<T>(Int32)
+  href: api/Wasmtime.Memory.html#Wasmtime_Memory_Read__1_System_Int32_
+  commentId: M:Wasmtime.Memory.Read``1(System.Int32)
+  name.vb: Read(Of T)(Int32)
+  fullName: Wasmtime.Memory.Read<T>(System.Int32)
+  fullName.vb: Wasmtime.Memory.Read(Of T)(System.Int32)
+  nameWithType: Memory.Read<T>(Int32)
+  nameWithType.vb: Memory.Read(Of T)(Int32)
+- uid: Wasmtime.Memory.ReadByte(System.Int32)
+  name: ReadByte(Int32)
+  href: api/Wasmtime.Memory.html#Wasmtime_Memory_ReadByte_System_Int32_
+  commentId: M:Wasmtime.Memory.ReadByte(System.Int32)
+  fullName: Wasmtime.Memory.ReadByte(System.Int32)
+  nameWithType: Memory.ReadByte(Int32)
 - uid: Wasmtime.Memory.ReadByte*
   name: ReadByte
   href: api/Wasmtime.Memory.html#Wasmtime_Memory_ReadByte_
@@ -2362,12 +2463,12 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Memory.ReadByte
   nameWithType: Memory.ReadByte
-- uid: Wasmtime.Memory.ReadDouble(Wasmtime.IStore,System.Int32)
-  name: ReadDouble(IStore, Int32)
-  href: api/Wasmtime.Memory.html#Wasmtime_Memory_ReadDouble_Wasmtime_IStore_System_Int32_
-  commentId: M:Wasmtime.Memory.ReadDouble(Wasmtime.IStore,System.Int32)
-  fullName: Wasmtime.Memory.ReadDouble(Wasmtime.IStore, System.Int32)
-  nameWithType: Memory.ReadDouble(IStore, Int32)
+- uid: Wasmtime.Memory.ReadDouble(System.Int32)
+  name: ReadDouble(Int32)
+  href: api/Wasmtime.Memory.html#Wasmtime_Memory_ReadDouble_System_Int32_
+  commentId: M:Wasmtime.Memory.ReadDouble(System.Int32)
+  fullName: Wasmtime.Memory.ReadDouble(System.Int32)
+  nameWithType: Memory.ReadDouble(Int32)
 - uid: Wasmtime.Memory.ReadDouble*
   name: ReadDouble
   href: api/Wasmtime.Memory.html#Wasmtime_Memory_ReadDouble_
@@ -2375,12 +2476,12 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Memory.ReadDouble
   nameWithType: Memory.ReadDouble
-- uid: Wasmtime.Memory.ReadInt16(Wasmtime.IStore,System.Int32)
-  name: ReadInt16(IStore, Int32)
-  href: api/Wasmtime.Memory.html#Wasmtime_Memory_ReadInt16_Wasmtime_IStore_System_Int32_
-  commentId: M:Wasmtime.Memory.ReadInt16(Wasmtime.IStore,System.Int32)
-  fullName: Wasmtime.Memory.ReadInt16(Wasmtime.IStore, System.Int32)
-  nameWithType: Memory.ReadInt16(IStore, Int32)
+- uid: Wasmtime.Memory.ReadInt16(System.Int32)
+  name: ReadInt16(Int32)
+  href: api/Wasmtime.Memory.html#Wasmtime_Memory_ReadInt16_System_Int32_
+  commentId: M:Wasmtime.Memory.ReadInt16(System.Int32)
+  fullName: Wasmtime.Memory.ReadInt16(System.Int32)
+  nameWithType: Memory.ReadInt16(Int32)
 - uid: Wasmtime.Memory.ReadInt16*
   name: ReadInt16
   href: api/Wasmtime.Memory.html#Wasmtime_Memory_ReadInt16_
@@ -2388,12 +2489,12 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Memory.ReadInt16
   nameWithType: Memory.ReadInt16
-- uid: Wasmtime.Memory.ReadInt32(Wasmtime.IStore,System.Int32)
-  name: ReadInt32(IStore, Int32)
-  href: api/Wasmtime.Memory.html#Wasmtime_Memory_ReadInt32_Wasmtime_IStore_System_Int32_
-  commentId: M:Wasmtime.Memory.ReadInt32(Wasmtime.IStore,System.Int32)
-  fullName: Wasmtime.Memory.ReadInt32(Wasmtime.IStore, System.Int32)
-  nameWithType: Memory.ReadInt32(IStore, Int32)
+- uid: Wasmtime.Memory.ReadInt32(System.Int32)
+  name: ReadInt32(Int32)
+  href: api/Wasmtime.Memory.html#Wasmtime_Memory_ReadInt32_System_Int32_
+  commentId: M:Wasmtime.Memory.ReadInt32(System.Int32)
+  fullName: Wasmtime.Memory.ReadInt32(System.Int32)
+  nameWithType: Memory.ReadInt32(Int32)
 - uid: Wasmtime.Memory.ReadInt32*
   name: ReadInt32
   href: api/Wasmtime.Memory.html#Wasmtime_Memory_ReadInt32_
@@ -2401,12 +2502,12 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Memory.ReadInt32
   nameWithType: Memory.ReadInt32
-- uid: Wasmtime.Memory.ReadInt64(Wasmtime.IStore,System.Int32)
-  name: ReadInt64(IStore, Int32)
-  href: api/Wasmtime.Memory.html#Wasmtime_Memory_ReadInt64_Wasmtime_IStore_System_Int32_
-  commentId: M:Wasmtime.Memory.ReadInt64(Wasmtime.IStore,System.Int32)
-  fullName: Wasmtime.Memory.ReadInt64(Wasmtime.IStore, System.Int32)
-  nameWithType: Memory.ReadInt64(IStore, Int32)
+- uid: Wasmtime.Memory.ReadInt64(System.Int32)
+  name: ReadInt64(Int32)
+  href: api/Wasmtime.Memory.html#Wasmtime_Memory_ReadInt64_System_Int32_
+  commentId: M:Wasmtime.Memory.ReadInt64(System.Int32)
+  fullName: Wasmtime.Memory.ReadInt64(System.Int32)
+  nameWithType: Memory.ReadInt64(Int32)
 - uid: Wasmtime.Memory.ReadInt64*
   name: ReadInt64
   href: api/Wasmtime.Memory.html#Wasmtime_Memory_ReadInt64_
@@ -2414,12 +2515,12 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Memory.ReadInt64
   nameWithType: Memory.ReadInt64
-- uid: Wasmtime.Memory.ReadIntPtr(Wasmtime.IStore,System.Int32)
-  name: ReadIntPtr(IStore, Int32)
-  href: api/Wasmtime.Memory.html#Wasmtime_Memory_ReadIntPtr_Wasmtime_IStore_System_Int32_
-  commentId: M:Wasmtime.Memory.ReadIntPtr(Wasmtime.IStore,System.Int32)
-  fullName: Wasmtime.Memory.ReadIntPtr(Wasmtime.IStore, System.Int32)
-  nameWithType: Memory.ReadIntPtr(IStore, Int32)
+- uid: Wasmtime.Memory.ReadIntPtr(System.Int32)
+  name: ReadIntPtr(Int32)
+  href: api/Wasmtime.Memory.html#Wasmtime_Memory_ReadIntPtr_System_Int32_
+  commentId: M:Wasmtime.Memory.ReadIntPtr(System.Int32)
+  fullName: Wasmtime.Memory.ReadIntPtr(System.Int32)
+  nameWithType: Memory.ReadIntPtr(Int32)
 - uid: Wasmtime.Memory.ReadIntPtr*
   name: ReadIntPtr
   href: api/Wasmtime.Memory.html#Wasmtime_Memory_ReadIntPtr_
@@ -2427,12 +2528,12 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Memory.ReadIntPtr
   nameWithType: Memory.ReadIntPtr
-- uid: Wasmtime.Memory.ReadNullTerminatedString(Wasmtime.IStore,System.Int32)
-  name: ReadNullTerminatedString(IStore, Int32)
-  href: api/Wasmtime.Memory.html#Wasmtime_Memory_ReadNullTerminatedString_Wasmtime_IStore_System_Int32_
-  commentId: M:Wasmtime.Memory.ReadNullTerminatedString(Wasmtime.IStore,System.Int32)
-  fullName: Wasmtime.Memory.ReadNullTerminatedString(Wasmtime.IStore, System.Int32)
-  nameWithType: Memory.ReadNullTerminatedString(IStore, Int32)
+- uid: Wasmtime.Memory.ReadNullTerminatedString(System.Int32)
+  name: ReadNullTerminatedString(Int32)
+  href: api/Wasmtime.Memory.html#Wasmtime_Memory_ReadNullTerminatedString_System_Int32_
+  commentId: M:Wasmtime.Memory.ReadNullTerminatedString(System.Int32)
+  fullName: Wasmtime.Memory.ReadNullTerminatedString(System.Int32)
+  nameWithType: Memory.ReadNullTerminatedString(Int32)
 - uid: Wasmtime.Memory.ReadNullTerminatedString*
   name: ReadNullTerminatedString
   href: api/Wasmtime.Memory.html#Wasmtime_Memory_ReadNullTerminatedString_
@@ -2440,12 +2541,12 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Memory.ReadNullTerminatedString
   nameWithType: Memory.ReadNullTerminatedString
-- uid: Wasmtime.Memory.ReadSingle(Wasmtime.IStore,System.Int32)
-  name: ReadSingle(IStore, Int32)
-  href: api/Wasmtime.Memory.html#Wasmtime_Memory_ReadSingle_Wasmtime_IStore_System_Int32_
-  commentId: M:Wasmtime.Memory.ReadSingle(Wasmtime.IStore,System.Int32)
-  fullName: Wasmtime.Memory.ReadSingle(Wasmtime.IStore, System.Int32)
-  nameWithType: Memory.ReadSingle(IStore, Int32)
+- uid: Wasmtime.Memory.ReadSingle(System.Int32)
+  name: ReadSingle(Int32)
+  href: api/Wasmtime.Memory.html#Wasmtime_Memory_ReadSingle_System_Int32_
+  commentId: M:Wasmtime.Memory.ReadSingle(System.Int32)
+  fullName: Wasmtime.Memory.ReadSingle(System.Int32)
+  nameWithType: Memory.ReadSingle(Int32)
 - uid: Wasmtime.Memory.ReadSingle*
   name: ReadSingle
   href: api/Wasmtime.Memory.html#Wasmtime_Memory_ReadSingle_
@@ -2453,12 +2554,15 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Memory.ReadSingle
   nameWithType: Memory.ReadSingle
-- uid: Wasmtime.Memory.ReadString(Wasmtime.IStore,System.Int32,System.Int32)
-  name: ReadString(IStore, Int32, Int32)
-  href: api/Wasmtime.Memory.html#Wasmtime_Memory_ReadString_Wasmtime_IStore_System_Int32_System_Int32_
-  commentId: M:Wasmtime.Memory.ReadString(Wasmtime.IStore,System.Int32,System.Int32)
-  fullName: Wasmtime.Memory.ReadString(Wasmtime.IStore, System.Int32, System.Int32)
-  nameWithType: Memory.ReadString(IStore, Int32, Int32)
+- uid: Wasmtime.Memory.ReadString(System.Int32,System.Int32,System.Nullable{Encoding})
+  name: ReadString(Int32, Int32, Nullable<Encoding>)
+  href: api/Wasmtime.Memory.html#Wasmtime_Memory_ReadString_System_Int32_System_Int32_System_Nullable_Encoding__
+  commentId: M:Wasmtime.Memory.ReadString(System.Int32,System.Int32,System.Nullable{Encoding})
+  name.vb: ReadString(Int32, Int32, Nullable(Of Encoding))
+  fullName: Wasmtime.Memory.ReadString(System.Int32, System.Int32, System.Nullable<Encoding>)
+  fullName.vb: Wasmtime.Memory.ReadString(System.Int32, System.Int32, System.Nullable(Of Encoding))
+  nameWithType: Memory.ReadString(Int32, Int32, Nullable<Encoding>)
+  nameWithType.vb: Memory.ReadString(Int32, Int32, Nullable(Of Encoding))
 - uid: Wasmtime.Memory.ReadString*
   name: ReadString
   href: api/Wasmtime.Memory.html#Wasmtime_Memory_ReadString_
@@ -2466,12 +2570,28 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Memory.ReadString
   nameWithType: Memory.ReadString
-- uid: Wasmtime.Memory.WriteByte(Wasmtime.IStore,System.Int32,System.Byte)
-  name: WriteByte(IStore, Int32, Byte)
-  href: api/Wasmtime.Memory.html#Wasmtime_Memory_WriteByte_Wasmtime_IStore_System_Int32_System_Byte_
-  commentId: M:Wasmtime.Memory.WriteByte(Wasmtime.IStore,System.Int32,System.Byte)
-  fullName: Wasmtime.Memory.WriteByte(Wasmtime.IStore, System.Int32, System.Byte)
-  nameWithType: Memory.WriteByte(IStore, Int32, Byte)
+- uid: Wasmtime.Memory.Write*
+  name: Write
+  href: api/Wasmtime.Memory.html#Wasmtime_Memory_Write_
+  commentId: Overload:Wasmtime.Memory.Write
+  isSpec: "True"
+  fullName: Wasmtime.Memory.Write
+  nameWithType: Memory.Write
+- uid: Wasmtime.Memory.Write``1(System.Int32,``0)
+  name: Write<T>(Int32, T)
+  href: api/Wasmtime.Memory.html#Wasmtime_Memory_Write__1_System_Int32___0_
+  commentId: M:Wasmtime.Memory.Write``1(System.Int32,``0)
+  name.vb: Write(Of T)(Int32, T)
+  fullName: Wasmtime.Memory.Write<T>(System.Int32, T)
+  fullName.vb: Wasmtime.Memory.Write(Of T)(System.Int32, T)
+  nameWithType: Memory.Write<T>(Int32, T)
+  nameWithType.vb: Memory.Write(Of T)(Int32, T)
+- uid: Wasmtime.Memory.WriteByte(System.Int32,System.Byte)
+  name: WriteByte(Int32, Byte)
+  href: api/Wasmtime.Memory.html#Wasmtime_Memory_WriteByte_System_Int32_System_Byte_
+  commentId: M:Wasmtime.Memory.WriteByte(System.Int32,System.Byte)
+  fullName: Wasmtime.Memory.WriteByte(System.Int32, System.Byte)
+  nameWithType: Memory.WriteByte(Int32, Byte)
 - uid: Wasmtime.Memory.WriteByte*
   name: WriteByte
   href: api/Wasmtime.Memory.html#Wasmtime_Memory_WriteByte_
@@ -2479,12 +2599,12 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Memory.WriteByte
   nameWithType: Memory.WriteByte
-- uid: Wasmtime.Memory.WriteDouble(Wasmtime.IStore,System.Int32,System.Double)
-  name: WriteDouble(IStore, Int32, Double)
-  href: api/Wasmtime.Memory.html#Wasmtime_Memory_WriteDouble_Wasmtime_IStore_System_Int32_System_Double_
-  commentId: M:Wasmtime.Memory.WriteDouble(Wasmtime.IStore,System.Int32,System.Double)
-  fullName: Wasmtime.Memory.WriteDouble(Wasmtime.IStore, System.Int32, System.Double)
-  nameWithType: Memory.WriteDouble(IStore, Int32, Double)
+- uid: Wasmtime.Memory.WriteDouble(System.Int32,System.Double)
+  name: WriteDouble(Int32, Double)
+  href: api/Wasmtime.Memory.html#Wasmtime_Memory_WriteDouble_System_Int32_System_Double_
+  commentId: M:Wasmtime.Memory.WriteDouble(System.Int32,System.Double)
+  fullName: Wasmtime.Memory.WriteDouble(System.Int32, System.Double)
+  nameWithType: Memory.WriteDouble(Int32, Double)
 - uid: Wasmtime.Memory.WriteDouble*
   name: WriteDouble
   href: api/Wasmtime.Memory.html#Wasmtime_Memory_WriteDouble_
@@ -2492,12 +2612,12 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Memory.WriteDouble
   nameWithType: Memory.WriteDouble
-- uid: Wasmtime.Memory.WriteInt16(Wasmtime.IStore,System.Int32,System.Int16)
-  name: WriteInt16(IStore, Int32, Int16)
-  href: api/Wasmtime.Memory.html#Wasmtime_Memory_WriteInt16_Wasmtime_IStore_System_Int32_System_Int16_
-  commentId: M:Wasmtime.Memory.WriteInt16(Wasmtime.IStore,System.Int32,System.Int16)
-  fullName: Wasmtime.Memory.WriteInt16(Wasmtime.IStore, System.Int32, System.Int16)
-  nameWithType: Memory.WriteInt16(IStore, Int32, Int16)
+- uid: Wasmtime.Memory.WriteInt16(System.Int32,System.Int16)
+  name: WriteInt16(Int32, Int16)
+  href: api/Wasmtime.Memory.html#Wasmtime_Memory_WriteInt16_System_Int32_System_Int16_
+  commentId: M:Wasmtime.Memory.WriteInt16(System.Int32,System.Int16)
+  fullName: Wasmtime.Memory.WriteInt16(System.Int32, System.Int16)
+  nameWithType: Memory.WriteInt16(Int32, Int16)
 - uid: Wasmtime.Memory.WriteInt16*
   name: WriteInt16
   href: api/Wasmtime.Memory.html#Wasmtime_Memory_WriteInt16_
@@ -2505,12 +2625,12 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Memory.WriteInt16
   nameWithType: Memory.WriteInt16
-- uid: Wasmtime.Memory.WriteInt32(Wasmtime.IStore,System.Int32,System.Int32)
-  name: WriteInt32(IStore, Int32, Int32)
-  href: api/Wasmtime.Memory.html#Wasmtime_Memory_WriteInt32_Wasmtime_IStore_System_Int32_System_Int32_
-  commentId: M:Wasmtime.Memory.WriteInt32(Wasmtime.IStore,System.Int32,System.Int32)
-  fullName: Wasmtime.Memory.WriteInt32(Wasmtime.IStore, System.Int32, System.Int32)
-  nameWithType: Memory.WriteInt32(IStore, Int32, Int32)
+- uid: Wasmtime.Memory.WriteInt32(System.Int32,System.Int32)
+  name: WriteInt32(Int32, Int32)
+  href: api/Wasmtime.Memory.html#Wasmtime_Memory_WriteInt32_System_Int32_System_Int32_
+  commentId: M:Wasmtime.Memory.WriteInt32(System.Int32,System.Int32)
+  fullName: Wasmtime.Memory.WriteInt32(System.Int32, System.Int32)
+  nameWithType: Memory.WriteInt32(Int32, Int32)
 - uid: Wasmtime.Memory.WriteInt32*
   name: WriteInt32
   href: api/Wasmtime.Memory.html#Wasmtime_Memory_WriteInt32_
@@ -2518,12 +2638,12 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Memory.WriteInt32
   nameWithType: Memory.WriteInt32
-- uid: Wasmtime.Memory.WriteInt64(Wasmtime.IStore,System.Int32,System.Int64)
-  name: WriteInt64(IStore, Int32, Int64)
-  href: api/Wasmtime.Memory.html#Wasmtime_Memory_WriteInt64_Wasmtime_IStore_System_Int32_System_Int64_
-  commentId: M:Wasmtime.Memory.WriteInt64(Wasmtime.IStore,System.Int32,System.Int64)
-  fullName: Wasmtime.Memory.WriteInt64(Wasmtime.IStore, System.Int32, System.Int64)
-  nameWithType: Memory.WriteInt64(IStore, Int32, Int64)
+- uid: Wasmtime.Memory.WriteInt64(System.Int32,System.Int64)
+  name: WriteInt64(Int32, Int64)
+  href: api/Wasmtime.Memory.html#Wasmtime_Memory_WriteInt64_System_Int32_System_Int64_
+  commentId: M:Wasmtime.Memory.WriteInt64(System.Int32,System.Int64)
+  fullName: Wasmtime.Memory.WriteInt64(System.Int32, System.Int64)
+  nameWithType: Memory.WriteInt64(Int32, Int64)
 - uid: Wasmtime.Memory.WriteInt64*
   name: WriteInt64
   href: api/Wasmtime.Memory.html#Wasmtime_Memory_WriteInt64_
@@ -2531,12 +2651,12 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Memory.WriteInt64
   nameWithType: Memory.WriteInt64
-- uid: Wasmtime.Memory.WriteIntPtr(Wasmtime.IStore,System.Int32,IntPtr)
-  name: WriteIntPtr(IStore, Int32, IntPtr)
-  href: api/Wasmtime.Memory.html#Wasmtime_Memory_WriteIntPtr_Wasmtime_IStore_System_Int32_IntPtr_
-  commentId: M:Wasmtime.Memory.WriteIntPtr(Wasmtime.IStore,System.Int32,IntPtr)
-  fullName: Wasmtime.Memory.WriteIntPtr(Wasmtime.IStore, System.Int32, IntPtr)
-  nameWithType: Memory.WriteIntPtr(IStore, Int32, IntPtr)
+- uid: Wasmtime.Memory.WriteIntPtr(System.Int32,IntPtr)
+  name: WriteIntPtr(Int32, IntPtr)
+  href: api/Wasmtime.Memory.html#Wasmtime_Memory_WriteIntPtr_System_Int32_IntPtr_
+  commentId: M:Wasmtime.Memory.WriteIntPtr(System.Int32,IntPtr)
+  fullName: Wasmtime.Memory.WriteIntPtr(System.Int32, IntPtr)
+  nameWithType: Memory.WriteIntPtr(Int32, IntPtr)
 - uid: Wasmtime.Memory.WriteIntPtr*
   name: WriteIntPtr
   href: api/Wasmtime.Memory.html#Wasmtime_Memory_WriteIntPtr_
@@ -2544,12 +2664,12 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Memory.WriteIntPtr
   nameWithType: Memory.WriteIntPtr
-- uid: Wasmtime.Memory.WriteSingle(Wasmtime.IStore,System.Int32,System.Single)
-  name: WriteSingle(IStore, Int32, Single)
-  href: api/Wasmtime.Memory.html#Wasmtime_Memory_WriteSingle_Wasmtime_IStore_System_Int32_System_Single_
-  commentId: M:Wasmtime.Memory.WriteSingle(Wasmtime.IStore,System.Int32,System.Single)
-  fullName: Wasmtime.Memory.WriteSingle(Wasmtime.IStore, System.Int32, System.Single)
-  nameWithType: Memory.WriteSingle(IStore, Int32, Single)
+- uid: Wasmtime.Memory.WriteSingle(System.Int32,System.Single)
+  name: WriteSingle(Int32, Single)
+  href: api/Wasmtime.Memory.html#Wasmtime_Memory_WriteSingle_System_Int32_System_Single_
+  commentId: M:Wasmtime.Memory.WriteSingle(System.Int32,System.Single)
+  fullName: Wasmtime.Memory.WriteSingle(System.Int32, System.Single)
+  nameWithType: Memory.WriteSingle(Int32, Single)
 - uid: Wasmtime.Memory.WriteSingle*
   name: WriteSingle
   href: api/Wasmtime.Memory.html#Wasmtime_Memory_WriteSingle_
@@ -2557,12 +2677,15 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Memory.WriteSingle
   nameWithType: Memory.WriteSingle
-- uid: Wasmtime.Memory.WriteString(Wasmtime.IStore,System.Int32,System.String)
-  name: WriteString(IStore, Int32, String)
-  href: api/Wasmtime.Memory.html#Wasmtime_Memory_WriteString_Wasmtime_IStore_System_Int32_System_String_
-  commentId: M:Wasmtime.Memory.WriteString(Wasmtime.IStore,System.Int32,System.String)
-  fullName: Wasmtime.Memory.WriteString(Wasmtime.IStore, System.Int32, System.String)
-  nameWithType: Memory.WriteString(IStore, Int32, String)
+- uid: Wasmtime.Memory.WriteString(System.Int32,System.String,System.Nullable{Encoding})
+  name: WriteString(Int32, String, Nullable<Encoding>)
+  href: api/Wasmtime.Memory.html#Wasmtime_Memory_WriteString_System_Int32_System_String_System_Nullable_Encoding__
+  commentId: M:Wasmtime.Memory.WriteString(System.Int32,System.String,System.Nullable{Encoding})
+  name.vb: WriteString(Int32, String, Nullable(Of Encoding))
+  fullName: Wasmtime.Memory.WriteString(System.Int32, System.String, System.Nullable<Encoding>)
+  fullName.vb: Wasmtime.Memory.WriteString(System.Int32, System.String, System.Nullable(Of Encoding))
+  nameWithType: Memory.WriteString(Int32, String, Nullable<Encoding>)
+  nameWithType.vb: Memory.WriteString(Int32, String, Nullable(Of Encoding))
 - uid: Wasmtime.Memory.WriteString*
   name: WriteString
   href: api/Wasmtime.Memory.html#Wasmtime_Memory_WriteString_
@@ -2640,6 +2763,19 @@ references:
   commentId: T:Wasmtime.Module
   fullName: Wasmtime.Module
   nameWithType: Module
+- uid: Wasmtime.Module.ConvertText(System.String)
+  name: ConvertText(String)
+  href: api/Wasmtime.Module.html#Wasmtime_Module_ConvertText_System_String_
+  commentId: M:Wasmtime.Module.ConvertText(System.String)
+  fullName: Wasmtime.Module.ConvertText(System.String)
+  nameWithType: Module.ConvertText(String)
+- uid: Wasmtime.Module.ConvertText*
+  name: ConvertText
+  href: api/Wasmtime.Module.html#Wasmtime_Module_ConvertText_
+  commentId: Overload:Wasmtime.Module.ConvertText
+  isSpec: "True"
+  fullName: Wasmtime.Module.ConvertText
+  nameWithType: Module.ConvertText
 - uid: Wasmtime.Module.Deserialize(Wasmtime.Engine,System.String,ReadOnlySpan{System.Byte})
   name: Deserialize(Engine, String, ReadOnlySpan<Byte>)
   href: api/Wasmtime.Module.html#Wasmtime_Module_Deserialize_Wasmtime_Engine_System_String_ReadOnlySpan_System_Byte__
@@ -3065,12 +3201,12 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Table.Table
   nameWithType: Table.Table
-- uid: Wasmtime.Table.GetElement(Wasmtime.IStore,System.UInt32)
-  name: GetElement(IStore, UInt32)
-  href: api/Wasmtime.Table.html#Wasmtime_Table_GetElement_Wasmtime_IStore_System_UInt32_
-  commentId: M:Wasmtime.Table.GetElement(Wasmtime.IStore,System.UInt32)
-  fullName: Wasmtime.Table.GetElement(Wasmtime.IStore, System.UInt32)
-  nameWithType: Table.GetElement(IStore, UInt32)
+- uid: Wasmtime.Table.GetElement(System.UInt32)
+  name: GetElement(UInt32)
+  href: api/Wasmtime.Table.html#Wasmtime_Table_GetElement_System_UInt32_
+  commentId: M:Wasmtime.Table.GetElement(System.UInt32)
+  fullName: Wasmtime.Table.GetElement(System.UInt32)
+  nameWithType: Table.GetElement(UInt32)
 - uid: Wasmtime.Table.GetElement*
   name: GetElement
   href: api/Wasmtime.Table.html#Wasmtime_Table_GetElement_
@@ -3078,12 +3214,12 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Table.GetElement
   nameWithType: Table.GetElement
-- uid: Wasmtime.Table.GetSize(Wasmtime.IStore)
-  name: GetSize(IStore)
-  href: api/Wasmtime.Table.html#Wasmtime_Table_GetSize_Wasmtime_IStore_
-  commentId: M:Wasmtime.Table.GetSize(Wasmtime.IStore)
-  fullName: Wasmtime.Table.GetSize(Wasmtime.IStore)
-  nameWithType: Table.GetSize(IStore)
+- uid: Wasmtime.Table.GetSize
+  name: GetSize()
+  href: api/Wasmtime.Table.html#Wasmtime_Table_GetSize
+  commentId: M:Wasmtime.Table.GetSize
+  fullName: Wasmtime.Table.GetSize()
+  nameWithType: Table.GetSize()
 - uid: Wasmtime.Table.GetSize*
   name: GetSize
   href: api/Wasmtime.Table.html#Wasmtime_Table_GetSize_
@@ -3091,15 +3227,15 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Table.GetSize
   nameWithType: Table.GetSize
-- uid: Wasmtime.Table.Grow(Wasmtime.IStore,System.UInt32,System.Nullable{System.Object})
-  name: Grow(IStore, UInt32, Nullable<Object>)
-  href: api/Wasmtime.Table.html#Wasmtime_Table_Grow_Wasmtime_IStore_System_UInt32_System_Nullable_System_Object__
-  commentId: M:Wasmtime.Table.Grow(Wasmtime.IStore,System.UInt32,System.Nullable{System.Object})
-  name.vb: Grow(IStore, UInt32, Nullable(Of Object))
-  fullName: Wasmtime.Table.Grow(Wasmtime.IStore, System.UInt32, System.Nullable<System.Object>)
-  fullName.vb: Wasmtime.Table.Grow(Wasmtime.IStore, System.UInt32, System.Nullable(Of System.Object))
-  nameWithType: Table.Grow(IStore, UInt32, Nullable<Object>)
-  nameWithType.vb: Table.Grow(IStore, UInt32, Nullable(Of Object))
+- uid: Wasmtime.Table.Grow(System.UInt32,System.Nullable{System.Object})
+  name: Grow(UInt32, Nullable<Object>)
+  href: api/Wasmtime.Table.html#Wasmtime_Table_Grow_System_UInt32_System_Nullable_System_Object__
+  commentId: M:Wasmtime.Table.Grow(System.UInt32,System.Nullable{System.Object})
+  name.vb: Grow(UInt32, Nullable(Of Object))
+  fullName: Wasmtime.Table.Grow(System.UInt32, System.Nullable<System.Object>)
+  fullName.vb: Wasmtime.Table.Grow(System.UInt32, System.Nullable(Of System.Object))
+  nameWithType: Table.Grow(UInt32, Nullable<Object>)
+  nameWithType.vb: Table.Grow(UInt32, Nullable(Of Object))
 - uid: Wasmtime.Table.Grow*
   name: Grow
   href: api/Wasmtime.Table.html#Wasmtime_Table_Grow_
@@ -3146,15 +3282,15 @@ references:
   isSpec: "True"
   fullName: Wasmtime.Table.Minimum
   nameWithType: Table.Minimum
-- uid: Wasmtime.Table.SetElement(Wasmtime.IStore,System.UInt32,System.Nullable{System.Object})
-  name: SetElement(IStore, UInt32, Nullable<Object>)
-  href: api/Wasmtime.Table.html#Wasmtime_Table_SetElement_Wasmtime_IStore_System_UInt32_System_Nullable_System_Object__
-  commentId: M:Wasmtime.Table.SetElement(Wasmtime.IStore,System.UInt32,System.Nullable{System.Object})
-  name.vb: SetElement(IStore, UInt32, Nullable(Of Object))
-  fullName: Wasmtime.Table.SetElement(Wasmtime.IStore, System.UInt32, System.Nullable<System.Object>)
-  fullName.vb: Wasmtime.Table.SetElement(Wasmtime.IStore, System.UInt32, System.Nullable(Of System.Object))
-  nameWithType: Table.SetElement(IStore, UInt32, Nullable<Object>)
-  nameWithType.vb: Table.SetElement(IStore, UInt32, Nullable(Of Object))
+- uid: Wasmtime.Table.SetElement(System.UInt32,System.Nullable{System.Object})
+  name: SetElement(UInt32, Nullable<Object>)
+  href: api/Wasmtime.Table.html#Wasmtime_Table_SetElement_System_UInt32_System_Nullable_System_Object__
+  commentId: M:Wasmtime.Table.SetElement(System.UInt32,System.Nullable{System.Object})
+  name.vb: SetElement(UInt32, Nullable(Of Object))
+  fullName: Wasmtime.Table.SetElement(System.UInt32, System.Nullable<System.Object>)
+  fullName.vb: Wasmtime.Table.SetElement(System.UInt32, System.Nullable(Of System.Object))
+  nameWithType: Table.SetElement(UInt32, Nullable<Object>)
+  nameWithType.vb: Table.SetElement(UInt32, Nullable(Of Object))
 - uid: Wasmtime.Table.SetElement*
   name: SetElement
   href: api/Wasmtime.Table.html#Wasmtime_Table_SetElement_
@@ -3485,6 +3621,35 @@ references:
   commentId: F:Wasmtime.V128.AllBitsSet
   fullName: Wasmtime.V128.AllBitsSet
   nameWithType: V128.AllBitsSet
+- uid: Wasmtime.V128.AsSpan
+  name: AsSpan()
+  href: api/Wasmtime.V128.html#Wasmtime_V128_AsSpan
+  commentId: M:Wasmtime.V128.AsSpan
+  fullName: Wasmtime.V128.AsSpan()
+  nameWithType: V128.AsSpan()
+- uid: Wasmtime.V128.AsSpan*
+  name: AsSpan
+  href: api/Wasmtime.V128.html#Wasmtime_V128_AsSpan_
+  commentId: Overload:Wasmtime.V128.AsSpan
+  isSpec: "True"
+  fullName: Wasmtime.V128.AsSpan
+  nameWithType: V128.AsSpan
+- uid: Wasmtime.V128.CopyTo(Span{System.Byte})
+  name: CopyTo(Span<Byte>)
+  href: api/Wasmtime.V128.html#Wasmtime_V128_CopyTo_Span_System_Byte__
+  commentId: M:Wasmtime.V128.CopyTo(Span{System.Byte})
+  name.vb: CopyTo(Span(Of Byte))
+  fullName: Wasmtime.V128.CopyTo(Span<System.Byte>)
+  fullName.vb: Wasmtime.V128.CopyTo(Span(Of System.Byte))
+  nameWithType: V128.CopyTo(Span<Byte>)
+  nameWithType.vb: V128.CopyTo(Span(Of Byte))
+- uid: Wasmtime.V128.CopyTo*
+  name: CopyTo
+  href: api/Wasmtime.V128.html#Wasmtime_V128_CopyTo_
+  commentId: Overload:Wasmtime.V128.CopyTo
+  isSpec: "True"
+  fullName: Wasmtime.V128.CopyTo
+  nameWithType: V128.CopyTo
 - uid: Wasmtime.ValueBox
   name: ValueBox
   href: api/Wasmtime.ValueBox.html

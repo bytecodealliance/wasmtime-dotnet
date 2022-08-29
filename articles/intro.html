@@ -8,7 +8,7 @@
     <title>Introduction to .NET embedding of Wasmtime </title>
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Introduction to .NET embedding of Wasmtime ">
-    <meta name="generator" content="docfx 2.59.2.0">
+    <meta name="generator" content="docfx 2.59.3.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -93,7 +93,7 @@ dotnet new console
 </code></pre>
 <h2 id="referencing-the-wasmtime-package">Referencing the Wasmtime package</h2>
 <p>To use the .NET embedding of Wasmtime from the project, we need to add a reference to the <a href="https://www.nuget.org/packages/Wasmtime">Wasmtime NuGet package</a>:</p>
-<pre><code class="lang-text">dotnet add package --version 0.38.1-preview1 wasmtime
+<pre><code class="lang-text">dotnet add package --version 0.40.0-preview1 wasmtime
 </code></pre>
 <p><em>Note that the <code>--version</code> option is required because the package is currently prerelease.</em></p>
 <p>This will add a <code>PackageReference</code> to the project file so that .NET embedding for Wasmtime can be used.</p>
