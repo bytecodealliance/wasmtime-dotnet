@@ -185,14 +185,14 @@ namespace Wasmtime
         {
             private readonly Global _global;
             private readonly IStore _store;
-            
+
             private readonly IValueBoxConverter<T> _converter;
 
             internal Accessor(Global global, IStore store)
             {
                 _global = global ?? throw new ArgumentNullException(nameof(global));
                 _store = store ?? throw new ArgumentNullException(nameof(store));
-                
+
                 _converter = ValueBox.Converter<T>();
             }
 

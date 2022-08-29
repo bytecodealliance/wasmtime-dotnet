@@ -64,11 +64,6 @@ namespace Wasmtime
         public uint Maximum { get; private set; }
 
         /// <summary>
-        /// The memory encoding for string operations.
-        /// </summary>
-        public Encoding MemoryEncoding { get; set; } = Encoding.UTF8;
-
-        /// <summary>
         /// Gets the current size of the memory, in WebAssembly page units.
         /// </summary>
         /// <returns>Returns the current size of the memory, in WebAssembly page units.</returns>
@@ -143,14 +138,20 @@ namespace Wasmtime
         }
 
         /// <summary>
-        /// Reads a UTF-8 string from memory.
+        /// Reads a string from memory with the specified encoding.
         /// </summary>
         /// <param name="address">The zero-based address to read from.</param>
         /// <param name="length">The length of bytes to read.</param>
+        /// <param name="encoding">The encoding to use when reading the string; if null, UTF-8 encoding is used.</param>
         /// <returns>Returns the string read from memory.</returns>
-        public string ReadString(int address, int length)
+        public string ReadString(int address, int length, Encoding? encoding = null)
         {
-            return MemoryEncoding.GetString(GetSpan().Slice(address, length));
+            if (encoding is null)
+            {
+                encoding = Encoding.UTF8;
+            }
+
+            return encoding.GetString(GetSpan().Slice(address, length));
         }
 
         /// <summary>
@@ -167,18 +168,24 @@ namespace Wasmtime
                 throw new InvalidOperationException("string is not null terminated");
             }
 
-            return MemoryEncoding.GetString(slice.Slice(0, terminator));
+            return Encoding.UTF8.GetString(slice.Slice(0, terminator));
         }
 
         /// <summary>
-        /// Writes a UTF-8 string at the given address.
+        /// Writes a string at the given address with the given encoding.
         /// </summary>
         /// <param name="address">The zero-based address to write to.</param>
         /// <param name="value">The string to write.</param>
+        /// <param name="encoding">The encoding to use when writing the string; if null, UTF-8 encoding is used.</param>
         /// <return>Returns the number of bytes written.</return>
-        public int WriteString(int address, string value)
+        public int WriteString(int address, string value, Encoding? encoding = null)
         {
-            return MemoryEncoding.GetBytes(value, GetSpan().Slice(address));
+            if (encoding is null)
+            {
+                encoding = Encoding.UTF8;
+            }
+
+            return encoding.GetBytes(value, GetSpan().Slice(address));
         }
 
         /// <summary>

@@ -51,7 +51,7 @@ namespace Wasmtime.Tests
 
             memory.Should().NotBeNull();
 
-            memory.Write(11, new TestStruct { A = 17, B = -34346});
+            memory.Write(11, new TestStruct { A = 17, B = -34346 });
             var result = memory.Read<TestStruct>(11);
 
             result.A.Should().Be(17);
