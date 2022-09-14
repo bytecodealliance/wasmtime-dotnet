@@ -46,6 +46,56 @@ namespace Wasmtime.Tests
                 .WithMessage("wasm trap: wasm `unreachable` instruction executed*");
         }
 
+        [Fact]
+        public void ItReturnsATrapCodeResult()
+        {
+
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var run = instance.GetFunction<Result>("run_stack_overflow");
+            var result = run();
+
+            result.Type.Should().Be(ResultType.Trap);
+            result.Trap.Should().Be(TrapCode.StackOverflow);
+        }
+
+        [Fact]
+        public void ItReturnsATrapCodeAndBacktraceResult()
+        {
+
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var run = instance.GetFunction<ResultWithBacktrace>("run_stack_overflow");
+            var result = run();
+
+            result.Type.Should().Be(ResultType.Trap);
+            result.Trap.Type.Should().Be(TrapCode.StackOverflow);
+            result.Trap.Frames.Count.Should().BeGreaterThan(0);
+        }
+
+        [Fact]
+        public void ItReturnsATrapCodeGenericResult()
+        {
+
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var run = instance.GetFunction<Result<int>>("run_stack_overflow_with_result");
+            var result = run();
+
+            result.Type.Should().Be(ResultType.Trap);
+            result.Trap.Should().Be(TrapCode.StackOverflow);
+        }
+
+        [Fact]
+        public void ItReturnsATrapCodeAndBacktraceGenericResult()
+        {
+
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var run = instance.GetFunction<ResultWithBacktrace<int>>("run_stack_overflow_with_result");
+            var result = run();
+
+            result.Type.Should().Be(ResultType.Trap);
+            result.Trap.Type.Should().Be(TrapCode.StackOverflow);
+            result.Trap.Frames.Count.Should().BeGreaterThan(0);
+        }
+
         public void Dispose()
         {
             Store.Dispose();

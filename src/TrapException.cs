@@ -47,9 +47,9 @@ namespace Wasmtime
     {
         unsafe internal TrapFrame(IntPtr frame)
         {
-            FunctionOffset = (int)Native.wasm_frame_func_offset(frame);
+            FunctionOffset = Native.wasm_frame_func_offset(frame);
             FunctionName = null;
-            ModuleOffset = (int)Native.wasm_frame_module_offset(frame);
+            ModuleOffset = Native.wasm_frame_module_offset(frame);
             ModuleName = null;
 
             var bytes = Native.wasmtime_frame_func_name(frame);
@@ -68,7 +68,7 @@ namespace Wasmtime
         /// <summary>
         /// Gets the frame's byte offset from the start of the function.
         /// </summary>
-        public int FunctionOffset { get; private set; }
+        public nuint FunctionOffset { get; private set; }
 
         /// <summary>
         /// Gets the frame's function name.
@@ -78,7 +78,7 @@ namespace Wasmtime
         /// <summary>
         /// Gets the frame's module offset from the start of the module.
         /// </summary>
-        public int ModuleOffset { get; private set; }
+        public nuint ModuleOffset { get; private set; }
 
         /// <summary>
         /// Gets the frame's module name.
@@ -128,14 +128,20 @@ namespace Wasmtime
         /// </summary>
         public int? ExitCode { get; private set; }
 
+        /// <summary>
+        /// Indentifies which type of trap this is.
+        /// </summary>
+        public TrapCode Type { get; private set; }
+
         /// <inheritdoc/>
         protected TrapException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
-        private TrapException(string message, IReadOnlyList<TrapFrame> frames) : base(message)
+        internal TrapException(string message, IReadOnlyList<TrapFrame>? frames, TrapCode type) : base(message)
         {
+            Type = type;
             Frames = frames;
         }
-        private static TrapCode GetTrapCode(IntPtr trap)
+        internal static TrapCode GetTrapCode(IntPtr trap)
         {
             if (Native.wasmtime_trap_code(trap, out TrapCode code))
             {
@@ -176,7 +182,7 @@ namespace Wasmtime
 
                 Native.wasm_trap_delete(trap);
 
-                var trappedException = new TrapException(message, trapFrames);
+                var trappedException = new TrapException(message, trapFrames, trapCode);
                 if (trappedExit)
                 {
                     trappedException.ExitCode = exitStatus;
@@ -186,7 +192,7 @@ namespace Wasmtime
             }
         }
 
-        private static class Native
+        internal static class Native
         {
             [StructLayout(LayoutKind.Sequential)]
             public unsafe struct FrameArray : IDisposable

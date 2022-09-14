@@ -554,6 +554,20 @@ namespace Wasmtime
         /// <returns>Returns true if the type signature of the function is valid or false if not.</returns>
         public bool CheckTypeSignature(Type? returnType = null, params Type[] parameters)
         {
+            // Check if the return type is Result<T>, Result, ResultWithBacktrace<T> or ResultWithBacktrace
+            if (returnType != null && returnType.IsResult())
+            {
+                // Try to get the type the result wraps (may be null if it's one of the non-generic result types)
+                var wrappedReturnType = returnType.IsGenericType ? returnType.GetGenericArguments()[0] : null;
+
+                // Check that the result does not attempt to wrap another result (e.g. Result<Result<int>>)
+                if (wrappedReturnType != null && wrappedReturnType.IsResult())
+                    return false;
+
+                // Type check with the wrapped value instead of the result
+                return CheckTypeSignature(wrappedReturnType, parameters);
+            }
+
             // Check if the func returns no values if that's expected
             if (Results.Count == 0 && returnType != null)
             {
@@ -2007,10 +2021,10 @@ namespace Wasmtime
 
             try
             {
-                Invoke(arguments, output);
+                var trap = Invoke(arguments, output);
 
                 // Note: null suppression is safe because `Invoke` checks that `store` is not null
-                return factory.Create(store!, output);
+                return factory.Create(store!, trap, output);
             }
             finally
             {
@@ -2037,7 +2051,11 @@ namespace Wasmtime
         {
             try
             {
-                Invoke(arguments, stackalloc Value[0]);
+                var trap = Invoke(arguments, stackalloc Value[0]);
+                if (trap != IntPtr.Zero)
+                {
+                    throw TrapException.FromOwnedTrap(trap);
+                }
             }
             finally
             {
@@ -2103,11 +2121,9 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            var context = store.Context;
-
             // Convert arguments (ValueBox) into a form wasm can consume (Value)
             Span<Value> args = stackalloc Value[Parameters.Count];
-            for (int i = 0; i < arguments.Length; ++i)
+            for (var i = 0; i < arguments.Length; ++i)
                 args[i] = arguments[i].ToValue(Parameters[i]);
 
             // Make some space to store the return results
@@ -2115,7 +2131,11 @@ namespace Wasmtime
 
             try
             {
-                Invoke(args, resultsSpan);
+                var trap = Invoke(args, resultsSpan);
+                if (trap != IntPtr.Zero)
+                {
+                    throw TrapException.FromOwnedTrap(trap);
+                }
 
                 if (Results.Count == 0)
                 {
@@ -2161,9 +2181,9 @@ namespace Wasmtime
         /// <param name="arguments">The arguments to pass to the function, wrapped as `Value`</param>
         /// <param name="resultsOut">Output span to store the results in, must be the correct length</param>
         /// <returns>
-        ///   Returns null if the function has no return value.
+        ///   Returns the trap ptr or zero
         /// </returns>
-        private unsafe void Invoke(ReadOnlySpan<Value> arguments, Span<Value> resultsOut)
+        private unsafe IntPtr Invoke(ReadOnlySpan<Value> arguments, Span<Value> resultsOut)
         {
             if (IsNull)
             {
@@ -2190,10 +2210,7 @@ namespace Wasmtime
                 throw WasmtimeException.FromOwnedError(error);
             }
 
-            if (trap != IntPtr.Zero)
-            {
-                throw TrapException.FromOwnedTrap(trap);
-            }
+            return trap;
         }
 
         Extern IExternal.AsExtern()
