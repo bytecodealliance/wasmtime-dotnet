@@ -47,9 +47,9 @@ namespace Wasmtime
     {
         unsafe internal TrapFrame(IntPtr frame)
         {
-            FunctionOffset = (int)Native.wasm_frame_func_offset(frame);
+            FunctionOffset = (nuint)Native.wasm_frame_func_offset(frame);
             FunctionName = null;
-            ModuleOffset = (int)Native.wasm_frame_module_offset(frame);
+            ModuleOffset = (nuint)Native.wasm_frame_module_offset(frame);
             ModuleName = null;
 
             var bytes = Native.wasmtime_frame_func_name(frame);
@@ -68,7 +68,7 @@ namespace Wasmtime
         /// <summary>
         /// Gets the frame's byte offset from the start of the function.
         /// </summary>
-        public int FunctionOffset { get; private set; }
+        public nuint FunctionOffset { get; private set; }
 
         /// <summary>
         /// Gets the frame's function name.
@@ -78,7 +78,7 @@ namespace Wasmtime
         /// <summary>
         /// Gets the frame's module offset from the start of the module.
         /// </summary>
-        public int ModuleOffset { get; private set; }
+        public nuint ModuleOffset { get; private set; }
 
         /// <summary>
         /// Gets the frame's module name.
