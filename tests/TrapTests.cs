@@ -51,11 +51,11 @@ namespace Wasmtime.Tests
         {
 
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var run = instance.GetFunction<Result>("run_stack_overflow");
+            var run = instance.GetFunction<Result>("run_div_zero");
             var result = run();
 
             result.Type.Should().Be(ResultType.Trap);
-            result.Trap.Should().Be(TrapCode.StackOverflow);
+            result.Trap.Should().Be(TrapCode.IntegerDivisionByZero);
         }
 
         [Fact]
@@ -63,11 +63,11 @@ namespace Wasmtime.Tests
         {
 
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var run = instance.GetFunction<ResultWithBacktrace>("run_stack_overflow");
+            var run = instance.GetFunction<ResultWithBacktrace>("run_div_zero");
             var result = run();
 
             result.Type.Should().Be(ResultType.Trap);
-            result.Trap.Type.Should().Be(TrapCode.StackOverflow);
+            result.Trap.Type.Should().Be(TrapCode.IntegerDivisionByZero);
             result.Trap.Frames.Count.Should().BeGreaterThan(0);
         }
 
@@ -76,11 +76,11 @@ namespace Wasmtime.Tests
         {
 
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var run = instance.GetFunction<Result<int>>("run_stack_overflow_with_result");
+            var run = instance.GetFunction<Result<int>>("run_div_zero_with_result");
             var result = run();
 
             result.Type.Should().Be(ResultType.Trap);
-            result.Trap.Should().Be(TrapCode.StackOverflow);
+            result.Trap.Should().Be(TrapCode.IntegerDivisionByZero);
         }
 
         [Fact]
@@ -88,11 +88,11 @@ namespace Wasmtime.Tests
         {
 
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var run = instance.GetFunction<ResultWithBacktrace<int>>("run_stack_overflow_with_result");
+            var run = instance.GetFunction<ResultWithBacktrace<int>>("run_div_zero_with_result");
             var result = run();
 
             result.Type.Should().Be(ResultType.Trap);
-            result.Trap.Type.Should().Be(TrapCode.StackOverflow);
+            result.Trap.Type.Should().Be(TrapCode.IntegerDivisionByZero);
             result.Trap.Frames.Count.Should().BeGreaterThan(0);
         }
 
