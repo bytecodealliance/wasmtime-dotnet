@@ -68,7 +68,9 @@ namespace Wasmtime.Tests
 
             result.Type.Should().Be(ResultType.Trap);
             result.Trap.Type.Should().Be(TrapCode.IntegerDivisionByZero);
-            result.Trap.Frames.Count.Should().BeGreaterThan(0);
+            result.Trap.Frames.Count.Should().Be(2);
+            result.Trap.Frames[0].FunctionName.Should().Be("run_div_zero_with_result");
+            result.Trap.Frames[1].FunctionName.Should().Be("run_div_zero");
         }
 
         [Fact]
@@ -93,7 +95,8 @@ namespace Wasmtime.Tests
 
             result.Type.Should().Be(ResultType.Trap);
             result.Trap.Type.Should().Be(TrapCode.IntegerDivisionByZero);
-            result.Trap.Frames.Count.Should().BeGreaterThan(0);
+            result.Trap.Frames.Count.Should().Be(1);
+            result.Trap.Frames[0].FunctionName.Should().Be("run_div_zero_with_result");
         }
 
         public void Dispose()

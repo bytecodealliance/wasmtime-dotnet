@@ -562,7 +562,9 @@ namespace Wasmtime
 
                 // Check that the result does not attempt to wrap another result (e.g. Result<Result<int>>)
                 if (wrappedReturnType != null && wrappedReturnType.IsResult())
+                {
                     return false;
+                }
 
                 // Type check with the wrapped value instead of the result
                 return CheckTypeSignature(wrappedReturnType, parameters);
@@ -2124,7 +2126,9 @@ namespace Wasmtime
             // Convert arguments (ValueBox) into a form wasm can consume (Value)
             Span<Value> args = stackalloc Value[Parameters.Count];
             for (var i = 0; i < arguments.Length; ++i)
+            {
                 args[i] = arguments[i].ToValue(Parameters[i]);
+            }
 
             // Make some space to store the return results
             Span<Value> resultsSpan = stackalloc Value[Results.Count];

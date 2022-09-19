@@ -15,7 +15,7 @@ namespace Wasmtime
         /// <summary>
         /// Result contains a trap
         /// </summary>
-        Trap = 2,
+        Trap = 1,
     }
 
     /// <summary>
@@ -45,7 +45,10 @@ namespace Wasmtime
             get
             {
                 if (Type != ResultType.Trap)
+                {
                     throw new InvalidOperationException($"Cannot get 'Trap' from '{Type}' type result");
+                }
+
                 return _trap!;
             }
         }
@@ -80,7 +83,10 @@ namespace Wasmtime
             get
             {
                 if (Type != ResultType.Trap)
+                {
                     throw new InvalidOperationException($"Cannot get 'Trap' from '{Type}' type result");
+                }
+
                 return _trap;
             }
         }
@@ -89,7 +95,7 @@ namespace Wasmtime
     /// <summary>
     /// A result from a function call which may represent a Value or a Trap. If a trap happens the full backtrace is captured.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Type of the return value contained in this result</typeparam>
     public readonly struct ResultWithBacktrace<T>
     {
         /// <summary>
@@ -145,7 +151,10 @@ namespace Wasmtime
             get
             {
                 if (Type != ResultType.Ok)
+                {
                     throw new InvalidOperationException($"Cannot get 'Value' from '{Type}' type result");
+                }
+
                 return _value;
             }
         }
@@ -159,7 +168,10 @@ namespace Wasmtime
             get
             {
                 if (Type != ResultType.Trap)
+                {
                     throw new InvalidOperationException($"Cannot get 'Trap' from '{Type}' type result");
+                }
+
                 return _trap!;
             }
         }
@@ -168,7 +180,7 @@ namespace Wasmtime
     /// <summary>
     /// A result from a function call which may represent a Value or a Trap
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Type of the return value contained in this result</typeparam>
     public readonly struct Result<T>
     {
         /// <summary>
@@ -202,7 +214,7 @@ namespace Wasmtime
         /// Convert this result into a value, throw if it is a Trap
         /// </summary>
         /// <param name="value"></param>
-        /// <returns></returns>
+        /// <returns>The value contained within this result if Type == ResultType.Ok</returns>
         /// <exception cref="TrapException">Thrown if Type == Trap</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if Type property contains an unknoown value</exception>
         public static explicit operator T?(Result<T> value)
@@ -229,7 +241,10 @@ namespace Wasmtime
             get
             {
                 if (Type != ResultType.Ok)
+                {
                     throw new InvalidOperationException($"Cannot get 'Value' from '{Type}' type result");
+                }
+
                 return _value;
             }
         }
@@ -243,7 +258,10 @@ namespace Wasmtime
             get
             {
                 if (Type != ResultType.Trap)
+                {
                     throw new InvalidOperationException($"Cannot get 'Trap' from '{Type}' type result");
+                }
+
                 return _trap;
             }
         }
