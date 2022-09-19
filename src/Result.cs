@@ -71,14 +71,13 @@ namespace Wasmtime
             Type = ResultType.Trap;
             _trap = TrapException.GetTrapCode(trap);
             TrapException.Native.wasm_trap_delete(trap);
-
         }
 
         /// <summary>
         /// Get the trap associated with this result
         /// </summary>
         /// <exception cref="InvalidOperationException">Thrown if this Type != Types.Trap</exception>
-        public TrapCode Trap
+        public TrapCode TrapCode
         {
             get
             {
@@ -253,7 +252,7 @@ namespace Wasmtime
         /// Get the trap associated with this result
         /// </summary>
         /// <exception cref="InvalidOperationException">Thrown if this Type != Types.Trap</exception>
-        public TrapCode Trap
+        public TrapCode TrapCode
         {
             get
             {
