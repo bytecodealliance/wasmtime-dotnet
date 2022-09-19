@@ -55,7 +55,7 @@ namespace Wasmtime.Tests
             var result = run();
 
             result.Type.Should().Be(ResultType.Trap);
-            result.Trap.Should().Be(TrapCode.IntegerDivisionByZero);
+            result.TrapCode.Should().Be(TrapCode.IntegerDivisionByZero);
         }
 
         [Fact]
@@ -82,7 +82,7 @@ namespace Wasmtime.Tests
             var result = run();
 
             result.Type.Should().Be(ResultType.Trap);
-            result.Trap.Should().Be(TrapCode.IntegerDivisionByZero);
+            result.TrapCode.Should().Be(TrapCode.IntegerDivisionByZero);
         }
 
         [Fact]
