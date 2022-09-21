@@ -554,14 +554,14 @@ namespace Wasmtime
         /// <returns>Returns true if the type signature of the function is valid or false if not.</returns>
         public bool CheckTypeSignature(Type? returnType = null, params Type[] parameters)
         {
-            // Check if the return type is Result<T>, Result, ResultWithBacktrace<T> or ResultWithBacktrace
-            if (returnType != null && returnType.IsResult())
+            // Check if the return type is a recognised result type (i.e. implements IActionResult or IFunctionResult)
+            if (returnType != null && returnType.IsResultType())
             {
                 // Try to get the type the result wraps (may be null if it's one of the non-generic result types)
-                var wrappedReturnType = returnType.IsGenericType ? returnType.GetGenericArguments()[0] : null;
+                var wrappedReturnType = returnType.GetResultInnerType();
 
                 // Check that the result does not attempt to wrap another result (e.g. Result<Result<int>>)
-                if (wrappedReturnType != null && wrappedReturnType.IsResult())
+                if (wrappedReturnType != null && wrappedReturnType.IsResultType())
                 {
                     return false;
                 }

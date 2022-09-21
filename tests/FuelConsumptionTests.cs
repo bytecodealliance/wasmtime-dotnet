@@ -96,15 +96,15 @@ namespace Wasmtime.Tests
         public void ItConsumesFuelWhenCallingImportMethods()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var free = instance.GetFunction("free");
+            var free = instance.GetFunction("free").WrapFunc<ActionResult>();
 
             Store.AddFuel(1000UL);
 
-            free.Invoke();
+            free.Invoke().Type.Should().Be(ResultType.Ok);
             var consumed = Store.GetConsumedFuel();
             consumed.Should().Be(2UL);
 
-            free.Invoke();
+            free.Invoke().Type.Should().Be(ResultType.Ok);
             consumed = Store.GetConsumedFuel();
             consumed.Should().Be(4UL);
         }

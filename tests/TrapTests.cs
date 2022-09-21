@@ -9,6 +9,36 @@ namespace Wasmtime.Tests
         protected override string ModuleFileName => "Trap.wat";
     }
 
+    /// <summary>
+    /// Demonstrates what is required to create a custom result type+builder
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public struct MyCustomResult<T>
+        : IFunctionResult<MyCustomResult<T>, T, MyCustomResult<T>.MyCustomResultBuilder>
+    {
+        public int TrapStackDepth;
+
+        public struct MyCustomResultBuilder
+            : IFunctionResultBuilder<MyCustomResult<T>, T>
+        {
+            public MyCustomResult<T> Create(T value)
+            {
+                return new MyCustomResult<T>
+                {
+                    TrapStackDepth = -1,
+                };
+            }
+
+            public MyCustomResult<T> Create(TrapAccessor accessor)
+            {
+                return new MyCustomResult<T>
+                {
+                    TrapStackDepth = accessor.GetFrames().Count,
+                };
+            }
+        }
+    }
+
     public class TrapTests : IClassFixture<TrapFixture>, IDisposable
     {
         private TrapFixture Fixture { get; set; }
@@ -47,23 +77,50 @@ namespace Wasmtime.Tests
         }
 
         [Fact]
-        public void ItReturnsATrapCodeResult()
+        public void ItReturnsNullForNestedResults()
         {
 
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var run = instance.GetFunction<Result>("run_div_zero");
-            var result = run();
-
-            result.Type.Should().Be(ResultType.Trap);
-            result.TrapCode.Should().Be(TrapCode.IntegerDivisionByZero);
+            var run = instance.GetFunction<FunctionResult<FunctionResult<int>>>("ok_value");
+            run.Should().BeNull();
         }
 
         [Fact]
-        public void ItReturnsATrapCodeAndBacktraceResult()
+        public void ItReturnsOkFromActionResult()
         {
 
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var run = instance.GetFunction<ResultWithBacktrace>("run_div_zero");
+            var run = instance.GetFunction<ActionResult>("ok");
+            var result = run();
+
+            result.Type.Should().Be(ResultType.Ok);
+
+            var trap = () => result.Trap;
+            trap.Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void ItReturnsOkFromFunctionResult()
+        {
+
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var run = instance.GetFunction<FunctionResult<int>>("ok_value");
+            var result = run();
+
+            result.Type.Should().Be(ResultType.Ok);
+            result.Value.Should().Be(1);
+            ((int)result).Should().Be(1);
+
+            var trap = () => result.Trap;
+            trap.Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void ItReturnsATrapCodeAndBacktraceFromActionResult()
+        {
+
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var run = instance.GetFunction<ActionResult>("run_div_zero");
             var result = run();
 
             result.Type.Should().Be(ResultType.Trap);
@@ -74,29 +131,63 @@ namespace Wasmtime.Tests
         }
 
         [Fact]
-        public void ItReturnsATrapCodeGenericResult()
+        public void ItReturnsATrapCodeAndBacktraceFunctionFromResult()
         {
 
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var run = instance.GetFunction<Result<int>>("run_div_zero_with_result");
-            var result = run();
-
-            result.Type.Should().Be(ResultType.Trap);
-            result.TrapCode.Should().Be(TrapCode.IntegerDivisionByZero);
-        }
-
-        [Fact]
-        public void ItReturnsATrapCodeAndBacktraceGenericResult()
-        {
-
-            var instance = Linker.Instantiate(Store, Fixture.Module);
-            var run = instance.GetFunction<ResultWithBacktrace<int>>("run_div_zero_with_result");
+            var run = instance.GetFunction<FunctionResult<int>>("run_div_zero_with_result");
             var result = run();
 
             result.Type.Should().Be(ResultType.Trap);
             result.Trap.Type.Should().Be(TrapCode.IntegerDivisionByZero);
             result.Trap.Frames.Count.Should().Be(1);
             result.Trap.Frames[0].FunctionName.Should().Be("run_div_zero_with_result");
+        }
+
+        [Fact]
+        public void ItThrowsWhenAccessingValueResultFromTrapResult()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var run = instance.GetFunction<FunctionResult<int>>("run_div_zero_with_result");
+            var result = run();
+
+            var valueDirect = () => result.Value;
+            valueDirect.Should().Throw<InvalidOperationException>();
+
+            var valueCast = () => (int)result;
+            valueCast.Should().Throw<TrapException>();
+        }
+
+        [Fact]
+        public void ItThrowsWhenAccessingTrapResultFromOkResult()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var run = instance.GetFunction<FunctionResult<int>>("ok_value");
+            var result = run();
+
+            var valueDirect = () => result.Trap;
+            valueDirect.Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void ItHandlesCustomResultTypeWithOkResult()
+        {
+
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var run = instance.GetFunction<MyCustomResult<int>>("ok_value");
+            var result = run();
+
+            result.TrapStackDepth.Should().Be(-1);
+        }
+
+        [Fact]
+        public void ItHandlesCustomResultTypeWithTrapResult()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var run = instance.GetFunction<MyCustomResult<int>>("run_div_zero_with_result");
+            var result = run();
+
+            result.TrapStackDepth.Should().Be(1);
         }
 
         public void Dispose()

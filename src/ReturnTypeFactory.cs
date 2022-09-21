@@ -12,30 +12,31 @@ namespace Wasmtime
 
         static IReturnTypeFactory<TReturn> Create()
         {
-            // First, check if the value is one of the 4 result wrappers
-            if (typeof(TReturn).IsResult())
+            // First, check if the value is a result builder
+            var resultInterface = typeof(TReturn).TryGetResultInterface();
+            if (resultInterface != null)
             {
-                if (typeof(TReturn).IsGenericType)
+                if (resultInterface.GetGenericTypeDefinition() == typeof(IActionResult<,>))
                 {
-                    var wrapperType = typeof(TReturn).GetGenericTypeDefinition();
-                    var wrappedType = typeof(TReturn).GetGenericArguments()[0];
+                    var genericArgs = resultInterface.GetGenericArguments();
+                    var builderType = genericArgs[1];
+                    var returnType = genericArgs[0];
 
-                    var factoryType = wrapperType == typeof(Result<>)
-                        ? typeof(ResultTFactory<>)
-                        : typeof(ResultWithBacktraceTFactory<>);
-
-                    return (IReturnTypeFactory<TReturn>)Activator.CreateInstance(factoryType.MakeGenericType(wrappedType))!;
+                    return (IReturnTypeFactory<TReturn>)Activator.CreateInstance(typeof(ActionResultFactory<,>).MakeGenericType(returnType, builderType))!;
                 }
-                else
+
+                if (resultInterface.GetGenericTypeDefinition() == typeof(IFunctionResult<,,>))
                 {
-                    var wrapperType = typeof(TReturn);
+                    var genericArgs = resultInterface.GetGenericArguments();
+                    var resultType = genericArgs[0];
+                    var valueType = genericArgs[1];
+                    var builderType = genericArgs[2];
 
-                    var factoryType = wrapperType == typeof(Result)
-                        ? typeof(ResultFactory)
-                        : typeof(ResultWithBacktraceFactory);
-
-                    return (IReturnTypeFactory<TReturn>)Activator.CreateInstance(factoryType)!;
+                    return (IReturnTypeFactory<TReturn>)Activator.CreateInstance(typeof(FunctionResultFactory<,,>).MakeGenericType(resultType, valueType, builderType))!;
                 }
+
+                // If this happens checks that this method and `TryGetResultInterface` both handle the same set of interfaces!
+                throw new InvalidOperationException("Unknown Result type");
             }
             else
             {
@@ -82,80 +83,48 @@ namespace Wasmtime
         }
     }
 
-    internal class ResultFactory
-        : IReturnTypeFactory<Result>
+    internal class ActionResultFactory<TResult, TBuilder>
+        : IReturnTypeFactory<TResult>
+        where TBuilder : struct, IActionResultBuilder<TResult>
+        where TResult : struct, IActionResult<TResult, TBuilder>
     {
-        public Result Create(IStore store, IntPtr trap, Span<Value> values)
+        public TResult Create(IStore store, IntPtr trap, Span<Value> values)
         {
-            if (trap != IntPtr.Zero)
+            if (trap == IntPtr.Zero)
             {
-                return new Result(trap);
+                return default(TBuilder).Create();
             }
             else
             {
-                return new Result();
+                using var accessor = new TrapAccessor(trap);
+                return default(TBuilder).Create(accessor);
             }
         }
     }
 
-    internal class ResultTFactory<TReturn>
-        : IReturnTypeFactory<Result<TReturn>>
+    internal class FunctionResultFactory<TResult, TValue, TBuilder>
+        : IReturnTypeFactory<TResult>
+        where TBuilder : struct, IFunctionResultBuilder<TResult, TValue>
+        where TResult : struct
     {
-        private readonly IReturnTypeFactory<TReturn> _factory;
+        private readonly IReturnTypeFactory<TValue> _valueFactory;
 
-        public ResultTFactory()
+        public FunctionResultFactory()
         {
-            _factory = IReturnTypeFactory<TReturn>.Create();
+            _valueFactory = IReturnTypeFactory<TValue>.Create();
         }
 
-        public Result<TReturn> Create(IStore store, IntPtr trap, Span<Value> values)
+        public TResult Create(IStore store, IntPtr trap, Span<Value> values)
         {
-            if (trap != IntPtr.Zero)
+            if (trap == IntPtr.Zero)
             {
-                return new Result<TReturn>(trap);
+                var result = _valueFactory.Create(store, trap, values);
+                return default(TBuilder).Create(result);
             }
             else
             {
-                return new Result<TReturn>(_factory.Create(store, trap, values));
-            }
-        }
-    }
-
-    internal class ResultWithBacktraceFactory
-        : IReturnTypeFactory<ResultWithBacktrace>
-    {
-        public ResultWithBacktrace Create(IStore store, IntPtr trap, Span<Value> values)
-        {
-            if (trap != IntPtr.Zero)
-            {
-                return new ResultWithBacktrace(trap);
-            }
-            else
-            {
-                return new ResultWithBacktrace();
-            }
-        }
-    }
-
-    internal class ResultWithBacktraceTFactory<TReturn>
-        : IReturnTypeFactory<ResultWithBacktrace<TReturn>>
-    {
-        private readonly IReturnTypeFactory<TReturn> _factory;
-
-        public ResultWithBacktraceTFactory()
-        {
-            _factory = IReturnTypeFactory<TReturn>.Create();
-        }
-
-        public ResultWithBacktrace<TReturn> Create(IStore store, IntPtr trap, Span<Value> values)
-        {
-            if (trap != IntPtr.Zero)
-            {
-                return new ResultWithBacktrace<TReturn>(trap);
-            }
-            else
-            {
-                return new ResultWithBacktrace<TReturn>(_factory.Create(store, trap, values));
+                using var accessor = new TrapAccessor(trap);
+                return default(TBuilder).Create(accessor);
             }
         }
     }

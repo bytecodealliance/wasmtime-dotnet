@@ -1,4 +1,6 @@
 (module
+  (export "ok" (func $ok))
+  (export "ok_value" (func $ok_value))
   (export "run" (func $run))
   (export "run_div_zero" (func $run_div_zero))
   (export "run_div_zero_with_result" (func $run_div_zero_with_result))
@@ -25,5 +27,10 @@
   (func $run_div_zero
     (call $run_div_zero_with_result)
     (drop)
+  )
+
+  (func $ok)
+  (func $ok_value (result i32)
+    (i32.const 1)
   )
 )
