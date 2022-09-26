@@ -8,26 +8,55 @@ namespace Wasmtime
 {
     interface IReturnTypeFactory<out TReturn>
     {
-        TReturn Create(IStore store, Span<Value> values);
+        TReturn Create(IStore store, IntPtr trap, Span<Value> values);
 
         static IReturnTypeFactory<TReturn> Create()
         {
-            var types = GetTupleTypes().ToList();
-
-            if (types.Count == 1)
+            // First, check if the value is a result builder
+            var resultInterface = typeof(TReturn).TryGetResultInterface();
+            if (resultInterface != null)
             {
-                return new NonTupleTypeFactory<TReturn>();
+                if (resultInterface.GetGenericTypeDefinition() == typeof(IActionResult<,>))
+                {
+                    var genericArgs = resultInterface.GetGenericArguments();
+                    var builderType = genericArgs[1];
+                    var returnType = genericArgs[0];
+
+                    return (IReturnTypeFactory<TReturn>)Activator.CreateInstance(typeof(ActionResultFactory<,>).MakeGenericType(returnType, builderType))!;
+                }
+
+                if (resultInterface.GetGenericTypeDefinition() == typeof(IFunctionResult<,,>))
+                {
+                    var genericArgs = resultInterface.GetGenericArguments();
+                    var resultType = genericArgs[0];
+                    var valueType = genericArgs[1];
+                    var builderType = genericArgs[2];
+
+                    return (IReturnTypeFactory<TReturn>)Activator.CreateInstance(typeof(FunctionResultFactory<,,>).MakeGenericType(resultType, valueType, builderType))!;
+                }
+
+                // If this happens checks that this method and `TryGetResultInterface` both handle the same set of interfaces!
+                throw new InvalidOperationException("Unknown Result type");
             }
+            else
+            {
+                var types = GetTupleTypes().ToList();
 
-            // All of the factories take parameters: <TupleType, Item1Type, Item2Type... etc>
-            // Add TupleType to the start of the list
-            types.Insert(0, typeof(TReturn));
+                if (types.Count == 1)
+                {
+                    return new NonTupleTypeFactory<TReturn>();
+                }
 
-            Type factoryType = GetFactoryType(types.Count - 1);
-            return (IReturnTypeFactory<TReturn>)Activator.CreateInstance(factoryType.MakeGenericType(types.ToArray()))!;
+                // All of the factories take parameters: <TupleType, Item1Type, Item2Type... etc>
+                // Add TupleType to the start of the list
+                types.Insert(0, typeof(TReturn));
+
+                Type factoryType = GetTupleFactoryType(types.Count - 1);
+                return (IReturnTypeFactory<TReturn>)Activator.CreateInstance(factoryType.MakeGenericType(types.ToArray()))!;
+            }
         }
 
-        protected static Type GetFactoryType(int arity)
+        private static Type GetTupleFactoryType(int arity)
         {
             return arity switch
             {
@@ -52,14 +81,51 @@ namespace Wasmtime
                 return new[] { typeof(TReturn) };
             }
         }
+    }
 
-        protected static MethodInfo GetCreateMethodInfo(int arity)
+    internal class ActionResultFactory<TResult, TBuilder>
+        : IReturnTypeFactory<TResult>
+        where TBuilder : struct, IActionResultBuilder<TResult>
+        where TResult : struct, IActionResult<TResult, TBuilder>
+    {
+        public TResult Create(IStore store, IntPtr trap, Span<Value> values)
         {
-            return typeof(ValueTuple)
-                .GetMethods(BindingFlags.Public | BindingFlags.Static)
-                .Where(a => a.Name == "Create")
-                .Where(a => a.ContainsGenericParameters && a.IsGenericMethod)
-                .First(a => a.GetGenericArguments().Length == arity);
+            if (trap == IntPtr.Zero)
+            {
+                return default(TBuilder).Create();
+            }
+            else
+            {
+                using var accessor = new TrapAccessor(trap);
+                return default(TBuilder).Create(accessor);
+            }
+        }
+    }
+
+    internal class FunctionResultFactory<TResult, TValue, TBuilder>
+        : IReturnTypeFactory<TResult>
+        where TBuilder : struct, IFunctionResultBuilder<TResult, TValue>
+        where TResult : struct
+    {
+        private readonly IReturnTypeFactory<TValue> _valueFactory;
+
+        public FunctionResultFactory()
+        {
+            _valueFactory = IReturnTypeFactory<TValue>.Create();
+        }
+
+        public TResult Create(IStore store, IntPtr trap, Span<Value> values)
+        {
+            if (trap == IntPtr.Zero)
+            {
+                var result = _valueFactory.Create(store, trap, values);
+                return default(TBuilder).Create(result);
+            }
+            else
+            {
+                using var accessor = new TrapAccessor(trap);
+                return default(TBuilder).Create(accessor);
+            }
         }
     }
 
@@ -73,8 +139,13 @@ namespace Wasmtime
             converter = ValueBox.Converter<TReturn>();
         }
 
-        public TReturn Create(IStore store, Span<Value> values)
+        public TReturn Create(IStore store, IntPtr trap, Span<Value> values)
         {
+            if (trap != IntPtr.Zero)
+            {
+                throw TrapException.FromOwnedTrap(trap);
+            }
+
             return converter.Unbox(store, values[0].ToValueBox());
         }
     }
@@ -90,12 +161,21 @@ namespace Wasmtime
             // Get all the generic arguments of TFunc. All of the Parameters, followed by the return type
             var args = typeof(TFunc).GetGenericArguments();
 
-            Factory = (TFunc)IReturnTypeFactory<TReturn>.GetCreateMethodInfo(args.Length - 1)
+            Factory = (TFunc)GetCreateMethodInfo(args.Length - 1)
                 .MakeGenericMethod(args[..^1])
                 .CreateDelegate(typeof(TFunc));
         }
 
-        public abstract TReturn Create(IStore store, Span<Value> values);
+        protected static MethodInfo GetCreateMethodInfo(int arity)
+        {
+            return typeof(ValueTuple)
+                .GetMethods(BindingFlags.Public | BindingFlags.Static)
+                .Where(a => a.Name == "Create")
+                .Where(a => a.ContainsGenericParameters && a.IsGenericMethod)
+                .First(a => a.GetGenericArguments().Length == arity);
+        }
+
+        public abstract TReturn Create(IStore store, IntPtr trap, Span<Value> values);
     }
 
     internal class TupleFactory2<TReturn, TA, TB>
@@ -110,8 +190,13 @@ namespace Wasmtime
             converterB = ValueBox.Converter<TB>();
         }
 
-        public override TReturn Create(IStore store, Span<Value> values)
+        public override TReturn Create(IStore store, IntPtr trap, Span<Value> values)
         {
+            if (trap != IntPtr.Zero)
+            {
+                throw TrapException.FromOwnedTrap(trap);
+            }
+
             return Factory(
                 converterA.Unbox(store, values[0].ToValueBox()),
                 converterB.Unbox(store, values[1].ToValueBox())
@@ -133,8 +218,13 @@ namespace Wasmtime
             converterC = ValueBox.Converter<TC>();
         }
 
-        public override TReturn Create(IStore store, Span<Value> values)
+        public override TReturn Create(IStore store, IntPtr trap, Span<Value> values)
         {
+            if (trap != IntPtr.Zero)
+            {
+                throw TrapException.FromOwnedTrap(trap);
+            }
+
             return Factory(
                 converterA.Unbox(store, values[0].ToValueBox()),
                 converterB.Unbox(store, values[1].ToValueBox()),
@@ -159,8 +249,13 @@ namespace Wasmtime
             converterD = ValueBox.Converter<TD>();
         }
 
-        public override TReturn Create(IStore store, Span<Value> values)
+        public override TReturn Create(IStore store, IntPtr trap, Span<Value> values)
         {
+            if (trap != IntPtr.Zero)
+            {
+                throw TrapException.FromOwnedTrap(trap);
+            }
+
             return Factory(
                 converterA.Unbox(store, values[0].ToValueBox()),
                 converterB.Unbox(store, values[1].ToValueBox()),
@@ -188,8 +283,13 @@ namespace Wasmtime
             converterE = ValueBox.Converter<TE>();
         }
 
-        public override TReturn Create(IStore store, Span<Value> values)
+        public override TReturn Create(IStore store, IntPtr trap, Span<Value> values)
         {
+            if (trap != IntPtr.Zero)
+            {
+                throw TrapException.FromOwnedTrap(trap);
+            }
+
             return Factory(
                 converterA.Unbox(store, values[0].ToValueBox()),
                 converterB.Unbox(store, values[1].ToValueBox()),
@@ -220,8 +320,13 @@ namespace Wasmtime
             converterF = ValueBox.Converter<TF>();
         }
 
-        public override TReturn Create(IStore store, Span<Value> values)
+        public override TReturn Create(IStore store, IntPtr trap, Span<Value> values)
         {
+            if (trap != IntPtr.Zero)
+            {
+                throw TrapException.FromOwnedTrap(trap);
+            }
+
             return Factory(
                 converterA.Unbox(store, values[0].ToValueBox()),
                 converterB.Unbox(store, values[1].ToValueBox()),
@@ -255,8 +360,13 @@ namespace Wasmtime
             converterG = ValueBox.Converter<TG>();
         }
 
-        public override TReturn Create(IStore store, Span<Value> values)
+        public override TReturn Create(IStore store, IntPtr trap, Span<Value> values)
         {
+            if (trap != IntPtr.Zero)
+            {
+                throw TrapException.FromOwnedTrap(trap);
+            }
+
             return Factory(
                 converterA.Unbox(store, values[0].ToValueBox()),
                 converterB.Unbox(store, values[1].ToValueBox()),

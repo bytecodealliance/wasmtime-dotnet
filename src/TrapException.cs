@@ -47,9 +47,9 @@ namespace Wasmtime
     {
         unsafe internal TrapFrame(IntPtr frame)
         {
-            FunctionOffset = (int)Native.wasm_frame_func_offset(frame);
+            FunctionOffset = Native.wasm_frame_func_offset(frame);
             FunctionName = null;
-            ModuleOffset = (int)Native.wasm_frame_module_offset(frame);
+            ModuleOffset = Native.wasm_frame_module_offset(frame);
             ModuleName = null;
 
             var bytes = Native.wasmtime_frame_func_name(frame);
@@ -68,7 +68,7 @@ namespace Wasmtime
         /// <summary>
         /// Gets the frame's byte offset from the start of the function.
         /// </summary>
-        public int FunctionOffset { get; private set; }
+        public nuint FunctionOffset { get; private set; }
 
         /// <summary>
         /// Gets the frame's function name.
@@ -78,7 +78,7 @@ namespace Wasmtime
         /// <summary>
         /// Gets the frame's module offset from the start of the module.
         /// </summary>
-        public int ModuleOffset { get; private set; }
+        public nuint ModuleOffset { get; private set; }
 
         /// <summary>
         /// Gets the frame's module name.
@@ -98,6 +98,151 @@ namespace Wasmtime
 
             [DllImport(Engine.LibraryName)]
             public static extern unsafe ByteArray* wasmtime_frame_module_name(IntPtr frame);
+        }
+    }
+
+    /// <summary>
+    /// Provides access to a WebAssembly trap result
+    /// </summary>
+    public readonly ref struct TrapAccessor
+    {
+        private readonly IntPtr _trap;
+
+        internal TrapAccessor(IntPtr trap)
+        {
+            _trap = trap;
+        }
+
+        internal void Dispose()
+        {
+            TrapException.Native.wasm_trap_delete(_trap);
+        }
+
+        /// <summary>
+        /// Get the TrapCode
+        /// </summary>
+        public TrapCode TrapCode
+        {
+            get
+            {
+                if (TrapException.Native.wasmtime_trap_code(_trap, out var code))
+                {
+                    return code;
+                }
+                return TrapCode.Undefined;
+            }
+        }
+
+        /// <summary>
+        /// Attempt to get a WASI exit status code from this trap. May be null if no status code is available.
+        /// </summary>
+        public int? ExitStatus
+        {
+            get
+            {
+                if (TrapException.Native.wasmtime_trap_exit_status(_trap, out var exitStatus))
+                {
+                    return exitStatus;
+                }
+
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get the message string
+        /// </summary>
+        public string Message
+        {
+            get
+            {
+                TrapException.Native.wasm_trap_message(_trap, out var bytes);
+                using (bytes)
+                {
+                    unsafe
+                    {
+                        var byteSpan = new ReadOnlySpan<byte>(bytes.data, checked((int)bytes.size));
+
+                        var indexOfNull = byteSpan.LastIndexOf((byte)0);
+                        if (indexOfNull != -1)
+                        {
+                            byteSpan = byteSpan[..indexOfNull];
+                        }
+
+                        var message = Encoding.UTF8.GetString(byteSpan);
+                        return message;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Copy the bytes of the message into a span
+        /// </summary>
+        /// <param name="output">Destination span to write bytes to</param>
+        /// <param name="offset">Offset in the source span to begin copying from</param>
+        /// <returns>The total length of the source span</returns>
+        public int GetMessageBytes(Span<byte> output, int offset = 0)
+        {
+            TrapException.Native.wasm_trap_message(_trap, out var bytes);
+            using (bytes)
+            {
+                unsafe
+                {
+                    var byteSpan = new ReadOnlySpan<byte>(bytes.data, checked((int)bytes.size));
+
+                    var indexOfNull = byteSpan.LastIndexOf((byte)0);
+                    if (indexOfNull != -1)
+                    {
+                        byteSpan = byteSpan[..indexOfNull];
+                    }
+
+                    var totalBytes = byteSpan.Length;
+                    byteSpan = byteSpan[offset..];
+
+                    if (byteSpan.Length > output.Length)
+                    {
+                        byteSpan[..output.Length].CopyTo(output);
+                    }
+                    else
+                    {
+                        byteSpan.CopyTo(output);
+                    }
+
+                    return totalBytes;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get the trap frames
+        /// </summary>
+        /// <returns>A list of stack frames indicating where the trap occured, the first item in the list represents the innermost stack frame</returns>
+        public List<TrapFrame> GetFrames()
+        {
+            TrapException.Native.wasm_trap_trace(_trap, out var frames);
+            using (frames)
+            {
+                var trapFrames = new List<TrapFrame>((int)frames.size);
+                for (var i = 0; i < (int)frames.size; ++i)
+                {
+                    unsafe
+                    {
+                        trapFrames.Add(new TrapFrame(frames.data[i]));
+                    }
+                }
+
+                return trapFrames;
+            }
+        }
+
+        /// <summary>
+        /// Get a TrapException which contains all information about this trap
+        /// </summary>
+        /// <returns>A TrapException object which contains all the information about this trap in one convenient wrapper</returns>
+        public TrapException GetException()
+        {
+            return TrapException.FromOwnedTrap(_trap, delete: false);
         }
     }
 
@@ -128,65 +273,40 @@ namespace Wasmtime
         /// </summary>
         public int? ExitCode { get; private set; }
 
+        /// <summary>
+        /// Indentifies which type of trap this is.
+        /// </summary>
+        public TrapCode Type { get; private set; }
+
         /// <inheritdoc/>
         protected TrapException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
-        private TrapException(string message, IReadOnlyList<TrapFrame> frames) : base(message)
+        internal TrapException(string message, IReadOnlyList<TrapFrame>? frames, TrapCode type) : base(message)
         {
+            Type = type;
             Frames = frames;
         }
-        private static TrapCode GetTrapCode(IntPtr trap)
+
+        internal static TrapException FromOwnedTrap(IntPtr trap, bool delete = true)
         {
-            if (Native.wasmtime_trap_code(trap, out TrapCode code))
+            var accessor = new TrapAccessor(trap);
+            try
             {
-                return code;
-            }
-            return TrapCode.Undefined;
-        }
-
-        internal static TrapException FromOwnedTrap(IntPtr trap)
-        {
-            unsafe
-            {
-                Native.wasm_trap_message(trap, out var bytes);
-
-                var trapCode = GetTrapCode(trap);
-
-                bool trappedExit = Native.wasmtime_trap_exit_status(trap, out int exitStatus);
-
-                var byteSpan = new ReadOnlySpan<byte>(bytes.data, checked((int)bytes.size));
-
-                int indexOfNull = byteSpan.LastIndexOf((byte)0);
-                if (indexOfNull != -1)
+                var trappedException = new TrapException(accessor.Message, accessor.GetFrames(), accessor.TrapCode)
                 {
-                    byteSpan = byteSpan.Slice(0, indexOfNull);
-                }
-
-                var message = Encoding.UTF8.GetString(byteSpan);
-                bytes.Dispose();
-
-                Native.wasm_trap_trace(trap, out var frames);
-
-                var trapFrames = new List<TrapFrame>((int)frames.size);
-                for (int i = 0; i < (int)frames.size; ++i)
-                {
-                    trapFrames.Add(new TrapFrame(frames.data[i]));
-                }
-                frames.Dispose();
-
-                Native.wasm_trap_delete(trap);
-
-                var trappedException = new TrapException(message, trapFrames);
-                if (trappedExit)
-                {
-                    trappedException.ExitCode = exitStatus;
-                }
+                    ExitCode = accessor.ExitStatus
+                };
 
                 return trappedException;
             }
+            finally
+            {
+                if (delete)
+                    accessor.Dispose();
+            }
         }
 
-        private static class Native
+        internal static class Native
         {
             [StructLayout(LayoutKind.Sequential)]
             public unsafe struct FrameArray : IDisposable

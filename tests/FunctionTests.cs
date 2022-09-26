@@ -165,10 +165,10 @@ namespace Wasmtime.Tests
         public void ItEchoesFloat32()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var echo = instance.GetFunction<float, float>("$echo_f32");
+            var echo = instance.GetFunction<float, FunctionResult<float>>("$echo_f32");
             echo.Should().NotBeNull();
 
-            var result = echo.Invoke(42);
+            var result = (float)echo.Invoke(42);
             result.Should().Be(42);
         }
 
@@ -176,10 +176,10 @@ namespace Wasmtime.Tests
         public void ItEchoesFloat64()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var echo = instance.GetFunction<double, double>("$echo_f64");
+            var echo = instance.GetFunction<double, FunctionResult<double>>("$echo_f64");
             echo.Should().NotBeNull();
 
-            var result = echo.Invoke(42);
+            var result = (double)echo.Invoke(42);
             result.Should().Be(42);
         }
 
