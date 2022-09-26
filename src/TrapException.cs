@@ -217,7 +217,7 @@ namespace Wasmtime
         /// <summary>
         /// Get the trap frames
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A list of stack frames indicating where the trap occured, the first item in the list represents the innermost stack frame</returns>
         public List<TrapFrame> GetFrames()
         {
             TrapException.Native.wasm_trap_trace(_trap, out var frames);
@@ -239,7 +239,7 @@ namespace Wasmtime
         /// <summary>
         /// Get a TrapException which contains all information about this trap
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A TrapException object which contains all the information about this trap in one convenient wrapper</returns>
         public TrapException GetException()
         {
             return TrapException.FromOwnedTrap(_trap, delete: false);
@@ -290,17 +290,20 @@ namespace Wasmtime
         internal static TrapException FromOwnedTrap(IntPtr trap, bool delete = true)
         {
             var accessor = new TrapAccessor(trap);
-            
-            var trappedException = new TrapException(accessor.Message, accessor.GetFrames(), accessor.TrapCode)
+            try
             {
-                ExitCode = accessor.ExitStatus
-            };
+                var trappedException = new TrapException(accessor.Message, accessor.GetFrames(), accessor.TrapCode)
+                {
+                    ExitCode = accessor.ExitStatus
+                };
 
-            if (delete)
-                accessor.Dispose();
-
-            return trappedException;
-            
+                return trappedException;
+            }
+            finally
+            {
+                if (delete)
+                    accessor.Dispose();
+            }
         }
 
         internal static class Native

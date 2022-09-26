@@ -237,7 +237,7 @@ namespace Wasmtime
         /// <summary>
         /// Create a new instance indicating a trap result.
         /// </summary>
-        /// <param name="accessor"></param>
+        /// <param name="accessor">Provides access to query information about a trap</param>
         /// <returns>A new TResult instance representing a trap result</returns>
         TResult Create(TrapAccessor accessor);
     }
