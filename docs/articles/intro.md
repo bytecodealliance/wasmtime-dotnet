@@ -47,8 +47,6 @@ To use the .NET embedding of Wasmtime from the project, we need to add a referen
 dotnet add package wasmtime
 ```
 
-_Note that the `--version` option is required because the package is currently prerelease._
-
 This will add a `PackageReference` to the project file so that .NET embedding for Wasmtime can be used.
 
 ## Implementing the .NET code
