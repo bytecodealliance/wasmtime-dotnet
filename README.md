@@ -30,8 +30,6 @@ You can add a package reference with the [.NET SDK](https://dotnet.microsoft.com
 $ dotnet add package wasmtime
 ```
 
-_Note that the `--version` option is required because the package is currently prerelease._
-
 ## Introduction
 
 For this introduction, we'll be using a simple WebAssembly module that imports a `hello` function and exports a `run` function:
