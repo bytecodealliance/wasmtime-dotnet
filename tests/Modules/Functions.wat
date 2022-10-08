@@ -3,11 +3,16 @@
  (import "env" "swap" (func $env.swap (param i32 i32) (result i32 i32)))
  (import "env" "do_throw" (func $env.do_throw))
  (import "env" "check_string" (func $env.check_string (param i32 i32)))
+ (import "env" "return_i32" (func $env.return_i32 (result i32)))
+ (import "env" "return_15_values" (func $env.return_15_values (result i32 i32 i32 i32 i32 i32 i32 i32 i32 i32 i32 i32 i32 i32 i32)))
+ (import "env" "accept_15_values" (func $env.accept_15_values (param i32 i32 i32 i32 i32 i32 i32 i32 i32 i32 i32 i32 i32 i32 i32)))
  (memory (export "mem") 1)
  (export "add" (func $add))
  (export "swap" (func $swap))
  (export "do_throw" (func $do_throw))
  (export "check_string" (func $check_string))
+ (export "return_i32" (func $env.return_i32))
+ (export "get_and_pass_15_values" (func $get_and_pass_15_values))
  (func $add (param i32 i32) (result i32)
   (call $env.add (local.get 0) (local.get 1))
  )
@@ -19,6 +24,10 @@
  )
  (func $check_string
   (call $env.check_string (i32.const 0) (i32.const 11))
+ )
+ (func $get_and_pass_15_values
+	call $env.return_15_values
+	call $env.accept_15_values
  )
  (data (i32.const 0) "Hello World")
 
