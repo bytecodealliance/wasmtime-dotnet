@@ -114,7 +114,7 @@ namespace Wasmtime.Tests
             action
                 .Should()
                 .Throw<Wasmtime.TrapException>()
-                .WithMessage("Object of type 'System.Int32' cannot be converted to type 'System.String'*");
+                .WithMessage("Unable to cast object of type 'System.Int32' to type 'System.String'*");
         }
 
         public void Dispose()
