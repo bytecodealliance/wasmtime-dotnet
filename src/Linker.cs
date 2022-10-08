@@ -756,14 +756,17 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), hasReturn, parameterKinds, resultKinds, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), hasReturn, parameterKinds, resultKinds, out var hasCaller, out var returnsTuple);
+
+            // Generate code for invoking the callback without reflection.
+            var generatedDelegate = Function.GenerateInvokeCallbackDelegate(callback, hasCaller, returnsTuple);
 
             unsafe
             {
                 Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
                 {
                     using var caller = new Caller(callerPtr);
-                    return Function.InvokeCallback(callback, caller, hasCaller, args, (int)nargs, results, (int)nresults, resultKinds);
+                    return Function.InvokeCallback(generatedDelegate, caller, args, (int)nargs, results, (int)nresults);
                 };
 
                 var moduleBytes = Encoding.UTF8.GetBytes(module);
@@ -779,7 +782,7 @@ namespace Wasmtime
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
+                        &Function.Finalize
                     );
 
                     if (error != IntPtr.Zero)
@@ -839,7 +842,7 @@ namespace Wasmtime
             public static unsafe extern IntPtr wasmtime_linker_define_instance(Handle linker, IntPtr context, byte* name, UIntPtr len, in ExternInstance instance);
 
             [DllImport(Engine.LibraryName)]
-            public static unsafe extern IntPtr wasmtime_linker_define_func(Handle linker, byte* module, UIntPtr moduleLen, byte* name, UIntPtr nameLen, Function.TypeHandle type, Function.Native.WasmtimeFuncCallback callback, IntPtr data, Function.Native.Finalizer? finalizer);
+            public static unsafe extern IntPtr wasmtime_linker_define_func(Handle linker, byte* module, UIntPtr moduleLen, byte* name, UIntPtr nameLen, Function.TypeHandle type, Function.Native.WasmtimeFuncCallback callback, IntPtr data, delegate* unmanaged<IntPtr, void> finalizer);
 
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasmtime_linker_instantiate(Handle linker, IntPtr context, Module.Handle module, out ExternInstance instance, out IntPtr trap);

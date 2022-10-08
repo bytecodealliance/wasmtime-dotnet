@@ -195,7 +195,7 @@ namespace Wasmtime
         /// Constructs a new store.
         /// </summary>
         /// <param name="engine">The engine to use for the store.</param>
-        public Store(Engine engine)
+        public unsafe Store(Engine engine)
         {
             if (engine is null)
             {
@@ -289,10 +289,8 @@ namespace Wasmtime
 
         private static class Native
         {
-            public delegate void Finalizer(IntPtr data);
-
             [DllImport(Engine.LibraryName)]
-            public static extern IntPtr wasmtime_store_new(Engine.Handle engine, IntPtr data, Finalizer? finalizer);
+            public static extern unsafe IntPtr wasmtime_store_new(Engine.Handle engine, IntPtr data, delegate* unmanaged<IntPtr, void> finalizer);
 
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasmtime_store_context(Handle store);

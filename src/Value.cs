@@ -217,7 +217,7 @@ namespace Wasmtime
             return false;
         }
 
-        public static Value FromValueBox(ValueBox box)
+        public static unsafe Value FromValueBox(ValueBox box)
         {
             var value = new Value();
             value.kind = box.Kind;
@@ -231,7 +231,7 @@ namespace Wasmtime
                 {
                     value.of.externref = Native.wasmtime_externref_new(
                         GCHandle.ToIntPtr(GCHandle.Alloc(box.ExternRefObject)),
-                        Finalizer
+                        &Finalize
                     );
                 }
             }
@@ -251,7 +251,7 @@ namespace Wasmtime
             }
         }
 
-        public static Value FromObject(object? o, ValueKind kind)
+        public static unsafe Value FromObject(object? o, ValueKind kind)
         {
             var value = new Value();
             value.kind = kind;
@@ -301,7 +301,7 @@ namespace Wasmtime
                         {
                             value.of.externref = Native.wasmtime_externref_new(
                                 GCHandle.ToIntPtr(GCHandle.Alloc(o)),
-                                Value.Finalizer
+                                &Finalize
                             );
                         }
                         break;
@@ -386,20 +386,22 @@ namespace Wasmtime
 
         private static class Native
         {
-            public delegate void Finalizer(IntPtr data);
-
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_val_delete(in Value val);
 
             [DllImport(Engine.LibraryName)]
-            public static extern IntPtr wasmtime_externref_new(IntPtr data, Finalizer? finalizer);
+            public static extern unsafe IntPtr wasmtime_externref_new(IntPtr data, delegate* unmanaged<IntPtr, void> finalizer);
 
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasmtime_externref_data(IntPtr externref);
 
         }
 
-        private static readonly Native.Finalizer Finalizer = (p) => GCHandle.FromIntPtr(p).Free();
+        [UnmanagedCallersOnly]
+        private static void Finalize(IntPtr p)
+        {
+            GCHandle.FromIntPtr(p).Free();
+        }
 
         private ValueKind kind;
         private ValueUnion of;

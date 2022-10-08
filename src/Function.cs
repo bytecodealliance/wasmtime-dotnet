@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -14,6 +16,8 @@ namespace Wasmtime
     /// </summary>
     public class Function : IExternal
     {
+        internal unsafe delegate void InvokeCallbackDelegate(Caller caller, Value* args, int nargs, Value* results, int nresults);
+
         #region FromCallback
         /// <summary>
         /// Creates a function given a callback.
@@ -2239,34 +2243,25 @@ namespace Wasmtime
             }
             this.store = store;
 
-            using var funcType = GetFunctionType(callback.GetType(), hasReturn, this.parameters, this.results, out var hasCaller);
+            using var funcType = GetFunctionType(callback.GetType(), hasReturn, this.parameters, this.results, out var hasCaller, out var returnsTuple);
+
+            // Generate code for invoking the callback without reflection.
+            var generatedDelegate = GenerateInvokeCallbackDelegate(callback, hasCaller, returnsTuple);
 
             unsafe
             {
-                Native.WasmtimeFuncCallback? func = null;
-                if (hasCaller)
+                Native.WasmtimeFuncCallback? func = (env, callerPtr, args, nargs, results, nresults) =>
                 {
-                    func = (env, callerPtr, args, nargs, results, nresults) =>
-                    {
-                        using var caller = new Caller(callerPtr);
-                        return InvokeCallback(callback, caller, true, args, (int)nargs, results, (int)nresults, Results);
-                    };
-                }
-                else
-                {
-                    func = (env, callerPtr, args, nargs, results, nresults) =>
-                    {
-                        using var caller = new Caller(callerPtr);
-                        return InvokeCallback(callback, caller, false, args, (int)nargs, results, (int)nresults, Results);
-                    };
-                }
+                    using var caller = new Caller(callerPtr);
+                    return InvokeCallback(generatedDelegate, caller, args, (int)nargs, results, (int)nresults);
+                };
 
                 Native.wasmtime_func_new(
                     store.Context.handle,
                     funcType,
                     func,
                     GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Finalizer,
+                    &Finalize,
                     out this.func
                 );
             }
@@ -2301,32 +2296,42 @@ namespace Wasmtime
             }
         }
 
-        private static IEnumerable<Type> EnumerateReturnTypes(Type? returnType)
+        private static IEnumerable<Type> EnumerateReturnTypes(Type? returnType, out bool isTuple)
         {
+            isTuple = false;
+
             if (returnType is null)
             {
-                yield break;
+                return Array.Empty<Type>();
             }
 
             if (IsTuple(returnType))
             {
-                foreach (var type in returnType
-                    .GetGenericArguments()
-                    .SelectMany(type =>
-                        {
-                            if (type.IsConstructedGenericType)
-                            {
-                                return type.GenericTypeArguments;
-                            }
-                            return Enumerable.Repeat(type, 1);
-                        }))
+                isTuple = true;
+                return EnumerateTupleTypes(returnType);
+
+                static IEnumerable<Type> EnumerateTupleTypes(Type tupleType)
                 {
-                    yield return type;
+                    foreach (var (typeArgument, idx) in tupleType.GenericTypeArguments.Select((e, idx) => (e, idx)))
+                    {
+                        if (idx is 7 && IsTuple(typeArgument))
+                        {
+                            // Recursively enumerate the nested tuple's type arguments.
+                            foreach (var type in EnumerateTupleTypes(typeArgument))
+                            {
+                                yield return type;
+                            }
+                        }
+                        else
+                        {
+                            yield return typeArgument;
+                        }
+                    }
                 }
             }
             else
             {
-                yield return returnType;
+                return new Type[] { returnType };
             }
         }
 
@@ -2350,10 +2355,10 @@ namespace Wasmtime
                    definition == typeof(ValueTuple<,,,,,,,>);
         }
 
-        internal static TypeHandle GetFunctionType(Type type, bool hasReturn, List<ValueKind> parameters, List<ValueKind> results, out bool hasCaller)
+        internal static TypeHandle GetFunctionType(Type type, bool hasReturn, List<ValueKind> parameters, List<ValueKind> results, out bool hasCaller, out bool returnsTuple)
         {
-            Span<Type> parameterTypes = null;
-            Type? returnType = null;
+            Span<Type> parameterTypes;
+            Type? returnType;
 
             if (hasReturn)
             {
@@ -2388,7 +2393,7 @@ namespace Wasmtime
                 parameters.Add(kind);
             }
 
-            results.AddRange(EnumerateReturnTypes(returnType).Select(t =>
+            results.AddRange(EnumerateReturnTypes(returnType, out returnsTuple).Select(t =>
             {
                 if (!Value.TryGetKind(t, out var kind))
                 {
@@ -2400,43 +2405,217 @@ namespace Wasmtime
             return new Function.TypeHandle(Function.Native.wasm_functype_new(new ValueTypeArray(parameters), new ValueTypeArray(results)));
         }
 
-        internal unsafe static IntPtr InvokeCallback(Delegate callback, Caller caller, bool passCaller, Value* args, int nargs, Value* results, int nresults, IReadOnlyList<ValueKind> resultKinds)
+        internal static unsafe InvokeCallbackDelegate GenerateInvokeCallbackDelegate(Delegate callback, bool passCaller, bool returnsTuple)
+        {
+            // Generate IL code using DynamicMethod to call the delegate without reflection.
+            // This will generate a Lightweight Function that can be collected by the GC
+            // once it is no longer referenced.
+            //
+            // For example, when using a
+            // Func<Caller, int, long, object, ValueTuple<int, float, double, long, object, Function, int, ValueTuple<int>>>,
+            // the generated code will be equivalent to the following:
+            // 
+            // static unsafe void InvokeCallback(Delegate callback, Caller caller, Value* args, int nargs, Value* results, int nresults)
+            // {
+            //     var dele = (Func<Caller, int, long, object, ValueTuple<int, float, double, long, object, Function, int, ValueTuple<int>>>)callback;
+            // 
+            //     ValueTuple<int, float, double, long, object, Function, int, ValueTuple<int>> result = dele(
+            //         caller,
+            //         Int32ValueBoxConverter.Instance.Unbox(caller, args[0].ToValueBox()),
+            //         Int64ValueBoxConverter.Instance.Unbox(caller, args[1].ToValueBox()),
+            //         GenericValueBoxConverter<object>.Instance.Unbox(caller, args[2].ToValueBox()));
+            // 
+            //     results[0] = Value.FromValueBox(Int32ValueBoxConverter.Instance.Box(result.Item1));
+            //     results[1] = Value.FromValueBox(Float32ValueBoxConverter.Instance.Box(result.Item2));
+            //     results[2] = Value.FromValueBox(Float64ValueBoxConverter.Instance.Box(result.Item3));
+            //     results[3] = Value.FromValueBox(Int64ValueBoxConverter.Instance.Box(result.Item4));
+            //     results[4] = Value.FromValueBox(GenericValueBoxConverter<object>.Box(result.Item5));
+            //     results[5] = Value.FromValueBox(FuncRefValueBoxConverter.Instance.Box(result.Item6));
+            //     results[6] = Value.FromValueBox(Int32ValueBoxConverter.Instance.Box(result.Item7));
+            //     results[7] = Value.FromValueBox(Int32ValueBoxConverter.Instance.Box(result.Rest.Item1));
+            // }
+
+            var callbackInvokeMethod = callback.GetType().GetMethod(nameof(Action.Invoke))!;
+
+            var dynamicMethod = new DynamicMethod(
+               name: "InvokeFunctionCallback",
+               returnType: typeof(void),
+               parameterTypes: InvokeCallbackDelegateParameterTypes,
+               owner: typeof(Function),
+               skipVisibility: true);
+
+            var generator = dynamicMethod.GetILGenerator();
+
+            // TOOD: Mabye generate a check/assert that the passed nargs and nresults matches our generated code.
+            // This should always be the case since Wasmtime should pass the number of arguments we used to define
+            // the callback.
+
+            // Load the delegate and cast it.
+            generator.Emit(OpCodes.Ldarg_0);
+            generator.Emit(OpCodes.Castclass, callback.GetType());
+
+            // Load the argument values.
+            var methodParameters = callbackInvokeMethod.GetParameters().AsSpan();
+
+            if (passCaller)
+            {
+                generator.Emit(OpCodes.Ldarg_1);
+                methodParameters = methodParameters[1..];
+            }
+
+            var valueToValueBoxMethod = typeof(Value).GetMethod(
+                nameof(Value.ToValueBox), 
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)!;
+
+            // Get the generic ValueBox.Converter method which we will use to get the actual converter type.
+            var valueBoxConverterObjectFunc = ValueBox.Converter<object>;
+            var valueBoxConverterGenericMethod = valueBoxConverterObjectFunc.Method.GetGenericMethodDefinition();
+
+            for (int i = 0; i < methodParameters.Length; i++)
+            {
+                var parameterType = methodParameters[i].ParameterType;
+                
+                // Load the ValueConverter Instance required for this parameter.
+                var valueConverterType = valueBoxConverterGenericMethod.MakeGenericMethod(parameterType)
+                    .Invoke(null, null)!.GetType();
+                var valueConverterInstanceField = valueConverterType.GetField(nameof(Int32ValueBoxConverter.Instance))!;
+                generator.Emit(OpCodes.Ldsfld, valueConverterInstanceField);
+
+                // Load caller.
+                generator.Emit(OpCodes.Ldarg_1);
+
+                // Load args pointer.
+                generator.Emit(OpCodes.Ldarg_2);
+
+                if (i > 0)
+                {
+                    // Increment the pointer.
+                    generator.Emit(OpCodes.Ldc_I4, i * sizeof(Value));
+                    generator.Emit(OpCodes.Conv_I);
+                    generator.Emit(OpCodes.Add);
+                }
+
+                // (args + i)->ToValueBox()
+                generator.Emit(OpCodes.Call, valueToValueBoxMethod);
+
+                // valueConverter.Unbox()
+                var valueConverterUnboxMethod = valueConverterType
+                    .GetMethod(nameof(Int32ValueBoxConverter.Unbox))!;
+
+                generator.Emit(OpCodes.Call, valueConverterUnboxMethod);
+            }
+
+            // callback.Invoke(caller, ...)
+            generator.Emit(OpCodes.Callvirt, callbackInvokeMethod);
+
+            var valueFromValueBoxMethod = typeof(Value).GetMethod(nameof(Value.FromValueBox))!;
+
+            if (returnsTuple)
+            {
+                // Multuple return values returned as ValueTuple.
+                var valueTupleVariable = generator.DeclareLocal(callbackInvokeMethod.ReturnType);
+                generator.Emit(OpCodes.Stloc, valueTupleVariable);
+
+                var currentReturnTypes = callbackInvokeMethod.ReturnType.GetGenericArguments();
+                for (int i = 0; ; i++)
+                {
+                    var returnType = currentReturnTypes[i % 7];
+
+                    // Load results pointer.
+                    generator.Emit(OpCodes.Ldarg_S, (byte)4);
+
+                    if (i > 0)
+                    {
+                        // Increment the pointer.
+                        generator.Emit(OpCodes.Ldc_I4, i * sizeof(Value));
+                        generator.Emit(OpCodes.Conv_I);
+                        generator.Emit(OpCodes.Add);
+                    }
+
+                    // Load the ValueConverter Instance required for this parameter.
+                    var valueConverterType = valueBoxConverterGenericMethod.MakeGenericMethod(returnType)
+                        .Invoke(null, null)!.GetType();
+                    var valueConverterInstanceField = valueConverterType.GetField(nameof(Int32ValueBoxConverter.Instance))!;
+                    generator.Emit(OpCodes.Ldsfld, valueConverterInstanceField);
+
+                    // Load the valueTupleVariable.
+                    generator.Emit(OpCodes.Ldloc, valueTupleVariable);
+
+                    // Load the ValueTuple<...>.ItemX field. For a ValueTuple with a Rest, we
+                    // also need to dereference these nested ValueTuples.
+                    int tupleNestingLevels = i / 7;
+                    var currentTupleType = callbackInvokeMethod.ReturnType;
+
+                    for (int tupleLevel = 0; tupleLevel < tupleNestingLevels; tupleLevel++)
+                    {
+                        var restField = currentTupleType.GetField("Rest")!;
+                        generator.Emit(OpCodes.Ldfld, restField);
+                        currentTupleType = restField.FieldType;
+                    }
+
+                    string tupleFieldName = "Item" + ((i % 7) + 1).ToString(CultureInfo.InvariantCulture);
+                    var tupleField = currentTupleType.GetField(tupleFieldName)!;
+                    generator.Emit(OpCodes.Ldfld, tupleField);
+
+                    // value = Value.FromValueBox(valueConverter.Box(x))
+                    var valueConverterBoxMethod = valueConverterType
+                        .GetMethod(nameof(Int32ValueBoxConverter.Box))!;
+
+                    generator.Emit(OpCodes.Call, valueConverterBoxMethod);
+                    generator.Emit(OpCodes.Call, valueFromValueBoxMethod);
+
+                    // *(results + i) = value
+                    generator.Emit(OpCodes.Stobj, typeof(Value));
+
+                    // Handle the next ValueTuple level.
+                    if ((i % 7) + 1 >= currentReturnTypes.Length)
+                        break;
+                    else if (i % 7 is 6)
+                        currentReturnTypes = currentReturnTypes[7].GetGenericArguments();
+                }
+            }
+            else if (callbackInvokeMethod.ReturnType != typeof(void))
+            {
+                // Single return value.
+                var returnType = callbackInvokeMethod.ReturnType;
+
+                var returnValueVariable = generator.DeclareLocal(callbackInvokeMethod.ReturnType);
+                generator.Emit(OpCodes.Stloc, returnValueVariable);
+
+                // Load return value pointer.
+                generator.Emit(OpCodes.Ldarg_S, (byte)4);
+
+                // Load the ValueConverter Instance required for this parameter.
+                var valueConverterType = valueBoxConverterGenericMethod.MakeGenericMethod(returnType)
+                    .Invoke(null, null)!.GetType();
+                var valueConverterInstanceField = valueConverterType.GetField(nameof(Int32ValueBoxConverter.Instance))!;
+                generator.Emit(OpCodes.Ldsfld, valueConverterInstanceField);
+                
+                // Load the valueTupleVariable.
+                generator.Emit(OpCodes.Ldloc, returnValueVariable);
+
+                // value = Value.FromValueBox(valueConverter.Box(x))
+                var valueConverterBoxMethod = valueConverterType
+                    .GetMethod(nameof(Int32ValueBoxConverter.Box))!;
+
+                generator.Emit(OpCodes.Call, valueConverterBoxMethod);
+                generator.Emit(OpCodes.Call, valueFromValueBoxMethod);
+
+                // *results = value
+                generator.Emit(OpCodes.Stobj, typeof(Value));
+            }
+
+            generator.Emit(OpCodes.Ret);
+
+            return dynamicMethod.CreateDelegate<InvokeCallbackDelegate>(callback);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal unsafe static IntPtr InvokeCallback(InvokeCallbackDelegate invokeCallbackDelegate, Caller caller, Value* args, int nargs, Value* results, int nresults)
         {
             try
             {
-                var offset = passCaller ? 1 : 0;
-                var invokeArgs = new object?[nargs + offset];
-
-                if (passCaller)
-                {
-                    invokeArgs[0] = caller;
-                }
-
-                var invokeArgsSpan = new Span<object?>(invokeArgs, offset, nargs);
-                for (int i = 0; i < invokeArgsSpan.Length; ++i)
-                {
-                    invokeArgsSpan[i] = args[i].ToObject(caller);
-                }
-
-                // NOTE: reflection is extremely slow for invoking methods. in the future, perhaps this could be replaced with
-                // source generators, system.linq.expressions, or generate IL with DynamicMethods or something
-                var result = callback.Method.Invoke(callback.Target, BindingFlags.DoNotWrapExceptions, null, invokeArgs, null);
-
-                if (resultKinds.Count > 0)
-                {
-                    var tuple = result as ITuple;
-                    if (tuple is null)
-                    {
-                        results[0] = Value.FromObject(result, resultKinds[0]);
-                    }
-                    else
-                    {
-                        for (int i = 0; i < tuple.Length; ++i)
-                        {
-                            results[i] = Value.FromObject(tuple[i], resultKinds[i]);
-                        }
-                    }
-                }
+                invokeCallbackDelegate(caller, args, nargs, results, nresults);
                 return IntPtr.Zero;
             }
             catch (Exception ex)
@@ -2448,6 +2627,12 @@ namespace Wasmtime
                     return Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
                 }
             }
+        }
+
+        [UnmanagedCallersOnly]
+        internal static void Finalize(IntPtr p)
+        {
+            GCHandle.FromIntPtr(p).Free();
         }
 
         internal class TypeHandle : SafeHandleZeroOrMinusOneIsInvalid
@@ -2467,12 +2652,10 @@ namespace Wasmtime
 
         internal static class Native
         {
-            public delegate void Finalizer(IntPtr data);
-
             public unsafe delegate IntPtr WasmtimeFuncCallback(IntPtr env, IntPtr caller, Value* args, UIntPtr nargs, Value* results, UIntPtr nresults);
 
             [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_func_new(IntPtr context, TypeHandle type, WasmtimeFuncCallback callback, IntPtr env, Finalizer? finalizer, out ExternFunc func);
+            public static extern unsafe void wasmtime_func_new(IntPtr context, TypeHandle type, WasmtimeFuncCallback callback, IntPtr env, delegate* unmanaged<IntPtr, void> finalizer, out ExternFunc func);
 
             [DllImport(Engine.LibraryName)]
             public static unsafe extern IntPtr wasmtime_func_call(IntPtr context, in ExternFunc func, Value* args, UIntPtr nargs, Value* results, UIntPtr nresults, out IntPtr trap);
@@ -2501,9 +2684,18 @@ namespace Wasmtime
         internal readonly ExternFunc func;
         internal readonly List<ValueKind> parameters = new List<ValueKind>();
         internal readonly List<ValueKind> results = new List<ValueKind>();
-        internal static readonly Native.Finalizer Finalizer = (p) => GCHandle.FromIntPtr(p).Free();
 
         private static readonly Function _null = new Function();
         private static readonly object?[] NullParams = new object?[1];
+
+        private static readonly Type[] InvokeCallbackDelegateParameterTypes =
+        {
+            typeof(Delegate),
+            typeof(Caller),
+            typeof(Value).MakePointerType(),
+            typeof(int),
+            typeof(Value).MakePointerType(),
+            typeof(int)
+        };
     }
 }
