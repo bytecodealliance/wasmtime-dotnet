@@ -124,10 +124,13 @@ namespace Wasmtime.Tests
 
             Action action = () => inout.Invoke(ValueBox.AsBox((object)5));
 
+            // The first message occurs when using DynamicMethod to call the callback,
+            // the second one occurs when using reflection.
             action
                 .Should()
                 .Throw<Wasmtime.TrapException>()
-                .WithMessage("Unable to cast object of type 'System.Int32' to type 'System.String'*");
+                .Where(e => e.Message.StartsWith("Unable to cast object of type 'System.Int32' to type 'System.String'") ||
+                    e.Message.StartsWith("Object of type 'System.Int32' cannot be converted to type 'System.String'"));
         }
 
         public void Dispose()

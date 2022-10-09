@@ -759,7 +759,7 @@ namespace Wasmtime
             using var funcType = Function.GetFunctionType(callback.GetType(), hasReturn, parameterKinds, resultKinds, out var hasCaller, out var returnsTuple);
 
             // Generate code for invoking the callback without reflection.
-            var generatedDelegate = Function.GenerateInvokeCallbackDelegate(callback, hasCaller, returnsTuple);
+            var generatedDelegate = Function.GenerateInvokeCallbackDelegate(callback, hasCaller, returnsTuple, parameterKinds, resultKinds);
 
             unsafe
             {
