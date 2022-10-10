@@ -53,6 +53,19 @@ namespace Wasmtime.Tests
             (nullref.Invoke()).Should().BeNull();
         }
 
+        [Fact]
+        public void ItReturnsBoxedValueTupleAsExternRef()
+        {
+            // Test for issue #158
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+
+            var inout = instance.GetFunction<object, object>("inout");
+            inout.Should().NotBeNull();
+
+            var input = (object)(1, 2, 3);
+            inout(input).Should().BeSameAs(input);
+        }
+
         unsafe class Value
         {
             internal Value(int* counter)

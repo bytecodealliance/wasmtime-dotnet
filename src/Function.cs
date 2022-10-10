@@ -2239,7 +2239,8 @@ namespace Wasmtime
             }
             this.store = store;
 
-            using var funcType = GetFunctionType(callback.GetType(), hasReturn, this.parameters, this.results, out var hasCaller);
+            using var funcType = GetFunctionType(callback.GetType(), hasReturn, this.parameters, this.results, out var hasCaller, out var returnsTuple);
+            var callbackInvokeMethod = callback.GetType().GetMethod(nameof(Action.Invoke))!;
 
             unsafe
             {
@@ -2249,7 +2250,7 @@ namespace Wasmtime
                     func = (env, callerPtr, args, nargs, results, nresults) =>
                     {
                         using var caller = new Caller(callerPtr);
-                        return InvokeCallback(callback, caller, true, args, (int)nargs, results, (int)nresults, Results);
+                        return InvokeCallback(callback, callbackInvokeMethod, caller, true, args, (int)nargs, results, (int)nresults, Results, returnsTuple);
                     };
                 }
                 else
@@ -2257,7 +2258,7 @@ namespace Wasmtime
                     func = (env, callerPtr, args, nargs, results, nresults) =>
                     {
                         using var caller = new Caller(callerPtr);
-                        return InvokeCallback(callback, caller, false, args, (int)nargs, results, (int)nresults, Results);
+                        return InvokeCallback(callback, callbackInvokeMethod, caller, false, args, (int)nargs, results, (int)nresults, Results, returnsTuple);
                     };
                 }
 
@@ -2301,32 +2302,42 @@ namespace Wasmtime
             }
         }
 
-        private static IEnumerable<Type> EnumerateReturnTypes(Type? returnType)
+        private static IEnumerable<Type> EnumerateReturnTypes(Type? returnType, out bool isTuple)
         {
+            isTuple = false;
+
             if (returnType is null)
             {
-                yield break;
+                return Array.Empty<Type>();
             }
 
             if (IsTuple(returnType))
             {
-                foreach (var type in returnType
-                    .GetGenericArguments()
-                    .SelectMany(type =>
-                        {
-                            if (type.IsConstructedGenericType)
-                            {
-                                return type.GenericTypeArguments;
-                            }
-                            return Enumerable.Repeat(type, 1);
-                        }))
+                isTuple = true;
+                return EnumerateTupleTypes(returnType);
+
+                static IEnumerable<Type> EnumerateTupleTypes(Type tupleType)
                 {
-                    yield return type;
+                    foreach (var (typeArgument, idx) in tupleType.GenericTypeArguments.Select((e, idx) => (e, idx)))
+                    {
+                        if (idx is 7 && IsTuple(typeArgument))
+                        {
+                            // Recursively enumerate the nested tuple's type arguments.
+                            foreach (var type in EnumerateTupleTypes(typeArgument))
+                            {
+                                yield return type;
+                            }
+                        }
+                        else
+                        {
+                            yield return typeArgument;
+                        }
+                    }
                 }
             }
             else
             {
-                yield return returnType;
+                return new Type[] { returnType };
             }
         }
 
@@ -2350,7 +2361,7 @@ namespace Wasmtime
                    definition == typeof(ValueTuple<,,,,,,,>);
         }
 
-        internal static TypeHandle GetFunctionType(Type type, bool hasReturn, List<ValueKind> parameters, List<ValueKind> results, out bool hasCaller)
+        internal static TypeHandle GetFunctionType(Type type, bool hasReturn, List<ValueKind> parameters, List<ValueKind> results, out bool hasCaller, out bool returnsTuple)
         {
             Span<Type> parameterTypes = null;
             Type? returnType = null;
@@ -2388,7 +2399,7 @@ namespace Wasmtime
                 parameters.Add(kind);
             }
 
-            results.AddRange(EnumerateReturnTypes(returnType).Select(t =>
+            results.AddRange(EnumerateReturnTypes(returnType, out returnsTuple).Select(t =>
             {
                 if (!Value.TryGetKind(t, out var kind))
                 {
@@ -2400,7 +2411,7 @@ namespace Wasmtime
             return new Function.TypeHandle(Function.Native.wasm_functype_new(new ValueTypeArray(parameters), new ValueTypeArray(results)));
         }
 
-        internal unsafe static IntPtr InvokeCallback(Delegate callback, Caller caller, bool passCaller, Value* args, int nargs, Value* results, int nresults, IReadOnlyList<ValueKind> resultKinds)
+        internal unsafe static IntPtr InvokeCallback(Delegate callback, MethodInfo callbackInvokeMethod, Caller caller, bool passCaller, Value* args, int nargs, Value* results, int nresults, IReadOnlyList<ValueKind> resultKinds, bool returnsTuple)
         {
             try
             {
@@ -2420,22 +2431,20 @@ namespace Wasmtime
 
                 // NOTE: reflection is extremely slow for invoking methods. in the future, perhaps this could be replaced with
                 // source generators, system.linq.expressions, or generate IL with DynamicMethods or something
-                var result = callback.Method.Invoke(callback.Target, BindingFlags.DoNotWrapExceptions, null, invokeArgs, null);
+                var result = callbackInvokeMethod.Invoke(callback, BindingFlags.DoNotWrapExceptions, null, invokeArgs, null);
 
-                if (resultKinds.Count > 0)
+                if (returnsTuple)
                 {
-                    var tuple = result as ITuple;
-                    if (tuple is null)
+                    var tuple = (ITuple)result!;
+
+                    for (int i = 0; i < tuple.Length; ++i)
                     {
-                        results[0] = Value.FromObject(result, resultKinds[0]);
+                        results[i] = Value.FromObject(tuple[i], resultKinds[i]);
                     }
-                    else
-                    {
-                        for (int i = 0; i < tuple.Length; ++i)
-                        {
-                            results[i] = Value.FromObject(tuple[i], resultKinds[i]);
-                        }
-                    }
+                }
+                else if (resultKinds.Count == 1)
+                {
+                    results[0] = Value.FromObject(result, resultKinds[0]);
                 }
                 return IntPtr.Zero;
             }
