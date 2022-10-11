@@ -27,7 +27,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, false);
+            return new Function(store, callback);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, false);
+            return new Function(store, callback);
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, false);
+            return new Function(store, callback);
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, false);
+            return new Function(store, callback);
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, false);
+            return new Function(store, callback);
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, false);
+            return new Function(store, callback);
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, false);
+            return new Function(store, callback);
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, false);
+            return new Function(store, callback);
         }
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, false);
+            return new Function(store, callback);
         }
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, false);
+            return new Function(store, callback);
         }
 
         /// <summary>
@@ -177,7 +177,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, false);
+            return new Function(store, callback);
         }
 
         /// <summary>
@@ -192,7 +192,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, false);
+            return new Function(store, callback);
         }
 
         /// <summary>
@@ -207,7 +207,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, false);
+            return new Function(store, callback);
         }
 
         /// <summary>
@@ -222,7 +222,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, false);
+            return new Function(store, callback);
         }
 
         /// <summary>
@@ -237,7 +237,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, false);
+            return new Function(store, callback);
         }
 
         /// <summary>
@@ -252,7 +252,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, false);
+            return new Function(store, callback);
         }
 
         /// <summary>
@@ -267,7 +267,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, false);
+            return new Function(store, callback);
         }
 
         /// <summary>
@@ -282,7 +282,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, true);
+            return new Function(store, callback);
         }
 
         /// <summary>
@@ -297,7 +297,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, true);
+            return new Function(store, callback);
         }
 
         /// <summary>
@@ -312,7 +312,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, true);
+            return new Function(store, callback);
         }
 
         /// <summary>
@@ -327,7 +327,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, true);
+            return new Function(store, callback);
         }
 
         /// <summary>
@@ -342,7 +342,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, true);
+            return new Function(store, callback);
         }
 
         /// <summary>
@@ -357,7 +357,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, true);
+            return new Function(store, callback);
         }
 
         /// <summary>
@@ -372,7 +372,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, true);
+            return new Function(store, callback);
         }
 
         /// <summary>
@@ -387,7 +387,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, true);
+            return new Function(store, callback);
         }
 
         /// <summary>
@@ -402,7 +402,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, true);
+            return new Function(store, callback);
         }
 
         /// <summary>
@@ -417,7 +417,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, true);
+            return new Function(store, callback);
         }
 
         /// <summary>
@@ -432,7 +432,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, true);
+            return new Function(store, callback);
         }
 
         /// <summary>
@@ -447,7 +447,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, true);
+            return new Function(store, callback);
         }
 
         /// <summary>
@@ -462,7 +462,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, true);
+            return new Function(store, callback);
         }
 
         /// <summary>
@@ -477,7 +477,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, true);
+            return new Function(store, callback);
         }
 
         /// <summary>
@@ -492,7 +492,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, true);
+            return new Function(store, callback);
         }
 
         /// <summary>
@@ -507,7 +507,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, true);
+            return new Function(store, callback);
         }
 
         /// <summary>
@@ -522,7 +522,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            return new Function(store, callback, true);
+            return new Function(store, callback);
         }
         #endregion
 
@@ -2226,7 +2226,7 @@ namespace Wasmtime
             };
         }
 
-        internal Function(IStore store, Delegate callback, bool hasReturn)
+        internal Function(IStore store, Delegate callback)
         {
             if (callback is null)
             {
@@ -2239,7 +2239,7 @@ namespace Wasmtime
             }
             this.store = store;
 
-            using var funcType = GetFunctionType(callback.GetType(), hasReturn, this.parameters, this.results, out var hasCaller);
+            using var funcType = GetFunctionType(callback.GetType(), this.parameters, this.results, out var hasCaller);
 
             unsafe
             {
@@ -2350,21 +2350,15 @@ namespace Wasmtime
                    definition == typeof(ValueTuple<,,,,,,,>);
         }
 
-        internal static TypeHandle GetFunctionType(Type type, bool hasReturn, List<ValueKind> parameters, List<ValueKind> results, out bool hasCaller)
+        internal static TypeHandle GetFunctionType(Type type, List<ValueKind> parameters, List<ValueKind> results, out bool hasCaller)
         {
-            Span<Type> parameterTypes = null;
-            Type? returnType = null;
+            if (!typeof(Delegate).IsAssignableFrom(type))
+                throw new ArgumentException("The specified type must be a Delegate type.");
 
-            if (hasReturn)
-            {
-                parameterTypes = type.GenericTypeArguments[0..^1];
-                returnType = type.GenericTypeArguments[^1];
-            }
-            else
-            {
-                parameterTypes = type.GenericTypeArguments;
-                returnType = null;
-            }
+            var invokeMethod = type.GetMethod(nameof(Action.Invoke))!;
+
+            Span<Type> parameterTypes = invokeMethod.GetParameters().Select(e => e.ParameterType).ToArray();
+            Type? returnType = invokeMethod.ReturnType == typeof(void) ? null : invokeMethod.ReturnType;
 
             hasCaller = parameterTypes.Length > 0 && parameterTypes[0] == typeof(Caller);
 
