@@ -73,10 +73,6 @@ for (int hasCaller = 0; hasCaller < 2; hasCaller++)
                 if (x > 0)
                 {
                     methodGenerics.Append(", ");
-                }
-
-                if (x > 0)
-                {
                     delegateType.Append(", ");
                 }
 
@@ -95,10 +91,6 @@ for (int hasCaller = 0; hasCaller < 2; hasCaller++)
             if (parameterCount > 0 && resultCount > 0)
             {
                 methodGenerics.Append(", ");
-            }
-
-            if (parameterCount > 0 && resultCount > 0)
-            {
                 delegateType.Append(", ");
             }
 
