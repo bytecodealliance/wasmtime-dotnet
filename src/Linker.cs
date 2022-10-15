@@ -355,7 +355,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
 
             unsafe
             {

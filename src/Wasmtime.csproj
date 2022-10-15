@@ -50,6 +50,18 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Function.FromCallback.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Function.FromCallback.cs</LastGenOutput>
+    </None>
+    <Compile Update="Function.FromCallback.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Function.FromCallback.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 
