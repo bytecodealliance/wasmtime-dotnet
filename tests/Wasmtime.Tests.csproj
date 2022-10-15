@@ -26,12 +26,6 @@
     <EmbeddedResource Include="Modules/hello.wasm" LogicalName="hello.wasm" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="Modules\MemoryAccess.wat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
   <PropertyGroup>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
