@@ -35,7 +35,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller, out var returnsTuple);
+            using var funcType = GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller, out var returnsTuple)!;
             var callbackInvokeMethod = callback.GetType().GetMethod(nameof(Action.Invoke))!;
 
             unsafe
@@ -1860,7 +1860,7 @@ namespace Wasmtime
                    definition == typeof(ValueTuple<,,,,,,,>);
         }
 
-        internal static TypeHandle GetFunctionType(Type type, List<ValueKind> parameters, List<ValueKind> results, bool allowCaller, bool allowTuple, out bool hasCaller, out bool returnsTuple)
+        internal static TypeHandle? GetFunctionType(Type type, List<ValueKind> parameters, List<ValueKind> results, bool allowCaller, bool allowTuple, out bool hasCaller, out bool returnsTuple)
         {
             if (!typeof(Delegate).IsAssignableFrom(type))
                 throw new ArgumentException("The specified type must be a Delegate type.");
@@ -1874,11 +1874,6 @@ namespace Wasmtime
 
             if (hasCaller)
             {
-                if (!allowCaller)
-                {
-                    throw new ArgumentException("Use a different overload that implicitly supplies Caller.");
-                }
-
                 parameterTypes = parameterTypes[1..];
             }
 
@@ -1906,9 +1901,13 @@ namespace Wasmtime
                 return kind;
             }));
 
-            if (returnsTuple && !allowTuple)
+            if (hasCaller && !allowCaller || returnsTuple && !allowTuple)
             {
-                throw new ArgumentException($"Use a different overload that implicitly returns ValueTuple, or the overload taking a {nameof(Delegate)}.");
+                // Return null to indicate that the parameter/result type combination
+                // is not allowed.
+                hasCaller = default;
+                returnsTuple = default;
+                return null;
             }
 
             return new Function.TypeHandle(Function.Native.wasm_functype_new(new ValueTypeArray(parameters), new ValueTypeArray(results)));

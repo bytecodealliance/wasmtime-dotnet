@@ -164,6 +164,15 @@ for (int hasCaller = 0; hasCaller < 2; hasCaller++)
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: <#= (hasCaller > 0) ? "true" : "false" #>, allowTuple: <#= (resultCount > 1) ? "true" : "false" #>, out _, out _);
 
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
+
 <#= parameterConverters
 #>
             unsafe

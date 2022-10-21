@@ -46,6 +46,15 @@ namespace Wasmtime
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
 
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
+
 
             unsafe
             {
@@ -123,6 +132,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT = ValueBox.Converter<T>();
 
@@ -202,6 +220,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -283,6 +310,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -366,6 +402,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -451,6 +496,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -538,6 +592,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -627,6 +690,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -718,6 +790,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -811,6 +892,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -906,6 +996,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -1003,6 +1102,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -1102,6 +1210,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -1204,6 +1321,15 @@ namespace Wasmtime
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
 
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
+
             var convTResult = ValueBox.Converter<TResult>();
 
             unsafe
@@ -1283,6 +1409,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT = ValueBox.Converter<T>();
             var convTResult = ValueBox.Converter<TResult>();
@@ -1364,6 +1499,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -1447,6 +1591,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -1532,6 +1685,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -1619,6 +1781,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -1708,6 +1879,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -1799,6 +1979,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -1892,6 +2081,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -1987,6 +2185,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -2084,6 +2291,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -2183,6 +2399,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -2284,6 +2509,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -2388,6 +2622,15 @@ namespace Wasmtime
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
+
             var convTResult1 = ValueBox.Converter<TResult1>();
             var convTResult2 = ValueBox.Converter<TResult2>();
 
@@ -2469,6 +2712,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT = ValueBox.Converter<T>();
             var convTResult1 = ValueBox.Converter<TResult1>();
@@ -2552,6 +2804,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -2637,6 +2898,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -2724,6 +2994,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -2813,6 +3092,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -2904,6 +3192,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -2997,6 +3294,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -3092,6 +3398,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -3189,6 +3504,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -3288,6 +3612,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -3389,6 +3722,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -3492,6 +3834,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -3598,6 +3949,15 @@ namespace Wasmtime
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
+
             var convTResult1 = ValueBox.Converter<TResult1>();
             var convTResult2 = ValueBox.Converter<TResult2>();
             var convTResult3 = ValueBox.Converter<TResult3>();
@@ -3681,6 +4041,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT = ValueBox.Converter<T>();
             var convTResult1 = ValueBox.Converter<TResult1>();
@@ -3766,6 +4135,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -3853,6 +4231,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -3942,6 +4329,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -4033,6 +4429,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -4126,6 +4531,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -4221,6 +4635,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -4318,6 +4741,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -4417,6 +4849,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -4518,6 +4959,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -4621,6 +5071,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -4726,6 +5185,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -4834,6 +5302,15 @@ namespace Wasmtime
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
+
             var convTResult1 = ValueBox.Converter<TResult1>();
             var convTResult2 = ValueBox.Converter<TResult2>();
             var convTResult3 = ValueBox.Converter<TResult3>();
@@ -4919,6 +5396,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT = ValueBox.Converter<T>();
             var convTResult1 = ValueBox.Converter<TResult1>();
@@ -5006,6 +5492,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -5095,6 +5590,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -5186,6 +5690,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -5279,6 +5792,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -5374,6 +5896,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -5471,6 +6002,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -5570,6 +6110,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -5671,6 +6220,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -5774,6 +6332,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -5879,6 +6446,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -5986,6 +6562,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -6096,6 +6681,15 @@ namespace Wasmtime
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
 
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
+
 
             unsafe
             {
@@ -6173,6 +6767,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT = ValueBox.Converter<T>();
 
@@ -6253,6 +6856,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -6335,6 +6947,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -6419,6 +7040,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -6505,6 +7135,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -6593,6 +7232,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -6683,6 +7331,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -6775,6 +7432,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -6869,6 +7535,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -6965,6 +7640,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -7063,6 +7747,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -7163,6 +7856,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -7266,6 +7968,15 @@ namespace Wasmtime
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
 
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
+
             var convTResult = ValueBox.Converter<TResult>();
 
             unsafe
@@ -7345,6 +8056,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT = ValueBox.Converter<T>();
             var convTResult = ValueBox.Converter<TResult>();
@@ -7427,6 +8147,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -7511,6 +8240,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -7597,6 +8335,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -7685,6 +8432,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -7775,6 +8531,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -7867,6 +8632,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -7961,6 +8735,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -8057,6 +8840,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -8155,6 +8947,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -8255,6 +9056,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -8357,6 +9167,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -8462,6 +9281,15 @@ namespace Wasmtime
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
+
             var convTResult1 = ValueBox.Converter<TResult1>();
             var convTResult2 = ValueBox.Converter<TResult2>();
 
@@ -8543,6 +9371,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT = ValueBox.Converter<T>();
             var convTResult1 = ValueBox.Converter<TResult1>();
@@ -8627,6 +9464,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -8713,6 +9559,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -8801,6 +9656,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -8891,6 +9755,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -8983,6 +9856,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -9077,6 +9959,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -9173,6 +10064,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -9271,6 +10171,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -9371,6 +10280,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -9473,6 +10391,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -9577,6 +10504,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -9684,6 +10620,15 @@ namespace Wasmtime
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
+
             var convTResult1 = ValueBox.Converter<TResult1>();
             var convTResult2 = ValueBox.Converter<TResult2>();
             var convTResult3 = ValueBox.Converter<TResult3>();
@@ -9767,6 +10712,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT = ValueBox.Converter<T>();
             var convTResult1 = ValueBox.Converter<TResult1>();
@@ -9853,6 +10807,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -9941,6 +10904,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -10031,6 +11003,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -10123,6 +11104,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -10217,6 +11207,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -10313,6 +11312,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -10411,6 +11419,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -10511,6 +11528,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -10613,6 +11639,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -10717,6 +11752,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -10823,6 +11867,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -10932,6 +11985,15 @@ namespace Wasmtime
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
+
             var convTResult1 = ValueBox.Converter<TResult1>();
             var convTResult2 = ValueBox.Converter<TResult2>();
             var convTResult3 = ValueBox.Converter<TResult3>();
@@ -11017,6 +12079,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT = ValueBox.Converter<T>();
             var convTResult1 = ValueBox.Converter<TResult1>();
@@ -11105,6 +12176,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -11195,6 +12275,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -11287,6 +12376,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -11381,6 +12479,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -11477,6 +12584,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -11575,6 +12691,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -11675,6 +12800,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -11777,6 +12911,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -11881,6 +13024,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -11987,6 +13139,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -12095,6 +13256,15 @@ namespace Wasmtime
             var resultKinds = new List<ValueKind>();
 
             using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
+
+            if (funcType is null)
+            {
+                // This means a parameter/result type combination was used that cannot
+                // be represented with the current generic parameters. Therefore, fall
+                // back to using reflection.
+                DefineFunction(module, name, (Delegate)callback);
+                return;
+            }
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
