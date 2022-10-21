@@ -1908,7 +1908,7 @@ namespace Wasmtime
 
             if (returnsTuple && !allowTuple)
             {
-                throw new ArgumentException("Use a different overload that implicitly returns ValueTuple.");
+                throw new ArgumentException($"Use a different overload that implicitly returns ValueTuple, or the overload taking a {nameof(Delegate)}.");
             }
 
             return new Function.TypeHandle(Function.Native.wasm_functype_new(new ValueTypeArray(parameters), new ValueTypeArray(results)));

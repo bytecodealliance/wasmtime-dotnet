@@ -34,10 +34,10 @@ namespace Wasmtime.Tests
 
             Linker.Define("env", "return_i32", Function.FromCallback(Store, GetBoundFuncIntDelegate()));
 
-            Linker.Define("env", "return_15_values", Function.FromCallback(Store, () =>
+            Linker.Define("env", "return_15_values", Function.FromCallback(Store, (Delegate)(() =>
             {
                 return (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);
-            }));
+            })));
 
             Linker.Define("env", "accept_15_values", Function.FromCallback(Store,
                 (int i1, int i2, int i3, int i4, int i5, int i6, int i7, int i8, int i9, int i10, int i11, int i12, int i13, int i14, int i15) =>
