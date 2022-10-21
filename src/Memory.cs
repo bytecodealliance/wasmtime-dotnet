@@ -87,13 +87,16 @@ namespace Wasmtime
         /// </summary>
         /// <returns>Returns a pointer to the start of the memory.</returns>
         /// <remarks>
+        /// <para>
         /// The pointer may become invalid if the memory grows.
         ///
         /// This may happen if the memory is explicitly requested to grow or
         /// grows as a result of WebAssembly execution.
-        ///
+        /// </para>
+        /// <para>
         /// Therefore, the returned pointer should not be used after calling the grow method or
         /// after calling into WebAssembly code.
+        /// </para>
         /// </remarks>
         public unsafe IntPtr GetPointer()
         {
@@ -107,13 +110,16 @@ namespace Wasmtime
         /// <returns>Returns the span of the memory.</returns>
         /// <exception cref="OverflowException">The memory has more than 32767 pages.</exception>
         /// <remarks>
+        /// <para>
         /// The span may become invalid if the memory grows.
         ///
         /// This may happen if the memory is explicitly requested to grow or
         /// grows as a result of WebAssembly execution.
-        ///
+        /// </para>
+        /// <para>
         /// Therefore, the returned span should not be used after calling the grow method or
         /// after calling into WebAssembly code.
+        /// </para>
         /// </remarks>
         [Obsolete("This method will throw an OverflowException if the memory has more than 32767 pages. " +
             "Use the " + nameof(GetSpan) + " overload taking an address and a length.")]
@@ -129,13 +135,16 @@ namespace Wasmtime
         /// <param name="address">The zero-based address of the start of the span.</param>
         /// <param name="length">The length of the span.</param>
         /// <remarks>
+        /// <para>
         /// The span may become invalid if the memory grows.
-        ///
+        /// 
         /// This may happen if the memory is explicitly requested to grow or
         /// grows as a result of WebAssembly execution.
-        ///
+        /// </para>
+        /// <para>
         /// Therefore, the returned span should not be used after calling the grow method or
         /// after calling into WebAssembly code.
+        /// </para>
         /// </remarks>
         public Span<byte> GetSpan(long address, int length)
         {
@@ -150,16 +159,20 @@ namespace Wasmtime
         /// <exception cref="OverflowException">The memory exceeds the byte length that can be 
         /// represented by a <see cref="Span{T}"/>.</exception>
         /// <remarks>
+        /// <para>
         /// The span may become invalid if the memory grows.
         ///
         /// This may happen if the memory is explicitly requested to grow or
         /// grows as a result of WebAssembly execution.
-        ///
+        /// </para>
+        /// <para>
         /// Therefore, the returned span should not be used after calling the grow method or
         /// after calling into WebAssembly code.
-        /// 
+        /// </para>
+        /// <para>
         /// Note that WebAssembly always uses little endian as byte order. On platforms 
         /// that use big endian, you will need to convert numeric values accordingly.
+        /// </para>
         /// </remarks>
         public unsafe Span<T> GetSpan<T>(int address)
             where T : unmanaged
@@ -174,16 +187,20 @@ namespace Wasmtime
         /// <param name="address">The zero-based address of the start of the span.</param>
         /// <param name="length">The length of the span.</param>
         /// <remarks>
+        /// <para>
         /// The span may become invalid if the memory grows.
         ///
         /// This may happen if the memory is explicitly requested to grow or
         /// grows as a result of WebAssembly execution.
-        ///
+        /// </para>
+        /// <para>
         /// Therefore, the returned span should not be used after calling the grow method or
         /// after calling into WebAssembly code.
-        /// 
+        /// </para>
+        /// <para>
         /// Note that WebAssembly always uses little endian as byte order. On platforms 
         /// that use big endian, you will need to convert numeric values accordingly.
+        /// </para>
         /// </remarks>
         public unsafe Span<T> GetSpan<T>(long address, int length)
             where T : unmanaged
@@ -220,8 +237,10 @@ namespace Wasmtime
         /// <param name="address">The zero-based address to read from.</param>
         /// <returns>Returns the struct read from memory.</returns>
         /// <remarks>
+        /// <para>
         /// Note that WebAssembly always uses little endian as byte order. On platforms 
         /// that use big endian, you will need to convert numeric values accordingly.
+        /// </para>
         /// </remarks>
         public T Read<T>(long address)
             where T : unmanaged
@@ -236,8 +255,10 @@ namespace Wasmtime
         /// <param name="address">The zero-based address to read from.</param>
         /// <param name="value">The struct to write.</param>
         /// <remarks>
+        /// <para>
         /// Note that WebAssembly always uses little endian as byte order. On platforms 
         /// that use big endian, you will need to convert numeric values accordingly.
+        /// </para>
         /// </remarks>
         public void Write<T>(long address, T value)
             where T : unmanaged
