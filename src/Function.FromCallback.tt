@@ -155,7 +155,7 @@ for (int hasCaller = 0; hasCaller < 2; hasCaller++)
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: <#= (hasCaller > 0) ? "true" : "false" #>, allowTuple: <#= (resultCount > 1) ? "true" : "false" #>, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: <#= (hasCaller > 0) ? "true" : "false" #>, allowTuple: <#= (resultCount > 1) ? "true" : "false" #>, out _, out _);
 
 <#= parameterConverters
 #>

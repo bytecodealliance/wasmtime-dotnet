@@ -355,14 +355,15 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller, out var returnsTuple);
+            var callbackInvokeMethod = callback.GetType().GetMethod(nameof(Action.Invoke))!;
 
             unsafe
             {
                 Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
                 {
                     using var caller = new Caller(callerPtr);
-                    return Function.InvokeCallback(callback, caller, hasCaller, args, (int)nargs, results, (int)nresults, resultKinds);
+                    return Function.InvokeCallback(callback, callbackInvokeMethod, caller, hasCaller, args, (int)nargs, results, (int)nresults, resultKinds, returnsTuple);
                 };
 
                 var moduleBytes = Encoding.UTF8.GetBytes(module);

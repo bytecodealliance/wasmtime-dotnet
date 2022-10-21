@@ -31,6 +31,36 @@ namespace Wasmtime.Tests
             {
                 caller.GetMemory("mem").ReadString(address, length).Should().Be("Hello World");
             }));
+
+            Linker.Define("env", "return_i32", Function.FromCallback(Store, GetBoundFuncIntDelegate()));
+
+            Linker.Define("env", "return_15_values", Function.FromCallback(Store, () =>
+            {
+                return (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);
+            }));
+
+            Linker.Define("env", "accept_15_values", Function.FromCallback(Store,
+                (int i1, int i2, int i3, int i4, int i5, int i6, int i7, int i8, int i9, int i10, int i11, int i12, int i13, int i14, int i15) =>
+                {
+                    (i1, i2, i3, i4, i5, i6, i7, i8, i9, i10, i11, i12, i13, i14, i15)
+                        .Should().Be((1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15));
+                }));
+
+            Func<int> GetBoundFuncIntDelegate()
+            {
+                // Get a delegate that is bound over an argument.
+                // See #159
+                var getLengthDelegate = GetLength;
+                var getLengthMethod = getLengthDelegate.Method;
+
+                string str = "abc";
+                return (Func<int>)Delegate.CreateDelegate(typeof(Func<int>), str, getLengthMethod);
+
+                int GetLength(string s)
+                {
+                    return s.Length;
+                }
+            }
         }
 
         private FunctionsFixture Fixture { get; }
@@ -314,6 +344,31 @@ namespace Wasmtime.Tests
             instance.GetFunction<(int, int, int, float, double, int, int, int)>("$echo_tuple8")
                 .Should()
                 .BeNull();
+        }
+
+        [Fact]
+        public void ItReturnsInt32WithBoundDelegate()
+        {
+            // Test for issue #159: It should be possible to defined a Delegate that is bound with
+            // a first argument.
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var echo = instance.GetFunction<int>("return_i32");
+            echo.Should().NotBeNull();
+
+            var result = echo.Invoke();
+            result.Should().Be(3);
+        }
+
+        [Fact]
+        public void ItReturnsAndAccepts15Values()
+        {
+            // Verify that nested levels of ValueTuple are handled correctly. Returning 15
+            // values means that a ValueTuple<..., ValueTuple<..., ValueTuple<...>>> is used.
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var action = instance.GetAction("get_and_pass_15_values");
+            action.Should().NotBeNull();
+
+            action.Invoke();
         }
 
         public void Dispose()

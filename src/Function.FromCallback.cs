@@ -37,7 +37,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
 
 
             unsafe
@@ -97,7 +97,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
 
             var convT = ValueBox.Converter<T>();
 
@@ -158,7 +158,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -221,7 +221,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -286,7 +286,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -353,7 +353,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -422,7 +422,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -493,7 +493,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -566,7 +566,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -641,7 +641,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -718,7 +718,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -797,7 +797,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -878,7 +878,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -961,7 +961,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
 
             var convTResult = ValueBox.Converter<TResult>();
 
@@ -1023,7 +1023,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
 
             var convT = ValueBox.Converter<T>();
             var convTResult = ValueBox.Converter<TResult>();
@@ -1086,7 +1086,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -1151,7 +1151,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -1218,7 +1218,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -1287,7 +1287,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -1358,7 +1358,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -1431,7 +1431,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -1506,7 +1506,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -1583,7 +1583,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -1662,7 +1662,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -1743,7 +1743,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -1826,7 +1826,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -1911,7 +1911,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convTResult1 = ValueBox.Converter<TResult1>();
             var convTResult2 = ValueBox.Converter<TResult2>();
@@ -1975,7 +1975,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT = ValueBox.Converter<T>();
             var convTResult1 = ValueBox.Converter<TResult1>();
@@ -2040,7 +2040,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -2107,7 +2107,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -2176,7 +2176,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -2247,7 +2247,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -2320,7 +2320,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -2395,7 +2395,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -2472,7 +2472,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -2551,7 +2551,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -2632,7 +2632,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -2715,7 +2715,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -2800,7 +2800,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -2887,7 +2887,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convTResult1 = ValueBox.Converter<TResult1>();
             var convTResult2 = ValueBox.Converter<TResult2>();
@@ -2953,7 +2953,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT = ValueBox.Converter<T>();
             var convTResult1 = ValueBox.Converter<TResult1>();
@@ -3020,7 +3020,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -3089,7 +3089,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -3160,7 +3160,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -3233,7 +3233,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -3308,7 +3308,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -3385,7 +3385,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -3464,7 +3464,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -3545,7 +3545,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -3628,7 +3628,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -3713,7 +3713,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -3800,7 +3800,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -3889,7 +3889,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convTResult1 = ValueBox.Converter<TResult1>();
             var convTResult2 = ValueBox.Converter<TResult2>();
@@ -3957,7 +3957,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT = ValueBox.Converter<T>();
             var convTResult1 = ValueBox.Converter<TResult1>();
@@ -4026,7 +4026,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -4097,7 +4097,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -4170,7 +4170,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -4245,7 +4245,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -4322,7 +4322,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -4401,7 +4401,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -4482,7 +4482,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -4565,7 +4565,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -4650,7 +4650,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -4737,7 +4737,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -4826,7 +4826,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -4917,7 +4917,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
 
 
             unsafe
@@ -4977,7 +4977,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
 
             var convT = ValueBox.Converter<T>();
 
@@ -5039,7 +5039,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -5103,7 +5103,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -5169,7 +5169,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -5237,7 +5237,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -5307,7 +5307,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -5379,7 +5379,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -5453,7 +5453,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -5529,7 +5529,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -5607,7 +5607,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -5687,7 +5687,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -5769,7 +5769,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -5853,7 +5853,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
 
             var convTResult = ValueBox.Converter<TResult>();
 
@@ -5915,7 +5915,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
 
             var convT = ValueBox.Converter<T>();
             var convTResult = ValueBox.Converter<TResult>();
@@ -5979,7 +5979,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -6045,7 +6045,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -6113,7 +6113,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -6183,7 +6183,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -6255,7 +6255,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -6329,7 +6329,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -6405,7 +6405,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -6483,7 +6483,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -6563,7 +6563,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -6645,7 +6645,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -6729,7 +6729,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -6815,7 +6815,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convTResult1 = ValueBox.Converter<TResult1>();
             var convTResult2 = ValueBox.Converter<TResult2>();
@@ -6879,7 +6879,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT = ValueBox.Converter<T>();
             var convTResult1 = ValueBox.Converter<TResult1>();
@@ -6945,7 +6945,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -7013,7 +7013,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -7083,7 +7083,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -7155,7 +7155,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -7229,7 +7229,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -7305,7 +7305,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -7383,7 +7383,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -7463,7 +7463,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -7545,7 +7545,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -7629,7 +7629,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -7715,7 +7715,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -7803,7 +7803,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convTResult1 = ValueBox.Converter<TResult1>();
             var convTResult2 = ValueBox.Converter<TResult2>();
@@ -7869,7 +7869,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT = ValueBox.Converter<T>();
             var convTResult1 = ValueBox.Converter<TResult1>();
@@ -7937,7 +7937,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -8007,7 +8007,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -8079,7 +8079,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -8153,7 +8153,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -8229,7 +8229,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -8307,7 +8307,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -8387,7 +8387,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -8469,7 +8469,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -8553,7 +8553,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -8639,7 +8639,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -8727,7 +8727,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -8817,7 +8817,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convTResult1 = ValueBox.Converter<TResult1>();
             var convTResult2 = ValueBox.Converter<TResult2>();
@@ -8885,7 +8885,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT = ValueBox.Converter<T>();
             var convTResult1 = ValueBox.Converter<TResult1>();
@@ -8955,7 +8955,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -9027,7 +9027,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -9101,7 +9101,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -9177,7 +9177,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -9255,7 +9255,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -9335,7 +9335,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -9417,7 +9417,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -9501,7 +9501,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -9587,7 +9587,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -9675,7 +9675,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
@@ -9765,7 +9765,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller);
+            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
 
             var convT1 = ValueBox.Converter<T1>();
             var convT2 = ValueBox.Converter<T2>();
