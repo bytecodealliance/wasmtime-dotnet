@@ -24,6 +24,7 @@ namespace Wasmtime.Tests
             Store = new Store(Fixture.Engine);
 
             Linker.DefineFunction("env", "add", (int x, int y) => x + y);
+            Linker.DefineFunction("env", "add_reflection", (Delegate)((int x, int y) => x + y));
             Linker.DefineFunction("env", "swap", (int x, int y) => (y, x));
             Linker.DefineFunction("env", "do_throw", () => throw new Exception(THROW_MESSAGE));
             Linker.DefineFunction("env", "check_string", (Caller caller, int address, int length) =>
@@ -69,6 +70,7 @@ namespace Wasmtime.Tests
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
             var add = instance.GetFunction("add");
+            var addReflection = instance.GetFunction("add_reflection");
             var swap = instance.GetFunction("swap");
             var check = instance.GetFunction("check_string"); ;
             var getInt32 = instance.GetFunction<int>("return_i32");
@@ -77,6 +79,12 @@ namespace Wasmtime.Tests
             x.Should().Be(42);
             x = (int)add.Invoke(22, 5);
             x.Should().Be(27);
+
+            x = (int)addReflection.Invoke(40, 2);
+            x.Should().Be(42);
+            x = (int)addReflection.Invoke(22, 5);
+            x.Should().Be(27);
+
             x = getInt32.Invoke();
             x.Should().Be(3);
 
