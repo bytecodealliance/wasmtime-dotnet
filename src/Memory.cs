@@ -85,6 +85,7 @@ namespace Wasmtime
         /// Returns a pointer to the start of the memory. The length for which the pointer
         /// is valid can be retrieved with <see cref="GetLength"/>.
         /// </summary>
+        /// <returns>Returns a pointer to the start of the memory.</returns>
         /// <remarks>
         /// The pointer may become invalid if the memory grows.
         ///
@@ -94,7 +95,6 @@ namespace Wasmtime
         /// Therefore, the returned pointer should not be used after calling the grow method or
         /// after calling into WebAssembly code.
         /// </remarks>
-        /// <returns></returns>
         public unsafe IntPtr GetPointer()
         {
             var data = Native.wasmtime_memory_data(store.Context.handle, this.memory);
@@ -206,7 +206,9 @@ namespace Wasmtime
             long byteLength = (long)length * sizeof(T);
 
             if (address > memoryLength - byteLength)
+            {
                 throw new ArgumentException("The specified address and length exceed the Memory's bounds.");
+            }
 
             return new Span<T>((T*)(data + address), length);
         }
@@ -301,6 +303,7 @@ namespace Wasmtime
             {
                 encoding = Encoding.UTF8;
             }
+
             return encoding.GetBytes(value, GetSpan(address, (int)Math.Min(int.MaxValue, GetLength() - address)));
         }
 
