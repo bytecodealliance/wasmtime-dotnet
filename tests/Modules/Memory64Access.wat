@@ -1,13 +1,13 @@
 (module
-  (memory (export "mem") 65536)
+  (memory (export "mem") i64 65537)
   (func $start
-	i32.const 0xFFFFFFFF
+	i64.const 0x10000FFFF
 	i32.const 99
 	i32.store8
-	i32.const 0xFFFFFFFE
+	i64.const 0x10000FFFE
 	i32.const 100
 	i32.store8
-	i32.const 0xFFFFFFFD
+	i64.const 0x10000FFFD
 	i32.const 101
 	i32.store8
   )
