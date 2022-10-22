@@ -46,6 +46,10 @@ namespace Wasmtime.Tests
                         .Should().Be((1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15));
                 });
 
+            var echoMultipleValuesFunc = EchoMultipleValues;
+            Linker.DefineFunction("env", "echo_multiple_values1", echoMultipleValuesFunc);
+            Linker.DefineFunction("env", "echo_multiple_values2", (FunctionTests.EchoMultipleValuesCustomDelegate)EchoMultipleValues);
+            
             Func<int> GetBoundFuncIntDelegate()
             {
                 // Get a delegate that is bound over an argument.
@@ -60,6 +64,11 @@ namespace Wasmtime.Tests
                 {
                     return s.Length;
                 }
+            }
+
+            (long, double, object) EchoMultipleValues(long l, double d, object o)
+            {
+                return (l, d, o);
             }
         }
 
@@ -120,6 +129,28 @@ namespace Wasmtime.Tests
                 // Ideally this should contain a check for the backtrace
                 // See: https://github.com/bytecodealliance/wasmtime/issues/1845
                 .WithMessage(THROW_MESSAGE + "*");
+        }
+
+        [Fact]
+        public void ItEchoesMultipleValuesFromFuncDelegate()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var echo = instance.GetFunction<long, double, object, (long, double, object)>("echo_multiple_values1");
+            echo.Should().NotBeNull();
+
+            var result = echo(1, 2, "3");
+            result.Should().Be((1, 2, "3"));
+        }
+
+        [Fact]
+        public void ItEchoesMultipleValuesFromCustomDelegate()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var echo = instance.GetFunction<long, double, object, (long, double, object)>("echo_multiple_values2");
+            echo.Should().NotBeNull();
+
+            var result = echo(1, 2, "3");
+            result.Should().Be((1, 2, "3"));
         }
 
         public void Dispose()
