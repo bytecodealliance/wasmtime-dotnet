@@ -73,24 +73,82 @@ namespace Wasmtime
         }
 
         /// <summary>
+        /// Gets the current length of the memory, in bytes.
+        /// </summary>
+        /// <returns>Returns the current length of the memory, in bytes.</returns>
+        public long GetLength()
+        {
+            return checked((long)(nuint)Native.wasmtime_memory_data_size(store.Context.handle, this.memory));
+        }
+
+        /// <summary>
+        /// Returns a pointer to the start of the memory. The length for which the pointer
+        /// is valid can be retrieved with <see cref="GetLength"/>.
+        /// </summary>
+        /// <returns>Returns a pointer to the start of the memory.</returns>
+        /// <remarks>
+        /// <para>
+        /// The pointer may become invalid if the memory grows.
+        ///
+        /// This may happen if the memory is explicitly requested to grow or
+        /// grows as a result of WebAssembly execution.
+        /// </para>
+        /// <para>
+        /// Therefore, the returned pointer should not be used after calling the grow method or
+        /// after calling into WebAssembly code.
+        /// </para>
+        /// </remarks>
+        public unsafe IntPtr GetPointer()
+        {
+            var data = Native.wasmtime_memory_data(store.Context.handle, this.memory);
+            return (nint)data;
+        }
+
+        /// <summary>
         /// Gets the span of the memory.
         /// </summary>
         /// <returns>Returns the span of the memory.</returns>
+        /// <exception cref="OverflowException">The memory has more than 32767 pages.</exception>
         /// <remarks>
+        /// <para>
         /// The span may become invalid if the memory grows.
         ///
         /// This may happen if the memory is explicitly requested to grow or
         /// grows as a result of WebAssembly execution.
-        ///
+        /// </para>
+        /// <para>
         /// Therefore, the returned span should not be used after calling the grow method or
         /// after calling into WebAssembly code.
+        /// </para>
         /// </remarks>
-        public unsafe Span<byte> GetSpan()
+        [Obsolete("This method will throw an OverflowException if the memory has more than 32767 pages. " +
+            "Use the " + nameof(GetSpan) + " overload taking an address and a length.")]
+        public Span<byte> GetSpan()
         {
-            var context = store.Context;
-            var data = Native.wasmtime_memory_data(context.handle, this.memory);
-            var size = Convert.ToInt32(Native.wasmtime_memory_data_size(context.handle, this.memory).ToUInt32());
-            return new Span<byte>(data, size);
+            return GetSpan(0, checked((int)GetLength()));
+        }
+
+        /// <summary>
+        /// Gets a span of a section of the memory.
+        /// </summary>
+        /// <returns>Returns the span of a section of the memory.</returns>
+        /// <param name="address">The zero-based address of the start of the span.</param>
+        /// <param name="length">The length of the span.</param>
+        /// <remarks>
+        /// <para>
+        /// The span may become invalid if the memory grows.
+        /// 
+        /// This may happen if the memory is explicitly requested to grow or
+        /// grows as a result of WebAssembly execution.
+        /// </para>
+        /// <para>
+        /// Therefore, the returned span should not be used after calling the grow method or
+        /// after calling into WebAssembly code.
+        /// </para>
+        /// </remarks>
+        public Span<byte> GetSpan(long address, int length)
+        {
+            return GetSpan<byte>(address, length);
         }
 
         /// <summary>
@@ -98,19 +156,78 @@ namespace Wasmtime
         /// </summary>
         /// <param name="address">The zero-based address of the start of the span.</param>
         /// <returns>Returns the span of the memory.</returns>
+        /// <exception cref="OverflowException">The memory exceeds the byte length that can be 
+        /// represented by a <see cref="Span{T}"/>.</exception>
         /// <remarks>
+        /// <para>
         /// The span may become invalid if the memory grows.
         ///
         /// This may happen if the memory is explicitly requested to grow or
         /// grows as a result of WebAssembly execution.
-        ///
+        /// </para>
+        /// <para>
         /// Therefore, the returned span should not be used after calling the grow method or
         /// after calling into WebAssembly code.
+        /// </para>
+        /// <para>
+        /// Note that WebAssembly always uses little endian as byte order. On platforms 
+        /// that use big endian, you will need to convert numeric values accordingly.
+        /// </para>
         /// </remarks>
         public unsafe Span<T> GetSpan<T>(int address)
             where T : unmanaged
         {
-            return MemoryMarshal.Cast<byte, T>(GetSpan()[address..]);
+            return GetSpan<T>(address, checked((int)((GetLength() - address) / sizeof(T))));
+        }
+
+        /// <summary>
+        /// Gets a span of a section of the memory.
+        /// </summary>
+        /// <returns>Returns the span of a section of the memory.</returns>
+        /// <param name="address">The zero-based address of the start of the span.</param>
+        /// <param name="length">The length of the span.</param>
+        /// <remarks>
+        /// <para>
+        /// The span may become invalid if the memory grows.
+        ///
+        /// This may happen if the memory is explicitly requested to grow or
+        /// grows as a result of WebAssembly execution.
+        /// </para>
+        /// <para>
+        /// Therefore, the returned span should not be used after calling the grow method or
+        /// after calling into WebAssembly code.
+        /// </para>
+        /// <para>
+        /// Note that WebAssembly always uses little endian as byte order. On platforms 
+        /// that use big endian, you will need to convert numeric values accordingly.
+        /// </para>
+        /// </remarks>
+        public unsafe Span<T> GetSpan<T>(long address, int length)
+            where T : unmanaged
+        {
+            if (address < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(address));
+            }
+
+            if (length < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(length));
+            }
+
+            var context = store.Context;
+            var data = Native.wasmtime_memory_data(context.handle, this.memory);
+            var memoryLength = this.GetLength();
+
+            // Note: A Span<T> can span more than 2 GiB bytes if sizeof(T) > 1.
+            long byteLength = (long)length * sizeof(T);
+
+            if (address > memoryLength - byteLength)
+            {
+                throw new ArgumentException("The specified address and length exceed the Memory's bounds.");
+            }
+
+            return new Span<T>((T*)(data + address), length);
         }
 
         /// <summary>
@@ -119,10 +236,16 @@ namespace Wasmtime
         /// <typeparam name="T">Type of the struct to read. Ensure layout in C# is identical to layout in WASM.</typeparam>
         /// <param name="address">The zero-based address to read from.</param>
         /// <returns>Returns the struct read from memory.</returns>
-        public T Read<T>(int address)
+        /// <remarks>
+        /// <para>
+        /// Note that WebAssembly always uses little endian as byte order. On platforms 
+        /// that use big endian, you will need to convert numeric values accordingly.
+        /// </para>
+        /// </remarks>
+        public T Read<T>(long address)
             where T : unmanaged
         {
-            return GetSpan<T>(address)[0];
+            return GetSpan<T>(address, 1)[0];
         }
 
         /// <summary>
@@ -131,10 +254,16 @@ namespace Wasmtime
         /// <typeparam name="T"></typeparam>
         /// <param name="address">The zero-based address to read from.</param>
         /// <param name="value">The struct to write.</param>
-        public void Write<T>(int address, T value)
+        /// <remarks>
+        /// <para>
+        /// Note that WebAssembly always uses little endian as byte order. On platforms 
+        /// that use big endian, you will need to convert numeric values accordingly.
+        /// </para>
+        /// </remarks>
+        public void Write<T>(long address, T value)
             where T : unmanaged
         {
-            GetSpan<T>(address)[0] = value;
+            GetSpan<T>(address, 1)[0] = value;
         }
 
         /// <summary>
@@ -144,14 +273,14 @@ namespace Wasmtime
         /// <param name="length">The length of bytes to read.</param>
         /// <param name="encoding">The encoding to use when reading the string; if null, UTF-8 encoding is used.</param>
         /// <returns>Returns the string read from memory.</returns>
-        public string ReadString(int address, int length, Encoding? encoding = null)
+        public string ReadString(long address, int length, Encoding? encoding = null)
         {
             if (encoding is null)
             {
                 encoding = Encoding.UTF8;
             }
 
-            return encoding.GetString(GetSpan().Slice(address, length));
+            return encoding.GetString(GetSpan(address, length));
         }
 
         /// <summary>
@@ -159,9 +288,15 @@ namespace Wasmtime
         /// </summary>
         /// <param name="address">The zero-based address to read from.</param>
         /// <returns>Returns the string read from memory.</returns>
-        public string ReadNullTerminatedString(int address)
+        public string ReadNullTerminatedString(long address)
         {
-            var slice = GetSpan().Slice(address);
+            if (address < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(address));
+            }
+
+            // We can only read a maximum of 2 GiB.
+            var slice = GetSpan(address, (int)Math.Min(int.MaxValue, GetLength() - address));
             var terminator = slice.IndexOf((byte)0);
             if (terminator == -1)
             {
@@ -178,14 +313,19 @@ namespace Wasmtime
         /// <param name="value">The string to write.</param>
         /// <param name="encoding">The encoding to use when writing the string; if null, UTF-8 encoding is used.</param>
         /// <return>Returns the number of bytes written.</return>
-        public int WriteString(int address, string value, Encoding? encoding = null)
+        public int WriteString(long address, string value, Encoding? encoding = null)
         {
+            if (address < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(address));
+            }
+
             if (encoding is null)
             {
                 encoding = Encoding.UTF8;
             }
 
-            return encoding.GetBytes(value, GetSpan().Slice(address));
+            return encoding.GetBytes(value, GetSpan(address, (int)Math.Min(int.MaxValue, GetLength() - address)));
         }
 
         /// <summary>
@@ -193,9 +333,9 @@ namespace Wasmtime
         /// </summary>
         /// <param name="address">The zero-based address to read from.</param>
         /// <returns>Returns the byte read from memory.</returns>
-        public byte ReadByte(int address)
+        public byte ReadByte(long address)
         {
-            return GetSpan()[address];
+            return GetSpan(address, sizeof(byte))[0];
         }
 
         /// <summary>
@@ -203,9 +343,9 @@ namespace Wasmtime
         /// </summary>
         /// <param name="address">The zero-based address to write to.</param>
         /// <param name="value">The byte to write.</param>
-        public void WriteByte(int address, byte value)
+        public void WriteByte(long address, byte value)
         {
-            GetSpan()[address] = value;
+            GetSpan(address, sizeof(byte))[0] = value;
         }
 
         /// <summary>
@@ -213,9 +353,9 @@ namespace Wasmtime
         /// </summary>
         /// <param name="address">The zero-based address to read from.</param>
         /// <returns>Returns the short read from memory.</returns>
-        public short ReadInt16(int address)
+        public short ReadInt16(long address)
         {
-            return BinaryPrimitives.ReadInt16LittleEndian(GetSpan().Slice(address, 2));
+            return BinaryPrimitives.ReadInt16LittleEndian(GetSpan(address, sizeof(short)));
         }
 
         /// <summary>
@@ -223,9 +363,9 @@ namespace Wasmtime
         /// </summary>
         /// <param name="address">The zero-based address to write to.</param>
         /// <param name="value">The short to write.</param>
-        public void WriteInt16(int address, short value)
+        public void WriteInt16(long address, short value)
         {
-            BinaryPrimitives.WriteInt16LittleEndian(GetSpan().Slice(address, 2), value);
+            BinaryPrimitives.WriteInt16LittleEndian(GetSpan(address, sizeof(short)), value);
         }
 
         /// <summary>
@@ -233,9 +373,9 @@ namespace Wasmtime
         /// </summary>
         /// <param name="address">The zero-based address to read from.</param>
         /// <returns>Returns the int read from memory.</returns>
-        public int ReadInt32(int address)
+        public int ReadInt32(long address)
         {
-            return BinaryPrimitives.ReadInt32LittleEndian(GetSpan().Slice(address, 4));
+            return BinaryPrimitives.ReadInt32LittleEndian(GetSpan(address, sizeof(int)));
         }
 
         /// <summary>
@@ -243,9 +383,9 @@ namespace Wasmtime
         /// </summary>
         /// <param name="address">The zero-based address to write to.</param>
         /// <param name="value">The int to write.</param>
-        public void WriteInt32(int address, int value)
+        public void WriteInt32(long address, int value)
         {
-            BinaryPrimitives.WriteInt32LittleEndian(GetSpan().Slice(address, 4), value);
+            BinaryPrimitives.WriteInt32LittleEndian(GetSpan(address, sizeof(int)), value);
         }
 
         /// <summary>
@@ -253,9 +393,9 @@ namespace Wasmtime
         /// </summary>
         /// <param name="address">The zero-based address to read from.</param>
         /// <returns>Returns the long read from memory.</returns>
-        public long ReadInt64(int address)
+        public long ReadInt64(long address)
         {
-            return BinaryPrimitives.ReadInt64LittleEndian(GetSpan().Slice(address, 8));
+            return BinaryPrimitives.ReadInt64LittleEndian(GetSpan(address, sizeof(long)));
         }
 
         /// <summary>
@@ -263,9 +403,9 @@ namespace Wasmtime
         /// </summary>
         /// <param name="address">The zero-based address to write to.</param>
         /// <param name="value">The long to write.</param>
-        public void WriteInt64(int address, long value)
+        public void WriteInt64(long address, long value)
         {
-            BinaryPrimitives.WriteInt64LittleEndian(GetSpan().Slice(address, 8), value);
+            BinaryPrimitives.WriteInt64LittleEndian(GetSpan(address, sizeof(long)), value);
         }
 
         /// <summary>
@@ -273,7 +413,7 @@ namespace Wasmtime
         /// </summary>
         /// <param name="address">The zero-based address to read from.</param>
         /// <returns>Returns the IntPtr read from memory.</returns>
-        public IntPtr ReadIntPtr(int address)
+        public IntPtr ReadIntPtr(long address)
         {
             if (IntPtr.Size == 4)
             {
@@ -287,15 +427,15 @@ namespace Wasmtime
         /// </summary>
         /// <param name="address">The zero-based address to write to.</param>
         /// <param name="value">The IntPtr to write.</param>
-        public void WriteIntPtr(int address, IntPtr value)
+        public void WriteIntPtr(long address, IntPtr value)
         {
             if (IntPtr.Size == 4)
             {
-                WriteInt32(address, value.ToInt32());
+                WriteInt32(address, (int)value);
             }
             else
             {
-                WriteInt64(address, value.ToInt64());
+                WriteInt64(address, (long)value);
             }
         }
 
@@ -304,13 +444,9 @@ namespace Wasmtime
         /// </summary>
         /// <param name="address">The zero-based address to read from.</param>
         /// <returns>Returns the single read from memory.</returns>
-        public float ReadSingle(int address)
+        public float ReadSingle(long address)
         {
-            unsafe
-            {
-                var i = ReadInt32(address);
-                return *((float*)&i);
-            }
+            return BitConverter.Int32BitsToSingle(ReadInt32(address));
         }
 
         /// <summary>
@@ -318,12 +454,9 @@ namespace Wasmtime
         /// </summary>
         /// <param name="address">The zero-based address to write to.</param>
         /// <param name="value">The single to write.</param>
-        public void WriteSingle(int address, float value)
+        public void WriteSingle(long address, float value)
         {
-            unsafe
-            {
-                WriteInt32(address, *(int*)&value);
-            }
+            WriteInt32(address, BitConverter.SingleToInt32Bits(value));
         }
 
         /// <summary>
@@ -331,13 +464,9 @@ namespace Wasmtime
         /// </summary>
         /// <param name="address">The zero-based address to read from.</param>
         /// <returns>Returns the double read from memory.</returns>
-        public double ReadDouble(int address)
+        public double ReadDouble(long address)
         {
-            unsafe
-            {
-                var i = ReadInt64(address);
-                return *((double*)&i);
-            }
+            return BitConverter.Int64BitsToDouble(ReadInt64(address));
         }
 
         /// <summary>
@@ -345,12 +474,9 @@ namespace Wasmtime
         /// </summary>
         /// <param name="address">The zero-based address to write to.</param>
         /// <param name="value">The double to write.</param>
-        public void WriteDouble(int address, double value)
+        public void WriteDouble(long address, double value)
         {
-            unsafe
-            {
-                WriteInt64(address, *(long*)&value);
-            }
+            WriteInt64(address, BitConverter.DoubleToInt64Bits(value));
         }
 
         /// <summary>
