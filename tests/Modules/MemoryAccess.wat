@@ -1,5 +1,5 @@
 (module
-  (memory (export "mem") 65536)
+  (memory (export "mem") 0x10000)
   (func $start
 	i32.const 0xFFFFFFFF
 	i32.const 99

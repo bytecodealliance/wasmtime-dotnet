@@ -192,21 +192,35 @@ namespace Wasmtime
 
             unsafe
             {
-                var limits = Memory.Native.wasm_memorytype_limits(type);
-                Minimum = limits->min;
-                Maximum = limits->max;
+                Minimum = (long)Memory.Native.wasmtime_memorytype_minimum(type);
+
+                bool hasMax = Memory.Native.wasmtime_memorytype_maximum(type, out ulong max);
+                if (hasMax)
+                {
+                    Maximum = (long)max;
+                }
+
+                Is64Bit = Memory.Native.wasmtime_memorytype_is64(type);
             }
         }
 
         /// <summary>
-        /// The minimum memory size (in WebAssembly page units).
+        /// Gets the minimum memory size (in WebAssembly page units).
         /// </summary>
-        public uint Minimum { get; private set; }
+        /// <value>The minimum memory size (in WebAssembly page units).</value>
+        public long Minimum { get; }
 
         /// <summary>
-        /// The maximum memory size (in WebAssembly page units).
+        /// Gets the maximum memory size (in WebAssembly page units).
         /// </summary>
-        public uint Maximum { get; private set; }
+        /// <value>The maximum memory size (in WebAssembly page units), or <c>null</c> if no maximum is specified.</value>
+        public long? Maximum { get; }
+
+        /// <summary>
+        /// Gets a value that indicates whether this type of memory represents a 64-bit memory.
+        /// </summary>
+        /// <value><c>true</c> if this type of memory represents a 64-bit memory, <c>false</c> if it represents a 32-bit memory.</value>
+        public bool Is64Bit { get; }
 
         private static class Native
         {

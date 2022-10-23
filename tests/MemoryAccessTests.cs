@@ -28,9 +28,18 @@ namespace Wasmtime.Tests
         [Fact]
         public unsafe void ItCanAccessMemoryWith65536Pages()
         {
+            var memoryExport = Fixture.Module.Exports.OfType<MemoryExport>().Single();
+            memoryExport.Minimum.Should().Be(0x10000);
+            memoryExport.Maximum.Should().Be(null);
+            memoryExport.Is64Bit.Should().Be(false);
+
             var instance = Linker.Instantiate(Store, Fixture.Module);
             var memory = instance.GetMemory("mem");
 
+            memory.Minimum.Should().Be(0x10000);
+            memory.Maximum.Should().Be(null);
+            memory.Is64Bit.Should().Be(false);
+            memory.GetSize().Should().Be(0x10000);
             memory.GetLength().Should().Be(0x100000000);
 
             memory.ReadInt32(0).Should().Be(0);
