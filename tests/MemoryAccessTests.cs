@@ -30,15 +30,15 @@ namespace Wasmtime.Tests
         {
             var memoryExport = Fixture.Module.Exports.OfType<MemoryExport>().Single();
             memoryExport.Minimum.Should().Be(0x10000);
-            memoryExport.Maximum.Should().Be(null);
-            memoryExport.Is64Bit.Should().Be(false);
+            memoryExport.Maximum.Should().BeNull();
+            memoryExport.Is64Bit.Should().BeFalse();
 
             var instance = Linker.Instantiate(Store, Fixture.Module);
             var memory = instance.GetMemory("mem");
 
             memory.Minimum.Should().Be(0x10000);
-            memory.Maximum.Should().Be(null);
-            memory.Is64Bit.Should().Be(false);
+            memory.Maximum.Should().BeNull();
+            memory.Is64Bit.Should().BeFalse();
             memory.GetSize().Should().Be(0x10000);
             memory.GetLength().Should().Be(0x100000000);
 
