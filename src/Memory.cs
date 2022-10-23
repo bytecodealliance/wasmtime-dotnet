@@ -25,6 +25,16 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
+            if (minimum < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(minimum));
+            }
+
+            if (maximum < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(maximum));
+            }
+
             if (maximum < minimum)
             {
                 throw new ArgumentException("The maximum cannot be less than the minimum.", nameof(maximum));
