@@ -47,6 +47,7 @@ for (int hasCaller = 0; hasCaller < 2; hasCaller++)
         {
             var methodGenerics = new StringBuilder();
             var delegateType = new StringBuilder(resultCount == 0 ? "Action" : "Func");
+            var delegateReturnType = new StringBuilder();
             var parameterConverters = new StringBuilder();
     
             if (parameterCount > 0 || resultCount > 0)
@@ -97,7 +98,7 @@ for (int hasCaller = 0; hasCaller < 2; hasCaller++)
 
             if (resultCount > 1)
             {
-                delegateType.Append("ValueTuple<");
+                delegateReturnType.Append("ValueTuple<");
             }
 
             for (int x = 0; x < resultCount; x++)
@@ -105,7 +106,7 @@ for (int hasCaller = 0; hasCaller < 2; hasCaller++)
                 if (x > 0)
                 {
                     methodGenerics.Append(", ");
-                    delegateType.Append(", ");
+                    delegateReturnType.Append(", ");
                 }
 
                 string genericType = "TResult";
@@ -115,15 +116,17 @@ for (int hasCaller = 0; hasCaller < 2; hasCaller++)
                 }
 
                 methodGenerics.Append(genericType);
-                delegateType.Append(genericType);
+                delegateReturnType.Append(genericType);
 
                 parameterConverters.AppendLine($"            var conv{genericType} = ValueBox.Converter<{genericType}>();");
             }
 
             if (resultCount > 1)
             {
-                delegateType.Append(">");
+                delegateReturnType.Append(">");
             }
+
+            delegateType.Append(delegateReturnType);
 
             if (parameterCount > 0 || resultCount > 0)
             {
@@ -155,7 +158,35 @@ for (int hasCaller = 0; hasCaller < 2; hasCaller++)
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: <#= (hasCaller > 0) ? "true" : "false" #>, allowTuple: <#= (resultCount > 1) ? "true" : "false" #>, out _, out _);
+            var callbackParameterTypes = new Type[] {
+<#
+            if (hasCaller > 0)
+            {
+                #>
+                typeof(Caller),
+<#
+            }
+
+            for (int i = 0; i < parameterCount; i++) {
+            #>
+                typeof(T<#= (parameterCount > 1 ? (i + 1).ToString(CultureInfo.InvariantCulture) : "") #>),
+<#
+            }
+            #>
+            };
+
+            var callbackReturnType = <#
+            if (resultCount == 0)
+            {
+                #>default(Type)<#
+            }
+            else {
+                #>typeof(<#= delegateReturnType #>)<#
+            }
+
+            #>;
+
+            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: <#= (hasCaller > 0) ? "true" : "false" #>, allowTuple: <#= (resultCount > 1) ? "true" : "false" #>, out _, out _);
 
             if (funcType is null)
             {

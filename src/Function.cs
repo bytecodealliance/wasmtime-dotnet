@@ -1870,6 +1870,11 @@ namespace Wasmtime
             Span<Type> parameterTypes = invokeMethod.GetParameters().Select(e => e.ParameterType).ToArray();
             Type? returnType = invokeMethod.ReturnType == typeof(void) ? null : invokeMethod.ReturnType;
 
+            return GetFunctionType(parameterTypes, returnType, parameters, results, allowCaller, allowTuple, out hasCaller, out returnsTuple);
+        }
+
+        internal static TypeHandle? GetFunctionType(ReadOnlySpan<Type> parameterTypes, Type? returnType, List<ValueKind> parameters, List<ValueKind> results, bool allowCaller, bool allowTuple, out bool hasCaller, out bool returnsTuple)
+        {            
             hasCaller = parameterTypes.Length > 0 && parameterTypes[0] == typeof(Caller);
 
             if (hasCaller)
