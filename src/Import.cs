@@ -207,8 +207,7 @@ namespace Wasmtime
             {
                 Minimum = (long)Memory.Native.wasmtime_memorytype_minimum(type);
 
-                bool hasMax = Memory.Native.wasmtime_memorytype_maximum(type, out ulong max);
-                if (hasMax)
+                if (Memory.Native.wasmtime_memorytype_maximum(type, out ulong max))
                 {
                     Maximum = (long)max;
                 }

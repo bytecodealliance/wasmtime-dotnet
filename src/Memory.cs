@@ -542,8 +542,7 @@ namespace Wasmtime
             {
                 Minimum = (long)Native.wasmtime_memorytype_minimum(type.DangerousGetHandle());
                 
-                bool hasMax = Native.wasmtime_memorytype_maximum(type.DangerousGetHandle(), out ulong max);
-                if (hasMax)
+                if (Native.wasmtime_memorytype_maximum(type.DangerousGetHandle(), out ulong max))
                 {
                     Maximum = (long)max;
                 }
