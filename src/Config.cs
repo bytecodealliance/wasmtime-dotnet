@@ -16,11 +16,7 @@ namespace Wasmtime
         /// <summary>
         /// Use the Cranelift compiler.
         /// </summary>
-        Cranelift,
-        /// <summary>
-        /// Use the Lightbeam compiler.
-        /// </summary>
-        Lightbeam
+        Cranelift
     }
 
     /// <summary>
