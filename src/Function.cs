@@ -2450,12 +2450,28 @@ namespace Wasmtime
             }
             catch (Exception ex)
             {
-                var bytes = Encoding.UTF8.GetBytes(ex.Message);
+                return HandleCallbackException(ex);
+            }
+        }
 
-                fixed (byte* ptr = bytes)
-                {
-                    return Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                }
+        internal static unsafe IntPtr HandleCallbackException(Exception ex)
+        {
+            // Store the exception as trap cause, so that we can use it as the TrapException's
+            // InnerException when the trap bubbles up to the next host-to-wasm transition.
+            // If the exception is already a TrapException, we use that one's InnerException,
+            // even if it's null.
+            // Note: This code currently assumes that on every host-to-wasm transition where a
+            // trap can occur, TrapException.FromOwnedTrap() is called when a trap actually occured,
+            // which will then clear this field. If this were not the case, we would need to always
+            // set this field no null when returning at the wasm-to-host transition and no exception
+            // was thrown.
+            CallbackTrapCause = ex is TrapException trapException ? trapException.InnerException : ex;
+            
+            var bytes = Encoding.UTF8.GetBytes(ex.Message);
+
+            fixed (byte* ptr = bytes)
+            {
+                return Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
             }
         }
 
@@ -2511,6 +2527,19 @@ namespace Wasmtime
         internal readonly List<ValueKind> parameters = new List<ValueKind>();
         internal readonly List<ValueKind> results = new List<ValueKind>();
         internal static readonly Native.Finalizer Finalizer = (p) => GCHandle.FromIntPtr(p).Free();
+
+        /// <summary>
+        /// Contains the cause for a trap returned by invoking a wasm function, in case
+        /// the trap was caused by the host. 
+        /// </summary>
+        /// <remarks>
+        /// This thread-local field will be set when catching a .NET exception at the
+        /// wasm-to-host transition. When the trap bubbles up to the next host-to-wasm
+        /// transition, the field needs to be cleared, and its value can be used to set
+        /// the inner exception of the created <see cref="TrapException"/>.
+        /// </remarks>
+        [ThreadStatic]
+        internal static Exception? CallbackTrapCause;
 
         private static readonly Function _null = new Function();
         private static readonly object?[] NullParams = new object?[1];
