@@ -1,9 +1,11 @@
 (module
+  (import "" "host_trap" (func $host_trap))
   (export "ok" (func $ok))
   (export "ok_value" (func $ok_value))
   (export "run" (func $run))
   (export "run_div_zero" (func $run_div_zero))
   (export "run_div_zero_with_result" (func $run_div_zero_with_result))
+  (export "host_trap" (func $host_trap))
 
   (func $run
     (call $first)
