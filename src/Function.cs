@@ -2471,7 +2471,7 @@ namespace Wasmtime
 
             fixed (byte* ptr = bytes)
             {
-                return Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
+                return Native.wasmtime_trap_new(ptr, (nuint)bytes.Length);
             }
         }
 
@@ -2519,7 +2519,7 @@ namespace Wasmtime
             public static extern void wasm_functype_delete(IntPtr functype);
 
             [DllImport(Engine.LibraryName)]
-            public static unsafe extern IntPtr wasmtime_trap_new(byte* bytes, UIntPtr len);
+            public static unsafe extern IntPtr wasmtime_trap_new(byte* bytes, nuint len);
         }
 
         private readonly IStore? store;
