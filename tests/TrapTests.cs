@@ -220,9 +220,10 @@ namespace Wasmtime.Tests
             var action = callTrap;
 
             action
-               .Should()
-               .Throw<TrapException>()
-               .Where(e => e.InnerException == exceptionToThrow);
+                .Should()
+                .Throw<TrapException>()
+                .Where(e => e.Type == TrapCode.Undefined &&
+                    e.InnerException == exceptionToThrow);
 
             // After that, ensure that when invoking another function that traps in wasm
             // (so it cannot have a cause), the TrapException's InnerException is now null.
@@ -230,13 +231,15 @@ namespace Wasmtime.Tests
             action
                 .Should()
                 .Throw<TrapException>()
-                .Where(e => e.InnerException == null);
+                .Where(e => e.Type == TrapCode.Unreachable &&
+                    e.InnerException == null);
 
             // Also verify the InnerException is set when using an ActionResult.
             var callTrapAsActionResult = instance.GetFunction<ActionResult>("trap_from_host_exception");
             var result = callTrapAsActionResult();
 
             result.Type.Should().Be(ResultType.Trap);
+            result.Trap.Type.Should().Be(TrapCode.Undefined);
             result.Trap.InnerException.Should().Be(exceptionToThrow);
         }
 
@@ -257,9 +260,25 @@ namespace Wasmtime.Tests
             var action = callHostCallback;
 
             action
-               .Should()
-               .Throw<TrapException>()
-               .Where(e => ReferenceEquals(e.InnerException, exceptionToThrow));
+                .Should()
+                .Throw<TrapException>()
+                .Where(e => e.Type == TrapCode.Undefined &&
+                    e.InnerException == exceptionToThrow);
+        }
+
+        [Fact]
+        public void ItPassesCallbackTrapCauseAsInnerExceptionWhenInstantiating()
+        {
+            var exceptionToThrow = new IOException("My I/O exception.");
+            HostCallback = () => throw exceptionToThrow;
+            
+            var action = () => Linker.Instantiate(Store, Fixture.Module);
+
+            action
+                .Should()
+                .Throw<TrapException>()
+                .Where(e => e.Type == TrapCode.Undefined &&
+                    e.InnerException == exceptionToThrow);
         }
 
         public void Dispose()

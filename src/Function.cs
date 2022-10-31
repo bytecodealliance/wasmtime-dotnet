@@ -2460,11 +2460,9 @@ namespace Wasmtime
             // InnerException when the trap bubbles up to the next host-to-wasm transition.
             // If the exception is already a TrapException, we use that one's InnerException,
             // even if it's null.
-            // Note: This code currently assumes that on every host-to-wasm transition where a
+            // Note: This code currently requires that on every host-to-wasm transition where a
             // trap can occur, TrapException.FromOwnedTrap() is called when a trap actually occured,
-            // which will then clear this field. If this were not the case, we would need to always
-            // set this field no null when returning at the wasm-to-host transition and no exception
-            // was thrown.
+            // which will then clear this field.
             CallbackTrapCause = ex is TrapException trapException ? trapException.InnerException : ex;
             
             var bytes = Encoding.UTF8.GetBytes(ex.Message);

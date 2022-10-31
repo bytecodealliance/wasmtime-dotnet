@@ -9,6 +9,11 @@
   (export "trap_from_host_exception" (func $trap_from_host_exception))
   (export "call_host_callback" (func $call_host_callback))
   (export "trap_in_wasm" (func $third))
+  (start $start)
+
+  (func $start
+    (call $call_host_callback)
+  )
 
   (func $run
     (call $first)
