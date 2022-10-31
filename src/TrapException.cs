@@ -333,9 +333,11 @@ namespace Wasmtime
             public static extern void wasm_frame_vec_delete(in FrameArray vec);
 
             [DllImport(Engine.LibraryName)]
+            [return: MarshalAs(UnmanagedType.I1)]
             internal static extern bool wasmtime_trap_exit_status(IntPtr trap, out int exitStatus);
 
             [DllImport(Engine.LibraryName)]
+            [return: MarshalAs(UnmanagedType.I1)]
             internal static extern bool wasmtime_trap_code(IntPtr trap, out TrapCode exitCode);
         }
     }
