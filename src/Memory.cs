@@ -16,12 +16,23 @@ namespace Wasmtime
         /// </summary>
         /// <param name="store">The store to create the memory in.</param>
         /// <param name="minimum">The minimum number of WebAssembly pages.</param>
-        /// <param name="maximum">The maximum number of WebAssembly pages.</param>
-        public Memory(IStore store, uint minimum = 0, uint maximum = uint.MaxValue)
+        /// <param name="maximum">The maximum number of WebAssembly pages, or <c>null</c> to not specify a maximum.</param>
+        /// <param name="is64Bit"><c>true</c> when memory type represents a 64-bit memory, <c>false</c> when it represents a 32-bit memory.</param>
+        public Memory(IStore store, long minimum = 0, long? maximum = null, bool is64Bit = false)
         {
             if (store is null)
             {
                 throw new ArgumentNullException(nameof(store));
+            }
+
+            if (minimum < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(minimum));
+            }
+
+            if (maximum < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(maximum));
             }
 
             if (maximum < minimum)
@@ -32,14 +43,12 @@ namespace Wasmtime
             this.store = store;
             Minimum = minimum;
             Maximum = maximum;
+            Is64Bit = is64Bit;
 
             unsafe
             {
-                var limits = new Native.Limits();
-                limits.min = minimum;
-                limits.max = maximum;
+                using var type = new TypeHandle(Native.wasmtime_memorytype_new((ulong)minimum, maximum is not null, (ulong)(maximum ?? 0), is64Bit));
 
-                using var type = new TypeHandle(Native.wasm_memorytype_new(limits));
                 var error = Native.wasmtime_memory_new(store.Context.handle, type, out this.memory);
                 if (error != IntPtr.Zero)
                 {
@@ -54,22 +63,30 @@ namespace Wasmtime
         public const int PageSize = 65536;
 
         /// <summary>
-        /// The minimum memory size (in WebAssembly page units).
+        /// Gets the minimum memory size (in WebAssembly page units).
         /// </summary>
-        public uint Minimum { get; private set; }
+        /// <value>The minimum memory size (in WebAssembly page units).</value>
+        public long Minimum { get; }
 
         /// <summary>
-        /// The maximum memory size (in WebAssembly page units).
+        /// Gets the maximum memory size (in WebAssembly page units).
         /// </summary>
-        public uint Maximum { get; private set; }
+        /// <value>The maximum memory size (in WebAssembly page units), or <c>null</c> if no maximum is specified.</value>
+        public long? Maximum { get; }
+
+        /// <summary>
+        /// Gets a value that indicates whether this type of memory represents a 64-bit memory.
+        /// </summary>
+        /// <value><c>true</c> if this type of memory represents a 64-bit memory, <c>false</c> otherwise.</value>
+        public bool Is64Bit { get; }
 
         /// <summary>
         /// Gets the current size of the memory, in WebAssembly page units.
         /// </summary>
         /// <returns>Returns the current size of the memory, in WebAssembly page units.</returns>
-        public uint GetSize()
+        public long GetSize()
         {
-            return Native.wasmtime_memory_size(store.Context.handle, this.memory);
+            return (long)Native.wasmtime_memory_size(store.Context.handle, this.memory);
         }
 
         /// <summary>
@@ -78,7 +95,7 @@ namespace Wasmtime
         /// <returns>Returns the current length of the memory, in bytes.</returns>
         public long GetLength()
         {
-            return checked((long)(nuint)Native.wasmtime_memory_data_size(store.Context.handle, this.memory));
+            return checked((long)Native.wasmtime_memory_data_size(store.Context.handle, this.memory));
         }
 
         /// <summary>
@@ -485,20 +502,25 @@ namespace Wasmtime
         /// <param name="delta">The number of WebAssembly pages to grow the memory by.</param>
         /// <returns>Returns the previous size of the Webassembly memory, in pages.</returns>
         /// <remarks>This method will invalidate previously returned values from `GetSpan`.</remarks>
-        public uint Grow(uint delta)
+        public long Grow(long delta)
         {
             if (store is null)
             {
                 throw new ArgumentNullException(nameof(store));
             }
 
-            var error = Native.wasmtime_memory_grow(store.Context.handle, this.memory, delta, out var prev);
+            if (delta < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(delta));
+            }
+
+            var error = Native.wasmtime_memory_grow(store.Context.handle, this.memory, (ulong)delta, out var prev);
             if (error != IntPtr.Zero)
             {
                 throw WasmtimeException.FromOwnedError(error);
             }
 
-            return prev;
+            return (long)prev;
         }
 
         Extern IExternal.AsExtern()
@@ -518,9 +540,14 @@ namespace Wasmtime
 
             unsafe
             {
-                var limits = Native.wasm_memorytype_limits(type.DangerousGetHandle());
-                Minimum = limits->min;
-                Maximum = limits->max;
+                Minimum = (long)Native.wasmtime_memorytype_minimum(type.DangerousGetHandle());
+                
+                if (Native.wasmtime_memorytype_maximum(type.DangerousGetHandle(), out ulong max))
+                {
+                    Maximum = (long)max;
+                }
+
+                Is64Bit = Native.wasmtime_memorytype_is64(type.DangerousGetHandle());
             }
         }
 
@@ -541,14 +568,6 @@ namespace Wasmtime
 
         internal static class Native
         {
-            [StructLayout(LayoutKind.Sequential)]
-            internal struct Limits
-            {
-                public uint min;
-
-                public uint max;
-            }
-
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasmtime_memory_new(IntPtr context, TypeHandle type, out ExternMemory memory);
 
@@ -556,22 +575,30 @@ namespace Wasmtime
             public static unsafe extern byte* wasmtime_memory_data(IntPtr context, in ExternMemory memory);
 
             [DllImport(Engine.LibraryName)]
-            public static extern UIntPtr wasmtime_memory_data_size(IntPtr context, in ExternMemory memory);
+            public static extern nuint wasmtime_memory_data_size(IntPtr context, in ExternMemory memory);
 
             [DllImport(Engine.LibraryName)]
-            public static extern uint wasmtime_memory_size(IntPtr context, in ExternMemory memory);
+            public static extern ulong wasmtime_memory_size(IntPtr context, in ExternMemory memory);
 
             [DllImport(Engine.LibraryName)]
-            public static extern IntPtr wasmtime_memory_grow(IntPtr context, in ExternMemory memory, uint delta, out uint prev);
+            public static extern IntPtr wasmtime_memory_grow(IntPtr context, in ExternMemory memory, ulong delta, out ulong prev);
 
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasmtime_memory_type(IntPtr context, in ExternMemory memory);
 
             [DllImport(Engine.LibraryName)]
-            public static extern IntPtr wasm_memorytype_new(in Limits limits);
+            public static extern IntPtr wasmtime_memorytype_new(ulong min, [MarshalAs(UnmanagedType.I1)] bool max_present, ulong max, [MarshalAs(UnmanagedType.I1)] bool is_64);
 
             [DllImport(Engine.LibraryName)]
-            public static unsafe extern Limits* wasm_memorytype_limits(IntPtr type);
+            public static unsafe extern ulong wasmtime_memorytype_minimum(IntPtr type);
+
+            [DllImport(Engine.LibraryName)]
+            [return: MarshalAs(UnmanagedType.I1)]
+            public static unsafe extern bool wasmtime_memorytype_maximum(IntPtr type, out ulong max);
+
+            [DllImport(Engine.LibraryName)]
+            [return: MarshalAs(UnmanagedType.I1)]
+            public static unsafe extern bool wasmtime_memorytype_is64(IntPtr type);
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasm_memorytype_delete(IntPtr handle);
