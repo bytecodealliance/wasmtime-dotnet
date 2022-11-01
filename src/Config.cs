@@ -16,11 +16,7 @@ namespace Wasmtime
         /// <summary>
         /// Use the Cranelift compiler.
         /// </summary>
-        Cranelift,
-        /// <summary>
-        /// Use the Lightbeam compiler.
-        /// </summary>
-        Lightbeam
+        Cranelift
     }
 
     /// <summary>
@@ -186,6 +182,17 @@ namespace Wasmtime
         public Config WithMultiMemory(bool enable)
         {
             Native.wasmtime_config_wasm_multi_memory_set(handle, enable);
+            return this;
+        }
+
+        /// <summary>
+        /// Sets whether or not enable WebAssembly memory64 support.
+        /// </summary>
+        /// <param name="enable">True to enable WebAssembly memory64 support or false to disable.</param>
+        /// <returns>Returns the current config.</returns>
+        public Config WithMemory64(bool enable)
+        {
+            Native.wasmtime_config_wasm_memory64_set(handle, enable);
             return this;
         }
 
@@ -362,43 +369,46 @@ namespace Wasmtime
             public static extern void wasm_config_delete(IntPtr config);
 
             [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_config_debug_info_set(Handle config, bool enable);
+            public static extern void wasmtime_config_debug_info_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
 
             [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_config_epoch_interruption_set(Handle config, bool enable);
+            public static extern void wasmtime_config_epoch_interruption_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
 
             [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_config_consume_fuel_set(Handle config, bool enable);
+            public static extern void wasmtime_config_consume_fuel_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
 
             [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_config_max_wasm_stack_set(Handle config, UIntPtr size);
+            public static extern void wasmtime_config_max_wasm_stack_set(Handle config, nuint size);
 
             [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_config_wasm_threads_set(Handle config, bool enable);
+            public static extern void wasmtime_config_wasm_threads_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
 
             [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_config_wasm_reference_types_set(Handle config, bool enable);
+            public static extern void wasmtime_config_wasm_reference_types_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
 
             [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_config_wasm_simd_set(Handle config, bool enable);
+            public static extern void wasmtime_config_wasm_simd_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
 
             [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_config_wasm_bulk_memory_set(Handle config, bool enable);
+            public static extern void wasmtime_config_wasm_bulk_memory_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
 
             [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_config_wasm_multi_value_set(Handle config, bool enable);
+            public static extern void wasmtime_config_wasm_multi_value_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
 
             [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_config_wasm_multi_memory_set(Handle config, bool enable);
+            public static extern void wasmtime_config_wasm_multi_memory_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_wasm_memory64_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_config_strategy_set(Handle config, byte strategy);
 
             [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_config_cranelift_debug_verifier_set(Handle config, bool enable);
+            public static extern void wasmtime_config_cranelift_debug_verifier_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
 
             [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_config_cranelift_nan_canonicalization_set(Handle config, bool enable);
+            public static extern void wasmtime_config_cranelift_nan_canonicalization_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_config_cranelift_opt_level_set(Handle config, byte level);

@@ -28,8 +28,9 @@ namespace Wasmtime.Tests
             memory.Should().NotBeNull();
             memory.ModuleName.Should().Be("js");
             memory.Name.Should().Be("mem");
-            memory.Minimum.Should().Be(1);
-            memory.Maximum.Should().Be(2);
+            memory.Minimum.Should().Be(1L);
+            memory.Maximum.Should().Be(2L);
+            memory.Is64Bit.Should().BeFalse();
         }
     }
 }
