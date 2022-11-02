@@ -1,11 +1,21 @@
 (module
   (import "" "host_trap" (func $host_trap))
+  (import "" "trap_from_host_exception" (func $trap_from_host_exception))
+  (import "" "call_host_callback" (func $call_host_callback))
   (export "ok" (func $ok))
   (export "ok_value" (func $ok_value))
   (export "run" (func $run))
   (export "run_div_zero" (func $run_div_zero))
   (export "run_div_zero_with_result" (func $run_div_zero_with_result))
   (export "host_trap" (func $host_trap))
+  (export "trap_from_host_exception" (func $trap_from_host_exception))
+  (export "call_host_callback" (func $call_host_callback))
+  (export "trap_in_wasm" (func $third))
+  (start $start)
+
+  (func $start
+    (call $call_host_callback)
+  )
 
   (func $run
     (call $first)
