@@ -89,7 +89,7 @@ namespace Wasmtime.Tests
                             e.Frames[1].FunctionName == "second" &&
                             e.Frames[2].FunctionName == "first" &&
                             e.Frames[3].FunctionName == "run")
-                .WithMessage("wasm trap: wasm `unreachable` instruction executed*");
+                .WithMessage("*wasm trap: wasm `unreachable` instruction executed*");
         }
 
         [Fact]
@@ -158,17 +158,6 @@ namespace Wasmtime.Tests
             result.Trap.Type.Should().Be(TrapCode.IntegerDivisionByZero);
             result.Trap.Frames.Count.Should().Be(1);
             result.Trap.Frames[0].FunctionName.Should().Be("run_div_zero_with_result");
-        }
-
-        [Fact]
-        public void ItReturnsCorrectTrapCodeForHostTrap()
-        {
-            var instance = Linker.Instantiate(Store, Fixture.Module);
-            var hostTrap = instance.GetFunction<ActionResult>("host_trap");
-            var result = hostTrap();
-
-            result.Type.Should().Be(ResultType.Trap);
-            result.Trap.Type.Should().Be(TrapCode.Undefined);
         }
 
         [Fact]

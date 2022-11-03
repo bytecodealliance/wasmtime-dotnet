@@ -175,8 +175,8 @@ namespace Wasmtime.Tests
             Action action = () => expensive.Invoke();
             action
                 .Should()
-                .Throw<TrapException>()
-                .WithMessage("not enough fuel remaining in store*");
+                .Throw<WasmtimeException>()
+                .WithMessage("*not enough fuel remaining in store*");
 
             var consumed = Store.GetConsumedFuel();
             consumed.Should().Be(2UL);

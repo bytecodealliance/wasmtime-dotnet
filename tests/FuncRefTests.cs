@@ -66,8 +66,8 @@ namespace Wasmtime.Tests
 
             func
                 .Should()
-                .Throw<TrapException>()
-                .WithMessage("Cannot invoke a null function reference.*");
+                .Throw<WasmtimeException>()
+                .WithMessage("*Cannot invoke a null function reference.*");
         }
 
         public void Dispose()

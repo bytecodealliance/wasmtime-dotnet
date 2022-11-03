@@ -50,7 +50,7 @@ public class EpochInterruptionTests : IClassFixture<EpochInterruptionFixture>, I
 
         action.Should()
             .Throw<TrapException>()
-            .WithMessage("wasm trap: interrupt*");
+            .WithMessage("*wasm trap: interrupt*");
     }
 
     public void Dispose()
