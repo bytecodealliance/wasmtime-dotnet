@@ -44,9 +44,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-            };
-
+            var callbackParameterTypes = new Type[] { };
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -131,10 +129,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T), };
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -220,11 +215,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), };
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -312,12 +303,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), };
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -407,13 +393,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -505,14 +485,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -606,15 +579,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -710,16 +675,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -817,17 +773,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -927,18 +873,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -1040,19 +975,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-                typeof(T10),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -1156,20 +1079,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-                typeof(T10),
-                typeof(T11),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -1275,21 +1185,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-                typeof(T10),
-                typeof(T11),
-                typeof(T12),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -1397,9 +1293,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-            };
-
+            var callbackParameterTypes = new Type[] { };
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -1486,10 +1380,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T), };
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -1577,11 +1468,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), };
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -1671,12 +1558,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), };
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -1768,13 +1650,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -1868,14 +1744,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -1971,15 +1840,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -2077,16 +1938,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -2186,17 +2038,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -2298,18 +2140,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -2413,19 +2244,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-                typeof(T10),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -2531,20 +2350,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-                typeof(T10),
-                typeof(T11),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -2652,21 +2458,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-                typeof(T10),
-                typeof(T11),
-                typeof(T12),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -2776,9 +2568,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-            };
-
+            var callbackParameterTypes = new Type[] { };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -2867,10 +2657,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -2960,11 +2747,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -3056,12 +2839,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -3155,13 +2933,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -3257,14 +3029,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -3362,15 +3127,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -3470,16 +3227,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -3581,17 +3329,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -3695,18 +3433,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -3812,19 +3539,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-                typeof(T10),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -3932,20 +3647,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-                typeof(T10),
-                typeof(T11),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -4055,21 +3757,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-                typeof(T10),
-                typeof(T11),
-                typeof(T12),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -4181,9 +3869,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-            };
-
+            var callbackParameterTypes = new Type[] { };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -4274,10 +3960,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -4369,11 +4052,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -4467,12 +4146,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -4568,13 +4242,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -4672,14 +4340,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -4779,15 +4440,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -4889,16 +4542,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -5002,17 +4646,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -5118,18 +4752,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -5237,19 +4860,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-                typeof(T10),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -5359,20 +4970,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-                typeof(T10),
-                typeof(T11),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -5484,21 +5082,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-                typeof(T10),
-                typeof(T11),
-                typeof(T12),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -5612,9 +5196,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-            };
-
+            var callbackParameterTypes = new Type[] { };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -5707,10 +5289,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -5804,11 +5383,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -5904,12 +5479,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -6007,13 +5577,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -6113,14 +5677,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -6222,15 +5779,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -6334,16 +5883,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -6449,17 +5989,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -6567,18 +6097,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -6688,19 +6207,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-                typeof(T10),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -6812,20 +6319,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-                typeof(T10),
-                typeof(T11),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -6939,21 +6433,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-                typeof(T10),
-                typeof(T11),
-                typeof(T12),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -7069,10 +6549,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), };
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -7157,11 +6634,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T), };
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -7248,12 +6721,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), };
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -7342,13 +6810,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), };
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -7439,14 +6901,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -7539,15 +6994,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -7642,16 +7089,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -7748,17 +7186,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -7857,18 +7285,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -7969,19 +7386,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -8084,20 +7489,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-                typeof(T10),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -8202,21 +7594,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-                typeof(T10),
-                typeof(T11),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -8323,22 +7701,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-                typeof(T10),
-                typeof(T11),
-                typeof(T12),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -8447,10 +7810,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), };
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -8537,11 +7897,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T), };
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -8630,12 +7986,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), };
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -8726,13 +8077,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), };
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -8825,14 +8170,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -8927,15 +8265,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -9032,16 +8362,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -9140,17 +8461,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -9251,18 +8562,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -9365,19 +8665,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -9482,20 +8770,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-                typeof(T10),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -9602,21 +8877,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-                typeof(T10),
-                typeof(T11),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -9725,22 +8986,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-                typeof(T10),
-                typeof(T11),
-                typeof(T12),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -9851,10 +9097,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -9943,11 +9186,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -10038,12 +9277,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -10136,13 +9370,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -10237,14 +9465,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -10341,15 +9562,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -10448,16 +9661,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -10558,17 +9762,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -10671,18 +9865,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -10787,19 +9970,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -10906,20 +10077,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-                typeof(T10),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -11028,21 +10186,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-                typeof(T10),
-                typeof(T11),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -11153,22 +10297,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-                typeof(T10),
-                typeof(T11),
-                typeof(T12),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -11281,10 +10410,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -11375,11 +10501,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -11472,12 +10594,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -11572,13 +10689,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -11675,14 +10786,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -11781,15 +10885,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -11890,16 +10986,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -12002,17 +11089,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -12117,18 +11194,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -12235,19 +11301,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -12356,20 +11410,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-                typeof(T10),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -12480,21 +11521,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-                typeof(T10),
-                typeof(T11),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -12607,22 +11634,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-                typeof(T10),
-                typeof(T11),
-                typeof(T12),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -12737,10 +11749,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -12833,11 +11842,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -12932,12 +11937,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -13034,13 +12034,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -13139,14 +12133,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -13247,15 +12234,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -13358,16 +12337,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -13472,17 +12442,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -13589,18 +12549,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -13709,19 +12658,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -13832,20 +12769,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-                typeof(T10),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -13958,21 +12882,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-                typeof(T10),
-                typeof(T11),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -14087,22 +12997,7 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-                typeof(Caller),
-                typeof(T1),
-                typeof(T2),
-                typeof(T3),
-                typeof(T4),
-                typeof(T5),
-                typeof(T6),
-                typeof(T7),
-                typeof(T8),
-                typeof(T9),
-                typeof(T10),
-                typeof(T11),
-                typeof(T12),
-            };
-
+            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);

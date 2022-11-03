@@ -5,6 +5,7 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Linq" #>
 <#@ output extension=".cs" encoding="us-ascii" #>
+<#@ include file="FunctionCallbackOverloadTemplates.t4" once="true" #>
 <#
 // Note: We specify ASCII as output encoding above to prevent different UTF-8 BOM behavior with VS and dotnet-t4.
 #>
@@ -28,115 +29,8 @@ namespace Wasmtime
     public partial class Linker
     {
 <#
-// Generate overloads for different combinations of function parameter count, result count,
-// and hasCaller states.
-// Currently, we generate them for a maximum of 12 parameters and 4 result values, which means there
-// will be 2 * 13 * 5 = 130 overloads of DefineFunction accepting an Action/Func.
-// Note that more than 200 overloads can cause the C# compiler to no longer resolve the overloads
-// correctly (tested with Visual Studio 17.4.0 Preview 2.1).
-// For delegate types not covered by these overloads, we have a method accepting a Delegate which
-// will be called using reflection.
-const int maxParameterCount = 12;
-const int maxReturnCount = 4;
-
-for (int hasCaller = 0; hasCaller < 2; hasCaller++)
+foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateType, callbackParameterTypeExpressions, callbackReturnTypeExpression, parameterConverters) in EnumerateTypeCombinations())
 {
-    for (int resultCount = 0; resultCount <= maxReturnCount; resultCount++)
-    {
-        for (int parameterCount = 0; parameterCount <= maxParameterCount; parameterCount++)
-        {
-            var methodGenerics = new StringBuilder();
-            var delegateType = new StringBuilder(resultCount == 0 ? "Action" : "Func");
-            var delegateReturnType = new StringBuilder();
-            var parameterConverters = new StringBuilder();
-    
-            if (parameterCount > 0 || resultCount > 0)
-            {
-                methodGenerics.Append('<');
-            }
-
-            if (parameterCount > 0 || resultCount > 0 || hasCaller > 0)
-            {
-                delegateType.Append('<');
-            }
-
-            if (hasCaller > 0)
-            {
-                delegateType.Append("Caller");
-
-                if (parameterCount + resultCount > 0)
-                {
-                    delegateType.Append(", ");
-                }
-            }
-
-            for (int x = 0; x < parameterCount; x++)
-            {
-                if (x > 0)
-                {
-                    methodGenerics.Append(", ");
-                    delegateType.Append(", ");
-                }
-
-                string genericType = "T";
-                if (parameterCount > 1)
-                {
-                    genericType += (x + 1).ToString(CultureInfo.InvariantCulture);
-                }
-
-                methodGenerics.Append(genericType);
-                delegateType.Append(genericType);
-
-                parameterConverters.AppendLine($"            var conv{genericType} = ValueBox.Converter<{genericType}>();");
-            }
-
-            if (parameterCount > 0 && resultCount > 0)
-            {
-                methodGenerics.Append(", ");
-                delegateType.Append(", ");
-            }
-
-            if (resultCount > 1)
-            {
-                delegateReturnType.Append("ValueTuple<");
-            }
-
-            for (int x = 0; x < resultCount; x++)
-            {
-                if (x > 0)
-                {
-                    methodGenerics.Append(", ");
-                    delegateReturnType.Append(", ");
-                }
-
-                string genericType = "TResult";
-                if (resultCount > 1)
-                {
-                    genericType += (x + 1).ToString(CultureInfo.InvariantCulture);
-                }
-
-                methodGenerics.Append(genericType);
-                delegateReturnType.Append(genericType);
-
-                parameterConverters.AppendLine($"            var conv{genericType} = ValueBox.Converter<{genericType}>();");
-            }
-
-            if (resultCount > 1)
-            {
-                delegateReturnType.Append(">");
-            }
-
-            delegateType.Append(delegateReturnType);
-
-            if (parameterCount > 0 || resultCount > 0)
-            {
-                methodGenerics.Append('>');
-            }
-
-            if (parameterCount > 0 || resultCount > 0 || hasCaller > 0)
-            {
-                delegateType.Append(">");
-            }
 #>
         /// <summary>
         /// Defines a function in the linker.
@@ -165,33 +59,8 @@ for (int hasCaller = 0; hasCaller < 2; hasCaller++)
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] {
-<#
-            if (hasCaller > 0)
-            {
-                #>
-                typeof(Caller),
-<#
-            }
-
-            for (int i = 0; i < parameterCount; i++) {
-            #>
-                typeof(T<#= (parameterCount > 1 ? (i + 1).ToString(CultureInfo.InvariantCulture) : "") #>),
-<#
-            }
-            #>
-            };
-
-            var callbackReturnType = <#
-            if (resultCount == 0)
-            {
-                #>default(Type)<#
-            }
-            else {
-                #>typeof(<#= delegateReturnType #>)<#
-            }
-
-            #>;
+            var callbackParameterTypes = new Type[] { <#= callbackParameterTypeExpressions #>};
+            var callbackReturnType = <#= callbackReturnTypeExpression #>;
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: <#= (hasCaller > 0) ? "true" : "false" #>, allowTuple: <#= (resultCount > 1) ? "true" : "false" #>, out _, out _);
 
@@ -210,67 +79,7 @@ for (int hasCaller = 0; hasCaller < 2; hasCaller++)
             {
                 Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
                 {
-                    using var caller = new Caller(callerPtr);
-
-                    try
-                    {
-                        <#= resultCount > 0 ? "var result = " : "" #>callback(
-                            <#
-                if (hasCaller > 0)
-                {
-                    #>caller<#
-
-                    if (parameterCount > 0)
-                    {
-                        #>,
-                            <#
-                    }
-                }
-
-                for (int i = 0; i < parameterCount; i++)
-                {
-                    string genericType = "T";
-                    if (parameterCount > 1)
-                    {
-                        genericType += (i + 1).ToString(CultureInfo.InvariantCulture);
-                    }
-
-                    #>conv<#= genericType #>.Unbox(caller, args[<#= i.ToString(CultureInfo.InvariantCulture) #>].ToValueBox())<#
-
-                    if (i + 1 < parameterCount)
-                    {
-                    #>,
-                            <#
-                    }
-                }
-                #>);
-
-                        <#
-                for (int i = 0; i < resultCount; i++)
-                {
-                    string genericType = "TResult";
-                    if (resultCount > 1)
-                    {
-                        genericType += (i + 1).ToString(CultureInfo.InvariantCulture);
-                    }
-
-                    string tupleAccessor = "";
-                    if (resultCount > 1)
-                    {
-                        tupleAccessor = ".Item" + (i + 1).ToString(CultureInfo.InvariantCulture);
-                    }
-
-                    #>results[<#= i.ToString(CultureInfo.InvariantCulture) #>] = Value.FromValueBox(conv<#= genericType #>.Box(result<#= tupleAccessor #>));
-                        <#
-                }
-                #>
-
-                        return IntPtr.Zero;
-                    }
-                    catch (Exception ex)
-                    {
-                        return Function.HandleCallbackException(ex);
-                    }
+<# GenerateCallbackContent(hasCaller, resultCount, parameterCount); #>
                 };
 
                 var moduleBytes = Encoding.UTF8.GetBytes(module);
@@ -297,8 +106,6 @@ for (int hasCaller = 0; hasCaller < 2; hasCaller++)
             }
         }
 <#
-        }
-    }
 }
 #>
     }
