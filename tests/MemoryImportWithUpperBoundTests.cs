@@ -28,8 +28,9 @@ namespace Wasmtime.Tests
             memory.Should().NotBeNull();
             memory.ModuleName.Should().Be("");
             memory.Name.Should().Be("mem");
-            memory.Minimum.Should().Be(10);
-            memory.Maximum.Should().Be(100);
+            memory.Minimum.Should().Be(10L);
+            memory.Maximum.Should().Be(100L);
+            memory.Is64Bit.Should().BeFalse();
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Wasmtime
         public WasmtimeException(string message) : base(message) { }
 
         /// <inheritdoc/>
-        public WasmtimeException(string message, Exception inner) : base(message, inner) { }
+        public WasmtimeException(string message, Exception? inner) : base(message, inner) { }
 
         /// <inheritdoc/>
         protected WasmtimeException(SerializationInfo info, StreamingContext context) : base(info, context) { }

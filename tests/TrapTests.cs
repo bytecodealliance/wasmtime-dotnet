@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+
 using FluentAssertions;
 using Xunit;
 
@@ -47,11 +49,25 @@ namespace Wasmtime.Tests
 
         private Linker Linker { get; set; }
 
+        private Action TrapFromHostExceptionCallback { get; set; }
+
+        private Action HostCallback { get; set; }
+
         public TrapTests(TrapFixture fixture)
         {
             Fixture = fixture;
             Store = new Store(Fixture.Engine);
             Linker = new Linker(Fixture.Engine);
+
+            Linker.Define("", "host_trap", Function.FromCallback(Store, () => throw new Exception()));
+
+            Linker.Define("", "trap_from_host_exception", Function.FromCallback(
+                Store,
+                () => TrapFromHostExceptionCallback?.Invoke()));
+
+            Linker.Define("", "call_host_callback", Function.FromCallback(
+                Store,
+                () => HostCallback?.Invoke()));
         }
 
         [Fact]
@@ -145,6 +161,17 @@ namespace Wasmtime.Tests
         }
 
         [Fact]
+        public void ItReturnsCorrectTrapCodeForHostTrap()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var hostTrap = instance.GetFunction<ActionResult>("host_trap");
+            var result = hostTrap();
+
+            result.Type.Should().Be(ResultType.Trap);
+            result.Trap.Type.Should().Be(TrapCode.Undefined);
+        }
+
+        [Fact]
         public void ItThrowsWhenAccessingValueResultFromTrapResult()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
@@ -188,6 +215,83 @@ namespace Wasmtime.Tests
             var result = run();
 
             result.TrapStackDepth.Should().Be(1);
+        }
+
+        [Fact]
+        public void ItPassesCallbackTrapCauseAsInnerException()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var callTrap = instance.GetAction("trap_from_host_exception");
+            var trapInWasm = instance.GetAction("trap_in_wasm");
+
+            var exceptionToThrow = new IOException("My I/O exception.");
+
+            TrapFromHostExceptionCallback = () => throw exceptionToThrow;
+
+            // Verify that the IOException thrown at the host callback is passed as
+            // InnerException to the TrapException thrown on the host-to-wasm transition.
+            var action = callTrap;
+
+            action
+                .Should()
+                .Throw<TrapException>()
+                .Where(e => e.Type == TrapCode.Undefined &&
+                    e.InnerException == exceptionToThrow);
+
+            // After that, ensure that when invoking another function that traps in wasm
+            // (so it cannot have a cause), the TrapException's InnerException is now null.
+            action = trapInWasm;
+            action
+                .Should()
+                .Throw<TrapException>()
+                .Where(e => e.Type == TrapCode.Unreachable &&
+                    e.InnerException == null);
+
+            // Also verify the InnerException is set when using an ActionResult.
+            var callTrapAsActionResult = instance.GetFunction<ActionResult>("trap_from_host_exception");
+            var result = callTrapAsActionResult();
+
+            result.Type.Should().Be(ResultType.Trap);
+            result.Trap.Type.Should().Be(TrapCode.Undefined);
+            result.Trap.InnerException.Should().Be(exceptionToThrow);
+        }
+
+        [Fact]
+        public void ItPassesCallbackTrapCauseAsInnerExceptionOverTwoLevels()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var callTrap = instance.GetAction("trap_from_host_exception");
+            var callHostCallback = instance.GetAction("call_host_callback");
+
+            var exceptionToThrow = new IOException("My I/O exception.");
+
+            TrapFromHostExceptionCallback = () => throw exceptionToThrow;
+            HostCallback = callTrap;
+
+            // Verify that the IOException is passed as InnerException to the
+            // TrapException even after two levels of wasm-to-host transitions.
+            var action = callHostCallback;
+
+            action
+                .Should()
+                .Throw<TrapException>()
+                .Where(e => e.Type == TrapCode.Undefined &&
+                    e.InnerException == exceptionToThrow);
+        }
+
+        [Fact]
+        public void ItPassesCallbackTrapCauseAsInnerExceptionWhenInstantiating()
+        {
+            var exceptionToThrow = new IOException("My I/O exception.");
+            HostCallback = () => throw exceptionToThrow;
+            
+            var action = () => Linker.Instantiate(Store, Fixture.Module);
+
+            action
+                .Should()
+                .Throw<TrapException>()
+                .Where(e => e.Type == TrapCode.Undefined &&
+                    e.InnerException == exceptionToThrow);
         }
 
         public void Dispose()

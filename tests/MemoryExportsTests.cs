@@ -29,12 +29,13 @@ namespace Wasmtime.Tests
 
         [Theory]
         [MemberData(nameof(GetMemoryExports))]
-        public void ItHasTheExpectedMemoryExports(string exportName, uint expectedMinimum, uint expectedMaximum)
+        public void ItHasTheExpectedMemoryExports(string exportName, long expectedMinimum, long? expectedMaximum, bool is64Bit)
         {
             var export = Fixture.Module.Exports.Where(m => m.Name == exportName).FirstOrDefault() as MemoryExport;
             export.Should().NotBeNull();
             export.Minimum.Should().Be(expectedMinimum);
             export.Maximum.Should().Be(expectedMaximum);
+            export.Is64Bit.Should().Be(is64Bit);
         }
 
         [Fact]
@@ -109,8 +110,9 @@ namespace Wasmtime.Tests
         {
             yield return new object[] {
                 "mem",
-                1,
-                2
+                1L,
+                2L,
+                false
             };
         }
 

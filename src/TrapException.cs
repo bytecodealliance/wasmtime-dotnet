@@ -259,7 +259,7 @@ namespace Wasmtime
         public TrapException(string message) : base(message) { }
 
         /// <inheritdoc/>
-        public TrapException(string message, Exception inner) : base(message, inner) { }
+        public TrapException(string message, Exception? inner) : base(message, inner) { }
 
         /// <summary>
         /// Gets the trap's frames.
@@ -281,7 +281,8 @@ namespace Wasmtime
         /// <inheritdoc/>
         protected TrapException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
-        internal TrapException(string message, IReadOnlyList<TrapFrame>? frames, TrapCode type) : base(message)
+        internal TrapException(string message, IReadOnlyList<TrapFrame>? frames, TrapCode type, Exception? innerException = null) 
+            : base(message, innerException)
         {
             Type = type;
             Frames = frames;
@@ -289,10 +290,20 @@ namespace Wasmtime
 
         internal static TrapException FromOwnedTrap(IntPtr trap, bool delete = true)
         {
+            // Get the cause of the trap if available (in case the trap was caused by a
+            // .NET exception thrown in a callback).
+            var callbackTrapCause = Function.CallbackTrapCause;
+
+            if (callbackTrapCause is not null)
+            {
+                // Clear the field as we consumed the value.
+                Function.CallbackTrapCause = null;
+            }
+
             var accessor = new TrapAccessor(trap);
             try
             {
-                var trappedException = new TrapException(accessor.Message, accessor.GetFrames(), accessor.TrapCode)
+                var trappedException = new TrapException(accessor.Message, accessor.GetFrames(), accessor.TrapCode, callbackTrapCause)
                 {
                     ExitCode = accessor.ExitStatus
                 };
@@ -333,9 +344,11 @@ namespace Wasmtime
             public static extern void wasm_frame_vec_delete(in FrameArray vec);
 
             [DllImport(Engine.LibraryName)]
+            [return: MarshalAs(UnmanagedType.I1)]
             internal static extern bool wasmtime_trap_exit_status(IntPtr trap, out int exitStatus);
 
             [DllImport(Engine.LibraryName)]
+            [return: MarshalAs(UnmanagedType.I1)]
             internal static extern bool wasmtime_trap_code(IntPtr trap, out TrapCode exitCode);
         }
     }
