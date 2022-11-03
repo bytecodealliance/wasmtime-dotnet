@@ -69,12 +69,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -144,12 +139,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -222,12 +212,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -303,12 +288,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -387,12 +367,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -474,12 +449,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -564,12 +534,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -657,12 +622,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -753,12 +713,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -852,12 +807,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -954,12 +904,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -1059,12 +1004,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -1167,12 +1107,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -1242,12 +1177,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -1319,12 +1249,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -1399,12 +1324,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -1482,12 +1402,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -1568,12 +1483,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -1657,12 +1567,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -1749,12 +1654,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -1844,12 +1744,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -1942,12 +1837,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -2043,12 +1933,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -2147,12 +2032,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -2254,12 +2134,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -2364,12 +2239,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -2441,12 +2311,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -2520,12 +2385,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -2602,12 +2462,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -2687,12 +2542,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -2775,12 +2625,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -2866,12 +2711,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -2960,12 +2800,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -3057,12 +2892,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -3157,12 +2987,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -3260,12 +3085,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -3366,12 +3186,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -3475,12 +3290,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -3587,12 +3397,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -3666,12 +3471,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -3747,12 +3547,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -3831,12 +3626,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -3918,12 +3708,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -4008,12 +3793,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -4101,12 +3881,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -4197,12 +3972,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -4296,12 +4066,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -4398,12 +4163,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -4503,12 +4263,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -4611,12 +4366,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -4722,12 +4472,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -4836,12 +4581,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -4917,12 +4657,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -5000,12 +4735,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -5086,12 +4816,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -5175,12 +4900,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -5267,12 +4987,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -5362,12 +5077,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -5460,12 +5170,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -5561,12 +5266,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -5665,12 +5365,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -5772,12 +5467,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -5882,12 +5572,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -5995,12 +5680,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -6111,12 +5791,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -6185,12 +5860,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -6262,12 +5932,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -6342,12 +6007,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -6425,12 +6085,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -6511,12 +6166,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -6600,12 +6250,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -6692,12 +6337,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -6787,12 +6427,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -6885,12 +6520,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -6986,12 +6616,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -7090,12 +6715,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -7197,12 +6817,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -7307,12 +6922,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -7383,12 +6993,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -7462,12 +7067,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -7544,12 +7144,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -7629,12 +7224,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -7717,12 +7307,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -7808,12 +7393,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -7902,12 +7482,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -7999,12 +7574,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -8099,12 +7669,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -8202,12 +7767,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -8308,12 +7868,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -8417,12 +7972,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -8529,12 +8079,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -8607,12 +8152,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -8688,12 +8228,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -8772,12 +8307,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -8859,12 +8389,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -8949,12 +8474,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -9042,12 +8562,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -9138,12 +8653,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -9237,12 +8747,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -9339,12 +8844,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -9444,12 +8944,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -9552,12 +9047,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -9663,12 +9153,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -9777,12 +9262,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -9857,12 +9337,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -9940,12 +9415,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -10026,12 +9496,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -10115,12 +9580,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -10207,12 +9667,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -10302,12 +9757,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -10400,12 +9850,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -10501,12 +9946,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -10605,12 +10045,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -10712,12 +10147,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -10822,12 +10252,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -10935,12 +10360,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -11051,12 +10471,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -11133,12 +10548,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -11218,12 +10628,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -11306,12 +10711,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -11397,12 +10797,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -11491,12 +10886,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -11588,12 +10978,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -11688,12 +11073,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -11791,12 +11171,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -11897,12 +11272,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -12006,12 +11376,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -12118,12 +11483,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -12233,12 +11593,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
@@ -12351,12 +11706,7 @@ namespace Wasmtime
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 

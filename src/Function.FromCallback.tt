@@ -261,12 +261,7 @@ for (int hasCaller = 0; hasCaller < 2; hasCaller++)
                     }
                     catch (Exception ex)
                     {
-                        var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-                        fixed (byte* ptr = bytes)
-                        {
-                            return Function.Native.wasmtime_trap_new(ptr, (UIntPtr)bytes.Length);
-                        }
+                        return HandleCallbackException(ex);
                     }
                 };
 
