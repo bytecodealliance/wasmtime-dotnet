@@ -2,7 +2,7 @@
 // This file contains the functions used in Function.FromCallback.ts and Linker.DefineFunction.ts
 // in order to generate overloads with different parameter and result types for Action<...>/Func<...>.
 
-void GenerateCallbackContent(int hasCaller, int resultCount, int parameterCount) {
+void GenerateCallbackContent(bool hasCaller, int resultCount, int parameterCount) {
 #>
                     using var caller = new Caller(callerPtr);
 
@@ -10,7 +10,7 @@ void GenerateCallbackContent(int hasCaller, int resultCount, int parameterCount)
                     {
                         <#= resultCount > 0 ? "var result = " : "" #>callback(
                             <#
-    if (hasCaller > 0)
+    if (hasCaller)
     {
         #>caller<#
 
@@ -71,7 +71,7 @@ void GenerateCallbackContent(int hasCaller, int resultCount, int parameterCount)
 }
 
 IEnumerable<(
-    int hasCaller,
+    bool hasCaller,
     int resultCount,
     int parameterCount,
     string methodGenerics,
@@ -91,7 +91,7 @@ IEnumerable<(
     const int maxParameterCount = 12;
     const int maxResultCount = 4;
 
-    for (int hasCaller = 0; hasCaller < 2; hasCaller++)
+    foreach (var hasCaller in new[] { false, true })
     {
         for (int resultCount = 0; resultCount <= maxResultCount; resultCount++)
         {
@@ -107,12 +107,12 @@ IEnumerable<(
                     methodGenerics.Append('<');
                 }
 
-                if (parameterCount > 0 || resultCount > 0 || hasCaller > 0)
+                if (parameterCount > 0 || resultCount > 0 || hasCaller)
                 {
                     delegateType.Append('<');
                 }
 
-                if (hasCaller > 0)
+                if (hasCaller)
                 {
                     delegateType.Append("Caller");
 
@@ -185,14 +185,14 @@ IEnumerable<(
                     methodGenerics.Append('>');
                 }
 
-                if (parameterCount > 0 || resultCount > 0 || hasCaller > 0)
+                if (parameterCount > 0 || resultCount > 0 || hasCaller)
                 {
                     delegateType.Append(">");
                 }
 
                 // Generate the "typeof(...)" clauses for the callback parameters.
                 var callbackParameterTypeExpressions = new StringBuilder();
-                if (hasCaller > 0)
+                if (hasCaller)
                 {
                     callbackParameterTypeExpressions.Append("typeof(Caller), ");
                 }
