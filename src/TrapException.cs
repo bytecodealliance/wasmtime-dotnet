@@ -207,16 +207,7 @@ namespace Wasmtime
             TrapException.Native.wasm_trap_trace(_trap, out var frames);
             using (frames)
             {
-                var trapFrames = new List<TrapFrame>((int)frames.size);
-                for (var i = 0; i < (int)frames.size; ++i)
-                {
-                    unsafe
-                    {
-                        trapFrames.Add(new TrapFrame(frames.data[i]));
-                    }
-                }
-
-                return trapFrames;
+                return TrapException.GetFrames(frames);
             }
         }
 
@@ -244,11 +235,6 @@ namespace Wasmtime
 
         /// <inheritdoc/>
         public TrapException(string message, Exception? inner) : base(message, inner) { }
-
-        /// <summary>
-        /// Gets the trap's frames.
-        /// </summary>
-        public IReadOnlyList<TrapFrame>? Frames { get; protected set; }
 
         /// <summary>
         /// Indentifies which type of trap this is.
@@ -290,7 +276,22 @@ namespace Wasmtime
             }
         }
 
-        internal static class Native
+        internal static List<TrapFrame> GetFrames(Native.FrameArray frames)
+        {
+            int framesSize = checked((int)frames.size);
+            var trapFrames = new List<TrapFrame>(framesSize);
+            for (var i = 0; i < framesSize; ++i)
+            {
+                unsafe
+                {
+                    trapFrames.Add(new TrapFrame(frames.data[i]));
+                }
+            }
+
+            return trapFrames;
+        }
+
+        internal new static class Native
         {
             [StructLayout(LayoutKind.Sequential)]
             public unsafe struct FrameArray : IDisposable
@@ -308,7 +309,7 @@ namespace Wasmtime
             public static extern void wasm_trap_message(IntPtr trap, out ByteArray message);
 
             [DllImport(Engine.LibraryName)]
-            public static extern void wasm_trap_trace(IntPtr trap, out FrameArray message);
+            public static extern void wasm_trap_trace(IntPtr trap, out FrameArray frames);
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasm_trap_delete(IntPtr trap);

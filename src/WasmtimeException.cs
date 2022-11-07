@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Text;
@@ -21,9 +22,14 @@ namespace Wasmtime
         public WasmtimeException(string message, Exception? inner) : base(message, inner) { }
 
         /// <summary>
-        /// Gets the exit code when the trap results from executing the WASI <c>proc_exit</c> function.
+        /// Gets the error's frames.
+        /// </summary>
+        public IReadOnlyList<TrapFrame>? Frames { get; private protected set; }
+
+        /// <summary>
+        /// Gets the exit code when the error results from executing the WASI <c>proc_exit</c> function.
         ///
-        /// The value is <c>null</c> if the trap was not an exit trap.
+        /// The value is <c>null</c> if the error was not an exit error.
         /// </summary>
         public int? ExitCode { get; private set; }
 
@@ -48,10 +54,16 @@ namespace Wasmtime
                     {
                         var byteSpan = new ReadOnlySpan<byte>(bytes.data, checked((int)bytes.size));
 
-                        return new WasmtimeException(Encoding.UTF8.GetString(byteSpan))
+                        Native.wasmtime_error_wasm_trace(error, out var frames);
+
+                        using (frames)
                         {
-                            ExitCode = exitStatus
-                        };
+                            return new WasmtimeException(Encoding.UTF8.GetString(byteSpan))
+                            {
+                                ExitCode = exitStatus,
+                                Frames = TrapException.GetFrames(frames)
+                            };
+                        }
                     }
                 }
             }
@@ -61,10 +73,13 @@ namespace Wasmtime
             }
         }
 
-        private static class Native
+        internal static class Native
         {
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_error_message(IntPtr error, out ByteArray message);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_error_wasm_trace(IntPtr error, out TrapException.Native.FrameArray frames);
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_error_delete(IntPtr error);
