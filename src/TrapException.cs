@@ -134,22 +134,6 @@ namespace Wasmtime
         }
 
         /// <summary>
-        /// Attempt to get a WASI exit status code from this trap. May be null if no status code is available.
-        /// </summary>
-        public int? ExitStatus
-        {
-            get
-            {
-                if (TrapException.Native.wasmtime_trap_exit_status(_trap, out var exitStatus))
-                {
-                    return exitStatus;
-                }
-
-                return null;
-            }
-        }
-
-        /// <summary>
         /// Get the message string
         /// </summary>
         public string Message
@@ -267,13 +251,6 @@ namespace Wasmtime
         public IReadOnlyList<TrapFrame>? Frames { get; protected set; }
 
         /// <summary>
-        /// The exit code when the trap results from executing the WASI `proc_exit` function.
-        ///
-        /// The value is null if the trap was not an exit trap.
-        /// </summary>
-        public int? ExitCode { get; private set; }
-
-        /// <summary>
         /// Indentifies which type of trap this is.
         /// </summary>
         public TrapCode Type { get; private set; }
@@ -303,11 +280,7 @@ namespace Wasmtime
             var accessor = new TrapAccessor(trap);
             try
             {
-                var trappedException = new TrapException(accessor.Message, accessor.GetFrames(), accessor.TrapCode, callbackTrapCause)
-                {
-                    ExitCode = accessor.ExitStatus
-                };
-
+                var trappedException = new TrapException(accessor.Message, accessor.GetFrames(), accessor.TrapCode, callbackTrapCause);
                 return trappedException;
             }
             finally
@@ -342,10 +315,6 @@ namespace Wasmtime
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasm_frame_vec_delete(in FrameArray vec);
-
-            [DllImport(Engine.LibraryName)]
-            [return: MarshalAs(UnmanagedType.I1)]
-            internal static extern bool wasmtime_trap_exit_status(IntPtr trap, out int exitStatus);
 
             [DllImport(Engine.LibraryName)]
             [return: MarshalAs(UnmanagedType.I1)]

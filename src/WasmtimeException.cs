@@ -20,20 +20,44 @@ namespace Wasmtime
         /// <inheritdoc/>
         public WasmtimeException(string message, Exception? inner) : base(message, inner) { }
 
+        /// <summary>
+        /// Gets the exit code when the trap results from executing the WASI <c>proc_exit</c> function.
+        ///
+        /// The value is <c>null</c> if the trap was not an exit trap.
+        /// </summary>
+        public int? ExitCode { get; private set; }
+
         /// <inheritdoc/>
         protected WasmtimeException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
         internal static WasmtimeException FromOwnedError(IntPtr error)
         {
-            Native.wasmtime_error_message(error, out var bytes);
-            Native.wasmtime_error_delete(error);
-
-            unsafe
+            try
             {
-                using (var message = bytes)
+                int? exitStatus = null;
+                if (Native.wasmtime_error_exit_status(error, out int localExitStatus))
                 {
-                    return new WasmtimeException(Encoding.UTF8.GetString(message.data, (int)message.size));
+                    exitStatus = localExitStatus;
                 }
+
+                Native.wasmtime_error_message(error, out var bytes);
+
+                using (bytes)
+                {
+                    unsafe
+                    {
+                        var byteSpan = new ReadOnlySpan<byte>(bytes.data, checked((int)bytes.size));
+
+                        return new WasmtimeException(Encoding.UTF8.GetString(byteSpan))
+                        {
+                            ExitCode = exitStatus
+                        };
+                    }
+                }
+            }
+            finally
+            {
+                Native.wasmtime_error_delete(error);
             }
         }
 
@@ -45,6 +69,9 @@ namespace Wasmtime
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_error_delete(IntPtr error);
 
+            [DllImport(Engine.LibraryName)]
+            [return: MarshalAs(UnmanagedType.I1)]
+            public static extern bool wasmtime_error_exit_status(IntPtr error, out int exitStatus);
         }
     }
 }
