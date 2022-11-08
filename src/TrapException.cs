@@ -253,20 +253,10 @@ namespace Wasmtime
 
         internal static TrapException FromOwnedTrap(IntPtr trap, bool delete = true)
         {
-            // Get the cause of the trap if available (in case the trap was caused by a
-            // .NET exception thrown in a callback).
-            var callbackTrapCause = Function.CallbackTrapCause;
-
-            if (callbackTrapCause is not null)
-            {
-                // Clear the field as we consumed the value.
-                Function.CallbackTrapCause = null;
-            }
-
             var accessor = new TrapAccessor(trap);
             try
             {
-                var trappedException = new TrapException(accessor.Message, accessor.GetFrames(), accessor.TrapCode, callbackTrapCause);
+                var trappedException = new TrapException(accessor.Message, accessor.GetFrames(), accessor.TrapCode);
                 return trappedException;
             }
             finally

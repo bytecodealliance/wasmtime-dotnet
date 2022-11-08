@@ -40,6 +40,16 @@ namespace Wasmtime
         {
             try
             {
+                // Get the cause of the error if available (in case the error was caused by a
+                // .NET exception thrown in a callback).
+                var callbackErrorCause = Function.CallbackErrorCause;
+
+                if (callbackErrorCause is not null)
+                {
+                    // Clear the field as we consumed the value.
+                    Function.CallbackErrorCause = null;
+                }
+
                 int? exitStatus = null;
                 if (Native.wasmtime_error_exit_status(error, out int localExitStatus))
                 {
@@ -58,7 +68,7 @@ namespace Wasmtime
 
                         using (frames)
                         {
-                            return new WasmtimeException(Encoding.UTF8.GetString(byteSpan))
+                            return new WasmtimeException(Encoding.UTF8.GetString(byteSpan), callbackErrorCause)
                             {
                                 ExitCode = exitStatus,
                                 Frames = TrapException.GetFrames(frames)
