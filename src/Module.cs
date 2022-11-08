@@ -10,7 +10,7 @@ namespace Wasmtime
     [StructLayout(LayoutKind.Sequential)]
     internal unsafe struct ByteArray : IDisposable
     {
-        public UIntPtr size;
+        public nuint size;
         public byte* data;
 
         public void Dispose()
@@ -176,7 +176,7 @@ namespace Wasmtime
                 var textBytes = Encoding.UTF8.GetBytes(text);
                 fixed (byte* ptr = textBytes)
                 {
-                    var error = Native.wasmtime_wat2wasm(ptr, (UIntPtr)textBytes.Length, out var moduleBytes);
+                    var error = Native.wasmtime_wat2wasm(ptr, (nuint)textBytes.Length, out var moduleBytes);
                     if (error != IntPtr.Zero)
                     {
                         throw WasmtimeException.FromOwnedError(error);
@@ -242,7 +242,7 @@ namespace Wasmtime
 
             using (array)
             {
-                var len = Convert.ToInt32(array.size.ToUInt32());
+                var len = checked((int)array.size);
                 var bytes = new byte[len];
                 unsafe
                 {
@@ -335,7 +335,7 @@ namespace Wasmtime
                 var textBytes = Encoding.UTF8.GetBytes(wat);
                 fixed (byte* ptr = textBytes)
                 {
-                    var error = Native.wasmtime_wat2wasm(ptr, (UIntPtr)textBytes.Length, out var moduleBytes);
+                    var error = Native.wasmtime_wat2wasm(ptr, (nuint)textBytes.Length, out var moduleBytes);
                     if (error != IntPtr.Zero)
                     {
                         throw WasmtimeException.FromOwnedError(error);
@@ -343,7 +343,7 @@ namespace Wasmtime
 
                     using (moduleBytes)
                     {
-                        var arr = new byte[(int)moduleBytes.size];
+                        var arr = new byte[checked((int)moduleBytes.size)];
 
                         var src = new Span<byte>(moduleBytes.data, (int)moduleBytes.size);
                         src.CopyTo(arr);
@@ -424,7 +424,7 @@ namespace Wasmtime
             public static extern void wasmtime_module_exports(IntPtr module, out ExportTypeArray exports);
 
             [DllImport(Engine.LibraryName)]
-            public static unsafe extern IntPtr wasmtime_wat2wasm(byte* text, UIntPtr len, out ByteArray bytes);
+            public static unsafe extern IntPtr wasmtime_wat2wasm(byte* text, nuint len, out ByteArray bytes);
 
             [DllImport(Engine.LibraryName)]
             public static extern unsafe IntPtr wasmtime_module_validate(Engine.Handle engine, byte* bytes, UIntPtr size);

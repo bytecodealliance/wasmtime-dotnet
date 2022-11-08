@@ -53,13 +53,13 @@ namespace Wasmtime
             ModuleName = null;
 
             var bytes = Native.wasmtime_frame_func_name(frame);
-            if (bytes != null && (int)bytes->size > 0)
+            if (bytes != null && checked((int)bytes->size) > 0)
             {
                 FunctionName = Encoding.UTF8.GetString(bytes->data, (int)bytes->size);
             }
 
             bytes = Native.wasmtime_frame_module_name(frame);
-            if (bytes != null && (int)bytes->size > 0)
+            if (bytes != null && checked((int)bytes->size) > 0)
             {
                 ModuleName = Encoding.UTF8.GetString(bytes->data, (int)bytes->size);
             }
@@ -88,10 +88,10 @@ namespace Wasmtime
         private static class Native
         {
             [DllImport(Engine.LibraryName)]
-            public static extern UIntPtr wasm_frame_func_offset(IntPtr frame);
+            public static extern nuint wasm_frame_func_offset(IntPtr frame);
 
             [DllImport(Engine.LibraryName)]
-            public static extern UIntPtr wasm_frame_module_offset(IntPtr frame);
+            public static extern nuint wasm_frame_module_offset(IntPtr frame);
 
             [DllImport(Engine.LibraryName)]
             public static extern unsafe ByteArray* wasmtime_frame_func_name(IntPtr frame);
@@ -296,7 +296,7 @@ namespace Wasmtime
             [StructLayout(LayoutKind.Sequential)]
             public unsafe struct FrameArray : IDisposable
             {
-                public UIntPtr size;
+                public nuint size;
                 public IntPtr* data;
 
                 public void Dispose()
