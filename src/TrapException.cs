@@ -127,7 +127,7 @@ namespace Wasmtime
             {
                 if (TrapException.Native.wasmtime_trap_code(_trap, out var code))
                 {
-                    return code;
+                    return (TrapCode)code;
                 }
                 return TrapCode.Undefined;
             }
@@ -309,7 +309,7 @@ namespace Wasmtime
 
             [DllImport(Engine.LibraryName)]
             [return: MarshalAs(UnmanagedType.I1)]
-            internal static extern bool wasmtime_trap_code(IntPtr trap, out TrapCode exitCode);
+            internal static extern bool wasmtime_trap_code(IntPtr trap, out byte exitCode);
         }
     }
 }
