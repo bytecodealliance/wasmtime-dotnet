@@ -132,6 +132,7 @@ namespace Wasmtime.Tests
             action
                 .Should()
                 .Throw<TrapException>()
+                .Where(e => e.Type == TrapCode.OutOfFuel)
                 .WithMessage("all fuel consumed by WebAssembly*");
 
             var consumed = Store.GetConsumedFuel();
@@ -158,6 +159,7 @@ namespace Wasmtime.Tests
             action
                 .Should()
                 .Throw<TrapException>()
+                .Where(e => e.Type == TrapCode.OutOfFuel)
                 .WithMessage("all fuel consumed by WebAssembly*");
 
             consumed = Store.GetConsumedFuel();
@@ -202,6 +204,7 @@ namespace Wasmtime.Tests
             action
                 .Should()
                 .Throw<TrapException>()
+                .Where(e => e.Type == TrapCode.OutOfFuel)
                 .WithMessage("all fuel consumed by WebAssembly*");
 
             consumed = Store.GetConsumedFuel();
@@ -216,6 +219,7 @@ namespace Wasmtime.Tests
             action
                 .Should()
                 .Throw<TrapException>()
+                .Where(e => e.Type == TrapCode.OutOfFuel)
                 .WithMessage("all fuel consumed by WebAssembly*");
 
             consumed = Store.GetConsumedFuel();

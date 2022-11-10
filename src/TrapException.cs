@@ -37,6 +37,8 @@ namespace Wasmtime
         Unreachable = 9,
         /// <summary>The trap was the result of interrupting execution.</summary>
         Interrupt = 10,
+        /// <summary>The trap was the result of running out of the configured fuel amount.</summary>
+        OutOfFuel = 11,
     }
 
     /// <summary>
