@@ -37,6 +37,8 @@ namespace Wasmtime
         Unreachable = 9,
         /// <summary>The trap was the result of interrupting execution.</summary>
         Interrupt = 10,
+        /// <summary>The trap was the result of running out of the configured fuel amount.</summary>
+        OutOfFuel = 11,
     }
 
     /// <summary>
@@ -53,13 +55,13 @@ namespace Wasmtime
             ModuleName = null;
 
             var bytes = Native.wasmtime_frame_func_name(frame);
-            if (bytes != null && (int)bytes->size > 0)
+            if (bytes != null && checked((int)bytes->size) > 0)
             {
                 FunctionName = Encoding.UTF8.GetString(bytes->data, (int)bytes->size);
             }
 
             bytes = Native.wasmtime_frame_module_name(frame);
-            if (bytes != null && (int)bytes->size > 0)
+            if (bytes != null && checked((int)bytes->size) > 0)
             {
                 ModuleName = Encoding.UTF8.GetString(bytes->data, (int)bytes->size);
             }
@@ -88,10 +90,10 @@ namespace Wasmtime
         private static class Native
         {
             [DllImport(Engine.LibraryName)]
-            public static extern UIntPtr wasm_frame_func_offset(IntPtr frame);
+            public static extern nuint wasm_frame_func_offset(IntPtr frame);
 
             [DllImport(Engine.LibraryName)]
-            public static extern UIntPtr wasm_frame_module_offset(IntPtr frame);
+            public static extern nuint wasm_frame_module_offset(IntPtr frame);
 
             [DllImport(Engine.LibraryName)]
             public static extern unsafe ByteArray* wasmtime_frame_func_name(IntPtr frame);
@@ -127,25 +129,9 @@ namespace Wasmtime
             {
                 if (TrapException.Native.wasmtime_trap_code(_trap, out var code))
                 {
-                    return code;
+                    return (TrapCode)code;
                 }
                 return TrapCode.Undefined;
-            }
-        }
-
-        /// <summary>
-        /// Attempt to get a WASI exit status code from this trap. May be null if no status code is available.
-        /// </summary>
-        public int? ExitStatus
-        {
-            get
-            {
-                if (TrapException.Native.wasmtime_trap_exit_status(_trap, out var exitStatus))
-                {
-                    return exitStatus;
-                }
-
-                return null;
             }
         }
 
@@ -223,16 +209,7 @@ namespace Wasmtime
             TrapException.Native.wasm_trap_trace(_trap, out var frames);
             using (frames)
             {
-                var trapFrames = new List<TrapFrame>((int)frames.size);
-                for (var i = 0; i < (int)frames.size; ++i)
-                {
-                    unsafe
-                    {
-                        trapFrames.Add(new TrapFrame(frames.data[i]));
-                    }
-                }
-
-                return trapFrames;
+                return TrapException.GetFrames(frames);
             }
         }
 
@@ -262,18 +239,6 @@ namespace Wasmtime
         public TrapException(string message, Exception? inner) : base(message, inner) { }
 
         /// <summary>
-        /// Gets the trap's frames.
-        /// </summary>
-        public IReadOnlyList<TrapFrame>? Frames { get; protected set; }
-
-        /// <summary>
-        /// The exit code when the trap results from executing the WASI `proc_exit` function.
-        ///
-        /// The value is null if the trap was not an exit trap.
-        /// </summary>
-        public int? ExitCode { get; private set; }
-
-        /// <summary>
         /// Indentifies which type of trap this is.
         /// </summary>
         public TrapCode Type { get; private set; }
@@ -290,24 +255,10 @@ namespace Wasmtime
 
         internal static TrapException FromOwnedTrap(IntPtr trap, bool delete = true)
         {
-            // Get the cause of the trap if available (in case the trap was caused by a
-            // .NET exception thrown in a callback).
-            var callbackTrapCause = Function.CallbackTrapCause;
-
-            if (callbackTrapCause is not null)
-            {
-                // Clear the field as we consumed the value.
-                Function.CallbackTrapCause = null;
-            }
-
             var accessor = new TrapAccessor(trap);
             try
             {
-                var trappedException = new TrapException(accessor.Message, accessor.GetFrames(), accessor.TrapCode, callbackTrapCause)
-                {
-                    ExitCode = accessor.ExitStatus
-                };
-
+                var trappedException = new TrapException(accessor.Message, accessor.GetFrames(), accessor.TrapCode);
                 return trappedException;
             }
             finally
@@ -317,12 +268,27 @@ namespace Wasmtime
             }
         }
 
-        internal static class Native
+        internal static List<TrapFrame> GetFrames(Native.FrameArray frames)
+        {
+            int framesSize = checked((int)frames.size);
+            var trapFrames = new List<TrapFrame>(framesSize);
+            for (var i = 0; i < framesSize; ++i)
+            {
+                unsafe
+                {
+                    trapFrames.Add(new TrapFrame(frames.data[i]));
+                }
+            }
+
+            return trapFrames;
+        }
+
+        internal new static class Native
         {
             [StructLayout(LayoutKind.Sequential)]
             public unsafe struct FrameArray : IDisposable
             {
-                public UIntPtr size;
+                public nuint size;
                 public IntPtr* data;
 
                 public void Dispose()
@@ -335,7 +301,7 @@ namespace Wasmtime
             public static extern void wasm_trap_message(IntPtr trap, out ByteArray message);
 
             [DllImport(Engine.LibraryName)]
-            public static extern void wasm_trap_trace(IntPtr trap, out FrameArray message);
+            public static extern void wasm_trap_trace(IntPtr trap, out FrameArray frames);
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasm_trap_delete(IntPtr trap);
@@ -345,11 +311,7 @@ namespace Wasmtime
 
             [DllImport(Engine.LibraryName)]
             [return: MarshalAs(UnmanagedType.I1)]
-            internal static extern bool wasmtime_trap_exit_status(IntPtr trap, out int exitStatus);
-
-            [DllImport(Engine.LibraryName)]
-            [return: MarshalAs(UnmanagedType.I1)]
-            internal static extern bool wasmtime_trap_code(IntPtr trap, out TrapCode exitCode);
+            internal static extern bool wasmtime_trap_code(IntPtr trap, out byte exitCode);
         }
     }
 }

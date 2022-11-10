@@ -99,7 +99,7 @@ namespace Wasmtime.Tests
         }
 
         [Fact]
-        public void ItPropagatesExceptionsToCallersViaTraps()
+        public void ItPropagatesExceptionsToCallersViaErrors()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
             var thrower = instance.GetFunction("do_throw");
@@ -108,10 +108,10 @@ namespace Wasmtime.Tests
 
             action
                 .Should()
-                .Throw<TrapException>()
+                .Throw<WasmtimeException>()
                 // Ideally this should contain a check for the backtrace
                 // See: https://github.com/bytecodealliance/wasmtime/issues/1845
-                .WithMessage(THROW_MESSAGE + "*");
+                .WithMessage("*" + THROW_MESSAGE + "*");
         }
 
         public void Dispose()

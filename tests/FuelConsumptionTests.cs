@@ -132,7 +132,8 @@ namespace Wasmtime.Tests
             action
                 .Should()
                 .Throw<TrapException>()
-                .WithMessage("all fuel consumed by WebAssembly*");
+                .Where(e => e.Type == TrapCode.OutOfFuel)
+                .WithMessage("*all fuel consumed by WebAssembly*");
 
             var consumed = Store.GetConsumedFuel();
             consumed.Should().Be(1UL);
@@ -158,7 +159,8 @@ namespace Wasmtime.Tests
             action
                 .Should()
                 .Throw<TrapException>()
-                .WithMessage("all fuel consumed by WebAssembly*");
+                .Where(e => e.Type == TrapCode.OutOfFuel)
+                .WithMessage("*all fuel consumed by WebAssembly*");
 
             consumed = Store.GetConsumedFuel();
             consumed.Should().Be(5UL);
@@ -175,8 +177,8 @@ namespace Wasmtime.Tests
             Action action = () => expensive.Invoke();
             action
                 .Should()
-                .Throw<TrapException>()
-                .WithMessage("not enough fuel remaining in store*");
+                .Throw<WasmtimeException>()
+                .WithMessage("*not enough fuel remaining in store*");
 
             var consumed = Store.GetConsumedFuel();
             consumed.Should().Be(2UL);
@@ -202,7 +204,8 @@ namespace Wasmtime.Tests
             action
                 .Should()
                 .Throw<TrapException>()
-                .WithMessage("all fuel consumed by WebAssembly*");
+                .Where(e => e.Type == TrapCode.OutOfFuel)
+                .WithMessage("*all fuel consumed by WebAssembly*");
 
             consumed = Store.GetConsumedFuel();
             consumed.Should().Be(5UL);
@@ -216,7 +219,8 @@ namespace Wasmtime.Tests
             action
                 .Should()
                 .Throw<TrapException>()
-                .WithMessage("all fuel consumed by WebAssembly*");
+                .Where(e => e.Type == TrapCode.OutOfFuel)
+                .WithMessage("*all fuel consumed by WebAssembly*");
 
             consumed = Store.GetConsumedFuel();
             consumed.Should().Be(8UL);
