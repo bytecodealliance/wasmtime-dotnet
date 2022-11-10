@@ -45,7 +45,7 @@ namespace Example
             {
                 expensive();
             }
-            catch (TrapException ex)
+            catch (WasmtimeException ex)
             {
                 Console.WriteLine("Exception caught with the following message:");
                 Console.WriteLine(ex.Message);
