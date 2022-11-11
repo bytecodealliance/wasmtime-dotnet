@@ -20,7 +20,7 @@
     <RepositoryUrl>https://github.com/bytecodealliance/wasmtime-dotnet</RepositoryUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <PackageReleaseNotes>Update Wasmtime to 1.0.0.</PackageReleaseNotes>
+    <PackageReleaseNotes>Update Wasmtime to 2.0.1.</PackageReleaseNotes>
     <Summary>A .NET API for Wasmtime, a standalone WebAssembly runtime</Summary>
     <PackageTags>webassembly, .net, wasm, wasmtime</PackageTags>
     <Title>Wasmtime</Title>
@@ -32,6 +32,8 @@ Wasmtime is a standalone runtime for WebAssembly, using the Cranelift JIT compil
 The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modules and to interact with them in-process.
     </PackageDescription>
     <PackageLicenseExpression>Apache-2.0 WITH LLVM-exception</PackageLicenseExpression>
+    <EnablePackageValidation>true</EnablePackageValidation>
+    <ContinuousIntegrationBuild Condition="'$(DevBuild)'=='false'">true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -75,90 +77,101 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
     <Exec Command="dotnet tool run t4 Function.FromCallback.tt" />
   </Target>
 
-  <Target Name="DownloadWasmtime" BeforeTargets="BeforeBuild">
-    <PropertyGroup>
-      <BaseURL>https://github.com/bytecodealliance/wasmtime/releases/download</BaseURL>
-      <ReleaseURLBase Condition="'$(DevBuild)'=='true'">$(BaseURL)/dev</ReleaseURLBase>
-      <ReleaseURLBase Condition="'$(ReleaseURLBase)'==''">$(BaseURL)/v$(WasmtimeVersion)</ReleaseURLBase>
-      <ReleaseFileNameBase Condition="'$(DevBuild)'=='true'">wasmtime-dev</ReleaseFileNameBase>
-      <ReleaseFileNameBase Condition="'$(ReleaseFileNameBase)'==''">wasmtime-v$(WasmtimeVersion)</ReleaseFileNameBase>
-    </PropertyGroup>
+  <PropertyGroup>
+    <BaseURL>https://github.com/bytecodealliance/wasmtime/releases/download</BaseURL>
+    <ReleaseURLBase Condition="'$(DevBuild)'=='true'">$(BaseURL)/dev</ReleaseURLBase>
+    <ReleaseURLBase Condition="'$(ReleaseURLBase)'==''">$(BaseURL)/v$(WasmtimeVersion)</ReleaseURLBase>
+    <ReleaseFileNameBase Condition="'$(DevBuild)'=='true'">wasmtime-dev</ReleaseFileNameBase>
+    <ReleaseFileNameBase Condition="'$(ReleaseFileNameBase)'==''">wasmtime-v$(WasmtimeVersion)</ReleaseFileNameBase>
+  </PropertyGroup>
 
-    <ItemGroup Condition="'$(Packing)' == 'true' Or $([MSBuild]::IsOsPlatform('Linux'))">
-      <WasmtimeDownload Include="linux-x86_64" Condition="'$(Packing)' == 'true' Or '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'X64'">
-        <OS>linux</OS>
-        <Arch>x86_64</Arch>
-        <RID>linux-x64</RID>
-        <FileExtension>tar.xz</FileExtension>
-        <LibraryFilename>libwasmtime.so</LibraryFilename>
-      </WasmtimeDownload>
-      <WasmtimeDownload Include="linux-aarch64" Condition="'$(Packing)' == 'true' Or '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'Arm64'">
-        <OS>linux</OS>
-        <Arch>aarch64</Arch>
-        <RID>linux-arm64</RID>
-        <FileExtension>tar.xz</FileExtension>
-        <LibraryFilename>libwasmtime.so</LibraryFilename>
-      </WasmtimeDownload>
-    </ItemGroup>
+  <ItemGroup>
+    <Wasmtime Include="linux-x86_64">
+      <Copy Condition="$([MSBuild]::IsOsPlatform('Linux')) And '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)'=='X64'">true</Copy>
+      <OS>linux</OS>
+      <Arch>x86_64</Arch>
+      <RID>linux-x64</RID>
+      <FileExtension>tar.xz</FileExtension>
+      <LibraryFilename>libwasmtime.so</LibraryFilename>
+    </Wasmtime>
 
-    <ItemGroup Condition="'$(Packing)' == 'true' Or $([MSBuild]::IsOsPlatform('OSX'))">
-      <WasmtimeDownload Include="macos-x86_64" Condition="'$(Packing)' == 'true' Or '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'X64'">
-        <OS>macos</OS>
-        <Arch>x86_64</Arch>
-        <RID>osx-x64</RID>
-        <FileExtension>tar.xz</FileExtension>
-        <LibraryFilename>libwasmtime.dylib</LibraryFilename>
-      </WasmtimeDownload>
-      <WasmtimeDownload Include="macos-aarch64" Condition="'$(Packing)' == 'true' Or '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'Arm64'">
-        <OS>macos</OS>
-        <Arch>aarch64</Arch>
-        <RID>osx-arm64</RID>
-        <FileExtension>tar.xz</FileExtension>
-        <LibraryFilename>libwasmtime.dylib</LibraryFilename>
-      </WasmtimeDownload>
-    </ItemGroup>
+    <Wasmtime Include="linux-aarch64">
+      <Copy Condition="$([MSBuild]::IsOsPlatform('Linux')) And '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)'=='Arm64'">true</Copy>
+      <OS>linux</OS>
+      <Arch>aarch64</Arch>
+      <RID>linux-arm64</RID>
+      <FileExtension>tar.xz</FileExtension>
+      <LibraryFilename>libwasmtime.so</LibraryFilename>
+    </Wasmtime>
 
-    <ItemGroup Condition="'$(Packing)' == 'true' Or $([MSBuild]::IsOsPlatform('Windows'))">
-      <WasmtimeDownload Include="windows-x86_64" Condition="'$(Packing)' == 'true' Or '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'X64'">
-        <OS>windows</OS>
-        <Arch>x86_64</Arch>
-        <RID>win-x64</RID>
-        <FileExtension>zip</FileExtension>
-        <LibraryFilename>wasmtime.dll</LibraryFilename>
-      </WasmtimeDownload>
-    </ItemGroup>
+    <Wasmtime Include="macos-x86_64">
+      <Copy Condition="$([MSBuild]::IsOsPlatform('OSX')) And '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)'=='X64'">true</Copy>
+      <OS>macos</OS>
+      <Arch>x86_64</Arch>
+      <RID>osx-x64</RID>
+      <FileExtension>tar.xz</FileExtension>
+      <LibraryFilename>libwasmtime.dylib</LibraryFilename>
+    </Wasmtime>
 
+    <Wasmtime Include="macos-aarch64">
+      <Copy Condition="$([MSBuild]::IsOsPlatform('OSX')) And '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)'=='Arm64'">true</Copy>
+      <OS>macos</OS>
+      <Arch>aarch64</Arch>
+      <RID>osx-arm64</RID>
+      <FileExtension>tar.xz</FileExtension>
+      <LibraryFilename>libwasmtime.dylib</LibraryFilename>
+    </Wasmtime>
+
+    <Wasmtime Include="windows-x86_64">
+      <Copy Condition="$([MSBuild]::IsOsPlatform('Windows')) And '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)'=='X64'">true</Copy>
+      <OS>windows</OS>
+      <Arch>x86_64</Arch>
+      <RID>win-x64</RID>
+      <FileExtension>zip</FileExtension>
+      <LibraryFilename>wasmtime.dll</LibraryFilename>
+    </Wasmtime>
+  </ItemGroup>
+
+  <!-- This target downloads wasmtime and runs before any inner TFM-specific builds -->
+  <Target Name="DownloadWasmtime" BeforeTargets="DispatchToInnerBuilds">
     <DownloadFile
-      Condition="!Exists('$(IntermediateOutputPath)/$(ReleaseFileNameBase)-%(WasmtimeDownload.Arch)-%(WasmtimeDownload.OS)-c-api.%(WasmtimeDownload.FileExtension)')"
-      SourceUrl="$(ReleaseURLBase)/$(ReleaseFileNameBase)-%(WasmtimeDownload.Arch)-%(WasmtimeDownload.OS)-c-api.%(WasmtimeDownload.FileExtension)"
-      DestinationFolder="$(IntermediateOutputPath)"
+      Condition="('$(Packing)'=='true' Or '%(Wasmtime.Copy)'=='true') And !Exists('$(BaseIntermediateOutputPath)/$(ReleaseFileNameBase)-%(Wasmtime.Arch)-%(Wasmtime.OS)-c-api.%(Wasmtime.FileExtension)')"
+      SourceUrl="$(ReleaseURLBase)/$(ReleaseFileNameBase)-%(Wasmtime.Arch)-%(Wasmtime.OS)-c-api.%(Wasmtime.FileExtension)"
+      DestinationFolder="$(BaseIntermediateOutputPath)"
       SkipUnchangedFiles="true"
     />
 
     <!-- Workaround for https://github.com/msys2/MSYS2-packages/issues/1548 -->
     <Exec
-      Condition="%(WasmtimeDownload.FileExtension) == 'tar.xz' And !Exists('$(IntermediateOutputPath)$(ReleaseFileNameBase)-%(WasmtimeDownload.Arch)-%(WasmtimeDownload.OS)-c-api')"
-      Command="xz --decompress --stdout $(ReleaseFileNameBase)-%(WasmtimeDownload.Arch)-%(WasmtimeDownload.OS)-c-api.%(WasmtimeDownload.FileExtension) | tar xf -"
-      WorkingDirectory="$(IntermediateOutputPath)"
+      Condition="('$(Packing)'=='true' Or '%(Wasmtime.Copy)'=='true') And %(Wasmtime.FileExtension) == 'tar.xz' And !Exists('$(BaseIntermediateOutputPath)$(ReleaseFileNameBase)-%(Wasmtime.Arch)-%(Wasmtime.OS)-c-api')"
+      Command="xz --decompress --stdout $(ReleaseFileNameBase)-%(Wasmtime.Arch)-%(Wasmtime.OS)-c-api.%(Wasmtime.FileExtension) | tar xf -"
+      WorkingDirectory="$(BaseIntermediateOutputPath)"
       StandardOutputImportance="Low"
       StandardErrorImportance="Low"
     />
     <Exec
-      Condition="%(WasmtimeDownload.FileExtension) == 'zip' And !Exists('$(IntermediateOutputPath)$(ReleaseFileNameBase)-%(WasmtimeDownload.Arch)-%(WasmtimeDownload.OS)-c-api')"
-      Command="unzip $(ReleaseFileNameBase)-%(WasmtimeDownload.Arch)-%(WasmtimeDownload.OS)-c-api.%(WasmtimeDownload.FileExtension)"
-      WorkingDirectory="$(IntermediateOutputPath)"
+      Condition="('$(Packing)'=='true' Or '%(Wasmtime.Copy)'=='true') And %(Wasmtime.FileExtension) == 'zip' And !Exists('$(BaseIntermediateOutputPath)$(ReleaseFileNameBase)-%(Wasmtime.Arch)-%(Wasmtime.OS)-c-api')"
+      Command="unzip $(ReleaseFileNameBase)-%(Wasmtime.Arch)-%(Wasmtime.OS)-c-api.%(Wasmtime.FileExtension)"
+      WorkingDirectory="$(BaseIntermediateOutputPath)"
       StandardOutputImportance="Low"
       StandardErrorImportance="Low"
     />
 
-    <ItemGroup>
-      <Content Include="$(IntermediateOutputPath)$(ReleaseFileNameBase)-%(WasmtimeDownload.Arch)-%(WasmtimeDownload.OS)-c-api/lib/%(WasmtimeDownload.LibraryFilename)">
-        <PackagePath>runtimes/%(WasmtimeDownload.RID)/native/lib/%(WasmtimeDownload.LibraryFilename)</PackagePath>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        <Link>%(WasmtimeDownload.LibraryFilename)</Link>
+    <!-- The content here is specifically for packing -->
+    <ItemGroup Condition="'$(Packing)'=='true'">
+      <Content Include="$(BaseIntermediateOutputPath)$(ReleaseFileNameBase)-%(Wasmtime.Arch)-%(Wasmtime.OS)-c-api/lib/%(Wasmtime.LibraryFilename)">
+        <PackagePath>runtimes/%(Wasmtime.RID)/native/%(Wasmtime.LibraryFilename)</PackagePath>
       </Content>
     </ItemGroup>
+  </Target>
 
+   <Target Name="CopyWasmtimeLibrary" BeforeTargets="BeforeBuild">
+    <ItemGroup>
+      <Content Condition="'%(Wasmtime.Copy)'=='true'" Include="$(BaseIntermediateOutputPath)$(ReleaseFileNameBase)-%(Wasmtime.Arch)-%(Wasmtime.OS)-c-api/lib/%(Wasmtime.LibraryFilename)">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <Link>%(Wasmtime.LibraryFilename)</Link>
+      </Content>
+    </ItemGroup>
   </Target>
 
 </Project>

@@ -4,12 +4,12 @@ using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class ExitTrapTests
+    public class ExitErrorTests
     {
         [Theory]
-        [InlineData("ExitTrap.wat", 0)]
-        [InlineData("ExitTrap.wat", 1)]
-        [InlineData("ExitTrap.wat", -1)]
+        [InlineData("ExitError.wat", 0)]
+        [InlineData("ExitError.wat", 1)]
+        [InlineData("ExitError.wat", -1)]
         public void ItReturnsExitCode(string path, int exitCode)
         {
             using var engine = new Engine();
@@ -33,18 +33,18 @@ namespace Wasmtime.Tests
                 exit(exitCode);
                 Assert.False(bool.Parse(bool.TrueString));
             }
-            catch (TrapException ex)
+            catch (WasmtimeException ex)
             {
                 if (exitCode < 0)
                 {
                     Assert.Null(ex.ExitCode);
-                    Assert.StartsWith("exit with invalid exit status", ex.Message);
+                    Assert.Contains("exit with invalid exit status", ex.Message);
                 }
                 else
                 {
                     Assert.NotNull(ex.ExitCode);
                     Assert.Equal(exitCode, ex.ExitCode);
-                    Assert.StartsWith($"Exited with i32 exit status {exitCode}\n", ex.Message);
+                    Assert.Contains($"Exited with i32 exit status {exitCode}", ex.Message);
                 }
             }
         }

@@ -126,8 +126,8 @@ namespace Wasmtime.Tests
 
             action
                 .Should()
-                .Throw<Wasmtime.TrapException>()
-                .WithMessage("Unable to cast object of type 'System.Int32' to type 'System.String'*");
+                .Throw<Wasmtime.WasmtimeException>()
+                .WithMessage("*Unable to cast object of type 'System.Int32' to type 'System.String'*");
         }
 
         [Fact]
@@ -145,8 +145,8 @@ namespace Wasmtime.Tests
 
             action
                 .Should()
-                .Throw<Wasmtime.TrapException>()
-                .WithMessage("Object of type 'System.Int32' cannot be converted to type 'System.String'*");
+                .Throw<Wasmtime.WasmtimeException>()
+                .WithMessage("*Object of type 'System.Int32' cannot be converted to type 'System.String'*");
         }
 
         public void Dispose()

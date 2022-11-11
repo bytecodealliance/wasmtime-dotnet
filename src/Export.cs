@@ -76,13 +76,13 @@ namespace Wasmtime
             unsafe
             {
                 var name = Native.wasm_exporttype_name(exportType);
-                if (name->size == UIntPtr.Zero)
+                if (name->size == 0)
                 {
                     Name = String.Empty;
                 }
                 else
                 {
-                    Name = Marshal.PtrToStringUTF8((IntPtr)name->data, (int)name->size);
+                    Name = Marshal.PtrToStringUTF8((IntPtr)name->data, checked((int)name->size));
                 }
             }
         }

@@ -83,23 +83,23 @@ namespace Wasmtime
             unsafe
             {
                 var moduleName = Native.wasm_importtype_module(importType);
-                if (moduleName->size == UIntPtr.Zero)
+                if (moduleName->size == 0)
                 {
                     ModuleName = String.Empty;
                 }
                 else
                 {
-                    ModuleName = Marshal.PtrToStringUTF8((IntPtr)moduleName->data, (int)moduleName->size);
+                    ModuleName = Marshal.PtrToStringUTF8((IntPtr)moduleName->data, checked((int)moduleName->size));
                 }
 
                 var name = Native.wasm_importtype_name(importType);
-                if (name is null || name->size == UIntPtr.Zero)
+                if (name is null || name->size == 0)
                 {
                     Name = String.Empty;
                 }
                 else
                 {
-                    Name = Marshal.PtrToStringUTF8((IntPtr)name->data, (int)name->size);
+                    Name = Marshal.PtrToStringUTF8((IntPtr)name->data, checked((int)name->size));
                 }
             }
         }
