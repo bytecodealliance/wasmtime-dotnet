@@ -25,6 +25,7 @@ namespace Wasmtime.Tests
             Store = new Store(Fixture.Engine);
 
             Linker.Define("env", "add", Function.FromCallback(Store, (int x, int y) => x + y));
+            Linker.Define("env", "add_reflection", Function.FromCallback(Store, (Delegate)((int x, int y) => x + y)));
             Linker.Define("env", "swap", Function.FromCallback(Store, (int x, int y) => (y, x)));
             Linker.Define("env", "do_throw", Function.FromCallback(Store, () => throw new Exception(THROW_MESSAGE)));
             Linker.Define("env", "check_string", Function.FromCallback(Store, (Caller caller, int address, int length) =>
@@ -46,6 +47,10 @@ namespace Wasmtime.Tests
                         .Should().Be((1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15));
                 }));
 
+            var echoMultipleValuesFunc = EchoMultipleValues;
+            Linker.Define("env", "echo_multiple_values1", Function.FromCallback(Store, echoMultipleValuesFunc));
+            Linker.Define("env", "echo_multiple_values2", Function.FromCallback(Store, (EchoMultipleValuesCustomDelegate)EchoMultipleValues));
+
             Func<int> GetBoundFuncIntDelegate()
             {
                 // Get a delegate that is bound over an argument.
@@ -61,6 +66,11 @@ namespace Wasmtime.Tests
                     return s.Length;
                 }
             }
+
+            (long, double, object) EchoMultipleValues(long l, double d, object o)
+            {
+                return (l, d, o);
+            }
         }
 
         private FunctionsFixture Fixture { get; }
@@ -70,12 +80,18 @@ namespace Wasmtime.Tests
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
             var add = instance.GetFunction("add");
+            var addReflection = instance.GetFunction("add_reflection");
             var swap = instance.GetFunction("swap");
             var check = instance.GetFunction("check_string");
 
             int x = (int)add.Invoke(40, 2);
             x.Should().Be(42);
             x = (int)add.Invoke(22, 5);
+            x.Should().Be(27);
+
+            x = (int)addReflection.Invoke(40, 2);
+            x.Should().Be(42);
+            x = (int)addReflection.Invoke(22, 5);
             x.Should().Be(27);
 
             object[] results = (object[])swap.Invoke(10, 100);
@@ -269,6 +285,28 @@ namespace Wasmtime.Tests
         }
 
         [Fact]
+        public void ItEchoesMultipleValuesFromFuncDelegate()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var echo = instance.GetFunction<long, double, object, (long, double, object)>("echo_multiple_values1");
+            echo.Should().NotBeNull();
+
+            var result = echo(1, 2, "3");
+            result.Should().Be((1, 2, "3"));
+        }
+
+        [Fact]
+        public void ItEchoesMultipleValuesFromCustomDelegate()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var echo = instance.GetFunction<long, double, object, (long, double, object)>("echo_multiple_values2");
+            echo.Should().NotBeNull();
+
+            var result = echo(1, 2, "3");
+            result.Should().Be((1, 2, "3"));
+        }
+
+        [Fact]
         public void ItReturnsTwoItemTuple()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
@@ -376,5 +414,7 @@ namespace Wasmtime.Tests
             Store.Dispose();
             Linker.Dispose();
         }
+
+        public delegate (long, double, object) EchoMultipleValuesCustomDelegate(long l, double d, object o);
     }
 }

@@ -24,6 +24,7 @@ namespace Wasmtime.Tests
             Store = new Store(Fixture.Engine);
 
             Linker.DefineFunction("env", "add", (int x, int y) => x + y);
+            Linker.DefineFunction("env", "add_reflection", (Delegate)((int x, int y) => x + y));
             Linker.DefineFunction("env", "swap", (int x, int y) => (y, x));
             Linker.DefineFunction("env", "do_throw", () => throw new Exception(THROW_MESSAGE));
             Linker.DefineFunction("env", "check_string", (Caller caller, int address, int length) =>
@@ -45,6 +46,10 @@ namespace Wasmtime.Tests
                         .Should().Be((1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15));
                 });
 
+            var echoMultipleValuesFunc = EchoMultipleValues;
+            Linker.DefineFunction("env", "echo_multiple_values1", echoMultipleValuesFunc);
+            Linker.DefineFunction("env", "echo_multiple_values2", (FunctionTests.EchoMultipleValuesCustomDelegate)EchoMultipleValues);
+            
             Func<int> GetBoundFuncIntDelegate()
             {
                 // Get a delegate that is bound over an argument.
@@ -60,6 +65,11 @@ namespace Wasmtime.Tests
                     return s.Length;
                 }
             }
+
+            (long, double, object) EchoMultipleValues(long l, double d, object o)
+            {
+                return (l, d, o);
+            }
         }
 
         private LinkerFunctionsFixture Fixture { get; }
@@ -69,6 +79,7 @@ namespace Wasmtime.Tests
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
             var add = instance.GetFunction("add");
+            var addReflection = instance.GetFunction("add_reflection");
             var swap = instance.GetFunction("swap");
             var check = instance.GetFunction("check_string"); ;
             var getInt32 = instance.GetFunction<int>("return_i32");
@@ -77,6 +88,12 @@ namespace Wasmtime.Tests
             x.Should().Be(42);
             x = (int)add.Invoke(22, 5);
             x.Should().Be(27);
+
+            x = (int)addReflection.Invoke(40, 2);
+            x.Should().Be(42);
+            x = (int)addReflection.Invoke(22, 5);
+            x.Should().Be(27);
+
             x = getInt32.Invoke();
             x.Should().Be(3);
 
@@ -112,6 +129,28 @@ namespace Wasmtime.Tests
                 // Ideally this should contain a check for the backtrace
                 // See: https://github.com/bytecodealliance/wasmtime/issues/1845
                 .WithMessage("*" + THROW_MESSAGE + "*");
+        }
+
+        [Fact]
+        public void ItEchoesMultipleValuesFromFuncDelegate()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var echo = instance.GetFunction<long, double, object, (long, double, object)>("echo_multiple_values1");
+            echo.Should().NotBeNull();
+
+            var result = echo(1, 2, "3");
+            result.Should().Be((1, 2, "3"));
+        }
+
+        [Fact]
+        public void ItEchoesMultipleValuesFromCustomDelegate()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var echo = instance.GetFunction<long, double, object, (long, double, object)>("echo_multiple_values2");
+            echo.Should().NotBeNull();
+
+            var result = echo(1, 2, "3");
+            result.Should().Be((1, 2, "3"));
         }
 
         public void Dispose()
