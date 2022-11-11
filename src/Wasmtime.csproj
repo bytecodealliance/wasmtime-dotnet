@@ -69,6 +69,9 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
   </ItemGroup>
 
   <Target Name="RunCodeTemplates" BeforeTargets="DispatchToInnerBuilds">
+    <!-- Generate the code files from the T4 text templates.
+         We use the "DispatchToInnerBuilds" target so that they are only run once when
+         building the project, instead of for each target framework. -->
     <Exec Command="dotnet tool restore" />
     <Exec Command="dotnet tool run t4 Linker.DefineFunction.tt" />
     <Exec Command="dotnet tool run t4 Function.FromCallback.tt" />
