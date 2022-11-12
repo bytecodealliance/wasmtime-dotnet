@@ -4,6 +4,8 @@
 // Do not modify it directly.
 // </auto-generated>
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -57,7 +59,7 @@ namespace Wasmtime
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -79,7 +81,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -98,6 +100,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -105,7 +108,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T>(string module, string name, Action<T> callback)
+        public void DefineFunction<T>(string module, string name, Action<T?> callback)
         {
             if (module is null)
             {
@@ -139,18 +142,18 @@ namespace Wasmtime
                 return;
             }
 
-            var convT = ValueBox.Converter<T>();
+            var convT = ValueRaw.Converter<T>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         callback(
-                            convT.Unbox(caller, args[0].ToValueBox()));
+                            convT.Unbox(caller, args_and_results[0]));
 
                         
                         return IntPtr.Zero;
@@ -165,7 +168,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -184,6 +187,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -191,7 +195,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2>(string module, string name, Action<T1, T2> callback)
+        public void DefineFunction<T1, T2>(string module, string name, Action<T1?, T2?> callback)
         {
             if (module is null)
             {
@@ -225,20 +229,20 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]));
 
                         
                         return IntPtr.Zero;
@@ -253,7 +257,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -272,6 +276,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -279,7 +284,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3>(string module, string name, Action<T1, T2, T3> callback)
+        public void DefineFunction<T1, T2, T3>(string module, string name, Action<T1?, T2?, T3?> callback)
         {
             if (module is null)
             {
@@ -313,22 +318,22 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]));
 
                         
                         return IntPtr.Zero;
@@ -343,7 +348,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -362,6 +367,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -369,7 +375,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4>(string module, string name, Action<T1, T2, T3, T4> callback)
+        public void DefineFunction<T1, T2, T3, T4>(string module, string name, Action<T1?, T2?, T3?, T4?> callback)
         {
             if (module is null)
             {
@@ -403,24 +409,24 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]));
 
                         
                         return IntPtr.Zero;
@@ -435,7 +441,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -454,6 +460,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -461,7 +468,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5>(string module, string name, Action<T1, T2, T3, T4, T5> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5>(string module, string name, Action<T1?, T2?, T3?, T4?, T5?> callback)
         {
             if (module is null)
             {
@@ -495,26 +502,26 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]));
 
                         
                         return IntPtr.Zero;
@@ -529,7 +536,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -548,6 +555,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -555,7 +563,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6>(string module, string name, Action<T1, T2, T3, T4, T5, T6> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6>(string module, string name, Action<T1?, T2?, T3?, T4?, T5?, T6?> callback)
         {
             if (module is null)
             {
@@ -589,28 +597,28 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]));
 
                         
                         return IntPtr.Zero;
@@ -625,7 +633,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -644,6 +652,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -651,7 +660,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7>(string module, string name, Action<T1, T2, T3, T4, T5, T6, T7> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7>(string module, string name, Action<T1?, T2?, T3?, T4?, T5?, T6?, T7?> callback)
         {
             if (module is null)
             {
@@ -685,30 +694,30 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]));
 
                         
                         return IntPtr.Zero;
@@ -723,7 +732,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -742,6 +751,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -749,7 +759,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8>(string module, string name, Action<T1, T2, T3, T4, T5, T6, T7, T8> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8>(string module, string name, Action<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?> callback)
         {
             if (module is null)
             {
@@ -783,32 +793,32 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]));
 
                         
                         return IntPtr.Zero;
@@ -823,7 +833,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -842,6 +852,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -849,7 +860,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9>(string module, string name, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9>(string module, string name, Action<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?> callback)
         {
             if (module is null)
             {
@@ -883,34 +894,34 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]));
 
                         
                         return IntPtr.Zero;
@@ -925,7 +936,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -944,6 +955,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -951,7 +963,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(string module, string name, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(string module, string name, Action<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?> callback)
         {
             if (module is null)
             {
@@ -985,36 +997,36 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convT10 = ValueBox.Converter<T10>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convT10 = ValueRaw.Converter<T10>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()),
-                            convT10.Unbox(caller, args[9].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]),
+                            convT10.Unbox(caller, args_and_results[9]));
 
                         
                         return IntPtr.Zero;
@@ -1029,7 +1041,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -1048,6 +1060,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -1055,7 +1068,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(string module, string name, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(string module, string name, Action<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?> callback)
         {
             if (module is null)
             {
@@ -1089,38 +1102,38 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convT10 = ValueBox.Converter<T10>();
-            var convT11 = ValueBox.Converter<T11>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convT10 = ValueRaw.Converter<T10>();
+            var convT11 = ValueRaw.Converter<T11>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()),
-                            convT10.Unbox(caller, args[9].ToValueBox()),
-                            convT11.Unbox(caller, args[10].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]),
+                            convT10.Unbox(caller, args_and_results[9]),
+                            convT11.Unbox(caller, args_and_results[10]));
 
                         
                         return IntPtr.Zero;
@@ -1135,7 +1148,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -1154,6 +1167,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -1161,7 +1175,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(string module, string name, Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(string module, string name, Action<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, T12?> callback)
         {
             if (module is null)
             {
@@ -1195,40 +1209,40 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convT10 = ValueBox.Converter<T10>();
-            var convT11 = ValueBox.Converter<T11>();
-            var convT12 = ValueBox.Converter<T12>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convT10 = ValueRaw.Converter<T10>();
+            var convT11 = ValueRaw.Converter<T11>();
+            var convT12 = ValueRaw.Converter<T12>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()),
-                            convT10.Unbox(caller, args[9].ToValueBox()),
-                            convT11.Unbox(caller, args[10].ToValueBox()),
-                            convT12.Unbox(caller, args[11].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]),
+                            convT10.Unbox(caller, args_and_results[9]),
+                            convT11.Unbox(caller, args_and_results[10]),
+                            convT12.Unbox(caller, args_and_results[11]));
 
                         
                         return IntPtr.Zero;
@@ -1243,7 +1257,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -1262,6 +1276,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -1303,11 +1318,11 @@ namespace Wasmtime
                 return;
             }
 
-            var convTResult = ValueBox.Converter<TResult>();
+            var convTResult = ValueRaw.Converter<TResult>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -1316,7 +1331,7 @@ namespace Wasmtime
                         var result = callback(
                             );
 
-                        results[0] = Value.FromValueBox(convTResult.Box(result));
+                        args_and_results[0] = convTResult.Box(caller, result);
                         
                         return IntPtr.Zero;
                     }
@@ -1330,7 +1345,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -1349,6 +1364,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -1356,7 +1372,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T, TResult>(string module, string name, Func<T, TResult> callback)
+        public void DefineFunction<T, TResult>(string module, string name, Func<T?, TResult> callback)
         {
             if (module is null)
             {
@@ -1390,21 +1406,21 @@ namespace Wasmtime
                 return;
             }
 
-            var convT = ValueBox.Converter<T>();
-            var convTResult = ValueBox.Converter<TResult>();
+            var convT = ValueRaw.Converter<T>();
+            var convTResult = ValueRaw.Converter<TResult>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT.Unbox(caller, args[0].ToValueBox()));
+                            convT.Unbox(caller, args_and_results[0]));
 
-                        results[0] = Value.FromValueBox(convTResult.Box(result));
+                        args_and_results[0] = convTResult.Box(caller, result);
                         
                         return IntPtr.Zero;
                     }
@@ -1418,7 +1434,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -1437,6 +1453,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -1444,7 +1461,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, TResult>(string module, string name, Func<T1, T2, TResult> callback)
+        public void DefineFunction<T1, T2, TResult>(string module, string name, Func<T1?, T2?, TResult> callback)
         {
             if (module is null)
             {
@@ -1478,23 +1495,23 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convTResult = ValueBox.Converter<TResult>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convTResult = ValueRaw.Converter<TResult>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]));
 
-                        results[0] = Value.FromValueBox(convTResult.Box(result));
+                        args_and_results[0] = convTResult.Box(caller, result);
                         
                         return IntPtr.Zero;
                     }
@@ -1508,7 +1525,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -1527,6 +1544,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -1534,7 +1552,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, TResult>(string module, string name, Func<T1, T2, T3, TResult> callback)
+        public void DefineFunction<T1, T2, T3, TResult>(string module, string name, Func<T1?, T2?, T3?, TResult> callback)
         {
             if (module is null)
             {
@@ -1568,25 +1586,25 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convTResult = ValueBox.Converter<TResult>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convTResult = ValueRaw.Converter<TResult>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]));
 
-                        results[0] = Value.FromValueBox(convTResult.Box(result));
+                        args_and_results[0] = convTResult.Box(caller, result);
                         
                         return IntPtr.Zero;
                     }
@@ -1600,7 +1618,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -1619,6 +1637,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -1626,7 +1645,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, TResult>(string module, string name, Func<T1, T2, T3, T4, TResult> callback)
+        public void DefineFunction<T1, T2, T3, T4, TResult>(string module, string name, Func<T1?, T2?, T3?, T4?, TResult> callback)
         {
             if (module is null)
             {
@@ -1660,27 +1679,27 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convTResult = ValueBox.Converter<TResult>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convTResult = ValueRaw.Converter<TResult>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]));
 
-                        results[0] = Value.FromValueBox(convTResult.Box(result));
+                        args_and_results[0] = convTResult.Box(caller, result);
                         
                         return IntPtr.Zero;
                     }
@@ -1694,7 +1713,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -1713,6 +1732,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -1720,7 +1740,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, TResult>(string module, string name, Func<T1, T2, T3, T4, T5, TResult> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, TResult>(string module, string name, Func<T1?, T2?, T3?, T4?, T5?, TResult> callback)
         {
             if (module is null)
             {
@@ -1754,29 +1774,29 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convTResult = ValueBox.Converter<TResult>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convTResult = ValueRaw.Converter<TResult>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]));
 
-                        results[0] = Value.FromValueBox(convTResult.Box(result));
+                        args_and_results[0] = convTResult.Box(caller, result);
                         
                         return IntPtr.Zero;
                     }
@@ -1790,7 +1810,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -1809,6 +1829,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -1816,7 +1837,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, TResult>(string module, string name, Func<T1, T2, T3, T4, T5, T6, TResult> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, TResult>(string module, string name, Func<T1?, T2?, T3?, T4?, T5?, T6?, TResult> callback)
         {
             if (module is null)
             {
@@ -1850,31 +1871,31 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convTResult = ValueBox.Converter<TResult>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convTResult = ValueRaw.Converter<TResult>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]));
 
-                        results[0] = Value.FromValueBox(convTResult.Box(result));
+                        args_and_results[0] = convTResult.Box(caller, result);
                         
                         return IntPtr.Zero;
                     }
@@ -1888,7 +1909,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -1907,6 +1928,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -1914,7 +1936,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, TResult>(string module, string name, Func<T1, T2, T3, T4, T5, T6, T7, TResult> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, TResult>(string module, string name, Func<T1?, T2?, T3?, T4?, T5?, T6?, T7?, TResult> callback)
         {
             if (module is null)
             {
@@ -1948,33 +1970,33 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convTResult = ValueBox.Converter<TResult>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convTResult = ValueRaw.Converter<TResult>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]));
 
-                        results[0] = Value.FromValueBox(convTResult.Box(result));
+                        args_and_results[0] = convTResult.Box(caller, result);
                         
                         return IntPtr.Zero;
                     }
@@ -1988,7 +2010,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -2007,6 +2029,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -2014,7 +2037,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(string module, string name, Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(string module, string name, Func<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, TResult> callback)
         {
             if (module is null)
             {
@@ -2048,35 +2071,35 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convTResult = ValueBox.Converter<TResult>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convTResult = ValueRaw.Converter<TResult>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]));
 
-                        results[0] = Value.FromValueBox(convTResult.Box(result));
+                        args_and_results[0] = convTResult.Box(caller, result);
                         
                         return IntPtr.Zero;
                     }
@@ -2090,7 +2113,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -2109,6 +2132,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -2116,7 +2140,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(string module, string name, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(string module, string name, Func<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, TResult> callback)
         {
             if (module is null)
             {
@@ -2150,37 +2174,37 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convTResult = ValueBox.Converter<TResult>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convTResult = ValueRaw.Converter<TResult>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]));
 
-                        results[0] = Value.FromValueBox(convTResult.Box(result));
+                        args_and_results[0] = convTResult.Box(caller, result);
                         
                         return IntPtr.Zero;
                     }
@@ -2194,7 +2218,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -2213,6 +2237,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -2220,7 +2245,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(string module, string name, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(string module, string name, Func<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, TResult> callback)
         {
             if (module is null)
             {
@@ -2254,39 +2279,39 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convT10 = ValueBox.Converter<T10>();
-            var convTResult = ValueBox.Converter<TResult>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convT10 = ValueRaw.Converter<T10>();
+            var convTResult = ValueRaw.Converter<TResult>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()),
-                            convT10.Unbox(caller, args[9].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]),
+                            convT10.Unbox(caller, args_and_results[9]));
 
-                        results[0] = Value.FromValueBox(convTResult.Box(result));
+                        args_and_results[0] = convTResult.Box(caller, result);
                         
                         return IntPtr.Zero;
                     }
@@ -2300,7 +2325,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -2319,6 +2344,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -2326,7 +2352,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult>(string module, string name, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult>(string module, string name, Func<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, TResult> callback)
         {
             if (module is null)
             {
@@ -2360,41 +2386,41 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convT10 = ValueBox.Converter<T10>();
-            var convT11 = ValueBox.Converter<T11>();
-            var convTResult = ValueBox.Converter<TResult>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convT10 = ValueRaw.Converter<T10>();
+            var convT11 = ValueRaw.Converter<T11>();
+            var convTResult = ValueRaw.Converter<TResult>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()),
-                            convT10.Unbox(caller, args[9].ToValueBox()),
-                            convT11.Unbox(caller, args[10].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]),
+                            convT10.Unbox(caller, args_and_results[9]),
+                            convT11.Unbox(caller, args_and_results[10]));
 
-                        results[0] = Value.FromValueBox(convTResult.Box(result));
+                        args_and_results[0] = convTResult.Box(caller, result);
                         
                         return IntPtr.Zero;
                     }
@@ -2408,7 +2434,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -2427,6 +2453,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -2434,7 +2461,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult>(string module, string name, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult>(string module, string name, Func<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, T12?, TResult> callback)
         {
             if (module is null)
             {
@@ -2468,43 +2495,43 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convT10 = ValueBox.Converter<T10>();
-            var convT11 = ValueBox.Converter<T11>();
-            var convT12 = ValueBox.Converter<T12>();
-            var convTResult = ValueBox.Converter<TResult>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convT10 = ValueRaw.Converter<T10>();
+            var convT11 = ValueRaw.Converter<T11>();
+            var convT12 = ValueRaw.Converter<T12>();
+            var convTResult = ValueRaw.Converter<TResult>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()),
-                            convT10.Unbox(caller, args[9].ToValueBox()),
-                            convT11.Unbox(caller, args[10].ToValueBox()),
-                            convT12.Unbox(caller, args[11].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]),
+                            convT10.Unbox(caller, args_and_results[9]),
+                            convT11.Unbox(caller, args_and_results[10]),
+                            convT12.Unbox(caller, args_and_results[11]));
 
-                        results[0] = Value.FromValueBox(convTResult.Box(result));
+                        args_and_results[0] = convTResult.Box(caller, result);
                         
                         return IntPtr.Zero;
                     }
@@ -2518,7 +2545,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -2537,6 +2564,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -2578,12 +2606,12 @@ namespace Wasmtime
                 return;
             }
 
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -2592,8 +2620,8 @@ namespace Wasmtime
                         var result = callback(
                             );
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -2607,7 +2635,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -2626,6 +2654,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -2633,7 +2662,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T, TResult1, TResult2>(string module, string name, Func<T, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T, TResult1, TResult2>(string module, string name, Func<T?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -2667,23 +2696,23 @@ namespace Wasmtime
                 return;
             }
 
-            var convT = ValueBox.Converter<T>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convT = ValueRaw.Converter<T>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT.Unbox(caller, args[0].ToValueBox()));
+                            convT.Unbox(caller, args_and_results[0]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -2697,7 +2726,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -2716,6 +2745,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -2723,7 +2753,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, TResult1, TResult2>(string module, string name, Func<T1, T2, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T1, T2, TResult1, TResult2>(string module, string name, Func<T1?, T2?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -2757,25 +2787,25 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -2789,7 +2819,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -2808,6 +2838,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -2815,7 +2846,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, TResult1, TResult2>(string module, string name, Func<T1, T2, T3, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T1, T2, T3, TResult1, TResult2>(string module, string name, Func<T1?, T2?, T3?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -2849,27 +2880,27 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -2883,7 +2914,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -2902,6 +2933,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -2909,7 +2941,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, TResult1, TResult2>(string module, string name, Func<T1, T2, T3, T4, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T1, T2, T3, T4, TResult1, TResult2>(string module, string name, Func<T1?, T2?, T3?, T4?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -2943,29 +2975,29 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -2979,7 +3011,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -2998,6 +3030,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -3005,7 +3038,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, TResult1, TResult2>(string module, string name, Func<T1, T2, T3, T4, T5, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, TResult1, TResult2>(string module, string name, Func<T1?, T2?, T3?, T4?, T5?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -3039,31 +3072,31 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -3077,7 +3110,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -3096,6 +3129,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -3103,7 +3137,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, TResult1, TResult2>(string module, string name, Func<T1, T2, T3, T4, T5, T6, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, TResult1, TResult2>(string module, string name, Func<T1?, T2?, T3?, T4?, T5?, T6?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -3137,33 +3171,33 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -3177,7 +3211,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -3196,6 +3230,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -3203,7 +3238,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, TResult1, TResult2>(string module, string name, Func<T1, T2, T3, T4, T5, T6, T7, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, TResult1, TResult2>(string module, string name, Func<T1?, T2?, T3?, T4?, T5?, T6?, T7?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -3237,35 +3272,35 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -3279,7 +3314,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -3298,6 +3333,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -3305,7 +3341,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, TResult1, TResult2>(string module, string name, Func<T1, T2, T3, T4, T5, T6, T7, T8, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, TResult1, TResult2>(string module, string name, Func<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -3339,37 +3375,37 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -3383,7 +3419,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -3402,6 +3438,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -3409,7 +3446,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult1, TResult2>(string module, string name, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult1, TResult2>(string module, string name, Func<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -3443,39 +3480,39 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -3489,7 +3526,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -3508,6 +3545,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -3515,7 +3553,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult1, TResult2>(string module, string name, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult1, TResult2>(string module, string name, Func<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -3549,41 +3587,41 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convT10 = ValueBox.Converter<T10>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convT10 = ValueRaw.Converter<T10>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()),
-                            convT10.Unbox(caller, args[9].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]),
+                            convT10.Unbox(caller, args_and_results[9]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -3597,7 +3635,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -3616,6 +3654,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -3623,7 +3662,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult1, TResult2>(string module, string name, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult1, TResult2>(string module, string name, Func<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -3657,43 +3696,43 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convT10 = ValueBox.Converter<T10>();
-            var convT11 = ValueBox.Converter<T11>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convT10 = ValueRaw.Converter<T10>();
+            var convT11 = ValueRaw.Converter<T11>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()),
-                            convT10.Unbox(caller, args[9].ToValueBox()),
-                            convT11.Unbox(caller, args[10].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]),
+                            convT10.Unbox(caller, args_and_results[9]),
+                            convT11.Unbox(caller, args_and_results[10]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -3707,7 +3746,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -3726,6 +3765,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -3733,7 +3773,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult1, TResult2>(string module, string name, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult1, TResult2>(string module, string name, Func<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, T12?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -3767,45 +3807,45 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convT10 = ValueBox.Converter<T10>();
-            var convT11 = ValueBox.Converter<T11>();
-            var convT12 = ValueBox.Converter<T12>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convT10 = ValueRaw.Converter<T10>();
+            var convT11 = ValueRaw.Converter<T11>();
+            var convT12 = ValueRaw.Converter<T12>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()),
-                            convT10.Unbox(caller, args[9].ToValueBox()),
-                            convT11.Unbox(caller, args[10].ToValueBox()),
-                            convT12.Unbox(caller, args[11].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]),
+                            convT10.Unbox(caller, args_and_results[9]),
+                            convT11.Unbox(caller, args_and_results[10]),
+                            convT12.Unbox(caller, args_and_results[11]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -3819,7 +3859,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -3838,6 +3878,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -3879,13 +3920,13 @@ namespace Wasmtime
                 return;
             }
 
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -3894,9 +3935,9 @@ namespace Wasmtime
                         var result = callback(
                             );
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -3910,7 +3951,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -3929,6 +3970,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -3936,7 +3978,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T, TResult1, TResult2, TResult3>(string module, string name, Func<T, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T, TResult1, TResult2, TResult3>(string module, string name, Func<T?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -3970,25 +4012,25 @@ namespace Wasmtime
                 return;
             }
 
-            var convT = ValueBox.Converter<T>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convT = ValueRaw.Converter<T>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT.Unbox(caller, args[0].ToValueBox()));
+                            convT.Unbox(caller, args_and_results[0]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -4002,7 +4044,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -4021,6 +4063,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -4028,7 +4071,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, TResult1, TResult2, TResult3>(string module, string name, Func<T1, T2, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T1, T2, TResult1, TResult2, TResult3>(string module, string name, Func<T1?, T2?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -4062,27 +4105,27 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -4096,7 +4139,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -4115,6 +4158,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -4122,7 +4166,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, TResult1, TResult2, TResult3>(string module, string name, Func<T1, T2, T3, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T1, T2, T3, TResult1, TResult2, TResult3>(string module, string name, Func<T1?, T2?, T3?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -4156,29 +4200,29 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -4192,7 +4236,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -4211,6 +4255,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -4218,7 +4263,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, TResult1, TResult2, TResult3>(string module, string name, Func<T1, T2, T3, T4, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T1, T2, T3, T4, TResult1, TResult2, TResult3>(string module, string name, Func<T1?, T2?, T3?, T4?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -4252,31 +4297,31 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -4290,7 +4335,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -4309,6 +4354,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -4316,7 +4362,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, TResult1, TResult2, TResult3>(string module, string name, Func<T1, T2, T3, T4, T5, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, TResult1, TResult2, TResult3>(string module, string name, Func<T1?, T2?, T3?, T4?, T5?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -4350,33 +4396,33 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -4390,7 +4436,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -4409,6 +4455,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -4416,7 +4463,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, TResult1, TResult2, TResult3>(string module, string name, Func<T1, T2, T3, T4, T5, T6, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, TResult1, TResult2, TResult3>(string module, string name, Func<T1?, T2?, T3?, T4?, T5?, T6?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -4450,35 +4497,35 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -4492,7 +4539,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -4511,6 +4558,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -4518,7 +4566,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, TResult1, TResult2, TResult3>(string module, string name, Func<T1, T2, T3, T4, T5, T6, T7, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, TResult1, TResult2, TResult3>(string module, string name, Func<T1?, T2?, T3?, T4?, T5?, T6?, T7?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -4552,37 +4600,37 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -4596,7 +4644,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -4615,6 +4663,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -4622,7 +4671,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, TResult1, TResult2, TResult3>(string module, string name, Func<T1, T2, T3, T4, T5, T6, T7, T8, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, TResult1, TResult2, TResult3>(string module, string name, Func<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -4656,39 +4705,39 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -4702,7 +4751,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -4721,6 +4770,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -4728,7 +4778,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult1, TResult2, TResult3>(string module, string name, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult1, TResult2, TResult3>(string module, string name, Func<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -4762,41 +4812,41 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -4810,7 +4860,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -4829,6 +4879,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -4836,7 +4887,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult1, TResult2, TResult3>(string module, string name, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult1, TResult2, TResult3>(string module, string name, Func<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -4870,43 +4921,43 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convT10 = ValueBox.Converter<T10>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convT10 = ValueRaw.Converter<T10>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()),
-                            convT10.Unbox(caller, args[9].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]),
+                            convT10.Unbox(caller, args_and_results[9]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -4920,7 +4971,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -4939,6 +4990,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -4946,7 +4998,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult1, TResult2, TResult3>(string module, string name, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult1, TResult2, TResult3>(string module, string name, Func<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -4980,45 +5032,45 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convT10 = ValueBox.Converter<T10>();
-            var convT11 = ValueBox.Converter<T11>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convT10 = ValueRaw.Converter<T10>();
+            var convT11 = ValueRaw.Converter<T11>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()),
-                            convT10.Unbox(caller, args[9].ToValueBox()),
-                            convT11.Unbox(caller, args[10].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]),
+                            convT10.Unbox(caller, args_and_results[9]),
+                            convT11.Unbox(caller, args_and_results[10]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -5032,7 +5084,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -5051,6 +5103,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -5058,7 +5111,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult1, TResult2, TResult3>(string module, string name, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult1, TResult2, TResult3>(string module, string name, Func<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, T12?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -5092,47 +5145,47 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convT10 = ValueBox.Converter<T10>();
-            var convT11 = ValueBox.Converter<T11>();
-            var convT12 = ValueBox.Converter<T12>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convT10 = ValueRaw.Converter<T10>();
+            var convT11 = ValueRaw.Converter<T11>();
+            var convT12 = ValueRaw.Converter<T12>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()),
-                            convT10.Unbox(caller, args[9].ToValueBox()),
-                            convT11.Unbox(caller, args[10].ToValueBox()),
-                            convT12.Unbox(caller, args[11].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]),
+                            convT10.Unbox(caller, args_and_results[9]),
+                            convT11.Unbox(caller, args_and_results[10]),
+                            convT12.Unbox(caller, args_and_results[11]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -5146,7 +5199,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -5165,6 +5218,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -5206,14 +5260,14 @@ namespace Wasmtime
                 return;
             }
 
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
-            var convTResult4 = ValueBox.Converter<TResult4>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
+            var convTResult4 = ValueRaw.Converter<TResult4>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -5222,10 +5276,10 @@ namespace Wasmtime
                         var result = callback(
                             );
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
-                        results[3] = Value.FromValueBox(convTResult4.Box(result.Item4));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -5239,7 +5293,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -5258,6 +5312,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -5265,7 +5320,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<T, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<T?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -5299,27 +5354,27 @@ namespace Wasmtime
                 return;
             }
 
-            var convT = ValueBox.Converter<T>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
-            var convTResult4 = ValueBox.Converter<TResult4>();
+            var convT = ValueRaw.Converter<T>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
+            var convTResult4 = ValueRaw.Converter<TResult4>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT.Unbox(caller, args[0].ToValueBox()));
+                            convT.Unbox(caller, args_and_results[0]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
-                        results[3] = Value.FromValueBox(convTResult4.Box(result.Item4));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -5333,7 +5388,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -5352,6 +5407,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -5359,7 +5415,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<T1, T2, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T1, T2, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<T1?, T2?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -5393,29 +5449,29 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
-            var convTResult4 = ValueBox.Converter<TResult4>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
+            var convTResult4 = ValueRaw.Converter<TResult4>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
-                        results[3] = Value.FromValueBox(convTResult4.Box(result.Item4));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -5429,7 +5485,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -5448,6 +5504,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -5455,7 +5512,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<T1, T2, T3, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T1, T2, T3, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<T1?, T2?, T3?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -5489,31 +5546,31 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
-            var convTResult4 = ValueBox.Converter<TResult4>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
+            var convTResult4 = ValueRaw.Converter<TResult4>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
-                        results[3] = Value.FromValueBox(convTResult4.Box(result.Item4));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -5527,7 +5584,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -5546,6 +5603,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -5553,7 +5611,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<T1, T2, T3, T4, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T1, T2, T3, T4, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<T1?, T2?, T3?, T4?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -5587,33 +5645,33 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
-            var convTResult4 = ValueBox.Converter<TResult4>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
+            var convTResult4 = ValueRaw.Converter<TResult4>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
-                        results[3] = Value.FromValueBox(convTResult4.Box(result.Item4));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -5627,7 +5685,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -5646,6 +5704,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -5653,7 +5712,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<T1, T2, T3, T4, T5, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<T1?, T2?, T3?, T4?, T5?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -5687,35 +5746,35 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
-            var convTResult4 = ValueBox.Converter<TResult4>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
+            var convTResult4 = ValueRaw.Converter<TResult4>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
-                        results[3] = Value.FromValueBox(convTResult4.Box(result.Item4));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -5729,7 +5788,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -5748,6 +5807,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -5755,7 +5815,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<T1, T2, T3, T4, T5, T6, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<T1?, T2?, T3?, T4?, T5?, T6?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -5789,37 +5849,37 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
-            var convTResult4 = ValueBox.Converter<TResult4>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
+            var convTResult4 = ValueRaw.Converter<TResult4>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
-                        results[3] = Value.FromValueBox(convTResult4.Box(result.Item4));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -5833,7 +5893,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -5852,6 +5912,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -5859,7 +5920,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<T1, T2, T3, T4, T5, T6, T7, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<T1?, T2?, T3?, T4?, T5?, T6?, T7?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -5893,39 +5954,39 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
-            var convTResult4 = ValueBox.Converter<TResult4>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
+            var convTResult4 = ValueRaw.Converter<TResult4>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
-                        results[3] = Value.FromValueBox(convTResult4.Box(result.Item4));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -5939,7 +6000,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -5958,6 +6019,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -5965,7 +6027,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<T1, T2, T3, T4, T5, T6, T7, T8, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -5999,41 +6061,41 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
-            var convTResult4 = ValueBox.Converter<TResult4>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
+            var convTResult4 = ValueRaw.Converter<TResult4>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
-                        results[3] = Value.FromValueBox(convTResult4.Box(result.Item4));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -6047,7 +6109,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -6066,6 +6128,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -6073,7 +6136,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -6107,43 +6170,43 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
-            var convTResult4 = ValueBox.Converter<TResult4>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
+            var convTResult4 = ValueRaw.Converter<TResult4>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
-                        results[3] = Value.FromValueBox(convTResult4.Box(result.Item4));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -6157,7 +6220,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -6176,6 +6239,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -6183,7 +6247,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -6217,45 +6281,45 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convT10 = ValueBox.Converter<T10>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
-            var convTResult4 = ValueBox.Converter<TResult4>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convT10 = ValueRaw.Converter<T10>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
+            var convTResult4 = ValueRaw.Converter<TResult4>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()),
-                            convT10.Unbox(caller, args[9].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]),
+                            convT10.Unbox(caller, args_and_results[9]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
-                        results[3] = Value.FromValueBox(convTResult4.Box(result.Item4));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -6269,7 +6333,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -6288,6 +6352,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -6295,7 +6360,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -6329,47 +6394,47 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convT10 = ValueBox.Converter<T10>();
-            var convT11 = ValueBox.Converter<T11>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
-            var convTResult4 = ValueBox.Converter<TResult4>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convT10 = ValueRaw.Converter<T10>();
+            var convT11 = ValueRaw.Converter<T11>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
+            var convTResult4 = ValueRaw.Converter<TResult4>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()),
-                            convT10.Unbox(caller, args[9].ToValueBox()),
-                            convT11.Unbox(caller, args[10].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]),
+                            convT10.Unbox(caller, args_and_results[9]),
+                            convT11.Unbox(caller, args_and_results[10]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
-                        results[3] = Value.FromValueBox(convTResult4.Box(result.Item4));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -6383,7 +6448,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -6402,6 +6467,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -6409,7 +6475,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, T12?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -6443,49 +6509,49 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convT10 = ValueBox.Converter<T10>();
-            var convT11 = ValueBox.Converter<T11>();
-            var convT12 = ValueBox.Converter<T12>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
-            var convTResult4 = ValueBox.Converter<TResult4>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convT10 = ValueRaw.Converter<T10>();
+            var convT11 = ValueRaw.Converter<T11>();
+            var convT12 = ValueRaw.Converter<T12>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
+            var convTResult4 = ValueRaw.Converter<TResult4>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
                     try
                     {
                         var result = callback(
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()),
-                            convT10.Unbox(caller, args[9].ToValueBox()),
-                            convT11.Unbox(caller, args[10].ToValueBox()),
-                            convT12.Unbox(caller, args[11].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]),
+                            convT10.Unbox(caller, args_and_results[9]),
+                            convT11.Unbox(caller, args_and_results[10]),
+                            convT12.Unbox(caller, args_and_results[11]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
-                        results[3] = Value.FromValueBox(convTResult4.Box(result.Item4));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -6499,7 +6565,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -6518,6 +6584,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -6562,7 +6629,7 @@ namespace Wasmtime
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -6584,7 +6651,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -6603,6 +6670,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -6610,7 +6678,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T>(string module, string name, Action<Caller, T> callback)
+        public void DefineFunction<T>(string module, string name, Action<Caller, T?> callback)
         {
             if (module is null)
             {
@@ -6644,11 +6712,11 @@ namespace Wasmtime
                 return;
             }
 
-            var convT = ValueBox.Converter<T>();
+            var convT = ValueRaw.Converter<T>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -6656,7 +6724,7 @@ namespace Wasmtime
                     {
                         callback(
                             caller,
-                            convT.Unbox(caller, args[0].ToValueBox()));
+                            convT.Unbox(caller, args_and_results[0]));
 
                         
                         return IntPtr.Zero;
@@ -6671,7 +6739,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -6690,6 +6758,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -6697,7 +6766,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2>(string module, string name, Action<Caller, T1, T2> callback)
+        public void DefineFunction<T1, T2>(string module, string name, Action<Caller, T1?, T2?> callback)
         {
             if (module is null)
             {
@@ -6731,12 +6800,12 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -6744,8 +6813,8 @@ namespace Wasmtime
                     {
                         callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]));
 
                         
                         return IntPtr.Zero;
@@ -6760,7 +6829,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -6779,6 +6848,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -6786,7 +6856,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3>(string module, string name, Action<Caller, T1, T2, T3> callback)
+        public void DefineFunction<T1, T2, T3>(string module, string name, Action<Caller, T1?, T2?, T3?> callback)
         {
             if (module is null)
             {
@@ -6820,13 +6890,13 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -6834,9 +6904,9 @@ namespace Wasmtime
                     {
                         callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]));
 
                         
                         return IntPtr.Zero;
@@ -6851,7 +6921,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -6870,6 +6940,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -6877,7 +6948,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4>(string module, string name, Action<Caller, T1, T2, T3, T4> callback)
+        public void DefineFunction<T1, T2, T3, T4>(string module, string name, Action<Caller, T1?, T2?, T3?, T4?> callback)
         {
             if (module is null)
             {
@@ -6911,14 +6982,14 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -6926,10 +6997,10 @@ namespace Wasmtime
                     {
                         callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]));
 
                         
                         return IntPtr.Zero;
@@ -6944,7 +7015,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -6963,6 +7034,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -6970,7 +7042,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5>(string module, string name, Action<Caller, T1, T2, T3, T4, T5> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5>(string module, string name, Action<Caller, T1?, T2?, T3?, T4?, T5?> callback)
         {
             if (module is null)
             {
@@ -7004,15 +7076,15 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -7020,11 +7092,11 @@ namespace Wasmtime
                     {
                         callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]));
 
                         
                         return IntPtr.Zero;
@@ -7039,7 +7111,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -7058,6 +7130,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -7065,7 +7138,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6>(string module, string name, Action<Caller, T1, T2, T3, T4, T5, T6> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6>(string module, string name, Action<Caller, T1?, T2?, T3?, T4?, T5?, T6?> callback)
         {
             if (module is null)
             {
@@ -7099,16 +7172,16 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -7116,12 +7189,12 @@ namespace Wasmtime
                     {
                         callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]));
 
                         
                         return IntPtr.Zero;
@@ -7136,7 +7209,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -7155,6 +7228,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -7162,7 +7236,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7>(string module, string name, Action<Caller, T1, T2, T3, T4, T5, T6, T7> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7>(string module, string name, Action<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?> callback)
         {
             if (module is null)
             {
@@ -7196,17 +7270,17 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -7214,13 +7288,13 @@ namespace Wasmtime
                     {
                         callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]));
 
                         
                         return IntPtr.Zero;
@@ -7235,7 +7309,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -7254,6 +7328,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -7261,7 +7336,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8>(string module, string name, Action<Caller, T1, T2, T3, T4, T5, T6, T7, T8> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8>(string module, string name, Action<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?> callback)
         {
             if (module is null)
             {
@@ -7295,18 +7370,18 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -7314,14 +7389,14 @@ namespace Wasmtime
                     {
                         callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]));
 
                         
                         return IntPtr.Zero;
@@ -7336,7 +7411,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -7355,6 +7430,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -7362,7 +7438,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9>(string module, string name, Action<Caller, T1, T2, T3, T4, T5, T6, T7, T8, T9> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9>(string module, string name, Action<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?> callback)
         {
             if (module is null)
             {
@@ -7396,19 +7472,19 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -7416,15 +7492,15 @@ namespace Wasmtime
                     {
                         callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]));
 
                         
                         return IntPtr.Zero;
@@ -7439,7 +7515,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -7458,6 +7534,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -7465,7 +7542,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(string module, string name, Action<Caller, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(string module, string name, Action<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?> callback)
         {
             if (module is null)
             {
@@ -7499,20 +7576,20 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convT10 = ValueBox.Converter<T10>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convT10 = ValueRaw.Converter<T10>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -7520,16 +7597,16 @@ namespace Wasmtime
                     {
                         callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()),
-                            convT10.Unbox(caller, args[9].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]),
+                            convT10.Unbox(caller, args_and_results[9]));
 
                         
                         return IntPtr.Zero;
@@ -7544,7 +7621,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -7563,6 +7640,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -7570,7 +7648,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(string module, string name, Action<Caller, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(string module, string name, Action<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?> callback)
         {
             if (module is null)
             {
@@ -7604,21 +7682,21 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convT10 = ValueBox.Converter<T10>();
-            var convT11 = ValueBox.Converter<T11>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convT10 = ValueRaw.Converter<T10>();
+            var convT11 = ValueRaw.Converter<T11>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -7626,17 +7704,17 @@ namespace Wasmtime
                     {
                         callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()),
-                            convT10.Unbox(caller, args[9].ToValueBox()),
-                            convT11.Unbox(caller, args[10].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]),
+                            convT10.Unbox(caller, args_and_results[9]),
+                            convT11.Unbox(caller, args_and_results[10]));
 
                         
                         return IntPtr.Zero;
@@ -7651,7 +7729,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -7670,6 +7748,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -7677,7 +7756,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(string module, string name, Action<Caller, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(string module, string name, Action<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, T12?> callback)
         {
             if (module is null)
             {
@@ -7711,22 +7790,22 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convT10 = ValueBox.Converter<T10>();
-            var convT11 = ValueBox.Converter<T11>();
-            var convT12 = ValueBox.Converter<T12>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convT10 = ValueRaw.Converter<T10>();
+            var convT11 = ValueRaw.Converter<T11>();
+            var convT12 = ValueRaw.Converter<T12>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -7734,18 +7813,18 @@ namespace Wasmtime
                     {
                         callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()),
-                            convT10.Unbox(caller, args[9].ToValueBox()),
-                            convT11.Unbox(caller, args[10].ToValueBox()),
-                            convT12.Unbox(caller, args[11].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]),
+                            convT10.Unbox(caller, args_and_results[9]),
+                            convT11.Unbox(caller, args_and_results[10]),
+                            convT12.Unbox(caller, args_and_results[11]));
 
                         
                         return IntPtr.Zero;
@@ -7760,7 +7839,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -7779,6 +7858,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -7820,11 +7900,11 @@ namespace Wasmtime
                 return;
             }
 
-            var convTResult = ValueBox.Converter<TResult>();
+            var convTResult = ValueRaw.Converter<TResult>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -7833,7 +7913,7 @@ namespace Wasmtime
                         var result = callback(
                             caller);
 
-                        results[0] = Value.FromValueBox(convTResult.Box(result));
+                        args_and_results[0] = convTResult.Box(caller, result);
                         
                         return IntPtr.Zero;
                     }
@@ -7847,7 +7927,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -7866,6 +7946,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -7873,7 +7954,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T, TResult>(string module, string name, Func<Caller, T, TResult> callback)
+        public void DefineFunction<T, TResult>(string module, string name, Func<Caller, T?, TResult> callback)
         {
             if (module is null)
             {
@@ -7907,12 +7988,12 @@ namespace Wasmtime
                 return;
             }
 
-            var convT = ValueBox.Converter<T>();
-            var convTResult = ValueBox.Converter<TResult>();
+            var convT = ValueRaw.Converter<T>();
+            var convTResult = ValueRaw.Converter<TResult>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -7920,9 +8001,9 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT.Unbox(caller, args[0].ToValueBox()));
+                            convT.Unbox(caller, args_and_results[0]));
 
-                        results[0] = Value.FromValueBox(convTResult.Box(result));
+                        args_and_results[0] = convTResult.Box(caller, result);
                         
                         return IntPtr.Zero;
                     }
@@ -7936,7 +8017,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -7955,6 +8036,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -7962,7 +8044,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, TResult>(string module, string name, Func<Caller, T1, T2, TResult> callback)
+        public void DefineFunction<T1, T2, TResult>(string module, string name, Func<Caller, T1?, T2?, TResult> callback)
         {
             if (module is null)
             {
@@ -7996,13 +8078,13 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convTResult = ValueBox.Converter<TResult>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convTResult = ValueRaw.Converter<TResult>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -8010,10 +8092,10 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]));
 
-                        results[0] = Value.FromValueBox(convTResult.Box(result));
+                        args_and_results[0] = convTResult.Box(caller, result);
                         
                         return IntPtr.Zero;
                     }
@@ -8027,7 +8109,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -8046,6 +8128,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -8053,7 +8136,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, TResult>(string module, string name, Func<Caller, T1, T2, T3, TResult> callback)
+        public void DefineFunction<T1, T2, T3, TResult>(string module, string name, Func<Caller, T1?, T2?, T3?, TResult> callback)
         {
             if (module is null)
             {
@@ -8087,14 +8170,14 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convTResult = ValueBox.Converter<TResult>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convTResult = ValueRaw.Converter<TResult>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -8102,11 +8185,11 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]));
 
-                        results[0] = Value.FromValueBox(convTResult.Box(result));
+                        args_and_results[0] = convTResult.Box(caller, result);
                         
                         return IntPtr.Zero;
                     }
@@ -8120,7 +8203,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -8139,6 +8222,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -8146,7 +8230,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, TResult>(string module, string name, Func<Caller, T1, T2, T3, T4, TResult> callback)
+        public void DefineFunction<T1, T2, T3, T4, TResult>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, TResult> callback)
         {
             if (module is null)
             {
@@ -8180,15 +8264,15 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convTResult = ValueBox.Converter<TResult>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convTResult = ValueRaw.Converter<TResult>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -8196,12 +8280,12 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]));
 
-                        results[0] = Value.FromValueBox(convTResult.Box(result));
+                        args_and_results[0] = convTResult.Box(caller, result);
                         
                         return IntPtr.Zero;
                     }
@@ -8215,7 +8299,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -8234,6 +8318,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -8241,7 +8326,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, TResult>(string module, string name, Func<Caller, T1, T2, T3, T4, T5, TResult> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, TResult>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, TResult> callback)
         {
             if (module is null)
             {
@@ -8275,16 +8360,16 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convTResult = ValueBox.Converter<TResult>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convTResult = ValueRaw.Converter<TResult>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -8292,13 +8377,13 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]));
 
-                        results[0] = Value.FromValueBox(convTResult.Box(result));
+                        args_and_results[0] = convTResult.Box(caller, result);
                         
                         return IntPtr.Zero;
                     }
@@ -8312,7 +8397,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -8331,6 +8416,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -8338,7 +8424,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, TResult>(string module, string name, Func<Caller, T1, T2, T3, T4, T5, T6, TResult> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, TResult>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, TResult> callback)
         {
             if (module is null)
             {
@@ -8372,17 +8458,17 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convTResult = ValueBox.Converter<TResult>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convTResult = ValueRaw.Converter<TResult>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -8390,14 +8476,14 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]));
 
-                        results[0] = Value.FromValueBox(convTResult.Box(result));
+                        args_and_results[0] = convTResult.Box(caller, result);
                         
                         return IntPtr.Zero;
                     }
@@ -8411,7 +8497,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -8430,6 +8516,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -8437,7 +8524,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, TResult>(string module, string name, Func<Caller, T1, T2, T3, T4, T5, T6, T7, TResult> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, TResult>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, TResult> callback)
         {
             if (module is null)
             {
@@ -8471,18 +8558,18 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convTResult = ValueBox.Converter<TResult>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convTResult = ValueRaw.Converter<TResult>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -8490,15 +8577,15 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]));
 
-                        results[0] = Value.FromValueBox(convTResult.Box(result));
+                        args_and_results[0] = convTResult.Box(caller, result);
                         
                         return IntPtr.Zero;
                     }
@@ -8512,7 +8599,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -8531,6 +8618,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -8538,7 +8626,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(string module, string name, Func<Caller, T1, T2, T3, T4, T5, T6, T7, T8, TResult> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, TResult> callback)
         {
             if (module is null)
             {
@@ -8572,19 +8660,19 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convTResult = ValueBox.Converter<TResult>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convTResult = ValueRaw.Converter<TResult>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -8592,16 +8680,16 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]));
 
-                        results[0] = Value.FromValueBox(convTResult.Box(result));
+                        args_and_results[0] = convTResult.Box(caller, result);
                         
                         return IntPtr.Zero;
                     }
@@ -8615,7 +8703,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -8634,6 +8722,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -8641,7 +8730,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(string module, string name, Func<Caller, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, TResult> callback)
         {
             if (module is null)
             {
@@ -8675,20 +8764,20 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convTResult = ValueBox.Converter<TResult>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convTResult = ValueRaw.Converter<TResult>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -8696,17 +8785,17 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]));
 
-                        results[0] = Value.FromValueBox(convTResult.Box(result));
+                        args_and_results[0] = convTResult.Box(caller, result);
                         
                         return IntPtr.Zero;
                     }
@@ -8720,7 +8809,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -8739,6 +8828,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -8746,7 +8836,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(string module, string name, Func<Caller, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, TResult> callback)
         {
             if (module is null)
             {
@@ -8780,21 +8870,21 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convT10 = ValueBox.Converter<T10>();
-            var convTResult = ValueBox.Converter<TResult>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convT10 = ValueRaw.Converter<T10>();
+            var convTResult = ValueRaw.Converter<TResult>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -8802,18 +8892,18 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()),
-                            convT10.Unbox(caller, args[9].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]),
+                            convT10.Unbox(caller, args_and_results[9]));
 
-                        results[0] = Value.FromValueBox(convTResult.Box(result));
+                        args_and_results[0] = convTResult.Box(caller, result);
                         
                         return IntPtr.Zero;
                     }
@@ -8827,7 +8917,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -8846,6 +8936,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -8853,7 +8944,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult>(string module, string name, Func<Caller, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, TResult> callback)
         {
             if (module is null)
             {
@@ -8887,22 +8978,22 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convT10 = ValueBox.Converter<T10>();
-            var convT11 = ValueBox.Converter<T11>();
-            var convTResult = ValueBox.Converter<TResult>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convT10 = ValueRaw.Converter<T10>();
+            var convT11 = ValueRaw.Converter<T11>();
+            var convTResult = ValueRaw.Converter<TResult>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -8910,19 +9001,19 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()),
-                            convT10.Unbox(caller, args[9].ToValueBox()),
-                            convT11.Unbox(caller, args[10].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]),
+                            convT10.Unbox(caller, args_and_results[9]),
+                            convT11.Unbox(caller, args_and_results[10]));
 
-                        results[0] = Value.FromValueBox(convTResult.Box(result));
+                        args_and_results[0] = convTResult.Box(caller, result);
                         
                         return IntPtr.Zero;
                     }
@@ -8936,7 +9027,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -8955,6 +9046,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -8962,7 +9054,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult>(string module, string name, Func<Caller, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, T12?, TResult> callback)
         {
             if (module is null)
             {
@@ -8996,23 +9088,23 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convT10 = ValueBox.Converter<T10>();
-            var convT11 = ValueBox.Converter<T11>();
-            var convT12 = ValueBox.Converter<T12>();
-            var convTResult = ValueBox.Converter<TResult>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convT10 = ValueRaw.Converter<T10>();
+            var convT11 = ValueRaw.Converter<T11>();
+            var convT12 = ValueRaw.Converter<T12>();
+            var convTResult = ValueRaw.Converter<TResult>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -9020,20 +9112,20 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()),
-                            convT10.Unbox(caller, args[9].ToValueBox()),
-                            convT11.Unbox(caller, args[10].ToValueBox()),
-                            convT12.Unbox(caller, args[11].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]),
+                            convT10.Unbox(caller, args_and_results[9]),
+                            convT11.Unbox(caller, args_and_results[10]),
+                            convT12.Unbox(caller, args_and_results[11]));
 
-                        results[0] = Value.FromValueBox(convTResult.Box(result));
+                        args_and_results[0] = convTResult.Box(caller, result);
                         
                         return IntPtr.Zero;
                     }
@@ -9047,7 +9139,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -9066,6 +9158,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -9107,12 +9200,12 @@ namespace Wasmtime
                 return;
             }
 
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -9121,8 +9214,8 @@ namespace Wasmtime
                         var result = callback(
                             caller);
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -9136,7 +9229,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -9155,6 +9248,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -9162,7 +9256,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T, TResult1, TResult2>(string module, string name, Func<Caller, T, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T, TResult1, TResult2>(string module, string name, Func<Caller, T?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -9196,13 +9290,13 @@ namespace Wasmtime
                 return;
             }
 
-            var convT = ValueBox.Converter<T>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convT = ValueRaw.Converter<T>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -9210,10 +9304,10 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT.Unbox(caller, args[0].ToValueBox()));
+                            convT.Unbox(caller, args_and_results[0]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -9227,7 +9321,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -9246,6 +9340,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -9253,7 +9348,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, TResult1, TResult2>(string module, string name, Func<Caller, T1, T2, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T1, T2, TResult1, TResult2>(string module, string name, Func<Caller, T1?, T2?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -9287,14 +9382,14 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -9302,11 +9397,11 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -9320,7 +9415,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -9339,6 +9434,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -9346,7 +9442,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, TResult1, TResult2>(string module, string name, Func<Caller, T1, T2, T3, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T1, T2, T3, TResult1, TResult2>(string module, string name, Func<Caller, T1?, T2?, T3?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -9380,15 +9476,15 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -9396,12 +9492,12 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -9415,7 +9511,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -9434,6 +9530,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -9441,7 +9538,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, TResult1, TResult2>(string module, string name, Func<Caller, T1, T2, T3, T4, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T1, T2, T3, T4, TResult1, TResult2>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -9475,16 +9572,16 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -9492,13 +9589,13 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -9512,7 +9609,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -9531,6 +9628,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -9538,7 +9636,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, TResult1, TResult2>(string module, string name, Func<Caller, T1, T2, T3, T4, T5, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, TResult1, TResult2>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -9572,17 +9670,17 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -9590,14 +9688,14 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -9611,7 +9709,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -9630,6 +9728,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -9637,7 +9736,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, TResult1, TResult2>(string module, string name, Func<Caller, T1, T2, T3, T4, T5, T6, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, TResult1, TResult2>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -9671,18 +9770,18 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -9690,15 +9789,15 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -9712,7 +9811,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -9731,6 +9830,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -9738,7 +9838,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, TResult1, TResult2>(string module, string name, Func<Caller, T1, T2, T3, T4, T5, T6, T7, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, TResult1, TResult2>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -9772,19 +9872,19 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -9792,16 +9892,16 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -9815,7 +9915,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -9834,6 +9934,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -9841,7 +9942,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, TResult1, TResult2>(string module, string name, Func<Caller, T1, T2, T3, T4, T5, T6, T7, T8, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, TResult1, TResult2>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -9875,20 +9976,20 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -9896,17 +9997,17 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -9920,7 +10021,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -9939,6 +10040,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -9946,7 +10048,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult1, TResult2>(string module, string name, Func<Caller, T1, T2, T3, T4, T5, T6, T7, T8, T9, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult1, TResult2>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -9980,21 +10082,21 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -10002,18 +10104,18 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -10027,7 +10129,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -10046,6 +10148,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -10053,7 +10156,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult1, TResult2>(string module, string name, Func<Caller, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult1, TResult2>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -10087,22 +10190,22 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convT10 = ValueBox.Converter<T10>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convT10 = ValueRaw.Converter<T10>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -10110,19 +10213,19 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()),
-                            convT10.Unbox(caller, args[9].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]),
+                            convT10.Unbox(caller, args_and_results[9]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -10136,7 +10239,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -10155,6 +10258,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -10162,7 +10266,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult1, TResult2>(string module, string name, Func<Caller, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult1, TResult2>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -10196,23 +10300,23 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convT10 = ValueBox.Converter<T10>();
-            var convT11 = ValueBox.Converter<T11>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convT10 = ValueRaw.Converter<T10>();
+            var convT11 = ValueRaw.Converter<T11>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -10220,20 +10324,20 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()),
-                            convT10.Unbox(caller, args[9].ToValueBox()),
-                            convT11.Unbox(caller, args[10].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]),
+                            convT10.Unbox(caller, args_and_results[9]),
+                            convT11.Unbox(caller, args_and_results[10]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -10247,7 +10351,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -10266,6 +10370,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -10273,7 +10378,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult1, TResult2>(string module, string name, Func<Caller, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult1, TResult2>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, T12?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -10307,24 +10412,24 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convT10 = ValueBox.Converter<T10>();
-            var convT11 = ValueBox.Converter<T11>();
-            var convT12 = ValueBox.Converter<T12>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convT10 = ValueRaw.Converter<T10>();
+            var convT11 = ValueRaw.Converter<T11>();
+            var convT12 = ValueRaw.Converter<T12>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -10332,21 +10437,21 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()),
-                            convT10.Unbox(caller, args[9].ToValueBox()),
-                            convT11.Unbox(caller, args[10].ToValueBox()),
-                            convT12.Unbox(caller, args[11].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]),
+                            convT10.Unbox(caller, args_and_results[9]),
+                            convT11.Unbox(caller, args_and_results[10]),
+                            convT12.Unbox(caller, args_and_results[11]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -10360,7 +10465,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -10379,6 +10484,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -10420,13 +10526,13 @@ namespace Wasmtime
                 return;
             }
 
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -10435,9 +10541,9 @@ namespace Wasmtime
                         var result = callback(
                             caller);
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -10451,7 +10557,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -10470,6 +10576,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -10477,7 +10584,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -10511,14 +10618,14 @@ namespace Wasmtime
                 return;
             }
 
-            var convT = ValueBox.Converter<T>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convT = ValueRaw.Converter<T>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -10526,11 +10633,11 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT.Unbox(caller, args[0].ToValueBox()));
+                            convT.Unbox(caller, args_and_results[0]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -10544,7 +10651,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -10563,6 +10670,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -10570,7 +10678,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T1, T2, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T1, T2, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T1?, T2?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -10604,15 +10712,15 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -10620,12 +10728,12 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -10639,7 +10747,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -10658,6 +10766,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -10665,7 +10774,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T1, T2, T3, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T1, T2, T3, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T1?, T2?, T3?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -10699,16 +10808,16 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -10716,13 +10825,13 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -10736,7 +10845,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -10755,6 +10864,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -10762,7 +10872,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T1, T2, T3, T4, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T1, T2, T3, T4, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -10796,17 +10906,17 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -10814,14 +10924,14 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -10835,7 +10945,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -10854,6 +10964,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -10861,7 +10972,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T1, T2, T3, T4, T5, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -10895,18 +11006,18 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -10914,15 +11025,15 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -10936,7 +11047,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -10955,6 +11066,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -10962,7 +11074,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T1, T2, T3, T4, T5, T6, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -10996,19 +11108,19 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -11016,16 +11128,16 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -11039,7 +11151,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -11058,6 +11170,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -11065,7 +11178,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T1, T2, T3, T4, T5, T6, T7, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -11099,20 +11212,20 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -11120,17 +11233,17 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -11144,7 +11257,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -11163,6 +11276,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -11170,7 +11284,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T1, T2, T3, T4, T5, T6, T7, T8, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -11204,21 +11318,21 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -11226,18 +11340,18 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -11251,7 +11365,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -11270,6 +11384,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -11277,7 +11392,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T1, T2, T3, T4, T5, T6, T7, T8, T9, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -11311,22 +11426,22 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -11334,19 +11449,19 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -11360,7 +11475,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -11379,6 +11494,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -11386,7 +11502,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -11420,23 +11536,23 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convT10 = ValueBox.Converter<T10>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convT10 = ValueRaw.Converter<T10>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -11444,20 +11560,20 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()),
-                            convT10.Unbox(caller, args[9].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]),
+                            convT10.Unbox(caller, args_and_results[9]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -11471,7 +11587,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -11490,6 +11606,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -11497,7 +11614,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -11531,24 +11648,24 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convT10 = ValueBox.Converter<T10>();
-            var convT11 = ValueBox.Converter<T11>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convT10 = ValueRaw.Converter<T10>();
+            var convT11 = ValueRaw.Converter<T11>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -11556,21 +11673,21 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()),
-                            convT10.Unbox(caller, args[9].ToValueBox()),
-                            convT11.Unbox(caller, args[10].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]),
+                            convT10.Unbox(caller, args_and_results[9]),
+                            convT11.Unbox(caller, args_and_results[10]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -11584,7 +11701,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -11603,6 +11720,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -11610,7 +11728,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, T12?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -11644,25 +11762,25 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convT10 = ValueBox.Converter<T10>();
-            var convT11 = ValueBox.Converter<T11>();
-            var convT12 = ValueBox.Converter<T12>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convT10 = ValueRaw.Converter<T10>();
+            var convT11 = ValueRaw.Converter<T11>();
+            var convT12 = ValueRaw.Converter<T12>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -11670,22 +11788,22 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()),
-                            convT10.Unbox(caller, args[9].ToValueBox()),
-                            convT11.Unbox(caller, args[10].ToValueBox()),
-                            convT12.Unbox(caller, args[11].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]),
+                            convT10.Unbox(caller, args_and_results[9]),
+                            convT11.Unbox(caller, args_and_results[10]),
+                            convT12.Unbox(caller, args_and_results[11]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -11699,7 +11817,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -11718,6 +11836,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -11759,14 +11878,14 @@ namespace Wasmtime
                 return;
             }
 
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
-            var convTResult4 = ValueBox.Converter<TResult4>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
+            var convTResult4 = ValueRaw.Converter<TResult4>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -11775,10 +11894,10 @@ namespace Wasmtime
                         var result = callback(
                             caller);
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
-                        results[3] = Value.FromValueBox(convTResult4.Box(result.Item4));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -11792,7 +11911,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -11811,6 +11930,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -11818,7 +11938,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -11852,15 +11972,15 @@ namespace Wasmtime
                 return;
             }
 
-            var convT = ValueBox.Converter<T>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
-            var convTResult4 = ValueBox.Converter<TResult4>();
+            var convT = ValueRaw.Converter<T>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
+            var convTResult4 = ValueRaw.Converter<TResult4>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -11868,12 +11988,12 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT.Unbox(caller, args[0].ToValueBox()));
+                            convT.Unbox(caller, args_and_results[0]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
-                        results[3] = Value.FromValueBox(convTResult4.Box(result.Item4));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -11887,7 +12007,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -11906,6 +12026,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -11913,7 +12034,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T1, T2, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T1, T2, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T1?, T2?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -11947,16 +12068,16 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
-            var convTResult4 = ValueBox.Converter<TResult4>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
+            var convTResult4 = ValueRaw.Converter<TResult4>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -11964,13 +12085,13 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
-                        results[3] = Value.FromValueBox(convTResult4.Box(result.Item4));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -11984,7 +12105,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -12003,6 +12124,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -12010,7 +12132,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T1, T2, T3, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T1, T2, T3, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T1?, T2?, T3?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -12044,17 +12166,17 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
-            var convTResult4 = ValueBox.Converter<TResult4>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
+            var convTResult4 = ValueRaw.Converter<TResult4>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -12062,14 +12184,14 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
-                        results[3] = Value.FromValueBox(convTResult4.Box(result.Item4));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -12083,7 +12205,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -12102,6 +12224,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -12109,7 +12232,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T1, T2, T3, T4, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T1, T2, T3, T4, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -12143,18 +12266,18 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
-            var convTResult4 = ValueBox.Converter<TResult4>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
+            var convTResult4 = ValueRaw.Converter<TResult4>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -12162,15 +12285,15 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
-                        results[3] = Value.FromValueBox(convTResult4.Box(result.Item4));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -12184,7 +12307,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -12203,6 +12326,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -12210,7 +12334,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T1, T2, T3, T4, T5, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -12244,19 +12368,19 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
-            var convTResult4 = ValueBox.Converter<TResult4>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
+            var convTResult4 = ValueRaw.Converter<TResult4>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -12264,16 +12388,16 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
-                        results[3] = Value.FromValueBox(convTResult4.Box(result.Item4));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -12287,7 +12411,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -12306,6 +12430,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -12313,7 +12438,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T1, T2, T3, T4, T5, T6, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -12347,20 +12472,20 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
-            var convTResult4 = ValueBox.Converter<TResult4>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
+            var convTResult4 = ValueRaw.Converter<TResult4>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -12368,17 +12493,17 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
-                        results[3] = Value.FromValueBox(convTResult4.Box(result.Item4));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -12392,7 +12517,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -12411,6 +12536,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -12418,7 +12544,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T1, T2, T3, T4, T5, T6, T7, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -12452,21 +12578,21 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
-            var convTResult4 = ValueBox.Converter<TResult4>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
+            var convTResult4 = ValueRaw.Converter<TResult4>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -12474,18 +12600,18 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
-                        results[3] = Value.FromValueBox(convTResult4.Box(result.Item4));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -12499,7 +12625,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -12518,6 +12644,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -12525,7 +12652,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T1, T2, T3, T4, T5, T6, T7, T8, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -12559,22 +12686,22 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
-            var convTResult4 = ValueBox.Converter<TResult4>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
+            var convTResult4 = ValueRaw.Converter<TResult4>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -12582,19 +12709,19 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
-                        results[3] = Value.FromValueBox(convTResult4.Box(result.Item4));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -12608,7 +12735,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -12627,6 +12754,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -12634,7 +12762,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T1, T2, T3, T4, T5, T6, T7, T8, T9, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -12668,23 +12796,23 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
-            var convTResult4 = ValueBox.Converter<TResult4>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
+            var convTResult4 = ValueRaw.Converter<TResult4>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -12692,20 +12820,20 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
-                        results[3] = Value.FromValueBox(convTResult4.Box(result.Item4));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -12719,7 +12847,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -12738,6 +12866,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -12745,7 +12874,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -12779,24 +12908,24 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convT10 = ValueBox.Converter<T10>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
-            var convTResult4 = ValueBox.Converter<TResult4>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convT10 = ValueRaw.Converter<T10>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
+            var convTResult4 = ValueRaw.Converter<TResult4>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -12804,21 +12933,21 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()),
-                            convT10.Unbox(caller, args[9].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]),
+                            convT10.Unbox(caller, args_and_results[9]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
-                        results[3] = Value.FromValueBox(convTResult4.Box(result.Item4));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -12832,7 +12961,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -12851,6 +12980,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -12858,7 +12988,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -12892,25 +13022,25 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convT10 = ValueBox.Converter<T10>();
-            var convT11 = ValueBox.Converter<T11>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
-            var convTResult4 = ValueBox.Converter<TResult4>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convT10 = ValueRaw.Converter<T10>();
+            var convT11 = ValueRaw.Converter<T11>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
+            var convTResult4 = ValueRaw.Converter<TResult4>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -12918,22 +13048,22 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()),
-                            convT10.Unbox(caller, args[9].ToValueBox()),
-                            convT11.Unbox(caller, args[10].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]),
+                            convT10.Unbox(caller, args_and_results[9]),
+                            convT11.Unbox(caller, args_and_results[10]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
-                        results[3] = Value.FromValueBox(convTResult4.Box(result.Item4));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -12947,7 +13077,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -12966,6 +13096,7 @@ namespace Wasmtime
                 }
             }
         }
+
         /// <summary>
         /// Defines a function in the linker.
         /// </summary>
@@ -12973,7 +13104,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, T12?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -13007,26 +13138,26 @@ namespace Wasmtime
                 return;
             }
 
-            var convT1 = ValueBox.Converter<T1>();
-            var convT2 = ValueBox.Converter<T2>();
-            var convT3 = ValueBox.Converter<T3>();
-            var convT4 = ValueBox.Converter<T4>();
-            var convT5 = ValueBox.Converter<T5>();
-            var convT6 = ValueBox.Converter<T6>();
-            var convT7 = ValueBox.Converter<T7>();
-            var convT8 = ValueBox.Converter<T8>();
-            var convT9 = ValueBox.Converter<T9>();
-            var convT10 = ValueBox.Converter<T10>();
-            var convT11 = ValueBox.Converter<T11>();
-            var convT12 = ValueBox.Converter<T12>();
-            var convTResult1 = ValueBox.Converter<TResult1>();
-            var convTResult2 = ValueBox.Converter<TResult2>();
-            var convTResult3 = ValueBox.Converter<TResult3>();
-            var convTResult4 = ValueBox.Converter<TResult4>();
+            var convT1 = ValueRaw.Converter<T1>();
+            var convT2 = ValueRaw.Converter<T2>();
+            var convT3 = ValueRaw.Converter<T3>();
+            var convT4 = ValueRaw.Converter<T4>();
+            var convT5 = ValueRaw.Converter<T5>();
+            var convT6 = ValueRaw.Converter<T6>();
+            var convT7 = ValueRaw.Converter<T7>();
+            var convT8 = ValueRaw.Converter<T8>();
+            var convT9 = ValueRaw.Converter<T9>();
+            var convT10 = ValueRaw.Converter<T10>();
+            var convT11 = ValueRaw.Converter<T11>();
+            var convT12 = ValueRaw.Converter<T12>();
+            var convTResult1 = ValueRaw.Converter<TResult1>();
+            var convTResult2 = ValueRaw.Converter<TResult2>();
+            var convTResult3 = ValueRaw.Converter<TResult3>();
+            var convTResult4 = ValueRaw.Converter<TResult4>();
 
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
                     using var caller = new Caller(callerPtr);
 
@@ -13034,23 +13165,23 @@ namespace Wasmtime
                     {
                         var result = callback(
                             caller,
-                            convT1.Unbox(caller, args[0].ToValueBox()),
-                            convT2.Unbox(caller, args[1].ToValueBox()),
-                            convT3.Unbox(caller, args[2].ToValueBox()),
-                            convT4.Unbox(caller, args[3].ToValueBox()),
-                            convT5.Unbox(caller, args[4].ToValueBox()),
-                            convT6.Unbox(caller, args[5].ToValueBox()),
-                            convT7.Unbox(caller, args[6].ToValueBox()),
-                            convT8.Unbox(caller, args[7].ToValueBox()),
-                            convT9.Unbox(caller, args[8].ToValueBox()),
-                            convT10.Unbox(caller, args[9].ToValueBox()),
-                            convT11.Unbox(caller, args[10].ToValueBox()),
-                            convT12.Unbox(caller, args[11].ToValueBox()));
+                            convT1.Unbox(caller, args_and_results[0]),
+                            convT2.Unbox(caller, args_and_results[1]),
+                            convT3.Unbox(caller, args_and_results[2]),
+                            convT4.Unbox(caller, args_and_results[3]),
+                            convT5.Unbox(caller, args_and_results[4]),
+                            convT6.Unbox(caller, args_and_results[5]),
+                            convT7.Unbox(caller, args_and_results[6]),
+                            convT8.Unbox(caller, args_and_results[7]),
+                            convT9.Unbox(caller, args_and_results[8]),
+                            convT10.Unbox(caller, args_and_results[9]),
+                            convT11.Unbox(caller, args_and_results[10]),
+                            convT12.Unbox(caller, args_and_results[11]));
 
-                        results[0] = Value.FromValueBox(convTResult1.Box(result.Item1));
-                        results[1] = Value.FromValueBox(convTResult2.Box(result.Item2));
-                        results[2] = Value.FromValueBox(convTResult3.Box(result.Item3));
-                        results[3] = Value.FromValueBox(convTResult4.Box(result.Item4));
+                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
+                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -13064,7 +13195,7 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
                         (UIntPtr)moduleBytes.Length,
@@ -13083,5 +13214,6 @@ namespace Wasmtime
                 }
             }
         }
+
     }
 }

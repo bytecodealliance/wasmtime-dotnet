@@ -39,6 +39,22 @@ namespace Wasmtime.Tests
         }
 
         [Fact]
+        public void ItAllowsToPassInterfaceToCallback()
+        {
+            Linker.AllowShadowing = true;
+            Linker.Define("", "inout", Function.FromCallback(Store, (IComparable o) => o));
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+
+            // TODO: Currently, it seems to not be supported to use an interface type
+            // as return type parameter when getting a instance function.
+            var inout = instance.GetFunction<object, object>("inout");
+            inout.Should().NotBeNull();
+
+            IComparable input = 1234;
+            inout(input).Should().BeSameAs(input);
+        }
+
+        [Fact]
         public void ItHandlesNullReferences()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);

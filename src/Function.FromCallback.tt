@@ -15,6 +15,8 @@
 // Do not modify it directly.
 // </auto-generated>
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -64,12 +66,12 @@ foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateTy
 #>
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
 <# GenerateCallbackContent(hasCaller, resultCount, parameterCount); #>
                 };
 
-                Native.wasmtime_func_new(
+                Native.wasmtime_func_new_unchecked(
                     store.Context.handle,
                     funcType,
                     func,
@@ -81,6 +83,7 @@ foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateTy
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
         }
+
 <#
 }
 #>

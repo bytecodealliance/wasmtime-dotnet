@@ -1,6 +1,8 @@
 (module
   (import "" "callback" (func $callback (param funcref) (result externref)))
+  (import "" "return_funcref" (func $return_funcref (result funcref)))
   (import "" "assert" (func $assert (param externref) (result externref)))
+  (export "return_funcref" (func $return_funcref))
   (table $t 1 funcref)
   (elem declare func $f)
   (func (export "call_nested") (param funcref funcref) (result externref)

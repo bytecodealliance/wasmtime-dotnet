@@ -1999,17 +1999,28 @@ namespace Wasmtime
         {
             public delegate void Finalizer(IntPtr data);
 
-            public unsafe delegate IntPtr WasmtimeFuncCallback(IntPtr env, IntPtr caller, Value* args, UIntPtr nargs, Value* results, UIntPtr nresults);
+            public unsafe delegate IntPtr WasmtimeFuncCallback(IntPtr env, IntPtr caller, Value* args, nuint nargs, Value* results, nuint nresults);
+
+            public unsafe delegate IntPtr WasmtimeFuncUncheckedCallback(IntPtr env, IntPtr caller, ValueRaw* args_and_results, nuint num_args_and_results);
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_func_new(IntPtr context, TypeHandle type, WasmtimeFuncCallback callback, IntPtr env, Finalizer? finalizer, out ExternFunc func);
 
             [DllImport(Engine.LibraryName)]
-            public static unsafe extern IntPtr wasmtime_func_call(IntPtr context, in ExternFunc func, Value* args, UIntPtr nargs, Value* results, UIntPtr nresults, out IntPtr trap);
+            public static extern void wasmtime_func_new_unchecked(IntPtr context, TypeHandle type, WasmtimeFuncUncheckedCallback callback, IntPtr env, Finalizer? finalizer, out ExternFunc func);
+
+            [DllImport(Engine.LibraryName)]
+            public static unsafe extern IntPtr wasmtime_func_call(IntPtr context, in ExternFunc func, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap);
 
             [DllImport(Engine.LibraryName)]
             public static unsafe extern IntPtr wasmtime_func_type(IntPtr context, in ExternFunc func);
 
+            [DllImport(Engine.LibraryName)]
+            public static unsafe extern void wasmtime_func_from_raw(IntPtr context, nuint raw, out ExternFunc func);
+
+            [DllImport(Engine.LibraryName)]
+            public static unsafe extern nuint wasmtime_func_to_raw(IntPtr context, in ExternFunc func);
+            
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasm_functype_new(in ValueTypeArray parameters, in ValueTypeArray results);
 
@@ -2027,7 +2038,7 @@ namespace Wasmtime
             public static unsafe extern IntPtr wasmtime_trap_new(byte* bytes, nuint len);
         }
 
-        private readonly IStore? store;
+        internal readonly IStore? store;
         internal readonly ExternFunc func;
         internal readonly List<ValueKind> parameters = new List<ValueKind>();
         internal readonly List<ValueKind> results = new List<ValueKind>();
