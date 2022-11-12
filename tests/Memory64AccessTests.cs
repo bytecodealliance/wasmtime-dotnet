@@ -25,7 +25,7 @@ namespace Wasmtime.Tests
             Linker = new Linker(Fixture.Engine);
         }
 
-        [Fact]
+        [Fact(Skip = "Test consumes too much memory for CI")]
         public unsafe void ItCanAccessMemoryWith65537Pages()
         {
             var memoryExport = Fixture.Module.Exports.OfType<MemoryExport>().Single();
