@@ -71,7 +71,7 @@ namespace Wasmtime.Tests
             memory.ReadString(0x10000FFFF - str1.Length, str1.Length).Should().Be(str1);
         }
 
-        [Fact]
+        [Fact(Skip = "Test consumes too much memory for CI")]
         public void ItThrowsForOutOfBoundsAccess()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
