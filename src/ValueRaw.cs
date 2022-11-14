@@ -72,7 +72,7 @@ namespace Wasmtime
     {
         public T? Unbox(IStore store, in ValueRaw valueRaw);
 
-        public ValueRaw Box(IStore store, T value);
+        public void Box(IStore store, T value, ref ValueRaw valueRaw);
     }
 
     internal class Int32ValueRawConverter : IValueRawConverter<int>
@@ -88,12 +88,9 @@ namespace Wasmtime
             return valueRaw.i32;
         }
 
-        public ValueRaw Box(IStore store, int value)
+        public void Box(IStore store, int value, ref ValueRaw valueRaw)
         {
-            return new ValueRaw()
-            {
-                i32 = value
-            };
+            valueRaw.i32 = value;
         }
     }
 
@@ -110,12 +107,9 @@ namespace Wasmtime
             return valueRaw.i64;
         }
 
-        public ValueRaw Box(IStore store, long value)
+        public void Box(IStore store, long value, ref ValueRaw valueRaw)
         {
-            return new ValueRaw()
-            {
-                i64 = value
-            };
+            valueRaw.i64 = value;
         }
     }
 
@@ -132,12 +126,9 @@ namespace Wasmtime
             return valueRaw.f32;
         }
 
-        public ValueRaw Box(IStore store, float value)
+        public void Box(IStore store, float value, ref ValueRaw valueRaw)
         {
-            return new ValueRaw()
-            {
-                f32 = value
-            };
+            valueRaw.f32 = value;
         }
     }
 
@@ -154,12 +145,9 @@ namespace Wasmtime
             return valueRaw.f64;
         }
 
-        public ValueRaw Box(IStore store, double value)
+        public void Box(IStore store, double value, ref ValueRaw valueRaw)
         {
-            return new ValueRaw()
-            {
-                f64 = value
-            };
+            valueRaw.f64 = value;
         }
     }
 
@@ -179,11 +167,12 @@ namespace Wasmtime
             }
         }
 
-        public unsafe ValueRaw Box(IStore store, V128 value)
+        public unsafe void Box(IStore store, V128 value, ref ValueRaw valueRaw)
         {
-            var valueRaw = new ValueRaw();
-            value.CopyTo(valueRaw.v128);
-            return valueRaw;
+            fixed (byte* ptr = valueRaw.v128)
+            {
+                value.CopyTo(ptr);
+            }
         }
     }
 
@@ -207,11 +196,11 @@ namespace Wasmtime
             return new Function(store, funcref);
         }
 
-        public ValueRaw Box(IStore store, Function? value)
+        public void Box(IStore store, Function? value, ref ValueRaw valueRaw)
         {
             nuint funcrefInt = 0;
 
-            if (value?.IsNull == false)
+            if (value?.IsNull is false)
             {
                 // It is only allowed to return functions whose store context is the same as
                 // the one we are being called from, so we need to verify this.
@@ -226,10 +215,7 @@ namespace Wasmtime
                 funcrefInt = Function.Native.wasmtime_func_to_raw(store.Context.handle, value.func);
             }
 
-            return new ValueRaw()
-            {
-                funcref = funcrefInt
-            };
+            valueRaw.funcref = funcrefInt;
         }
     }
 
@@ -267,7 +253,7 @@ namespace Wasmtime
             return (T?)o;
         }
 
-        public ValueRaw Box(IStore store, T value)
+        public void Box(IStore store, T value, ref ValueRaw valueRaw)
         {
             nuint externrefInt = 0;
 
@@ -293,10 +279,7 @@ namespace Wasmtime
                 }
             }
 
-            return new ValueRaw()
-            {
-                externref = externrefInt
-            };
+            valueRaw.externref = externrefInt;
         }
     }
 }

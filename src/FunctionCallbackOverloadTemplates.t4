@@ -56,7 +56,7 @@ void GenerateCallbackContent(bool hasCaller, int resultCount, int parameterCount
             tupleAccessor = ".Item" + (i + 1).ToString(CultureInfo.InvariantCulture);
         }
 
-        #>args_and_results[<#= i.ToString(CultureInfo.InvariantCulture) #>] = conv<#= genericType #>.Box(caller, result<#= tupleAccessor #>);
+        #>conv<#= genericType #>.Box(caller, result<#= tupleAccessor #>, ref args_and_results[<#= i.ToString(CultureInfo.InvariantCulture) #>]);
                         <#
     }
     #>

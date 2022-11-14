@@ -1331,7 +1331,7 @@ namespace Wasmtime
                         var result = callback(
                             );
 
-                        args_and_results[0] = convTResult.Box(caller, result);
+                        convTResult.Box(caller, result, ref args_and_results[0]);
                         
                         return IntPtr.Zero;
                     }
@@ -1420,7 +1420,7 @@ namespace Wasmtime
                         var result = callback(
                             convT.Unbox(caller, args_and_results[0]));
 
-                        args_and_results[0] = convTResult.Box(caller, result);
+                        convTResult.Box(caller, result, ref args_and_results[0]);
                         
                         return IntPtr.Zero;
                     }
@@ -1511,7 +1511,7 @@ namespace Wasmtime
                             convT1.Unbox(caller, args_and_results[0]),
                             convT2.Unbox(caller, args_and_results[1]));
 
-                        args_and_results[0] = convTResult.Box(caller, result);
+                        convTResult.Box(caller, result, ref args_and_results[0]);
                         
                         return IntPtr.Zero;
                     }
@@ -1604,7 +1604,7 @@ namespace Wasmtime
                             convT2.Unbox(caller, args_and_results[1]),
                             convT3.Unbox(caller, args_and_results[2]));
 
-                        args_and_results[0] = convTResult.Box(caller, result);
+                        convTResult.Box(caller, result, ref args_and_results[0]);
                         
                         return IntPtr.Zero;
                     }
@@ -1699,7 +1699,7 @@ namespace Wasmtime
                             convT3.Unbox(caller, args_and_results[2]),
                             convT4.Unbox(caller, args_and_results[3]));
 
-                        args_and_results[0] = convTResult.Box(caller, result);
+                        convTResult.Box(caller, result, ref args_and_results[0]);
                         
                         return IntPtr.Zero;
                     }
@@ -1796,7 +1796,7 @@ namespace Wasmtime
                             convT4.Unbox(caller, args_and_results[3]),
                             convT5.Unbox(caller, args_and_results[4]));
 
-                        args_and_results[0] = convTResult.Box(caller, result);
+                        convTResult.Box(caller, result, ref args_and_results[0]);
                         
                         return IntPtr.Zero;
                     }
@@ -1895,7 +1895,7 @@ namespace Wasmtime
                             convT5.Unbox(caller, args_and_results[4]),
                             convT6.Unbox(caller, args_and_results[5]));
 
-                        args_and_results[0] = convTResult.Box(caller, result);
+                        convTResult.Box(caller, result, ref args_and_results[0]);
                         
                         return IntPtr.Zero;
                     }
@@ -1996,7 +1996,7 @@ namespace Wasmtime
                             convT6.Unbox(caller, args_and_results[5]),
                             convT7.Unbox(caller, args_and_results[6]));
 
-                        args_and_results[0] = convTResult.Box(caller, result);
+                        convTResult.Box(caller, result, ref args_and_results[0]);
                         
                         return IntPtr.Zero;
                     }
@@ -2099,7 +2099,7 @@ namespace Wasmtime
                             convT7.Unbox(caller, args_and_results[6]),
                             convT8.Unbox(caller, args_and_results[7]));
 
-                        args_and_results[0] = convTResult.Box(caller, result);
+                        convTResult.Box(caller, result, ref args_and_results[0]);
                         
                         return IntPtr.Zero;
                     }
@@ -2204,7 +2204,7 @@ namespace Wasmtime
                             convT8.Unbox(caller, args_and_results[7]),
                             convT9.Unbox(caller, args_and_results[8]));
 
-                        args_and_results[0] = convTResult.Box(caller, result);
+                        convTResult.Box(caller, result, ref args_and_results[0]);
                         
                         return IntPtr.Zero;
                     }
@@ -2311,7 +2311,7 @@ namespace Wasmtime
                             convT9.Unbox(caller, args_and_results[8]),
                             convT10.Unbox(caller, args_and_results[9]));
 
-                        args_and_results[0] = convTResult.Box(caller, result);
+                        convTResult.Box(caller, result, ref args_and_results[0]);
                         
                         return IntPtr.Zero;
                     }
@@ -2420,7 +2420,7 @@ namespace Wasmtime
                             convT10.Unbox(caller, args_and_results[9]),
                             convT11.Unbox(caller, args_and_results[10]));
 
-                        args_and_results[0] = convTResult.Box(caller, result);
+                        convTResult.Box(caller, result, ref args_and_results[0]);
                         
                         return IntPtr.Zero;
                     }
@@ -2531,7 +2531,7 @@ namespace Wasmtime
                             convT11.Unbox(caller, args_and_results[10]),
                             convT12.Unbox(caller, args_and_results[11]));
 
-                        args_and_results[0] = convTResult.Box(caller, result);
+                        convTResult.Box(caller, result, ref args_and_results[0]);
                         
                         return IntPtr.Zero;
                     }
@@ -2620,8 +2620,8 @@ namespace Wasmtime
                         var result = callback(
                             );
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
                         
                         return IntPtr.Zero;
                     }
@@ -2711,8 +2711,8 @@ namespace Wasmtime
                         var result = callback(
                             convT.Unbox(caller, args_and_results[0]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
                         
                         return IntPtr.Zero;
                     }
@@ -2804,8 +2804,8 @@ namespace Wasmtime
                             convT1.Unbox(caller, args_and_results[0]),
                             convT2.Unbox(caller, args_and_results[1]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
                         
                         return IntPtr.Zero;
                     }
@@ -2899,8 +2899,8 @@ namespace Wasmtime
                             convT2.Unbox(caller, args_and_results[1]),
                             convT3.Unbox(caller, args_and_results[2]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
                         
                         return IntPtr.Zero;
                     }
@@ -2996,8 +2996,8 @@ namespace Wasmtime
                             convT3.Unbox(caller, args_and_results[2]),
                             convT4.Unbox(caller, args_and_results[3]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
                         
                         return IntPtr.Zero;
                     }
@@ -3095,8 +3095,8 @@ namespace Wasmtime
                             convT4.Unbox(caller, args_and_results[3]),
                             convT5.Unbox(caller, args_and_results[4]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
                         
                         return IntPtr.Zero;
                     }
@@ -3196,8 +3196,8 @@ namespace Wasmtime
                             convT5.Unbox(caller, args_and_results[4]),
                             convT6.Unbox(caller, args_and_results[5]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
                         
                         return IntPtr.Zero;
                     }
@@ -3299,8 +3299,8 @@ namespace Wasmtime
                             convT6.Unbox(caller, args_and_results[5]),
                             convT7.Unbox(caller, args_and_results[6]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
                         
                         return IntPtr.Zero;
                     }
@@ -3404,8 +3404,8 @@ namespace Wasmtime
                             convT7.Unbox(caller, args_and_results[6]),
                             convT8.Unbox(caller, args_and_results[7]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
                         
                         return IntPtr.Zero;
                     }
@@ -3511,8 +3511,8 @@ namespace Wasmtime
                             convT8.Unbox(caller, args_and_results[7]),
                             convT9.Unbox(caller, args_and_results[8]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
                         
                         return IntPtr.Zero;
                     }
@@ -3620,8 +3620,8 @@ namespace Wasmtime
                             convT9.Unbox(caller, args_and_results[8]),
                             convT10.Unbox(caller, args_and_results[9]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
                         
                         return IntPtr.Zero;
                     }
@@ -3731,8 +3731,8 @@ namespace Wasmtime
                             convT10.Unbox(caller, args_and_results[9]),
                             convT11.Unbox(caller, args_and_results[10]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
                         
                         return IntPtr.Zero;
                     }
@@ -3844,8 +3844,8 @@ namespace Wasmtime
                             convT11.Unbox(caller, args_and_results[10]),
                             convT12.Unbox(caller, args_and_results[11]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
                         
                         return IntPtr.Zero;
                     }
@@ -3935,9 +3935,9 @@ namespace Wasmtime
                         var result = callback(
                             );
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
                         
                         return IntPtr.Zero;
                     }
@@ -4028,9 +4028,9 @@ namespace Wasmtime
                         var result = callback(
                             convT.Unbox(caller, args_and_results[0]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
                         
                         return IntPtr.Zero;
                     }
@@ -4123,9 +4123,9 @@ namespace Wasmtime
                             convT1.Unbox(caller, args_and_results[0]),
                             convT2.Unbox(caller, args_and_results[1]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
                         
                         return IntPtr.Zero;
                     }
@@ -4220,9 +4220,9 @@ namespace Wasmtime
                             convT2.Unbox(caller, args_and_results[1]),
                             convT3.Unbox(caller, args_and_results[2]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
                         
                         return IntPtr.Zero;
                     }
@@ -4319,9 +4319,9 @@ namespace Wasmtime
                             convT3.Unbox(caller, args_and_results[2]),
                             convT4.Unbox(caller, args_and_results[3]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
                         
                         return IntPtr.Zero;
                     }
@@ -4420,9 +4420,9 @@ namespace Wasmtime
                             convT4.Unbox(caller, args_and_results[3]),
                             convT5.Unbox(caller, args_and_results[4]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
                         
                         return IntPtr.Zero;
                     }
@@ -4523,9 +4523,9 @@ namespace Wasmtime
                             convT5.Unbox(caller, args_and_results[4]),
                             convT6.Unbox(caller, args_and_results[5]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
                         
                         return IntPtr.Zero;
                     }
@@ -4628,9 +4628,9 @@ namespace Wasmtime
                             convT6.Unbox(caller, args_and_results[5]),
                             convT7.Unbox(caller, args_and_results[6]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
                         
                         return IntPtr.Zero;
                     }
@@ -4735,9 +4735,9 @@ namespace Wasmtime
                             convT7.Unbox(caller, args_and_results[6]),
                             convT8.Unbox(caller, args_and_results[7]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
                         
                         return IntPtr.Zero;
                     }
@@ -4844,9 +4844,9 @@ namespace Wasmtime
                             convT8.Unbox(caller, args_and_results[7]),
                             convT9.Unbox(caller, args_and_results[8]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
                         
                         return IntPtr.Zero;
                     }
@@ -4955,9 +4955,9 @@ namespace Wasmtime
                             convT9.Unbox(caller, args_and_results[8]),
                             convT10.Unbox(caller, args_and_results[9]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
                         
                         return IntPtr.Zero;
                     }
@@ -5068,9 +5068,9 @@ namespace Wasmtime
                             convT10.Unbox(caller, args_and_results[9]),
                             convT11.Unbox(caller, args_and_results[10]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
                         
                         return IntPtr.Zero;
                     }
@@ -5183,9 +5183,9 @@ namespace Wasmtime
                             convT11.Unbox(caller, args_and_results[10]),
                             convT12.Unbox(caller, args_and_results[11]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
                         
                         return IntPtr.Zero;
                     }
@@ -5276,10 +5276,10 @@ namespace Wasmtime
                         var result = callback(
                             );
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
-                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
+                        convTResult4.Box(caller, result.Item4, ref args_and_results[3]);
                         
                         return IntPtr.Zero;
                     }
@@ -5371,10 +5371,10 @@ namespace Wasmtime
                         var result = callback(
                             convT.Unbox(caller, args_and_results[0]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
-                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
+                        convTResult4.Box(caller, result.Item4, ref args_and_results[3]);
                         
                         return IntPtr.Zero;
                     }
@@ -5468,10 +5468,10 @@ namespace Wasmtime
                             convT1.Unbox(caller, args_and_results[0]),
                             convT2.Unbox(caller, args_and_results[1]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
-                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
+                        convTResult4.Box(caller, result.Item4, ref args_and_results[3]);
                         
                         return IntPtr.Zero;
                     }
@@ -5567,10 +5567,10 @@ namespace Wasmtime
                             convT2.Unbox(caller, args_and_results[1]),
                             convT3.Unbox(caller, args_and_results[2]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
-                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
+                        convTResult4.Box(caller, result.Item4, ref args_and_results[3]);
                         
                         return IntPtr.Zero;
                     }
@@ -5668,10 +5668,10 @@ namespace Wasmtime
                             convT3.Unbox(caller, args_and_results[2]),
                             convT4.Unbox(caller, args_and_results[3]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
-                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
+                        convTResult4.Box(caller, result.Item4, ref args_and_results[3]);
                         
                         return IntPtr.Zero;
                     }
@@ -5771,10 +5771,10 @@ namespace Wasmtime
                             convT4.Unbox(caller, args_and_results[3]),
                             convT5.Unbox(caller, args_and_results[4]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
-                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
+                        convTResult4.Box(caller, result.Item4, ref args_and_results[3]);
                         
                         return IntPtr.Zero;
                     }
@@ -5876,10 +5876,10 @@ namespace Wasmtime
                             convT5.Unbox(caller, args_and_results[4]),
                             convT6.Unbox(caller, args_and_results[5]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
-                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
+                        convTResult4.Box(caller, result.Item4, ref args_and_results[3]);
                         
                         return IntPtr.Zero;
                     }
@@ -5983,10 +5983,10 @@ namespace Wasmtime
                             convT6.Unbox(caller, args_and_results[5]),
                             convT7.Unbox(caller, args_and_results[6]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
-                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
+                        convTResult4.Box(caller, result.Item4, ref args_and_results[3]);
                         
                         return IntPtr.Zero;
                     }
@@ -6092,10 +6092,10 @@ namespace Wasmtime
                             convT7.Unbox(caller, args_and_results[6]),
                             convT8.Unbox(caller, args_and_results[7]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
-                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
+                        convTResult4.Box(caller, result.Item4, ref args_and_results[3]);
                         
                         return IntPtr.Zero;
                     }
@@ -6203,10 +6203,10 @@ namespace Wasmtime
                             convT8.Unbox(caller, args_and_results[7]),
                             convT9.Unbox(caller, args_and_results[8]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
-                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
+                        convTResult4.Box(caller, result.Item4, ref args_and_results[3]);
                         
                         return IntPtr.Zero;
                     }
@@ -6316,10 +6316,10 @@ namespace Wasmtime
                             convT9.Unbox(caller, args_and_results[8]),
                             convT10.Unbox(caller, args_and_results[9]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
-                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
+                        convTResult4.Box(caller, result.Item4, ref args_and_results[3]);
                         
                         return IntPtr.Zero;
                     }
@@ -6431,10 +6431,10 @@ namespace Wasmtime
                             convT10.Unbox(caller, args_and_results[9]),
                             convT11.Unbox(caller, args_and_results[10]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
-                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
+                        convTResult4.Box(caller, result.Item4, ref args_and_results[3]);
                         
                         return IntPtr.Zero;
                     }
@@ -6548,10 +6548,10 @@ namespace Wasmtime
                             convT11.Unbox(caller, args_and_results[10]),
                             convT12.Unbox(caller, args_and_results[11]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
-                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
+                        convTResult4.Box(caller, result.Item4, ref args_and_results[3]);
                         
                         return IntPtr.Zero;
                     }
@@ -7913,7 +7913,7 @@ namespace Wasmtime
                         var result = callback(
                             caller);
 
-                        args_and_results[0] = convTResult.Box(caller, result);
+                        convTResult.Box(caller, result, ref args_and_results[0]);
                         
                         return IntPtr.Zero;
                     }
@@ -8003,7 +8003,7 @@ namespace Wasmtime
                             caller,
                             convT.Unbox(caller, args_and_results[0]));
 
-                        args_and_results[0] = convTResult.Box(caller, result);
+                        convTResult.Box(caller, result, ref args_and_results[0]);
                         
                         return IntPtr.Zero;
                     }
@@ -8095,7 +8095,7 @@ namespace Wasmtime
                             convT1.Unbox(caller, args_and_results[0]),
                             convT2.Unbox(caller, args_and_results[1]));
 
-                        args_and_results[0] = convTResult.Box(caller, result);
+                        convTResult.Box(caller, result, ref args_and_results[0]);
                         
                         return IntPtr.Zero;
                     }
@@ -8189,7 +8189,7 @@ namespace Wasmtime
                             convT2.Unbox(caller, args_and_results[1]),
                             convT3.Unbox(caller, args_and_results[2]));
 
-                        args_and_results[0] = convTResult.Box(caller, result);
+                        convTResult.Box(caller, result, ref args_and_results[0]);
                         
                         return IntPtr.Zero;
                     }
@@ -8285,7 +8285,7 @@ namespace Wasmtime
                             convT3.Unbox(caller, args_and_results[2]),
                             convT4.Unbox(caller, args_and_results[3]));
 
-                        args_and_results[0] = convTResult.Box(caller, result);
+                        convTResult.Box(caller, result, ref args_and_results[0]);
                         
                         return IntPtr.Zero;
                     }
@@ -8383,7 +8383,7 @@ namespace Wasmtime
                             convT4.Unbox(caller, args_and_results[3]),
                             convT5.Unbox(caller, args_and_results[4]));
 
-                        args_and_results[0] = convTResult.Box(caller, result);
+                        convTResult.Box(caller, result, ref args_and_results[0]);
                         
                         return IntPtr.Zero;
                     }
@@ -8483,7 +8483,7 @@ namespace Wasmtime
                             convT5.Unbox(caller, args_and_results[4]),
                             convT6.Unbox(caller, args_and_results[5]));
 
-                        args_and_results[0] = convTResult.Box(caller, result);
+                        convTResult.Box(caller, result, ref args_and_results[0]);
                         
                         return IntPtr.Zero;
                     }
@@ -8585,7 +8585,7 @@ namespace Wasmtime
                             convT6.Unbox(caller, args_and_results[5]),
                             convT7.Unbox(caller, args_and_results[6]));
 
-                        args_and_results[0] = convTResult.Box(caller, result);
+                        convTResult.Box(caller, result, ref args_and_results[0]);
                         
                         return IntPtr.Zero;
                     }
@@ -8689,7 +8689,7 @@ namespace Wasmtime
                             convT7.Unbox(caller, args_and_results[6]),
                             convT8.Unbox(caller, args_and_results[7]));
 
-                        args_and_results[0] = convTResult.Box(caller, result);
+                        convTResult.Box(caller, result, ref args_and_results[0]);
                         
                         return IntPtr.Zero;
                     }
@@ -8795,7 +8795,7 @@ namespace Wasmtime
                             convT8.Unbox(caller, args_and_results[7]),
                             convT9.Unbox(caller, args_and_results[8]));
 
-                        args_and_results[0] = convTResult.Box(caller, result);
+                        convTResult.Box(caller, result, ref args_and_results[0]);
                         
                         return IntPtr.Zero;
                     }
@@ -8903,7 +8903,7 @@ namespace Wasmtime
                             convT9.Unbox(caller, args_and_results[8]),
                             convT10.Unbox(caller, args_and_results[9]));
 
-                        args_and_results[0] = convTResult.Box(caller, result);
+                        convTResult.Box(caller, result, ref args_and_results[0]);
                         
                         return IntPtr.Zero;
                     }
@@ -9013,7 +9013,7 @@ namespace Wasmtime
                             convT10.Unbox(caller, args_and_results[9]),
                             convT11.Unbox(caller, args_and_results[10]));
 
-                        args_and_results[0] = convTResult.Box(caller, result);
+                        convTResult.Box(caller, result, ref args_and_results[0]);
                         
                         return IntPtr.Zero;
                     }
@@ -9125,7 +9125,7 @@ namespace Wasmtime
                             convT11.Unbox(caller, args_and_results[10]),
                             convT12.Unbox(caller, args_and_results[11]));
 
-                        args_and_results[0] = convTResult.Box(caller, result);
+                        convTResult.Box(caller, result, ref args_and_results[0]);
                         
                         return IntPtr.Zero;
                     }
@@ -9214,8 +9214,8 @@ namespace Wasmtime
                         var result = callback(
                             caller);
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
                         
                         return IntPtr.Zero;
                     }
@@ -9306,8 +9306,8 @@ namespace Wasmtime
                             caller,
                             convT.Unbox(caller, args_and_results[0]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
                         
                         return IntPtr.Zero;
                     }
@@ -9400,8 +9400,8 @@ namespace Wasmtime
                             convT1.Unbox(caller, args_and_results[0]),
                             convT2.Unbox(caller, args_and_results[1]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
                         
                         return IntPtr.Zero;
                     }
@@ -9496,8 +9496,8 @@ namespace Wasmtime
                             convT2.Unbox(caller, args_and_results[1]),
                             convT3.Unbox(caller, args_and_results[2]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
                         
                         return IntPtr.Zero;
                     }
@@ -9594,8 +9594,8 @@ namespace Wasmtime
                             convT3.Unbox(caller, args_and_results[2]),
                             convT4.Unbox(caller, args_and_results[3]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
                         
                         return IntPtr.Zero;
                     }
@@ -9694,8 +9694,8 @@ namespace Wasmtime
                             convT4.Unbox(caller, args_and_results[3]),
                             convT5.Unbox(caller, args_and_results[4]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
                         
                         return IntPtr.Zero;
                     }
@@ -9796,8 +9796,8 @@ namespace Wasmtime
                             convT5.Unbox(caller, args_and_results[4]),
                             convT6.Unbox(caller, args_and_results[5]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
                         
                         return IntPtr.Zero;
                     }
@@ -9900,8 +9900,8 @@ namespace Wasmtime
                             convT6.Unbox(caller, args_and_results[5]),
                             convT7.Unbox(caller, args_and_results[6]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
                         
                         return IntPtr.Zero;
                     }
@@ -10006,8 +10006,8 @@ namespace Wasmtime
                             convT7.Unbox(caller, args_and_results[6]),
                             convT8.Unbox(caller, args_and_results[7]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
                         
                         return IntPtr.Zero;
                     }
@@ -10114,8 +10114,8 @@ namespace Wasmtime
                             convT8.Unbox(caller, args_and_results[7]),
                             convT9.Unbox(caller, args_and_results[8]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
                         
                         return IntPtr.Zero;
                     }
@@ -10224,8 +10224,8 @@ namespace Wasmtime
                             convT9.Unbox(caller, args_and_results[8]),
                             convT10.Unbox(caller, args_and_results[9]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
                         
                         return IntPtr.Zero;
                     }
@@ -10336,8 +10336,8 @@ namespace Wasmtime
                             convT10.Unbox(caller, args_and_results[9]),
                             convT11.Unbox(caller, args_and_results[10]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
                         
                         return IntPtr.Zero;
                     }
@@ -10450,8 +10450,8 @@ namespace Wasmtime
                             convT11.Unbox(caller, args_and_results[10]),
                             convT12.Unbox(caller, args_and_results[11]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
                         
                         return IntPtr.Zero;
                     }
@@ -10541,9 +10541,9 @@ namespace Wasmtime
                         var result = callback(
                             caller);
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
                         
                         return IntPtr.Zero;
                     }
@@ -10635,9 +10635,9 @@ namespace Wasmtime
                             caller,
                             convT.Unbox(caller, args_and_results[0]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
                         
                         return IntPtr.Zero;
                     }
@@ -10731,9 +10731,9 @@ namespace Wasmtime
                             convT1.Unbox(caller, args_and_results[0]),
                             convT2.Unbox(caller, args_and_results[1]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
                         
                         return IntPtr.Zero;
                     }
@@ -10829,9 +10829,9 @@ namespace Wasmtime
                             convT2.Unbox(caller, args_and_results[1]),
                             convT3.Unbox(caller, args_and_results[2]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
                         
                         return IntPtr.Zero;
                     }
@@ -10929,9 +10929,9 @@ namespace Wasmtime
                             convT3.Unbox(caller, args_and_results[2]),
                             convT4.Unbox(caller, args_and_results[3]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
                         
                         return IntPtr.Zero;
                     }
@@ -11031,9 +11031,9 @@ namespace Wasmtime
                             convT4.Unbox(caller, args_and_results[3]),
                             convT5.Unbox(caller, args_and_results[4]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
                         
                         return IntPtr.Zero;
                     }
@@ -11135,9 +11135,9 @@ namespace Wasmtime
                             convT5.Unbox(caller, args_and_results[4]),
                             convT6.Unbox(caller, args_and_results[5]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
                         
                         return IntPtr.Zero;
                     }
@@ -11241,9 +11241,9 @@ namespace Wasmtime
                             convT6.Unbox(caller, args_and_results[5]),
                             convT7.Unbox(caller, args_and_results[6]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
                         
                         return IntPtr.Zero;
                     }
@@ -11349,9 +11349,9 @@ namespace Wasmtime
                             convT7.Unbox(caller, args_and_results[6]),
                             convT8.Unbox(caller, args_and_results[7]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
                         
                         return IntPtr.Zero;
                     }
@@ -11459,9 +11459,9 @@ namespace Wasmtime
                             convT8.Unbox(caller, args_and_results[7]),
                             convT9.Unbox(caller, args_and_results[8]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
                         
                         return IntPtr.Zero;
                     }
@@ -11571,9 +11571,9 @@ namespace Wasmtime
                             convT9.Unbox(caller, args_and_results[8]),
                             convT10.Unbox(caller, args_and_results[9]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
                         
                         return IntPtr.Zero;
                     }
@@ -11685,9 +11685,9 @@ namespace Wasmtime
                             convT10.Unbox(caller, args_and_results[9]),
                             convT11.Unbox(caller, args_and_results[10]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
                         
                         return IntPtr.Zero;
                     }
@@ -11801,9 +11801,9 @@ namespace Wasmtime
                             convT11.Unbox(caller, args_and_results[10]),
                             convT12.Unbox(caller, args_and_results[11]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
                         
                         return IntPtr.Zero;
                     }
@@ -11894,10 +11894,10 @@ namespace Wasmtime
                         var result = callback(
                             caller);
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
-                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
+                        convTResult4.Box(caller, result.Item4, ref args_and_results[3]);
                         
                         return IntPtr.Zero;
                     }
@@ -11990,10 +11990,10 @@ namespace Wasmtime
                             caller,
                             convT.Unbox(caller, args_and_results[0]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
-                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
+                        convTResult4.Box(caller, result.Item4, ref args_and_results[3]);
                         
                         return IntPtr.Zero;
                     }
@@ -12088,10 +12088,10 @@ namespace Wasmtime
                             convT1.Unbox(caller, args_and_results[0]),
                             convT2.Unbox(caller, args_and_results[1]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
-                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
+                        convTResult4.Box(caller, result.Item4, ref args_and_results[3]);
                         
                         return IntPtr.Zero;
                     }
@@ -12188,10 +12188,10 @@ namespace Wasmtime
                             convT2.Unbox(caller, args_and_results[1]),
                             convT3.Unbox(caller, args_and_results[2]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
-                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
+                        convTResult4.Box(caller, result.Item4, ref args_and_results[3]);
                         
                         return IntPtr.Zero;
                     }
@@ -12290,10 +12290,10 @@ namespace Wasmtime
                             convT3.Unbox(caller, args_and_results[2]),
                             convT4.Unbox(caller, args_and_results[3]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
-                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
+                        convTResult4.Box(caller, result.Item4, ref args_and_results[3]);
                         
                         return IntPtr.Zero;
                     }
@@ -12394,10 +12394,10 @@ namespace Wasmtime
                             convT4.Unbox(caller, args_and_results[3]),
                             convT5.Unbox(caller, args_and_results[4]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
-                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
+                        convTResult4.Box(caller, result.Item4, ref args_and_results[3]);
                         
                         return IntPtr.Zero;
                     }
@@ -12500,10 +12500,10 @@ namespace Wasmtime
                             convT5.Unbox(caller, args_and_results[4]),
                             convT6.Unbox(caller, args_and_results[5]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
-                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
+                        convTResult4.Box(caller, result.Item4, ref args_and_results[3]);
                         
                         return IntPtr.Zero;
                     }
@@ -12608,10 +12608,10 @@ namespace Wasmtime
                             convT6.Unbox(caller, args_and_results[5]),
                             convT7.Unbox(caller, args_and_results[6]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
-                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
+                        convTResult4.Box(caller, result.Item4, ref args_and_results[3]);
                         
                         return IntPtr.Zero;
                     }
@@ -12718,10 +12718,10 @@ namespace Wasmtime
                             convT7.Unbox(caller, args_and_results[6]),
                             convT8.Unbox(caller, args_and_results[7]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
-                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
+                        convTResult4.Box(caller, result.Item4, ref args_and_results[3]);
                         
                         return IntPtr.Zero;
                     }
@@ -12830,10 +12830,10 @@ namespace Wasmtime
                             convT8.Unbox(caller, args_and_results[7]),
                             convT9.Unbox(caller, args_and_results[8]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
-                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
+                        convTResult4.Box(caller, result.Item4, ref args_and_results[3]);
                         
                         return IntPtr.Zero;
                     }
@@ -12944,10 +12944,10 @@ namespace Wasmtime
                             convT9.Unbox(caller, args_and_results[8]),
                             convT10.Unbox(caller, args_and_results[9]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
-                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
+                        convTResult4.Box(caller, result.Item4, ref args_and_results[3]);
                         
                         return IntPtr.Zero;
                     }
@@ -13060,10 +13060,10 @@ namespace Wasmtime
                             convT10.Unbox(caller, args_and_results[9]),
                             convT11.Unbox(caller, args_and_results[10]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
-                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
+                        convTResult4.Box(caller, result.Item4, ref args_and_results[3]);
                         
                         return IntPtr.Zero;
                     }
@@ -13178,10 +13178,10 @@ namespace Wasmtime
                             convT11.Unbox(caller, args_and_results[10]),
                             convT12.Unbox(caller, args_and_results[11]));
 
-                        args_and_results[0] = convTResult1.Box(caller, result.Item1);
-                        args_and_results[1] = convTResult2.Box(caller, result.Item2);
-                        args_and_results[2] = convTResult3.Box(caller, result.Item3);
-                        args_and_results[3] = convTResult4.Box(caller, result.Item4);
+                        convTResult1.Box(caller, result.Item1, ref args_and_results[0]);
+                        convTResult2.Box(caller, result.Item2, ref args_and_results[1]);
+                        convTResult3.Box(caller, result.Item3, ref args_and_results[2]);
+                        convTResult4.Box(caller, result.Item4, ref args_and_results[3]);
                         
                         return IntPtr.Zero;
                     }
