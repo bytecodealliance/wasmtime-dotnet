@@ -29,6 +29,14 @@ namespace Wasmtime
 
         public static IValueRawConverter<T> Converter<T>()
         {
+            // Ensure we are on a little endian system. For big endian, we would need
+            // separate converters since the value layout of the native wasmtime_val_raw_t
+            // is always little endian, regardless of the host architecture.
+            if (!BitConverter.IsLittleEndian)
+            {
+                throw new PlatformNotSupportedException("Big endian systems are currently not supported for raw values.");
+            }
+
             if (typeof(T) == typeof(int))
             {
                 return (IValueRawConverter<T>)Int32ValueRawConverter.Instance;
@@ -90,7 +98,12 @@ namespace Wasmtime
 
         public void Box(IStore store, int value, ref ValueRaw valueRaw)
         {
-            valueRaw.i32 = value;
+            // Note: We set the i64 instead of the i32 field here using a zero-extended
+            // version of `value`, to ensure the first 64 bits are always initialized.
+            // This ensures we match the behavior of the Rust 'ValRaw' constructor
+            // that does the same.
+            // See: https://github.com/bytecodealliance/wasmtime/blob/7a6fbe08987a7cb43c7e2a78ba5482bec8ab3c2a/crates/runtime/src/vmcontext.rs#L982-L993
+            valueRaw.i64 = unchecked((uint)value);
         }
     }
 
@@ -128,7 +141,8 @@ namespace Wasmtime
 
         public void Box(IStore store, float value, ref ValueRaw valueRaw)
         {
-            valueRaw.f32 = value;
+            // See comments in Int32ValueRawConverter for why we set the i64 field.
+            valueRaw.i64 = unchecked((uint)BitConverter.SingleToInt32Bits(value));
         }
     }
 
