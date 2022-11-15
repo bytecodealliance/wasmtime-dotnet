@@ -373,9 +373,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),

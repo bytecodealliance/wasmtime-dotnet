@@ -57,11 +57,14 @@ namespace Wasmtime
             }
 
 
+            var converterRequiresStore =
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -84,9 +87,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -144,11 +147,15 @@ namespace Wasmtime
 
             var convT = ValueRaw.Converter<T>();
 
+            var converterRequiresStore =
+                convT.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -171,9 +178,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -232,11 +239,16 @@ namespace Wasmtime
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -260,9 +272,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -322,11 +334,17 @@ namespace Wasmtime
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -351,9 +369,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -414,11 +432,18 @@ namespace Wasmtime
             var convT3 = ValueRaw.Converter<T3>();
             var convT4 = ValueRaw.Converter<T4>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -444,9 +469,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -508,11 +533,19 @@ namespace Wasmtime
             var convT4 = ValueRaw.Converter<T4>();
             var convT5 = ValueRaw.Converter<T5>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -539,9 +572,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -604,11 +637,20 @@ namespace Wasmtime
             var convT5 = ValueRaw.Converter<T5>();
             var convT6 = ValueRaw.Converter<T6>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -636,9 +678,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -702,11 +744,21 @@ namespace Wasmtime
             var convT6 = ValueRaw.Converter<T6>();
             var convT7 = ValueRaw.Converter<T7>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convT7.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -735,9 +787,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -802,11 +854,22 @@ namespace Wasmtime
             var convT7 = ValueRaw.Converter<T7>();
             var convT8 = ValueRaw.Converter<T8>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convT7.RequiresStore ||
+                convT8.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -836,9 +899,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -904,11 +967,23 @@ namespace Wasmtime
             var convT8 = ValueRaw.Converter<T8>();
             var convT9 = ValueRaw.Converter<T9>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convT7.RequiresStore ||
+                convT8.RequiresStore ||
+                convT9.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -939,9 +1014,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -1008,11 +1083,24 @@ namespace Wasmtime
             var convT9 = ValueRaw.Converter<T9>();
             var convT10 = ValueRaw.Converter<T10>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convT7.RequiresStore ||
+                convT8.RequiresStore ||
+                convT9.RequiresStore ||
+                convT10.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -1044,9 +1132,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -1114,11 +1202,25 @@ namespace Wasmtime
             var convT10 = ValueRaw.Converter<T10>();
             var convT11 = ValueRaw.Converter<T11>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convT7.RequiresStore ||
+                convT8.RequiresStore ||
+                convT9.RequiresStore ||
+                convT10.RequiresStore ||
+                convT11.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -1151,9 +1253,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -1222,11 +1324,26 @@ namespace Wasmtime
             var convT11 = ValueRaw.Converter<T11>();
             var convT12 = ValueRaw.Converter<T12>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convT7.RequiresStore ||
+                convT8.RequiresStore ||
+                convT9.RequiresStore ||
+                convT10.RequiresStore ||
+                convT11.RequiresStore ||
+                convT12.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -1260,9 +1377,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -1320,11 +1437,15 @@ namespace Wasmtime
 
             var convTResult = ValueRaw.Converter<TResult>();
 
+            var converterRequiresStore =
+                convTResult.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -1348,9 +1469,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -1409,11 +1530,16 @@ namespace Wasmtime
             var convT = ValueRaw.Converter<T>();
             var convTResult = ValueRaw.Converter<TResult>();
 
+            var converterRequiresStore =
+                convT.RequiresStore ||
+                convTResult.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -1437,9 +1563,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -1499,11 +1625,17 @@ namespace Wasmtime
             var convT2 = ValueRaw.Converter<T2>();
             var convTResult = ValueRaw.Converter<TResult>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convTResult.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -1528,9 +1660,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -1591,11 +1723,18 @@ namespace Wasmtime
             var convT3 = ValueRaw.Converter<T3>();
             var convTResult = ValueRaw.Converter<TResult>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convTResult.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -1621,9 +1760,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -1685,11 +1824,19 @@ namespace Wasmtime
             var convT4 = ValueRaw.Converter<T4>();
             var convTResult = ValueRaw.Converter<TResult>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convTResult.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -1716,9 +1863,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -1781,11 +1928,20 @@ namespace Wasmtime
             var convT5 = ValueRaw.Converter<T5>();
             var convTResult = ValueRaw.Converter<TResult>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convTResult.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -1813,9 +1969,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -1879,11 +2035,21 @@ namespace Wasmtime
             var convT6 = ValueRaw.Converter<T6>();
             var convTResult = ValueRaw.Converter<TResult>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convTResult.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -1912,9 +2078,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -1979,11 +2145,22 @@ namespace Wasmtime
             var convT7 = ValueRaw.Converter<T7>();
             var convTResult = ValueRaw.Converter<TResult>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convT7.RequiresStore ||
+                convTResult.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -2013,9 +2190,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -2081,11 +2258,23 @@ namespace Wasmtime
             var convT8 = ValueRaw.Converter<T8>();
             var convTResult = ValueRaw.Converter<TResult>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convT7.RequiresStore ||
+                convT8.RequiresStore ||
+                convTResult.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -2116,9 +2305,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -2185,11 +2374,24 @@ namespace Wasmtime
             var convT9 = ValueRaw.Converter<T9>();
             var convTResult = ValueRaw.Converter<TResult>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convT7.RequiresStore ||
+                convT8.RequiresStore ||
+                convT9.RequiresStore ||
+                convTResult.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -2221,9 +2423,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -2291,11 +2493,25 @@ namespace Wasmtime
             var convT10 = ValueRaw.Converter<T10>();
             var convTResult = ValueRaw.Converter<TResult>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convT7.RequiresStore ||
+                convT8.RequiresStore ||
+                convT9.RequiresStore ||
+                convT10.RequiresStore ||
+                convTResult.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -2328,9 +2544,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -2399,11 +2615,26 @@ namespace Wasmtime
             var convT11 = ValueRaw.Converter<T11>();
             var convTResult = ValueRaw.Converter<TResult>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convT7.RequiresStore ||
+                convT8.RequiresStore ||
+                convT9.RequiresStore ||
+                convT10.RequiresStore ||
+                convT11.RequiresStore ||
+                convTResult.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -2437,9 +2668,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -2509,11 +2740,27 @@ namespace Wasmtime
             var convT12 = ValueRaw.Converter<T12>();
             var convTResult = ValueRaw.Converter<TResult>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convT7.RequiresStore ||
+                convT8.RequiresStore ||
+                convT9.RequiresStore ||
+                convT10.RequiresStore ||
+                convT11.RequiresStore ||
+                convT12.RequiresStore ||
+                convTResult.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -2548,9 +2795,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -2609,11 +2856,16 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
+            var converterRequiresStore =
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -2638,9 +2890,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -2700,11 +2952,17 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
+            var converterRequiresStore =
+                convT.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -2729,9 +2987,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -2792,11 +3050,18 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -2822,9 +3087,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -2886,11 +3151,19 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -2917,9 +3190,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -2982,11 +3255,20 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -3014,9 +3296,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -3080,11 +3362,21 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -3113,9 +3405,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -3180,11 +3472,22 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -3214,9 +3517,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -3282,11 +3585,23 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convT7.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -3317,9 +3632,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -3386,11 +3701,24 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convT7.RequiresStore ||
+                convT8.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -3422,9 +3750,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -3492,11 +3820,25 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convT7.RequiresStore ||
+                convT8.RequiresStore ||
+                convT9.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -3529,9 +3871,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -3600,11 +3942,26 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convT7.RequiresStore ||
+                convT8.RequiresStore ||
+                convT9.RequiresStore ||
+                convT10.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -3638,9 +3995,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -3710,11 +4067,27 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convT7.RequiresStore ||
+                convT8.RequiresStore ||
+                convT9.RequiresStore ||
+                convT10.RequiresStore ||
+                convT11.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -3749,9 +4122,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -3822,11 +4195,28 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convT7.RequiresStore ||
+                convT8.RequiresStore ||
+                convT9.RequiresStore ||
+                convT10.RequiresStore ||
+                convT11.RequiresStore ||
+                convT12.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -3862,9 +4252,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -3924,11 +4314,17 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
+            var converterRequiresStore =
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                convTResult3.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -3954,9 +4350,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -4017,11 +4413,18 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
+            var converterRequiresStore =
+                convT.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                convTResult3.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -4047,9 +4450,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -4111,11 +4514,19 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                convTResult3.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -4142,9 +4553,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -4207,11 +4618,20 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                convTResult3.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -4239,9 +4659,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -4305,11 +4725,21 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                convTResult3.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -4338,9 +4768,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -4405,11 +4835,22 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                convTResult3.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -4439,9 +4880,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -4507,11 +4948,23 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                convTResult3.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -4542,9 +4995,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -4611,11 +5064,24 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convT7.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                convTResult3.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -4647,9 +5113,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -4717,11 +5183,25 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convT7.RequiresStore ||
+                convT8.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                convTResult3.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -4754,9 +5234,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -4825,11 +5305,26 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convT7.RequiresStore ||
+                convT8.RequiresStore ||
+                convT9.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                convTResult3.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -4863,9 +5358,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -4935,11 +5430,27 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convT7.RequiresStore ||
+                convT8.RequiresStore ||
+                convT9.RequiresStore ||
+                convT10.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                convTResult3.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -4974,9 +5485,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -5047,11 +5558,28 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convT7.RequiresStore ||
+                convT8.RequiresStore ||
+                convT9.RequiresStore ||
+                convT10.RequiresStore ||
+                convT11.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                convTResult3.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -5087,9 +5615,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -5161,11 +5689,29 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convT7.RequiresStore ||
+                convT8.RequiresStore ||
+                convT9.RequiresStore ||
+                convT10.RequiresStore ||
+                convT11.RequiresStore ||
+                convT12.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                convTResult3.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -5202,9 +5748,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -5265,11 +5811,18 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
+            var converterRequiresStore =
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                convTResult3.RequiresStore ||
+                convTResult4.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -5296,9 +5849,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -5360,11 +5913,19 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
+            var converterRequiresStore =
+                convT.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                convTResult3.RequiresStore ||
+                convTResult4.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -5391,9 +5952,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -5456,11 +6017,20 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                convTResult3.RequiresStore ||
+                convTResult4.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -5488,9 +6058,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -5554,11 +6124,21 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                convTResult3.RequiresStore ||
+                convTResult4.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -5587,9 +6167,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -5654,11 +6234,22 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                convTResult3.RequiresStore ||
+                convTResult4.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -5688,9 +6279,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -5756,11 +6347,23 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                convTResult3.RequiresStore ||
+                convTResult4.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -5791,9 +6394,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -5860,11 +6463,24 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                convTResult3.RequiresStore ||
+                convTResult4.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -5896,9 +6512,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -5966,11 +6582,25 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convT7.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                convTResult3.RequiresStore ||
+                convTResult4.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -6003,9 +6633,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -6074,11 +6704,26 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convT7.RequiresStore ||
+                convT8.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                convTResult3.RequiresStore ||
+                convTResult4.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -6112,9 +6757,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -6184,11 +6829,27 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convT7.RequiresStore ||
+                convT8.RequiresStore ||
+                convT9.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                convTResult3.RequiresStore ||
+                convTResult4.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -6223,9 +6884,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -6296,11 +6957,28 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convT7.RequiresStore ||
+                convT8.RequiresStore ||
+                convT9.RequiresStore ||
+                convT10.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                convTResult3.RequiresStore ||
+                convTResult4.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -6336,9 +7014,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -6410,11 +7088,29 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convT7.RequiresStore ||
+                convT8.RequiresStore ||
+                convT9.RequiresStore ||
+                convT10.RequiresStore ||
+                convT11.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                convTResult3.RequiresStore ||
+                convTResult4.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -6451,9 +7147,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -6526,11 +7222,30 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
+            var converterRequiresStore =
+                convT1.RequiresStore ||
+                convT2.RequiresStore ||
+                convT3.RequiresStore ||
+                convT4.RequiresStore ||
+                convT5.RequiresStore ||
+                convT6.RequiresStore ||
+                convT7.RequiresStore ||
+                convT8.RequiresStore ||
+                convT9.RequiresStore ||
+                convT10.RequiresStore ||
+                convT11.RequiresStore ||
+                convT12.RequiresStore ||
+                convTResult1.RequiresStore ||
+                convTResult2.RequiresStore ||
+                convTResult3.RequiresStore ||
+                convTResult4.RequiresStore ||
+                false;
+
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    using var caller = new Caller(callerPtr);
+                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
 
                     try
                     {
@@ -6568,9 +7283,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -6654,9 +7369,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -6742,9 +7457,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -6832,9 +7547,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -6924,9 +7639,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -7018,9 +7733,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -7114,9 +7829,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -7212,9 +7927,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -7312,9 +8027,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -7414,9 +8129,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -7518,9 +8233,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -7624,9 +8339,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -7732,9 +8447,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -7842,9 +8557,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -7930,9 +8645,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -8020,9 +8735,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -8112,9 +8827,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -8206,9 +8921,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -8302,9 +9017,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -8400,9 +9115,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -8500,9 +9215,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -8602,9 +9317,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -8706,9 +9421,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -8812,9 +9527,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -8920,9 +9635,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -9030,9 +9745,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -9142,9 +9857,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -9232,9 +9947,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -9324,9 +10039,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -9418,9 +10133,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -9514,9 +10229,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -9612,9 +10327,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -9712,9 +10427,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -9814,9 +10529,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -9918,9 +10633,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -10024,9 +10739,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -10132,9 +10847,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -10242,9 +10957,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -10354,9 +11069,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -10468,9 +11183,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -10560,9 +11275,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -10654,9 +11369,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -10750,9 +11465,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -10848,9 +11563,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -10948,9 +11663,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -11050,9 +11765,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -11154,9 +11869,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -11260,9 +11975,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -11368,9 +12083,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -11478,9 +12193,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -11590,9 +12305,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -11704,9 +12419,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -11820,9 +12535,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -11914,9 +12629,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -12010,9 +12725,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -12108,9 +12823,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -12208,9 +12923,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -12310,9 +13025,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -12414,9 +13129,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -12520,9 +13235,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -12628,9 +13343,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -12738,9 +13453,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -12850,9 +13565,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -12964,9 +13679,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -13080,9 +13795,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -13198,9 +13913,9 @@ namespace Wasmtime
                     var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
