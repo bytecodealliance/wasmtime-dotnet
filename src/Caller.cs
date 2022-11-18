@@ -127,7 +127,7 @@ namespace Wasmtime
         /// <returns>Returns the fuel consumed by the executing WebAssembly code or 0 if fuel consumption was not enabled.</returns>
         public ulong GetConsumedFuel() => ((IStore)this).Context.GetConsumedFuel();
 
-        private static class Native
+        internal static class Native
         {
             [DllImport(Engine.LibraryName)]
             [return: MarshalAs(UnmanagedType.I1)]
