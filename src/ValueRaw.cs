@@ -19,7 +19,7 @@ namespace Wasmtime
         public double f64;
 
         [FieldOffset(0)]
-        public fixed byte v128[16];
+        public V128 v128;
 
         [FieldOffset(0)]
         public nuint funcref;
@@ -202,18 +202,12 @@ namespace Wasmtime
 
         public unsafe V128 Unbox(StoreContext storeContext, IStore? store, in ValueRaw valueRaw)
         {
-            fixed (byte* ptr = valueRaw.v128)
-            {
-                return new V128(ptr);
-            }
+            return valueRaw.v128;
         }
 
         public unsafe void Box(StoreContext storeContext, IStore? store, ref ValueRaw valueRaw, V128 value)
         {
-            fixed (byte* ptr = valueRaw.v128)
-            {
-                value.CopyTo(ptr);
-            }
+            valueRaw.v128 = value;
         }
     }
 

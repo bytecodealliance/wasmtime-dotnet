@@ -48,8 +48,10 @@ namespace Wasmtime.Tests
                 }));
 
             var echoMultipleValuesFunc = EchoMultipleValues;
-            Linker.Define("env", "echo_multiple_values1", Function.FromCallback(Store, echoMultipleValuesFunc));
-            Linker.Define("env", "echo_multiple_values2", Function.FromCallback(Store, (EchoMultipleValuesCustomDelegate)EchoMultipleValues));
+            Linker.Define("env", "pass_through_multiple_values1", Function.FromCallback(Store, echoMultipleValuesFunc));
+            Linker.Define("env", "pass_through_multiple_values2", Function.FromCallback(Store, (EchoMultipleValuesCustomDelegate)EchoMultipleValues));
+
+            Linker.Define("env", "pass_through_v128", Function.FromCallback(Store, (V128 v128) => v128));
 
             Func<int> GetBoundFuncIntDelegate()
             {
@@ -288,7 +290,7 @@ namespace Wasmtime.Tests
         public void ItEchoesMultipleValuesFromFuncDelegate()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var echo = instance.GetFunction<long, double, object, (long, double, object)>("echo_multiple_values1");
+            var echo = instance.GetFunction<long, double, object, (long, double, object)>("pass_through_multiple_values1");
             echo.Should().NotBeNull();
 
             var result = echo(1, 2, "3");
@@ -299,11 +301,22 @@ namespace Wasmtime.Tests
         public void ItEchoesMultipleValuesFromCustomDelegate()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var echo = instance.GetFunction<long, double, object, (long, double, object)>("echo_multiple_values2");
+            var echo = instance.GetFunction<long, double, object, (long, double, object)>("pass_through_multiple_values2");
             echo.Should().NotBeNull();
 
             var result = echo(1, 2, "3");
             result.Should().Be((1, 2, "3"));
+        }
+
+        [Fact]
+        public void ItEchoesV128FromFuncDelegate()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var passThrough = instance.GetFunction<V128, V128>("pass_through_v128");
+            passThrough.Should().NotBeNull();
+
+            var result = passThrough.Invoke(V128.AllBitsSet);
+            result.Should().Be(V128.AllBitsSet);
         }
 
         [Fact]
