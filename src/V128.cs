@@ -18,7 +18,9 @@ namespace Wasmtime
             byte.MaxValue, byte.MaxValue, byte.MaxValue, byte.MaxValue
         );
 
+#pragma warning disable CS0649 // "Field `bytes` is never assigned". Justification: This is assigned through the span returned from AsSpan().
         private unsafe fixed byte bytes[16];
+#pragma warning restore CS0649
 
         /// <summary>
         /// Construct a new V128 from a 16 element byte span

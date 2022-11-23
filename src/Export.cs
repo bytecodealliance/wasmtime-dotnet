@@ -20,32 +20,29 @@ namespace Wasmtime
             var exports = new Export[(int)this.size];
             for (int i = 0; i < (int)this.size; ++i)
             {
-                unsafe
+                var exportType = this.data[i];
+                var externType = Native.wasm_exporttype_type(exportType);
+
+                switch ((WasmExternKind)Native.wasm_externtype_kind(externType))
                 {
-                    var exportType = this.data[i];
-                    var externType = Native.wasm_exporttype_type(exportType);
+                    case WasmExternKind.Func:
+                        exports[i] = new FunctionExport(exportType, externType);
+                        break;
 
-                    switch ((WasmExternKind)Native.wasm_externtype_kind(externType))
-                    {
-                        case WasmExternKind.Func:
-                            exports[i] = new FunctionExport(exportType, externType);
-                            break;
+                    case WasmExternKind.Global:
+                        exports[i] = new GlobalExport(exportType, externType);
+                        break;
 
-                        case WasmExternKind.Global:
-                            exports[i] = new GlobalExport(exportType, externType);
-                            break;
+                    case WasmExternKind.Table:
+                        exports[i] = new TableExport(exportType, externType);
+                        break;
 
-                        case WasmExternKind.Table:
-                            exports[i] = new TableExport(exportType, externType);
-                            break;
+                    case WasmExternKind.Memory:
+                        exports[i] = new MemoryExport(exportType, externType);
+                        break;
 
-                        case WasmExternKind.Memory:
-                            exports[i] = new MemoryExport(exportType, externType);
-                            break;
-
-                        default:
-                            throw new NotSupportedException("Unsupported export extern type.");
-                    }
+                    default:
+                        throw new NotSupportedException("Unsupported export extern type.");
                 }
             }
 
@@ -190,17 +187,14 @@ namespace Wasmtime
                 throw new InvalidOperationException();
             }
 
-            unsafe
+            Minimum = (long)Memory.Native.wasmtime_memorytype_minimum(type);
+
+            if (Memory.Native.wasmtime_memorytype_maximum(type, out ulong max))
             {
-                Minimum = (long)Memory.Native.wasmtime_memorytype_minimum(type);
-
-                if (Memory.Native.wasmtime_memorytype_maximum(type, out ulong max))
-                {
-                    Maximum = (long)max;
-                }
-
-                Is64Bit = Memory.Native.wasmtime_memorytype_is64(type);
+                Maximum = (long)max;
             }
+
+            Is64Bit = Memory.Native.wasmtime_memorytype_is64(type);
         }
 
         /// <summary>

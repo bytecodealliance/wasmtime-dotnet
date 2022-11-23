@@ -47,7 +47,7 @@ namespace Wasmtime
     }
 
     [StructLayout(LayoutKind.Explicit)]
-    internal unsafe struct ExternUnion
+    internal struct ExternUnion
     {
         [FieldOffset(0)]
         public ExternFunc func;
@@ -69,7 +69,7 @@ namespace Wasmtime
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal unsafe struct Extern : IDisposable
+    internal struct Extern : IDisposable
     {
         public ExternKind kind;
         public ExternUnion of;
