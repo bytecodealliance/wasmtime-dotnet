@@ -1983,11 +1983,11 @@ namespace Wasmtime
             }
             catch (Exception separateException)
             {
-                // We never must let .NET exceptions to fall through the native-to-managed transition,
-                // as otherwise the .NET runtime would unwind the stack up to the next .NET
-                // exception handler, which causes undefined behavior with Wasmtime. For example,
-                // this can happen if the system is low on memory when allocating
-                // the UTF-8 byte array. See:
+                // We never must let .NET exceptions bubble through the native-to-managed transition,
+                // as otherwise (at least on Windows) the .NET runtime would unwind the stack up to the
+                // next .NET exception handler even when there are native frames in between, and that
+                // would cause undefined behavior with Wasmtime. For example, this can happen if the
+                // system is low on memory when allocating the UTF-8 byte array. See:
                 // https://github.com/bytecodealliance/wasmtime-dotnet/issues/187
                 Environment.FailFast(separateException.Message, separateException);
 
