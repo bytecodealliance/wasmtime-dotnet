@@ -134,7 +134,7 @@ namespace Wasmtime
             public static unsafe extern bool wasmtime_caller_export_get(IntPtr caller, byte* name, UIntPtr len, out Extern item);
 
             [DllImport(Engine.LibraryName)]
-            public static unsafe extern IntPtr wasmtime_caller_context(IntPtr caller);
+            public static extern IntPtr wasmtime_caller_context(IntPtr caller);
         }
 
         private IntPtr handle;

@@ -2008,7 +2008,7 @@ namespace Wasmtime
             public static unsafe extern IntPtr wasmtime_func_call(IntPtr context, in ExternFunc func, Value* args, UIntPtr nargs, Value* results, UIntPtr nresults, out IntPtr trap);
 
             [DllImport(Engine.LibraryName)]
-            public static unsafe extern IntPtr wasmtime_func_type(IntPtr context, in ExternFunc func);
+            public static extern IntPtr wasmtime_func_type(IntPtr context, in ExternFunc func);
 
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasm_functype_new(in ValueTypeArray parameters, in ValueTypeArray results);

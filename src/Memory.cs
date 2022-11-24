@@ -584,15 +584,15 @@ namespace Wasmtime
             public static extern IntPtr wasmtime_memorytype_new(ulong min, [MarshalAs(UnmanagedType.I1)] bool max_present, ulong max, [MarshalAs(UnmanagedType.I1)] bool is_64);
 
             [DllImport(Engine.LibraryName)]
-            public static unsafe extern ulong wasmtime_memorytype_minimum(IntPtr type);
+            public static extern ulong wasmtime_memorytype_minimum(IntPtr type);
 
             [DllImport(Engine.LibraryName)]
             [return: MarshalAs(UnmanagedType.I1)]
-            public static unsafe extern bool wasmtime_memorytype_maximum(IntPtr type, out ulong max);
+            public static extern bool wasmtime_memorytype_maximum(IntPtr type, out ulong max);
 
             [DllImport(Engine.LibraryName)]
             [return: MarshalAs(UnmanagedType.I1)]
-            public static unsafe extern bool wasmtime_memorytype_is64(IntPtr type);
+            public static extern bool wasmtime_memorytype_is64(IntPtr type);
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasm_memorytype_delete(IntPtr handle);

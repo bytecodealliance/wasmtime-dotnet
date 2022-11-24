@@ -67,7 +67,7 @@ namespace Wasmtime
             public static extern void wasm_importtype_vec_delete(in ImportTypeArray vec);
 
             [DllImport(Engine.LibraryName)]
-            public static extern unsafe IntPtr wasm_importtype_type(IntPtr importType);
+            public static extern IntPtr wasm_importtype_type(IntPtr importType);
         }
     }
     /// <summary>
