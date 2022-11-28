@@ -48,7 +48,7 @@ namespace Wasmtime
                 limits
             ));
 
-            var value = Wasmtime.Value.FromObject(initialValue, Kind);
+            var value = Value.FromObject(initialValue, Kind);
             var error = Native.wasmtime_table_new(store.Context.handle, tableType, in value, out this.table);
             value.Dispose();
 

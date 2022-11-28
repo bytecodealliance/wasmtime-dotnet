@@ -40,7 +40,7 @@ namespace Wasmtime
 
             unsafe
             {
-                Native.WasmtimeFuncCallback? func = (env, callerPtr, args, nargs, results, nresults) =>
+                Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
                 {
                     using var caller = new Caller(callerPtr);
                     return InvokeCallback(callback, callbackInvokeMethod, caller, hasCaller, args, (int)nargs, results, (int)nresults, resultKinds, returnsTuple);
@@ -1891,7 +1891,7 @@ namespace Wasmtime
 
                 if (!Value.TryGetKind(parameterTypes[i], out var kind))
                 {
-                    throw new WasmtimeException($"Unable to create a function with parameter of type '{parameterTypes[i].ToString()}'.");
+                    throw new WasmtimeException($"Unable to create a function with parameter of type '{parameterTypes[i]}'.");
                 }
 
                 parameters.Add(kind);
@@ -1901,7 +1901,7 @@ namespace Wasmtime
             {
                 if (!Value.TryGetKind(t, out var kind))
                 {
-                    throw new WasmtimeException($"Unable to create a function with a return type of type '{t.ToString()}'.");
+                    throw new WasmtimeException($"Unable to create a function with a return type of type '{t}'.");
                 }
                 return kind;
             }));
@@ -2029,7 +2029,7 @@ namespace Wasmtime
             public static unsafe extern IntPtr wasmtime_func_call(IntPtr context, in ExternFunc func, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap);
 
             [DllImport(Engine.LibraryName)]
-            public static unsafe extern IntPtr wasmtime_func_type(IntPtr context, in ExternFunc func);
+            public static extern IntPtr wasmtime_func_type(IntPtr context, in ExternFunc func);
 
             [DllImport(Engine.LibraryName)]
             public static unsafe extern void wasmtime_func_from_raw(IntPtr context, nuint raw, out ExternFunc func);

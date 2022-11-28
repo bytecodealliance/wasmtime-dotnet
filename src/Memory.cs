@@ -45,15 +45,12 @@ namespace Wasmtime
             Maximum = maximum;
             Is64Bit = is64Bit;
 
-            unsafe
-            {
-                using var type = new TypeHandle(Native.wasmtime_memorytype_new((ulong)minimum, maximum is not null, (ulong)(maximum ?? 0), is64Bit));
+            using var type = new TypeHandle(Native.wasmtime_memorytype_new((ulong)minimum, maximum is not null, (ulong)(maximum ?? 0), is64Bit));
 
-                var error = Native.wasmtime_memory_new(store.Context.handle, type, out this.memory);
-                if (error != IntPtr.Zero)
-                {
-                    throw WasmtimeException.FromOwnedError(error);
-                }
+            var error = Native.wasmtime_memory_new(store.Context.handle, type, out this.memory);
+            if (error != IntPtr.Zero)
+            {
+                throw WasmtimeException.FromOwnedError(error);
             }
         }
 
@@ -538,17 +535,14 @@ namespace Wasmtime
 
             using var type = new TypeHandle(Native.wasmtime_memory_type(store.Context.handle, this.memory));
 
-            unsafe
-            {
-                Minimum = (long)Native.wasmtime_memorytype_minimum(type.DangerousGetHandle());
+            Minimum = (long)Native.wasmtime_memorytype_minimum(type.DangerousGetHandle());
                 
-                if (Native.wasmtime_memorytype_maximum(type.DangerousGetHandle(), out ulong max))
-                {
-                    Maximum = (long)max;
-                }
-
-                Is64Bit = Native.wasmtime_memorytype_is64(type.DangerousGetHandle());
+            if (Native.wasmtime_memorytype_maximum(type.DangerousGetHandle(), out ulong max))
+            {
+                Maximum = (long)max;
             }
+
+            Is64Bit = Native.wasmtime_memorytype_is64(type.DangerousGetHandle());
         }
 
         internal class TypeHandle : SafeHandleZeroOrMinusOneIsInvalid
@@ -590,15 +584,15 @@ namespace Wasmtime
             public static extern IntPtr wasmtime_memorytype_new(ulong min, [MarshalAs(UnmanagedType.I1)] bool max_present, ulong max, [MarshalAs(UnmanagedType.I1)] bool is_64);
 
             [DllImport(Engine.LibraryName)]
-            public static unsafe extern ulong wasmtime_memorytype_minimum(IntPtr type);
+            public static extern ulong wasmtime_memorytype_minimum(IntPtr type);
 
             [DllImport(Engine.LibraryName)]
             [return: MarshalAs(UnmanagedType.I1)]
-            public static unsafe extern bool wasmtime_memorytype_maximum(IntPtr type, out ulong max);
+            public static extern bool wasmtime_memorytype_maximum(IntPtr type, out ulong max);
 
             [DllImport(Engine.LibraryName)]
             [return: MarshalAs(UnmanagedType.I1)]
-            public static unsafe extern bool wasmtime_memorytype_is64(IntPtr type);
+            public static extern bool wasmtime_memorytype_is64(IntPtr type);
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasm_memorytype_delete(IntPtr handle);

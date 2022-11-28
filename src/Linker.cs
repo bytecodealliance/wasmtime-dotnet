@@ -58,7 +58,7 @@ namespace Wasmtime
             var external = item as IExternal;
             if (external is null)
             {
-                throw new ArgumentException($"Objects of type `{item.GetType().ToString()}` cannot be defined in a linker.");
+                throw new ArgumentException($"Objects of type `{item.GetType()}` cannot be defined in a linker.");
             }
 
             var ext = external.AsExtern();
@@ -421,7 +421,7 @@ namespace Wasmtime
         internal static class Native
         {
             [DllImport(Engine.LibraryName)]
-            public static unsafe extern IntPtr wasmtime_linker_new(Engine.Handle engine);
+            public static extern IntPtr wasmtime_linker_new(Engine.Handle engine);
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_linker_delete(IntPtr linker);

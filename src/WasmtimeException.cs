@@ -9,7 +9,7 @@ namespace Wasmtime
     /// <summary>
     /// The base type for Wasmtime exceptions.
     /// </summary>
-    [System.Serializable]
+    [Serializable]
     public class WasmtimeException : Exception
     {
         /// <inheritdoc/>
