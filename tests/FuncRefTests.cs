@@ -20,6 +20,8 @@ namespace Wasmtime.Tests
             Callback = Function.FromCallback(Store, (Caller caller, Function f) => f.Invoke("testing"));
             Assert = Function.FromCallback(Store, (string s) => { s.Should().Be("testing"); return "asserted!"; });
 
+            Linker.DefineFunction("", "return_funcref", () => ReturnFuncRefCallback());
+
             Linker.Define("", "callback", Callback);
             Linker.Define("", "assert", Assert);
         }
@@ -33,6 +35,8 @@ namespace Wasmtime.Tests
         private Function Callback { get; set; }
 
         private Function Assert { get; set; }
+
+        private Func<Function> ReturnFuncRefCallback { get; set; }
 
         [Fact]
         public void ItPassesFunctionReferencesToWasm()
@@ -55,6 +59,62 @@ namespace Wasmtime.Tests
             func.Should().NotBeNull();
 
             func().Should().Be("asserted!");
+        }
+
+        [Fact]
+        public void ItReturnsFunctionReferences()
+        {
+            ReturnFuncRefCallback = () => Assert;
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+
+            var func = instance.GetFunction<Function>("return_funcref");
+            func.Should().NotBeNull();
+
+            var returnedFunc = func();
+            returnedFunc.Should().NotBeNull();
+
+            // We can't check whether the returnedFunc is the same as the Assert function
+            // (as they will be different instances).
+            var wrappedFunc = returnedFunc.WrapFunc<string, string>();
+            wrappedFunc.Should().NotBeNull();
+
+            wrappedFunc("testing").Should().Be("asserted!");
+        }
+
+        [Fact]
+        public void ItReturnsNullFunctionReferences()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+
+            var func = instance.GetFunction<Function>("return_funcref");
+            func.Should().NotBeNull();
+
+            ReturnFuncRefCallback = () => Function.Null;
+            var returnedFunc = func();
+            returnedFunc.IsNull.Should().BeTrue();
+
+            ReturnFuncRefCallback = () => null;
+            returnedFunc = func();
+            returnedFunc.IsNull.Should().BeTrue();
+        }
+
+        [Fact]
+        public void ItThrowsWhenReturningFunctionReferencesFromDifferentStore()
+        {
+            using var separateStore = new Store(Fixture.Engine);
+            var separateStoreFunction = Function.FromCallback(separateStore, () => 123);
+
+            ReturnFuncRefCallback = () => separateStoreFunction;
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+
+            var func = instance.GetFunction<Function>("return_funcref");
+            func.Should().NotBeNull();
+
+            func
+                .Should()
+                .Throw<WasmtimeException>()
+                .Where(e => e.InnerException is InvalidOperationException)
+                .WithMessage("*Returning a Function is only allowed when it belongs to the current store.*");
         }
 
         [Fact]

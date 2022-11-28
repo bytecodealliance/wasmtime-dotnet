@@ -15,6 +15,8 @@
 // Do not modify it directly.
 // </auto-generated>
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -73,7 +75,7 @@ foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateTy
 #>
             unsafe
             {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
 <# GenerateCallbackContent(hasCaller, resultCount, parameterCount); #>
                 };
@@ -82,12 +84,12 @@ foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateTy
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define_func(
+                    var error = Native.wasmtime_linker_define_func_unchecked(
                         handle,
                         modulePtr,
-                        (UIntPtr)moduleBytes.Length,
+                        (nuint)moduleBytes.Length,
                         namePtr,
-                        (UIntPtr)nameBytes.Length,
+                        (nuint)nameBytes.Length,
                         funcType,
                         func,
                         GCHandle.ToIntPtr(GCHandle.Alloc(func)),
@@ -101,6 +103,7 @@ foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateTy
                 }
             }
         }
+
 <#
 }
 #>

@@ -384,7 +384,7 @@ namespace Wasmtime
             return GCHandle.FromIntPtr(data).Target;
         }
 
-        private static class Native
+        public static class Native
         {
             public delegate void Finalizer(IntPtr data);
 
@@ -397,9 +397,17 @@ namespace Wasmtime
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasmtime_externref_data(IntPtr externref);
 
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_externref_delete(IntPtr externref);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasmtime_externref_from_raw(IntPtr context, nuint raw);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern nuint wasmtime_externref_to_raw(IntPtr context, IntPtr externref);
         }
 
-        private static readonly Native.Finalizer Finalizer = (p) => GCHandle.FromIntPtr(p).Free();
+        public static readonly Native.Finalizer Finalizer = (p) => GCHandle.FromIntPtr(p).Free();
 
         private ValueKind kind;
         private ValueUnion of;
