@@ -1963,20 +1963,36 @@ namespace Wasmtime
 
         internal static unsafe IntPtr HandleCallbackException(Exception ex)
         {
-            // Store the exception as error cause, so that we can use it as the WasmtimeException's
-            // InnerException when the error bubbles up to the next host-to-wasm transition.
-            // If the exception is already a WasmtimeException, we use that one's InnerException,
-            // even if it's null.
-            // Note: This code currently requires that on every host-to-wasm transition where a
-            // error can occur, WasmtimeException.FromOwnedError() is called when an error actually
-            // occured, which will then clear this field.
-            CallbackErrorCause = ex is WasmtimeException wasmtimeException ? wasmtimeException.InnerException : ex;
-            
-            var bytes = Encoding.UTF8.GetBytes(ex.Message);
-
-            fixed (byte* ptr = bytes)
+            try
             {
-                return Native.wasmtime_trap_new(ptr, (nuint)bytes.Length);
+                // Store the exception as error cause, so that we can use it as the WasmtimeException's
+                // InnerException when the error bubbles up to the next host-to-wasm transition.
+                // If the exception is already a WasmtimeException, we use that one's InnerException,
+                // even if it's null.
+                // Note: This code currently requires that on every host-to-wasm transition where a
+                // error can occur, WasmtimeException.FromOwnedError() is called when an error actually
+                // occured, which will then clear this field.
+                CallbackErrorCause = ex is WasmtimeException wasmtimeException ? wasmtimeException.InnerException : ex;
+
+                var bytes = Encoding.UTF8.GetBytes(ex.Message);
+
+                fixed (byte* ptr = bytes)
+                {
+                    return Native.wasmtime_trap_new(ptr, (nuint)bytes.Length);
+                }
+            }
+            catch (Exception separateException)
+            {
+                // We never must let .NET exceptions bubble through the native-to-managed transition,
+                // as otherwise (at least on Windows) the .NET runtime would unwind the stack up to the
+                // next .NET exception handler even when there are native frames in between, and that
+                // would cause undefined behavior with Wasmtime. For example, this can happen if the
+                // system is low on memory when allocating the UTF-8 byte array. See:
+                // https://github.com/bytecodealliance/wasmtime-dotnet/issues/187
+                Environment.FailFast(separateException.Message, separateException);
+
+                // Satisfy the control-flow analyzer; this line is never reached.
+                throw;
             }
         }
 
