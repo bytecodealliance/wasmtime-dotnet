@@ -28,6 +28,15 @@ namespace Wasmtime
             }
         }
 
+        internal IntPtr GetData()
+        {
+            var data = Native.wasmtime_context_get_data(handle);
+            // TODO: Handle no data?
+
+            return data;
+
+        }
+
         internal ulong ConsumeFuel(ulong fuel)
         {
             var error = Native.wasmtime_context_consume_fuel(handle, fuel, out var remaining);
@@ -90,6 +99,12 @@ namespace Wasmtime
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_context_set_epoch_deadline(IntPtr handle, ulong ticksBeyondCurrent);
+            
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasmtime_context_get_data(IntPtr handle);
+            
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasmtime_context_set_data(IntPtr handle, IntPtr data);
         }
 
         internal readonly IntPtr handle;
