@@ -101,9 +101,6 @@ namespace Wasmtime
             [DllImport(Engine.LibraryName)]
             [return: MarshalAs(UnmanagedType.IUnknown)]
             public static extern object wasmtime_context_get_data(IntPtr handle);
-            
-            [DllImport(Engine.LibraryName)]
-            public static extern IntPtr wasmtime_context_set_data(IntPtr handle, IntPtr data);
         }
 
         internal readonly IntPtr handle;
@@ -133,12 +130,10 @@ namespace Wasmtime
         /// Constructs a new store.
         /// </summary>
         /// <param name="engine">The engine to use for the store.</param>
-        public Store(Engine engine) : this(engine, null)
-        {
-        }
+        public Store(Engine engine) : this(engine, null) { }
 
         /// <summary>
-        /// Constructs a new store with 
+        /// Constructs a new store.
         /// </summary>
         /// <param name="engine">The engine to use for the store.</param>
         /// <param name="data">Data to initialize the store with, this can later be accessed from the Caller in host functions<param>
@@ -151,7 +146,7 @@ namespace Wasmtime
 
             var dataPtr = data == null 
                 ? IntPtr.Zero
-                : (IntPtr) GCHandle.Alloc(data);
+                : (IntPtr)GCHandle.Alloc(data);
 
             handle = new Handle(Native.wasmtime_store_new(engine.NativeHandle, dataPtr, null));
         }
