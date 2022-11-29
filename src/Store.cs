@@ -28,13 +28,11 @@ namespace Wasmtime
             }
         }
 
-        internal IntPtr GetData()
+        internal object? GetData()
         {
             var data = Native.wasmtime_context_get_data(handle);
-            // TODO: Handle no data?
 
             return data;
-
         }
 
         internal ulong ConsumeFuel(ulong fuel)
@@ -101,7 +99,8 @@ namespace Wasmtime
             public static extern void wasmtime_context_set_epoch_deadline(IntPtr handle, ulong ticksBeyondCurrent);
             
             [DllImport(Engine.LibraryName)]
-            public static extern IntPtr wasmtime_context_get_data(IntPtr handle);
+            [return: MarshalAs(UnmanagedType.IUnknown)]
+            public static extern object wasmtime_context_get_data(IntPtr handle);
             
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasmtime_context_set_data(IntPtr handle, IntPtr data);
@@ -134,14 +133,27 @@ namespace Wasmtime
         /// Constructs a new store.
         /// </summary>
         /// <param name="engine">The engine to use for the store.</param>
-        public Store(Engine engine)
+        public Store(Engine engine) : this(engine, null)
+        {
+        }
+
+        /// <summary>
+        /// Constructs a new store with 
+        /// </summary>
+        /// <param name="engine">The engine to use for the store.</param>
+        /// <param name="data">Data to initialize the store with, this can later be accessed from the Caller in host functions<param>
+        public Store(Engine engine, object? data)
         {
             if (engine is null)
             {
                 throw new ArgumentNullException(nameof(engine));
             }
 
-            handle = new Handle(Native.wasmtime_store_new(engine.NativeHandle, IntPtr.Zero, null));
+            var dataPtr = data == null 
+                ? IntPtr.Zero
+                : (IntPtr) GCHandle.Alloc(data);
+
+            handle = new Handle(Native.wasmtime_store_new(engine.NativeHandle, dataPtr, null));
         }
 
         /// <summary>
@@ -179,7 +191,7 @@ namespace Wasmtime
         public ulong GetConsumedFuel() => ((IStore)this).Context.GetConsumedFuel();
 
         /// <summary>
-        /// Configres WASI within the store.
+        /// Configures WASI within the store.
         /// </summary>
         /// <param name="config">The WASI configuration to use.</param>
         public void SetWasiConfiguration(WasiConfiguration config) => ((IStore)this).Context.SetWasiConfiguration(config);
@@ -189,6 +201,11 @@ namespace Wasmtime
         /// </summary>
         /// <param name="ticksBeyondCurrent"></param>
         public void SetEpochDeadline(ulong ticksBeyondCurrent) => ((IStore)this).Context.SetEpochDeadline(ticksBeyondCurrent);
+
+        /// <summary>
+        /// Retrieves the data stored in the Store context
+        /// </summary>
+        public object? GetData() => ((IStore)this).Context.GetData();
 
         StoreContext IStore.Context => new StoreContext(Native.wasmtime_store_context(NativeHandle));
 
