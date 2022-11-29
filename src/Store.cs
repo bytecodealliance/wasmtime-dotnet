@@ -148,6 +148,7 @@ namespace Wasmtime
                 ? IntPtr.Zero
                 : (IntPtr)GCHandle.Alloc(data);
 
+            dataHandle = new Handle(dataPtr);
             handle = new Handle(Native.wasmtime_store_new(engine.NativeHandle, dataPtr, null));
         }
 
@@ -208,6 +209,7 @@ namespace Wasmtime
         public void Dispose()
         {
             handle.Dispose();
+            dataHandle.Dispose();
         }
 
         internal Handle NativeHandle
@@ -253,5 +255,7 @@ namespace Wasmtime
         }
 
         private readonly Handle handle;
+
+        private readonly Handle dataHandle;
     }
 }
