@@ -144,16 +144,15 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(engine));
             }
 
-            var dataPtr = data == null 
-                ? IntPtr.Zero
-                : (IntPtr)GCHandle.Alloc(data);
-
-            var storePtr = Native.wasmtime_store_new(engine.NativeHandle, dataPtr, (IntPtr ptr) => {
-                var handle = GCHandle.FromIntPtr(ptr);
-                handle.Free();
-            });
-
-            handle = new Handle(storePtr);
+            if (data != null)
+            {
+                var dataPtr = (IntPtr)GCHandle.Alloc(data);
+                handle = new Handle(Native.wasmtime_store_new(engine.NativeHandle, dataPtr, Finalizer));
+            }
+            else
+            {
+                handle = new Handle(Native.wasmtime_store_new(engine.NativeHandle, IntPtr.Zero, null));
+            }
         }
 
         /// <summary>
@@ -258,5 +257,7 @@ namespace Wasmtime
         }
 
         private readonly Handle handle;
+
+        private static readonly Native.Finalizer Finalizer = (p) => GCHandle.FromIntPtr(p).Free();
     }
 }
