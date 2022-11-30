@@ -148,7 +148,12 @@ namespace Wasmtime
                 ? IntPtr.Zero
                 : (IntPtr)GCHandle.Alloc(data);
 
-            handle = new Handle(Native.wasmtime_store_new(engine.NativeHandle, dataPtr, null));
+            var storePtr = Native.wasmtime_store_new(engine.NativeHandle, dataPtr, (IntPtr ptr) => {
+                var handle = GCHandle.FromIntPtr(ptr);
+                handle.Free();
+            });
+
+            handle = new Handle(storePtr);
         }
 
         /// <summary>
