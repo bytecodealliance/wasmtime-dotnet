@@ -132,30 +132,6 @@ namespace Wasmtime
         /// </summary>
         /// <returns></returns>
         public object? GetData() => ((IStore)this).Context.GetData();
-        
-        /// <summary>
-        /// Gets the data from the Store's Context and attempts to cast it to the specified type. 
-        /// </summary>
-        /// <returns>The typed store data, or null in case of a failed cast</returns>
-        public T? GetData<T>() 
-            where T: class
-        {
-            var data = this.GetData();
-            if (data is null) { return null; }
-
-            try  
-            { 
-                return (T)data; 
-            }
-            catch (InvalidCastException _) 
-            { 
-                return null; 
-            }
-            catch
-            {
-                throw;
-            }
-        }
 
         internal static class Native
         {
