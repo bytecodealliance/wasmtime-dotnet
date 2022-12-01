@@ -48,6 +48,20 @@ namespace Wasmtime.Tests
             }));
         }
 
+        [Fact]
+        public void ItReturnsNullWhenNoDataWasInitialized()
+        {
+            var msg = "Hello!";
+            var data = new StoreData(msg);
+            using var store = new Store(Fixture.Engine);
+
+            Linker.DefineFunction("", "hello", ((Caller caller) =>
+            {
+                var data = caller.GetData();
+                data.IsNull.Should().BeTrue();
+            }));
+        }
+
         public void Dispose()
         {
             Linker.Dispose();
