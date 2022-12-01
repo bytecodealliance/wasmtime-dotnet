@@ -58,7 +58,7 @@ namespace Wasmtime.Tests
             Linker.DefineFunction("", "hello", ((Caller caller) =>
             {
                 var data = caller.GetData();
-                data.IsNull.Should().BeTrue();
+                data.Should().BeNull();
             }));
         }
 
