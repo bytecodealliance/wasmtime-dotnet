@@ -128,10 +128,15 @@ namespace Wasmtime
         public ulong GetConsumedFuel() => ((IStore)this).Context.GetConsumedFuel();
 
         /// <summary>
-        /// Gets the data from the Store's Context. 
+        /// Gets the user-defined data from the Store's Context. 
         /// </summary>
-        /// <returns></returns>
+        /// <returns>An object represeting the user defined data from this Store</returns>
         public object? GetData() => ((IStore)this).Context.GetData();
+
+        /// <summary>
+        /// Replaces the user-defined data in the Store's Context 
+        /// </summary>
+        public void SetData(object data) => ((IStore)this).Context.SetData(data);
 
         internal static class Native
         {

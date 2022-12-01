@@ -1,4 +1,5 @@
 using System;
+using System.Data;
 using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;
 
@@ -37,6 +38,18 @@ namespace Wasmtime
             }
 
             return GCHandle.FromIntPtr(data).Target;
+        }
+
+        internal void SetData(object data)
+        {
+            var oldData = Native.wasmtime_context_get_data(handle);
+            if (oldData != IntPtr.Zero) 
+            {
+                GCHandle.FromIntPtr(oldData).Free();
+            }
+            
+            var newPtr = (IntPtr)GCHandle.Alloc(data);
+            Native.wasmtime_context_set_data(handle, newPtr);
         }
 
         internal ulong ConsumeFuel(ulong fuel)
@@ -104,6 +117,9 @@ namespace Wasmtime
             
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasmtime_context_get_data(IntPtr handle);
+            
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_context_set_data(IntPtr handle, IntPtr data);
         }
 
         internal readonly IntPtr handle;
@@ -208,6 +224,14 @@ namespace Wasmtime
         /// Retrieves the data stored in the Store context
         /// </summary>
         public object? GetData() => ((IStore)this).Context.GetData();
+
+        /// <summary>
+        /// Replaces the data stored in the Store context 
+        /// </summary>
+        public void SetData(object data)
+        {
+           ((IStore)this).Context.SetData(data);
+        }
 
         StoreContext IStore.Context => new StoreContext(Native.wasmtime_store_context(NativeHandle));
 
