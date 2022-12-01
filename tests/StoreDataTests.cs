@@ -62,20 +62,6 @@ namespace Wasmtime.Tests
             }));
         }
 
-        [Fact]
-        public void ItShouldReturnNullOnInvalidCast()
-        {
-            var msg = "Hello!";
-            var data = new StoreData(msg);
-            using var store = new Store(Fixture.Engine, data);
-
-            Linker.DefineFunction("", "hello", ((Caller caller) =>
-            {
-                var data = caller.GetData<int[]>();
-                data.Should().BeNull();
-            }));
-        }
-
         public void Dispose()
         {
             Linker.Dispose();
