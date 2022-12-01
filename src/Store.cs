@@ -139,7 +139,7 @@ namespace Wasmtime
         /// Constructs a new store.
         /// </summary>
         /// <param name="engine">The engine to use for the store.</param>
-        /// <param name="data">Data to initialize the store with, this can later be accessed from the Caller in host functions<param>
+        /// <param name="data">Data to initialize the store with, this can later be accessed from the Caller in host functions</param>
         public Store(Engine engine, object? data)
         {
             if (engine is null)
