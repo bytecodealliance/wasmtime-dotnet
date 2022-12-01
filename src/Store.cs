@@ -31,8 +31,12 @@ namespace Wasmtime
         internal object? GetData()
         {
             var data = Native.wasmtime_context_get_data(handle);
+            if (data == IntPtr.Zero)
+            {
+                return null;
+            }
 
-            return data;
+            return GCHandle.FromIntPtr(data).Target;
         }
 
         internal ulong ConsumeFuel(ulong fuel)
@@ -99,8 +103,7 @@ namespace Wasmtime
             public static extern void wasmtime_context_set_epoch_deadline(IntPtr handle, ulong ticksBeyondCurrent);
             
             [DllImport(Engine.LibraryName)]
-            [return: MarshalAs(UnmanagedType.IUnknown)]
-            public static extern object wasmtime_context_get_data(IntPtr handle);
+            public static extern IntPtr wasmtime_context_get_data(IntPtr handle);
         }
 
         internal readonly IntPtr handle;
