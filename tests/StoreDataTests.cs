@@ -43,21 +43,7 @@ namespace Wasmtime.Tests
 
             Linker.DefineFunction("", "hello", ((Caller caller) =>
             {
-                var data = (StoreData)caller.GetData();
-                data.Value.Should().Be(msg);
-            }));
-        }
-
-        [Fact]
-        public void ItCorrectlyCastsTypedParameter()
-        {
-            var msg = "Hello!";
-            var data = new StoreData(msg);
-            using var store = new Store(Fixture.Engine, data);
-
-            Linker.DefineFunction("", "hello", ((Caller caller) =>
-            {
-                var data = caller.GetData<StoreData>();
+                var data = caller.GetData() as StoreData;
                 data.Value.Should().Be(msg);
             }));
         }
