@@ -39,7 +39,7 @@ namespace Wasmtime
             return GCHandle.FromIntPtr(data).Target;
         }
 
-        internal void SetData(object data)
+        internal void SetData(object? data)
         {
             var oldData = Native.wasmtime_context_get_data(handle);
             if (oldData != IntPtr.Zero) 
@@ -47,8 +47,11 @@ namespace Wasmtime
                 GCHandle.FromIntPtr(oldData).Free();
             }
             
-            var newPtr = (IntPtr)GCHandle.Alloc(data);
-            Native.wasmtime_context_set_data(handle, newPtr);
+            if (data != null)
+            {
+                var newPtr = (IntPtr)GCHandle.Alloc(data);
+                Native.wasmtime_context_set_data(handle, newPtr);
+            }
         }
 
         internal ulong ConsumeFuel(ulong fuel)
@@ -162,15 +165,11 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(engine));
             }
 
-            if (data != null)
-            {
-                var dataPtr = (IntPtr)GCHandle.Alloc(data);
-                handle = new Handle(Native.wasmtime_store_new(engine.NativeHandle, dataPtr, Finalizer));
-            }
-            else
-            {
-                handle = new Handle(Native.wasmtime_store_new(engine.NativeHandle, IntPtr.Zero, null));
-            }
+            var dataPtr = data != null 
+                ? (IntPtr)GCHandle.Alloc(data) 
+                : IntPtr.Zero;
+
+            handle = new Handle(Native.wasmtime_store_new(engine.NativeHandle, dataPtr, Finalizer));
         }
 
         /// <summary>
@@ -284,6 +283,12 @@ namespace Wasmtime
 
         private readonly Handle handle;
 
-        private static readonly Native.Finalizer Finalizer = (p) => GCHandle.FromIntPtr(p).Free();
+        private static readonly Native.Finalizer Finalizer = (p) =>
+        {
+            if (p != IntPtr.Zero)
+            {
+                GCHandle.FromIntPtr(p).Free();
+            }
+        };
     }
 }
