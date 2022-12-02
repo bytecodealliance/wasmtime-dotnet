@@ -42,15 +42,18 @@ namespace Wasmtime
         internal void SetData(object? data)
         {
             var oldData = Native.wasmtime_context_get_data(handle);
+
+            var newPtr = IntPtr.Zero;
+            if (data != null)
+            {
+                newPtr = (IntPtr)GCHandle.Alloc(data);
+            }
+
+            Native.wasmtime_context_set_data(handle, newPtr);
+
             if (oldData != IntPtr.Zero) 
             {
                 GCHandle.FromIntPtr(oldData).Free();
-            }
-            
-            if (data != null)
-            {
-                var newPtr = (IntPtr)GCHandle.Alloc(data);
-                Native.wasmtime_context_set_data(handle, newPtr);
             }
         }
 
