@@ -226,7 +226,7 @@ namespace Wasmtime
         /// <summary>
         /// Replaces the data stored in the Store context 
         /// </summary>
-        public void SetData(object data)
+        public void SetData(object? data)
         {
            ((IStore)this).Context.SetData(data);
         }

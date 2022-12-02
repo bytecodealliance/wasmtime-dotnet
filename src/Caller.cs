@@ -136,7 +136,7 @@ namespace Wasmtime
         /// <summary>
         /// Replaces the user-defined data in the Store's Context 
         /// </summary>
-        public void SetData(object data) => ((IStore)this).Context.SetData(data);
+        public void SetData(object? data) => ((IStore)this).Context.SetData(data);
 
         internal static class Native
         {
