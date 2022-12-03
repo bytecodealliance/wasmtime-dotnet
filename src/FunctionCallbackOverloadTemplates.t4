@@ -4,11 +4,11 @@
 
 void GenerateCallbackContent(bool hasCaller, int resultCount, int parameterCount) {
 #>
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = <#= hasCaller ? "" : "!converterRequiresStore ? null : " #>new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = <#= hasCaller ? "" : "!converterRequiresStore ? null : " #>new Caller(callerPtr);
+
                         <#= resultCount > 0 ? "var result = " : "" #>callback(
                             <#
     if (hasCaller)

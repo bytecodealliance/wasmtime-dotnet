@@ -55,11 +55,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         callback(
                             );
 
@@ -128,11 +128,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         callback(
                             convT.Unbox(storeContext, caller, args_and_results[0]));
 
@@ -203,11 +203,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]));
@@ -281,11 +281,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -362,11 +362,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -446,11 +446,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -533,11 +533,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -623,11 +623,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -716,11 +716,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -812,11 +812,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -911,11 +911,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -1013,11 +1013,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -1118,11 +1118,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -1202,11 +1202,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             );
 
@@ -1278,11 +1278,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT.Unbox(storeContext, caller, args_and_results[0]));
 
@@ -1356,11 +1356,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]));
@@ -1437,11 +1437,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -1521,11 +1521,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -1608,11 +1608,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -1698,11 +1698,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -1791,11 +1791,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -1887,11 +1887,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -1986,11 +1986,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -2088,11 +2088,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -2193,11 +2193,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -2301,11 +2301,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -2388,11 +2388,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             );
 
@@ -2467,11 +2467,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT.Unbox(storeContext, caller, args_and_results[0]));
 
@@ -2548,11 +2548,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]));
@@ -2632,11 +2632,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -2719,11 +2719,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -2809,11 +2809,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -2902,11 +2902,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -2998,11 +2998,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -3097,11 +3097,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -3199,11 +3199,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -3304,11 +3304,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -3412,11 +3412,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -3523,11 +3523,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -3613,11 +3613,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             );
 
@@ -3695,11 +3695,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT.Unbox(storeContext, caller, args_and_results[0]));
 
@@ -3779,11 +3779,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]));
@@ -3866,11 +3866,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -3956,11 +3956,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -4049,11 +4049,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -4145,11 +4145,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -4244,11 +4244,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -4346,11 +4346,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -4451,11 +4451,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -4559,11 +4559,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -4670,11 +4670,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -4784,11 +4784,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -4877,11 +4877,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             );
 
@@ -4962,11 +4962,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT.Unbox(storeContext, caller, args_and_results[0]));
 
@@ -5049,11 +5049,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]));
@@ -5139,11 +5139,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -5232,11 +5232,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -5328,11 +5328,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -5427,11 +5427,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -5529,11 +5529,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -5634,11 +5634,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -5742,11 +5742,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -5853,11 +5853,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -5967,11 +5967,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -6084,11 +6084,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+
                         var result = callback(
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
                             convT2.Unbox(storeContext, caller, args_and_results[1]),
@@ -6167,11 +6167,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         callback(
                             caller);
 
@@ -6236,11 +6236,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         callback(
                             caller,
                             convT.Unbox(storeContext, caller, args_and_results[0]));
@@ -6307,11 +6307,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -6380,11 +6380,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -6455,11 +6455,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -6532,11 +6532,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -6611,11 +6611,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -6692,11 +6692,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -6775,11 +6775,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -6860,11 +6860,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -6947,11 +6947,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -7036,11 +7036,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -7127,11 +7127,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -7208,11 +7208,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller);
 
@@ -7279,11 +7279,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT.Unbox(storeContext, caller, args_and_results[0]));
@@ -7352,11 +7352,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -7427,11 +7427,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -7504,11 +7504,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -7583,11 +7583,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -7664,11 +7664,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -7747,11 +7747,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -7832,11 +7832,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -7919,11 +7919,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -8008,11 +8008,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -8099,11 +8099,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -8192,11 +8192,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -8275,11 +8275,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller);
 
@@ -8348,11 +8348,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT.Unbox(storeContext, caller, args_and_results[0]));
@@ -8423,11 +8423,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -8500,11 +8500,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -8579,11 +8579,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -8660,11 +8660,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -8743,11 +8743,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -8828,11 +8828,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -8915,11 +8915,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -9004,11 +9004,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -9095,11 +9095,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -9188,11 +9188,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -9283,11 +9283,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -9368,11 +9368,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller);
 
@@ -9443,11 +9443,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT.Unbox(storeContext, caller, args_and_results[0]));
@@ -9520,11 +9520,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -9599,11 +9599,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -9680,11 +9680,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -9763,11 +9763,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -9848,11 +9848,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -9935,11 +9935,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -10024,11 +10024,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -10115,11 +10115,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -10208,11 +10208,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -10303,11 +10303,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -10400,11 +10400,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -10487,11 +10487,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller);
 
@@ -10564,11 +10564,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT.Unbox(storeContext, caller, args_and_results[0]));
@@ -10643,11 +10643,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -10724,11 +10724,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -10807,11 +10807,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -10892,11 +10892,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -10979,11 +10979,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -11068,11 +11068,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -11159,11 +11159,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -11252,11 +11252,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -11347,11 +11347,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -11444,11 +11444,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
@@ -11543,11 +11543,11 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-                    var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                    using var caller = new Caller(callerPtr);
-
                     try
                     {
+                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        using var caller = new Caller(callerPtr);
+
                         var result = callback(
                             caller,
                             convT1.Unbox(storeContext, caller, args_and_results[0]),
