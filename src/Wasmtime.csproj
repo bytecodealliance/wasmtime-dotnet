@@ -41,26 +41,32 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
   </ItemGroup>
   
   <ItemGroup>
-    <None Update="Linker.DefineFunction.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Linker.DefineFunction.cs</LastGenOutput>
-    </None>
-    <Compile Update="Linker.DefineFunction.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Linker.DefineFunction.tt</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="Function.FromCallback.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Function.FromCallback.cs</LastGenOutput>
+    </None>
+    <None Update="Function.Wrap.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Function.Wrap.cs</LastGenOutput>
+    </None>
+    <None Update="Linker.DefineFunction.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Linker.DefineFunction.cs</LastGenOutput>
     </None>
     <Compile Update="Function.FromCallback.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Function.FromCallback.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Function.Wrap.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Function.Wrap.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Linker.DefineFunction.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Linker.DefineFunction.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 
@@ -75,6 +81,7 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
     <Exec Command="dotnet tool restore" />
     <Exec Command="dotnet tool run t4 Linker.DefineFunction.tt" />
     <Exec Command="dotnet tool run t4 Function.FromCallback.tt" />
+    <Exec Command="dotnet tool run t4 Function.Wrap.tt" />
   </Target>
 
   <PropertyGroup>

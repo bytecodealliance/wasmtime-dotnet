@@ -2,7 +2,10 @@
 // This file contains the functions used in Function.FromCallback.ts and Linker.DefineFunction.ts
 // in order to generate overloads with different parameter and result types for Action<...>/Func<...>.
 
+// Suppress the "not used" warning when this file is referenced but the function is not called.
+#pragma warning disable CS8321 // Local function is declared but never used
 void GenerateCallbackContent(bool hasCaller, int resultCount, int parameterCount) {
+#pragma warning restore CS8321 // Local function is declared but never used
 #>
                     var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
                     using var caller = <#= hasCaller ? "" : "!converterRequiresStore ? null : " #>new Caller(callerPtr);
@@ -79,20 +82,11 @@ IEnumerable<(
     string delegateType,
     string callbackParameterTypes,
     string callbackReturnType,
-    string parameterConverters
-)> EnumerateTypeCombinations() {
-    // Generate overloads for different combinations of function parameter count, result count,
-    // and hasCaller states.
-    // Currently, we generate them for a maximum of 12 parameters and 4 result values, which means there
-    // will be 2 * 13 * 5 = 130 overloads of DefineFunction accepting an Action/Func.
-    // Note that more than 200 overloads can cause the C# compiler to no longer resolve the overloads
-    // correctly (tested with Visual Studio 17.4.0 Preview 2.1).
-    // For delegate types not covered by these overloads, we have a method accepting a Delegate which
-    // will be called using reflection.
-    const int maxParameterCount = 12;
-    const int maxResultCount = 4;
-
-    foreach (var hasCaller in new[] { false, true })
+    string parameterConverters,
+    string resultConverters,
+    string converterRequiresStoreCode
+)> EnumerateTypeCombinations(int maxParameterCount = 12, int maxResultCount = 4, bool canHaveCaller = true, bool delegateInputsNullable = true) {
+    foreach (var hasCaller in canHaveCaller ? new[] { false, true } : new[] { false })
     {
         for (int resultCount = 0; resultCount <= maxResultCount; resultCount++)
         {
@@ -102,6 +96,8 @@ IEnumerable<(
                 var delegateType = new StringBuilder(resultCount == 0 ? "Action" : "Func");
                 var delegateReturnType = new StringBuilder();
                 var parameterConverters = new StringBuilder();
+                var resultConverters = new StringBuilder();
+                var converterRequiresStoreCode = new StringBuilder();
         
                 if (parameterCount > 0 || resultCount > 0)
                 {
@@ -138,7 +134,12 @@ IEnumerable<(
                     }
 
                     methodGenerics.Append(genericType);
-                    delegateType.Append(genericType + '?');
+                    delegateType.Append(genericType);
+
+                    if (delegateInputsNullable)
+                    {
+                        delegateType.Append('?');
+                    }
 
                     parameterConverters.AppendLine($"            var conv{genericType} = ValueRaw.Converter<{genericType}>();");
                 }
@@ -171,7 +172,7 @@ IEnumerable<(
                     methodGenerics.Append(genericType);
                     delegateReturnType.Append(genericType);
 
-                    parameterConverters.AppendLine($"            var conv{genericType} = ValueRaw.Converter<{genericType}>();");
+                    resultConverters.AppendLine($"            var conv{genericType} = ValueRaw.Converter<{genericType}>();");
                 }
 
                 if (resultCount > 1)
@@ -180,6 +181,11 @@ IEnumerable<(
                 }
 
                 delegateType.Append(delegateReturnType);
+
+                if (!delegateInputsNullable && resultCount > 0)
+                {
+                    delegateType.Append('?');
+                }
 
                 if (parameterCount > 0 || resultCount > 0)
                 {
@@ -216,8 +222,8 @@ IEnumerable<(
                 // Generate a bool value that specifies whether any of the converters needs the IStore.
                 if (!hasCaller)
                 {
-                    parameterConverters.AppendLine();
-                    parameterConverters.AppendLine($"            var converterRequiresStore =");
+                    converterRequiresStoreCode.AppendLine();
+                    converterRequiresStoreCode.AppendLine($"            var converterRequiresStore =");
 
                     for (int x = 0; x < parameterCount; x++)
                     {
@@ -227,7 +233,7 @@ IEnumerable<(
                             genericType += (x + 1).ToString(CultureInfo.InvariantCulture);
                         }
 
-                        parameterConverters.AppendLine($"                conv{genericType}.RequiresStore(forBoxing: false) ||");
+                        converterRequiresStoreCode.AppendLine($"                conv{genericType}.RequiresStore(forBoxing: false) ||");
                     }
 
                     for (int x = 0; x < resultCount; x++)
@@ -238,10 +244,10 @@ IEnumerable<(
                             genericType += (x + 1).ToString(CultureInfo.InvariantCulture);
                         }
 
-                        parameterConverters.AppendLine($"                conv{genericType}.RequiresStore(forBoxing: true) ||");
+                        converterRequiresStoreCode.AppendLine($"                conv{genericType}.RequiresStore(forBoxing: true) ||");
                     }
 
-                    parameterConverters.AppendLine($"                false;");
+                    converterRequiresStoreCode.AppendLine($"                false;");
                 }
                 
                 yield return (
@@ -252,7 +258,9 @@ IEnumerable<(
                     delegateType.ToString(),
                     callbackParameterTypeExpressions.ToString(),
                     callbackReturnTypeExpression,
-                    parameterConverters.ToString()
+                    parameterConverters.ToString(),
+                    resultConverters.ToString(),
+                    converterRequiresStoreCode.ToString()
                 );
             }
         }

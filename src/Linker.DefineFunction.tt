@@ -27,7 +27,15 @@ namespace Wasmtime
     public partial class Linker
     {
 <#
-foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateType, callbackParameterTypeExpressions, callbackReturnTypeExpression, parameterConverters) in EnumerateTypeCombinations())
+// Generate overloads for different combinations of function parameter count, result count,
+// and hasCaller states.
+// Currently, we generate them for a maximum of 12 parameters and 4 result values, which means there
+// will be 2 * 13 * 5 = 130 overloads of DefineFunction accepting an Action/Func.
+// Note that more than 200 overloads can cause the C# compiler to no longer resolve the overloads
+// correctly (tested with Visual Studio 17.4.0 Preview 2.1).
+// For delegate types not covered by these overloads, we have a method accepting a Delegate which
+// will be called using reflection.
+foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateType, callbackParameterTypeExpressions, callbackReturnTypeExpression, parameterConverters, resultConverters, converterRequiresStoreCode) in EnumerateTypeCombinations())
 {
 #>
         /// <summary>
@@ -72,6 +80,8 @@ foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateTy
             }
 
 <#= parameterConverters
+#><#= resultConverters
+#><#= converterRequiresStoreCode
 #>
             unsafe
             {
