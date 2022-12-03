@@ -200,6 +200,7 @@ namespace Wasmtime
             var trap = Invoke(argsAndResults, storeContext);
 
             // Note: null suppression is safe because `Invoke` checks that `store` is not null
+            // (by checking that we are not a null function reference).
             var results = argsAndResults[..Results.Count];
             return factory.Create(storeContext, store!, trap, results);
         }
@@ -382,11 +383,6 @@ namespace Wasmtime
             if (IsNull)
             {
                 throw new InvalidOperationException("Cannot invoke a null function reference.");
-            }
-
-            if (store is null)
-            {
-                throw new ArgumentNullException(nameof(store));
             }
 
             IntPtr error;

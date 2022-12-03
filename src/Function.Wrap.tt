@@ -33,9 +33,9 @@ foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateTy
         /// <returns>A <c><#= resultCount > 0 ? "Func" : "Action" #></c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
         public <#= delegateType #>? Wrap<#= resultCount > 0 ? "Func" : "Action" #><#= methodGenerics #>()
         {
-            if (store is null)
+            if (store is null || IsNull)
             {
-                throw new InvalidOperationException("Cannot Wrap null function");
+                throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
             // Check that the requested type signature is compatible
