@@ -24,14 +24,20 @@ namespace Wasmtime
     public partial class Function
     {
 <#
-foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateType, callbackParameterTypeExpressions, callbackReturnTypeExpression, parameterConverters, _, _) in EnumerateTypeCombinations(16, 1, canHaveCaller: false, delegateInputsNullable: false))
+// Generate overloads of WrapAction/WrapFunc for up to 16 parameters and up to one return type
+// (2 * 17 overloads).
+// Note: We only use up to one return type parameter here, because unlike e.g.
+// Function.FromCallback() which explicitely declares ValueTuple<...> overloads, here we
+// expect that the single return type parameter is implicitely used as ValueTuple<...> for
+// the return type factory.
+foreach (var (_, returnTypeCount, parameterCount, methodGenerics, delegateType, callbackParameterTypeExpressions, callbackReturnTypeExpression, parameterConverters, _, _) in EnumerateTypeCombinations(16, 1, canHaveCaller: false, delegateInputsNullable: false))
 {
 #>
         /// <summary>
-        /// Attempt to wrap this function as <#= resultCount > 0 ? "a <c>Func</c>" : "an <c>Action</c>" #>. Wrapped <c><#= resultCount > 0 ? "Func" : "Action" #></c> is faster than a normal Invoke call.
+        /// Attempt to wrap this function as <#= returnTypeCount > 0 ? "a <c>Func</c>" : "an <c>Action</c>" #>. Wrapped <c><#= returnTypeCount > 0 ? "Func" : "Action" #></c> is faster than a normal Invoke call.
         /// </summary>
-        /// <returns>A <c><#= resultCount > 0 ? "Func" : "Action" #></c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
-        public <#= delegateType #>? Wrap<#= resultCount > 0 ? "Func" : "Action" #><#= methodGenerics #>()
+        /// <returns>A <c><#= returnTypeCount > 0 ? "Func" : "Action" #></c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+        public <#= delegateType #>? Wrap<#= returnTypeCount > 0 ? "Func" : "Action" #><#= methodGenerics #>()
         {
             if (store is null || IsNull)
             {
@@ -46,65 +52,64 @@ foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateTy
             }
 
             // Fetch a converter for each parameter type to box it
-<#= parameterConverters
-#>
+<#= parameterConverters #>
 <#
-if (resultCount > 0)
-{ #>
+    if (returnTypeCount > 0)
+    { 
+#>
             // Create a factory for the return type
             var factory = IReturnTypeFactory<TResult>.Create();
 
 <# 
-} #>
+    } 
+#>
             return (<#
-for (int x = 0; x < parameterCount; x++)
-{
-    if (x >= 1)
+    for (int x = 0; x < parameterCount; x++)
     {
-        #>, <#
+        if (x >= 1)
+        {
+            #>, <#
+        }
+
+        #>p<#= x.ToString(CultureInfo.InvariantCulture) #><#
+
     }
-
-    #>p<#= x.ToString(CultureInfo.InvariantCulture) #><#
-
-}
 #>) =>
             {
 <#
-string stackAllocCount = parameterCount.ToString();
-if (resultCount > 0)
-{
-    stackAllocCount = $"Math.Max({stackAllocCount}, Results.Count)";
-}
-            #>
+    string stackAllocCount = parameterCount.ToString(CultureInfo.InvariantCulture);
+    if (returnTypeCount > 0)
+    {
+        stackAllocCount = $"Math.Max({stackAllocCount}, Results.Count)";
+    }
+#>
                 // Allocate space for both the arguments and the results.
                 Span<ValueRaw> args = stackalloc ValueRaw[<#= stackAllocCount #>];
                 var storeContext = store.Context;
+
 <#
-for (int x = 0; x < parameterCount; x++)
-{
-    string xStr = x.ToString(CultureInfo.InvariantCulture);
-
-    #>
-
-                convT<#= parameterCount is 1 ? "" : (x + 1).ToString(CultureInfo.InvariantCulture) #>.Box(storeContext, store, ref args[<#= xStr #>], p<#= xStr #>);<#
-}
-
-if (resultCount > 0)
-{
+    for (int x = 0; x < parameterCount; x++)
+    {
+        string xStr = x.ToString(CultureInfo.InvariantCulture);
 #>
+                convT<#= parameterCount is 1 ? "" : (x + 1).ToString(CultureInfo.InvariantCulture) #>.Box(storeContext, store, ref args[<#= xStr #>], p<#= xStr #>);
+<#
+    }
 
+    if (returnTypeCount > 0)
+    {
+#>
 
                 return InvokeWithReturn(args, factory, storeContext);
 <#
-}
-else
-{
+    }
+    else
+    {
 #>
-
 
                 InvokeWithoutReturn(args, storeContext);
 <#
-}
+    }
 #>
             };
         }
