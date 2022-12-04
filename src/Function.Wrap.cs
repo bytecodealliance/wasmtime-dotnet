@@ -35,11 +35,11 @@ namespace Wasmtime
             return () =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[0];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(0, Results.Count)];
                 var storeContext = store.Context;
 
 
-                InvokeWithoutReturn(args, storeContext);
+                InvokeWithoutReturn(argsAndResults, storeContext);
             };
         }
 
@@ -67,12 +67,12 @@ namespace Wasmtime
             return (p0) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[1];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(1, Results.Count)];
                 var storeContext = store.Context;
 
-                convT.Box(storeContext, store, ref args[0], p0);
+                convT.Box(storeContext, store, ref argsAndResults[0], p0);
 
-                InvokeWithoutReturn(args, storeContext);
+                InvokeWithoutReturn(argsAndResults, storeContext);
             };
         }
 
@@ -101,13 +101,13 @@ namespace Wasmtime
             return (p0, p1) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[2];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(2, Results.Count)];
                 var storeContext = store.Context;
 
-                convT1.Box(storeContext, store, ref args[0], p0);
-                convT2.Box(storeContext, store, ref args[1], p1);
+                convT1.Box(storeContext, store, ref argsAndResults[0], p0);
+                convT2.Box(storeContext, store, ref argsAndResults[1], p1);
 
-                InvokeWithoutReturn(args, storeContext);
+                InvokeWithoutReturn(argsAndResults, storeContext);
             };
         }
 
@@ -137,14 +137,14 @@ namespace Wasmtime
             return (p0, p1, p2) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[3];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(3, Results.Count)];
                 var storeContext = store.Context;
 
-                convT1.Box(storeContext, store, ref args[0], p0);
-                convT2.Box(storeContext, store, ref args[1], p1);
-                convT3.Box(storeContext, store, ref args[2], p2);
+                convT1.Box(storeContext, store, ref argsAndResults[0], p0);
+                convT2.Box(storeContext, store, ref argsAndResults[1], p1);
+                convT3.Box(storeContext, store, ref argsAndResults[2], p2);
 
-                InvokeWithoutReturn(args, storeContext);
+                InvokeWithoutReturn(argsAndResults, storeContext);
             };
         }
 
@@ -175,15 +175,15 @@ namespace Wasmtime
             return (p0, p1, p2, p3) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[4];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(4, Results.Count)];
                 var storeContext = store.Context;
 
-                convT1.Box(storeContext, store, ref args[0], p0);
-                convT2.Box(storeContext, store, ref args[1], p1);
-                convT3.Box(storeContext, store, ref args[2], p2);
-                convT4.Box(storeContext, store, ref args[3], p3);
+                convT1.Box(storeContext, store, ref argsAndResults[0], p0);
+                convT2.Box(storeContext, store, ref argsAndResults[1], p1);
+                convT3.Box(storeContext, store, ref argsAndResults[2], p2);
+                convT4.Box(storeContext, store, ref argsAndResults[3], p3);
 
-                InvokeWithoutReturn(args, storeContext);
+                InvokeWithoutReturn(argsAndResults, storeContext);
             };
         }
 
@@ -215,16 +215,16 @@ namespace Wasmtime
             return (p0, p1, p2, p3, p4) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[5];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(5, Results.Count)];
                 var storeContext = store.Context;
 
-                convT1.Box(storeContext, store, ref args[0], p0);
-                convT2.Box(storeContext, store, ref args[1], p1);
-                convT3.Box(storeContext, store, ref args[2], p2);
-                convT4.Box(storeContext, store, ref args[3], p3);
-                convT5.Box(storeContext, store, ref args[4], p4);
+                convT1.Box(storeContext, store, ref argsAndResults[0], p0);
+                convT2.Box(storeContext, store, ref argsAndResults[1], p1);
+                convT3.Box(storeContext, store, ref argsAndResults[2], p2);
+                convT4.Box(storeContext, store, ref argsAndResults[3], p3);
+                convT5.Box(storeContext, store, ref argsAndResults[4], p4);
 
-                InvokeWithoutReturn(args, storeContext);
+                InvokeWithoutReturn(argsAndResults, storeContext);
             };
         }
 
@@ -257,17 +257,17 @@ namespace Wasmtime
             return (p0, p1, p2, p3, p4, p5) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[6];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(6, Results.Count)];
                 var storeContext = store.Context;
 
-                convT1.Box(storeContext, store, ref args[0], p0);
-                convT2.Box(storeContext, store, ref args[1], p1);
-                convT3.Box(storeContext, store, ref args[2], p2);
-                convT4.Box(storeContext, store, ref args[3], p3);
-                convT5.Box(storeContext, store, ref args[4], p4);
-                convT6.Box(storeContext, store, ref args[5], p5);
+                convT1.Box(storeContext, store, ref argsAndResults[0], p0);
+                convT2.Box(storeContext, store, ref argsAndResults[1], p1);
+                convT3.Box(storeContext, store, ref argsAndResults[2], p2);
+                convT4.Box(storeContext, store, ref argsAndResults[3], p3);
+                convT5.Box(storeContext, store, ref argsAndResults[4], p4);
+                convT6.Box(storeContext, store, ref argsAndResults[5], p5);
 
-                InvokeWithoutReturn(args, storeContext);
+                InvokeWithoutReturn(argsAndResults, storeContext);
             };
         }
 
@@ -301,18 +301,18 @@ namespace Wasmtime
             return (p0, p1, p2, p3, p4, p5, p6) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[7];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(7, Results.Count)];
                 var storeContext = store.Context;
 
-                convT1.Box(storeContext, store, ref args[0], p0);
-                convT2.Box(storeContext, store, ref args[1], p1);
-                convT3.Box(storeContext, store, ref args[2], p2);
-                convT4.Box(storeContext, store, ref args[3], p3);
-                convT5.Box(storeContext, store, ref args[4], p4);
-                convT6.Box(storeContext, store, ref args[5], p5);
-                convT7.Box(storeContext, store, ref args[6], p6);
+                convT1.Box(storeContext, store, ref argsAndResults[0], p0);
+                convT2.Box(storeContext, store, ref argsAndResults[1], p1);
+                convT3.Box(storeContext, store, ref argsAndResults[2], p2);
+                convT4.Box(storeContext, store, ref argsAndResults[3], p3);
+                convT5.Box(storeContext, store, ref argsAndResults[4], p4);
+                convT6.Box(storeContext, store, ref argsAndResults[5], p5);
+                convT7.Box(storeContext, store, ref argsAndResults[6], p6);
 
-                InvokeWithoutReturn(args, storeContext);
+                InvokeWithoutReturn(argsAndResults, storeContext);
             };
         }
 
@@ -347,19 +347,19 @@ namespace Wasmtime
             return (p0, p1, p2, p3, p4, p5, p6, p7) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[8];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(8, Results.Count)];
                 var storeContext = store.Context;
 
-                convT1.Box(storeContext, store, ref args[0], p0);
-                convT2.Box(storeContext, store, ref args[1], p1);
-                convT3.Box(storeContext, store, ref args[2], p2);
-                convT4.Box(storeContext, store, ref args[3], p3);
-                convT5.Box(storeContext, store, ref args[4], p4);
-                convT6.Box(storeContext, store, ref args[5], p5);
-                convT7.Box(storeContext, store, ref args[6], p6);
-                convT8.Box(storeContext, store, ref args[7], p7);
+                convT1.Box(storeContext, store, ref argsAndResults[0], p0);
+                convT2.Box(storeContext, store, ref argsAndResults[1], p1);
+                convT3.Box(storeContext, store, ref argsAndResults[2], p2);
+                convT4.Box(storeContext, store, ref argsAndResults[3], p3);
+                convT5.Box(storeContext, store, ref argsAndResults[4], p4);
+                convT6.Box(storeContext, store, ref argsAndResults[5], p5);
+                convT7.Box(storeContext, store, ref argsAndResults[6], p6);
+                convT8.Box(storeContext, store, ref argsAndResults[7], p7);
 
-                InvokeWithoutReturn(args, storeContext);
+                InvokeWithoutReturn(argsAndResults, storeContext);
             };
         }
 
@@ -395,20 +395,20 @@ namespace Wasmtime
             return (p0, p1, p2, p3, p4, p5, p6, p7, p8) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[9];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(9, Results.Count)];
                 var storeContext = store.Context;
 
-                convT1.Box(storeContext, store, ref args[0], p0);
-                convT2.Box(storeContext, store, ref args[1], p1);
-                convT3.Box(storeContext, store, ref args[2], p2);
-                convT4.Box(storeContext, store, ref args[3], p3);
-                convT5.Box(storeContext, store, ref args[4], p4);
-                convT6.Box(storeContext, store, ref args[5], p5);
-                convT7.Box(storeContext, store, ref args[6], p6);
-                convT8.Box(storeContext, store, ref args[7], p7);
-                convT9.Box(storeContext, store, ref args[8], p8);
+                convT1.Box(storeContext, store, ref argsAndResults[0], p0);
+                convT2.Box(storeContext, store, ref argsAndResults[1], p1);
+                convT3.Box(storeContext, store, ref argsAndResults[2], p2);
+                convT4.Box(storeContext, store, ref argsAndResults[3], p3);
+                convT5.Box(storeContext, store, ref argsAndResults[4], p4);
+                convT6.Box(storeContext, store, ref argsAndResults[5], p5);
+                convT7.Box(storeContext, store, ref argsAndResults[6], p6);
+                convT8.Box(storeContext, store, ref argsAndResults[7], p7);
+                convT9.Box(storeContext, store, ref argsAndResults[8], p8);
 
-                InvokeWithoutReturn(args, storeContext);
+                InvokeWithoutReturn(argsAndResults, storeContext);
             };
         }
 
@@ -445,21 +445,21 @@ namespace Wasmtime
             return (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[10];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(10, Results.Count)];
                 var storeContext = store.Context;
 
-                convT1.Box(storeContext, store, ref args[0], p0);
-                convT2.Box(storeContext, store, ref args[1], p1);
-                convT3.Box(storeContext, store, ref args[2], p2);
-                convT4.Box(storeContext, store, ref args[3], p3);
-                convT5.Box(storeContext, store, ref args[4], p4);
-                convT6.Box(storeContext, store, ref args[5], p5);
-                convT7.Box(storeContext, store, ref args[6], p6);
-                convT8.Box(storeContext, store, ref args[7], p7);
-                convT9.Box(storeContext, store, ref args[8], p8);
-                convT10.Box(storeContext, store, ref args[9], p9);
+                convT1.Box(storeContext, store, ref argsAndResults[0], p0);
+                convT2.Box(storeContext, store, ref argsAndResults[1], p1);
+                convT3.Box(storeContext, store, ref argsAndResults[2], p2);
+                convT4.Box(storeContext, store, ref argsAndResults[3], p3);
+                convT5.Box(storeContext, store, ref argsAndResults[4], p4);
+                convT6.Box(storeContext, store, ref argsAndResults[5], p5);
+                convT7.Box(storeContext, store, ref argsAndResults[6], p6);
+                convT8.Box(storeContext, store, ref argsAndResults[7], p7);
+                convT9.Box(storeContext, store, ref argsAndResults[8], p8);
+                convT10.Box(storeContext, store, ref argsAndResults[9], p9);
 
-                InvokeWithoutReturn(args, storeContext);
+                InvokeWithoutReturn(argsAndResults, storeContext);
             };
         }
 
@@ -497,22 +497,22 @@ namespace Wasmtime
             return (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[11];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(11, Results.Count)];
                 var storeContext = store.Context;
 
-                convT1.Box(storeContext, store, ref args[0], p0);
-                convT2.Box(storeContext, store, ref args[1], p1);
-                convT3.Box(storeContext, store, ref args[2], p2);
-                convT4.Box(storeContext, store, ref args[3], p3);
-                convT5.Box(storeContext, store, ref args[4], p4);
-                convT6.Box(storeContext, store, ref args[5], p5);
-                convT7.Box(storeContext, store, ref args[6], p6);
-                convT8.Box(storeContext, store, ref args[7], p7);
-                convT9.Box(storeContext, store, ref args[8], p8);
-                convT10.Box(storeContext, store, ref args[9], p9);
-                convT11.Box(storeContext, store, ref args[10], p10);
+                convT1.Box(storeContext, store, ref argsAndResults[0], p0);
+                convT2.Box(storeContext, store, ref argsAndResults[1], p1);
+                convT3.Box(storeContext, store, ref argsAndResults[2], p2);
+                convT4.Box(storeContext, store, ref argsAndResults[3], p3);
+                convT5.Box(storeContext, store, ref argsAndResults[4], p4);
+                convT6.Box(storeContext, store, ref argsAndResults[5], p5);
+                convT7.Box(storeContext, store, ref argsAndResults[6], p6);
+                convT8.Box(storeContext, store, ref argsAndResults[7], p7);
+                convT9.Box(storeContext, store, ref argsAndResults[8], p8);
+                convT10.Box(storeContext, store, ref argsAndResults[9], p9);
+                convT11.Box(storeContext, store, ref argsAndResults[10], p10);
 
-                InvokeWithoutReturn(args, storeContext);
+                InvokeWithoutReturn(argsAndResults, storeContext);
             };
         }
 
@@ -551,23 +551,23 @@ namespace Wasmtime
             return (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[12];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(12, Results.Count)];
                 var storeContext = store.Context;
 
-                convT1.Box(storeContext, store, ref args[0], p0);
-                convT2.Box(storeContext, store, ref args[1], p1);
-                convT3.Box(storeContext, store, ref args[2], p2);
-                convT4.Box(storeContext, store, ref args[3], p3);
-                convT5.Box(storeContext, store, ref args[4], p4);
-                convT6.Box(storeContext, store, ref args[5], p5);
-                convT7.Box(storeContext, store, ref args[6], p6);
-                convT8.Box(storeContext, store, ref args[7], p7);
-                convT9.Box(storeContext, store, ref args[8], p8);
-                convT10.Box(storeContext, store, ref args[9], p9);
-                convT11.Box(storeContext, store, ref args[10], p10);
-                convT12.Box(storeContext, store, ref args[11], p11);
+                convT1.Box(storeContext, store, ref argsAndResults[0], p0);
+                convT2.Box(storeContext, store, ref argsAndResults[1], p1);
+                convT3.Box(storeContext, store, ref argsAndResults[2], p2);
+                convT4.Box(storeContext, store, ref argsAndResults[3], p3);
+                convT5.Box(storeContext, store, ref argsAndResults[4], p4);
+                convT6.Box(storeContext, store, ref argsAndResults[5], p5);
+                convT7.Box(storeContext, store, ref argsAndResults[6], p6);
+                convT8.Box(storeContext, store, ref argsAndResults[7], p7);
+                convT9.Box(storeContext, store, ref argsAndResults[8], p8);
+                convT10.Box(storeContext, store, ref argsAndResults[9], p9);
+                convT11.Box(storeContext, store, ref argsAndResults[10], p10);
+                convT12.Box(storeContext, store, ref argsAndResults[11], p11);
 
-                InvokeWithoutReturn(args, storeContext);
+                InvokeWithoutReturn(argsAndResults, storeContext);
             };
         }
 
@@ -607,24 +607,24 @@ namespace Wasmtime
             return (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[13];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(13, Results.Count)];
                 var storeContext = store.Context;
 
-                convT1.Box(storeContext, store, ref args[0], p0);
-                convT2.Box(storeContext, store, ref args[1], p1);
-                convT3.Box(storeContext, store, ref args[2], p2);
-                convT4.Box(storeContext, store, ref args[3], p3);
-                convT5.Box(storeContext, store, ref args[4], p4);
-                convT6.Box(storeContext, store, ref args[5], p5);
-                convT7.Box(storeContext, store, ref args[6], p6);
-                convT8.Box(storeContext, store, ref args[7], p7);
-                convT9.Box(storeContext, store, ref args[8], p8);
-                convT10.Box(storeContext, store, ref args[9], p9);
-                convT11.Box(storeContext, store, ref args[10], p10);
-                convT12.Box(storeContext, store, ref args[11], p11);
-                convT13.Box(storeContext, store, ref args[12], p12);
+                convT1.Box(storeContext, store, ref argsAndResults[0], p0);
+                convT2.Box(storeContext, store, ref argsAndResults[1], p1);
+                convT3.Box(storeContext, store, ref argsAndResults[2], p2);
+                convT4.Box(storeContext, store, ref argsAndResults[3], p3);
+                convT5.Box(storeContext, store, ref argsAndResults[4], p4);
+                convT6.Box(storeContext, store, ref argsAndResults[5], p5);
+                convT7.Box(storeContext, store, ref argsAndResults[6], p6);
+                convT8.Box(storeContext, store, ref argsAndResults[7], p7);
+                convT9.Box(storeContext, store, ref argsAndResults[8], p8);
+                convT10.Box(storeContext, store, ref argsAndResults[9], p9);
+                convT11.Box(storeContext, store, ref argsAndResults[10], p10);
+                convT12.Box(storeContext, store, ref argsAndResults[11], p11);
+                convT13.Box(storeContext, store, ref argsAndResults[12], p12);
 
-                InvokeWithoutReturn(args, storeContext);
+                InvokeWithoutReturn(argsAndResults, storeContext);
             };
         }
 
@@ -665,25 +665,25 @@ namespace Wasmtime
             return (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[14];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(14, Results.Count)];
                 var storeContext = store.Context;
 
-                convT1.Box(storeContext, store, ref args[0], p0);
-                convT2.Box(storeContext, store, ref args[1], p1);
-                convT3.Box(storeContext, store, ref args[2], p2);
-                convT4.Box(storeContext, store, ref args[3], p3);
-                convT5.Box(storeContext, store, ref args[4], p4);
-                convT6.Box(storeContext, store, ref args[5], p5);
-                convT7.Box(storeContext, store, ref args[6], p6);
-                convT8.Box(storeContext, store, ref args[7], p7);
-                convT9.Box(storeContext, store, ref args[8], p8);
-                convT10.Box(storeContext, store, ref args[9], p9);
-                convT11.Box(storeContext, store, ref args[10], p10);
-                convT12.Box(storeContext, store, ref args[11], p11);
-                convT13.Box(storeContext, store, ref args[12], p12);
-                convT14.Box(storeContext, store, ref args[13], p13);
+                convT1.Box(storeContext, store, ref argsAndResults[0], p0);
+                convT2.Box(storeContext, store, ref argsAndResults[1], p1);
+                convT3.Box(storeContext, store, ref argsAndResults[2], p2);
+                convT4.Box(storeContext, store, ref argsAndResults[3], p3);
+                convT5.Box(storeContext, store, ref argsAndResults[4], p4);
+                convT6.Box(storeContext, store, ref argsAndResults[5], p5);
+                convT7.Box(storeContext, store, ref argsAndResults[6], p6);
+                convT8.Box(storeContext, store, ref argsAndResults[7], p7);
+                convT9.Box(storeContext, store, ref argsAndResults[8], p8);
+                convT10.Box(storeContext, store, ref argsAndResults[9], p9);
+                convT11.Box(storeContext, store, ref argsAndResults[10], p10);
+                convT12.Box(storeContext, store, ref argsAndResults[11], p11);
+                convT13.Box(storeContext, store, ref argsAndResults[12], p12);
+                convT14.Box(storeContext, store, ref argsAndResults[13], p13);
 
-                InvokeWithoutReturn(args, storeContext);
+                InvokeWithoutReturn(argsAndResults, storeContext);
             };
         }
 
@@ -725,26 +725,26 @@ namespace Wasmtime
             return (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[15];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(15, Results.Count)];
                 var storeContext = store.Context;
 
-                convT1.Box(storeContext, store, ref args[0], p0);
-                convT2.Box(storeContext, store, ref args[1], p1);
-                convT3.Box(storeContext, store, ref args[2], p2);
-                convT4.Box(storeContext, store, ref args[3], p3);
-                convT5.Box(storeContext, store, ref args[4], p4);
-                convT6.Box(storeContext, store, ref args[5], p5);
-                convT7.Box(storeContext, store, ref args[6], p6);
-                convT8.Box(storeContext, store, ref args[7], p7);
-                convT9.Box(storeContext, store, ref args[8], p8);
-                convT10.Box(storeContext, store, ref args[9], p9);
-                convT11.Box(storeContext, store, ref args[10], p10);
-                convT12.Box(storeContext, store, ref args[11], p11);
-                convT13.Box(storeContext, store, ref args[12], p12);
-                convT14.Box(storeContext, store, ref args[13], p13);
-                convT15.Box(storeContext, store, ref args[14], p14);
+                convT1.Box(storeContext, store, ref argsAndResults[0], p0);
+                convT2.Box(storeContext, store, ref argsAndResults[1], p1);
+                convT3.Box(storeContext, store, ref argsAndResults[2], p2);
+                convT4.Box(storeContext, store, ref argsAndResults[3], p3);
+                convT5.Box(storeContext, store, ref argsAndResults[4], p4);
+                convT6.Box(storeContext, store, ref argsAndResults[5], p5);
+                convT7.Box(storeContext, store, ref argsAndResults[6], p6);
+                convT8.Box(storeContext, store, ref argsAndResults[7], p7);
+                convT9.Box(storeContext, store, ref argsAndResults[8], p8);
+                convT10.Box(storeContext, store, ref argsAndResults[9], p9);
+                convT11.Box(storeContext, store, ref argsAndResults[10], p10);
+                convT12.Box(storeContext, store, ref argsAndResults[11], p11);
+                convT13.Box(storeContext, store, ref argsAndResults[12], p12);
+                convT14.Box(storeContext, store, ref argsAndResults[13], p13);
+                convT15.Box(storeContext, store, ref argsAndResults[14], p14);
 
-                InvokeWithoutReturn(args, storeContext);
+                InvokeWithoutReturn(argsAndResults, storeContext);
             };
         }
 
@@ -787,27 +787,27 @@ namespace Wasmtime
             return (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[16];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(16, Results.Count)];
                 var storeContext = store.Context;
 
-                convT1.Box(storeContext, store, ref args[0], p0);
-                convT2.Box(storeContext, store, ref args[1], p1);
-                convT3.Box(storeContext, store, ref args[2], p2);
-                convT4.Box(storeContext, store, ref args[3], p3);
-                convT5.Box(storeContext, store, ref args[4], p4);
-                convT6.Box(storeContext, store, ref args[5], p5);
-                convT7.Box(storeContext, store, ref args[6], p6);
-                convT8.Box(storeContext, store, ref args[7], p7);
-                convT9.Box(storeContext, store, ref args[8], p8);
-                convT10.Box(storeContext, store, ref args[9], p9);
-                convT11.Box(storeContext, store, ref args[10], p10);
-                convT12.Box(storeContext, store, ref args[11], p11);
-                convT13.Box(storeContext, store, ref args[12], p12);
-                convT14.Box(storeContext, store, ref args[13], p13);
-                convT15.Box(storeContext, store, ref args[14], p14);
-                convT16.Box(storeContext, store, ref args[15], p15);
+                convT1.Box(storeContext, store, ref argsAndResults[0], p0);
+                convT2.Box(storeContext, store, ref argsAndResults[1], p1);
+                convT3.Box(storeContext, store, ref argsAndResults[2], p2);
+                convT4.Box(storeContext, store, ref argsAndResults[3], p3);
+                convT5.Box(storeContext, store, ref argsAndResults[4], p4);
+                convT6.Box(storeContext, store, ref argsAndResults[5], p5);
+                convT7.Box(storeContext, store, ref argsAndResults[6], p6);
+                convT8.Box(storeContext, store, ref argsAndResults[7], p7);
+                convT9.Box(storeContext, store, ref argsAndResults[8], p8);
+                convT10.Box(storeContext, store, ref argsAndResults[9], p9);
+                convT11.Box(storeContext, store, ref argsAndResults[10], p10);
+                convT12.Box(storeContext, store, ref argsAndResults[11], p11);
+                convT13.Box(storeContext, store, ref argsAndResults[12], p12);
+                convT14.Box(storeContext, store, ref argsAndResults[13], p13);
+                convT15.Box(storeContext, store, ref argsAndResults[14], p14);
+                convT16.Box(storeContext, store, ref argsAndResults[15], p15);
 
-                InvokeWithoutReturn(args, storeContext);
+                InvokeWithoutReturn(argsAndResults, storeContext);
             };
         }
 
@@ -837,11 +837,11 @@ namespace Wasmtime
             return () =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[Math.Max(0, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(0, Results.Count)];
                 var storeContext = store.Context;
 
 
-                return InvokeWithReturn(args, factory, storeContext);
+                return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
         }
 
@@ -872,12 +872,12 @@ namespace Wasmtime
             return (p0) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[Math.Max(1, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(1, Results.Count)];
                 var storeContext = store.Context;
 
-                convT.Box(storeContext, store, ref args[0], p0);
+                convT.Box(storeContext, store, ref argsAndResults[0], p0);
 
-                return InvokeWithReturn(args, factory, storeContext);
+                return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
         }
 
@@ -909,13 +909,13 @@ namespace Wasmtime
             return (p0, p1) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[Math.Max(2, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(2, Results.Count)];
                 var storeContext = store.Context;
 
-                convT1.Box(storeContext, store, ref args[0], p0);
-                convT2.Box(storeContext, store, ref args[1], p1);
+                convT1.Box(storeContext, store, ref argsAndResults[0], p0);
+                convT2.Box(storeContext, store, ref argsAndResults[1], p1);
 
-                return InvokeWithReturn(args, factory, storeContext);
+                return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
         }
 
@@ -948,14 +948,14 @@ namespace Wasmtime
             return (p0, p1, p2) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[Math.Max(3, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(3, Results.Count)];
                 var storeContext = store.Context;
 
-                convT1.Box(storeContext, store, ref args[0], p0);
-                convT2.Box(storeContext, store, ref args[1], p1);
-                convT3.Box(storeContext, store, ref args[2], p2);
+                convT1.Box(storeContext, store, ref argsAndResults[0], p0);
+                convT2.Box(storeContext, store, ref argsAndResults[1], p1);
+                convT3.Box(storeContext, store, ref argsAndResults[2], p2);
 
-                return InvokeWithReturn(args, factory, storeContext);
+                return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
         }
 
@@ -989,15 +989,15 @@ namespace Wasmtime
             return (p0, p1, p2, p3) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[Math.Max(4, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(4, Results.Count)];
                 var storeContext = store.Context;
 
-                convT1.Box(storeContext, store, ref args[0], p0);
-                convT2.Box(storeContext, store, ref args[1], p1);
-                convT3.Box(storeContext, store, ref args[2], p2);
-                convT4.Box(storeContext, store, ref args[3], p3);
+                convT1.Box(storeContext, store, ref argsAndResults[0], p0);
+                convT2.Box(storeContext, store, ref argsAndResults[1], p1);
+                convT3.Box(storeContext, store, ref argsAndResults[2], p2);
+                convT4.Box(storeContext, store, ref argsAndResults[3], p3);
 
-                return InvokeWithReturn(args, factory, storeContext);
+                return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
         }
 
@@ -1032,16 +1032,16 @@ namespace Wasmtime
             return (p0, p1, p2, p3, p4) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[Math.Max(5, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(5, Results.Count)];
                 var storeContext = store.Context;
 
-                convT1.Box(storeContext, store, ref args[0], p0);
-                convT2.Box(storeContext, store, ref args[1], p1);
-                convT3.Box(storeContext, store, ref args[2], p2);
-                convT4.Box(storeContext, store, ref args[3], p3);
-                convT5.Box(storeContext, store, ref args[4], p4);
+                convT1.Box(storeContext, store, ref argsAndResults[0], p0);
+                convT2.Box(storeContext, store, ref argsAndResults[1], p1);
+                convT3.Box(storeContext, store, ref argsAndResults[2], p2);
+                convT4.Box(storeContext, store, ref argsAndResults[3], p3);
+                convT5.Box(storeContext, store, ref argsAndResults[4], p4);
 
-                return InvokeWithReturn(args, factory, storeContext);
+                return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
         }
 
@@ -1077,17 +1077,17 @@ namespace Wasmtime
             return (p0, p1, p2, p3, p4, p5) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[Math.Max(6, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(6, Results.Count)];
                 var storeContext = store.Context;
 
-                convT1.Box(storeContext, store, ref args[0], p0);
-                convT2.Box(storeContext, store, ref args[1], p1);
-                convT3.Box(storeContext, store, ref args[2], p2);
-                convT4.Box(storeContext, store, ref args[3], p3);
-                convT5.Box(storeContext, store, ref args[4], p4);
-                convT6.Box(storeContext, store, ref args[5], p5);
+                convT1.Box(storeContext, store, ref argsAndResults[0], p0);
+                convT2.Box(storeContext, store, ref argsAndResults[1], p1);
+                convT3.Box(storeContext, store, ref argsAndResults[2], p2);
+                convT4.Box(storeContext, store, ref argsAndResults[3], p3);
+                convT5.Box(storeContext, store, ref argsAndResults[4], p4);
+                convT6.Box(storeContext, store, ref argsAndResults[5], p5);
 
-                return InvokeWithReturn(args, factory, storeContext);
+                return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
         }
 
@@ -1124,18 +1124,18 @@ namespace Wasmtime
             return (p0, p1, p2, p3, p4, p5, p6) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[Math.Max(7, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(7, Results.Count)];
                 var storeContext = store.Context;
 
-                convT1.Box(storeContext, store, ref args[0], p0);
-                convT2.Box(storeContext, store, ref args[1], p1);
-                convT3.Box(storeContext, store, ref args[2], p2);
-                convT4.Box(storeContext, store, ref args[3], p3);
-                convT5.Box(storeContext, store, ref args[4], p4);
-                convT6.Box(storeContext, store, ref args[5], p5);
-                convT7.Box(storeContext, store, ref args[6], p6);
+                convT1.Box(storeContext, store, ref argsAndResults[0], p0);
+                convT2.Box(storeContext, store, ref argsAndResults[1], p1);
+                convT3.Box(storeContext, store, ref argsAndResults[2], p2);
+                convT4.Box(storeContext, store, ref argsAndResults[3], p3);
+                convT5.Box(storeContext, store, ref argsAndResults[4], p4);
+                convT6.Box(storeContext, store, ref argsAndResults[5], p5);
+                convT7.Box(storeContext, store, ref argsAndResults[6], p6);
 
-                return InvokeWithReturn(args, factory, storeContext);
+                return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
         }
 
@@ -1173,19 +1173,19 @@ namespace Wasmtime
             return (p0, p1, p2, p3, p4, p5, p6, p7) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[Math.Max(8, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(8, Results.Count)];
                 var storeContext = store.Context;
 
-                convT1.Box(storeContext, store, ref args[0], p0);
-                convT2.Box(storeContext, store, ref args[1], p1);
-                convT3.Box(storeContext, store, ref args[2], p2);
-                convT4.Box(storeContext, store, ref args[3], p3);
-                convT5.Box(storeContext, store, ref args[4], p4);
-                convT6.Box(storeContext, store, ref args[5], p5);
-                convT7.Box(storeContext, store, ref args[6], p6);
-                convT8.Box(storeContext, store, ref args[7], p7);
+                convT1.Box(storeContext, store, ref argsAndResults[0], p0);
+                convT2.Box(storeContext, store, ref argsAndResults[1], p1);
+                convT3.Box(storeContext, store, ref argsAndResults[2], p2);
+                convT4.Box(storeContext, store, ref argsAndResults[3], p3);
+                convT5.Box(storeContext, store, ref argsAndResults[4], p4);
+                convT6.Box(storeContext, store, ref argsAndResults[5], p5);
+                convT7.Box(storeContext, store, ref argsAndResults[6], p6);
+                convT8.Box(storeContext, store, ref argsAndResults[7], p7);
 
-                return InvokeWithReturn(args, factory, storeContext);
+                return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
         }
 
@@ -1224,20 +1224,20 @@ namespace Wasmtime
             return (p0, p1, p2, p3, p4, p5, p6, p7, p8) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[Math.Max(9, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(9, Results.Count)];
                 var storeContext = store.Context;
 
-                convT1.Box(storeContext, store, ref args[0], p0);
-                convT2.Box(storeContext, store, ref args[1], p1);
-                convT3.Box(storeContext, store, ref args[2], p2);
-                convT4.Box(storeContext, store, ref args[3], p3);
-                convT5.Box(storeContext, store, ref args[4], p4);
-                convT6.Box(storeContext, store, ref args[5], p5);
-                convT7.Box(storeContext, store, ref args[6], p6);
-                convT8.Box(storeContext, store, ref args[7], p7);
-                convT9.Box(storeContext, store, ref args[8], p8);
+                convT1.Box(storeContext, store, ref argsAndResults[0], p0);
+                convT2.Box(storeContext, store, ref argsAndResults[1], p1);
+                convT3.Box(storeContext, store, ref argsAndResults[2], p2);
+                convT4.Box(storeContext, store, ref argsAndResults[3], p3);
+                convT5.Box(storeContext, store, ref argsAndResults[4], p4);
+                convT6.Box(storeContext, store, ref argsAndResults[5], p5);
+                convT7.Box(storeContext, store, ref argsAndResults[6], p6);
+                convT8.Box(storeContext, store, ref argsAndResults[7], p7);
+                convT9.Box(storeContext, store, ref argsAndResults[8], p8);
 
-                return InvokeWithReturn(args, factory, storeContext);
+                return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
         }
 
@@ -1277,21 +1277,21 @@ namespace Wasmtime
             return (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[Math.Max(10, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(10, Results.Count)];
                 var storeContext = store.Context;
 
-                convT1.Box(storeContext, store, ref args[0], p0);
-                convT2.Box(storeContext, store, ref args[1], p1);
-                convT3.Box(storeContext, store, ref args[2], p2);
-                convT4.Box(storeContext, store, ref args[3], p3);
-                convT5.Box(storeContext, store, ref args[4], p4);
-                convT6.Box(storeContext, store, ref args[5], p5);
-                convT7.Box(storeContext, store, ref args[6], p6);
-                convT8.Box(storeContext, store, ref args[7], p7);
-                convT9.Box(storeContext, store, ref args[8], p8);
-                convT10.Box(storeContext, store, ref args[9], p9);
+                convT1.Box(storeContext, store, ref argsAndResults[0], p0);
+                convT2.Box(storeContext, store, ref argsAndResults[1], p1);
+                convT3.Box(storeContext, store, ref argsAndResults[2], p2);
+                convT4.Box(storeContext, store, ref argsAndResults[3], p3);
+                convT5.Box(storeContext, store, ref argsAndResults[4], p4);
+                convT6.Box(storeContext, store, ref argsAndResults[5], p5);
+                convT7.Box(storeContext, store, ref argsAndResults[6], p6);
+                convT8.Box(storeContext, store, ref argsAndResults[7], p7);
+                convT9.Box(storeContext, store, ref argsAndResults[8], p8);
+                convT10.Box(storeContext, store, ref argsAndResults[9], p9);
 
-                return InvokeWithReturn(args, factory, storeContext);
+                return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
         }
 
@@ -1332,22 +1332,22 @@ namespace Wasmtime
             return (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[Math.Max(11, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(11, Results.Count)];
                 var storeContext = store.Context;
 
-                convT1.Box(storeContext, store, ref args[0], p0);
-                convT2.Box(storeContext, store, ref args[1], p1);
-                convT3.Box(storeContext, store, ref args[2], p2);
-                convT4.Box(storeContext, store, ref args[3], p3);
-                convT5.Box(storeContext, store, ref args[4], p4);
-                convT6.Box(storeContext, store, ref args[5], p5);
-                convT7.Box(storeContext, store, ref args[6], p6);
-                convT8.Box(storeContext, store, ref args[7], p7);
-                convT9.Box(storeContext, store, ref args[8], p8);
-                convT10.Box(storeContext, store, ref args[9], p9);
-                convT11.Box(storeContext, store, ref args[10], p10);
+                convT1.Box(storeContext, store, ref argsAndResults[0], p0);
+                convT2.Box(storeContext, store, ref argsAndResults[1], p1);
+                convT3.Box(storeContext, store, ref argsAndResults[2], p2);
+                convT4.Box(storeContext, store, ref argsAndResults[3], p3);
+                convT5.Box(storeContext, store, ref argsAndResults[4], p4);
+                convT6.Box(storeContext, store, ref argsAndResults[5], p5);
+                convT7.Box(storeContext, store, ref argsAndResults[6], p6);
+                convT8.Box(storeContext, store, ref argsAndResults[7], p7);
+                convT9.Box(storeContext, store, ref argsAndResults[8], p8);
+                convT10.Box(storeContext, store, ref argsAndResults[9], p9);
+                convT11.Box(storeContext, store, ref argsAndResults[10], p10);
 
-                return InvokeWithReturn(args, factory, storeContext);
+                return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
         }
 
@@ -1389,23 +1389,23 @@ namespace Wasmtime
             return (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[Math.Max(12, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(12, Results.Count)];
                 var storeContext = store.Context;
 
-                convT1.Box(storeContext, store, ref args[0], p0);
-                convT2.Box(storeContext, store, ref args[1], p1);
-                convT3.Box(storeContext, store, ref args[2], p2);
-                convT4.Box(storeContext, store, ref args[3], p3);
-                convT5.Box(storeContext, store, ref args[4], p4);
-                convT6.Box(storeContext, store, ref args[5], p5);
-                convT7.Box(storeContext, store, ref args[6], p6);
-                convT8.Box(storeContext, store, ref args[7], p7);
-                convT9.Box(storeContext, store, ref args[8], p8);
-                convT10.Box(storeContext, store, ref args[9], p9);
-                convT11.Box(storeContext, store, ref args[10], p10);
-                convT12.Box(storeContext, store, ref args[11], p11);
+                convT1.Box(storeContext, store, ref argsAndResults[0], p0);
+                convT2.Box(storeContext, store, ref argsAndResults[1], p1);
+                convT3.Box(storeContext, store, ref argsAndResults[2], p2);
+                convT4.Box(storeContext, store, ref argsAndResults[3], p3);
+                convT5.Box(storeContext, store, ref argsAndResults[4], p4);
+                convT6.Box(storeContext, store, ref argsAndResults[5], p5);
+                convT7.Box(storeContext, store, ref argsAndResults[6], p6);
+                convT8.Box(storeContext, store, ref argsAndResults[7], p7);
+                convT9.Box(storeContext, store, ref argsAndResults[8], p8);
+                convT10.Box(storeContext, store, ref argsAndResults[9], p9);
+                convT11.Box(storeContext, store, ref argsAndResults[10], p10);
+                convT12.Box(storeContext, store, ref argsAndResults[11], p11);
 
-                return InvokeWithReturn(args, factory, storeContext);
+                return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
         }
 
@@ -1448,24 +1448,24 @@ namespace Wasmtime
             return (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[Math.Max(13, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(13, Results.Count)];
                 var storeContext = store.Context;
 
-                convT1.Box(storeContext, store, ref args[0], p0);
-                convT2.Box(storeContext, store, ref args[1], p1);
-                convT3.Box(storeContext, store, ref args[2], p2);
-                convT4.Box(storeContext, store, ref args[3], p3);
-                convT5.Box(storeContext, store, ref args[4], p4);
-                convT6.Box(storeContext, store, ref args[5], p5);
-                convT7.Box(storeContext, store, ref args[6], p6);
-                convT8.Box(storeContext, store, ref args[7], p7);
-                convT9.Box(storeContext, store, ref args[8], p8);
-                convT10.Box(storeContext, store, ref args[9], p9);
-                convT11.Box(storeContext, store, ref args[10], p10);
-                convT12.Box(storeContext, store, ref args[11], p11);
-                convT13.Box(storeContext, store, ref args[12], p12);
+                convT1.Box(storeContext, store, ref argsAndResults[0], p0);
+                convT2.Box(storeContext, store, ref argsAndResults[1], p1);
+                convT3.Box(storeContext, store, ref argsAndResults[2], p2);
+                convT4.Box(storeContext, store, ref argsAndResults[3], p3);
+                convT5.Box(storeContext, store, ref argsAndResults[4], p4);
+                convT6.Box(storeContext, store, ref argsAndResults[5], p5);
+                convT7.Box(storeContext, store, ref argsAndResults[6], p6);
+                convT8.Box(storeContext, store, ref argsAndResults[7], p7);
+                convT9.Box(storeContext, store, ref argsAndResults[8], p8);
+                convT10.Box(storeContext, store, ref argsAndResults[9], p9);
+                convT11.Box(storeContext, store, ref argsAndResults[10], p10);
+                convT12.Box(storeContext, store, ref argsAndResults[11], p11);
+                convT13.Box(storeContext, store, ref argsAndResults[12], p12);
 
-                return InvokeWithReturn(args, factory, storeContext);
+                return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
         }
 
@@ -1509,25 +1509,25 @@ namespace Wasmtime
             return (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[Math.Max(14, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(14, Results.Count)];
                 var storeContext = store.Context;
 
-                convT1.Box(storeContext, store, ref args[0], p0);
-                convT2.Box(storeContext, store, ref args[1], p1);
-                convT3.Box(storeContext, store, ref args[2], p2);
-                convT4.Box(storeContext, store, ref args[3], p3);
-                convT5.Box(storeContext, store, ref args[4], p4);
-                convT6.Box(storeContext, store, ref args[5], p5);
-                convT7.Box(storeContext, store, ref args[6], p6);
-                convT8.Box(storeContext, store, ref args[7], p7);
-                convT9.Box(storeContext, store, ref args[8], p8);
-                convT10.Box(storeContext, store, ref args[9], p9);
-                convT11.Box(storeContext, store, ref args[10], p10);
-                convT12.Box(storeContext, store, ref args[11], p11);
-                convT13.Box(storeContext, store, ref args[12], p12);
-                convT14.Box(storeContext, store, ref args[13], p13);
+                convT1.Box(storeContext, store, ref argsAndResults[0], p0);
+                convT2.Box(storeContext, store, ref argsAndResults[1], p1);
+                convT3.Box(storeContext, store, ref argsAndResults[2], p2);
+                convT4.Box(storeContext, store, ref argsAndResults[3], p3);
+                convT5.Box(storeContext, store, ref argsAndResults[4], p4);
+                convT6.Box(storeContext, store, ref argsAndResults[5], p5);
+                convT7.Box(storeContext, store, ref argsAndResults[6], p6);
+                convT8.Box(storeContext, store, ref argsAndResults[7], p7);
+                convT9.Box(storeContext, store, ref argsAndResults[8], p8);
+                convT10.Box(storeContext, store, ref argsAndResults[9], p9);
+                convT11.Box(storeContext, store, ref argsAndResults[10], p10);
+                convT12.Box(storeContext, store, ref argsAndResults[11], p11);
+                convT13.Box(storeContext, store, ref argsAndResults[12], p12);
+                convT14.Box(storeContext, store, ref argsAndResults[13], p13);
 
-                return InvokeWithReturn(args, factory, storeContext);
+                return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
         }
 
@@ -1572,26 +1572,26 @@ namespace Wasmtime
             return (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[Math.Max(15, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(15, Results.Count)];
                 var storeContext = store.Context;
 
-                convT1.Box(storeContext, store, ref args[0], p0);
-                convT2.Box(storeContext, store, ref args[1], p1);
-                convT3.Box(storeContext, store, ref args[2], p2);
-                convT4.Box(storeContext, store, ref args[3], p3);
-                convT5.Box(storeContext, store, ref args[4], p4);
-                convT6.Box(storeContext, store, ref args[5], p5);
-                convT7.Box(storeContext, store, ref args[6], p6);
-                convT8.Box(storeContext, store, ref args[7], p7);
-                convT9.Box(storeContext, store, ref args[8], p8);
-                convT10.Box(storeContext, store, ref args[9], p9);
-                convT11.Box(storeContext, store, ref args[10], p10);
-                convT12.Box(storeContext, store, ref args[11], p11);
-                convT13.Box(storeContext, store, ref args[12], p12);
-                convT14.Box(storeContext, store, ref args[13], p13);
-                convT15.Box(storeContext, store, ref args[14], p14);
+                convT1.Box(storeContext, store, ref argsAndResults[0], p0);
+                convT2.Box(storeContext, store, ref argsAndResults[1], p1);
+                convT3.Box(storeContext, store, ref argsAndResults[2], p2);
+                convT4.Box(storeContext, store, ref argsAndResults[3], p3);
+                convT5.Box(storeContext, store, ref argsAndResults[4], p4);
+                convT6.Box(storeContext, store, ref argsAndResults[5], p5);
+                convT7.Box(storeContext, store, ref argsAndResults[6], p6);
+                convT8.Box(storeContext, store, ref argsAndResults[7], p7);
+                convT9.Box(storeContext, store, ref argsAndResults[8], p8);
+                convT10.Box(storeContext, store, ref argsAndResults[9], p9);
+                convT11.Box(storeContext, store, ref argsAndResults[10], p10);
+                convT12.Box(storeContext, store, ref argsAndResults[11], p11);
+                convT13.Box(storeContext, store, ref argsAndResults[12], p12);
+                convT14.Box(storeContext, store, ref argsAndResults[13], p13);
+                convT15.Box(storeContext, store, ref argsAndResults[14], p14);
 
-                return InvokeWithReturn(args, factory, storeContext);
+                return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
         }
 
@@ -1637,27 +1637,27 @@ namespace Wasmtime
             return (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[Math.Max(16, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(16, Results.Count)];
                 var storeContext = store.Context;
 
-                convT1.Box(storeContext, store, ref args[0], p0);
-                convT2.Box(storeContext, store, ref args[1], p1);
-                convT3.Box(storeContext, store, ref args[2], p2);
-                convT4.Box(storeContext, store, ref args[3], p3);
-                convT5.Box(storeContext, store, ref args[4], p4);
-                convT6.Box(storeContext, store, ref args[5], p5);
-                convT7.Box(storeContext, store, ref args[6], p6);
-                convT8.Box(storeContext, store, ref args[7], p7);
-                convT9.Box(storeContext, store, ref args[8], p8);
-                convT10.Box(storeContext, store, ref args[9], p9);
-                convT11.Box(storeContext, store, ref args[10], p10);
-                convT12.Box(storeContext, store, ref args[11], p11);
-                convT13.Box(storeContext, store, ref args[12], p12);
-                convT14.Box(storeContext, store, ref args[13], p13);
-                convT15.Box(storeContext, store, ref args[14], p14);
-                convT16.Box(storeContext, store, ref args[15], p15);
+                convT1.Box(storeContext, store, ref argsAndResults[0], p0);
+                convT2.Box(storeContext, store, ref argsAndResults[1], p1);
+                convT3.Box(storeContext, store, ref argsAndResults[2], p2);
+                convT4.Box(storeContext, store, ref argsAndResults[3], p3);
+                convT5.Box(storeContext, store, ref argsAndResults[4], p4);
+                convT6.Box(storeContext, store, ref argsAndResults[5], p5);
+                convT7.Box(storeContext, store, ref argsAndResults[6], p6);
+                convT8.Box(storeContext, store, ref argsAndResults[7], p7);
+                convT9.Box(storeContext, store, ref argsAndResults[8], p8);
+                convT10.Box(storeContext, store, ref argsAndResults[9], p9);
+                convT11.Box(storeContext, store, ref argsAndResults[10], p10);
+                convT12.Box(storeContext, store, ref argsAndResults[11], p11);
+                convT13.Box(storeContext, store, ref argsAndResults[12], p12);
+                convT14.Box(storeContext, store, ref argsAndResults[13], p13);
+                convT15.Box(storeContext, store, ref argsAndResults[14], p14);
+                convT16.Box(storeContext, store, ref argsAndResults[15], p15);
 
-                return InvokeWithReturn(args, factory, storeContext);
+                return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
         }
 

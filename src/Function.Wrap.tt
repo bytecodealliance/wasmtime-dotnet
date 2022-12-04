@@ -77,14 +77,10 @@ foreach (var (_, returnTypeCount, parameterCount, methodGenerics, delegateType, 
 #>) =>
             {
 <#
-    string stackAllocCount = parameterCount.ToString(CultureInfo.InvariantCulture);
-    if (returnTypeCount > 0)
-    {
-        stackAllocCount = $"Math.Max({stackAllocCount}, Results.Count)";
-    }
+    string stackAllocCount = $"Math.Max({parameterCount.ToString(CultureInfo.InvariantCulture)}, Results.Count)";
 #>
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> args = stackalloc ValueRaw[<#= stackAllocCount #>];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[<#= stackAllocCount #>];
                 var storeContext = store.Context;
 
 <#
@@ -92,7 +88,7 @@ foreach (var (_, returnTypeCount, parameterCount, methodGenerics, delegateType, 
     {
         string xStr = x.ToString(CultureInfo.InvariantCulture);
 #>
-                convT<#= parameterCount is 1 ? "" : (x + 1).ToString(CultureInfo.InvariantCulture) #>.Box(storeContext, store, ref args[<#= xStr #>], p<#= xStr #>);
+                convT<#= parameterCount is 1 ? "" : (x + 1).ToString(CultureInfo.InvariantCulture) #>.Box(storeContext, store, ref argsAndResults[<#= xStr #>], p<#= xStr #>);
 <#
     }
 
@@ -100,14 +96,14 @@ foreach (var (_, returnTypeCount, parameterCount, methodGenerics, delegateType, 
     {
 #>
 
-                return InvokeWithReturn(args, factory, storeContext);
+                return InvokeWithReturn(argsAndResults, factory, storeContext);
 <#
     }
     else
     {
 #>
 
-                InvokeWithoutReturn(args, storeContext);
+                InvokeWithoutReturn(argsAndResults, storeContext);
 <#
     }
 #>
