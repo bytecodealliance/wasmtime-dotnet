@@ -427,7 +427,7 @@ namespace Wasmtime
             public static extern void wasmtime_linker_delete(IntPtr linker);
 
             [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_linker_allow_shadowing(Handle linker, bool allow);
+            public static extern void wasmtime_linker_allow_shadowing(Handle linker, [MarshalAs(UnmanagedType.I1)] bool allow);
 
             [DllImport(Engine.LibraryName)]
             public static unsafe extern IntPtr wasmtime_linker_define(Handle linker, byte* module, nuint moduleLen, byte* name, nuint nameLen, in Extern item);
