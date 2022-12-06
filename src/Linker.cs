@@ -362,8 +362,7 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
                 {
-                    using var caller = new Caller(callerPtr);
-                    return Function.InvokeCallback(callback, callbackInvokeMethod, caller, hasCaller, args, (int)nargs, results, (int)nresults, resultKinds, returnsTuple);
+                    return Function.InvokeCallback(callback, callbackInvokeMethod, callerPtr, hasCaller, args, (int)nargs, results, (int)nresults, resultKinds, returnsTuple);
                 };
 
                 var moduleBytes = Encoding.UTF8.GetBytes(module);

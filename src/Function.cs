@@ -42,8 +42,7 @@ namespace Wasmtime
             {
                 Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
                 {
-                    using var caller = new Caller(callerPtr);
-                    return InvokeCallback(callback, callbackInvokeMethod, caller, hasCaller, args, (int)nargs, results, (int)nresults, resultKinds, returnsTuple);
+                    return InvokeCallback(callback, callbackInvokeMethod, callerPtr, hasCaller, args, (int)nargs, results, (int)nresults, resultKinds, returnsTuple);
                 };
 
                 Native.wasmtime_func_new(
@@ -1918,10 +1917,12 @@ namespace Wasmtime
             return new Function.TypeHandle(Function.Native.wasm_functype_new(new ValueTypeArray(parameters), new ValueTypeArray(results)));
         }
 
-        internal unsafe static IntPtr InvokeCallback(Delegate callback, MethodInfo callbackInvokeMethod, Caller caller, bool passCaller, Value* args, int nargs, Value* results, int nresults, IReadOnlyList<ValueKind> resultKinds, bool returnsTuple)
+        internal unsafe static IntPtr InvokeCallback(Delegate callback, MethodInfo callbackInvokeMethod, IntPtr callerPtr, bool passCaller, Value* args, int nargs, Value* results, int nresults, IReadOnlyList<ValueKind> resultKinds, bool returnsTuple)
         {
             try
             {
+                using var caller = new Caller(callerPtr);
+
                 var offset = passCaller ? 1 : 0;
                 var invokeArgs = new object?[nargs + offset];
 
