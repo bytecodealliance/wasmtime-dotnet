@@ -60,12 +60,6 @@ namespace Wasmtime
 
         [FieldOffset(0)]
         public ExternMemory memory;
-
-        [FieldOffset(0)]
-        public ExternInstance instance;
-
-        [FieldOffset(0)]
-        public IntPtr module;
     }
 
     [StructLayout(LayoutKind.Sequential)]
