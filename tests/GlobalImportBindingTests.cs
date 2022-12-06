@@ -107,6 +107,24 @@ namespace Wasmtime.Tests
         }
 
         [Fact]
+        public void ItFailsBindingGlobalsWithWrongType()
+        {
+            var global_i32_mut = new Global(Store, ValueKind.Int32, 0, Mutability.Mutable);
+
+            global_i32_mut.Wrap<float>().Should().BeNull();
+            global_i32_mut.Wrap<double>().Should().BeNull();
+            global_i32_mut.Wrap<uint>().Should().BeNull();
+        }
+
+        [Fact]
+        public void ItFailsMutatingImmutableGlobal()
+        {
+            var global_i32_mut = new Global(Store, ValueKind.Int32, 0, Mutability.Immutable);
+            Action action = () => global_i32_mut.Wrap<int>()!.SetValue(3);
+            action.Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
         public void ItBindsTheGlobalsCorrectly()
         {
             var global_i32_mut = new Global(Store, ValueKind.Int32, 0, Mutability.Mutable).Wrap<int>();

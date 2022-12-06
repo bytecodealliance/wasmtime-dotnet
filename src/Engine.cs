@@ -84,7 +84,7 @@ namespace Wasmtime
             public static extern void wasm_engine_delete(IntPtr engine);
 
             [DllImport(LibraryName)]
-            public static extern IntPtr wasmtime_engine_increment_epoch(IntPtr engine);
+            public static extern void wasmtime_engine_increment_epoch(IntPtr engine);
         }
 
         private readonly Handle handle;
