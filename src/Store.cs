@@ -28,6 +28,35 @@ namespace Wasmtime
             }
         }
 
+        internal object? GetData()
+        {
+            var data = Native.wasmtime_context_get_data(handle);
+            if (data == IntPtr.Zero)
+            {
+                return null;
+            }
+
+            return GCHandle.FromIntPtr(data).Target;
+        }
+
+        internal void SetData(object? data)
+        {
+            var oldData = Native.wasmtime_context_get_data(handle);
+
+            var newPtr = IntPtr.Zero;
+            if (data != null)
+            {
+                newPtr = (IntPtr)GCHandle.Alloc(data);
+            }
+
+            Native.wasmtime_context_set_data(handle, newPtr);
+
+            if (oldData != IntPtr.Zero) 
+            {
+                GCHandle.FromIntPtr(oldData).Free();
+            }
+        }
+
         internal ulong ConsumeFuel(ulong fuel)
         {
             var error = Native.wasmtime_context_consume_fuel(handle, fuel, out var remaining);
@@ -90,6 +119,12 @@ namespace Wasmtime
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_context_set_epoch_deadline(IntPtr handle, ulong ticksBeyondCurrent);
+            
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasmtime_context_get_data(IntPtr handle);
+            
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_context_set_data(IntPtr handle, IntPtr data);
         }
 
         internal readonly IntPtr handle;
@@ -119,14 +154,25 @@ namespace Wasmtime
         /// Constructs a new store.
         /// </summary>
         /// <param name="engine">The engine to use for the store.</param>
-        public Store(Engine engine)
+        public Store(Engine engine) : this(engine, null) { }
+
+        /// <summary>
+        /// Constructs a new store with the given context data.
+        /// </summary>
+        /// <param name="engine">The engine to use for the store.</param>
+        /// <param name="data">The data to initialize the store with; this can later be accessed with the GetData function.</param>
+        public Store(Engine engine, object? data)
         {
             if (engine is null)
             {
                 throw new ArgumentNullException(nameof(engine));
             }
 
-            handle = new Handle(Native.wasmtime_store_new(engine.NativeHandle, IntPtr.Zero, null));
+            var dataPtr = data != null 
+                ? (IntPtr)GCHandle.Alloc(data) 
+                : IntPtr.Zero;
+
+            handle = new Handle(Native.wasmtime_store_new(engine.NativeHandle, dataPtr, Finalizer));
         }
 
         /// <summary>
@@ -164,7 +210,7 @@ namespace Wasmtime
         public ulong GetConsumedFuel() => ((IStore)this).Context.GetConsumedFuel();
 
         /// <summary>
-        /// Configres WASI within the store.
+        /// Configures WASI within the store.
         /// </summary>
         /// <param name="config">The WASI configuration to use.</param>
         public void SetWasiConfiguration(WasiConfiguration config) => ((IStore)this).Context.SetWasiConfiguration(config);
@@ -174,6 +220,19 @@ namespace Wasmtime
         /// </summary>
         /// <param name="ticksBeyondCurrent"></param>
         public void SetEpochDeadline(ulong ticksBeyondCurrent) => ((IStore)this).Context.SetEpochDeadline(ticksBeyondCurrent);
+
+        /// <summary>
+        /// Retrieves the data stored in the Store context
+        /// </summary>
+        public object? GetData() => ((IStore)this).Context.GetData();
+
+        /// <summary>
+        /// Replaces the data stored in the Store context 
+        /// </summary>
+        public void SetData(object? data)
+        {
+           ((IStore)this).Context.SetData(data);
+        }
 
         StoreContext IStore.Context => new StoreContext(Native.wasmtime_store_context(NativeHandle));
 
@@ -226,5 +285,13 @@ namespace Wasmtime
         }
 
         private readonly Handle handle;
+
+        private static readonly Native.Finalizer Finalizer = (p) =>
+        {
+            if (p != IntPtr.Zero)
+            {
+                GCHandle.FromIntPtr(p).Free();
+            }
+        };
     }
 }
