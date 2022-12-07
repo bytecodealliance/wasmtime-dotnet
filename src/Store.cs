@@ -157,10 +157,10 @@ namespace Wasmtime
         public Store(Engine engine) : this(engine, null) { }
 
         /// <summary>
-        /// Constructs a new store.
+        /// Constructs a new store with the given context data.
         /// </summary>
         /// <param name="engine">The engine to use for the store.</param>
-        /// <param name="data">Data to initialize the store with, this can later be accessed from the Caller in host functions</param>
+        /// <param name="data">The data to initialize the store with; this can later be accessed with the GetData function.</param>
         public Store(Engine engine, object? data)
         {
             if (engine is null)
