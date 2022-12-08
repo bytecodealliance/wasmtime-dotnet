@@ -120,7 +120,7 @@ namespace Wasmtime
         private readonly T? _value;
         private readonly TrapException? _trap;
 
-        internal FunctionResult(T value)
+        internal FunctionResult(T? value)
         {
             Type = ResultType.Ok;
             _value = value;
@@ -194,7 +194,7 @@ namespace Wasmtime
     internal readonly struct FunctionResultBuilder<TOk>
         : IFunctionResultBuilder<FunctionResult<TOk>, TOk>
     {
-        public FunctionResult<TOk> Create(TOk value)
+        public FunctionResult<TOk> Create(TOk? value)
         {
             return new FunctionResult<TOk>(value);
         }
@@ -232,7 +232,7 @@ namespace Wasmtime
         /// </summary>
         /// <param name="value">The return value of the function call</param>
         /// <returns>A new TResult instance representing a successful function call</returns>
-        TResult Create(TOk value);
+        TResult Create(TOk? value);
 
         /// <summary>
         /// Create a new instance indicating a trap result.

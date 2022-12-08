@@ -150,7 +150,7 @@ namespace Wasmtime
         /// <param name="name">The name of the exported function.</param>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TR>? GetFunction<TR>(string name)
+        public Func<TR?>? GetFunction<TR>(string name)
         {
             return GetFunction(name)
                  ?.WrapFunc<TR>();
@@ -163,7 +163,7 @@ namespace Wasmtime
         /// <typeparam name="TA">First parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TA, TR>? GetFunction<TA, TR>(string name)
+        public Func<TA, TR?>? GetFunction<TA, TR>(string name)
         {
             return GetFunction(name)
                  ?.WrapFunc<TA, TR>();
@@ -177,7 +177,7 @@ namespace Wasmtime
         /// <typeparam name="TB">Second parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TA, TB, TR>? GetFunction<TA, TB, TR>(string name)
+        public Func<TA, TB, TR?>? GetFunction<TA, TB, TR>(string name)
         {
             return GetFunction(name)
                  ?.WrapFunc<TA, TB, TR>();
@@ -192,7 +192,7 @@ namespace Wasmtime
         /// <typeparam name="TC">Third parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TA, TB, TC, TR>? GetFunction<TA, TB, TC, TR>(string name)
+        public Func<TA, TB, TC, TR?>? GetFunction<TA, TB, TC, TR>(string name)
         {
             return GetFunction(name)
                  ?.WrapFunc<TA, TB, TC, TR>();
@@ -208,7 +208,7 @@ namespace Wasmtime
         /// <typeparam name="TD">Fourth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TA, TB, TC, TD, TR>? GetFunction<TA, TB, TC, TD, TR>(string name)
+        public Func<TA, TB, TC, TD, TR?>? GetFunction<TA, TB, TC, TD, TR>(string name)
         {
             return GetFunction(name)
                  ?.WrapFunc<TA, TB, TC, TD, TR>();
@@ -225,7 +225,7 @@ namespace Wasmtime
         /// <typeparam name="TE">Fifth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TA, TB, TC, TD, TE, TR>? GetFunction<TA, TB, TC, TD, TE, TR>(string name)
+        public Func<TA, TB, TC, TD, TE, TR?>? GetFunction<TA, TB, TC, TD, TE, TR>(string name)
         {
             return GetFunction(name)
                  ?.WrapFunc<TA, TB, TC, TD, TE, TR>();
@@ -243,7 +243,7 @@ namespace Wasmtime
         /// <typeparam name="TF">Sixth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TA, TB, TC, TD, TE, TF, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TR>(string name)
+        public Func<TA, TB, TC, TD, TE, TF, TR?>? GetFunction<TA, TB, TC, TD, TE, TF, TR>(string name)
         {
             return GetFunction(name)
                  ?.WrapFunc<TA, TB, TC, TD, TE, TF, TR>();
@@ -262,7 +262,7 @@ namespace Wasmtime
         /// <typeparam name="TG">Seventh parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TA, TB, TC, TD, TE, TF, TG, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TR>(string name)
+        public Func<TA, TB, TC, TD, TE, TF, TG, TR?>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TR>(string name)
         {
             return GetFunction(name)
                  ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TR>();
@@ -282,7 +282,7 @@ namespace Wasmtime
         /// <typeparam name="TH">Eighth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TR>(string name)
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TR?>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TR>(string name)
         {
             return GetFunction(name)
                  ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TR>();
@@ -303,7 +303,7 @@ namespace Wasmtime
         /// <typeparam name="TI">Ninth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>(string name)
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR?>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>(string name)
         {
             return GetFunction(name)
                  ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>();
@@ -325,7 +325,7 @@ namespace Wasmtime
         /// <typeparam name="TJ">Tenth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>(string name)
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR?>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>(string name)
         {
             return GetFunction(name)
                  ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>();
@@ -348,7 +348,7 @@ namespace Wasmtime
         /// <typeparam name="TK">Eleventh parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>(string name)
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR?>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>(string name)
         {
             return GetFunction(name)
                  ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>();
@@ -372,7 +372,7 @@ namespace Wasmtime
         /// <typeparam name="TL">Twelfth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>(string name)
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR?>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>(string name)
         {
             return GetFunction(name)
                  ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>();
@@ -397,7 +397,7 @@ namespace Wasmtime
         /// <typeparam name="TM">Thirteenth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>(string name)
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR?>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>(string name)
         {
             return GetFunction(name)
                  ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>();
@@ -423,7 +423,7 @@ namespace Wasmtime
         /// <typeparam name="TN">Fourteenth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>(string name)
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR?>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>(string name)
         {
             return GetFunction(name)
                  ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>();
@@ -450,7 +450,7 @@ namespace Wasmtime
         /// <typeparam name="TO">Fifteenth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>(string name)
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR?>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>(string name)
         {
             return GetFunction(name)
                  ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>();
@@ -478,7 +478,7 @@ namespace Wasmtime
         /// <typeparam name="TP">Sixteenth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
-        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>(string name)
+        public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR?>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>(string name)
         {
             return GetFunction(name)
                  ?.WrapFunc<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>();
