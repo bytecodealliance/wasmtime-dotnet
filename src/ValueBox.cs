@@ -38,7 +38,7 @@ namespace Wasmtime
             return Value.FromValueBox(this);
         }
 
-        internal ValueBox ConvertTo(ValueKind convertTo)
+        private ValueBox ConvertTo(ValueKind convertTo)
         {
             return (Kind, convertTo) switch
             {
@@ -48,19 +48,19 @@ namespace Wasmtime
                 (ValueKind.Int32, ValueKind.Float64) => Convert.ToDouble(Union.i32),
 
                 (ValueKind.Int64, ValueKind.Int32) => Convert.ToInt32(Union.i64),
-                (ValueKind.Int64, ValueKind.Int64) => Convert.ToInt64(Union.i64),
+                (ValueKind.Int64, ValueKind.Int64) => this,
                 (ValueKind.Int64, ValueKind.Float32) => Convert.ToSingle(Union.i64),
                 (ValueKind.Int64, ValueKind.Float64) => Convert.ToDouble(Union.i64),
 
                 (ValueKind.Float32, ValueKind.Int32) => Convert.ToInt32(Union.f32),
                 (ValueKind.Float32, ValueKind.Int64) => Convert.ToInt64(Union.f32),
-                (ValueKind.Float32, ValueKind.Float32) => Convert.ToSingle(Union.f32),
+                (ValueKind.Float32, ValueKind.Float32) => this,
                 (ValueKind.Float32, ValueKind.Float64) => Convert.ToDouble(Union.f32),
 
                 (ValueKind.Float64, ValueKind.Int32) => Convert.ToInt32(Union.f64),
                 (ValueKind.Float64, ValueKind.Int64) => Convert.ToInt64(Union.f64),
                 (ValueKind.Float64, ValueKind.Float32) => Convert.ToSingle(Union.f64),
-                (ValueKind.Float64, ValueKind.Float64) => Convert.ToDouble(Union.f64),
+                (ValueKind.Float64, ValueKind.Float64) => this,
 
                 _ => throw new InvalidCastException($"Cannot convert from `{Kind}` to `{convertTo}`")
             };
