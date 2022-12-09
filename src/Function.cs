@@ -571,6 +571,7 @@ namespace Wasmtime
             try
             {
                 using var caller = new Caller(callerPtr);
+                var store = caller.Store;
 
                 var offset = passCaller ? 1 : 0;
                 var invokeArgs = new object?[nargs + offset];
@@ -583,7 +584,7 @@ namespace Wasmtime
                 var invokeArgsSpan = new Span<object?>(invokeArgs, offset, nargs);
                 for (int i = 0; i < invokeArgsSpan.Length; ++i)
                 {
-                    invokeArgsSpan[i] = args[i].ToObject(caller);
+                    invokeArgsSpan[i] = args[i].ToObject(store);
                 }
 
                 // NOTE: reflection is extremely slow for invoking methods. in the future, perhaps this could be replaced with
