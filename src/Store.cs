@@ -102,9 +102,6 @@ namespace Wasmtime
 
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasmtime_context_get_data(IntPtr handle);
-
-            [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_context_set_data(IntPtr handle, IntPtr data);
         }
 
         internal readonly IntPtr handle;
