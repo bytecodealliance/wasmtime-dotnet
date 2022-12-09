@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Wasmtime;
 
 namespace Example
@@ -35,15 +36,15 @@ namespace Example
             linker.DefineFunction("", "store_data", (Caller caller) =>
             {
                 var data = caller.GetData() as StoreData;
-
-                Console.WriteLine($"ID {data.Id}: {data.Message}"); // 'ID 0: Hello, WASM' 
+                Console.WriteLine(data); // 'ID 0: Hello, WASM' 
 
                 // Fully replace store data
                 var newStoreData = new StoreData("Store data replaced", 1);
                 caller.SetData(newStoreData);
-                data = caller.GetData() as StoreData;
 
-                Console.WriteLine($"ID {data.Id}: {data.Message}"); // 'ID 1: Store data replaced' 
+                data = caller.GetData() as StoreData;
+                Debug.Assert(data != null);
+                Console.WriteLine(data); // 'ID 1: Store data replaced' 
 
                 // Change properties normally
                 data.Message = "Properties changed";
@@ -62,7 +63,7 @@ namespace Example
 
             // Retrieve final data from store directly
             var data = store.GetData() as StoreData;
-            Console.WriteLine($"ID {data.Id}: {data.Message}"); // 'ID 2: Properties changed' 
+            Console.WriteLine(data); // 'ID 2: Properties changed' 
         }
     }
 }

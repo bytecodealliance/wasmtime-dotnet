@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wasmtime", "src\Wasmtime.cs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "consumefuel", "examples\consumefuel\consumefuel.csproj", "{F79FAA27-3CA6-4CC3-BB50-CE27191770F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "storedata", "storedata\storedata.csproj", "{E8749BAF-9D8B-4CF9-ACFF-490E86D52A20}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "storedata", "examples\storedata\storedata.csproj", "{E8749BAF-9D8B-4CF9-ACFF-490E86D52A20}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

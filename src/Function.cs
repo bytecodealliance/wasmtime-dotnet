@@ -193,7 +193,7 @@ namespace Wasmtime
         /// <param name="storeContext">The <see cref="StoreContext"/> from the <see cref="store"/>.</param>
         /// <returns>The return value from the function</returns>
         private unsafe TR? InvokeWithReturn<TR>(Span<ValueRaw> argsAndResults, IReturnTypeFactory<TR> factory, StoreContext storeContext)
-        {            
+        {
             // The caller has to ensure that the span is large enough to hold both
             // the arguments and results.
             var trap = Invoke(argsAndResults, storeContext);
@@ -395,7 +395,7 @@ namespace Wasmtime
             {
                 throw WasmtimeException.FromOwnedError(error);
             }
-            
+
             return trap;
         }
 
@@ -522,7 +522,7 @@ namespace Wasmtime
         }
 
         internal static TypeHandle? GetFunctionType(ReadOnlySpan<Type> parameterTypes, Type? returnType, List<ValueKind> parameters, List<ValueKind> results, bool allowCaller, bool allowTuple, out bool hasCaller, out bool returnsTuple)
-        {            
+        {
             hasCaller = parameterTypes.Length > 0 && parameterTypes[0] == typeof(Caller);
 
             if (hasCaller)
@@ -689,7 +689,7 @@ namespace Wasmtime
 
             [DllImport(Engine.LibraryName)]
             public static unsafe extern nuint wasmtime_func_to_raw(IntPtr context, in ExternFunc func);
-            
+
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasm_functype_new(in ValueTypeArray parameters, in ValueTypeArray results);
 

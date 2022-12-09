@@ -246,7 +246,7 @@ namespace Wasmtime
         /// <inheritdoc/>
         protected TrapException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
-        internal TrapException(string message, IReadOnlyList<TrapFrame>? frames, TrapCode type, Exception? innerException = null) 
+        internal TrapException(string message, IReadOnlyList<TrapFrame>? frames, TrapCode type, Exception? innerException = null)
             : base(message, innerException)
         {
             Type = type;

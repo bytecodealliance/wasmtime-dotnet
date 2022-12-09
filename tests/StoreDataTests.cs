@@ -11,7 +11,7 @@ namespace Wasmtime.Tests
     {
         protected override string ModuleFileName => "hello.wat";
     }
-    
+
     public class StoreDataTests : IClassFixture<StoreDataFixture>, IDisposable
     {
         private StoreDataFixture Fixture { get; }
@@ -73,7 +73,7 @@ namespace Wasmtime.Tests
                 var data = caller.GetData();
                 data.Should().BeNull();
             }));
-            
+
             var instance = Linker.Instantiate(store, Fixture.Module);
             var func = instance.GetFunction("run");
             func.Should().NotBeNull();
@@ -91,7 +91,7 @@ namespace Wasmtime.Tests
             {
                 caller.SetData(new int[] { 1, 2, 3 });
             }));
-            
+
             var instance = Linker.Instantiate(store, Fixture.Module);
             var func = instance.GetFunction("run");
             func.Should().NotBeNull();
@@ -102,7 +102,7 @@ namespace Wasmtime.Tests
             data.Should().NotBeNull();
             data.Should().BeOfType<int[]>();
         }
-        
+
         [Fact]
         unsafe public void ItCollectsExistingData()
         {
@@ -119,7 +119,7 @@ namespace Wasmtime.Tests
             {
                 var storeData = new RefCounter(counter);
                 var store = new Store(Fixture.Engine, storeData);
-                
+
                 Linker.DefineFunction("", "hello", ((Caller caller) =>
                 {
                     var cnt = caller.GetData() as RefCounter;
@@ -151,7 +151,7 @@ namespace Wasmtime.Tests
             {
                 var storeData = new RefCounter(counter);
                 var store = new Store(Fixture.Engine, storeData);
-                
+
                 Linker.DefineFunction("", "hello", ((Caller caller) =>
                 {
                     var cnt = caller.GetData() as RefCounter;

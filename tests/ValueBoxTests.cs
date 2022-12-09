@@ -24,7 +24,7 @@ namespace Wasmtime.Tests
 
             // Convert back into a box
             var box2 = value.ToValueBox();
-            
+
             // Check that the new box has the right value
             ValueBox.Converter<T>().Unbox(Store, box2).Should().Be(expected);
         }
