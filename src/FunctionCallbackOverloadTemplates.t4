@@ -99,7 +99,6 @@ IEnumerable<(
                 var delegateReturnType = new StringBuilder();
                 var parameterConverters = new StringBuilder();
                 var resultConverters = new StringBuilder();
-                var converterRequiresStoreCode = new StringBuilder();
         
                 if (parameterCount > 0 || resultCount > 0)
                 {
