@@ -43,7 +43,7 @@ namespace Wasmtime
                         return null;
                     }
 
-                    return new Memory(this, item.of.memory);
+                    return new Memory(Store, item.of.memory);
                 }
             }
         }
@@ -72,7 +72,7 @@ namespace Wasmtime
                         return null;
                     }
 
-                    return new Function(this, item.of.func);
+                    return new Function(Store, item.of.func);
                 }
             }
         }
@@ -82,6 +82,11 @@ namespace Wasmtime
         {
             this.handle = IntPtr.Zero;
         }
+
+        /// <summary>
+        /// Gets the <see cref="Store"/> associated with this caller.
+        /// </summary>
+        public Store Store => ((IStore)this).Context.Store;
 
         private IntPtr NativeHandle
         {
@@ -128,15 +133,15 @@ namespace Wasmtime
         public ulong GetConsumedFuel() => ((IStore)this).Context.GetConsumedFuel();
 
         /// <summary>
-        /// Gets the user-defined data from the Store's Context. 
+        /// Gets the user-defined data from the Store. 
         /// </summary>
         /// <returns>An object represeting the user defined data from this Store</returns>
-        public object? GetData() => ((IStore)this).Context.GetData();
+        public object? GetData() => Store.GetData();
 
         /// <summary>
-        /// Replaces the user-defined data in the Store's Context 
+        /// Replaces the user-defined data in the Store.
         /// </summary>
-        public void SetData(object? data) => ((IStore)this).Context.SetData(data);
+        public void SetData(object? data) => Store.SetData(data);
 
         internal static class Native
         {

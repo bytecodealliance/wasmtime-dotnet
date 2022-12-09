@@ -30,7 +30,7 @@ namespace Wasmtime
 // Function.FromCallback() which explicitely declares ValueTuple<...> overloads, here we
 // expect that the single return type parameter is implicitely used as ValueTuple<...> for
 // the return type factory.
-foreach (var (_, returnTypeCount, parameterCount, methodGenerics, delegateType, callbackParameterTypeExpressions, callbackReturnTypeExpression, parameterConverters, _, _) in EnumerateTypeCombinations(16, 1, canHaveCaller: false, delegateInputsNullable: false))
+foreach (var (_, returnTypeCount, parameterCount, methodGenerics, delegateType, callbackParameterTypeExpressions, callbackReturnTypeExpression, parameterConverters, _) in EnumerateTypeCombinations(16, 1, canHaveCaller: false, delegateInputsNullable: false))
 {
 #>
         /// <summary>

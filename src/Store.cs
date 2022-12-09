@@ -28,32 +28,12 @@ namespace Wasmtime
             }
         }
 
-        internal object? GetData()
+        internal Store Store
         {
-            var data = Native.wasmtime_context_get_data(handle);
-            if (data == IntPtr.Zero)
+            get
             {
-                return null;
-            }
-
-            return GCHandle.FromIntPtr(data).Target;
-        }
-
-        internal void SetData(object? data)
-        {
-            var oldData = Native.wasmtime_context_get_data(handle);
-
-            var newPtr = IntPtr.Zero;
-            if (data != null)
-            {
-                newPtr = (IntPtr)GCHandle.Alloc(data);
-            }
-
-            Native.wasmtime_context_set_data(handle, newPtr);
-
-            if (oldData != IntPtr.Zero)
-            {
-                GCHandle.FromIntPtr(oldData).Free();
+                var data = Native.wasmtime_context_get_data(handle);
+                return (Store)GCHandle.FromIntPtr(data).Target!;
             }
         }
 
@@ -168,11 +148,8 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(engine));
             }
 
-            var dataPtr = data != null
-                ? (IntPtr)GCHandle.Alloc(data)
-                : IntPtr.Zero;
-
-            handle = new Handle(Native.wasmtime_store_new(engine.NativeHandle, dataPtr, Finalizer));
+            this.data = data;
+            handle = new Handle(Native.wasmtime_store_new(engine.NativeHandle, (IntPtr)GCHandle.Alloc(this), Finalizer));
         }
 
         /// <summary>
@@ -224,15 +201,12 @@ namespace Wasmtime
         /// <summary>
         /// Retrieves the data stored in the Store context
         /// </summary>
-        public object? GetData() => ((IStore)this).Context.GetData();
+        public object? GetData() => data;
 
         /// <summary>
         /// Replaces the data stored in the Store context 
         /// </summary>
-        public void SetData(object? data)
-        {
-            ((IStore)this).Context.SetData(data);
-        }
+        public void SetData(object? data) => this.data = data;
 
         StoreContext IStore.Context => new StoreContext(Native.wasmtime_store_context(NativeHandle));
 
@@ -286,12 +260,8 @@ namespace Wasmtime
 
         private readonly Handle handle;
 
-        private static readonly Native.Finalizer Finalizer = (p) =>
-        {
-            if (p != IntPtr.Zero)
-            {
-                GCHandle.FromIntPtr(p).Free();
-            }
-        };
+        private object? data;
+
+        private static readonly Native.Finalizer Finalizer = (p) => GCHandle.FromIntPtr(p).Free();
     }
 }
