@@ -536,7 +536,7 @@ namespace Wasmtime
             using var type = new TypeHandle(Native.wasmtime_memory_type(store.Context.handle, this.memory));
 
             Minimum = (long)Native.wasmtime_memorytype_minimum(type.DangerousGetHandle());
-                
+
             if (Native.wasmtime_memorytype_maximum(type.DangerousGetHandle(), out ulong max))
             {
                 Maximum = (long)max;

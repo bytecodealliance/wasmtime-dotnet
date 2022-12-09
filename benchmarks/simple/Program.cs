@@ -47,7 +47,7 @@ namespace Simple
             using var linker = new Linker(_engine);
             using var store = new Store(_engine);
 
-            linker.Define("", "hello", Function.FromCallback(store ,() => { }));
+            linker.Define("", "hello", Function.FromCallback(store, () => { }));
             linker.Define("", "memory", new Memory(store, 3));
 
             var instance = linker.Instantiate(store, _module);
@@ -56,7 +56,7 @@ namespace Simple
             {
                 throw new InvalidOperationException();
             }
-            
+
             run.Invoke();
         }
 

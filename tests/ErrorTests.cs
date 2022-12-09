@@ -98,7 +98,7 @@ namespace Wasmtime.Tests
         {
             var exceptionToThrow = new IOException("My I/O exception.");
             HostCallback = () => throw exceptionToThrow;
-            
+
             var action = () => Linker.Instantiate(Store, Fixture.Module);
 
             action

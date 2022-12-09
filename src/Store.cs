@@ -51,7 +51,7 @@ namespace Wasmtime
 
             Native.wasmtime_context_set_data(handle, newPtr);
 
-            if (oldData != IntPtr.Zero) 
+            if (oldData != IntPtr.Zero)
             {
                 GCHandle.FromIntPtr(oldData).Free();
             }
@@ -119,10 +119,10 @@ namespace Wasmtime
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_context_set_epoch_deadline(IntPtr handle, ulong ticksBeyondCurrent);
-            
+
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasmtime_context_get_data(IntPtr handle);
-            
+
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_context_set_data(IntPtr handle, IntPtr data);
         }
@@ -168,8 +168,8 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(engine));
             }
 
-            var dataPtr = data != null 
-                ? (IntPtr)GCHandle.Alloc(data) 
+            var dataPtr = data != null
+                ? (IntPtr)GCHandle.Alloc(data)
                 : IntPtr.Zero;
 
             handle = new Handle(Native.wasmtime_store_new(engine.NativeHandle, dataPtr, Finalizer));
@@ -231,7 +231,7 @@ namespace Wasmtime
         /// </summary>
         public void SetData(object? data)
         {
-           ((IStore)this).Context.SetData(data);
+            ((IStore)this).Context.SetData(data);
         }
 
         StoreContext IStore.Context => new StoreContext(Native.wasmtime_store_context(NativeHandle));
