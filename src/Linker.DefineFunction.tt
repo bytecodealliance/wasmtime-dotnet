@@ -65,7 +65,13 @@ foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateTy
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
+            <# if (callbackParameterTypeExpressions.Length == 0) { #>
+            var callbackParameterTypes = Array.Empty<Type>();
+            <# } else { #>
             var callbackParameterTypes = new Type[] { <#= callbackParameterTypeExpressions #>};
+            <# } #>
+
+            
             var callbackReturnType = <#= callbackReturnTypeExpression #>;
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: <#= hasCaller ? "true" : "false" #>, allowTuple: <#= (resultCount > 1) ? "true" : "false" #>, out _, out _);
@@ -90,8 +96,14 @@ foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateTy
 <# GenerateCallbackContent(hasCaller, resultCount, parameterCount); #>
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = stackalloc byte[moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = stackalloc byte[nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
                     var error = Native.wasmtime_linker_define_func_unchecked(
