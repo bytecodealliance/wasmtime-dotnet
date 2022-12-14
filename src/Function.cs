@@ -735,6 +735,5 @@ namespace Wasmtime
         internal static Exception? CallbackErrorCause;
 
         private static readonly Function _null = new Function();
-        private static readonly object?[] NullParams = new object?[1];
     }
 }

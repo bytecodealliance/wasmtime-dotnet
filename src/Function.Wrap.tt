@@ -45,7 +45,12 @@ foreach (var (_, returnTypeCount, parameterCount, methodGenerics, delegateType, 
             }
 
             // Check that the requested type signature is compatible
+            <# if (callbackParameterTypeExpressions.Length == 0) { #>
+            var parameterTypes = Array.Empty<Type>();
+            <# } else { #>
             var parameterTypes = new Type[] { <#= callbackParameterTypeExpressions #>};
+            <# } #>
+
             if (!CheckTypeSignature(<#= callbackReturnTypeExpression #>, parameterTypes))
             {
                 return null;
