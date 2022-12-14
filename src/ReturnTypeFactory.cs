@@ -40,9 +40,9 @@ namespace Wasmtime
             }
             else
             {
-                var types = GetTupleTypes().ToList();
+                var types = GetTupleTypes();
 
-                if (types.Count == 1)
+                if (types == null)
                 {
                     return new NonTupleTypeFactory<TReturn>();
                 }
@@ -70,15 +70,19 @@ namespace Wasmtime
             };
         }
 
-        private static IReadOnlyList<Type> GetTupleTypes()
+        /// <summary>
+        /// If `TReturn` is a tuple get a list of types it contains, otherwise return null
+        /// </summary>
+        /// <returns></returns>
+        private static List<Type>? GetTupleTypes()
         {
             if (typeof(ITuple).IsAssignableFrom(typeof(TReturn)))
             {
-                return typeof(TReturn).GetGenericArguments();
+                return typeof(TReturn).GetGenericArguments().ToList();
             }
             else
             {
-                return new[] { typeof(TReturn) };
+                return null;
             }
         }
     }
