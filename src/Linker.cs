@@ -393,7 +393,7 @@ namespace Wasmtime
         {
             unsafe
             {
-                var moduleBytes = Encoding.UTF8.GetBytes(name);
+                var moduleBytes = Encoding.UTF8.GetBytes(module);
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
