@@ -84,29 +84,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -181,29 +202,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -281,29 +323,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -384,29 +447,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -490,29 +574,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -599,29 +704,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -711,29 +837,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -826,29 +973,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -944,29 +1112,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -1065,29 +1254,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -1189,29 +1399,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -1316,29 +1547,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -1446,29 +1698,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -1544,29 +1817,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -1644,29 +1938,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -1747,29 +2062,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -1853,29 +2189,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -1962,29 +2319,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -2074,29 +2452,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -2189,29 +2588,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -2307,29 +2727,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -2428,29 +2869,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -2552,29 +3014,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -2679,29 +3162,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -2809,29 +3313,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -2942,29 +3467,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -3043,29 +3589,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -3146,29 +3713,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -3252,29 +3840,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -3361,29 +3970,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -3473,29 +4103,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -3588,29 +4239,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -3706,29 +4378,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -3827,29 +4520,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -3951,29 +4665,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -4078,29 +4813,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -4208,29 +4964,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -4341,29 +5118,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -4477,29 +5275,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -4581,29 +5400,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -4687,29 +5527,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -4796,29 +5657,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -4908,29 +5790,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -5023,29 +5926,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -5141,29 +6065,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -5262,29 +6207,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -5386,29 +6352,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -5513,29 +6500,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -5643,29 +6651,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -5776,29 +6805,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -5912,29 +6962,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -6051,29 +7122,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -6158,29 +7250,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -6267,29 +7380,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -6379,29 +7513,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -6494,29 +7649,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -6612,29 +7788,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -6733,29 +7930,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -6857,29 +8075,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -6984,29 +8223,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -7114,29 +8374,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -7247,29 +8528,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -7383,29 +8685,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -7522,29 +8845,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -7664,29 +9008,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -7756,29 +9121,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -7850,29 +9236,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -7946,29 +9353,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -8044,29 +9472,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -8144,29 +9593,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -8246,29 +9716,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -8350,29 +9841,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -8456,29 +9968,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -8564,29 +10097,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -8674,29 +10228,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -8786,29 +10361,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -8900,29 +10496,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -9016,29 +10633,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -9110,29 +10748,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -9206,29 +10865,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -9304,29 +10984,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -9404,29 +11105,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -9506,29 +11228,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -9610,29 +11353,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -9716,29 +11480,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -9824,29 +11609,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -9934,29 +11740,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -10046,29 +11873,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -10160,29 +12008,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -10276,29 +12145,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -10394,29 +12284,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -10490,29 +12401,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -10588,29 +12520,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -10688,29 +12641,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -10790,29 +12764,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -10894,29 +12889,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -11000,29 +13016,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -11108,29 +13145,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -11218,29 +13276,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -11330,29 +13409,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -11444,29 +13544,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -11560,29 +13681,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -11678,29 +13820,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -11798,29 +13961,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -11896,29 +14080,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -11996,29 +14201,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -12098,29 +14324,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -12202,29 +14449,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -12308,29 +14576,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -12416,29 +14705,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -12526,29 +14836,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -12638,29 +14969,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -12752,29 +15104,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -12868,29 +15241,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -12986,29 +15380,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -13106,29 +15521,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -13228,29 +15664,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -13328,29 +15785,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -13430,29 +15908,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -13534,29 +16033,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -13640,29 +16160,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -13748,29 +16289,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -13858,29 +16420,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -13970,29 +16553,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -14084,29 +16688,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -14200,29 +16825,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -14318,29 +16964,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -14438,29 +17105,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -14560,29 +17248,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }
@@ -14684,29 +17393,50 @@ namespace Wasmtime
                     }
                 };
 
-                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
-                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
-                using var modulePin = moduleBytes.Memory.Pin();
+                const int StackallocThreshold = 256;
 
-                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
-                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
-                using var namePin = nameBytes.Memory.Pin();
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
 
-                var error = Native.wasmtime_linker_define_func_unchecked(
-                    handle,
-                    (byte*)modulePin.Pointer,
-                    (nuint)moduleBytesLength,
-                    (byte*)namePin.Pointer,
-                    (nuint)nameBytesLength,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Function.Finalizer
-                );
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
 
-                if (error != IntPtr.Zero)
+                try
                 {
-                    throw WasmtimeException.FromOwnedError(error);
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
                 }
             }
         }

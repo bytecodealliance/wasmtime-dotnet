@@ -142,11 +142,6 @@ foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateTy
                         ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
-
-                if (error != IntPtr.Zero)
-                {
-                    throw WasmtimeException.FromOwnedError(error);
-                }
             }
         }
 
