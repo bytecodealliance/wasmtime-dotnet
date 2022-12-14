@@ -18,6 +18,7 @@
 #nullable enable
 
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -96,32 +97,29 @@ foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateTy
 <# GenerateCallbackContent(hasCaller, resultCount, parameterCount); #>
                 };
 
-                var moduleLength = Encoding.UTF8.GetByteCount(module);
-                Span<byte> moduleBytes = stackalloc byte[moduleLength];
-                Encoding.UTF8.GetBytes(module, moduleBytes);
+                using var moduleBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(module));
+                var moduleBytesLength = Encoding.UTF8.GetBytes(module, moduleBytes.Memory.Span);
+                using var modulePin = moduleBytes.Memory.Pin();
 
-                var nameLength = Encoding.UTF8.GetByteCount(name);
-                Span<byte> nameBytes = stackalloc byte[nameLength];
-                Encoding.UTF8.GetBytes(name, nameBytes);
+                using var nameBytes = MemoryPool<byte>.Shared.Rent(Encoding.UTF8.GetByteCount(name));
+                var nameBytesLength = Encoding.UTF8.GetBytes(name, nameBytes.Memory.Span);
+                using var namePin = nameBytes.Memory.Pin();
 
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                var error = Native.wasmtime_linker_define_func_unchecked(
+                    handle,
+                    (byte*)modulePin.Pointer,
+                    (nuint)moduleBytesLength,
+                    (byte*)namePin.Pointer,
+                    (nuint)nameBytesLength,
+                    funcType,
+                    func,
+                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                    Function.Finalizer
+                );
+
+                if (error != IntPtr.Zero)
                 {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
-
-                    if (error != IntPtr.Zero)
-                    {
-                        throw WasmtimeException.FromOwnedError(error);
-                    }
+                    throw WasmtimeException.FromOwnedError(error);
                 }
             }
         }
