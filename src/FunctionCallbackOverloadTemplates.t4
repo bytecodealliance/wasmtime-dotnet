@@ -1,5 +1,5 @@
 ﻿<#
-// This file contains the functions used in Function.FromCallback.ts and Linker.DefineFunction.ts
+// This file contains the functions used in Function.FromCallback.tt and Linker.DefineFunction.tt
 // in order to generate overloads with different parameter and result types for Action<...>/Func<...>.
 
 // Suppress the "not used" warning when this file is referenced but the function is not called.
@@ -258,9 +258,9 @@ IEnumerable<(
                     delegateType.ToString(),
                     callbackParameterTypeExpressions.ToString(),
                     callbackReturnTypeExpression,
-                    parameterConverters.ToString(),
-                    resultConverters.ToString(),
-                    converterRequiresStoreCode.ToString()
+                    parameterConverters.ToString().Replace("\r\n", "\n"),
+                    resultConverters.ToString().Replace("\r\n", "\n"),
+                    converterRequiresStoreCode.ToString().Replace("\r\n", "\n")
                 );
             }
         }
