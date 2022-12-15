@@ -57,11 +57,11 @@ foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateTy
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            <# if (callbackParameterTypeExpressions.Length == 0) { #>
+<# if (callbackParameterTypeExpressions.Length == 0) { #>
             var callbackParameterTypes = Array.Empty<Type>();
-            <# } else { #>
+<# } else { #>
             var callbackParameterTypes = new Type[] { <#= callbackParameterTypeExpressions #>};
-            <# } #>
+<# } #>
 
             var callbackReturnType = <#= callbackReturnTypeExpression #>;
 
