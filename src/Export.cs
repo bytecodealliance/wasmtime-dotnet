@@ -154,7 +154,7 @@ namespace Wasmtime
 
             Kind = ValueType.ToKind(Global.Native.wasm_globaltype_content(type));
 
-            Mutability = (Mutability)Global.Native.wasm_globaltype_mutability(type);
+            Mutability = new Mutability(Global.Native.wasm_globaltype_mutability(type));
         }
 
         /// <summary>
