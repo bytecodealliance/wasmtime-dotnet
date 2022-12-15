@@ -166,6 +166,24 @@ namespace Wasmtime.Tests
             result.Should().Be(V128.AllBitsSet);
         }
 
+        [Fact]
+        public void ItFetchesDefinedFunctions()
+        {
+            var func = Linker.GetFunction(Store, "env", "add")!;
+
+            func.Should().NotBeNull();
+            func.Parameters.Should().HaveCount(2);
+            func.Results.Should().HaveCount(1);
+        }
+
+        [Fact]
+        public void ItReturnsNullForUndefinedFunctions()
+        {
+            var func = Linker.GetFunction(Store, "nosuch", "function")!;
+
+            func.Should().BeNull();
+        }
+
         public void Dispose()
         {
             Store.Dispose();
