@@ -120,6 +120,15 @@ namespace Wasmtime.Tests
                 .WithMessage("The global is immutable and cannot be changed.");
         }
 
+        [Fact]
+        public void ItReturnsNullForNonExistantGlobal()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+
+            var i32 = instance.GetGlobal("no_such_global");
+            i32.Should().BeNull();
+        }
+
         public static IEnumerable<object[]> GetGlobalExports()
         {
             yield return new object[] {
