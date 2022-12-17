@@ -81,6 +81,8 @@ namespace Wasmtime
                     out var externFunc
                 );
 
+                GC.KeepAlive(store);
+
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
         }
@@ -153,6 +155,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -229,6 +233,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -308,6 +314,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -390,6 +398,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -475,6 +485,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -563,6 +575,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -654,6 +668,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -748,6 +764,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -845,6 +863,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -945,6 +965,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -1048,6 +1070,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -1155,6 +1179,8 @@ namespace Wasmtime
                     out var externFunc
                 );
 
+                GC.KeepAlive(store);
+
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
         }
@@ -1228,6 +1254,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -1304,6 +1332,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -1383,6 +1413,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -1465,6 +1497,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -1550,6 +1584,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -1638,6 +1674,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -1729,6 +1767,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -1823,6 +1863,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -1920,6 +1962,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -2020,6 +2064,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -2123,6 +2169,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -2229,6 +2277,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -2339,6 +2389,8 @@ namespace Wasmtime
                     out var externFunc
                 );
 
+                GC.KeepAlive(store);
+
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
         }
@@ -2415,6 +2467,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -2494,6 +2548,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -2576,6 +2632,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -2661,6 +2719,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -2749,6 +2809,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -2840,6 +2902,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -2934,6 +2998,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -3031,6 +3097,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -3131,6 +3199,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -3234,6 +3304,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -3340,6 +3412,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -3449,6 +3523,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -3562,6 +3638,8 @@ namespace Wasmtime
                     out var externFunc
                 );
 
+                GC.KeepAlive(store);
+
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
         }
@@ -3641,6 +3719,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -3723,6 +3803,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -3808,6 +3890,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -3896,6 +3980,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -3987,6 +4073,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -4081,6 +4169,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -4178,6 +4268,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -4278,6 +4370,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -4381,6 +4475,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -4487,6 +4583,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -4596,6 +4694,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -4708,6 +4808,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -4824,6 +4926,8 @@ namespace Wasmtime
                     out var externFunc
                 );
 
+                GC.KeepAlive(store);
+
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
         }
@@ -4906,6 +5010,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -4991,6 +5097,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -5079,6 +5187,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -5170,6 +5280,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -5264,6 +5376,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -5361,6 +5475,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -5461,6 +5577,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -5564,6 +5682,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -5670,6 +5790,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -5779,6 +5901,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -5891,6 +6015,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -6006,6 +6132,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -6125,6 +6253,8 @@ namespace Wasmtime
                     out var externFunc
                 );
 
+                GC.KeepAlive(store);
+
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
         }
@@ -6192,6 +6322,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -6262,6 +6394,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -6334,6 +6468,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -6408,6 +6544,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -6484,6 +6622,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -6562,6 +6702,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -6642,6 +6784,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -6724,6 +6868,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -6808,6 +6954,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -6894,6 +7042,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -6982,6 +7132,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -7072,6 +7224,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -7165,6 +7319,8 @@ namespace Wasmtime
                     out var externFunc
                 );
 
+                GC.KeepAlive(store);
+
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
         }
@@ -7234,6 +7390,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -7306,6 +7464,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -7380,6 +7540,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -7456,6 +7618,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -7534,6 +7698,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -7614,6 +7780,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -7696,6 +7864,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -7780,6 +7950,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -7866,6 +8038,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -7954,6 +8128,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -8044,6 +8220,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -8136,6 +8314,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -8231,6 +8411,8 @@ namespace Wasmtime
                     out var externFunc
                 );
 
+                GC.KeepAlive(store);
+
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
         }
@@ -8302,6 +8484,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -8376,6 +8560,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -8452,6 +8638,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -8530,6 +8718,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -8610,6 +8800,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -8692,6 +8884,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -8776,6 +8970,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -8862,6 +9058,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -8950,6 +9148,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -9040,6 +9240,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -9132,6 +9334,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -9226,6 +9430,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -9323,6 +9529,8 @@ namespace Wasmtime
                     out var externFunc
                 );
 
+                GC.KeepAlive(store);
+
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
         }
@@ -9396,6 +9604,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -9472,6 +9682,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -9550,6 +9762,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -9630,6 +9844,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -9712,6 +9928,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -9796,6 +10014,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -9882,6 +10102,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -9970,6 +10192,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -10060,6 +10284,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -10152,6 +10378,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -10246,6 +10474,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -10342,6 +10572,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -10441,6 +10673,8 @@ namespace Wasmtime
                     out var externFunc
                 );
 
+                GC.KeepAlive(store);
+
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
         }
@@ -10516,6 +10750,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -10594,6 +10830,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -10674,6 +10912,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -10756,6 +10996,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -10840,6 +11082,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -10926,6 +11170,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -11014,6 +11260,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -11104,6 +11352,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -11196,6 +11446,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -11290,6 +11542,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -11386,6 +11640,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -11484,6 +11740,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
@@ -11584,6 +11842,8 @@ namespace Wasmtime
                     Finalizer,
                     out var externFunc
                 );
+
+                GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }

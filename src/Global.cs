@@ -49,6 +49,8 @@ namespace Wasmtime
 
             var value = Value.FromObject(initialValue, Kind);
             var error = Native.wasmtime_global_new(store.Context.handle, globalType, in value, out this.global);
+            GC.KeepAlive(store);
+
             value.Dispose();
 
             if (error != IntPtr.Zero)
@@ -65,6 +67,8 @@ namespace Wasmtime
         {
             var context = store.Context;
             Native.wasmtime_global_get(context.handle, this.global, out var v);
+            GC.KeepAlive(store);
+
             var val = v.ToObject(store);
             v.Dispose();
             return val;
@@ -83,6 +87,8 @@ namespace Wasmtime
 
             var v = Value.FromObject(value, Kind);
             Native.wasmtime_global_set(store.Context.handle, this.global, in v);
+            GC.KeepAlive(store);
+
             v.Dispose();
         }
 
@@ -126,6 +132,7 @@ namespace Wasmtime
             this.store = store;
 
             using var type = new TypeHandle(Native.wasmtime_global_type(store.Context.handle, this.global));
+            GC.KeepAlive(store);
 
             this.Kind = ValueType.ToKind(Native.wasm_globaltype_content(type.DangerousGetHandle()));
             this.Mutability = (Mutability)Native.wasm_globaltype_mutability(type.DangerousGetHandle());
@@ -212,6 +219,7 @@ namespace Wasmtime
             {
                 var context = _store.Context;
                 Native.wasmtime_global_get(context.handle, _global.global, out var v);
+                GC.KeepAlive(_store);
 
                 var result = _converter.Unbox(_store, v.ToValueBox());
                 v.Dispose();
@@ -234,6 +242,7 @@ namespace Wasmtime
                 {
                     var context = _store.Context;
                     Native.wasmtime_global_set(context.handle, _global.global, in v);
+                    GC.KeepAlive(_store);
                 }
             }
 

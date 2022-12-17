@@ -90,6 +90,8 @@ foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateTy
                     out var externFunc
                 );
 
+                GC.KeepAlive(store);
+
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
         }

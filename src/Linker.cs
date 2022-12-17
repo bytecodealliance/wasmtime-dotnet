@@ -123,6 +123,8 @@ namespace Wasmtime
                 fixed (byte* namePtr = nameBytes)
                 {
                     var error = Native.wasmtime_linker_define_instance(handle, store.Context.handle, namePtr, (UIntPtr)nameBytes.Length, instance.instance);
+                    GC.KeepAlive(store);
+
                     if (error != IntPtr.Zero)
                     {
                         throw WasmtimeException.FromOwnedError(error);
@@ -150,6 +152,8 @@ namespace Wasmtime
             }
 
             var error = Native.wasmtime_linker_instantiate(handle, store.Context.handle, module.NativeHandle, out var instance, out var trap);
+            GC.KeepAlive(store);
+
             if (error != IntPtr.Zero)
             {
                 throw WasmtimeException.FromOwnedError(error);
@@ -186,6 +190,8 @@ namespace Wasmtime
                 fixed (byte* namePtr = nameBytes)
                 {
                     var error = Native.wasmtime_linker_module(handle, store.Context.handle, namePtr, (UIntPtr)nameBytes.Length, module.NativeHandle);
+                    GC.KeepAlive(store);
+
                     if (error != IntPtr.Zero)
                     {
                         throw WasmtimeException.FromOwnedError(error);
@@ -220,6 +226,8 @@ namespace Wasmtime
                 fixed (byte* namePtr = nameBytes)
                 {
                     var error = Native.wasmtime_linker_get_default(handle, context.handle, namePtr, (UIntPtr)nameBytes.Length, out var func);
+                    GC.KeepAlive(store);
+
                     if (error != IntPtr.Zero)
                     {
                         throw WasmtimeException.FromOwnedError(error);
@@ -250,6 +258,8 @@ namespace Wasmtime
                 return null;
             }
 
+            GC.KeepAlive(store);
+
             return new Function(store, ext.of.func);
         }
 
@@ -272,6 +282,8 @@ namespace Wasmtime
             {
                 return null;
             }
+
+            GC.KeepAlive(store);
 
             return new Table(store, ext.of.table);
         }
@@ -296,6 +308,8 @@ namespace Wasmtime
                 return null;
             }
 
+            GC.KeepAlive(store);
+
             return new Memory(store, ext.of.memory);
         }
 
@@ -318,6 +332,8 @@ namespace Wasmtime
             {
                 return null;
             }
+
+            GC.KeepAlive(store);
 
             return new Global(store, ext.of.global);
         }

@@ -138,6 +138,12 @@ namespace Wasmtime
         /// <summary>
         /// Gets the context of the store.
         /// </summary>
+        /// <remarks>
+        /// Note: Generally, you must keep the <see cref="IStore"/> alive (by using
+        /// <see cref="GC.KeepAlive(object)"/>) until the <see cref="StoreContext"/> is no longer
+        /// used, to prevent the the Store.Handle finalizer from prematurely deleting the handle 
+        /// in the GC finalizer thread while the <see cref="StoreContext"/> is still in use.
+        /// </remarks>
         StoreContext Context { get; }
     }
 
@@ -178,13 +184,21 @@ namespace Wasmtime
         /// <summary>
         /// Perform garbage collection within the given store.
         /// </summary>
-        public void GC() => ((IStore)this).Context.GC();
+        public void GC()
+        {
+            ((IStore)this).Context.GC();
+            System.GC.KeepAlive(this);
+        }
 
         /// <summary>
         /// Adds fuel to this store for WebAssembly code to consume while executing.
         /// </summary>
         /// <param name="fuel">The fuel to add to the store.</param>
-        public void AddFuel(ulong fuel) => ((IStore)this).Context.AddFuel(fuel);
+        public void AddFuel(ulong fuel)
+        {
+            ((IStore)this).Context.AddFuel(fuel);
+            System.GC.KeepAlive(this);
+        }
 
         /// <summary>
         /// Synthetically consumes fuel from this store.
@@ -201,30 +215,53 @@ namespace Wasmtime
         /// <param name="fuel">The fuel to consume from the store.</param>
         /// <returns>Returns the remaining amount of fuel.</returns>
         /// <exception cref="WasmtimeException">Thrown if more fuel is consumed than the store currently has.</exception>
-        public ulong ConsumeFuel(ulong fuel) => ((IStore)this).Context.ConsumeFuel(fuel);
+        public ulong ConsumeFuel(ulong fuel)
+        {
+            var result = ((IStore)this).Context.ConsumeFuel(fuel);
+            System.GC.KeepAlive(this);
+            return result;
+        }
 
         /// <summary>
         /// Gets the fuel consumed by the executing WebAssembly code.
         /// </summary>
         /// <returns>Returns the fuel consumed by the executing WebAssembly code or 0 if fuel consumption was not enabled.</returns>
-        public ulong GetConsumedFuel() => ((IStore)this).Context.GetConsumedFuel();
+        public ulong GetConsumedFuel()
+        {
+            var result = ((IStore)this).Context.GetConsumedFuel();
+            System.GC.KeepAlive(this);
+            return result;
+        }
 
         /// <summary>
         /// Configures WASI within the store.
         /// </summary>
         /// <param name="config">The WASI configuration to use.</param>
-        public void SetWasiConfiguration(WasiConfiguration config) => ((IStore)this).Context.SetWasiConfiguration(config);
+        public void SetWasiConfiguration(WasiConfiguration config)
+        {
+            ((IStore)this).Context.SetWasiConfiguration(config);
+            System.GC.KeepAlive(this);
+        }
 
         /// <summary>
         /// Configures the relative deadline at which point WebAssembly code will trap.
         /// </summary>
         /// <param name="ticksBeyondCurrent"></param>
-        public void SetEpochDeadline(ulong ticksBeyondCurrent) => ((IStore)this).Context.SetEpochDeadline(ticksBeyondCurrent);
+        public void SetEpochDeadline(ulong ticksBeyondCurrent)
+        {
+            ((IStore)this).Context.SetEpochDeadline(ticksBeyondCurrent);
+            System.GC.KeepAlive(this);
+        }
 
         /// <summary>
         /// Retrieves the data stored in the Store context
         /// </summary>
-        public object? GetData() => ((IStore)this).Context.GetData();
+        public object? GetData()
+        {
+            var result = ((IStore)this).Context.GetData();
+            System.GC.KeepAlive(this);
+            return result;
+        }
 
         /// <summary>
         /// Replaces the data stored in the Store context 
@@ -232,6 +269,7 @@ namespace Wasmtime
         public void SetData(object? data)
         {
             ((IStore)this).Context.SetData(data);
+            System.GC.KeepAlive(this);
         }
 
         StoreContext IStore.Context => new StoreContext(Native.wasmtime_store_context(NativeHandle));

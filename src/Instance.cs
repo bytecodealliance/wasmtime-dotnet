@@ -49,6 +49,7 @@ namespace Wasmtime
                 }
 
                 var error = Native.wasmtime_instance_new(store.Context.handle, module.NativeHandle, externs, (UIntPtr)imports.Length, out this.instance, out var trap);
+                GC.KeepAlive(store);
 
                 if (error != IntPtr.Zero)
                 {
@@ -521,6 +522,8 @@ namespace Wasmtime
                 return null;
             }
 
+            GC.KeepAlive(_store);
+
             return new Function(_store, ext.of.func);
         }
 
@@ -537,6 +540,8 @@ namespace Wasmtime
                 return null;
             }
 
+            GC.KeepAlive(_store);
+
             return new Table(_store, ext.of.table);
         }
 
@@ -551,6 +556,8 @@ namespace Wasmtime
             {
                 return null;
             }
+
+            GC.KeepAlive(_store);
 
             return new Memory(_store, ext.of.memory);
         }
@@ -567,6 +574,8 @@ namespace Wasmtime
             {
                 return null;
             }
+
+            GC.KeepAlive(_store);
 
             return new Global(_store, ext.of.global);
         }
