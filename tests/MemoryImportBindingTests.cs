@@ -36,6 +36,63 @@ namespace Wasmtime.Tests
         }
 
         [Fact]
+        public void ItFailsToInstantiateWithNullStore()
+        {
+            Action action = () => { new Memory(null!, 0, 1); };
+
+            action
+               .Should()
+               .Throw<ArgumentNullException>()
+               .WithMessage("Value cannot be null. (Parameter 'store')");
+        }
+
+        [Fact]
+        public void ItFailsToInstantiateWithDisposedStore()
+        {
+            var store = new Store(Fixture.Engine);
+            store.Dispose();
+
+            Action action = () => { new Memory(store, 0, 1); };
+
+            action
+               .Should()
+               .Throw<ObjectDisposedException>();
+        }
+
+        [Fact]
+        public void ItFailsToInstantiateWithNegativeMinimum()
+        {
+            Action action = () => { new Memory(Store, -1, 1); };
+
+            action
+               .Should()
+               .Throw<ArgumentOutOfRangeException>()
+               .WithMessage("Specified argument was out of the range of valid values. (Parameter 'minimum')");
+        }
+
+        [Fact]
+        public void ItFailsToInstantiateWithNegativeMaximum()
+        {
+            Action action = () => { new Memory(Store, 0, -1); };
+
+            action
+               .Should()
+               .Throw<ArgumentOutOfRangeException>()
+               .WithMessage("Specified argument was out of the range of valid values. (Parameter 'maximum')");
+        }
+
+        [Fact]
+        public void ItFailsToInstantiateWithMaximumLessThanMinimum()
+        {
+            Action action = () => { new Memory(Store, 20, 10); };
+
+            action
+               .Should()
+               .Throw<ArgumentException>()
+               .WithMessage("The maximum cannot be less than the minimum. (Parameter 'maximum')");
+        }
+
+        [Fact]
         public void ItBindsTheGlobalsCorrectly()
         {
             var mem = new Memory(Store, 1);

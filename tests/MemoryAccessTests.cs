@@ -26,6 +26,39 @@ namespace Wasmtime.Tests
         }
 
         [Fact]
+        public void ItGrows()
+        {
+            var memory = new Memory(Store, 1, 4);
+            memory.GetSize().Should().Be(1);
+            memory.Grow(1);
+            memory.GetSize().Should().Be(2);
+            memory.Grow(2);
+            memory.GetSize().Should().Be(4);
+        }
+
+        [Fact]
+        public void ItFailsToShrink()
+        {
+            var memory = new Memory(Store, 1, 4);
+            memory.GetSize().Should().Be(1);
+            memory.Grow(1);
+            memory.GetSize().Should().Be(2);
+
+            var act = () => { memory.Grow(-1); };
+            act.Should().Throw<ArgumentOutOfRangeException>();
+        }
+
+        [Fact]
+        public void ItFailsToGrowOverLimit()
+        {
+            var memory = new Memory(Store, 1, 4);
+            memory.GetSize().Should().Be(1);
+
+            var act = () => { memory.Grow(10); };
+            act.Should().Throw<WasmtimeException>();
+        }
+
+        [Fact]
         public unsafe void ItCanAccessMemoryWith65536Pages()
         {
             var memoryExport = Fixture.Module.Exports.OfType<MemoryExport>().Single();
