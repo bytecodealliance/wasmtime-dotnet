@@ -98,7 +98,7 @@ namespace Wasmtime
             {
                 Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
                 {
-                    return InvokeUntypedCallback(callback, callerPtr, args, nargs, results, nresults, resultKinds);
+                    return InvokeUntypedCallback(callback, callerPtr, args, (int)nargs, results, (int)nresults, resultKinds);
                 };
 
                 Native.wasmtime_func_new(
@@ -675,7 +675,7 @@ namespace Wasmtime
             }
         }
 
-        internal static unsafe IntPtr InvokeUntypedCallback(UntypedCallbackDelegate callback, IntPtr callerPtr, Value* args, UIntPtr nargs, Value* results, UIntPtr nresults, IReadOnlyList<ValueKind> resultKinds)
+        internal static unsafe IntPtr InvokeUntypedCallback(UntypedCallbackDelegate callback, IntPtr callerPtr, Value* args, int nargs, Value* results, int nresults, IReadOnlyList<ValueKind> resultKinds)
         {
             try
             {
@@ -683,13 +683,13 @@ namespace Wasmtime
 
                 // Rent ValueBox arrays from the array pool (as it's not possible to
                 // stackalloc a managed type).
-                var argumentsBuffer = ArrayPool<ValueBox>.Shared.Rent((int)nargs);
-                var resultsBuffer = ArrayPool<ValueBox>.Shared.Rent((int)nresults);
+                var argumentsBuffer = ArrayPool<ValueBox>.Shared.Rent(nargs);
+                var resultsBuffer = ArrayPool<ValueBox>.Shared.Rent(nresults);
 
                 try
                 {
-                    var argumentsSpan = argumentsBuffer.AsSpan()[..(int)nargs];
-                    var resultsSpan = resultsBuffer.AsSpan()[..(int)nresults];
+                    var argumentsSpan = argumentsBuffer.AsSpan()[..nargs];
+                    var resultsSpan = resultsBuffer.AsSpan()[..nresults];
 
                     // Initialize the results with ValueBoxes using the expected
                     // ValueKind but with a default value. Otherwise (when just using

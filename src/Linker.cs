@@ -441,7 +441,7 @@ namespace Wasmtime
             {
                 Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
                 {
-                    return Function.InvokeUntypedCallback(callback, callerPtr, args, nargs, results, nresults, resultKinds);
+                    return Function.InvokeUntypedCallback(callback, callerPtr, args, (int)nargs, results, (int)nresults, resultKinds);
                 };
 
                 var moduleBytes = Encoding.UTF8.GetBytes(module);
