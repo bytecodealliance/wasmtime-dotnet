@@ -691,9 +691,16 @@ namespace Wasmtime
                     var argumentsSpan = argumentsBuffer.AsSpan()[..(int)nargs];
                     var resultsSpan = resultsBuffer.AsSpan()[..(int)nresults];
 
-                    // Clear the results span to avoid the callback being able to observe
-                    // non-deterministic values.
-                    resultsSpan.Clear();
+                    // Initialize the results with ValueBoxes using the expected
+                    // ValueKind but with a default value. Otherwise (when just using
+                    // resultsSpan.Clear()), they would all be initialized with
+                    // ValueKind.Int32.
+                    for (int i = 0; i < resultsSpan.Length; i++)
+                    {
+                        resultsSpan[i] = resultKinds[i] is ValueKind.ExternRef ?
+                            new ValueBox(null) :
+                            new ValueBox(resultKinds[i], default);
+                    }
 
                     for (int i = 0; i < argumentsSpan.Length; i++)
                     {

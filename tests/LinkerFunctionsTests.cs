@@ -244,6 +244,12 @@ namespace Wasmtime.Tests
                         results[5] = emptyFunc;
                         results[6] = "hello";
                     }
+                    else
+                    {
+                        // Set a result with an incompatible type, which should later
+                        // throw an InvalidCastException.
+                        results[0] = new ValueBox(null);
+                    }
                 },
                 Array.Empty<ValueKind>(),
                 new[] { ValueKind.Int32, ValueKind.Int64, ValueKind.Float32, ValueKind.Float64, ValueKind.V128, ValueKind.FuncRef, ValueKind.ExternRef });
@@ -282,7 +288,7 @@ namespace Wasmtime.Tests
             action.Invoke();
 
             setResults = false;
-            action.Should().Throw<WasmtimeException>().WithMessage("*Cannot convert from `Int32` to `V128`*");
+            action.Should().Throw<WasmtimeException>().WithMessage("*Cannot convert from `ExternRef` to `Int32`*");
         }
 
         public void Dispose()
