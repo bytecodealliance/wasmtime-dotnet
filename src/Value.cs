@@ -287,11 +287,7 @@ namespace Wasmtime
                     case ValueKind.V128:
                         if (o is null)
                             throw new WasmtimeException($"The value `null` is not valid for WebAssembly type {kind}.");
-                        var bytes = (V128)o;
-                        unsafe
-                        {
-                            bytes.CopyTo(value.of.v128);
-                        }
+                        value.of.v128 = (V128)o;
                         break;
 
                     case ValueKind.ExternRef:
@@ -351,13 +347,7 @@ namespace Wasmtime
                     return of.f64;
 
                 case ValueKind.V128:
-                    unsafe
-                    {
-                        fixed (byte* v128 = of.v128)
-                        {
-                            return new V128(v128);
-                        }
-                    }
+                    return of.v128;
 
                 case ValueKind.ExternRef:
                     return ResolveExternRef();
@@ -435,6 +425,6 @@ namespace Wasmtime
         public IntPtr externref;
 
         [FieldOffset(0)]
-        public fixed byte v128[16];
+        public V128 v128;
     }
 }

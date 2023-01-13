@@ -405,6 +405,69 @@ namespace Wasmtime
             }
         }
 
+        /// <summary>
+        /// Defines an function in the linker given an untyped callback.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        /// <param name="parameters">The function parameter kinds.</param>
+        /// <param name="results">The function result kinds.</param>
+        public void DefineFunction(string module, string name, Function.UntypedCallbackDelegate callback, IReadOnlyList<ValueKind> parameters, IReadOnlyList<ValueKind> results)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            // Copy the lists to ensure they are not externally modified.
+            var parameterKinds = new List<ValueKind>(parameters);
+            var resultKinds = new List<ValueKind>(results);
+
+            using var funcType = Function.GetFunctionType(parameterKinds, resultKinds);
+
+            unsafe
+            {
+                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                {
+                    return Function.InvokeUntypedCallback(callback, callerPtr, args, nargs, results, nresults, resultKinds);
+                };
+
+                var moduleBytes = Encoding.UTF8.GetBytes(module);
+                var nameBytes = Encoding.UTF8.GetBytes(name);
+                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                {
+                    var error = Native.wasmtime_linker_define_func(
+                        handle,
+                        modulePtr,
+                        (nuint)moduleBytes.Length,
+                        namePtr,
+                        (nuint)nameBytes.Length,
+                        funcType,
+                        func,
+                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                        Function.Finalizer
+                    );
+
+                    if (error != IntPtr.Zero)
+                    {
+                        throw WasmtimeException.FromOwnedError(error);
+                    }
+                }
+            }
+        }
+
         private bool TryGetExtern(StoreContext context, string module, string name, out Extern ext)
         {
             unsafe

@@ -1,6 +1,5 @@
-using FluentAssertions;
 using System;
-using System.Runtime.Intrinsics;
+using FluentAssertions;
 using Xunit;
 
 namespace Wasmtime.Tests
@@ -45,6 +44,19 @@ namespace Wasmtime.Tests
                 {
                     (i1, i2, i3, i4, i5, i6, i7, i8, i9, i10, i11, i12, i13, i14, i15)
                         .Should().Be((1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15));
+                }));
+
+            var emptyFunc = Function.FromCallback(Store, () => { });
+            Linker.Define("env", "return_all_types", Function.FromCallback(Store, () =>
+            {
+                return (1, 2L, 3f, 4d, V128.AllBitsSet, emptyFunc, "hello");
+            }));
+
+            Linker.Define("env", "accept_all_types", Function.FromCallback(Store,
+                (int i1, long l2, float f3, double d4, V128 v5, Function f6, object o7) =>
+                {
+                    (i1, l2, f3, d4, v5, f6.IsNull, o7)
+                    .Should().Be((1, 2L, 3f, 4d, V128.AllBitsSet, emptyFunc.IsNull, "hello"));
                 }));
 
             var echoMultipleValuesFunc = EchoMultipleValues;
@@ -420,6 +432,80 @@ namespace Wasmtime.Tests
             action.Should().NotBeNull();
 
             action.Invoke();
+        }
+
+        [Fact]
+        public void ItReturnsAndAcceptsAllTypes()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var action = instance.GetAction("get_and_pass_all_types");
+            action.Should().NotBeNull();
+
+            action.Invoke();
+        }
+
+        [Fact]
+        public void ItReturnsAndAcceptsAllTypesWithUntypedCallbacks()
+        {
+            Linker.AllowShadowing = true;
+
+            var emptyFunc = Function.FromCallback(Store, () => { });
+            bool setResults = true;
+
+            Linker.Define("env", "return_all_types", Function.FromCallback(Store, (Caller caller, ReadOnlySpan<ValueBox> arguments, Span<ValueBox> results) =>
+                {
+                    arguments.Length.Should().Be(0);
+                    results.Length.Should().Be(7);
+
+                    if (setResults)
+                    {
+                        results[0] = 1;
+                        results[1] = 2L;
+                        results[2] = 3f;
+                        results[3] = 4d;
+                        results[4] = V128.AllBitsSet;
+                        results[5] = emptyFunc;
+                        results[6] = "hello";
+                    }
+                },
+                Array.Empty<ValueKind>(),
+                new[] { ValueKind.Int32, ValueKind.Int64, ValueKind.Float32, ValueKind.Float64, ValueKind.V128, ValueKind.FuncRef, ValueKind.ExternRef }));
+
+            Linker.Define("env", "accept_all_types", Function.FromCallback(Store, (Caller caller, ReadOnlySpan<ValueBox> arguments, Span<ValueBox> results) =>
+                {
+                    arguments.Length.Should().Be(7);
+                    results.Length.Should().Be(0);
+
+                    var i1 = arguments[0].AsInt32();
+                    var l2 = arguments[1].AsInt64();
+                    var f3 = arguments[2].AsSingle();
+                    var d4 = arguments[3].AsDouble();
+                    var v5 = arguments[4].AsV128();
+                    var f6 = arguments[5].AsFunction(Store);
+                    var o7 = arguments[6].As<string>();
+
+                    (i1, l2, f3, d4, v5, f6.IsNull, o7)
+                        .Should().Be((1, 2L, 3f, 4d, V128.AllBitsSet, emptyFunc.IsNull, "hello"));
+
+                    var arg0 = arguments[0];
+                    Action shouldThrow = () => arg0.AsFunction(Store);
+                    shouldThrow.Should().Throw<InvalidCastException>().WithMessage("Cannot convert from `Int32` to `FuncRef`");
+
+                    var arg6 = arguments[6];
+                    shouldThrow = () => arg6.AsInt32();
+                    shouldThrow.Should().Throw<InvalidCastException>().WithMessage("Cannot convert from `ExternRef` to `Int32`");
+                },
+                new[] { ValueKind.Int32, ValueKind.Int64, ValueKind.Float32, ValueKind.Float64, ValueKind.V128, ValueKind.FuncRef, ValueKind.ExternRef },
+                Array.Empty<ValueKind>()));
+
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var action = instance.GetAction("get_and_pass_all_types");
+            action.Should().NotBeNull();
+
+            action.Invoke();
+
+            setResults = false;
+            action.Should().Throw<WasmtimeException>().WithMessage("*Cannot convert from `Int32` to `V128`*");
         }
 
         public void Dispose()
