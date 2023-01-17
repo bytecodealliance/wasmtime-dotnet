@@ -16,7 +16,7 @@ namespace Wasmtime
     public partial class Function : IExternal
     {
         /// <summary>
-        /// Encapsulates an untyped method that receives arguments and can set results via a span of <see cref="ValueBox"/>.
+        /// Encapsulates an untyped callback that receives arguments and can set results via a span of <see cref="ValueBox"/>.
         /// </summary>
         /// <param name="caller">The caller.</param>
         /// <param name="arguments">The function arguments.</param>
