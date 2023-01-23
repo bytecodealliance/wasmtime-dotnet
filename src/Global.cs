@@ -25,7 +25,9 @@ namespace Wasmtime
         internal Mutability(byte value)
         {
             if (value > 1)
+            {
                 throw new ArgumentOutOfRangeException($"Invalid Mutability value `{value}`");
+            }
 
             Value = value;
         }
