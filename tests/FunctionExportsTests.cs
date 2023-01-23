@@ -13,9 +13,15 @@ namespace Wasmtime.Tests
 
     public class FunctionExportsTests : IClassFixture<FunctionExportsFixture>
     {
+        private Store Store { get; set; }
+
+        private Linker Linker { get; set; }
+
         public FunctionExportsTests(FunctionExportsFixture fixture)
         {
             Fixture = fixture;
+            Store = new Store(Fixture.Engine);
+            Linker = new Linker(Fixture.Engine);
         }
 
         private FunctionExportsFixture Fixture { get; set; }
@@ -34,6 +40,24 @@ namespace Wasmtime.Tests
         public void ItHasTheExpectedNumberOfExportedFunctions()
         {
             GetFunctionExports().Count().Should().Be(Fixture.Module.Exports.Count(e => e is FunctionExport));
+        }
+
+        [Fact]
+        public void ItReturnsNullForNonExistantFunction()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+
+            var i32 = instance.GetFunction("no_such_func");
+            i32.Should().BeNull();
+        }
+
+        [Fact]
+        public void ItReturnsNullForWrongTypeSignature()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+
+            var i32 = instance.GetFunction("one_i32_param_no_results", typeof(float));
+            i32.Should().BeNull();
         }
 
         public static IEnumerable<object[]> GetFunctionExports()

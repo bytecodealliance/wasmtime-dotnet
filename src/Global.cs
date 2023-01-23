@@ -7,16 +7,70 @@ namespace Wasmtime
     /// <summary>
     /// Represents the mutability of a WebAssembly global value.
     /// </summary>
-    public enum Mutability : byte
+    public readonly struct Mutability
+        : IEquatable<Mutability>
     {
         /// <summary>
         /// The global value is immutable (i.e. constant).
         /// </summary>
-        Immutable,
+        public static readonly Mutability Immutable = new(0);
+
         /// <summary>
         /// The global value is mutable.
         /// </summary>
-        Mutable,
+        public static readonly Mutability Mutable = new(1);
+
+        internal readonly byte Value;
+
+        internal Mutability(byte value)
+        {
+            if (value > 1)
+            {
+                throw new ArgumentOutOfRangeException($"Invalid Mutability value `{value}`");
+            }
+
+            Value = value;
+        }
+
+        /// <inheritdoc />
+        public bool Equals(Mutability other)
+        {
+            return Value == other.Value;
+        }
+
+        /// <inheritdoc />
+        public override bool Equals(object? obj)
+        {
+            return obj is Mutability other && Equals(other);
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
+
+        /// <summary>
+        /// Compare a to b and return true if they are equal
+        /// </summary>
+        /// <param name="a">First item to compare</param>
+        /// <param name="b">Second item to compare</param>
+        /// <returns></returns>
+        public static bool operator ==(Mutability a, Mutability b)
+        {
+            return a.Equals(b);
+        }
+
+        /// <summary>
+        /// Compare a to b and return true if they are not equal
+        /// </summary>
+        /// <param name="a">First item to compare</param>
+        /// <param name="b">Second item to compare</param>
+        /// <returns></returns>
+        public static bool operator !=(Mutability a, Mutability b)
+        {
+            return !a.Equals(b);
+        }
     }
 
     /// <summary>
@@ -46,6 +100,11 @@ namespace Wasmtime
                 ValueType.FromKind(kind),
                 mutability
             ));
+
+            if (globalType.IsInvalid)
+            {
+                throw new InvalidOperationException("Failed to create global type, invalid ValueKind or Mutability");
+            }
 
             var value = Value.FromObject(initialValue, Kind);
             var error = Native.wasmtime_global_new(store.Context.handle, globalType, in value, out this.global);
@@ -128,7 +187,7 @@ namespace Wasmtime
             using var type = new TypeHandle(Native.wasmtime_global_type(store.Context.handle, this.global));
 
             this.Kind = ValueType.ToKind(Native.wasm_globaltype_content(type.DangerousGetHandle()));
-            this.Mutability = (Mutability)Native.wasm_globaltype_mutability(type.DangerousGetHandle());
+            this.Mutability = new Mutability(Native.wasm_globaltype_mutability(type.DangerousGetHandle()));
         }
 
         internal class TypeHandle : SafeHandleZeroOrMinusOneIsInvalid

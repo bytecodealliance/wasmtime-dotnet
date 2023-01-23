@@ -25,6 +25,20 @@ namespace Wasmtime.Tests
         }
 
         [Fact]
+        public void ItFailsWithNullStore()
+        {
+            var act = () => new Global(null!, ValueKind.Int64, 0, Mutability.Mutable);
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [Fact]
+        public void ItFailsWithInvalidValueKind()
+        {
+            var act = () => new Global(Store, (ValueKind)byte.MaxValue, 0, Mutability.Mutable);
+            act.Should().Throw<ArgumentException>();
+        }
+
+        [Fact]
         public void ItFailsToInstantiateWithMissingImport()
         {
             Action action = () => { Linker.Instantiate(Store, Fixture.Module); };

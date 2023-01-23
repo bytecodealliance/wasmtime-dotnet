@@ -501,11 +501,6 @@ namespace Wasmtime
         /// <remarks>This method will invalidate previously returned values from `GetSpan`.</remarks>
         public long Grow(long delta)
         {
-            if (store is null)
-            {
-                throw new ArgumentNullException(nameof(store));
-            }
-
             if (delta < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(delta));

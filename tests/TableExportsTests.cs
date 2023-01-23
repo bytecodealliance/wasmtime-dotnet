@@ -67,6 +67,15 @@ namespace Wasmtime.Tests
             table3.Maximum.Should().Be(1000);
         }
 
+        [Fact]
+        public void ItReturnsNullForNonExistantTable()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+
+            var table1 = instance.GetTable("no_such_table");
+            table1.Should().BeNull();
+        }
+
         public static IEnumerable<object[]> GetTableExports()
         {
             yield return new object[] {

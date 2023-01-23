@@ -39,6 +39,15 @@ namespace Wasmtime.Tests
         }
 
         [Fact]
+        public void ItReturnsNullForNonExistantMemory()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+
+            var i32 = instance.GetMemory("no_such_mem");
+            i32.Should().BeNull();
+        }
+
+        [Fact]
         public void ItHasTheExpectedNumberOfExportedTables()
         {
             GetMemoryExports().Count().Should().Be(Fixture.Module.Exports.Count(e => e is MemoryExport));

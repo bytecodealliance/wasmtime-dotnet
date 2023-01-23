@@ -184,6 +184,20 @@ namespace Wasmtime.Tests
             func.Should().BeNull();
         }
 
+        [Fact]
+        public void ItBindsComplexFunction()
+        {
+            using var store = new Store(Fixture.Engine);
+
+            Linker.DefineFunction("", "complex", ((Caller caller) =>
+            {
+                return (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19);
+            }));
+
+            var func = Linker.GetFunction(store, "", "complex");
+            func.Should().NotBeNull();
+        }
+
         public void Dispose()
         {
             Store.Dispose();
