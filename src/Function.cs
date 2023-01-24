@@ -110,6 +110,8 @@ namespace Wasmtime
                     out var externFunc
                 );
 
+                GC.KeepAlive(store);
+
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
         }
