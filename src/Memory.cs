@@ -48,6 +48,8 @@ namespace Wasmtime
             using var type = new TypeHandle(Native.wasmtime_memorytype_new((ulong)minimum, maximum is not null, (ulong)(maximum ?? 0), is64Bit));
 
             var error = Native.wasmtime_memory_new(store.Context.handle, type, out this.memory);
+            GC.KeepAlive(store);
+
             if (error != IntPtr.Zero)
             {
                 throw WasmtimeException.FromOwnedError(error);
@@ -83,7 +85,9 @@ namespace Wasmtime
         /// <returns>Returns the current size of the memory, in WebAssembly page units.</returns>
         public long GetSize()
         {
-            return (long)Native.wasmtime_memory_size(store.Context.handle, this.memory);
+            var size = (long)Native.wasmtime_memory_size(store.Context.handle, this.memory);
+            GC.KeepAlive(store);
+            return size;
         }
 
         /// <summary>
@@ -92,7 +96,9 @@ namespace Wasmtime
         /// <returns>Returns the current length of the memory, in bytes.</returns>
         public long GetLength()
         {
-            return checked((long)Native.wasmtime_memory_data_size(store.Context.handle, this.memory));
+            var length = checked((long)Native.wasmtime_memory_data_size(store.Context.handle, this.memory));
+            GC.KeepAlive(store);
+            return length;
         }
 
         /// <summary>
@@ -115,6 +121,7 @@ namespace Wasmtime
         public unsafe IntPtr GetPointer()
         {
             var data = Native.wasmtime_memory_data(store.Context.handle, this.memory);
+            GC.KeepAlive(store);
             return (nint)data;
         }
 
@@ -231,6 +238,8 @@ namespace Wasmtime
 
             var context = store.Context;
             var data = Native.wasmtime_memory_data(context.handle, this.memory);
+            GC.KeepAlive(store);
+
             var memoryLength = this.GetLength();
 
             // Note: A Span<T> can span more than 2 GiB bytes if sizeof(T) > 1.
@@ -507,6 +516,8 @@ namespace Wasmtime
             }
 
             var error = Native.wasmtime_memory_grow(store.Context.handle, this.memory, (ulong)delta, out var prev);
+            GC.KeepAlive(store);
+
             if (error != IntPtr.Zero)
             {
                 throw WasmtimeException.FromOwnedError(error);
@@ -529,6 +540,7 @@ namespace Wasmtime
             this.store = store;
 
             using var type = new TypeHandle(Native.wasmtime_memory_type(store.Context.handle, this.memory));
+            GC.KeepAlive(store);
 
             Minimum = (long)Native.wasmtime_memorytype_minimum(type.DangerousGetHandle());
 

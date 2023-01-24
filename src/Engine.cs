@@ -41,7 +41,7 @@ namespace Wasmtime
         /// </summary>
         public void IncrementEpoch()
         {
-            Native.wasmtime_engine_increment_epoch(handle.DangerousGetHandle());
+            Native.wasmtime_engine_increment_epoch(handle);
         }
 
         internal Handle NativeHandle
@@ -84,7 +84,7 @@ namespace Wasmtime
             public static extern void wasm_engine_delete(IntPtr engine);
 
             [DllImport(LibraryName)]
-            public static extern void wasmtime_engine_increment_epoch(IntPtr engine);
+            public static extern void wasmtime_engine_increment_epoch(Handle engine);
         }
 
         private readonly Handle handle;

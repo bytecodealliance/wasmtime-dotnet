@@ -50,6 +50,7 @@ namespace Wasmtime
 
             var value = Value.FromObject(initialValue, Kind);
             var error = Native.wasmtime_table_new(store.Context.handle, tableType, in value, out this.table);
+            GC.KeepAlive(store);
             value.Dispose();
 
             if (error != IntPtr.Zero)
@@ -87,6 +88,8 @@ namespace Wasmtime
                 throw new IndexOutOfRangeException();
             }
 
+            GC.KeepAlive(store);
+
             var val = v.ToObject(store);
             v.Dispose();
             return val;
@@ -101,6 +104,7 @@ namespace Wasmtime
         {
             var v = Value.FromObject(value, Kind);
             var error = Native.wasmtime_table_set(store.Context.handle, this.table, index, v);
+            GC.KeepAlive(store);
             v.Dispose();
 
             if (error != IntPtr.Zero)
@@ -115,7 +119,9 @@ namespace Wasmtime
         /// <value>Returns the current size of the table.</value>
         public uint GetSize()
         {
-            return Native.wasmtime_table_size(store.Context.handle, this.table);
+            var result = Native.wasmtime_table_size(store.Context.handle, this.table);
+            GC.KeepAlive(store);
+            return result;
         }
 
         /// <summary>
@@ -129,6 +135,7 @@ namespace Wasmtime
             var v = Value.FromObject(initialValue, Kind);
 
             var error = Native.wasmtime_table_grow(store.Context.handle, this.table, delta, v, out var prev);
+            GC.KeepAlive(store);
             v.Dispose();
 
             if (error != IntPtr.Zero)
@@ -145,6 +152,7 @@ namespace Wasmtime
             this.table = table;
 
             using var type = new TypeHandle(Native.wasmtime_table_type(store.Context.handle, this.table));
+            GC.KeepAlive(store);
 
             this.Kind = ValueType.ToKind(Native.wasm_tabletype_element(type.DangerousGetHandle()));
 

@@ -54,6 +54,8 @@ namespace Wasmtime
                     out var externFunc
                 );
 
+                GC.KeepAlive(store);
+
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
         }
@@ -359,6 +361,7 @@ namespace Wasmtime
             fixed (Value* resultsPtr = resultsOut)
             {
                 error = Native.wasmtime_func_call(context.handle, func, argsPtr, (nuint)Parameters.Count, resultsPtr, (nuint)Results.Count, out trap);
+                GC.KeepAlive(store);
             }
 
             if (error != IntPtr.Zero)
@@ -389,6 +392,7 @@ namespace Wasmtime
             fixed (ValueRaw* argsAndResultsPtr = argumentsAndResults)
             {
                 error = Native.wasmtime_func_call_unchecked(storeContext.handle, func, argsAndResultsPtr, out trap);
+                GC.KeepAlive(store);
             }
 
             if (error != IntPtr.Zero)
@@ -428,6 +432,7 @@ namespace Wasmtime
             if (!this.IsNull)
             {
                 using var type = new TypeHandle(Native.wasmtime_func_type(store.Context.handle, this.func));
+                GC.KeepAlive(store);
 
                 unsafe
                 {
