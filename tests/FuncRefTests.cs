@@ -21,6 +21,7 @@ namespace Wasmtime.Tests
             Assert = Function.FromCallback(Store, (string s) => { s.Should().Be("testing"); return "asserted!"; });
 
             Linker.DefineFunction("", "return_funcref", () => ReturnFuncRefCallback());
+            Linker.DefineFunction("", "store_funcref", (Function funcRef) => StoreFuncRefCallback(funcRef));
 
             Linker.Define("", "callback", Callback);
             Linker.Define("", "assert", Assert);
@@ -37,6 +38,8 @@ namespace Wasmtime.Tests
         private Function Assert { get; set; }
 
         private Func<Function> ReturnFuncRefCallback { get; set; }
+
+        private Action<Function> StoreFuncRefCallback { get; set; }
 
         [Fact]
         public void ItPassesFunctionReferencesToWasm()
@@ -128,6 +131,27 @@ namespace Wasmtime.Tests
                 .Should()
                 .Throw<WasmtimeException>()
                 .WithMessage("*Cannot invoke a null function reference.*");
+        }
+
+        [Fact]
+        public void ItCanUseFunctionReferenceFromCallbackAfterReturning()
+        {
+            var localFuncRef = default(Function);
+            StoreFuncRefCallback = funcRef => localFuncRef = funcRef;
+
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var func = instance.GetAction("call_store_funcref");
+            func.Should().NotBeNull();
+
+            func();
+
+            var wrappedFunc = localFuncRef.WrapFunc<string, string>();
+
+            wrappedFunc
+                .Should()
+                .NotBeNull();
+
+            wrappedFunc("testing").Should().Be("asserted!");
         }
 
         public void Dispose()

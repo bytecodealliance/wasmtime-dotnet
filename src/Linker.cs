@@ -100,7 +100,7 @@ namespace Wasmtime
         /// <param name="store">The store that owns the instance.</param>
         /// <param name="name">The name of the instance to define.</param>
         /// <param name="instance">The instance to define.</param>
-        public void DefineInstance(IStore store, string name, Instance instance)
+        public void DefineInstance(Store store, string name, Instance instance)
         {
             if (store is null)
             {
@@ -139,7 +139,7 @@ namespace Wasmtime
         /// <param name="store">The store to instantiate in.</param>
         /// <param name="module">The module to instantiate.</param>
         /// <returns>Returns the new instance.</returns>
-        public Instance Instantiate(IStore store, Module module)
+        public Instance Instantiate(Store store, Module module)
         {
             if (store is null)
             {
@@ -172,7 +172,7 @@ namespace Wasmtime
         /// </summary>
         /// <param name="store">The store to instantiate in.</param>
         /// <param name="module">The module to automatically instantiate.</param>
-        public void DefineModule(IStore store, Module module)
+        public void DefineModule(Store store, Module module)
         {
             if (store is null)
             {
@@ -206,7 +206,7 @@ namespace Wasmtime
         /// <param name="store">The store for the function.</param>
         /// <param name="name">Tha name of the module to get the default function export.</param>
         /// <returns></returns>
-        public Function GetDefaultFunction(IStore store, string name)
+        public Function GetDefaultFunction(Store store, string name)
         {
             if (store is null)
             {
@@ -245,7 +245,7 @@ namespace Wasmtime
         /// <param name="module">The module of the exported function.</param>
         /// <param name="name">The name of the exported function.</param>
         /// <returns>Returns the function if a function of that name was exported or null if not.</returns>
-        public Function? GetFunction(IStore store, string module, string name)
+        public Function? GetFunction(Store store, string module, string name)
         {
             if (store is null)
             {
@@ -270,7 +270,7 @@ namespace Wasmtime
         /// <param name="module">The module of the exported table.</param>
         /// <param name="name">The name of the exported table.</param>
         /// <returns>Returns the table if a table of that name was exported or null if not.</returns>
-        public Table? GetTable(IStore store, string module, string name)
+        public Table? GetTable(Store store, string module, string name)
         {
             if (store is null)
             {
@@ -295,7 +295,7 @@ namespace Wasmtime
         /// <param name="module">The module of the exported memory.</param>
         /// <param name="name">The name of the exported memory.</param>
         /// <returns>Returns the memory if a memory of that name was exported or null if not.</returns>
-        public Memory? GetMemory(IStore store, string module, string name)
+        public Memory? GetMemory(Store store, string module, string name)
         {
             if (store is null)
             {
@@ -320,7 +320,7 @@ namespace Wasmtime
         /// <param name="module">The module of the exported global.</param>
         /// <param name="name">The name of the exported global.</param>
         /// <returns>Returns the global if a global of that name was exported or null if not.</returns>
-        public Global? GetGlobal(IStore store, string module, string name)
+        public Global? GetGlobal(Store store, string module, string name)
         {
             if (store is null)
             {

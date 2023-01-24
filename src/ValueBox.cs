@@ -219,7 +219,7 @@ namespace Wasmtime
     {
         public ValueBox Box(T value);
 
-        public T Unbox(IStore store, ValueBox value);
+        public T Unbox(Store store, ValueBox value);
     }
 
     internal class Int32ValueBoxConverter
@@ -236,7 +236,7 @@ namespace Wasmtime
             return value;
         }
 
-        public int Unbox(IStore store, ValueBox value)
+        public int Unbox(Store store, ValueBox value)
         {
             return value.Union.i32;
         }
@@ -256,7 +256,7 @@ namespace Wasmtime
             return value;
         }
 
-        public long Unbox(IStore store, ValueBox value)
+        public long Unbox(Store store, ValueBox value)
         {
             return value.Union.i64;
         }
@@ -276,7 +276,7 @@ namespace Wasmtime
             return value;
         }
 
-        public float Unbox(IStore store, ValueBox value)
+        public float Unbox(Store store, ValueBox value)
         {
             return value.Union.f32;
         }
@@ -296,7 +296,7 @@ namespace Wasmtime
             return value;
         }
 
-        public double Unbox(IStore store, ValueBox value)
+        public double Unbox(Store store, ValueBox value)
         {
             return value.Union.f64;
         }
@@ -316,7 +316,7 @@ namespace Wasmtime
             return value;
         }
 
-        public Function Unbox(IStore store, ValueBox value)
+        public Function Unbox(Store store, ValueBox value)
         {
             return new Function(store, value.Union.funcref);
         }
@@ -336,7 +336,7 @@ namespace Wasmtime
             return value;
         }
 
-        public V128 Unbox(IStore store, ValueBox value)
+        public V128 Unbox(Store store, ValueBox value)
         {
             unsafe
             {
@@ -359,7 +359,7 @@ namespace Wasmtime
             return ValueBox.AsBox((object?)value);
         }
 
-        public T? Unbox(IStore store, ValueBox value)
+        public T? Unbox(Store store, ValueBox value)
         {
             return (T?)value.ExternRefObject;
         }

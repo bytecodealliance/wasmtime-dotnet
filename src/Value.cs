@@ -334,7 +334,7 @@ namespace Wasmtime
             return value;
         }
 
-        public object? ToObject(IStore store)
+        public object? ToObject(Store store)
         {
             switch (kind)
             {

@@ -60,9 +60,6 @@ namespace Wasmtime
             }
 
 
-            var converterRequiresStore =
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -70,7 +67,7 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         callback(
                             );
@@ -177,10 +174,6 @@ namespace Wasmtime
 
             var convT = ValueRaw.Converter<T>();
 
-            var converterRequiresStore =
-                convT.RequiresStore(forBoxing: false) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -188,10 +181,10 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         callback(
-                            convT.Unbox(storeContext, caller, args_and_results[0]));
+                            convT.Unbox(storeContext, store, args_and_results[0]));
 
                         
                         return IntPtr.Zero;
@@ -296,11 +289,6 @@ namespace Wasmtime
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -308,11 +296,11 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]));
 
                         
                         return IntPtr.Zero;
@@ -418,12 +406,6 @@ namespace Wasmtime
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -431,12 +413,12 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]));
 
                         
                         return IntPtr.Zero;
@@ -543,13 +525,6 @@ namespace Wasmtime
             var convT3 = ValueRaw.Converter<T3>();
             var convT4 = ValueRaw.Converter<T4>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -557,13 +532,13 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]));
 
                         
                         return IntPtr.Zero;
@@ -671,14 +646,6 @@ namespace Wasmtime
             var convT4 = ValueRaw.Converter<T4>();
             var convT5 = ValueRaw.Converter<T5>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -686,14 +653,14 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]));
 
                         
                         return IntPtr.Zero;
@@ -802,15 +769,6 @@ namespace Wasmtime
             var convT5 = ValueRaw.Converter<T5>();
             var convT6 = ValueRaw.Converter<T6>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -818,15 +776,15 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]));
 
                         
                         return IntPtr.Zero;
@@ -936,16 +894,6 @@ namespace Wasmtime
             var convT6 = ValueRaw.Converter<T6>();
             var convT7 = ValueRaw.Converter<T7>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -953,16 +901,16 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]));
 
                         
                         return IntPtr.Zero;
@@ -1073,17 +1021,6 @@ namespace Wasmtime
             var convT7 = ValueRaw.Converter<T7>();
             var convT8 = ValueRaw.Converter<T8>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -1091,17 +1028,17 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]));
 
                         
                         return IntPtr.Zero;
@@ -1213,18 +1150,6 @@ namespace Wasmtime
             var convT8 = ValueRaw.Converter<T8>();
             var convT9 = ValueRaw.Converter<T9>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -1232,18 +1157,18 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]));
 
                         
                         return IntPtr.Zero;
@@ -1356,19 +1281,6 @@ namespace Wasmtime
             var convT9 = ValueRaw.Converter<T9>();
             var convT10 = ValueRaw.Converter<T10>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convT10.RequiresStore(forBoxing: false) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -1376,19 +1288,19 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]));
 
                         
                         return IntPtr.Zero;
@@ -1502,20 +1414,6 @@ namespace Wasmtime
             var convT10 = ValueRaw.Converter<T10>();
             var convT11 = ValueRaw.Converter<T11>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convT10.RequiresStore(forBoxing: false) ||
-                convT11.RequiresStore(forBoxing: false) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -1523,20 +1421,20 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]));
 
                         
                         return IntPtr.Zero;
@@ -1651,21 +1549,6 @@ namespace Wasmtime
             var convT11 = ValueRaw.Converter<T11>();
             var convT12 = ValueRaw.Converter<T12>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convT10.RequiresStore(forBoxing: false) ||
-                convT11.RequiresStore(forBoxing: false) ||
-                convT12.RequiresStore(forBoxing: false) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -1673,21 +1556,21 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]),
-                            convT12.Unbox(storeContext, caller, args_and_results[11]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]),
+                            convT12.Unbox(storeContext, store, args_and_results[11]));
 
                         
                         return IntPtr.Zero;
@@ -1791,10 +1674,6 @@ namespace Wasmtime
 
             var convTResult = ValueRaw.Converter<TResult>();
 
-            var converterRequiresStore =
-                convTResult.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -1802,12 +1681,12 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
                             );
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -1911,11 +1790,6 @@ namespace Wasmtime
             var convT = ValueRaw.Converter<T>();
             var convTResult = ValueRaw.Converter<TResult>();
 
-            var converterRequiresStore =
-                convT.RequiresStore(forBoxing: false) ||
-                convTResult.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -1923,12 +1797,12 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT.Unbox(storeContext, caller, args_and_results[0]));
+                            convT.Unbox(storeContext, store, args_and_results[0]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -2033,12 +1907,6 @@ namespace Wasmtime
             var convT2 = ValueRaw.Converter<T2>();
             var convTResult = ValueRaw.Converter<TResult>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convTResult.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -2046,13 +1914,13 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -2158,13 +2026,6 @@ namespace Wasmtime
             var convT3 = ValueRaw.Converter<T3>();
             var convTResult = ValueRaw.Converter<TResult>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convTResult.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -2172,14 +2033,14 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -2286,14 +2147,6 @@ namespace Wasmtime
             var convT4 = ValueRaw.Converter<T4>();
             var convTResult = ValueRaw.Converter<TResult>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convTResult.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -2301,15 +2154,15 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -2417,15 +2270,6 @@ namespace Wasmtime
             var convT5 = ValueRaw.Converter<T5>();
             var convTResult = ValueRaw.Converter<TResult>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convTResult.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -2433,16 +2277,16 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -2551,16 +2395,6 @@ namespace Wasmtime
             var convT6 = ValueRaw.Converter<T6>();
             var convTResult = ValueRaw.Converter<TResult>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convTResult.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -2568,17 +2402,17 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -2688,17 +2522,6 @@ namespace Wasmtime
             var convT7 = ValueRaw.Converter<T7>();
             var convTResult = ValueRaw.Converter<TResult>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convTResult.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -2706,18 +2529,18 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -2828,18 +2651,6 @@ namespace Wasmtime
             var convT8 = ValueRaw.Converter<T8>();
             var convTResult = ValueRaw.Converter<TResult>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convTResult.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -2847,19 +2658,19 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -2971,19 +2782,6 @@ namespace Wasmtime
             var convT9 = ValueRaw.Converter<T9>();
             var convTResult = ValueRaw.Converter<TResult>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convTResult.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -2991,20 +2789,20 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -3117,20 +2915,6 @@ namespace Wasmtime
             var convT10 = ValueRaw.Converter<T10>();
             var convTResult = ValueRaw.Converter<TResult>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convT10.RequiresStore(forBoxing: false) ||
-                convTResult.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -3138,21 +2922,21 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -3266,21 +3050,6 @@ namespace Wasmtime
             var convT11 = ValueRaw.Converter<T11>();
             var convTResult = ValueRaw.Converter<TResult>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convT10.RequiresStore(forBoxing: false) ||
-                convT11.RequiresStore(forBoxing: false) ||
-                convTResult.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -3288,22 +3057,22 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -3418,22 +3187,6 @@ namespace Wasmtime
             var convT12 = ValueRaw.Converter<T12>();
             var convTResult = ValueRaw.Converter<TResult>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convT10.RequiresStore(forBoxing: false) ||
-                convT11.RequiresStore(forBoxing: false) ||
-                convT12.RequiresStore(forBoxing: false) ||
-                convTResult.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -3441,23 +3194,23 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]),
-                            convT12.Unbox(storeContext, caller, args_and_results[11]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]),
+                            convT12.Unbox(storeContext, store, args_and_results[11]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -3561,11 +3314,6 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
-            var converterRequiresStore =
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -3573,13 +3321,13 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
                             );
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -3684,12 +3432,6 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
-            var converterRequiresStore =
-                convT.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -3697,13 +3439,13 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT.Unbox(storeContext, caller, args_and_results[0]));
+                            convT.Unbox(storeContext, store, args_and_results[0]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -3809,13 +3551,6 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -3823,14 +3558,14 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -3937,14 +3672,6 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -3952,15 +3679,15 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -4068,15 +3795,6 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -4084,16 +3802,16 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -4202,16 +3920,6 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -4219,17 +3927,17 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -4339,17 +4047,6 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -4357,18 +4054,18 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -4479,18 +4176,6 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -4498,19 +4183,19 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -4622,19 +4307,6 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -4642,20 +4314,20 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -4768,20 +4440,6 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -4789,21 +4447,21 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -4917,21 +4575,6 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convT10.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -4939,22 +4582,22 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -5069,22 +4712,6 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convT10.RequiresStore(forBoxing: false) ||
-                convT11.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -5092,23 +4719,23 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -5224,23 +4851,6 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convT10.RequiresStore(forBoxing: false) ||
-                convT11.RequiresStore(forBoxing: false) ||
-                convT12.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -5248,24 +4858,24 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]),
-                            convT12.Unbox(storeContext, caller, args_and_results[11]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]),
+                            convT12.Unbox(storeContext, store, args_and_results[11]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -5370,12 +4980,6 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
-            var converterRequiresStore =
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -5383,14 +4987,14 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
                             );
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -5496,13 +5100,6 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
-            var converterRequiresStore =
-                convT.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -5510,14 +5107,14 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT.Unbox(storeContext, caller, args_and_results[0]));
+                            convT.Unbox(storeContext, store, args_and_results[0]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -5624,14 +5221,6 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -5639,15 +5228,15 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -5755,15 +5344,6 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -5771,16 +5351,16 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -5889,16 +5469,6 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -5906,17 +5476,17 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -6026,17 +5596,6 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -6044,18 +5603,18 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -6166,18 +5725,6 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -6185,19 +5732,19 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -6309,19 +5856,6 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -6329,20 +5863,20 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -6455,20 +5989,6 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -6476,21 +5996,21 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -6604,21 +6124,6 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -6626,22 +6131,22 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -6756,22 +6261,6 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convT10.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -6779,23 +6268,23 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -6911,23 +6400,6 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convT10.RequiresStore(forBoxing: false) ||
-                convT11.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -6935,24 +6407,24 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -7069,24 +6541,6 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convT10.RequiresStore(forBoxing: false) ||
-                convT11.RequiresStore(forBoxing: false) ||
-                convT12.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -7094,25 +6548,25 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]),
-                            convT12.Unbox(storeContext, caller, args_and_results[11]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]),
+                            convT12.Unbox(storeContext, store, args_and_results[11]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -7218,13 +6672,6 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
-            var converterRequiresStore =
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                convTResult4.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -7232,15 +6679,15 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
                             );
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -7347,14 +6794,6 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
-            var converterRequiresStore =
-                convT.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                convTResult4.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -7362,15 +6801,15 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT.Unbox(storeContext, caller, args_and_results[0]));
+                            convT.Unbox(storeContext, store, args_and_results[0]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -7478,15 +6917,6 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                convTResult4.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -7494,16 +6924,16 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -7612,16 +7042,6 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                convTResult4.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -7629,17 +7049,17 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -7749,17 +7169,6 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                convTResult4.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -7767,18 +7176,18 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -7889,18 +7298,6 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                convTResult4.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -7908,19 +7305,19 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -8032,19 +7429,6 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                convTResult4.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -8052,20 +7436,20 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -8178,20 +7562,6 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                convTResult4.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -8199,21 +7569,21 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -8327,21 +7697,6 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                convTResult4.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -8349,22 +7704,22 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -8479,22 +7834,6 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                convTResult4.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -8502,23 +7841,23 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -8634,23 +7973,6 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convT10.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                convTResult4.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -8658,24 +7980,24 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -8792,24 +8114,6 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convT10.RequiresStore(forBoxing: false) ||
-                convT11.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                convTResult4.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -8817,25 +8121,25 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -8953,25 +8257,6 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convT10.RequiresStore(forBoxing: false) ||
-                convT11.RequiresStore(forBoxing: false) ||
-                convT12.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                convTResult4.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -8979,26 +8264,26 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]),
-                            convT12.Unbox(storeContext, caller, args_and_results[11]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]),
+                            convT12.Unbox(storeContext, store, args_and_results[11]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -9107,6 +8392,7 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         callback(
@@ -9221,11 +8507,12 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         callback(
                             caller,
-                            convT.Unbox(storeContext, caller, args_and_results[0]));
+                            convT.Unbox(storeContext, store, args_and_results[0]));
 
                         
                         return IntPtr.Zero;
@@ -9337,12 +8624,13 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]));
 
                         
                         return IntPtr.Zero;
@@ -9455,13 +8743,14 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]));
 
                         
                         return IntPtr.Zero;
@@ -9575,14 +8864,15 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]));
 
                         
                         return IntPtr.Zero;
@@ -9697,15 +8987,16 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]));
 
                         
                         return IntPtr.Zero;
@@ -9821,16 +9112,17 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]));
 
                         
                         return IntPtr.Zero;
@@ -9947,17 +9239,18 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]));
 
                         
                         return IntPtr.Zero;
@@ -10075,18 +9368,19 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]));
 
                         
                         return IntPtr.Zero;
@@ -10205,19 +9499,20 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]));
 
                         
                         return IntPtr.Zero;
@@ -10337,20 +9632,21 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]));
 
                         
                         return IntPtr.Zero;
@@ -10471,21 +9767,22 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]));
 
                         
                         return IntPtr.Zero;
@@ -10607,22 +9904,23 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]),
-                            convT12.Unbox(storeContext, caller, args_and_results[11]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]),
+                            convT12.Unbox(storeContext, store, args_and_results[11]));
 
                         
                         return IntPtr.Zero;
@@ -10733,12 +10031,13 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller);
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -10849,13 +10148,14 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT.Unbox(storeContext, caller, args_and_results[0]));
+                            convT.Unbox(storeContext, store, args_and_results[0]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -10967,14 +10267,15 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -11087,15 +10388,16 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -11209,16 +10511,17 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -11333,17 +10636,18 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -11459,18 +10763,19 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -11587,19 +10892,20 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -11717,20 +11023,21 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -11849,21 +11156,22 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -11983,22 +11291,23 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -12119,23 +11428,24 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -12257,24 +11567,25 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]),
-                            convT12.Unbox(storeContext, caller, args_and_results[11]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]),
+                            convT12.Unbox(storeContext, store, args_and_results[11]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -12385,13 +11696,14 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller);
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -12503,14 +11815,15 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT.Unbox(storeContext, caller, args_and_results[0]));
+                            convT.Unbox(storeContext, store, args_and_results[0]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -12623,15 +11936,16 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -12745,16 +12059,17 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -12869,17 +12184,18 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -12995,18 +12311,19 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -13123,19 +12440,20 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -13253,20 +12571,21 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -13385,21 +12704,22 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -13519,22 +12839,23 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -13655,23 +12976,24 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -13793,24 +13115,25 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -13933,25 +13256,26 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]),
-                            convT12.Unbox(storeContext, caller, args_and_results[11]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]),
+                            convT12.Unbox(storeContext, store, args_and_results[11]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -14063,14 +13387,15 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller);
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -14183,15 +13508,16 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT.Unbox(storeContext, caller, args_and_results[0]));
+                            convT.Unbox(storeContext, store, args_and_results[0]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -14305,16 +13631,17 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -14429,17 +13756,18 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -14555,18 +13883,19 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -14683,19 +14012,20 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -14813,20 +14143,21 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -14945,21 +14276,22 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -15079,22 +14411,23 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -15215,23 +14548,24 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -15353,24 +14687,25 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -15493,25 +14828,26 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -15635,26 +14971,27 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]),
-                            convT12.Unbox(storeContext, caller, args_and_results[11]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]),
+                            convT12.Unbox(storeContext, store, args_and_results[11]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -15767,15 +15104,16 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller);
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -15889,16 +15227,17 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT.Unbox(storeContext, caller, args_and_results[0]));
+                            convT.Unbox(storeContext, store, args_and_results[0]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -16013,17 +15352,18 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -16139,18 +15479,19 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -16267,19 +15608,20 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -16397,20 +15739,21 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -16529,21 +15872,22 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -16663,22 +16007,23 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -16799,23 +16144,24 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -16937,24 +16283,25 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -17077,25 +16424,26 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -17219,26 +16567,27 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -17363,27 +16712,28 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]),
-                            convT12.Unbox(storeContext, caller, args_and_results[11]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]),
+                            convT12.Unbox(storeContext, store, args_and_results[11]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }

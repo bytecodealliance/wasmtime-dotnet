@@ -85,7 +85,7 @@ namespace Wasmtime
         /// <param name="kind">The kind of value stored in the global.</param>
         /// <param name="initialValue">The global's initial value.</param>
         /// <param name="mutability">The mutability of the global being created.</param>
-        public Global(IStore store, ValueKind kind, object? initialValue, Mutability mutability)
+        public Global(Store store, ValueKind kind, object? initialValue, Mutability mutability)
         {
             if (store is null)
             {
@@ -185,7 +185,7 @@ namespace Wasmtime
             };
         }
 
-        internal Global(IStore store, ExternGlobal global)
+        internal Global(Store store, ExternGlobal global)
         {
             this.global = global;
             this.store = store;
@@ -239,7 +239,7 @@ namespace Wasmtime
             public static extern void wasm_globaltype_delete(IntPtr type);
         }
 
-        private readonly IStore store;
+        private readonly Store store;
         private readonly ExternGlobal global;
 
         /// <summary>
@@ -250,11 +250,11 @@ namespace Wasmtime
             : IExternal
         {
             private readonly Global _global;
-            private readonly IStore _store;
+            private readonly Store _store;
 
             private readonly IValueBoxConverter<T> _converter;
 
-            internal Accessor(Global global, IStore store)
+            internal Accessor(Global global, Store store)
             {
                 _global = global ?? throw new ArgumentNullException(nameof(global));
                 _store = store ?? throw new ArgumentNullException(nameof(store));
