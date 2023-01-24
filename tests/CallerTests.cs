@@ -258,7 +258,7 @@ public class CallerTests : IClassFixture<CallerFixture>, IDisposable
     [Fact]
     public void ItCannotBeAccessedAfterDisposal()
     {
-        Caller stash = null!;
+        Caller stash = default;
 
         Linker.DefineFunction("env", "callback", (Caller c) =>
         {

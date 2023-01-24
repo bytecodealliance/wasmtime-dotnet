@@ -7,7 +7,7 @@ namespace Wasmtime
     /// <summary>
     /// Represents caller information for a function.
     /// </summary>
-    public class Caller : IDisposable
+    public struct Caller : IDisposable
     {
         internal Caller(IntPtr handle)
         {
@@ -17,6 +17,7 @@ namespace Wasmtime
             }
 
             this.handle = handle;
+            this.store = null!;
             store = Context.Store;
         }
 
