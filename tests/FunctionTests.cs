@@ -457,6 +457,14 @@ namespace Wasmtime.Tests
                     arguments.Length.Should().Be(0);
                     results.Length.Should().Be(7);
 
+                    results[0].Kind.Should().Be(ValueKind.Int32);
+                    results[1].Kind.Should().Be(ValueKind.Int64);
+                    results[2].Kind.Should().Be(ValueKind.Float32);
+                    results[3].Kind.Should().Be(ValueKind.Float64);
+                    results[4].Kind.Should().Be(ValueKind.V128);
+                    results[5].Kind.Should().Be(ValueKind.FuncRef);
+                    results[6].Kind.Should().Be(ValueKind.ExternRef);
+
                     if (setResults)
                     {
                         results[0] = 1;
@@ -481,6 +489,14 @@ namespace Wasmtime.Tests
                 {
                     arguments.Length.Should().Be(7);
                     results.Length.Should().Be(0);
+
+                    arguments[0].Kind.Should().Be(ValueKind.Int32);
+                    arguments[1].Kind.Should().Be(ValueKind.Int64);
+                    arguments[2].Kind.Should().Be(ValueKind.Float32);
+                    arguments[3].Kind.Should().Be(ValueKind.Float64);
+                    arguments[4].Kind.Should().Be(ValueKind.V128);
+                    arguments[5].Kind.Should().Be(ValueKind.FuncRef);
+                    arguments[6].Kind.Should().Be(ValueKind.ExternRef);
 
                     var i1 = arguments[0].AsInt32();
                     var l2 = arguments[1].AsInt64();
@@ -511,7 +527,8 @@ namespace Wasmtime.Tests
             action.Invoke();
 
             setResults = false;
-            action.Should().Throw<WasmtimeException>().WithMessage("*Cannot convert from `ExternRef` to `Int32`*");
+            action.Should().Throw<WasmtimeException>().WithMessage("*Cannot convert from `ExternRef` to `Int32`*")
+                .WithInnerException<InvalidCastException>().WithMessage("Cannot convert from `ExternRef` to `Int32`");
         }
 
         public void Dispose()
