@@ -31,7 +31,9 @@ namespace Wasmtime
         public Import[] ToImportArray()
         {
             if (size == UIntPtr.Zero)
+            {
                 return Array.Empty<Import>();
+            }
 
             var imports = new Import[(int)this.size];
             for (int i = 0; i < (int)this.size; ++i)
