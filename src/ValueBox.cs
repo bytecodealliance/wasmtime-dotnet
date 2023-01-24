@@ -139,7 +139,9 @@ namespace Wasmtime
         private void ThrowIfNotOfCorrectKind(ValueKind expectedKind)
         {
             if (Kind != expectedKind)
+            {
                 throw new InvalidCastException($"Cannot convert from `{Kind}` to `{expectedKind}`");
+            }
         }
 
         /// <summary>
