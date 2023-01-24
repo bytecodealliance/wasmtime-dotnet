@@ -18,7 +18,9 @@ namespace Wasmtime
         public Export[] ToExportArray()
         {
             if (size == UIntPtr.Zero)
+            {
                 return Array.Empty<Export>();
+            }
 
             var exports = new Export[(int)this.size];
             for (int i = 0; i < (int)this.size; ++i)
