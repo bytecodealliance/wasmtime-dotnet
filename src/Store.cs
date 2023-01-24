@@ -37,9 +37,12 @@ namespace Wasmtime
                 // Since this is a weak handle, it could be `null` if the target object (`Store`)
                 // was already collected. However, this would be an error in wasmtime-dotnet
                 // itself because the `Store` must be kept alive when this is called, and
-                // therefore this shouldn't happen.
-                var targetStore = (Store?)GCHandle.FromIntPtr(data).Target ??
-                    throw new ObjectDisposedException(nameof(Wasmtime.Store));
+                // therefore this should never happen (otherwise, when the `Store` was already
+                // GCed, its `Handle` might also be GCed and have run its finalizer, which
+                // would already have freed the `GCHandle` (from the Finalize callback) and thus
+                // it would already be undefined behavior to try to get the `GCHandle` from the
+                // `IntPtr` value).
+                var targetStore = (Store?)GCHandle.FromIntPtr(data).Target!;
 
                 return targetStore;
             }
