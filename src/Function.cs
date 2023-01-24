@@ -470,8 +470,11 @@ namespace Wasmtime
 
                 static IEnumerable<Type> EnumerateTupleTypes(Type tupleType)
                 {
-                    foreach (var (typeArgument, idx) in tupleType.GenericTypeArguments.Select((e, idx) => (e, idx)))
+                    var gta = tupleType.GenericTypeArguments;
+                    for (var idx = 0; idx < gta.Length; idx++)
                     {
+                        var typeArgument = gta[idx];
+
                         if (idx is 7 && IsTuple(typeArgument))
                         {
                             // Recursively enumerate the nested tuple's type arguments.
@@ -732,6 +735,5 @@ namespace Wasmtime
         internal static Exception? CallbackErrorCause;
 
         private static readonly Function _null = new Function();
-        private static readonly object?[] NullParams = new object?[1];
     }
 }

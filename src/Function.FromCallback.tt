@@ -57,7 +57,12 @@ foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateTy
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
+<# if (callbackParameterTypeExpressions.Length == 0) { #>
+            var callbackParameterTypes = Array.Empty<Type>();
+<# } else { #>
             var callbackParameterTypes = new Type[] { <#= callbackParameterTypeExpressions #>};
+<# } #>
+
             var callbackReturnType = <#= callbackReturnTypeExpression #>;
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: <#= hasCaller ? "true" : "false" #>, allowTuple: <#= (resultCount > 1) ? "true" : "false" #>, out _, out _);
