@@ -76,7 +76,7 @@ namespace Wasmtime
         /// <param name="callback">The callback for when the function is invoked.</param>
         /// <param name="parameters">The function parameter kinds.</param>
         /// <param name="results">The function result kinds.</param>
-        public static Function FromCallback(IStore store, UntypedCallbackDelegate callback, IReadOnlyList<ValueKind> parameters, IReadOnlyList<ValueKind> results)
+        public static Function FromCallback(Store store, UntypedCallbackDelegate callback, IReadOnlyList<ValueKind> parameters, IReadOnlyList<ValueKind> results)
         {
             if (store is null)
             {

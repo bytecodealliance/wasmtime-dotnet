@@ -81,7 +81,7 @@ namespace Wasmtime
         /// "Unbox" a <see cref="Function"/> value.
         /// </summary>
         /// <returns></returns>
-        public Function AsFunction(IStore store)
+        public Function AsFunction(Store store)
         {
             ThrowIfNotOfCorrectKind(ValueKind.FuncRef);
 
