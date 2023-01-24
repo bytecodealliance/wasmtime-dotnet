@@ -30,6 +30,76 @@ namespace Wasmtime
             ExternRefObject = externref;
         }
 
+        /// <summary>
+        /// "Unbox" an <see cref="int"/> value.
+        /// </summary>
+        /// <returns></returns>
+        public int AsInt32()
+        {
+            return ConvertTo(ValueKind.Int32).Union.i32;
+        }
+
+        /// <summary>
+        /// "Unbox" a <see cref="long"/> value.
+        /// </summary>
+        /// <returns></returns>
+        public long AsInt64()
+        {
+            return ConvertTo(ValueKind.Int64).Union.i64;
+        }
+
+        /// <summary>
+        /// "Unbox" a <see cref="float"/> value.
+        /// </summary>
+        /// <returns></returns>
+        public float AsSingle()
+        {
+            return ConvertTo(ValueKind.Float32).Union.f32;
+        }
+
+        /// <summary>
+        /// "Unbox" a <see cref="double"/> value.
+        /// </summary>
+        /// <returns></returns>
+        public double AsDouble()
+        {
+            return ConvertTo(ValueKind.Float64).Union.f64;
+        }
+
+        /// <summary>
+        /// "Unbox" a <see cref="V128"/> value.
+        /// </summary>
+        /// <returns></returns>
+        public V128 AsV128()
+        {
+            ThrowIfNotOfCorrectKind(ValueKind.V128);
+
+            return Union.v128;
+        }
+
+        /// <summary>
+        /// "Unbox" a <see cref="Function"/> value.
+        /// </summary>
+        /// <returns></returns>
+        public Function AsFunction(Store store)
+        {
+            ThrowIfNotOfCorrectKind(ValueKind.FuncRef);
+
+            return new Function(store, Union.funcref);
+        }
+
+        /// <summary>
+        /// "Unbox" a reference type.
+        /// </summary>
+        /// <returns></returns>
+        public T? As<T>()
+            where T : class
+        {
+            ThrowIfNotOfCorrectKind(ValueKind.ExternRef);
+
+            return (T?)ExternRefObject;
+        }
+
         internal Value ToValue(ValueKind convertTo)
         {
             if (convertTo != Kind)
@@ -64,6 +134,14 @@ namespace Wasmtime
 
                 _ => throw new InvalidCastException($"Cannot convert from `{Kind}` to `{convertTo}`")
             };
+        }
+
+        private void ThrowIfNotOfCorrectKind(ValueKind expectedKind)
+        {
+            if (Kind != expectedKind)
+            {
+                throw new InvalidCastException($"Cannot convert from `{Kind}` to `{expectedKind}`");
+            }
         }
 
         /// <summary>
@@ -108,13 +186,7 @@ namespace Wasmtime
         /// <param name="value"></param>
         public static implicit operator ValueBox(V128 value)
         {
-            var union = new ValueUnion();
-            unsafe
-            {
-                value.CopyTo(union.v128);
-            }
-
-            return new ValueBox(ValueKind.V128, union);
+            return new ValueBox(ValueKind.V128, new ValueUnion { v128 = value });
         }
 
         /// <summary>
@@ -138,7 +210,7 @@ namespace Wasmtime
             var union = new ValueUnion();
             unsafe
             {
-                value.CopyTo(new Span<byte>(union.v128, 16));
+                value.CopyTo(union.v128.AsSpan());
             }
 
             return new ValueBox(ValueKind.V128, union);
@@ -338,10 +410,7 @@ namespace Wasmtime
 
         public V128 Unbox(Store store, ValueBox value)
         {
-            unsafe
-            {
-                return new V128(value.Union.v128);
-            }
+            return value.Union.v128;
         }
     }
 

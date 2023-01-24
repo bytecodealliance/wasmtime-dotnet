@@ -1,4 +1,5 @@
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -14,6 +15,14 @@ namespace Wasmtime
     /// </summary>
     public partial class Function : IExternal
     {
+        /// <summary>
+        /// Encapsulates an untyped callback that receives arguments and can set results via a span of <see cref="ValueBox"/>.
+        /// </summary>
+        /// <param name="caller">The caller.</param>
+        /// <param name="arguments">The function arguments.</param>
+        /// <param name="results">The function results. These must be set (using the correct type) before returning, except when the method throws (in which case they are ignored).</param>
+        public delegate void UntypedCallbackDelegate(Caller caller, ReadOnlySpan<ValueBox> arguments, Span<ValueBox> results);
+
         #region FromCallback
         /// <summary>
         /// Creates a function given a callback.
@@ -43,6 +52,53 @@ namespace Wasmtime
                 Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
                 {
                     return InvokeCallback(callback, callbackInvokeMethod, callerPtr, hasCaller, args, (int)nargs, results, (int)nresults, resultKinds, returnsTuple);
+                };
+
+                Native.wasmtime_func_new(
+                    store.Context.handle,
+                    funcType,
+                    func,
+                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                    Finalizer,
+                    out var externFunc
+                );
+
+                GC.KeepAlive(store);
+
+                return new Function(store, externFunc, parameterKinds, resultKinds);
+            }
+        }
+
+        /// <summary>
+        /// Creates an function given an untyped callback.
+        /// </summary>
+        /// <param name="store">The store to create the function in.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        /// <param name="parameters">The function parameter kinds.</param>
+        /// <param name="results">The function result kinds.</param>
+        public static Function FromCallback(Store store, UntypedCallbackDelegate callback, IReadOnlyList<ValueKind> parameters, IReadOnlyList<ValueKind> results)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            // Copy the lists to ensure they are not externally modified.
+            var parameterKinds = new List<ValueKind>(parameters);
+            var resultKinds = new List<ValueKind>(results);
+
+            using var funcType = GetFunctionType(parameterKinds, resultKinds);
+
+            unsafe
+            {
+                Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
+                {
+                    return InvokeUntypedCallback(callback, callerPtr, args, (int)nargs, results, (int)nresults, resultKinds);
                 };
 
                 Native.wasmtime_func_new(
@@ -584,6 +640,11 @@ namespace Wasmtime
                 return null;
             }
 
+            return GetFunctionType(parameters, results);
+        }
+
+        internal static TypeHandle GetFunctionType(IReadOnlyList<ValueKind> parameters, IReadOnlyList<ValueKind> results)
+        {
             return new Function.TypeHandle(Function.Native.wasm_functype_new(new ValueTypeArray(parameters), new ValueTypeArray(results)));
         }
 
@@ -625,6 +686,59 @@ namespace Wasmtime
                 {
                     results[0] = Value.FromObject(result, resultKinds[0]);
                 }
+                return IntPtr.Zero;
+            }
+            catch (Exception ex)
+            {
+                return HandleCallbackException(ex);
+            }
+        }
+
+        internal static unsafe IntPtr InvokeUntypedCallback(UntypedCallbackDelegate callback, IntPtr callerPtr, Value* args, int nargs, Value* results, int nresults, IReadOnlyList<ValueKind> resultKinds)
+        {
+            try
+            {
+                using var caller = new Caller(callerPtr);
+
+                // Rent ValueBox arrays from the array pool (as it's not possible to
+                // stackalloc a managed type).
+                var argumentsBuffer = ArrayPool<ValueBox>.Shared.Rent(nargs);
+                var resultsBuffer = ArrayPool<ValueBox>.Shared.Rent(nresults);
+
+                try
+                {
+                    var argumentsSpan = argumentsBuffer.AsSpan()[..nargs];
+                    var resultsSpan = resultsBuffer.AsSpan()[..nresults];
+
+                    // Initialize the results with ValueBoxes using the expected
+                    // ValueKind but with a default value. Otherwise (when just using
+                    // resultsSpan.Clear()), they would all be initialized with
+                    // ValueKind.Int32.
+                    for (int i = 0; i < resultsSpan.Length; i++)
+                    {
+                        resultsSpan[i] = resultKinds[i] is ValueKind.ExternRef ?
+                            new ValueBox(null) :
+                            new ValueBox(resultKinds[i], default);
+                    }
+
+                    for (int i = 0; i < argumentsSpan.Length; i++)
+                    {
+                        argumentsSpan[i] = args[i].ToValueBox();
+                    }
+
+                    callback(caller, argumentsSpan, resultsSpan);
+
+                    for (int i = 0; i < resultsSpan.Length; i++)
+                    {
+                        results[i] = resultsSpan[i].ToValue(resultKinds[i]);
+                    }
+                }
+                finally
+                {
+                    ArrayPool<ValueBox>.Shared.Return(argumentsBuffer);
+                    ArrayPool<ValueBox>.Shared.Return(resultsBuffer);
+                }
+
                 return IntPtr.Zero;
             }
             catch (Exception ex)

@@ -7,6 +7,8 @@
  (import "env" "return_i32" (func $env.return_i32 (result i32)))
  (import "env" "return_15_values" (func $env.return_15_values (result i32 i32 i32 i32 i32 i32 i32 i32 i32 i32 i32 i32 i32 i32 i32)))
  (import "env" "accept_15_values" (func $env.accept_15_values (param i32 i32 i32 i32 i32 i32 i32 i32 i32 i32 i32 i32 i32 i32 i32)))
+ (import "env" "return_all_types" (func $env.return_all_types (result i32 i64 f32 f64 v128 funcref externref)))
+ (import "env" "accept_all_types" (func $env.accept_all_types (param i32 i64 f32 f64 v128 funcref externref)))
  (import "env" "pass_through_multiple_values1" (func $env.pass_through_multiple_values1 (param i64 f64 externref) (result i64 f64 externref)))
  (import "env" "pass_through_multiple_values2" (func $env.pass_through_multiple_values2 (param i64 f64 externref) (result i64 f64 externref)))
  (import "env" "pass_through_v128" (func $env.pass_through_v128 (param v128) (result v128)))
@@ -18,6 +20,7 @@
  (export "check_string" (func $check_string))
  (export "return_i32" (func $env.return_i32))
  (export "get_and_pass_15_values" (func $get_and_pass_15_values))
+ (export "get_and_pass_all_types" (func $get_and_pass_all_types))
  (export "pass_through_multiple_values1" (func $env.pass_through_multiple_values1))
  (export "pass_through_multiple_values2" (func $env.pass_through_multiple_values2))
  (export "pass_through_v128" (func $env.pass_through_v128))
@@ -39,6 +42,10 @@
  (func $get_and_pass_15_values
 	call $env.return_15_values
 	call $env.accept_15_values
+ )
+ (func $get_and_pass_all_types
+	call $env.return_all_types
+	call $env.accept_all_types
  )
  (data (i32.const 0) "Hello World")
 
