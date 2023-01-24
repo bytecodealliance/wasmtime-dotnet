@@ -78,11 +78,9 @@ namespace Wasmtime
 
     internal interface IValueRawConverter<T>
     {
-        bool RequiresStore(bool forBoxing);
+        T? Unbox(StoreContext storeContext, Store store, in ValueRaw valueRaw);
 
-        T? Unbox(StoreContext storeContext, IStore? store, in ValueRaw valueRaw);
-
-        void Box(StoreContext storeContext, IStore? store, ref ValueRaw valueRaw, T value);
+        void Box(StoreContext storeContext, Store store, ref ValueRaw valueRaw, T value);
     }
 
     internal class Int32ValueRawConverter : IValueRawConverter<int>
@@ -93,17 +91,12 @@ namespace Wasmtime
         {
         }
 
-        public bool RequiresStore(bool forBoxing)
-        {
-            return false;
-        }
-
-        public int Unbox(StoreContext storeContext, IStore? store, in ValueRaw valueRaw)
+        public int Unbox(StoreContext storeContext, Store store, in ValueRaw valueRaw)
         {
             return valueRaw.i32;
         }
 
-        public void Box(StoreContext storeContext, IStore? store, ref ValueRaw valueRaw, int value)
+        public void Box(StoreContext storeContext, Store store, ref ValueRaw valueRaw, int value)
         {
             // Note: We set the i64 instead of the i32 field here using a zero-extended
             // version of `value`, to ensure the first 64 bits are always initialized.
@@ -122,17 +115,12 @@ namespace Wasmtime
         {
         }
 
-        public bool RequiresStore(bool forBoxing)
-        {
-            return false;
-        }
-
-        public long Unbox(StoreContext storeContext, IStore? store, in ValueRaw valueRaw)
+        public long Unbox(StoreContext storeContext, Store store, in ValueRaw valueRaw)
         {
             return valueRaw.i64;
         }
 
-        public void Box(StoreContext storeContext, IStore? store, ref ValueRaw valueRaw, long value)
+        public void Box(StoreContext storeContext, Store store, ref ValueRaw valueRaw, long value)
         {
             valueRaw.i64 = value;
         }
@@ -146,17 +134,12 @@ namespace Wasmtime
         {
         }
 
-        public bool RequiresStore(bool forBoxing)
-        {
-            return false;
-        }
-
-        public float Unbox(StoreContext storeContext, IStore? store, in ValueRaw valueRaw)
+        public float Unbox(StoreContext storeContext, Store store, in ValueRaw valueRaw)
         {
             return valueRaw.f32;
         }
 
-        public void Box(StoreContext storeContext, IStore? store, ref ValueRaw valueRaw, float value)
+        public void Box(StoreContext storeContext, Store store, ref ValueRaw valueRaw, float value)
         {
             // See comments in Int32ValueRawConverter for why we set the i64 field.
             valueRaw.i64 = unchecked((uint)BitConverter.SingleToInt32Bits(value));
@@ -171,17 +154,12 @@ namespace Wasmtime
         {
         }
 
-        public bool RequiresStore(bool forBoxing)
-        {
-            return false;
-        }
-
-        public double Unbox(StoreContext storeContext, IStore? store, in ValueRaw valueRaw)
+        public double Unbox(StoreContext storeContext, Store store, in ValueRaw valueRaw)
         {
             return valueRaw.f64;
         }
 
-        public void Box(StoreContext storeContext, IStore? store, ref ValueRaw valueRaw, double value)
+        public void Box(StoreContext storeContext, Store store, ref ValueRaw valueRaw, double value)
         {
             valueRaw.f64 = value;
         }
@@ -195,17 +173,12 @@ namespace Wasmtime
         {
         }
 
-        public bool RequiresStore(bool forBoxing)
-        {
-            return false;
-        }
-
-        public unsafe V128 Unbox(StoreContext storeContext, IStore? store, in ValueRaw valueRaw)
+        public unsafe V128 Unbox(StoreContext storeContext, Store store, in ValueRaw valueRaw)
         {
             return valueRaw.v128;
         }
 
-        public unsafe void Box(StoreContext storeContext, IStore? store, ref ValueRaw valueRaw, V128 value)
+        public unsafe void Box(StoreContext storeContext, Store store, ref ValueRaw valueRaw, V128 value)
         {
             valueRaw.v128 = value;
         }
@@ -219,12 +192,7 @@ namespace Wasmtime
         {
         }
 
-        public bool RequiresStore(bool forBoxing)
-        {
-            return !forBoxing;
-        }
-
-        public Function Unbox(StoreContext storeContext, IStore? store, in ValueRaw valueRaw)
+        public Function Unbox(StoreContext storeContext, Store store, in ValueRaw valueRaw)
         {
             var funcref = default(ExternFunc);
 
@@ -236,7 +204,7 @@ namespace Wasmtime
             return new Function(store!, funcref);
         }
 
-        public void Box(StoreContext storeContext, IStore? store, ref ValueRaw valueRaw, Function? value)
+        public void Box(StoreContext storeContext, Store store, ref ValueRaw valueRaw, Function? value)
         {
             nuint funcrefInt = 0;
 
@@ -266,12 +234,7 @@ namespace Wasmtime
         {
         }
 
-        public bool RequiresStore(bool forBoxing)
-        {
-            return false;
-        }
-
-        public T? Unbox(StoreContext storeContext, IStore? store, in ValueRaw valueRaw)
+        public T? Unbox(StoreContext storeContext, Store store, in ValueRaw valueRaw)
         {
             object? o = null;
 
@@ -297,7 +260,7 @@ namespace Wasmtime
             return (T?)o;
         }
 
-        public void Box(StoreContext storeContext, IStore? store, ref ValueRaw valueRaw, T value)
+        public void Box(StoreContext storeContext, Store store, ref ValueRaw valueRaw, T value)
         {
             nuint externrefInt = 0;
 

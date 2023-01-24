@@ -7,6 +7,7 @@
 #nullable enable
 
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -42,7 +43,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { };
+                        var callbackParameterTypes = Array.Empty<Type>();
+            
+            
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -57,9 +60,6 @@ namespace Wasmtime
             }
 
 
-            var converterRequiresStore =
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -67,7 +67,7 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         callback(
                             );
@@ -81,25 +81,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -132,7 +156,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T), };
+                        var callbackParameterTypes = new Type[] { typeof(T), };
+            
+            
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -148,10 +174,6 @@ namespace Wasmtime
 
             var convT = ValueRaw.Converter<T>();
 
-            var converterRequiresStore =
-                convT.RequiresStore(forBoxing: false) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -159,10 +181,10 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         callback(
-                            convT.Unbox(storeContext, caller, args_and_results[0]));
+                            convT.Unbox(storeContext, store, args_and_results[0]));
 
                         
                         return IntPtr.Zero;
@@ -173,25 +195,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -224,7 +270,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), };
+            
+            
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -241,11 +289,6 @@ namespace Wasmtime
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -253,11 +296,11 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]));
 
                         
                         return IntPtr.Zero;
@@ -268,25 +311,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -319,7 +386,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), };
+            
+            
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -337,12 +406,6 @@ namespace Wasmtime
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -350,12 +413,12 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]));
 
                         
                         return IntPtr.Zero;
@@ -366,25 +429,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -417,7 +504,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
+            
+            
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -436,13 +525,6 @@ namespace Wasmtime
             var convT3 = ValueRaw.Converter<T3>();
             var convT4 = ValueRaw.Converter<T4>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -450,13 +532,13 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]));
 
                         
                         return IntPtr.Zero;
@@ -467,25 +549,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -518,7 +624,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
+            
+            
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -538,14 +646,6 @@ namespace Wasmtime
             var convT4 = ValueRaw.Converter<T4>();
             var convT5 = ValueRaw.Converter<T5>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -553,14 +653,14 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]));
 
                         
                         return IntPtr.Zero;
@@ -571,25 +671,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -622,7 +746,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
+            
+            
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -643,15 +769,6 @@ namespace Wasmtime
             var convT5 = ValueRaw.Converter<T5>();
             var convT6 = ValueRaw.Converter<T6>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -659,15 +776,15 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]));
 
                         
                         return IntPtr.Zero;
@@ -678,25 +795,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -729,7 +870,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
+            
+            
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -751,16 +894,6 @@ namespace Wasmtime
             var convT6 = ValueRaw.Converter<T6>();
             var convT7 = ValueRaw.Converter<T7>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -768,16 +901,16 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]));
 
                         
                         return IntPtr.Zero;
@@ -788,25 +921,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -839,7 +996,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
+            
+            
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -862,17 +1021,6 @@ namespace Wasmtime
             var convT7 = ValueRaw.Converter<T7>();
             var convT8 = ValueRaw.Converter<T8>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -880,17 +1028,17 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]));
 
                         
                         return IntPtr.Zero;
@@ -901,25 +1049,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -952,7 +1124,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
+            
+            
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -976,18 +1150,6 @@ namespace Wasmtime
             var convT8 = ValueRaw.Converter<T8>();
             var convT9 = ValueRaw.Converter<T9>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -995,18 +1157,18 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]));
 
                         
                         return IntPtr.Zero;
@@ -1017,25 +1179,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -1068,7 +1254,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
+            
+            
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -1093,19 +1281,6 @@ namespace Wasmtime
             var convT9 = ValueRaw.Converter<T9>();
             var convT10 = ValueRaw.Converter<T10>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convT10.RequiresStore(forBoxing: false) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -1113,19 +1288,19 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]));
 
                         
                         return IntPtr.Zero;
@@ -1136,25 +1311,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -1187,7 +1386,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
+            
+            
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -1213,20 +1414,6 @@ namespace Wasmtime
             var convT10 = ValueRaw.Converter<T10>();
             var convT11 = ValueRaw.Converter<T11>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convT10.RequiresStore(forBoxing: false) ||
-                convT11.RequiresStore(forBoxing: false) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -1234,20 +1421,20 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]));
 
                         
                         return IntPtr.Zero;
@@ -1258,25 +1445,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -1309,7 +1520,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
+            
+            
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -1336,21 +1549,6 @@ namespace Wasmtime
             var convT11 = ValueRaw.Converter<T11>();
             var convT12 = ValueRaw.Converter<T12>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convT10.RequiresStore(forBoxing: false) ||
-                convT11.RequiresStore(forBoxing: false) ||
-                convT12.RequiresStore(forBoxing: false) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -1358,21 +1556,21 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]),
-                            convT12.Unbox(storeContext, caller, args_and_results[11]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]),
+                            convT12.Unbox(storeContext, store, args_and_results[11]));
 
                         
                         return IntPtr.Zero;
@@ -1383,25 +1581,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -1434,7 +1656,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { };
+                        var callbackParameterTypes = Array.Empty<Type>();
+            
+            
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -1450,10 +1674,6 @@ namespace Wasmtime
 
             var convTResult = ValueRaw.Converter<TResult>();
 
-            var converterRequiresStore =
-                convTResult.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -1461,12 +1681,12 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
                             );
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -1476,25 +1696,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -1527,7 +1771,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T), };
+                        var callbackParameterTypes = new Type[] { typeof(T), };
+            
+            
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -1544,11 +1790,6 @@ namespace Wasmtime
             var convT = ValueRaw.Converter<T>();
             var convTResult = ValueRaw.Converter<TResult>();
 
-            var converterRequiresStore =
-                convT.RequiresStore(forBoxing: false) ||
-                convTResult.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -1556,12 +1797,12 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT.Unbox(storeContext, caller, args_and_results[0]));
+                            convT.Unbox(storeContext, store, args_and_results[0]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -1571,25 +1812,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -1622,7 +1887,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), };
+            
+            
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -1640,12 +1907,6 @@ namespace Wasmtime
             var convT2 = ValueRaw.Converter<T2>();
             var convTResult = ValueRaw.Converter<TResult>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convTResult.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -1653,13 +1914,13 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -1669,25 +1930,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -1720,7 +2005,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), };
+            
+            
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -1739,13 +2026,6 @@ namespace Wasmtime
             var convT3 = ValueRaw.Converter<T3>();
             var convTResult = ValueRaw.Converter<TResult>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convTResult.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -1753,14 +2033,14 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -1770,25 +2050,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -1821,7 +2125,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
+            
+            
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -1841,14 +2147,6 @@ namespace Wasmtime
             var convT4 = ValueRaw.Converter<T4>();
             var convTResult = ValueRaw.Converter<TResult>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convTResult.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -1856,15 +2154,15 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -1874,25 +2172,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -1925,7 +2247,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
+            
+            
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -1946,15 +2270,6 @@ namespace Wasmtime
             var convT5 = ValueRaw.Converter<T5>();
             var convTResult = ValueRaw.Converter<TResult>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convTResult.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -1962,16 +2277,16 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -1981,25 +2296,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -2032,7 +2371,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
+            
+            
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -2054,16 +2395,6 @@ namespace Wasmtime
             var convT6 = ValueRaw.Converter<T6>();
             var convTResult = ValueRaw.Converter<TResult>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convTResult.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -2071,17 +2402,17 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -2091,25 +2422,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -2142,7 +2497,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
+            
+            
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -2165,17 +2522,6 @@ namespace Wasmtime
             var convT7 = ValueRaw.Converter<T7>();
             var convTResult = ValueRaw.Converter<TResult>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convTResult.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -2183,18 +2529,18 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -2204,25 +2550,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -2255,7 +2625,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
+            
+            
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -2279,18 +2651,6 @@ namespace Wasmtime
             var convT8 = ValueRaw.Converter<T8>();
             var convTResult = ValueRaw.Converter<TResult>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convTResult.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -2298,19 +2658,19 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -2320,25 +2680,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -2371,7 +2755,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
+            
+            
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -2396,19 +2782,6 @@ namespace Wasmtime
             var convT9 = ValueRaw.Converter<T9>();
             var convTResult = ValueRaw.Converter<TResult>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convTResult.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -2416,20 +2789,20 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -2439,25 +2812,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -2490,7 +2887,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
+            
+            
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -2516,20 +2915,6 @@ namespace Wasmtime
             var convT10 = ValueRaw.Converter<T10>();
             var convTResult = ValueRaw.Converter<TResult>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convT10.RequiresStore(forBoxing: false) ||
-                convTResult.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -2537,21 +2922,21 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -2561,25 +2946,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -2612,7 +3021,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
+            
+            
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -2639,21 +3050,6 @@ namespace Wasmtime
             var convT11 = ValueRaw.Converter<T11>();
             var convTResult = ValueRaw.Converter<TResult>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convT10.RequiresStore(forBoxing: false) ||
-                convT11.RequiresStore(forBoxing: false) ||
-                convTResult.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -2661,22 +3057,22 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -2686,25 +3082,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -2737,7 +3157,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
+            
+            
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
@@ -2765,22 +3187,6 @@ namespace Wasmtime
             var convT12 = ValueRaw.Converter<T12>();
             var convTResult = ValueRaw.Converter<TResult>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convT10.RequiresStore(forBoxing: false) ||
-                convT11.RequiresStore(forBoxing: false) ||
-                convT12.RequiresStore(forBoxing: false) ||
-                convTResult.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -2788,23 +3194,23 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]),
-                            convT12.Unbox(storeContext, caller, args_and_results[11]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]),
+                            convT12.Unbox(storeContext, store, args_and_results[11]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -2814,25 +3220,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -2865,7 +3295,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { };
+                        var callbackParameterTypes = Array.Empty<Type>();
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -2882,11 +3314,6 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
-            var converterRequiresStore =
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -2894,13 +3321,13 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
                             );
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -2910,25 +3337,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -2961,7 +3412,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T), };
+                        var callbackParameterTypes = new Type[] { typeof(T), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -2979,12 +3432,6 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
-            var converterRequiresStore =
-                convT.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -2992,13 +3439,13 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT.Unbox(storeContext, caller, args_and_results[0]));
+                            convT.Unbox(storeContext, store, args_and_results[0]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -3008,25 +3455,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -3059,7 +3530,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -3078,13 +3551,6 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -3092,14 +3558,14 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -3109,25 +3575,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -3160,7 +3650,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -3180,14 +3672,6 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -3195,15 +3679,15 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -3213,25 +3697,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -3264,7 +3772,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -3285,15 +3795,6 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -3301,16 +3802,16 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -3320,25 +3821,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -3371,7 +3896,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -3393,16 +3920,6 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -3410,17 +3927,17 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -3430,25 +3947,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -3481,7 +4022,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -3504,17 +4047,6 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -3522,18 +4054,18 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -3543,25 +4075,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -3594,7 +4150,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -3618,18 +4176,6 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -3637,19 +4183,19 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -3659,25 +4205,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -3710,7 +4280,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -3735,19 +4307,6 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -3755,20 +4314,20 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -3778,25 +4337,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -3829,7 +4412,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -3855,20 +4440,6 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -3876,21 +4447,21 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -3900,25 +4471,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -3951,7 +4546,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -3978,21 +4575,6 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convT10.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -4000,22 +4582,22 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -4025,25 +4607,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -4076,7 +4682,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -4104,22 +4712,6 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convT10.RequiresStore(forBoxing: false) ||
-                convT11.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -4127,23 +4719,23 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -4153,25 +4745,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -4204,7 +4820,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -4233,23 +4851,6 @@ namespace Wasmtime
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convT10.RequiresStore(forBoxing: false) ||
-                convT11.RequiresStore(forBoxing: false) ||
-                convT12.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -4257,24 +4858,24 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]),
-                            convT12.Unbox(storeContext, caller, args_and_results[11]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]),
+                            convT12.Unbox(storeContext, store, args_and_results[11]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -4284,25 +4885,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -4335,7 +4960,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { };
+                        var callbackParameterTypes = Array.Empty<Type>();
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -4353,12 +4980,6 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
-            var converterRequiresStore =
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -4366,14 +4987,14 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
                             );
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -4383,25 +5004,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -4434,7 +5079,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T), };
+                        var callbackParameterTypes = new Type[] { typeof(T), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -4453,13 +5100,6 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
-            var converterRequiresStore =
-                convT.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -4467,14 +5107,14 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT.Unbox(storeContext, caller, args_and_results[0]));
+                            convT.Unbox(storeContext, store, args_and_results[0]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -4484,25 +5124,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -4535,7 +5199,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -4555,14 +5221,6 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -4570,15 +5228,15 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -4588,25 +5246,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -4639,7 +5321,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -4660,15 +5344,6 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -4676,16 +5351,16 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -4695,25 +5370,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -4746,7 +5445,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -4768,16 +5469,6 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -4785,17 +5476,17 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -4805,25 +5496,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -4856,7 +5571,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -4879,17 +5596,6 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -4897,18 +5603,18 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -4918,25 +5624,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -4969,7 +5699,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -4993,18 +5725,6 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -5012,19 +5732,19 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -5034,25 +5754,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -5085,7 +5829,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -5110,19 +5856,6 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -5130,20 +5863,20 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -5153,25 +5886,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -5204,7 +5961,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -5230,20 +5989,6 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -5251,21 +5996,21 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -5275,25 +6020,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -5326,7 +6095,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -5353,21 +6124,6 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -5375,22 +6131,22 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -5400,25 +6156,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -5451,7 +6231,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -5479,22 +6261,6 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convT10.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -5502,23 +6268,23 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -5528,25 +6294,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -5579,7 +6369,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -5608,23 +6400,6 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convT10.RequiresStore(forBoxing: false) ||
-                convT11.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -5632,24 +6407,24 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -5659,25 +6434,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -5710,7 +6509,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -5740,24 +6541,6 @@ namespace Wasmtime
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convT10.RequiresStore(forBoxing: false) ||
-                convT11.RequiresStore(forBoxing: false) ||
-                convT12.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -5765,25 +6548,25 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]),
-                            convT12.Unbox(storeContext, caller, args_and_results[11]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]),
+                            convT12.Unbox(storeContext, store, args_and_results[11]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -5793,25 +6576,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -5844,7 +6651,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { };
+                        var callbackParameterTypes = Array.Empty<Type>();
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -5863,13 +6672,6 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
-            var converterRequiresStore =
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                convTResult4.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -5877,15 +6679,15 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
                             );
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -5895,25 +6697,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -5946,7 +6772,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T), };
+                        var callbackParameterTypes = new Type[] { typeof(T), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -5966,14 +6794,6 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
-            var converterRequiresStore =
-                convT.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                convTResult4.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -5981,15 +6801,15 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT.Unbox(storeContext, caller, args_and_results[0]));
+                            convT.Unbox(storeContext, store, args_and_results[0]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -5999,25 +6819,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -6050,7 +6894,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -6071,15 +6917,6 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                convTResult4.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -6087,16 +6924,16 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -6106,25 +6943,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -6157,7 +7018,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -6179,16 +7042,6 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                convTResult4.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -6196,17 +7049,17 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -6216,25 +7069,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -6267,7 +7144,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -6290,17 +7169,6 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                convTResult4.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -6308,18 +7176,18 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -6329,25 +7197,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -6380,7 +7272,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -6404,18 +7298,6 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                convTResult4.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -6423,19 +7305,19 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -6445,25 +7327,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -6496,7 +7402,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -6521,19 +7429,6 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                convTResult4.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -6541,20 +7436,20 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -6564,25 +7459,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -6615,7 +7534,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -6641,20 +7562,6 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                convTResult4.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -6662,21 +7569,21 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -6686,25 +7593,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -6737,7 +7668,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -6764,21 +7697,6 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                convTResult4.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -6786,22 +7704,22 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -6811,25 +7729,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -6862,7 +7804,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -6890,22 +7834,6 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                convTResult4.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -6913,23 +7841,23 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -6939,25 +7867,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -6990,7 +7942,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -7019,23 +7973,6 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convT10.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                convTResult4.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -7043,24 +7980,24 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -7070,25 +8007,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -7121,7 +8082,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -7151,24 +8114,6 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convT10.RequiresStore(forBoxing: false) ||
-                convT11.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                convTResult4.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -7176,25 +8121,25 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -7204,25 +8149,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -7255,7 +8224,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
+                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
@@ -7286,25 +8257,6 @@ namespace Wasmtime
             var convTResult3 = ValueRaw.Converter<TResult3>();
             var convTResult4 = ValueRaw.Converter<TResult4>();
 
-            var converterRequiresStore =
-                convT1.RequiresStore(forBoxing: false) ||
-                convT2.RequiresStore(forBoxing: false) ||
-                convT3.RequiresStore(forBoxing: false) ||
-                convT4.RequiresStore(forBoxing: false) ||
-                convT5.RequiresStore(forBoxing: false) ||
-                convT6.RequiresStore(forBoxing: false) ||
-                convT7.RequiresStore(forBoxing: false) ||
-                convT8.RequiresStore(forBoxing: false) ||
-                convT9.RequiresStore(forBoxing: false) ||
-                convT10.RequiresStore(forBoxing: false) ||
-                convT11.RequiresStore(forBoxing: false) ||
-                convT12.RequiresStore(forBoxing: false) ||
-                convTResult1.RequiresStore(forBoxing: true) ||
-                convTResult2.RequiresStore(forBoxing: true) ||
-                convTResult3.RequiresStore(forBoxing: true) ||
-                convTResult4.RequiresStore(forBoxing: true) ||
-                false;
-
             unsafe
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
@@ -7312,26 +8264,26 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        using var caller = !converterRequiresStore ? null : new Caller(callerPtr);
+                        var store = storeContext.Store;
 
                         var result = callback(
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]),
-                            convT12.Unbox(storeContext, caller, args_and_results[11]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]),
+                            convT12.Unbox(storeContext, store, args_and_results[11]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -7341,25 +8293,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -7392,7 +8368,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), };
+            
+            
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -7414,6 +8392,7 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         callback(
@@ -7428,25 +8407,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -7479,7 +8482,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T), };
+            
+            
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -7502,11 +8507,12 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         callback(
                             caller,
-                            convT.Unbox(storeContext, caller, args_and_results[0]));
+                            convT.Unbox(storeContext, store, args_and_results[0]));
 
                         
                         return IntPtr.Zero;
@@ -7517,25 +8523,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -7568,7 +8598,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), };
+            
+            
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -7592,12 +8624,13 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]));
 
                         
                         return IntPtr.Zero;
@@ -7608,25 +8641,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -7659,7 +8716,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), };
+            
+            
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -7684,13 +8743,14 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]));
 
                         
                         return IntPtr.Zero;
@@ -7701,25 +8761,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -7752,7 +8836,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
+            
+            
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -7778,14 +8864,15 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]));
 
                         
                         return IntPtr.Zero;
@@ -7796,25 +8883,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -7847,7 +8958,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
+            
+            
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -7874,15 +8987,16 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]));
 
                         
                         return IntPtr.Zero;
@@ -7893,25 +9007,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -7944,7 +9082,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
+            
+            
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -7972,16 +9112,17 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]));
 
                         
                         return IntPtr.Zero;
@@ -7992,25 +9133,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -8043,7 +9208,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
+            
+            
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -8072,17 +9239,18 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]));
 
                         
                         return IntPtr.Zero;
@@ -8093,25 +9261,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -8144,7 +9336,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
+            
+            
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -8174,18 +9368,19 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]));
 
                         
                         return IntPtr.Zero;
@@ -8196,25 +9391,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -8247,7 +9466,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
+            
+            
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -8278,19 +9499,20 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]));
 
                         
                         return IntPtr.Zero;
@@ -8301,25 +9523,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -8352,7 +9598,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
+            
+            
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -8384,20 +9632,21 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]));
 
                         
                         return IntPtr.Zero;
@@ -8408,25 +9657,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -8459,7 +9732,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
+            
+            
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -8492,21 +9767,22 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]));
 
                         
                         return IntPtr.Zero;
@@ -8517,25 +9793,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -8568,7 +9868,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
+            
+            
             var callbackReturnType = default(Type);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -8602,22 +9904,23 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]),
-                            convT12.Unbox(storeContext, caller, args_and_results[11]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]),
+                            convT12.Unbox(storeContext, store, args_and_results[11]));
 
                         
                         return IntPtr.Zero;
@@ -8628,25 +9931,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -8679,7 +10006,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), };
+            
+            
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -8702,12 +10031,13 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller);
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -8717,25 +10047,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -8768,7 +10122,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T), };
+            
+            
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -8792,13 +10148,14 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT.Unbox(storeContext, caller, args_and_results[0]));
+                            convT.Unbox(storeContext, store, args_and_results[0]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -8808,25 +10165,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -8859,7 +10240,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), };
+            
+            
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -8884,14 +10267,15 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -8901,25 +10285,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -8952,7 +10360,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), };
+            
+            
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -8978,15 +10388,16 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -8996,25 +10407,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -9047,7 +10482,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
+            
+            
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -9074,16 +10511,17 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -9093,25 +10531,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -9144,7 +10606,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
+            
+            
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -9172,17 +10636,18 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -9192,25 +10657,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -9243,7 +10732,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
+            
+            
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -9272,18 +10763,19 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -9293,25 +10785,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -9344,7 +10860,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
+            
+            
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -9374,19 +10892,20 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -9396,25 +10915,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -9447,7 +10990,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
+            
+            
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -9478,20 +11023,21 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -9501,25 +11047,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -9552,7 +11122,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
+            
+            
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -9584,21 +11156,22 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -9608,25 +11181,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -9659,7 +11256,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
+            
+            
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -9692,22 +11291,23 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -9717,25 +11317,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -9768,7 +11392,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
+            
+            
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -9802,23 +11428,24 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -9828,25 +11455,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -9879,7 +11530,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
+            
+            
             var callbackReturnType = typeof(TResult);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
@@ -9914,24 +11567,25 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]),
-                            convT12.Unbox(storeContext, caller, args_and_results[11]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]),
+                            convT12.Unbox(storeContext, store, args_and_results[11]));
 
-                        convTResult.Box(storeContext, caller, ref args_and_results[0], result);
+                        convTResult.Box(storeContext, store, ref args_and_results[0], result);
                         
                         return IntPtr.Zero;
                     }
@@ -9941,25 +11595,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -9992,7 +11670,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -10016,13 +11696,14 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller);
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -10032,25 +11713,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -10083,7 +11788,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -10108,14 +11815,15 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT.Unbox(storeContext, caller, args_and_results[0]));
+                            convT.Unbox(storeContext, store, args_and_results[0]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -10125,25 +11833,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -10176,7 +11908,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -10202,15 +11936,16 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -10220,25 +11955,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -10271,7 +12030,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -10298,16 +12059,17 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -10317,25 +12079,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -10368,7 +12154,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -10396,17 +12184,18 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -10416,25 +12205,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -10467,7 +12280,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -10496,18 +12311,19 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -10517,25 +12333,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -10568,7 +12408,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -10598,19 +12440,20 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -10620,25 +12463,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -10671,7 +12538,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -10702,20 +12571,21 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -10725,25 +12595,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -10776,7 +12670,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -10808,21 +12704,22 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -10832,25 +12729,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -10883,7 +12804,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -10916,22 +12839,23 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -10941,25 +12865,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -10992,7 +12940,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -11026,23 +12976,24 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -11052,25 +13003,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -11103,7 +13078,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -11138,24 +13115,25 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -11165,25 +13143,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -11216,7 +13218,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -11252,25 +13256,26 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]),
-                            convT12.Unbox(storeContext, caller, args_and_results[11]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]),
+                            convT12.Unbox(storeContext, store, args_and_results[11]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
                         
                         return IntPtr.Zero;
                     }
@@ -11280,25 +13285,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -11331,7 +13360,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -11356,14 +13387,15 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller);
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -11373,25 +13405,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -11424,7 +13480,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -11450,15 +13508,16 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT.Unbox(storeContext, caller, args_and_results[0]));
+                            convT.Unbox(storeContext, store, args_and_results[0]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -11468,25 +13527,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -11519,7 +13602,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -11546,16 +13631,17 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -11565,25 +13651,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -11616,7 +13726,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -11644,17 +13756,18 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -11664,25 +13777,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -11715,7 +13852,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -11744,18 +13883,19 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -11765,25 +13905,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -11816,7 +13980,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -11846,19 +14012,20 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -11868,25 +14035,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -11919,7 +14110,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -11950,20 +14143,21 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -11973,25 +14167,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -12024,7 +14242,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -12056,21 +14276,22 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -12080,25 +14301,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -12131,7 +14376,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -12164,22 +14411,23 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -12189,25 +14437,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -12240,7 +14512,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -12274,23 +14548,24 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -12300,25 +14575,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -12351,7 +14650,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -12386,24 +14687,25 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -12413,25 +14715,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -12464,7 +14790,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -12500,25 +14828,26 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -12528,25 +14857,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -12579,7 +14932,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -12616,26 +14971,27 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]),
-                            convT12.Unbox(storeContext, caller, args_and_results[11]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]),
+                            convT12.Unbox(storeContext, store, args_and_results[11]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
                         
                         return IntPtr.Zero;
                     }
@@ -12645,25 +15001,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -12696,7 +15076,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -12722,15 +15104,16 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller);
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -12740,25 +15123,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -12791,7 +15198,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -12818,16 +15227,17 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT.Unbox(storeContext, caller, args_and_results[0]));
+                            convT.Unbox(storeContext, store, args_and_results[0]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -12837,25 +15247,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -12888,7 +15322,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -12916,17 +15352,18 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -12936,25 +15373,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -12987,7 +15448,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -13016,18 +15479,19 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -13037,25 +15501,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -13088,7 +15576,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -13118,19 +15608,20 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -13140,25 +15631,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -13191,7 +15706,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -13222,20 +15739,21 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -13245,25 +15763,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -13296,7 +15838,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -13328,21 +15872,22 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -13352,25 +15897,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -13403,7 +15972,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -13436,22 +16007,23 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -13461,25 +16033,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -13512,7 +16108,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -13546,23 +16144,24 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -13572,25 +16171,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -13623,7 +16246,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -13658,24 +16283,25 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -13685,25 +16311,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -13736,7 +16386,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -13772,25 +16424,26 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -13800,25 +16453,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -13851,7 +16528,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -13888,26 +16567,27 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -13917,25 +16597,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }
@@ -13968,7 +16672,9 @@ namespace Wasmtime
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
-            var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
+                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
+            
+            
             var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
@@ -14006,27 +16712,28 @@ namespace Wasmtime
                     try
                     {
                         var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
+                        var store = storeContext.Store;
                         using var caller = new Caller(callerPtr);
 
                         var result = callback(
                             caller,
-                            convT1.Unbox(storeContext, caller, args_and_results[0]),
-                            convT2.Unbox(storeContext, caller, args_and_results[1]),
-                            convT3.Unbox(storeContext, caller, args_and_results[2]),
-                            convT4.Unbox(storeContext, caller, args_and_results[3]),
-                            convT5.Unbox(storeContext, caller, args_and_results[4]),
-                            convT6.Unbox(storeContext, caller, args_and_results[5]),
-                            convT7.Unbox(storeContext, caller, args_and_results[6]),
-                            convT8.Unbox(storeContext, caller, args_and_results[7]),
-                            convT9.Unbox(storeContext, caller, args_and_results[8]),
-                            convT10.Unbox(storeContext, caller, args_and_results[9]),
-                            convT11.Unbox(storeContext, caller, args_and_results[10]),
-                            convT12.Unbox(storeContext, caller, args_and_results[11]));
+                            convT1.Unbox(storeContext, store, args_and_results[0]),
+                            convT2.Unbox(storeContext, store, args_and_results[1]),
+                            convT3.Unbox(storeContext, store, args_and_results[2]),
+                            convT4.Unbox(storeContext, store, args_and_results[3]),
+                            convT5.Unbox(storeContext, store, args_and_results[4]),
+                            convT6.Unbox(storeContext, store, args_and_results[5]),
+                            convT7.Unbox(storeContext, store, args_and_results[6]),
+                            convT8.Unbox(storeContext, store, args_and_results[7]),
+                            convT9.Unbox(storeContext, store, args_and_results[8]),
+                            convT10.Unbox(storeContext, store, args_and_results[9]),
+                            convT11.Unbox(storeContext, store, args_and_results[10]),
+                            convT12.Unbox(storeContext, store, args_and_results[11]));
 
-                        convTResult1.Box(storeContext, caller, ref args_and_results[0], result.Item1);
-                        convTResult2.Box(storeContext, caller, ref args_and_results[1], result.Item2);
-                        convTResult3.Box(storeContext, caller, ref args_and_results[2], result.Item3);
-                        convTResult4.Box(storeContext, caller, ref args_and_results[3], result.Item4);
+                        convTResult1.Box(storeContext, store, ref args_and_results[0], result.Item1);
+                        convTResult2.Box(storeContext, store, ref args_and_results[1], result.Item2);
+                        convTResult3.Box(storeContext, store, ref args_and_results[2], result.Item3);
+                        convTResult4.Box(storeContext, store, ref args_and_results[3], result.Item4);
                         
                         return IntPtr.Zero;
                     }
@@ -14036,25 +16743,49 @@ namespace Wasmtime
                     }
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }

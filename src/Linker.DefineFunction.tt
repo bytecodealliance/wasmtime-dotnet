@@ -18,6 +18,7 @@
 #nullable enable
 
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -35,7 +36,7 @@ namespace Wasmtime
 // correctly (tested with Visual Studio 17.4.0 Preview 2.1).
 // For delegate types not covered by these overloads, we have a method accepting a Delegate which
 // will be called using reflection.
-foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateType, callbackParameterTypeExpressions, callbackReturnTypeExpression, parameterConverters, resultConverters, converterRequiresStoreCode) in EnumerateTypeCombinations())
+foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateType, callbackParameterTypeExpressions, callbackReturnTypeExpression, parameterConverters, resultConverters) in EnumerateTypeCombinations())
 {
 #>
         /// <summary>
@@ -65,7 +66,13 @@ foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateTy
             var parameterKinds = new List<ValueKind>();
             var resultKinds = new List<ValueKind>();
 
+            <# if (callbackParameterTypeExpressions.Length == 0) { #>
+            var callbackParameterTypes = Array.Empty<Type>();
+            <# } else { #>
             var callbackParameterTypes = new Type[] { <#= callbackParameterTypeExpressions #>};
+            <# } #>
+
+            
             var callbackReturnType = <#= callbackReturnTypeExpression #>;
 
             using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: <#= hasCaller ? "true" : "false" #>, allowTuple: <#= (resultCount > 1) ? "true" : "false" #>, out _, out _);
@@ -81,7 +88,6 @@ foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateTy
 
 <#= parameterConverters
 #><#= resultConverters
-#><#= converterRequiresStoreCode
 #>
             unsafe
             {
@@ -90,25 +96,49 @@ foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateTy
 <# GenerateCallbackContent(hasCaller, resultCount, parameterCount); #>
                 };
 
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                {
-                    var error = Native.wasmtime_linker_define_func_unchecked(
-                        handle,
-                        modulePtr,
-                        (nuint)moduleBytes.Length,
-                        namePtr,
-                        (nuint)nameBytes.Length,
-                        funcType,
-                        func,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                        Function.Finalizer
-                    );
+                const int StackallocThreshold = 256;
 
-                    if (error != IntPtr.Zero)
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                     {
-                        throw WasmtimeException.FromOwnedError(error);
+                        var error = Native.wasmtime_linker_define_func_unchecked(
+                            handle,
+                            modulePtr,
+                            (nuint)moduleBytes.Length,
+                            namePtr,
+                            (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
                     }
                 }
             }

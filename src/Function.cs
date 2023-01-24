@@ -29,7 +29,7 @@ namespace Wasmtime
         /// </summary>
         /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback(IStore store, Delegate callback)
+        public static Function FromCallback(Store store, Delegate callback)
         {
             if (store is null)
             {
@@ -417,6 +417,17 @@ namespace Wasmtime
             fixed (Value* resultsPtr = resultsOut)
             {
                 error = Native.wasmtime_func_call(context.handle, func, argsPtr, (nuint)Parameters.Count, resultsPtr, (nuint)Results.Count, out trap);
+
+                // We need to keep the `Store` alive here for two reasons:
+                // 1) The `Store` references the `Store.Handle` instance which must be kept alive
+                //    during native calls where a `wasmtime_context_t*` is passed, to prevent the GC
+                //    from prematurely running its finalizer (that would delete the handle) if the
+                //    `Store` is no longer reachable.
+                //    This is done in every place where the `StoreContext` is retrieved from the
+                //    `Store`.
+                // 2) The `Store` itself must be kept alive while calling a wasm function, because
+                //    we need to be able to retrieve the `Store` from a `Caller` using a weak
+                //    `GCHandle`.
                 GC.KeepAlive(store);
             }
 
@@ -448,6 +459,8 @@ namespace Wasmtime
             fixed (ValueRaw* argsAndResultsPtr = argumentsAndResults)
             {
                 error = Native.wasmtime_func_call_unchecked(storeContext.handle, func, argsAndResultsPtr, out trap);
+
+                // See comments above for the two reasons why the `Store` must be kept alive here.
                 GC.KeepAlive(store);
             }
 
@@ -475,7 +488,7 @@ namespace Wasmtime
             this.func.index = (UIntPtr)0;
         }
 
-        internal Function(IStore store, ExternFunc func)
+        internal Function(Store store, ExternFunc func)
         {
             if (store is null)
             {
@@ -497,7 +510,7 @@ namespace Wasmtime
                 }
             }
         }
-        private Function(IStore store, ExternFunc func, List<ValueKind> parameters, List<ValueKind> results)
+        private Function(Store store, ExternFunc func, List<ValueKind> parameters, List<ValueKind> results)
         {
             if (store is null)
             {
@@ -526,8 +539,11 @@ namespace Wasmtime
 
                 static IEnumerable<Type> EnumerateTupleTypes(Type tupleType)
                 {
-                    foreach (var (typeArgument, idx) in tupleType.GenericTypeArguments.Select((e, idx) => (e, idx)))
+                    var gta = tupleType.GenericTypeArguments;
+                    for (var idx = 0; idx < gta.Length; idx++)
                     {
+                        var typeArgument = gta[idx];
+
                         if (idx is 7 && IsTuple(typeArgument))
                         {
                             // Recursively enumerate the nested tuple's type arguments.
@@ -637,6 +653,7 @@ namespace Wasmtime
             try
             {
                 using var caller = new Caller(callerPtr);
+                var store = caller.Store;
 
                 var offset = passCaller ? 1 : 0;
                 var invokeArgs = new object?[nargs + offset];
@@ -649,7 +666,7 @@ namespace Wasmtime
                 var invokeArgsSpan = new Span<object?>(invokeArgs, offset, nargs);
                 for (int i = 0; i < invokeArgsSpan.Length; ++i)
                 {
-                    invokeArgsSpan[i] = args[i].ToObject(caller);
+                    invokeArgsSpan[i] = args[i].ToObject(store);
                 }
 
                 // NOTE: reflection is extremely slow for invoking methods. in the future, perhaps this could be replaced with
@@ -826,7 +843,7 @@ namespace Wasmtime
             public static unsafe extern IntPtr wasmtime_trap_new(byte* bytes, nuint len);
         }
 
-        internal readonly IStore? store;
+        internal readonly Store? store;
         internal readonly ExternFunc func;
         internal readonly List<ValueKind> parameters = new List<ValueKind>();
         internal readonly List<ValueKind> results = new List<ValueKind>();
@@ -846,6 +863,5 @@ namespace Wasmtime
         internal static Exception? CallbackErrorCause;
 
         private static readonly Function _null = new Function();
-        private static readonly object?[] NullParams = new object?[1];
     }
 }

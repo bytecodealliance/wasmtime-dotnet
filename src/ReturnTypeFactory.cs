@@ -8,7 +8,7 @@ namespace Wasmtime
 {
     interface IReturnTypeFactory<out TReturn>
     {
-        TReturn? Create(StoreContext storeContext, IStore store, IntPtr trap, Span<ValueRaw> values);
+        TReturn? Create(StoreContext storeContext, Store store, IntPtr trap, Span<ValueRaw> values);
 
         static IReturnTypeFactory<TReturn> Create()
         {
@@ -40,9 +40,9 @@ namespace Wasmtime
             }
             else
             {
-                var types = GetTupleTypes().ToList();
+                var types = GetTupleTypes();
 
-                if (types.Count == 1)
+                if (types == null)
                 {
                     return new NonTupleTypeFactory<TReturn>();
                 }
@@ -70,15 +70,19 @@ namespace Wasmtime
             };
         }
 
-        private static IReadOnlyList<Type> GetTupleTypes()
+        /// <summary>
+        /// If `TReturn` is a tuple get a list of types it contains, otherwise return null
+        /// </summary>
+        /// <returns></returns>
+        private static List<Type>? GetTupleTypes()
         {
             if (typeof(ITuple).IsAssignableFrom(typeof(TReturn)))
             {
-                return typeof(TReturn).GetGenericArguments();
+                return typeof(TReturn).GetGenericArguments().ToList();
             }
             else
             {
-                return new[] { typeof(TReturn) };
+                return null;
             }
         }
     }
@@ -88,7 +92,7 @@ namespace Wasmtime
         where TBuilder : struct, IActionResultBuilder<TResult>
         where TResult : struct, IActionResult<TResult, TBuilder>
     {
-        public TResult Create(StoreContext storeContext, IStore store, IntPtr trap, Span<ValueRaw> values)
+        public TResult Create(StoreContext storeContext, Store store, IntPtr trap, Span<ValueRaw> values)
         {
             if (trap == IntPtr.Zero)
             {
@@ -114,7 +118,7 @@ namespace Wasmtime
             _valueFactory = IReturnTypeFactory<TValue>.Create();
         }
 
-        public TResult Create(StoreContext storeContext, IStore store, IntPtr trap, Span<ValueRaw> values)
+        public TResult Create(StoreContext storeContext, Store store, IntPtr trap, Span<ValueRaw> values)
         {
             if (trap == IntPtr.Zero)
             {
@@ -139,7 +143,7 @@ namespace Wasmtime
             converter = ValueRaw.Converter<TReturn>();
         }
 
-        public TReturn? Create(StoreContext storeContext, IStore store, IntPtr trap, Span<ValueRaw> values)
+        public TReturn? Create(StoreContext storeContext, Store store, IntPtr trap, Span<ValueRaw> values)
         {
             if (trap != IntPtr.Zero)
             {
@@ -175,7 +179,7 @@ namespace Wasmtime
                 .First(a => a.GetGenericArguments().Length == arity);
         }
 
-        public abstract TReturn? Create(StoreContext storeContext, IStore store, IntPtr trap, Span<ValueRaw> values);
+        public abstract TReturn? Create(StoreContext storeContext, Store store, IntPtr trap, Span<ValueRaw> values);
     }
 
     internal class TupleFactory2<TReturn, TA, TB>
@@ -190,7 +194,7 @@ namespace Wasmtime
             converterB = ValueRaw.Converter<TB>();
         }
 
-        public override TReturn Create(StoreContext storeContext, IStore store, IntPtr trap, Span<ValueRaw> values)
+        public override TReturn Create(StoreContext storeContext, Store store, IntPtr trap, Span<ValueRaw> values)
         {
             if (trap != IntPtr.Zero)
             {
@@ -218,7 +222,7 @@ namespace Wasmtime
             converterC = ValueRaw.Converter<TC>();
         }
 
-        public override TReturn Create(StoreContext storeContext, IStore store, IntPtr trap, Span<ValueRaw> values)
+        public override TReturn Create(StoreContext storeContext, Store store, IntPtr trap, Span<ValueRaw> values)
         {
             if (trap != IntPtr.Zero)
             {
@@ -249,7 +253,7 @@ namespace Wasmtime
             converterD = ValueRaw.Converter<TD>();
         }
 
-        public override TReturn Create(StoreContext storeContext, IStore store, IntPtr trap, Span<ValueRaw> values)
+        public override TReturn Create(StoreContext storeContext, Store store, IntPtr trap, Span<ValueRaw> values)
         {
             if (trap != IntPtr.Zero)
             {
@@ -283,7 +287,7 @@ namespace Wasmtime
             converterE = ValueRaw.Converter<TE>();
         }
 
-        public override TReturn Create(StoreContext storeContext, IStore store, IntPtr trap, Span<ValueRaw> values)
+        public override TReturn Create(StoreContext storeContext, Store store, IntPtr trap, Span<ValueRaw> values)
         {
             if (trap != IntPtr.Zero)
             {
@@ -320,7 +324,7 @@ namespace Wasmtime
             converterF = ValueRaw.Converter<TF>();
         }
 
-        public override TReturn Create(StoreContext storeContext, IStore store, IntPtr trap, Span<ValueRaw> values)
+        public override TReturn Create(StoreContext storeContext, Store store, IntPtr trap, Span<ValueRaw> values)
         {
             if (trap != IntPtr.Zero)
             {
@@ -360,7 +364,7 @@ namespace Wasmtime
             converterG = ValueRaw.Converter<TG>();
         }
 
-        public override TReturn Create(StoreContext storeContext, IStore store, IntPtr trap, Span<ValueRaw> values)
+        public override TReturn Create(StoreContext storeContext, Store store, IntPtr trap, Span<ValueRaw> values)
         {
             if (trap != IntPtr.Zero)
             {

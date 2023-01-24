@@ -16,7 +16,7 @@ namespace Wasmtime
         /// <param name="store">The store to create the instance in.</param>
         /// <param name="module">The module to create the instance for.</param>
         /// <param name="imports">The imports for the instance.</param>
-        public Instance(IStore store, Module module, params object[] imports)
+        public Instance(Store store, Module module, params object[] imports)
         {
             if (store is null)
             {
@@ -592,7 +592,7 @@ namespace Wasmtime
             }
         }
 
-        internal Instance(IStore store, ExternInstance instance)
+        internal Instance(Store store, ExternInstance instance)
         {
             if (store is null)
             {
@@ -635,7 +635,7 @@ namespace Wasmtime
             public static extern void wasmtime_instancetype_delete(IntPtr handle);
         }
 
-        private readonly IStore _store;
+        private readonly Store _store;
         internal readonly ExternInstance instance;
     }
 }
