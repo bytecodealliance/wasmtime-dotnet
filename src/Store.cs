@@ -5,9 +5,9 @@ using Microsoft.Win32.SafeHandles;
 namespace Wasmtime
 {
     /// <summary>
-    /// Represents context about a <see cref="Store"/>.
+    /// Represents context about a <see cref="Wasmtime.Store"/>.
     /// </summary>
-    public readonly ref struct StoreContext
+    internal readonly ref struct StoreContext
     {
         internal StoreContext(IntPtr handle)
         {
@@ -28,32 +28,20 @@ namespace Wasmtime
             }
         }
 
-        internal object? GetData()
+        internal Store Store
         {
-            var data = Native.wasmtime_context_get_data(handle);
-            if (data == IntPtr.Zero)
+            get
             {
-                return null;
-            }
+                var data = Native.wasmtime_context_get_data(handle);
 
-            return GCHandle.FromIntPtr(data).Target;
-        }
+                // Since this is a weak handle, it could be `null` if the target object (`Store`)
+                // was already collected. However, this would be an error in wasmtime-dotnet
+                // itself because the `Store` must be kept alive when this is called, and
+                // therefore this shouldn't happen.
+                var targetStore = (Store?)GCHandle.FromIntPtr(data).Target ??
+                    throw new ObjectDisposedException(nameof(Wasmtime.Store));
 
-        internal void SetData(object? data)
-        {
-            var oldData = Native.wasmtime_context_get_data(handle);
-
-            var newPtr = IntPtr.Zero;
-            if (data != null)
-            {
-                newPtr = (IntPtr)GCHandle.Alloc(data);
-            }
-
-            Native.wasmtime_context_set_data(handle, newPtr);
-
-            if (oldData != IntPtr.Zero)
-            {
-                GCHandle.FromIntPtr(oldData).Free();
+                return targetStore;
             }
         }
 
@@ -122,29 +110,9 @@ namespace Wasmtime
 
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasmtime_context_get_data(IntPtr handle);
-
-            [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_context_set_data(IntPtr handle, IntPtr data);
         }
 
         internal readonly IntPtr handle;
-    }
-
-    /// <summary>
-    /// An interface implemented on types that behave like stores.
-    /// </summary>
-    public interface IStore
-    {
-        /// <summary>
-        /// Gets the context of the store.
-        /// </summary>
-        /// <remarks>
-        /// Note: Generally, you must keep the <see cref="IStore"/> alive (by using
-        /// <see cref="GC.KeepAlive(object)"/>) until the <see cref="StoreContext"/> is no longer
-        /// used, to prevent the the Store.Handle finalizer from prematurely deleting the handle 
-        /// in the GC finalizer thread while the <see cref="StoreContext"/> is still in use.
-        /// </remarks>
-        StoreContext Context { get; }
     }
 
     /// <summary>
@@ -154,7 +122,7 @@ namespace Wasmtime
     /// A Wasmtime store may be sent between threads but cannot be used from more than one thread
     /// simultaneously.
     /// </remarks>
-    public class Store : IStore, IDisposable
+    public class Store : IDisposable
     {
         /// <summary>
         /// Constructs a new store.
@@ -174,11 +142,16 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(engine));
             }
 
-            var dataPtr = data != null
-                ? (IntPtr)GCHandle.Alloc(data)
-                : IntPtr.Zero;
+            this.data = data;
 
-            handle = new Handle(Native.wasmtime_store_new(engine.NativeHandle, dataPtr, Finalizer));
+            // Allocate a weak GCHandle, so that it does not participate in keeping the Store alive.
+            // Otherwise, the circular reference would prevent the Store from being finalized even
+            // if it's no longer referenced by user code.
+            // The weak handle will be used to get the originating Store object from a Caller's
+            // context in host callbacks.
+            var storeHandle = GCHandle.Alloc(this, GCHandleType.Weak);
+
+            handle = new Handle(Native.wasmtime_store_new(engine.NativeHandle, (IntPtr)storeHandle, Finalizer));
         }
 
         /// <summary>
@@ -186,7 +159,7 @@ namespace Wasmtime
         /// </summary>
         public void GC()
         {
-            ((IStore)this).Context.GC();
+            Context.GC();
             System.GC.KeepAlive(this);
         }
 
@@ -196,7 +169,7 @@ namespace Wasmtime
         /// <param name="fuel">The fuel to add to the store.</param>
         public void AddFuel(ulong fuel)
         {
-            ((IStore)this).Context.AddFuel(fuel);
+            Context.AddFuel(fuel);
             System.GC.KeepAlive(this);
         }
 
@@ -217,7 +190,7 @@ namespace Wasmtime
         /// <exception cref="WasmtimeException">Thrown if more fuel is consumed than the store currently has.</exception>
         public ulong ConsumeFuel(ulong fuel)
         {
-            var result = ((IStore)this).Context.ConsumeFuel(fuel);
+            var result = Context.ConsumeFuel(fuel);
             System.GC.KeepAlive(this);
             return result;
         }
@@ -228,7 +201,7 @@ namespace Wasmtime
         /// <returns>Returns the fuel consumed by the executing WebAssembly code or 0 if fuel consumption was not enabled.</returns>
         public ulong GetConsumedFuel()
         {
-            var result = ((IStore)this).Context.GetConsumedFuel();
+            var result = Context.GetConsumedFuel();
             System.GC.KeepAlive(this);
             return result;
         }
@@ -239,7 +212,7 @@ namespace Wasmtime
         /// <param name="config">The WASI configuration to use.</param>
         public void SetWasiConfiguration(WasiConfiguration config)
         {
-            ((IStore)this).Context.SetWasiConfiguration(config);
+            Context.SetWasiConfiguration(config);
             System.GC.KeepAlive(this);
         }
 
@@ -249,30 +222,31 @@ namespace Wasmtime
         /// <param name="ticksBeyondCurrent"></param>
         public void SetEpochDeadline(ulong ticksBeyondCurrent)
         {
-            ((IStore)this).Context.SetEpochDeadline(ticksBeyondCurrent);
+            Context.SetEpochDeadline(ticksBeyondCurrent);
             System.GC.KeepAlive(this);
         }
 
         /// <summary>
         /// Retrieves the data stored in the Store context
         /// </summary>
-        public object? GetData()
-        {
-            var result = ((IStore)this).Context.GetData();
-            System.GC.KeepAlive(this);
-            return result;
-        }
+        public object? GetData() => data;
 
         /// <summary>
         /// Replaces the data stored in the Store context 
         /// </summary>
-        public void SetData(object? data)
-        {
-            ((IStore)this).Context.SetData(data);
-            System.GC.KeepAlive(this);
-        }
+        public void SetData(object? data) => this.data = data;
 
-        StoreContext IStore.Context => new StoreContext(Native.wasmtime_store_context(NativeHandle));
+        /// <summary>
+        /// Gets the context of the store.
+        /// </summary>
+        /// <remarks>
+        /// Note: Generally, you must keep the <see cref="Store"/> alive (by using
+        /// <see cref="GC.KeepAlive(object)"/>) until the <see cref="StoreContext"/> is no longer
+        /// used, to prevent the the <see cref="Handle"/> finalizer from prematurely deleting the
+        /// store handle in the GC finalizer thread while the <see cref="StoreContext"/> is still
+        /// in use.
+        /// </remarks>
+        internal StoreContext Context => new StoreContext(Native.wasmtime_store_context(NativeHandle));
 
         /// <inheritdoc/>
         public void Dispose()
@@ -324,12 +298,8 @@ namespace Wasmtime
 
         private readonly Handle handle;
 
-        private static readonly Native.Finalizer Finalizer = (p) =>
-        {
-            if (p != IntPtr.Zero)
-            {
-                GCHandle.FromIntPtr(p).Free();
-            }
-        };
+        private object? data;
+
+        private static readonly Native.Finalizer Finalizer = (p) => GCHandle.FromIntPtr(p).Free();
     }
 }

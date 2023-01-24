@@ -34,7 +34,7 @@ namespace Wasmtime
 // correctly (tested with Visual Studio 17.4.0 Preview 2.1).
 // For delegate types not covered by these overloads, we have a method accepting a Delegate which
 // will be called using reflection.
-foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateType, callbackParameterTypeExpressions, callbackReturnTypeExpression, parameterConverters, resultConverters, converterRequiresStoreCode) in EnumerateTypeCombinations())
+foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateType, callbackParameterTypeExpressions, callbackReturnTypeExpression, parameterConverters, resultConverters) in EnumerateTypeCombinations())
 {
 #>
         /// <summary>
@@ -42,7 +42,7 @@ foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateTy
         /// </summary>
         /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback<#= methodGenerics #>(IStore store, <#= delegateType #> callback)
+        public static Function FromCallback<#= methodGenerics #>(Store store, <#= delegateType #> callback)
         {
             if (store is null)
             {
@@ -72,7 +72,6 @@ foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateTy
 
 <#= parameterConverters
 #><#= resultConverters
-#><#= converterRequiresStoreCode
 #>
             unsafe
             {

@@ -18,7 +18,7 @@ namespace Wasmtime
         /// <param name="minimum">The minimum number of WebAssembly pages.</param>
         /// <param name="maximum">The maximum number of WebAssembly pages, or <c>null</c> to not specify a maximum.</param>
         /// <param name="is64Bit"><c>true</c> when memory type represents a 64-bit memory, <c>false</c> when it represents a 32-bit memory.</param>
-        public Memory(IStore store, long minimum = 0, long? maximum = null, bool is64Bit = false)
+        public Memory(Store store, long minimum = 0, long? maximum = null, bool is64Bit = false)
         {
             if (store is null)
             {
@@ -534,7 +534,7 @@ namespace Wasmtime
                 of = new ExternUnion { memory = this.memory }
             };
         }
-        internal Memory(IStore store, ExternMemory memory)
+        internal Memory(Store store, ExternMemory memory)
         {
             this.memory = memory;
             this.store = store;
@@ -605,7 +605,7 @@ namespace Wasmtime
             public static extern void wasm_memorytype_delete(IntPtr handle);
         }
 
-        private readonly IStore store;
+        private readonly Store store;
         private readonly ExternMemory memory;
     }
 }

@@ -17,7 +17,7 @@ namespace Wasmtime
         /// <param name="initialValue">The initial value for elements in the table.</param>
         /// <param name="initial">The number of initial elements in the table.</param>
         /// <param name="maximum">The maximum number of elements in the table.</param>
-        public Table(IStore store, ValueKind kind, object? initialValue, uint initial, uint maximum = uint.MaxValue)
+        public Table(Store store, ValueKind kind, object? initialValue, uint initial, uint maximum = uint.MaxValue)
         {
             if (store is null)
             {
@@ -146,7 +146,7 @@ namespace Wasmtime
             return prev;
         }
 
-        internal Table(IStore store, ExternTable table)
+        internal Table(Store store, ExternTable table)
         {
             this.store = store;
             this.table = table;
@@ -230,7 +230,7 @@ namespace Wasmtime
             public static extern void wasm_tabletype_delete(IntPtr handle);
         }
 
-        private readonly IStore store;
+        private readonly Store store;
         private readonly ExternTable table;
     }
 }
