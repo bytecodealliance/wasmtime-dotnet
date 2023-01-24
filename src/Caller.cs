@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -7,17 +8,15 @@ namespace Wasmtime
     /// <summary>
     /// Represents caller information for a function.
     /// </summary>
-    public struct Caller : IDisposable
+    public readonly struct Caller
+        : IDisposable
     {
         internal Caller(IntPtr handle)
         {
-            if (handle == IntPtr.Zero)
-            {
-                throw new InvalidOperationException();
-            }
+            context = CallerContext.Get(handle);
+            epoch = context.Epoch;
 
-            this.handle = handle;
-            this.store = null!;
+            store = null!;
             store = Context.Store;
         }
 
@@ -82,7 +81,7 @@ namespace Wasmtime
         /// <inheritdoc/>
         public void Dispose()
         {
-            this.handle = IntPtr.Zero;
+            context.Recycle(epoch);
         }
 
         /// <summary>
@@ -92,29 +91,14 @@ namespace Wasmtime
         {
             get
             {
-                if (this.handle == IntPtr.Zero)
-                {
-                    throw new ObjectDisposedException(typeof(Caller).FullName);
-                }
-
-                return this.store;
+                context.CheckEpoch(epoch);
+                return store;
             }
         }
 
         internal StoreContext Context => new StoreContext(Native.wasmtime_caller_context(NativeHandle));
 
-        private IntPtr NativeHandle
-        {
-            get
-            {
-                if (this.handle == IntPtr.Zero)
-                {
-                    throw new ObjectDisposedException(typeof(Caller).FullName);
-                }
-
-                return this.handle;
-            }
-        }
+        private IntPtr NativeHandle => context.GetHandle(epoch);
 
         /// <summary>
         /// Adds fuel to this store for WebAssembly code to consume while executing.
@@ -166,7 +150,70 @@ namespace Wasmtime
             public static extern IntPtr wasmtime_caller_context(IntPtr caller);
         }
 
-        private IntPtr handle;
+        private readonly CallerContext context;
+        private readonly uint epoch;
         private readonly Store store;
+    }
+
+    /// <summary>
+    /// Internal representation of caller information. Public wrappers compare the "epoch" to check if they have been disposed.
+    /// </summary>
+    internal class CallerContext
+    {
+        public static CallerContext Get(IntPtr handle)
+        {
+            if (handle == IntPtr.Zero)
+            {
+                throw new InvalidOperationException();
+            }
+
+            if (!_pool.TryTake(out var ctx))
+                ctx = new CallerContext();
+
+            ctx.Epoch++;
+            ctx.handle = handle;
+
+            return ctx;
+        }
+
+        public void Recycle(uint epoch)
+        {
+            if (Epoch != epoch)
+                return;
+
+            Epoch++;
+            handle = IntPtr.Zero;
+
+            // Do not recycle if epoch is getting near max limit
+            if (Epoch > uint.MaxValue - 10)
+            {
+                return;
+            }
+
+            if (_pool.Count < PoolMaxSize)
+            {
+                _pool.Add(this);
+            }
+        }
+
+        internal IntPtr GetHandle(uint epoch)
+        {
+            CheckEpoch(epoch);
+            return handle;
+        }
+
+        internal void CheckEpoch(uint epoch)
+        {
+            if (epoch != Epoch)
+            {
+                throw new ObjectDisposedException(typeof(Caller).FullName);
+            }
+        }
+
+        internal uint Epoch { get; private set; }
+        private IntPtr handle;
+
+        private const int PoolMaxSize = 64;
+        private static readonly ConcurrentBag<CallerContext> _pool = new();
     }
 }
