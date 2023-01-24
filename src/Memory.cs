@@ -45,14 +45,21 @@ namespace Wasmtime
             Maximum = maximum;
             Is64Bit = is64Bit;
 
-            using var type = new TypeHandle(Native.wasmtime_memorytype_new((ulong)minimum, maximum is not null, (ulong)(maximum ?? 0), is64Bit));
-
-            var error = Native.wasmtime_memory_new(store.Context.handle, type, out this.memory);
-            GC.KeepAlive(store);
-
-            if (error != IntPtr.Zero)
+            var typeHandle = Native.wasmtime_memorytype_new((ulong)minimum, maximum is not null, (ulong)(maximum ?? 0), is64Bit);
+            try
             {
-                throw WasmtimeException.FromOwnedError(error);
+
+                var error = Native.wasmtime_memory_new(store.Context.handle, typeHandle, out this.memory);
+                GC.KeepAlive(store);
+
+                if (error != IntPtr.Zero)
+                {
+                    throw WasmtimeException.FromOwnedError(error);
+                }
+            }
+            finally
+            {
+                Native.wasm_memorytype_delete(typeHandle);
             }
         }
 
@@ -539,17 +546,24 @@ namespace Wasmtime
             this.memory = memory;
             this.store = store;
 
-            using var type = new TypeHandle(Native.wasmtime_memory_type(store.Context.handle, this.memory));
-            GC.KeepAlive(store);
-
-            Minimum = (long)Native.wasmtime_memorytype_minimum(type.DangerousGetHandle());
-
-            if (Native.wasmtime_memorytype_maximum(type.DangerousGetHandle(), out ulong max))
+            var typeHandle = Native.wasmtime_memory_type(store.Context.handle, this.memory);
+            try
             {
-                Maximum = (long)max;
-            }
+                GC.KeepAlive(store);
 
-            Is64Bit = Native.wasmtime_memorytype_is64(type.DangerousGetHandle());
+                Minimum = (long)Native.wasmtime_memorytype_minimum(typeHandle);
+
+                if (Native.wasmtime_memorytype_maximum(typeHandle, out ulong max))
+                {
+                    Maximum = (long)max;
+                }
+
+                Is64Bit = Native.wasmtime_memorytype_is64(typeHandle);
+            }
+            finally
+            {
+                Native.wasm_memorytype_delete(typeHandle);
+            }
         }
 
         internal class TypeHandle : SafeHandleZeroOrMinusOneIsInvalid
@@ -570,7 +584,7 @@ namespace Wasmtime
         internal static class Native
         {
             [DllImport(Engine.LibraryName)]
-            public static extern IntPtr wasmtime_memory_new(IntPtr context, TypeHandle type, out ExternMemory memory);
+            public static extern IntPtr wasmtime_memory_new(IntPtr context, IntPtr typeHandle, out ExternMemory memory);
 
             [DllImport(Engine.LibraryName)]
             public static unsafe extern byte* wasmtime_memory_data(IntPtr context, in ExternMemory memory);
