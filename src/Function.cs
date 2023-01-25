@@ -614,7 +614,7 @@ namespace Wasmtime
         {
             try
             {
-                using var caller = new Caller(callerPtr);
+                var caller = new Caller(callerPtr);
 
                 // Rent ValueBox arrays from the array pool (as it's not possible to
                 // stackalloc a managed type).

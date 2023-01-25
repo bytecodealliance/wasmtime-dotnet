@@ -48,8 +48,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         callback(
                             );
@@ -147,8 +148,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         callback(
                             convT.Unbox(storeContext, store, args_and_results[0]));
@@ -247,8 +249,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -349,8 +352,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -453,8 +457,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -559,8 +564,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -667,8 +673,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -777,8 +784,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -889,8 +897,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -1003,8 +1012,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -1119,8 +1129,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -1237,8 +1248,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -1357,8 +1369,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -1467,8 +1480,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             );
@@ -1568,8 +1582,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT.Unbox(storeContext, store, args_and_results[0]));
@@ -1670,8 +1685,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -1774,8 +1790,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -1880,8 +1897,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -1988,8 +2006,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -2098,8 +2117,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -2210,8 +2230,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -2324,8 +2345,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -2440,8 +2462,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -2558,8 +2581,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -2678,8 +2702,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -2800,8 +2825,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -2912,8 +2938,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             );
@@ -3015,8 +3042,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT.Unbox(storeContext, store, args_and_results[0]));
@@ -3119,8 +3147,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -3225,8 +3254,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -3333,8 +3363,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -3443,8 +3474,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -3555,8 +3587,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -3669,8 +3702,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -3785,8 +3819,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -3903,8 +3938,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -4023,8 +4059,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -4145,8 +4182,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -4269,8 +4307,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -4383,8 +4422,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             );
@@ -4488,8 +4528,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT.Unbox(storeContext, store, args_and_results[0]));
@@ -4594,8 +4635,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -4702,8 +4744,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -4812,8 +4855,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -4924,8 +4968,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -5038,8 +5083,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -5154,8 +5200,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -5272,8 +5319,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -5392,8 +5440,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -5514,8 +5563,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -5638,8 +5688,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -5764,8 +5815,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -5880,8 +5932,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             );
@@ -5987,8 +6040,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT.Unbox(storeContext, store, args_and_results[0]));
@@ -6095,8 +6149,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -6205,8 +6260,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -6317,8 +6373,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -6431,8 +6488,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -6547,8 +6605,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -6665,8 +6724,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -6785,8 +6845,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -6907,8 +6968,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -7031,8 +7093,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -7157,8 +7220,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -7285,8 +7349,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
@@ -7373,7 +7438,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction(string module, string name, Action<Caller> callback)
+        public void DefineFunction(string module, string name, CallerAction callback)
         {
             if (module is null)
             {
@@ -7398,9 +7463,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         callback(
                             caller);
@@ -7472,7 +7537,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T>(string module, string name, Action<Caller, T?> callback)
+        public void DefineFunction<T>(string module, string name, CallerAction<T?> callback)
         {
             if (module is null)
             {
@@ -7498,9 +7563,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         callback(
                             caller,
@@ -7573,7 +7638,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2>(string module, string name, Action<Caller, T1?, T2?> callback)
+        public void DefineFunction<T1, T2>(string module, string name, CallerAction<T1?, T2?> callback)
         {
             if (module is null)
             {
@@ -7600,9 +7665,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         callback(
                             caller,
@@ -7676,7 +7741,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3>(string module, string name, Action<Caller, T1?, T2?, T3?> callback)
+        public void DefineFunction<T1, T2, T3>(string module, string name, CallerAction<T1?, T2?, T3?> callback)
         {
             if (module is null)
             {
@@ -7704,9 +7769,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         callback(
                             caller,
@@ -7781,7 +7846,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4>(string module, string name, Action<Caller, T1?, T2?, T3?, T4?> callback)
+        public void DefineFunction<T1, T2, T3, T4>(string module, string name, CallerAction<T1?, T2?, T3?, T4?> callback)
         {
             if (module is null)
             {
@@ -7810,9 +7875,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         callback(
                             caller,
@@ -7888,7 +7953,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5>(string module, string name, Action<Caller, T1?, T2?, T3?, T4?, T5?> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5>(string module, string name, CallerAction<T1?, T2?, T3?, T4?, T5?> callback)
         {
             if (module is null)
             {
@@ -7918,9 +7983,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         callback(
                             caller,
@@ -7997,7 +8062,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6>(string module, string name, Action<Caller, T1?, T2?, T3?, T4?, T5?, T6?> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6>(string module, string name, CallerAction<T1?, T2?, T3?, T4?, T5?, T6?> callback)
         {
             if (module is null)
             {
@@ -8028,9 +8093,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         callback(
                             caller,
@@ -8108,7 +8173,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7>(string module, string name, Action<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7>(string module, string name, CallerAction<T1?, T2?, T3?, T4?, T5?, T6?, T7?> callback)
         {
             if (module is null)
             {
@@ -8140,9 +8205,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         callback(
                             caller,
@@ -8221,7 +8286,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8>(string module, string name, Action<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8>(string module, string name, CallerAction<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?> callback)
         {
             if (module is null)
             {
@@ -8254,9 +8319,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         callback(
                             caller,
@@ -8336,7 +8401,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9>(string module, string name, Action<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9>(string module, string name, CallerAction<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?> callback)
         {
             if (module is null)
             {
@@ -8370,9 +8435,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         callback(
                             caller,
@@ -8453,7 +8518,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(string module, string name, Action<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(string module, string name, CallerAction<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?> callback)
         {
             if (module is null)
             {
@@ -8488,9 +8553,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         callback(
                             caller,
@@ -8572,7 +8637,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(string module, string name, Action<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(string module, string name, CallerAction<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?> callback)
         {
             if (module is null)
             {
@@ -8608,9 +8673,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         callback(
                             caller,
@@ -8693,7 +8758,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(string module, string name, Action<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, T12?> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(string module, string name, CallerAction<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, T12?> callback)
         {
             if (module is null)
             {
@@ -8730,9 +8795,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         callback(
                             caller,
@@ -8816,7 +8881,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<TResult>(string module, string name, Func<Caller, TResult> callback)
+        public void DefineFunction<TResult>(string module, string name, CallerFunc<TResult> callback)
         {
             if (module is null)
             {
@@ -8842,9 +8907,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller);
@@ -8917,7 +8982,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T, TResult>(string module, string name, Func<Caller, T?, TResult> callback)
+        public void DefineFunction<T, TResult>(string module, string name, CallerFunc<T?, TResult> callback)
         {
             if (module is null)
             {
@@ -8944,9 +9009,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -9020,7 +9085,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, TResult>(string module, string name, Func<Caller, T1?, T2?, TResult> callback)
+        public void DefineFunction<T1, T2, TResult>(string module, string name, CallerFunc<T1?, T2?, TResult> callback)
         {
             if (module is null)
             {
@@ -9048,9 +9113,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -9125,7 +9190,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, TResult>(string module, string name, Func<Caller, T1?, T2?, T3?, TResult> callback)
+        public void DefineFunction<T1, T2, T3, TResult>(string module, string name, CallerFunc<T1?, T2?, T3?, TResult> callback)
         {
             if (module is null)
             {
@@ -9154,9 +9219,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -9232,7 +9297,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, TResult>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, TResult> callback)
+        public void DefineFunction<T1, T2, T3, T4, TResult>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, TResult> callback)
         {
             if (module is null)
             {
@@ -9262,9 +9327,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -9341,7 +9406,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, TResult>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, TResult> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, TResult>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, T5?, TResult> callback)
         {
             if (module is null)
             {
@@ -9372,9 +9437,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -9452,7 +9517,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, TResult>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, TResult> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, TResult>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, TResult> callback)
         {
             if (module is null)
             {
@@ -9484,9 +9549,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -9565,7 +9630,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, TResult>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, TResult> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, TResult>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, TResult> callback)
         {
             if (module is null)
             {
@@ -9598,9 +9663,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -9680,7 +9745,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, TResult> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, TResult> callback)
         {
             if (module is null)
             {
@@ -9714,9 +9779,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -9797,7 +9862,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, TResult> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, TResult> callback)
         {
             if (module is null)
             {
@@ -9832,9 +9897,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -9916,7 +9981,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, TResult> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, TResult> callback)
         {
             if (module is null)
             {
@@ -9952,9 +10017,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -10037,7 +10102,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, TResult> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, TResult> callback)
         {
             if (module is null)
             {
@@ -10074,9 +10139,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -10160,7 +10225,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, T12?, TResult> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, T12?, TResult> callback)
         {
             if (module is null)
             {
@@ -10198,9 +10263,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -10285,7 +10350,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<TResult1, TResult2>(string module, string name, Func<Caller, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<TResult1, TResult2>(string module, string name, CallerFunc<ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -10312,9 +10377,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller);
@@ -10388,7 +10453,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T, TResult1, TResult2>(string module, string name, Func<Caller, T?, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T, TResult1, TResult2>(string module, string name, CallerFunc<T?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -10416,9 +10481,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -10493,7 +10558,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, TResult1, TResult2>(string module, string name, Func<Caller, T1?, T2?, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T1, T2, TResult1, TResult2>(string module, string name, CallerFunc<T1?, T2?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -10522,9 +10587,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -10600,7 +10665,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, TResult1, TResult2>(string module, string name, Func<Caller, T1?, T2?, T3?, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T1, T2, T3, TResult1, TResult2>(string module, string name, CallerFunc<T1?, T2?, T3?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -10630,9 +10695,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -10709,7 +10774,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, TResult1, TResult2>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T1, T2, T3, T4, TResult1, TResult2>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -10740,9 +10805,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -10820,7 +10885,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, TResult1, TResult2>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, TResult1, TResult2>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, T5?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -10852,9 +10917,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -10933,7 +10998,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, TResult1, TResult2>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, TResult1, TResult2>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -10966,9 +11031,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -11048,7 +11113,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, TResult1, TResult2>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, TResult1, TResult2>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -11082,9 +11147,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -11165,7 +11230,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, TResult1, TResult2>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, TResult1, TResult2>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -11200,9 +11265,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -11284,7 +11349,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult1, TResult2>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult1, TResult2>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -11320,9 +11385,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -11405,7 +11470,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult1, TResult2>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult1, TResult2>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -11442,9 +11507,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -11528,7 +11593,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult1, TResult2>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult1, TResult2>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -11566,9 +11631,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -11653,7 +11718,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult1, TResult2>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, T12?, ValueTuple<TResult1, TResult2>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult1, TResult2>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, T12?, ValueTuple<TResult1, TResult2>> callback)
         {
             if (module is null)
             {
@@ -11692,9 +11757,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -11780,7 +11845,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<TResult1, TResult2, TResult3>(string module, string name, Func<Caller, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<TResult1, TResult2, TResult3>(string module, string name, CallerFunc<ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -11808,9 +11873,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller);
@@ -11885,7 +11950,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T, TResult1, TResult2, TResult3>(string module, string name, CallerFunc<T?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -11914,9 +11979,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -11992,7 +12057,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T1?, T2?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T1, T2, TResult1, TResult2, TResult3>(string module, string name, CallerFunc<T1?, T2?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -12022,9 +12087,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -12101,7 +12166,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T1?, T2?, T3?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T1, T2, T3, TResult1, TResult2, TResult3>(string module, string name, CallerFunc<T1?, T2?, T3?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -12132,9 +12197,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -12212,7 +12277,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T1, T2, T3, T4, TResult1, TResult2, TResult3>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -12244,9 +12309,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -12325,7 +12390,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, TResult1, TResult2, TResult3>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, T5?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -12358,9 +12423,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -12440,7 +12505,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, TResult1, TResult2, TResult3>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -12474,9 +12539,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -12557,7 +12622,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, TResult1, TResult2, TResult3>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -12592,9 +12657,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -12676,7 +12741,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, TResult1, TResult2, TResult3>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -12712,9 +12777,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -12797,7 +12862,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult1, TResult2, TResult3>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -12834,9 +12899,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -12920,7 +12985,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult1, TResult2, TResult3>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -12958,9 +13023,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -13045,7 +13110,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult1, TResult2, TResult3>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -13084,9 +13149,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -13172,7 +13237,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult1, TResult2, TResult3>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, T12?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult1, TResult2, TResult3>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, T12?, ValueTuple<TResult1, TResult2, TResult3>> callback)
         {
             if (module is null)
             {
@@ -13212,9 +13277,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -13301,7 +13366,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<TResult1, TResult2, TResult3, TResult4>(string module, string name, CallerFunc<ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -13330,9 +13395,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller);
@@ -13408,7 +13473,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T, TResult1, TResult2, TResult3, TResult4>(string module, string name, CallerFunc<T?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -13438,9 +13503,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -13517,7 +13582,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T1?, T2?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T1, T2, TResult1, TResult2, TResult3, TResult4>(string module, string name, CallerFunc<T1?, T2?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -13548,9 +13613,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -13628,7 +13693,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T1?, T2?, T3?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T1, T2, T3, TResult1, TResult2, TResult3, TResult4>(string module, string name, CallerFunc<T1?, T2?, T3?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -13660,9 +13725,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -13741,7 +13806,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T1, T2, T3, T4, TResult1, TResult2, TResult3, TResult4>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -13774,9 +13839,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -13856,7 +13921,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, TResult1, TResult2, TResult3, TResult4>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, T5?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -13890,9 +13955,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -13973,7 +14038,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, TResult1, TResult2, TResult3, TResult4>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -14008,9 +14073,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -14092,7 +14157,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, TResult1, TResult2, TResult3, TResult4>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -14128,9 +14193,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -14213,7 +14278,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, TResult1, TResult2, TResult3, TResult4>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -14250,9 +14315,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -14336,7 +14401,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult1, TResult2, TResult3, TResult4>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -14374,9 +14439,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -14461,7 +14526,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult1, TResult2, TResult3, TResult4>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -14500,9 +14565,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -14588,7 +14653,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult1, TResult2, TResult3, TResult4>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -14628,9 +14693,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
@@ -14717,7 +14782,7 @@ namespace Wasmtime
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult1, TResult2, TResult3, TResult4>(string module, string name, Func<Caller, T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, T12?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        public void DefineFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult1, TResult2, TResult3, TResult4>(string module, string name, CallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, T12?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
         {
             if (module is null)
             {
@@ -14758,9 +14823,9 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-                        using var caller = new Caller(callerPtr);
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         var result = callback(
                             caller,
