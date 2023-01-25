@@ -55,7 +55,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -119,7 +119,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -185,7 +185,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -253,7 +253,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -323,7 +323,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -395,7 +395,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -469,7 +469,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -545,7 +545,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -623,7 +623,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -703,7 +703,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -785,7 +785,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -869,7 +869,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -955,7 +955,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -1020,7 +1020,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -1086,7 +1086,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -1154,7 +1154,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -1224,7 +1224,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -1296,7 +1296,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -1370,7 +1370,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -1446,7 +1446,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -1524,7 +1524,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -1604,7 +1604,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -1686,7 +1686,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -1770,7 +1770,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -1856,7 +1856,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -1944,7 +1944,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -2011,7 +2011,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -2079,7 +2079,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -2149,7 +2149,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -2221,7 +2221,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -2295,7 +2295,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -2371,7 +2371,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -2449,7 +2449,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -2529,7 +2529,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -2611,7 +2611,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -2695,7 +2695,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -2781,7 +2781,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -2869,7 +2869,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -2959,7 +2959,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -3028,7 +3028,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -3098,7 +3098,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -3170,7 +3170,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -3244,7 +3244,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -3320,7 +3320,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -3398,7 +3398,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -3478,7 +3478,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -3560,7 +3560,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -3644,7 +3644,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -3730,7 +3730,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -3818,7 +3818,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -3908,7 +3908,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -4000,7 +4000,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -4071,7 +4071,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -4143,7 +4143,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -4217,7 +4217,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -4293,7 +4293,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -4371,7 +4371,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -4451,7 +4451,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -4533,7 +4533,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -4617,7 +4617,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -4703,7 +4703,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -4791,7 +4791,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -4881,7 +4881,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -4973,7 +4973,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -5067,7 +5067,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -5131,7 +5131,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -5197,7 +5197,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -5265,7 +5265,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -5335,7 +5335,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -5407,7 +5407,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -5481,7 +5481,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -5557,7 +5557,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -5635,7 +5635,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -5715,7 +5715,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -5797,7 +5797,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -5881,7 +5881,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -5967,7 +5967,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -6055,7 +6055,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -6121,7 +6121,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -6189,7 +6189,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -6259,7 +6259,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -6331,7 +6331,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -6405,7 +6405,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -6481,7 +6481,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -6559,7 +6559,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -6639,7 +6639,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -6721,7 +6721,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -6805,7 +6805,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -6891,7 +6891,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -6979,7 +6979,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -7069,7 +7069,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -7137,7 +7137,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -7207,7 +7207,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -7279,7 +7279,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -7353,7 +7353,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -7429,7 +7429,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -7507,7 +7507,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -7587,7 +7587,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -7669,7 +7669,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -7753,7 +7753,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -7839,7 +7839,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -7927,7 +7927,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -8017,7 +8017,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -8109,7 +8109,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -8179,7 +8179,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -8251,7 +8251,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -8325,7 +8325,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -8401,7 +8401,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -8479,7 +8479,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -8559,7 +8559,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -8641,7 +8641,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -8725,7 +8725,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -8811,7 +8811,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -8899,7 +8899,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -8989,7 +8989,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -9081,7 +9081,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -9175,7 +9175,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -9247,7 +9247,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -9321,7 +9321,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -9397,7 +9397,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -9475,7 +9475,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -9555,7 +9555,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -9637,7 +9637,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -9721,7 +9721,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -9807,7 +9807,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -9895,7 +9895,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -9985,7 +9985,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -10077,7 +10077,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -10171,7 +10171,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
@@ -10267,7 +10267,7 @@ namespace Wasmtime
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
-                var externFunc = new ExternFunc();
+                ExternFunc externFunc;
                 try
                 {
                     Native.wasmtime_func_new_unchecked(
