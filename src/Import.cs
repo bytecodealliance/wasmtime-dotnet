@@ -147,8 +147,8 @@ namespace Wasmtime
                     throw new InvalidOperationException();
                 }
 
-                Parameters = (*Function.Native.wasm_functype_params(type)).ToList();
-                Results = (*Function.Native.wasm_functype_results(type)).ToList();
+                Parameters = (*Function.Native.wasm_functype_params(type)).ToArray();
+                Results = (*Function.Native.wasm_functype_results(type)).ToArray();
             }
         }
 

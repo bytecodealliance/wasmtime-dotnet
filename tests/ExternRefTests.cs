@@ -146,25 +146,6 @@ namespace Wasmtime.Tests
                 .WithMessage("*Unable to cast object of type 'System.Int32' to type 'System.String'*");
         }
 
-        [Fact]
-        public void ItThrowsForMismatchedTypesUsingReflectionCallback()
-        {
-            Linker.AllowShadowing = true;
-            Linker.Define("", "inout", Function.FromCallback(Store, (Delegate)((string o) => o)));
-
-            var instance = Linker.Instantiate(Store, Fixture.Module);
-
-            var inout = instance.GetFunction("inout");
-            inout.Should().NotBeNull();
-
-            Action action = () => inout.Invoke(ValueBox.AsBox((object)5));
-
-            action
-                .Should()
-                .Throw<Wasmtime.WasmtimeException>()
-                .WithMessage("*Object of type 'System.Int32' cannot be converted to type 'System.String'*");
-        }
-
         public void Dispose()
         {
             if (Store != null)

@@ -34,8 +34,7 @@ namespace Wasmtime
 // will be 2 * 13 * 5 = 130 overloads of DefineFunction accepting an Action/Func.
 // Note that more than 200 overloads can cause the C# compiler to no longer resolve the overloads
 // correctly (tested with Visual Studio 17.4.0 Preview 2.1).
-// For delegate types not covered by these overloads, we have a method accepting a Delegate which
-// will be called using reflection.
+// For delegate types not covered by these overloads, users will need to use an untyped callback.
 foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateType, callbackParameterTypeExpressions, callbackReturnTypeExpression, parameterConverters, resultConverters) in EnumerateTypeCombinations())
 {
 #>
@@ -63,29 +62,7 @@ foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateTy
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-            <# if (callbackParameterTypeExpressions.Length == 0) { #>
-            var callbackParameterTypes = Array.Empty<Type>();
-            <# } else { #>
-            var callbackParameterTypes = new Type[] { <#= callbackParameterTypeExpressions #>};
-            <# } #>
-
-            
-            var callbackReturnType = <#= callbackReturnTypeExpression #>;
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: <#= hasCaller ? "true" : "false" #>, allowTuple: <#= (resultCount > 1) ? "true" : "false" #>, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(<# if (callbackParameterTypeExpressions.Length == 0) { #>Array.Empty<Type>()<# } else { #>new Type[] { <#= callbackParameterTypeExpressions #>}<# } #>, <#= callbackReturnTypeExpression #>, <#= hasCaller ? "true" : "false" #>, 4);
 <#= parameterConverters
 #><#= resultConverters
 #>
@@ -108,6 +85,7 @@ foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateTy
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -132,6 +110,8 @@ foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateTy
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);

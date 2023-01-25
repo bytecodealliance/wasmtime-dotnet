@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using FluentAssertions;
 using Xunit;
 
@@ -24,7 +25,6 @@ namespace Wasmtime.Tests
             Store = new Store(Fixture.Engine);
 
             Linker.Define("env", "add", Function.FromCallback(Store, (int x, int y) => x + y));
-            Linker.Define("env", "add_reflection", Function.FromCallback(Store, (Delegate)((int x, int y) => x + y)));
             Linker.Define("env", "swap", Function.FromCallback(Store, (int x, int y) => (y, x)));
             Linker.Define("env", "do_throw", Function.FromCallback(Store, () => throw new Exception(THROW_MESSAGE)));
             Linker.Define("env", "check_string", Function.FromCallback(Store, (Caller caller, int address, int length) =>
@@ -34,23 +34,57 @@ namespace Wasmtime.Tests
 
             Linker.Define("env", "return_i32", Function.FromCallback(Store, GetBoundFuncIntDelegate()));
 
-            Linker.Define("env", "return_15_values", Function.FromCallback(Store, () =>
-            {
-                return (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);
-            }));
-
-            Linker.Define("env", "accept_15_values", Function.FromCallback(Store,
-                (int i1, int i2, int i3, int i4, int i5, int i6, int i7, int i8, int i9, int i10, int i11, int i12, int i13, int i14, int i15) =>
+            Linker.Define("env", "return_15_values", Function.FromCallback(Store, (_, p, r) =>
                 {
-                    (i1, i2, i3, i4, i5, i6, i7, i8, i9, i10, i11, i12, i13, i14, i15)
-                        .Should().Be((1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15));
-                }));
+                    p.Length.Should().Be(0);
+                    r.Length.Should().Be(15);
+                    for (int i = 0; i < 15; i++)
+                    {
+                        r[i] = i;
+                    }
+                },
+                Array.Empty<ValueKind>(),
+                Enumerable.Repeat(ValueKind.Int32, 15).ToArray()
+            ));
+
+            Linker.Define("env", "accept_15_values", Function.FromCallback(Store, (_, p, r) =>
+                {
+                    p.Length.Should().Be(15);
+                    r.Length.Should().Be(0);
+                    for (int i = 0; i < 15; i++)
+                    {
+                        p[i].AsInt32().Should().Be(i);
+                    }
+                },
+                Enumerable.Repeat(ValueKind.Int32, 15).ToArray(),
+                Array.Empty<ValueKind>()
+            ));
 
             var emptyFunc = Function.FromCallback(Store, () => { });
-            Linker.Define("env", "return_all_types", Function.FromCallback(Store, () =>
+            Linker.Define("env", "return_all_types", Function.FromCallback(Store, (_, p, r) =>
             {
-                return (1, 2L, 3f, 4d, V128.AllBitsSet, emptyFunc, "hello");
-            }));
+                p.Length.Should().Be(0);
+                r.Length.Should().Be(7);
+                r[0] = 1;
+                r[1] = 2L;
+                r[2] = 3f;
+                r[3] = 4d;
+                r[4] = V128.AllBitsSet;
+                r[5] = emptyFunc;
+                r[6] = "hello";
+            },
+                Array.Empty<ValueKind>(),
+                new ValueKind[]
+                    {
+                        ValueKind.Int32,
+                        ValueKind.Int64,
+                        ValueKind.Float32,
+                        ValueKind.Float64,
+                        ValueKind.V128,
+                        ValueKind.FuncRef,
+                        ValueKind.ExternRef
+                    }
+            ));
 
             Linker.Define("env", "accept_all_types", Function.FromCallback(Store,
                 (int i1, long l2, float f3, double d4, V128 v5, Function f6, object o7) =>
@@ -61,7 +95,7 @@ namespace Wasmtime.Tests
 
             var echoMultipleValuesFunc = EchoMultipleValues;
             Linker.Define("env", "pass_through_multiple_values1", Function.FromCallback(Store, echoMultipleValuesFunc));
-            Linker.Define("env", "pass_through_multiple_values2", Function.FromCallback(Store, (EchoMultipleValuesCustomDelegate)EchoMultipleValues));
+            Linker.Define("env", "pass_through_multiple_values2", Function.FromCallback(Store, (long l, double d, object o) => EchoMultipleValues(l, d, o)));
 
             Linker.Define("env", "pass_through_v128", Function.FromCallback(Store, (V128 v128) => v128));
 
@@ -94,18 +128,12 @@ namespace Wasmtime.Tests
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
             var add = instance.GetFunction("add");
-            var addReflection = instance.GetFunction("add_reflection");
             var swap = instance.GetFunction("swap");
             var check = instance.GetFunction("check_string");
 
             int x = (int)add.Invoke(40, 2);
             x.Should().Be(42);
             x = (int)add.Invoke(22, 5);
-            x.Should().Be(27);
-
-            x = (int)addReflection.Invoke(40, 2);
-            x.Should().Be(42);
-            x = (int)addReflection.Invoke(22, 5);
             x.Should().Be(27);
 
             object[] results = (object[])swap.Invoke(10, 100);

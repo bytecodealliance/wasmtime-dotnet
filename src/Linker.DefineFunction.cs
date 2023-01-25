@@ -40,25 +40,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = Array.Empty<Type>();
-            
-            
-            var callbackReturnType = default(Type);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(Array.Empty<Type>(), default(Type), false, 4);
 
             unsafe
             {
@@ -93,6 +75,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -117,6 +100,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -153,25 +138,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T), };
-            
-            
-            var callbackReturnType = default(Type);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T), }, default(Type), false, 4);
             var convT = ValueRaw.Converter<T>();
 
             unsafe
@@ -207,6 +174,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -231,6 +199,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -267,25 +237,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), };
-            
-            
-            var callbackReturnType = default(Type);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), }, default(Type), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
 
@@ -323,6 +275,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -347,6 +300,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -383,25 +338,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), };
-            
-            
-            var callbackReturnType = default(Type);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), }, default(Type), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -441,6 +378,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -465,6 +403,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -501,25 +441,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
-            
-            
-            var callbackReturnType = default(Type);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, default(Type), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -561,6 +483,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -585,6 +508,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -621,25 +546,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
-            
-            
-            var callbackReturnType = default(Type);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, default(Type), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -683,6 +590,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -707,6 +615,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -743,25 +653,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
-            
-            
-            var callbackReturnType = default(Type);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, default(Type), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -807,6 +699,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -831,6 +724,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -867,25 +762,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
-            
-            
-            var callbackReturnType = default(Type);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, default(Type), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -933,6 +810,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -957,6 +835,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -993,25 +873,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
-            
-            
-            var callbackReturnType = default(Type);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, default(Type), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -1061,6 +923,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -1085,6 +948,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -1121,25 +986,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
-            
-            
-            var callbackReturnType = default(Type);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, default(Type), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -1191,6 +1038,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -1215,6 +1063,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -1251,25 +1101,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
-            
-            
-            var callbackReturnType = default(Type);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, default(Type), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -1323,6 +1155,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -1347,6 +1180,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -1383,25 +1218,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
-            
-            
-            var callbackReturnType = default(Type);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, default(Type), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -1457,6 +1274,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -1481,6 +1299,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -1517,25 +1337,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
-            
-            
-            var callbackReturnType = default(Type);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, default(Type), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -1593,6 +1395,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -1617,6 +1420,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -1653,25 +1458,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = Array.Empty<Type>();
-            
-            
-            var callbackReturnType = typeof(TResult);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(Array.Empty<Type>(), typeof(TResult), false, 4);
             var convTResult = ValueRaw.Converter<TResult>();
 
             unsafe
@@ -1708,6 +1495,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -1732,6 +1520,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -1768,25 +1558,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T), };
-            
-            
-            var callbackReturnType = typeof(TResult);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T), }, typeof(TResult), false, 4);
             var convT = ValueRaw.Converter<T>();
             var convTResult = ValueRaw.Converter<TResult>();
 
@@ -1824,6 +1596,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -1848,6 +1621,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -1884,25 +1659,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), };
-            
-            
-            var callbackReturnType = typeof(TResult);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), }, typeof(TResult), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convTResult = ValueRaw.Converter<TResult>();
@@ -1942,6 +1699,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -1966,6 +1724,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -2002,25 +1762,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), };
-            
-            
-            var callbackReturnType = typeof(TResult);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), }, typeof(TResult), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -2062,6 +1804,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -2086,6 +1829,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -2122,25 +1867,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
-            
-            
-            var callbackReturnType = typeof(TResult);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, typeof(TResult), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -2184,6 +1911,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -2208,6 +1936,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -2244,25 +1974,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
-            
-            
-            var callbackReturnType = typeof(TResult);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, typeof(TResult), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -2308,6 +2020,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -2332,6 +2045,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -2368,25 +2083,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
-            
-            
-            var callbackReturnType = typeof(TResult);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, typeof(TResult), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -2434,6 +2131,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -2458,6 +2156,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -2494,25 +2194,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
-            
-            
-            var callbackReturnType = typeof(TResult);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, typeof(TResult), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -2562,6 +2244,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -2586,6 +2269,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -2622,25 +2307,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
-            
-            
-            var callbackReturnType = typeof(TResult);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, typeof(TResult), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -2692,6 +2359,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -2716,6 +2384,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -2752,25 +2422,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
-            
-            
-            var callbackReturnType = typeof(TResult);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, typeof(TResult), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -2824,6 +2476,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -2848,6 +2501,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -2884,25 +2539,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
-            
-            
-            var callbackReturnType = typeof(TResult);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, typeof(TResult), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -2958,6 +2595,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -2982,6 +2620,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -3018,25 +2658,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
-            
-            
-            var callbackReturnType = typeof(TResult);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, typeof(TResult), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -3094,6 +2716,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -3118,6 +2741,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -3154,25 +2779,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
-            
-            
-            var callbackReturnType = typeof(TResult);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, typeof(TResult), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -3232,6 +2839,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -3256,6 +2864,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -3292,25 +2902,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = Array.Empty<Type>();
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(Array.Empty<Type>(), typeof(ValueTuple<TResult1, TResult2>), false, 4);
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
@@ -3349,6 +2941,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -3373,6 +2966,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -3409,25 +3004,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T), }, typeof(ValueTuple<TResult1, TResult2>), false, 4);
             var convT = ValueRaw.Converter<T>();
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
@@ -3467,6 +3044,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -3491,6 +3069,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -3527,25 +3107,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), }, typeof(ValueTuple<TResult1, TResult2>), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convTResult1 = ValueRaw.Converter<TResult1>();
@@ -3587,6 +3149,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -3611,6 +3174,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -3647,25 +3212,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), }, typeof(ValueTuple<TResult1, TResult2>), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -3709,6 +3256,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -3733,6 +3281,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -3769,25 +3319,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, typeof(ValueTuple<TResult1, TResult2>), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -3833,6 +3365,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -3857,6 +3390,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -3893,25 +3428,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, typeof(ValueTuple<TResult1, TResult2>), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -3959,6 +3476,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -3983,6 +3501,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -4019,25 +3539,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, typeof(ValueTuple<TResult1, TResult2>), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -4087,6 +3589,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -4111,6 +3614,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -4147,25 +3652,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, typeof(ValueTuple<TResult1, TResult2>), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -4217,6 +3704,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -4241,6 +3729,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -4277,25 +3767,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, typeof(ValueTuple<TResult1, TResult2>), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -4349,6 +3821,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -4373,6 +3846,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -4409,25 +3884,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, typeof(ValueTuple<TResult1, TResult2>), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -4483,6 +3940,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -4507,6 +3965,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -4543,25 +4003,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, typeof(ValueTuple<TResult1, TResult2>), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -4619,6 +4061,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -4643,6 +4086,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -4679,25 +4124,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, typeof(ValueTuple<TResult1, TResult2>), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -4757,6 +4184,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -4781,6 +4209,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -4817,25 +4247,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, typeof(ValueTuple<TResult1, TResult2>), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -4897,6 +4309,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -4921,6 +4334,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -4957,25 +4372,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = Array.Empty<Type>();
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(Array.Empty<Type>(), typeof(ValueTuple<TResult1, TResult2, TResult3>), false, 4);
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
@@ -5016,6 +4413,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -5040,6 +4438,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -5076,25 +4476,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), false, 4);
             var convT = ValueRaw.Converter<T>();
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
@@ -5136,6 +4518,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -5160,6 +4543,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -5196,25 +4581,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convTResult1 = ValueRaw.Converter<TResult1>();
@@ -5258,6 +4625,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -5282,6 +4650,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -5318,25 +4688,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -5382,6 +4734,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -5406,6 +4759,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -5442,25 +4797,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -5508,6 +4845,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -5532,6 +4870,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -5568,25 +4908,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -5636,6 +4958,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -5660,6 +4983,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -5696,25 +5021,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -5766,6 +5073,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -5790,6 +5098,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -5826,25 +5136,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -5898,6 +5190,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -5922,6 +5215,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -5958,25 +5253,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -6032,6 +5309,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -6056,6 +5334,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -6092,25 +5372,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -6168,6 +5430,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -6192,6 +5455,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -6228,25 +5493,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -6306,6 +5553,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -6330,6 +5578,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -6366,25 +5616,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -6446,6 +5678,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -6470,6 +5703,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -6506,25 +5741,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -6588,6 +5805,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -6612,6 +5830,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -6648,25 +5868,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = Array.Empty<Type>();
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(Array.Empty<Type>(), typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), false, 4);
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
@@ -6709,6 +5911,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -6733,6 +5936,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -6769,25 +5974,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), false, 4);
             var convT = ValueRaw.Converter<T>();
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
@@ -6831,6 +6018,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -6855,6 +6043,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -6891,25 +6081,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convTResult1 = ValueRaw.Converter<TResult1>();
@@ -6955,6 +6127,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -6979,6 +6152,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -7015,25 +6190,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -7081,6 +6238,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -7105,6 +6263,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -7141,25 +6301,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -7209,6 +6351,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -7233,6 +6376,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -7269,25 +6414,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -7339,6 +6466,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -7363,6 +6491,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -7399,25 +6529,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -7471,6 +6583,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -7495,6 +6608,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -7531,25 +6646,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -7605,6 +6702,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -7629,6 +6727,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -7665,25 +6765,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -7741,6 +6823,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -7765,6 +6848,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -7801,25 +6886,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -7879,6 +6946,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -7903,6 +6971,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -7939,25 +7009,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -8019,6 +7071,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -8043,6 +7096,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -8079,25 +7134,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -8161,6 +7198,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -8185,6 +7223,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -8221,25 +7261,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: false, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), false, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -8305,6 +7327,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -8329,6 +7352,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -8365,25 +7390,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), };
-            
-            
-            var callbackReturnType = default(Type);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), }, default(Type), true, 4);
 
             unsafe
             {
@@ -8419,6 +7426,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -8443,6 +7451,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -8479,25 +7489,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T), };
-            
-            
-            var callbackReturnType = default(Type);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T), }, default(Type), true, 4);
             var convT = ValueRaw.Converter<T>();
 
             unsafe
@@ -8535,6 +7527,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -8559,6 +7552,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -8595,25 +7590,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), };
-            
-            
-            var callbackReturnType = default(Type);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), }, default(Type), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
 
@@ -8653,6 +7630,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -8677,6 +7655,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -8713,25 +7693,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), };
-            
-            
-            var callbackReturnType = default(Type);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), }, default(Type), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -8773,6 +7735,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -8797,6 +7760,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -8833,25 +7798,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
-            
-            
-            var callbackReturnType = default(Type);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, default(Type), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -8895,6 +7842,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -8919,6 +7867,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -8955,25 +7905,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
-            
-            
-            var callbackReturnType = default(Type);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, default(Type), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -9019,6 +7951,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -9043,6 +7976,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -9079,25 +8014,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
-            
-            
-            var callbackReturnType = default(Type);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, default(Type), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -9145,6 +8062,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -9169,6 +8087,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -9205,25 +8125,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
-            
-            
-            var callbackReturnType = default(Type);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, default(Type), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -9273,6 +8175,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -9297,6 +8200,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -9333,25 +8238,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
-            
-            
-            var callbackReturnType = default(Type);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, default(Type), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -9403,6 +8290,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -9427,6 +8315,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -9463,25 +8353,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
-            
-            
-            var callbackReturnType = default(Type);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, default(Type), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -9535,6 +8407,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -9559,6 +8432,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -9595,25 +8470,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
-            
-            
-            var callbackReturnType = default(Type);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, default(Type), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -9669,6 +8526,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -9693,6 +8551,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -9729,25 +8589,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
-            
-            
-            var callbackReturnType = default(Type);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, default(Type), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -9805,6 +8647,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -9829,6 +8672,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -9865,25 +8710,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
-            
-            
-            var callbackReturnType = default(Type);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, default(Type), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -9943,6 +8770,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -9967,6 +8795,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -10003,25 +8833,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), };
-            
-            
-            var callbackReturnType = typeof(TResult);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), }, typeof(TResult), true, 4);
             var convTResult = ValueRaw.Converter<TResult>();
 
             unsafe
@@ -10059,6 +8871,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -10083,6 +8896,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -10119,25 +8934,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T), };
-            
-            
-            var callbackReturnType = typeof(TResult);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T), }, typeof(TResult), true, 4);
             var convT = ValueRaw.Converter<T>();
             var convTResult = ValueRaw.Converter<TResult>();
 
@@ -10177,6 +8974,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -10201,6 +8999,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -10237,25 +9037,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), };
-            
-            
-            var callbackReturnType = typeof(TResult);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), }, typeof(TResult), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convTResult = ValueRaw.Converter<TResult>();
@@ -10297,6 +9079,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -10321,6 +9104,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -10357,25 +9142,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), };
-            
-            
-            var callbackReturnType = typeof(TResult);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), }, typeof(TResult), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -10419,6 +9186,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -10443,6 +9211,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -10479,25 +9249,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
-            
-            
-            var callbackReturnType = typeof(TResult);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, typeof(TResult), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -10543,6 +9295,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -10567,6 +9320,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -10603,25 +9358,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
-            
-            
-            var callbackReturnType = typeof(TResult);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, typeof(TResult), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -10669,6 +9406,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -10693,6 +9431,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -10729,25 +9469,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
-            
-            
-            var callbackReturnType = typeof(TResult);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, typeof(TResult), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -10797,6 +9519,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -10821,6 +9544,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -10857,25 +9582,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
-            
-            
-            var callbackReturnType = typeof(TResult);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, typeof(TResult), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -10927,6 +9634,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -10951,6 +9659,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -10987,25 +9697,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
-            
-            
-            var callbackReturnType = typeof(TResult);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, typeof(TResult), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -11059,6 +9751,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -11083,6 +9776,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -11119,25 +9814,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
-            
-            
-            var callbackReturnType = typeof(TResult);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, typeof(TResult), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -11193,6 +9870,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -11217,6 +9895,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -11253,25 +9933,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
-            
-            
-            var callbackReturnType = typeof(TResult);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, typeof(TResult), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -11329,6 +9991,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -11353,6 +10016,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -11389,25 +10054,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
-            
-            
-            var callbackReturnType = typeof(TResult);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, typeof(TResult), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -11467,6 +10114,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -11491,6 +10139,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -11527,25 +10177,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
-            
-            
-            var callbackReturnType = typeof(TResult);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: false, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, typeof(TResult), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -11607,6 +10239,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -11631,6 +10264,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -11667,25 +10302,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), }, typeof(ValueTuple<TResult1, TResult2>), true, 4);
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
@@ -11725,6 +10342,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -11749,6 +10367,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -11785,25 +10405,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T), }, typeof(ValueTuple<TResult1, TResult2>), true, 4);
             var convT = ValueRaw.Converter<T>();
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
@@ -11845,6 +10447,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -11869,6 +10472,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -11905,25 +10510,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), }, typeof(ValueTuple<TResult1, TResult2>), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convTResult1 = ValueRaw.Converter<TResult1>();
@@ -11967,6 +10554,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -11991,6 +10579,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -12027,25 +10617,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), }, typeof(ValueTuple<TResult1, TResult2>), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -12091,6 +10663,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -12115,6 +10688,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -12151,25 +10726,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, typeof(ValueTuple<TResult1, TResult2>), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -12217,6 +10774,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -12241,6 +10799,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -12277,25 +10837,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, typeof(ValueTuple<TResult1, TResult2>), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -12345,6 +10887,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -12369,6 +10912,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -12405,25 +10950,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, typeof(ValueTuple<TResult1, TResult2>), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -12475,6 +11002,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -12499,6 +11027,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -12535,25 +11065,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, typeof(ValueTuple<TResult1, TResult2>), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -12607,6 +11119,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -12631,6 +11144,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -12667,25 +11182,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, typeof(ValueTuple<TResult1, TResult2>), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -12741,6 +11238,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -12765,6 +11263,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -12801,25 +11301,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, typeof(ValueTuple<TResult1, TResult2>), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -12877,6 +11359,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -12901,6 +11384,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -12937,25 +11422,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, typeof(ValueTuple<TResult1, TResult2>), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -13015,6 +11482,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -13039,6 +11507,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -13075,25 +11545,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, typeof(ValueTuple<TResult1, TResult2>), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -13155,6 +11607,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -13179,6 +11632,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -13215,25 +11670,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, typeof(ValueTuple<TResult1, TResult2>), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -13297,6 +11734,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -13321,6 +11759,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -13357,25 +11797,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), true, 4);
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
@@ -13417,6 +11839,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -13441,6 +11864,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -13477,25 +11902,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), true, 4);
             var convT = ValueRaw.Converter<T>();
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
@@ -13539,6 +11946,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -13563,6 +11971,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -13599,25 +12009,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convTResult1 = ValueRaw.Converter<TResult1>();
@@ -13663,6 +12055,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -13687,6 +12080,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -13723,25 +12118,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -13789,6 +12166,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -13813,6 +12191,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -13849,25 +12229,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -13917,6 +12279,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -13941,6 +12304,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -13977,25 +12342,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -14047,6 +12394,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -14071,6 +12419,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -14107,25 +12457,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -14179,6 +12511,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -14203,6 +12536,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -14239,25 +12574,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -14313,6 +12630,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -14337,6 +12655,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -14373,25 +12693,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -14449,6 +12751,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -14473,6 +12776,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -14509,25 +12814,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -14587,6 +12874,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -14611,6 +12899,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -14647,25 +12937,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -14727,6 +12999,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -14751,6 +13024,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -14787,25 +13062,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -14869,6 +13126,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -14893,6 +13151,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -14929,25 +13189,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -15013,6 +13255,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -15037,6 +13280,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -15073,25 +13318,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), true, 4);
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
@@ -15135,6 +13362,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -15159,6 +13387,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -15195,25 +13425,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), true, 4);
             var convT = ValueRaw.Converter<T>();
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
@@ -15259,6 +13471,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -15283,6 +13496,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -15319,25 +13534,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convTResult1 = ValueRaw.Converter<TResult1>();
@@ -15385,6 +13582,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -15409,6 +13607,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -15445,25 +13645,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -15513,6 +13695,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -15537,6 +13720,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -15573,25 +13758,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -15643,6 +13810,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -15667,6 +13835,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -15703,25 +13873,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -15775,6 +13927,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -15799,6 +13952,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -15835,25 +13990,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -15909,6 +14046,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -15933,6 +14071,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -15969,25 +14109,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -16045,6 +14167,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -16069,6 +14192,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -16105,25 +14230,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -16183,6 +14290,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -16207,6 +14315,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -16243,25 +14353,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -16323,6 +14415,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -16347,6 +14440,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -16383,25 +14478,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -16465,6 +14542,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -16489,6 +14567,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -16525,25 +14605,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -16609,6 +14671,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -16633,6 +14696,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -16669,25 +14734,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-                        var callbackParameterTypes = new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
-            
-            
-            var callbackReturnType = typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>);
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                DefineFunction(module, name, (Delegate)callback);
-                return;
-            }
-
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), true, 4);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -16755,6 +14802,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -16779,6 +14827,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);

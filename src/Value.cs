@@ -130,16 +130,16 @@ namespace Wasmtime
             }
         }
 
-        public List<ValueKind> ToList()
+        public ValueKind[] ToArray()
         {
-            var list = new List<ValueKind>((int)size);
+            var arr = new ValueKind[(int)size];
 
             for (int i = 0; i < (int)size; ++i)
             {
-                list.Add(ValueType.ToKind(data[i]));
+                arr[i] = ValueType.ToKind(data[i]);
             }
 
-            return list;
+            return arr;
         }
 
         public readonly UIntPtr size;

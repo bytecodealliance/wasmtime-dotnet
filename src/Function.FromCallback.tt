@@ -32,8 +32,7 @@ namespace Wasmtime
 // will be 2 * 13 * 5 = 130 overloads of DefineFunction accepting an Action/Func.
 // Note that more than 200 overloads can cause the C# compiler to no longer resolve the overloads
 // correctly (tested with Visual Studio 17.4.0 Preview 2.1).
-// For delegate types not covered by these overloads, we have a method accepting a Delegate which
-// will be called using reflection.
+// For delegate types not covered by these overloads, users will need to use an untyped callback.
 foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateType, callbackParameterTypeExpressions, callbackReturnTypeExpression, parameterConverters, resultConverters) in EnumerateTypeCombinations())
 {
 #>
@@ -54,52 +53,40 @@ foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateTy
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-<# if (callbackParameterTypeExpressions.Length == 0) { #>
-            var callbackParameterTypes = Array.Empty<Type>();
-<# } else { #>
-            var callbackParameterTypes = new Type[] { <#= callbackParameterTypeExpressions #>};
-<# } #>
-
-            var callbackReturnType = <#= callbackReturnTypeExpression #>;
-
-            using var funcType = Function.GetFunctionType(callbackParameterTypes, callbackReturnType, parameterKinds, resultKinds, allowCaller: <#= hasCaller ? "true" : "false" #>, allowTuple: <#= (resultCount > 1) ? "true" : "false" #>, out _, out _);
-
-            if (funcType is null)
-            {
-                // This means a parameter/result type combination was used that cannot
-                // be represented with the current generic parameters. Therefore, fall
-                // back to using reflection.
-                return FromCallback(store, (Delegate)callback);
-            }
-
+            var (parameterKinds, resultKinds) = GetFunctionType(<# if (callbackParameterTypeExpressions.Length == 0) { #>Array.Empty<Type>()<# } else { #>new Type[] { <#= callbackParameterTypeExpressions #>}<# } #>, <#= callbackReturnTypeExpression #>, <#= hasCaller ? "true" : "false" #>, 4);
 <#= parameterConverters
 #><#= resultConverters
 #>
             unsafe
             {
-                Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
+                Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
 <# GenerateCallbackContent(hasCaller, resultCount, parameterCount); #>
                 };
 
-                Native.wasmtime_func_new_unchecked(
-                    store.Context.handle,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Finalizer,
-                    out var externFunc
-                );
+                var funcType = CreateFunctionType(parameterKinds, resultKinds);
+                var externFunc = new ExternFunc();
+                try
+                {
+                    Native.wasmtime_func_new_unchecked(
+                        store.Context.handle,
+                        funcType,
+                        func,
+                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                        Finalizer,
+                        out externFunc
+                    );
+                }
+                finally
+                {
+                    Native.wasm_functype_delete(funcType);
+                }
 
                 GC.KeepAlive(store);
 
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
         }
-
 <#
 }
 #>
