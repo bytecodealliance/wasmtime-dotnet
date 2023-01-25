@@ -2,11 +2,9 @@ using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
-using Microsoft.Win32.SafeHandles;
 
 namespace Wasmtime
 {
@@ -25,58 +23,13 @@ namespace Wasmtime
 
         #region FromCallback
         /// <summary>
-        /// Creates a function given a callback.
-        /// </summary>
-        /// <param name="store">The store to create the function in.</param>
-        /// <param name="callback">The callback for when the function is invoked.</param>
-        public static Function FromCallback(Store store, Delegate callback)
-        {
-            if (store is null)
-            {
-                throw new ArgumentNullException(nameof(store));
-            }
-
-            if (callback is null)
-            {
-                throw new ArgumentNullException(nameof(callback));
-            }
-
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-            using var funcType = GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller, out var returnsTuple)!;
-            var callbackInvokeMethod = callback.GetType().GetMethod(nameof(Action.Invoke))!;
-
-            unsafe
-            {
-                Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
-                {
-                    return InvokeCallback(callback, callbackInvokeMethod, callerPtr, hasCaller, args, (int)nargs, results, (int)nresults, resultKinds, returnsTuple);
-                };
-
-                Native.wasmtime_func_new(
-                    store.Context.handle,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Finalizer,
-                    out var externFunc
-                );
-
-                GC.KeepAlive(store);
-
-                return new Function(store, externFunc, parameterKinds, resultKinds);
-            }
-        }
-
-        /// <summary>
         /// Creates an function given an untyped callback.
         /// </summary>
         /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        /// <param name="parameters">The function parameter kinds.</param>
-        /// <param name="results">The function result kinds.</param>
-        public static Function FromCallback(Store store, UntypedCallbackDelegate callback, IReadOnlyList<ValueKind> parameters, IReadOnlyList<ValueKind> results)
+        /// <param name="parameterKinds">The function parameter kinds.</param>
+        /// <param name="resultKinds">The function result kinds.</param>
+        public static Function FromCallback(Store store, UntypedCallbackDelegate callback, IReadOnlyList<ValueKind> parameterKinds, IReadOnlyList<ValueKind> resultKinds)
         {
             if (store is null)
             {
@@ -88,44 +41,49 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            // Copy the lists to ensure they are not externally modified.
-            var parameterKinds = new List<ValueKind>(parameters);
-            var resultKinds = new List<ValueKind>(results);
-
-            using var funcType = GetFunctionType(parameterKinds, resultKinds);
-
             unsafe
             {
+                // Copy the lists to ensure they are not modified.
+                parameterKinds = parameterKinds.ToArray();
+                resultKinds = resultKinds.ToArray();
                 Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
                 {
                     return InvokeUntypedCallback(callback, callerPtr, args, (int)nargs, results, (int)nresults, resultKinds);
                 };
 
-                Native.wasmtime_func_new(
-                    store.Context.handle,
-                    funcType,
-                    func,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                    Finalizer,
-                    out var externFunc
-                );
+                var funcType = CreateFunctionType(parameterKinds, resultKinds);
+                ExternFunc externFunc;
+                try
+                {
+                    Native.wasmtime_func_new(
+                        store.Context.handle,
+                        funcType,
+                        func,
+                        GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                        Finalizer,
+                        out externFunc
+                    );
+                }
+                finally
+                {
+                    Native.wasm_functype_delete(funcType);
+                }
 
                 GC.KeepAlive(store);
-
                 return new Function(store, externFunc, parameterKinds, resultKinds);
             }
         }
         #endregion
 
         /// <summary>
-        /// The parameters of the WebAssembly function.
+        /// The types of the parameters of the WebAssembly function.
         /// </summary>
-        public IReadOnlyList<ValueKind> Parameters => parameters;
+        public IReadOnlyList<ValueKind> Parameters { get; private set; }
 
         /// <summary>
-        /// The results of the WebAssembly function.
+        /// The types of the results of the WebAssembly function.
         /// </summary>
-        public IReadOnlyList<ValueKind> Results => results;
+        public IReadOnlyList<ValueKind> Results { get; private set; }
 
         /// <summary>
         /// Determines if the underlying function reference is null.
@@ -486,6 +444,7 @@ namespace Wasmtime
             this.store = null;
             this.func.store = 0;
             this.func.index = (UIntPtr)0;
+            this.Parameters = this.Results = Array.Empty<ValueKind>();
         }
 
         internal Function(Store store, ExternFunc func)
@@ -495,32 +454,44 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
             this.store = store;
-
             this.func = func;
 
             if (!this.IsNull)
             {
-                using var type = new TypeHandle(Native.wasmtime_func_type(store.Context.handle, this.func));
-                GC.KeepAlive(store);
+                var type = Native.wasmtime_func_type(store.Context.handle, this.func);
 
-                unsafe
+                try
                 {
-                    parameters = (*Native.wasm_functype_params(type.DangerousGetHandle())).ToList();
-                    results = (*Native.wasm_functype_results(type.DangerousGetHandle())).ToList();
+                    unsafe
+                    {
+                        this.Parameters = (*Native.wasm_functype_params(type)).ToArray();
+                        this.Results = (*Native.wasm_functype_results(type)).ToArray();
+                    }
                 }
+                finally
+                {
+                    Native.wasm_functype_delete(type);
+                }
+
+                GC.KeepAlive(store);
+            }
+            else
+            {
+                this.Parameters = this.Results = Array.Empty<ValueKind>();
             }
         }
-        private Function(Store store, ExternFunc func, List<ValueKind> parameters, List<ValueKind> results)
+
+        private Function(Store store, ExternFunc func, IReadOnlyList<ValueKind> parameters, IReadOnlyList<ValueKind> results)
         {
             if (store is null)
             {
                 throw new ArgumentNullException(nameof(store));
             }
-            this.store = store;
 
+            this.store = store;
             this.func = func;
-            this.parameters = parameters;
-            this.results = results;
+            this.Parameters = parameters;
+            this.Results = results;
         }
 
         private static IEnumerable<Type> EnumerateReturnTypes(Type? returnType, out bool isTuple)
@@ -585,113 +556,58 @@ namespace Wasmtime
                    definition == typeof(ValueTuple<,,,,,,,>);
         }
 
-        internal static TypeHandle? GetFunctionType(Type type, List<ValueKind> parameters, List<ValueKind> results, bool allowCaller, bool allowTuple, out bool hasCaller, out bool returnsTuple)
+        internal static (IReadOnlyList<ValueKind> parameterKinds, IReadOnlyList<ValueKind> resultKinds)
+            GetFunctionType(ReadOnlySpan<Type> parameterTypes, Type? returnType, bool allowCaller, bool allowTuple)
         {
-            if (!typeof(Delegate).IsAssignableFrom(type))
-                throw new ArgumentException("The specified type must be a Delegate type.");
-
-            var invokeMethod = type.GetMethod(nameof(Action.Invoke))!;
-
-            Span<Type> parameterTypes = invokeMethod.GetParameters().Select(e => e.ParameterType).ToArray();
-            Type? returnType = invokeMethod.ReturnType == typeof(void) ? null : invokeMethod.ReturnType;
-
-            return GetFunctionType(parameterTypes, returnType, parameters, results, allowCaller, allowTuple, out hasCaller, out returnsTuple);
-        }
-
-        internal static TypeHandle? GetFunctionType(ReadOnlySpan<Type> parameterTypes, Type? returnType, List<ValueKind> parameters, List<ValueKind> results, bool allowCaller, bool allowTuple, out bool hasCaller, out bool returnsTuple)
-        {
-            hasCaller = parameterTypes.Length > 0 && parameterTypes[0] == typeof(Caller);
+            var hasCaller = parameterTypes.Length > 0 && parameterTypes[0] == typeof(Caller);
 
             if (hasCaller)
             {
                 parameterTypes = parameterTypes[1..];
             }
 
+            var parameterKinds = new ValueKind[parameterTypes.Length];
+
             for (int i = 0; i < parameterTypes.Length; ++i)
             {
                 if (parameterTypes[i] == typeof(Caller))
                 {
-                    throw new WasmtimeException($"A 'Caller' parameter must be the first parameter of the function.");
+                    throw new WasmtimeException($"A 'Caller' parameter must be the first parameter of the callback.");
                 }
 
                 if (!Value.TryGetKind(parameterTypes[i], out var kind))
                 {
-                    throw new WasmtimeException($"Unable to create a function with parameter of type '{parameterTypes[i]}'.");
+                    throw new WasmtimeException($"Unable to create a callback with parameter of type '{parameterTypes[i]}'.");
                 }
 
-                parameters.Add(kind);
+                parameterKinds[i] = kind;
             }
 
-            results.AddRange(EnumerateReturnTypes(returnType, out returnsTuple).Select(t =>
+            var resultKinds = EnumerateReturnTypes(returnType, out var returnsTuple).Select(t =>
             {
                 if (!Value.TryGetKind(t, out var kind))
                 {
-                    throw new WasmtimeException($"Unable to create a function with a return type of type '{t}'.");
+                    throw new WasmtimeException($"Unable to create a callback with a return type of type '{t}'.");
                 }
                 return kind;
-            }));
+            }).ToArray();
 
-            if (hasCaller && !allowCaller || returnsTuple && !allowTuple)
+            if (hasCaller && !allowCaller)
             {
-                // Return null to indicate that the parameter/result type combination
-                // is not allowed.
-                hasCaller = default;
-                returnsTuple = default;
-                return null;
+                throw new InvalidOperationException($"A 'Caller' parameter is not allowed for this callback.");
             }
 
-            return GetFunctionType(parameters, results);
+            if (returnsTuple && !allowTuple)
+            {
+                throw new InvalidOperationException($"Returning a ValueTuple is not allowed for this callback; use an overload that implicitly returns ValueTuple or an untyped callback for returning more than 4 values.");
+            }
+
+            return (parameterKinds, resultKinds);
         }
 
-        internal static TypeHandle GetFunctionType(IReadOnlyList<ValueKind> parameters, IReadOnlyList<ValueKind> results)
+        internal static IntPtr CreateFunctionType(IReadOnlyList<ValueKind> parameterKinds, IReadOnlyList<ValueKind> resultKinds)
         {
-            return new Function.TypeHandle(Function.Native.wasm_functype_new(new ValueTypeArray(parameters), new ValueTypeArray(results)));
-        }
-
-        internal unsafe static IntPtr InvokeCallback(Delegate callback, MethodInfo callbackInvokeMethod, IntPtr callerPtr, bool passCaller, Value* args, int nargs, Value* results, int nresults, IReadOnlyList<ValueKind> resultKinds, bool returnsTuple)
-        {
-            try
-            {
-                using var caller = new Caller(callerPtr);
-                var store = caller.Store;
-
-                var offset = passCaller ? 1 : 0;
-                var invokeArgs = new object?[nargs + offset];
-
-                if (passCaller)
-                {
-                    invokeArgs[0] = caller;
-                }
-
-                var invokeArgsSpan = new Span<object?>(invokeArgs, offset, nargs);
-                for (int i = 0; i < invokeArgsSpan.Length; ++i)
-                {
-                    invokeArgsSpan[i] = args[i].ToObject(store);
-                }
-
-                // NOTE: reflection is extremely slow for invoking methods. in the future, perhaps this could be replaced with
-                // source generators, system.linq.expressions, or generate IL with DynamicMethods or something
-                var result = callbackInvokeMethod.Invoke(callback, BindingFlags.DoNotWrapExceptions, null, invokeArgs, null);
-
-                if (returnsTuple)
-                {
-                    var tuple = (ITuple)result!;
-
-                    for (int i = 0; i < tuple.Length; ++i)
-                    {
-                        results[i] = Value.FromObject(tuple[i], resultKinds[i]);
-                    }
-                }
-                else if (resultKinds.Count == 1)
-                {
-                    results[0] = Value.FromObject(result, resultKinds[0]);
-                }
-                return IntPtr.Zero;
-            }
-            catch (Exception ex)
-            {
-                return HandleCallbackException(ex);
-            }
+            return Native.wasm_functype_new(new ValueTypeArray(parameterKinds), new ValueTypeArray(resultKinds));
         }
 
         internal static unsafe IntPtr InvokeUntypedCallback(UntypedCallbackDelegate callback, IntPtr callerPtr, Value* args, int nargs, Value* results, int nresults, IReadOnlyList<ValueKind> resultKinds)
@@ -782,21 +698,6 @@ namespace Wasmtime
             }
         }
 
-        internal class TypeHandle : SafeHandleZeroOrMinusOneIsInvalid
-        {
-            public TypeHandle(IntPtr handle)
-                : base(true)
-            {
-                SetHandle(handle);
-            }
-
-            protected override bool ReleaseHandle()
-            {
-                Native.wasm_functype_delete(handle);
-                return true;
-            }
-        }
-
         internal static class Native
         {
             public delegate void Finalizer(IntPtr data);
@@ -806,10 +707,10 @@ namespace Wasmtime
             public unsafe delegate IntPtr WasmtimeFuncUncheckedCallback(IntPtr env, IntPtr caller, ValueRaw* args_and_results, nuint num_args_and_results);
 
             [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_func_new(IntPtr context, TypeHandle type, WasmtimeFuncCallback callback, IntPtr env, Finalizer? finalizer, out ExternFunc func);
+            public static extern void wasmtime_func_new(IntPtr context, IntPtr type, WasmtimeFuncCallback callback, IntPtr env, Finalizer? finalizer, out ExternFunc func);
 
             [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_func_new_unchecked(IntPtr context, TypeHandle type, WasmtimeFuncUncheckedCallback callback, IntPtr env, Finalizer? finalizer, out ExternFunc func);
+            public static extern void wasmtime_func_new_unchecked(IntPtr context, IntPtr type, WasmtimeFuncUncheckedCallback callback, IntPtr env, Finalizer? finalizer, out ExternFunc func);
 
             [DllImport(Engine.LibraryName)]
             public static unsafe extern IntPtr wasmtime_func_call(IntPtr context, in ExternFunc func, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap);
@@ -845,8 +746,6 @@ namespace Wasmtime
 
         internal readonly Store? store;
         internal readonly ExternFunc func;
-        internal readonly List<ValueKind> parameters = new List<ValueKind>();
-        internal readonly List<ValueKind> results = new List<ValueKind>();
         internal static readonly Native.Finalizer Finalizer = (p) => GCHandle.FromIntPtr(p).Free();
 
         /// <summary>

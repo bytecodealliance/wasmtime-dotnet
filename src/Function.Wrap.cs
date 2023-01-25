@@ -24,7 +24,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = Array.Empty<Type>();
+            var parameterTypes = Array.Empty<Type>();
             
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -56,7 +56,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = new Type[] { typeof(T), };
+            var parameterTypes = new Type[] { typeof(T), };
             
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -90,7 +90,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = new Type[] { typeof(T1), typeof(T2), };
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), };
             
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -126,7 +126,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), };
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), };
             
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -164,7 +164,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
             
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -204,7 +204,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
             
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -246,7 +246,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
             
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -290,7 +290,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
             
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -336,7 +336,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
             
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -384,7 +384,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
             
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -434,7 +434,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
             
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -486,7 +486,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
             
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -540,7 +540,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
             
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -596,7 +596,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), };
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), };
             
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -654,7 +654,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), typeof(T14), };
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), typeof(T14), };
             
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -714,7 +714,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), typeof(T14), typeof(T15), };
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), typeof(T14), typeof(T15), };
             
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -776,7 +776,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), typeof(T14), typeof(T15), typeof(T16), };
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), typeof(T14), typeof(T15), typeof(T16), };
             
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -840,7 +840,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = Array.Empty<Type>();
+            var parameterTypes = Array.Empty<Type>();
             
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
@@ -875,7 +875,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = new Type[] { typeof(T), };
+            var parameterTypes = new Type[] { typeof(T), };
             
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
@@ -912,7 +912,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = new Type[] { typeof(T1), typeof(T2), };
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), };
             
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
@@ -951,7 +951,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), };
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), };
             
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
@@ -992,7 +992,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
             
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
@@ -1035,7 +1035,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
             
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
@@ -1080,7 +1080,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
             
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
@@ -1127,7 +1127,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
             
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
@@ -1176,7 +1176,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
             
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
@@ -1227,7 +1227,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
             
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
@@ -1280,7 +1280,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
             
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
@@ -1335,7 +1335,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
             
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
@@ -1392,7 +1392,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
             
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
@@ -1451,7 +1451,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), };
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), };
             
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
@@ -1512,7 +1512,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), typeof(T14), };
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), typeof(T14), };
             
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
@@ -1575,7 +1575,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), typeof(T14), typeof(T15), };
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), typeof(T14), typeof(T15), };
             
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
@@ -1640,7 +1640,7 @@ namespace Wasmtime
             }
 
             // Check that the requested type signature is compatible
-                        var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), typeof(T14), typeof(T15), typeof(T16), };
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), typeof(T14), typeof(T15), typeof(T16), };
             
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {

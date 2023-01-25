@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Buffers;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -346,100 +347,15 @@ namespace Wasmtime
         }
 
         /// <summary>
-        /// Defines a function in the linker.
-        /// </summary>
-        /// <remarks>Functions defined with this method are store-independent.</remarks>
-        /// <param name="module">The module name of the function.</param>
-        /// <param name="name">The name of the function.</param>
-        /// <param name="callback">The callback for when the function is invoked.</param>
-        public void DefineFunction(string module, string name, Delegate callback)
-        {
-            if (module is null)
-            {
-                throw new ArgumentNullException(nameof(module));
-            }
-
-            if (name is null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
-
-            if (callback is null)
-            {
-                throw new ArgumentNullException(nameof(callback));
-            }
-
-            var parameterKinds = new List<ValueKind>();
-            var resultKinds = new List<ValueKind>();
-
-            using var funcType = Function.GetFunctionType(callback.GetType(), parameterKinds, resultKinds, allowCaller: true, allowTuple: true, out var hasCaller, out var returnsTuple)!;
-            var callbackInvokeMethod = callback.GetType().GetMethod(nameof(Action.Invoke))!;
-
-            unsafe
-            {
-                Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
-                {
-                    return Function.InvokeCallback(callback, callbackInvokeMethod, callerPtr, hasCaller, args, (int)nargs, results, (int)nresults, resultKinds, returnsTuple);
-                };
-
-                const int StackallocThreshold = 256;
-
-                byte[]? moduleBytesBuffer = null;
-                var moduleLength = Encoding.UTF8.GetByteCount(module);
-                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
-                Encoding.UTF8.GetBytes(module, moduleBytes);
-
-                byte[]? nameBytesBuffer = null;
-                var nameLength = Encoding.UTF8.GetByteCount(name);
-                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
-                Encoding.UTF8.GetBytes(name, nameBytes);
-
-                try
-                {
-                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
-                    {
-                        var error = Native.wasmtime_linker_define_func(
-                            handle,
-                            modulePtr,
-                            (nuint)moduleBytes.Length,
-                            namePtr,
-                            (nuint)nameBytes.Length,
-                            funcType,
-                            func,
-                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
-                            Function.Finalizer
-                        );
-
-                        if (error != IntPtr.Zero)
-                        {
-                            throw WasmtimeException.FromOwnedError(error);
-                        }
-                    }
-                }
-                finally
-                {
-                    if (moduleBytesBuffer is not null)
-                    {
-                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
-                    }
-                    if (nameBytesBuffer is not null)
-                    {
-                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
         /// Defines an function in the linker given an untyped callback.
         /// </summary>
         /// <remarks>Functions defined with this method are store-independent.</remarks>
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
-        /// <param name="parameters">The function parameter kinds.</param>
-        /// <param name="results">The function result kinds.</param>
-        public void DefineFunction(string module, string name, Function.UntypedCallbackDelegate callback, IReadOnlyList<ValueKind> parameters, IReadOnlyList<ValueKind> results)
+        /// <param name="parameterKinds">The function parameter kinds.</param>
+        /// <param name="resultKinds">The function result kinds.</param>
+        public void DefineFunction(string module, string name, Function.UntypedCallbackDelegate callback, IReadOnlyList<ValueKind> parameterKinds, IReadOnlyList<ValueKind> resultKinds)
         {
             if (module is null)
             {
@@ -456,14 +372,11 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            // Copy the lists to ensure they are not externally modified.
-            var parameterKinds = new List<ValueKind>(parameters);
-            var resultKinds = new List<ValueKind>(results);
-
-            using var funcType = Function.GetFunctionType(parameterKinds, resultKinds);
-
             unsafe
             {
+                // Copy the lists to ensure they are not modified.
+                parameterKinds = parameterKinds.ToArray();
+                resultKinds = resultKinds.ToArray();
                 Function.Native.WasmtimeFuncCallback func = (env, callerPtr, args, nargs, results, nresults) =>
                 {
                     return Function.InvokeUntypedCallback(callback, callerPtr, args, (int)nargs, results, (int)nresults, resultKinds);
@@ -481,6 +394,7 @@ namespace Wasmtime
                 Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
                 Encoding.UTF8.GetBytes(name, nameBytes);
 
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
                     fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
@@ -505,6 +419,8 @@ namespace Wasmtime
                 }
                 finally
                 {
+                    Function.Native.wasm_functype_delete(funcType);
+
                     if (moduleBytesBuffer is not null)
                     {
                         ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
@@ -566,10 +482,10 @@ namespace Wasmtime
             public static unsafe extern IntPtr wasmtime_linker_define_instance(Handle linker, IntPtr context, byte* name, nuint len, in ExternInstance instance);
 
             [DllImport(Engine.LibraryName)]
-            public static unsafe extern IntPtr wasmtime_linker_define_func(Handle linker, byte* module, nuint moduleLen, byte* name, nuint nameLen, Function.TypeHandle type, Function.Native.WasmtimeFuncCallback callback, IntPtr data, Function.Native.Finalizer? finalizer);
+            public static unsafe extern IntPtr wasmtime_linker_define_func(Handle linker, byte* module, nuint moduleLen, byte* name, nuint nameLen, IntPtr type, Function.Native.WasmtimeFuncCallback callback, IntPtr data, Function.Native.Finalizer? finalizer);
 
             [DllImport(Engine.LibraryName)]
-            public static unsafe extern IntPtr wasmtime_linker_define_func_unchecked(Handle linker, byte* module, nuint moduleLen, byte* name, nuint nameLen, Function.TypeHandle type, Function.Native.WasmtimeFuncUncheckedCallback callback, IntPtr data, Function.Native.Finalizer? finalizer);
+            public static unsafe extern IntPtr wasmtime_linker_define_func_unchecked(Handle linker, byte* module, nuint moduleLen, byte* name, nuint nameLen, IntPtr type, Function.Native.WasmtimeFuncUncheckedCallback callback, IntPtr data, Function.Native.Finalizer? finalizer);
 
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasmtime_linker_instantiate(Handle linker, IntPtr context, Module.Handle module, out ExternInstance instance, out IntPtr trap);

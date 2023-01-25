@@ -1,5 +1,6 @@
 using FluentAssertions;
 using System;
+using System.Linq;
 using Xunit;
 
 namespace Wasmtime.Tests
@@ -24,7 +25,6 @@ namespace Wasmtime.Tests
             Store = new Store(Fixture.Engine);
 
             Linker.DefineFunction("env", "add", (int x, int y) => x + y);
-            Linker.DefineFunction("env", "add_reflection", (Delegate)((int x, int y) => x + y));
             Linker.DefineFunction("env", "swap", (int x, int y) => (y, x));
             Linker.DefineFunction("env", "do_throw", () => throw new Exception(THROW_MESSAGE));
             Linker.DefineFunction("env", "check_string", (Caller caller, int address, int length) =>
@@ -34,25 +34,59 @@ namespace Wasmtime.Tests
 
             Linker.DefineFunction("env", "return_i32", GetBoundFuncIntDelegate());
 
-            Linker.DefineFunction("env", "return_15_values", () =>
-            {
-                return (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);
-            });
-
-            Linker.DefineFunction("env", "accept_15_values",
-                (int i1, int i2, int i3, int i4, int i5, int i6, int i7, int i8, int i9, int i10, int i11, int i12, int i13, int i14, int i15) =>
+            Linker.DefineFunction("env", "return_15_values", (_, p, r) =>
                 {
-                    (i1, i2, i3, i4, i5, i6, i7, i8, i9, i10, i11, i12, i13, i14, i15)
-                        .Should().Be((1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15));
-                });
+                    p.Length.Should().Be(0);
+                    r.Length.Should().Be(15);
+                    for (int i = 0; i < 15; i++)
+                    {
+                        r[i] = i;
+                    }
+                },
+                Array.Empty<ValueKind>(),
+                Enumerable.Repeat(ValueKind.Int32, 15).ToArray()
+            );
+
+            Linker.DefineFunction("env", "accept_15_values", (_, p, r) =>
+                {
+                    p.Length.Should().Be(15);
+                    r.Length.Should().Be(0);
+                    for (int i = 0; i < 15; i++)
+                    {
+                        p[i].AsInt32().Should().Be(i);
+                    }
+                },
+                Enumerable.Repeat(ValueKind.Int32, 15).ToArray(),
+                Array.Empty<ValueKind>()
+            );
 
             var emptyFunc = Function.FromCallback(Store, () => { });
-            Linker.DefineFunction("env", "return_all_types", () =>
-            {
-                return (1, 2L, 3f, 4d, V128.AllBitsSet, emptyFunc, "hello");
-            });
+            Linker.DefineFunction("env", "return_all_types", (_, p, r) =>
+                {
+                    p.Length.Should().Be(0);
+                    r.Length.Should().Be(7);
+                    r[0] = 1;
+                    r[1] = 2L;
+                    r[2] = 3f;
+                    r[3] = 4d;
+                    r[4] = V128.AllBitsSet;
+                    r[5] = emptyFunc;
+                    r[6] = "hello";
+                },
+                Array.Empty<ValueKind>(),
+                new ValueKind[]
+                    {
+                        ValueKind.Int32,
+                        ValueKind.Int64,
+                        ValueKind.Float32,
+                        ValueKind.Float64,
+                        ValueKind.V128,
+                        ValueKind.FuncRef,
+                        ValueKind.ExternRef
+                    }
+            );
 
-            Linker.DefineFunction("env", "accept_all_types", 
+            Linker.DefineFunction("env", "accept_all_types",
                 (int i1, long l2, float f3, double d4, V128 v5, Function f6, object o7) =>
                 {
                     (i1, l2, f3, d4, v5, f6.IsNull, o7)
@@ -61,7 +95,7 @@ namespace Wasmtime.Tests
 
             var echoMultipleValuesFunc = EchoMultipleValues;
             Linker.DefineFunction("env", "pass_through_multiple_values1", echoMultipleValuesFunc);
-            Linker.DefineFunction("env", "pass_through_multiple_values2", (FunctionTests.EchoMultipleValuesCustomDelegate)EchoMultipleValues);
+            Linker.DefineFunction("env", "pass_through_multiple_values2", (long l, double d, object o) => EchoMultipleValues(l, d, o));
 
             Linker.DefineFunction("env", "pass_through_v128", (V128 v128) => v128);
 
@@ -94,7 +128,6 @@ namespace Wasmtime.Tests
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
             var add = instance.GetFunction("add");
-            var addReflection = instance.GetFunction("add_reflection");
             var swap = instance.GetFunction("swap");
             var check = instance.GetFunction("check_string"); ;
             var getInt32 = instance.GetFunction<int>("return_i32");
@@ -102,11 +135,6 @@ namespace Wasmtime.Tests
             int x = (int)add.Invoke(40, 2);
             x.Should().Be(42);
             x = (int)add.Invoke(22, 5);
-            x.Should().Be(27);
-
-            x = (int)addReflection.Invoke(40, 2);
-            x.Should().Be(42);
-            x = (int)addReflection.Invoke(22, 5);
             x.Should().Be(27);
 
             x = getInt32.Invoke();
@@ -202,13 +230,32 @@ namespace Wasmtime.Tests
         {
             using var store = new Store(Fixture.Engine);
 
-            Linker.DefineFunction("", "complex", ((Caller caller) =>
-            {
-                return (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19);
-            }));
+            Linker.DefineFunction("", "complex", (c, p, r) =>
+                {
+                    p.Length.Should().Be(0);
+                    r.Length.Should().Be(19);
+                    for (int i = 0; i < r.Length; ++i)
+                    {
+                        r[i] = i + 1;
+                    }
+                },
+                Array.Empty<ValueKind>(),
+                Enumerable.Repeat(ValueKind.Int32, 19).ToArray()
+            );
 
             var func = Linker.GetFunction(store, "", "complex");
             func.Should().NotBeNull();
+        }
+
+        [Fact]
+        public void ItReturnsAndAccepts15Values()
+        {
+            // Verify that nested levels of ValueTuple are handled correctly. Returning 15
+            // values means that a ValueTuple<..., ValueTuple<..., ValueTuple<...>>> is used.
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var action = instance.GetAction("get_and_pass_15_values");
+            action.Should().NotBeNull();
+            action.Invoke();
         }
 
         [Fact]
