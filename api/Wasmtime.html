@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Namespace Wasmtime
    ">
-    <meta name="generator" content="docfx 2.59.3.0">
+    <meta name="generator" content="docfx 2.59.4.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -77,9 +77,6 @@
   <div class="markdown level0 remarks"></div>
     <h3 id="classes">Classes
   </h3>
-      <h4><a class="xref" href="Wasmtime.Caller.html">Caller</a></h4>
-      <section><p>Represents caller information for a function.</p>
-</section>
       <h4><a class="xref" href="Wasmtime.Config.html">Config</a></h4>
       <section><p>Represents a configuration used to create <a class="xref" href="Wasmtime.Engine.html">Engine</a> instances.</p>
 </section>
@@ -115,9 +112,6 @@
 </section>
       <h4><a class="xref" href="Wasmtime.Instance.html">Instance</a></h4>
       <section><p>Represents an instantiated WebAssembly module.</p>
-</section>
-      <h4><a class="xref" href="Wasmtime.InterruptHandle.html">InterruptHandle</a></h4>
-      <section><p>Represents a Wasmtime interrupt handle.</p>
 </section>
       <h4><a class="xref" href="Wasmtime.Linker.html">Linker</a></h4>
       <section><p>Represents the Wasmtime linker that can be used to define imports
@@ -161,8 +155,20 @@ and instantiate WebAssembly modules.</p>
 </section>
     <h3 id="structs">Structs
   </h3>
-      <h4><a class="xref" href="Wasmtime.StoreContext.html">StoreContext</a></h4>
-      <section><p>Represents context about a <a class="xref" href="Wasmtime.Store.html">Store</a>.</p>
+      <h4><a class="xref" href="Wasmtime.ActionResult.html">ActionResult</a></h4>
+      <section><p>A result from a function call which does not produce a value, represents either a successful call or a trap</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.Caller.html">Caller</a></h4>
+      <section><p>Represents caller information for a function.</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.FunctionResult-1.html">FunctionResult&lt;T&gt;</a></h4>
+      <section><p>A result from a function call which may represent a Value or a Trap</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.Mutability.html">Mutability</a></h4>
+      <section><p>Represents the mutability of a WebAssembly global value.</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.TrapAccessor.html">TrapAccessor</a></h4>
+      <section><p>Provides access to a WebAssembly trap result</p>
 </section>
       <h4><a class="xref" href="Wasmtime.V128.html">V128</a></h4>
       <section><p>A 128 bit value</p>
@@ -172,16 +178,26 @@ and instantiate WebAssembly modules.</p>
 </section>
     <h3 id="interfaces">Interfaces
   </h3>
-      <h4><a class="xref" href="Wasmtime.IStore.html">IStore</a></h4>
-      <section><p>An interface implemented on types that behave like stores.</p>
+      <h4><a class="xref" href="Wasmtime.IActionResult-2.html">IActionResult&lt;TResult, TBuilder&gt;</a></h4>
+      <section><p>Indicates that the type implementing this interface is a &quot;Result&quot; type for actions (i.e. functions without a return value).
+This means that the function WASM call will use the TBuilder type to create an instance of the TResult type and return that.
+This can be used by advanced users to extract the necessary information from a trap result.</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.IActionResultBuilder-1.html">IActionResultBuilder&lt;TResult&gt;</a></h4>
+      <section><p>A factory which constructs instances of result types which do not contain a return value.</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.IFunctionResult-3.html">IFunctionResult&lt;TResult, TOk, TBuilder&gt;</a></h4>
+      <section><p>Indicates that the type implementing this interface is a &quot;Result&quot; type for function.
+This means that the function WASM call will use the TBuilder type to create an instance of the TSelf type and return that.
+This can be used by advanced users to extract the necessary information from a trap result.</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.IFunctionResultBuilder-2.html">IFunctionResultBuilder&lt;TResult, TOk&gt;</a></h4>
+      <section><p>A factory which constructs instances of result types which contain a return value.</p>
 </section>
     <h3 id="enums">Enums
   </h3>
       <h4><a class="xref" href="Wasmtime.CompilerStrategy.html">CompilerStrategy</a></h4>
       <section><p>Represents the Wasmtime compiler strategy.</p>
-</section>
-      <h4><a class="xref" href="Wasmtime.Mutability.html">Mutability</a></h4>
-      <section><p>Represents the mutability of a WebAssembly global value.</p>
 </section>
       <h4><a class="xref" href="Wasmtime.OptimizationLevel.html">OptimizationLevel</a></h4>
       <section><p>Represents the Wasmtime optimization level.</p>
@@ -189,11 +205,97 @@ and instantiate WebAssembly modules.</p>
       <h4><a class="xref" href="Wasmtime.ProfilingStrategy.html">ProfilingStrategy</a></h4>
       <section><p>Represents the Wasmtime code profiling strategy.</p>
 </section>
+      <h4><a class="xref" href="Wasmtime.ResultType.html">ResultType</a></h4>
+      <section><p>Indicates what type of result this is</p>
+</section>
       <h4><a class="xref" href="Wasmtime.TrapCode.html">TrapCode</a></h4>
       <section><p>Represents the code associated with a trap.</p>
 </section>
       <h4><a class="xref" href="Wasmtime.ValueKind.html">ValueKind</a></h4>
       <section><p>Represents the possible kinds of WebAssembly values.</p>
+</section>
+    <h3 id="delegates">Delegates
+  </h3>
+      <h4><a class="xref" href="Wasmtime.CallerAction.html">CallerAction</a></h4>
+      <section><p>Action accepting a caller</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.CallerAction-1.html">CallerAction&lt;T&gt;</a></h4>
+      <section><p>Action accepting a caller and 1 parameter</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.CallerAction-10.html">CallerAction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10&gt;</a></h4>
+      <section><p>Action accepting a caller and 10 parameters</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.CallerAction-11.html">CallerAction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11&gt;</a></h4>
+      <section><p>Action accepting a caller and 11 parameters</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.CallerAction-12.html">CallerAction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12&gt;</a></h4>
+      <section><p>Action accepting a caller and 12 parameters</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.CallerAction-2.html">CallerAction&lt;T1, T2&gt;</a></h4>
+      <section><p>Action accepting a caller and 2 parameters</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.CallerAction-3.html">CallerAction&lt;T1, T2, T3&gt;</a></h4>
+      <section><p>Action accepting a caller and 3 parameters</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.CallerAction-4.html">CallerAction&lt;T1, T2, T3, T4&gt;</a></h4>
+      <section><p>Action accepting a caller and 4 parameters</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.CallerAction-5.html">CallerAction&lt;T1, T2, T3, T4, T5&gt;</a></h4>
+      <section><p>Action accepting a caller and 5 parameters</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.CallerAction-6.html">CallerAction&lt;T1, T2, T3, T4, T5, T6&gt;</a></h4>
+      <section><p>Action accepting a caller and 6 parameters</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.CallerAction-7.html">CallerAction&lt;T1, T2, T3, T4, T5, T6, T7&gt;</a></h4>
+      <section><p>Action accepting a caller and 7 parameters</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.CallerAction-8.html">CallerAction&lt;T1, T2, T3, T4, T5, T6, T7, T8&gt;</a></h4>
+      <section><p>Action accepting a caller and 8 parameters</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.CallerAction-9.html">CallerAction&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9&gt;</a></h4>
+      <section><p>Action accepting a caller and 9 parameters</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.CallerFunc-1.html">CallerFunc&lt;TResult&gt;</a></h4>
+      <section><p>Func accepting a caller</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.CallerFunc-10.html">CallerFunc&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult&gt;</a></h4>
+      <section><p>Func accepting a caller and 9 parameters</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.CallerFunc-11.html">CallerFunc&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult&gt;</a></h4>
+      <section><p>Func accepting a caller and 10 parameters</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.CallerFunc-12.html">CallerFunc&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult&gt;</a></h4>
+      <section><p>Func accepting a caller and 11 parameters</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.CallerFunc-13.html">CallerFunc&lt;T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult&gt;</a></h4>
+      <section><p>Func accepting a caller and 12 parameters</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.CallerFunc-2.html">CallerFunc&lt;T, TResult&gt;</a></h4>
+      <section><p>Func accepting a caller and 1 parameter</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.CallerFunc-3.html">CallerFunc&lt;T1, T2, TResult&gt;</a></h4>
+      <section><p>Func accepting a caller and 2 parameters</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.CallerFunc-4.html">CallerFunc&lt;T1, T2, T3, TResult&gt;</a></h4>
+      <section><p>Func accepting a caller and 3 parameters</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.CallerFunc-5.html">CallerFunc&lt;T1, T2, T3, T4, TResult&gt;</a></h4>
+      <section><p>Func accepting a caller and 4 parameters</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.CallerFunc-6.html">CallerFunc&lt;T1, T2, T3, T4, T5, TResult&gt;</a></h4>
+      <section><p>Func accepting a caller and 5 parameters</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.CallerFunc-7.html">CallerFunc&lt;T1, T2, T3, T4, T5, T6, TResult&gt;</a></h4>
+      <section><p>Func accepting a caller and 6 parameters</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.CallerFunc-8.html">CallerFunc&lt;T1, T2, T3, T4, T5, T6, T7, TResult&gt;</a></h4>
+      <section><p>Func accepting a caller and 7 parameters</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.CallerFunc-9.html">CallerFunc&lt;T1, T2, T3, T4, T5, T6, T7, T8, TResult&gt;</a></h4>
+      <section><p>Func accepting a caller and 8 parameters</p>
+</section>
+      <h4><a class="xref" href="Wasmtime.Function.UntypedCallbackDelegate.html">Function.UntypedCallbackDelegate</a></h4>
+      <section><p>Encapsulates an untyped callback that receives arguments and can set results via a span of <a class="xref" href="Wasmtime.ValueBox.html">ValueBox</a>.</p>
 </section>
 </article>
           </div>

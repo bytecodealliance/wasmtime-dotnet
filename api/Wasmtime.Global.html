@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class Global
    ">
-    <meta name="generator" content="docfx 2.59.3.0">
+    <meta name="generator" content="docfx 2.59.4.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -91,19 +91,19 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Global__ctor_Wasmtime_IStore_Wasmtime_ValueKind_System_Nullable_System_Object__Wasmtime_Mutability_.md&amp;value=---%0Auid%3A%20Wasmtime.Global.%23ctor(Wasmtime.IStore%2CWasmtime.ValueKind%2CSystem.Nullable%7BSystem.Object%7D%2CWasmtime.Mutability)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Global__ctor_Wasmtime_Store_Wasmtime_ValueKind_System_Nullable_System_Object__Wasmtime_Mutability_.md&amp;value=---%0Auid%3A%20Wasmtime.Global.%23ctor(Wasmtime.Store%2CWasmtime.ValueKind%2CSystem.Nullable%7BSystem.Object%7D%2CWasmtime.Mutability)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Global.cs/#L34">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Global.cs/#L88">View Source</a>
   </span>
   <a id="Wasmtime_Global__ctor_" data-uid="Wasmtime.Global.#ctor*"></a>
-  <h4 id="Wasmtime_Global__ctor_Wasmtime_IStore_Wasmtime_ValueKind_System_Nullable_System_Object__Wasmtime_Mutability_" data-uid="Wasmtime.Global.#ctor(Wasmtime.IStore,Wasmtime.ValueKind,System.Nullable{System.Object},Wasmtime.Mutability)">Global(IStore, ValueKind, Nullable&lt;Object&gt;, Mutability)</h4>
+  <h4 id="Wasmtime_Global__ctor_Wasmtime_Store_Wasmtime_ValueKind_System_Nullable_System_Object__Wasmtime_Mutability_" data-uid="Wasmtime.Global.#ctor(Wasmtime.Store,Wasmtime.ValueKind,System.Nullable{System.Object},Wasmtime.Mutability)">Global(Store, ValueKind, Nullable&lt;Object&gt;, Mutability)</h4>
   <div class="markdown level1 summary"><p>Creates a new WebAssembly global value.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Global(IStore store, ValueKind kind, object? initialValue, Mutability mutability)</code></pre>
+    <pre><code class="lang-csharp hljs">public Global(Store store, ValueKind kind, object? initialValue, Mutability mutability)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -116,7 +116,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><a class="xref" href="Wasmtime.Store.html">Store</a></td>
         <td><span class="parametername">store</span></td>
         <td><p>The store to create the global in.</p>
 </td>
@@ -148,7 +148,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Global_Kind.md&amp;value=---%0Auid%3A%20Wasmtime.Global.Kind%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Global.cs/#L107">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Global.cs/#L172">View Source</a>
   </span>
   <a id="Wasmtime_Global_Kind_" data-uid="Wasmtime.Global.Kind*"></a>
   <h4 id="Wasmtime_Global_Kind" data-uid="Wasmtime.Global.Kind">Kind</h4>
@@ -179,7 +179,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Global_Mutability.md&amp;value=---%0Auid%3A%20Wasmtime.Global.Mutability%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Global.cs/#L112">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Global.cs/#L177">View Source</a>
   </span>
   <a id="Wasmtime_Global_Mutability_" data-uid="Wasmtime.Global.Mutability*"></a>
   <h4 id="Wasmtime_Global_Mutability" data-uid="Wasmtime.Global.Mutability">Mutability</h4>
@@ -212,7 +212,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Global_GetValue.md&amp;value=---%0Auid%3A%20Wasmtime.Global.GetValue%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Global.cs/#L64">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Global.cs/#L125">View Source</a>
   </span>
   <a id="Wasmtime_Global_GetValue_" data-uid="Wasmtime.Global.GetValue*"></a>
   <h4 id="Wasmtime_Global_GetValue" data-uid="Wasmtime.Global.GetValue">GetValue()</h4>
@@ -244,7 +244,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Global_SetValue_System_Nullable_System_Object__.md&amp;value=---%0Auid%3A%20Wasmtime.Global.SetValue(System.Nullable%7BSystem.Object%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Global.cs/#L77">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Global.cs/#L140">View Source</a>
   </span>
   <a id="Wasmtime_Global_SetValue_" data-uid="Wasmtime.Global.SetValue*"></a>
   <h4 id="Wasmtime_Global_SetValue_System_Nullable_System_Object__" data-uid="Wasmtime.Global.SetValue(System.Nullable{System.Object})">SetValue(Nullable&lt;Object&gt;)</h4>
@@ -278,7 +278,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Global_Wrap__1.md&amp;value=---%0Auid%3A%20Wasmtime.Global.Wrap%60%601%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Global.cs/#L94">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Global.cs/#L159">View Source</a>
   </span>
   <a id="Wasmtime_Global_Wrap_" data-uid="Wasmtime.Global.Wrap*"></a>
   <h4 id="Wasmtime_Global_Wrap__1" data-uid="Wasmtime.Global.Wrap``1">Wrap&lt;T&gt;()</h4>
@@ -332,7 +332,7 @@
                     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Global.md&amp;value=---%0Auid%3A%20Wasmtime.Global%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Global.cs/#L25" class="contribution-link">View Source</a>
+                    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Global.cs/#L79" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

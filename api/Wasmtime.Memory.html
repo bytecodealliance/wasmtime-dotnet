@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class Memory
    ">
-    <meta name="generator" content="docfx 2.59.3.0">
+    <meta name="generator" content="docfx 2.59.4.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -91,19 +91,19 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory__ctor_Wasmtime_IStore_System_UInt32_System_UInt32_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.%23ctor(Wasmtime.IStore%2CSystem.UInt32%2CSystem.UInt32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory__ctor_Wasmtime_Store_System_Int64_System_Nullable_System_Int64__System_Boolean_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.%23ctor(Wasmtime.Store%2CSystem.Int64%2CSystem.Nullable%7BSystem.Int64%7D%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L20">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L21">View Source</a>
   </span>
   <a id="Wasmtime_Memory__ctor_" data-uid="Wasmtime.Memory.#ctor*"></a>
-  <h4 id="Wasmtime_Memory__ctor_Wasmtime_IStore_System_UInt32_System_UInt32_" data-uid="Wasmtime.Memory.#ctor(Wasmtime.IStore,System.UInt32,System.UInt32)">Memory(IStore, UInt32, UInt32)</h4>
+  <h4 id="Wasmtime_Memory__ctor_Wasmtime_Store_System_Int64_System_Nullable_System_Int64__System_Boolean_" data-uid="Wasmtime.Memory.#ctor(Wasmtime.Store,System.Int64,System.Nullable{System.Int64},System.Boolean)">Memory(Store, Int64, Nullable&lt;Int64&gt;, Boolean)</h4>
   <div class="markdown level1 summary"><p>Creates a new WebAssembly memory.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Memory(IStore store, uint minimum = null, uint maximum = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Memory(Store store, long minimum = null, long? maximum = null, bool is64Bit = false)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -116,21 +116,27 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Wasmtime.IStore.html">IStore</a></td>
+        <td><a class="xref" href="Wasmtime.Store.html">Store</a></td>
         <td><span class="parametername">store</span></td>
         <td><p>The store to create the memory in.</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.UInt32</span></td>
+        <td><span class="xref">System.Int64</span></td>
         <td><span class="parametername">minimum</span></td>
         <td><p>The minimum number of WebAssembly pages.</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.UInt32</span></td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Int64</span>&gt;</td>
         <td><span class="parametername">maximum</span></td>
-        <td><p>The maximum number of WebAssembly pages.</p>
+        <td><p>The maximum number of WebAssembly pages, or <code>null</code> to not specify a maximum.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">is64Bit</span></td>
+        <td><p><code>true</code> when memory type represents a 64-bit memory, <code>false</code> when it represents a 32-bit memory.</p>
 </td>
       </tr>
     </tbody>
@@ -142,7 +148,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_PageSize.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.PageSize%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L54">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L69">View Source</a>
   </span>
   <h4 id="Wasmtime_Memory_PageSize" data-uid="Wasmtime.Memory.PageSize">PageSize</h4>
   <div class="markdown level1 summary"><p>The size, in bytes, of a WebAssembly memory page.</p>
@@ -171,19 +177,19 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_Maximum.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.Maximum%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_Is64Bit.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.Is64Bit%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L64">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L87">View Source</a>
   </span>
-  <a id="Wasmtime_Memory_Maximum_" data-uid="Wasmtime.Memory.Maximum*"></a>
-  <h4 id="Wasmtime_Memory_Maximum" data-uid="Wasmtime.Memory.Maximum">Maximum</h4>
-  <div class="markdown level1 summary"><p>The maximum memory size (in WebAssembly page units).</p>
+  <a id="Wasmtime_Memory_Is64Bit_" data-uid="Wasmtime.Memory.Is64Bit*"></a>
+  <h4 id="Wasmtime_Memory_Is64Bit" data-uid="Wasmtime.Memory.Is64Bit">Is64Bit</h4>
+  <div class="markdown level1 summary"><p>Gets a value that indicates whether this type of memory represents a 64-bit memory.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public uint Maximum { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public bool Is64Bit { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -195,8 +201,41 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.UInt32</span></td>
-        <td></td>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p><code>true</code> if this type of memory represents a 64-bit memory, <code>false</code> otherwise.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_Maximum.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.Maximum%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L81">View Source</a>
+  </span>
+  <a id="Wasmtime_Memory_Maximum_" data-uid="Wasmtime.Memory.Maximum*"></a>
+  <h4 id="Wasmtime_Memory_Maximum" data-uid="Wasmtime.Memory.Maximum">Maximum</h4>
+  <div class="markdown level1 summary"><p>Gets the maximum memory size (in WebAssembly page units).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public long? Maximum { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Int64</span>&gt;</td>
+        <td><p>The maximum memory size (in WebAssembly page units), or <code>null</code> if no maximum is specified.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -205,16 +244,16 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_Minimum.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.Minimum%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L59">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L75">View Source</a>
   </span>
   <a id="Wasmtime_Memory_Minimum_" data-uid="Wasmtime.Memory.Minimum*"></a>
   <h4 id="Wasmtime_Memory_Minimum" data-uid="Wasmtime.Memory.Minimum">Minimum</h4>
-  <div class="markdown level1 summary"><p>The minimum memory size (in WebAssembly page units).</p>
+  <div class="markdown level1 summary"><p>Gets the minimum memory size (in WebAssembly page units).</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public uint Minimum { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public long Minimum { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -226,8 +265,9 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.UInt32</span></td>
-        <td></td>
+        <td><span class="xref">System.Int64</span></td>
+        <td><p>The minimum memory size (in WebAssembly page units).</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -235,19 +275,19 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_GetSize.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.GetSize%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_GetLength.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.GetLength%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L70">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L104">View Source</a>
   </span>
-  <a id="Wasmtime_Memory_GetSize_" data-uid="Wasmtime.Memory.GetSize*"></a>
-  <h4 id="Wasmtime_Memory_GetSize" data-uid="Wasmtime.Memory.GetSize">GetSize()</h4>
-  <div class="markdown level1 summary"><p>Gets the current size of the memory, in WebAssembly page units.</p>
+  <a id="Wasmtime_Memory_GetLength_" data-uid="Wasmtime.Memory.GetLength*"></a>
+  <h4 id="Wasmtime_Memory_GetLength" data-uid="Wasmtime.Memory.GetLength">GetLength()</h4>
+  <div class="markdown level1 summary"><p>Gets the current length of the memory, in bytes.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public uint GetSize()</code></pre>
+    <pre><code class="lang-csharp hljs">public long GetLength()</code></pre>
   </div>
   <h5 class="returns">Returns</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -259,7 +299,83 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.UInt32</span></td>
+        <td><span class="xref">System.Int64</span></td>
+        <td><p>Returns the current length of the memory, in bytes.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_GetPointer.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.GetPointer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L128">View Source</a>
+  </span>
+  <a id="Wasmtime_Memory_GetPointer_" data-uid="Wasmtime.Memory.GetPointer*"></a>
+  <h4 id="Wasmtime_Memory_GetPointer" data-uid="Wasmtime.Memory.GetPointer">GetPointer()</h4>
+  <div class="markdown level1 summary"><p>Returns a pointer to the start of the memory. The length for which the pointer
+is valid can be retrieved with <a class="xref" href="Wasmtime.Memory.html#Wasmtime_Memory_GetLength">GetLength()</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IntPtr GetPointer()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IntPtr</span></td>
+        <td><p>Returns a pointer to the start of the memory.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Memory_GetPointer_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>
+The pointer may become invalid if the memory grows.
+<p>This may happen if the memory is explicitly requested to grow or
+grows as a result of WebAssembly execution.</p>
+</p>
+<p>
+Therefore, the returned pointer should not be used after calling the grow method or
+after calling into WebAssembly code.
+</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_GetSize.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.GetSize%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L93">View Source</a>
+  </span>
+  <a id="Wasmtime_Memory_GetSize_" data-uid="Wasmtime.Memory.GetSize*"></a>
+  <h4 id="Wasmtime_Memory_GetSize" data-uid="Wasmtime.Memory.GetSize">GetSize()</h4>
+  <div class="markdown level1 summary"><p>Gets the current size of the memory, in WebAssembly page units.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public long GetSize()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int64</span></td>
         <td><p>Returns the current size of the memory, in WebAssembly page units.</p>
 </td>
       </tr>
@@ -270,7 +386,7 @@
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_GetSpan.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.GetSpan%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L88">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L152">View Source</a>
   </span>
   <a id="Wasmtime_Memory_GetSpan_" data-uid="Wasmtime.Memory.GetSpan*"></a>
   <h4 id="Wasmtime_Memory_GetSpan" data-uid="Wasmtime.Memory.GetSpan">GetSpan()</h4>
@@ -298,18 +414,89 @@
     </tbody>
   </table>
   <h5 id="Wasmtime_Memory_GetSpan_remarks">Remarks</h5>
-  <div class="markdown level1 remarks"><p>The span may become invalid if the memory grows.</p>
+  <div class="markdown level1 remarks"><p>
+The span may become invalid if the memory grows.
 <p>This may happen if the memory is explicitly requested to grow or
 grows as a result of WebAssembly execution.</p>
-<p>Therefore, the returned span should not be used after calling the grow method or
-after calling into WebAssembly code.</p>
+</p>
+<p>
+Therefore, the returned span should not be used after calling the grow method or
+after calling into WebAssembly code.
+</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_GetSpan_System_Int64_System_Int32_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.GetSpan(System.Int64%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L177">View Source</a>
+  </span>
+  <a id="Wasmtime_Memory_GetSpan_" data-uid="Wasmtime.Memory.GetSpan*"></a>
+  <h4 id="Wasmtime_Memory_GetSpan_System_Int64_System_Int32_" data-uid="Wasmtime.Memory.GetSpan(System.Int64,System.Int32)">GetSpan(Int64, Int32)</h4>
+  <div class="markdown level1 summary"><p>Gets a span of a section of the memory.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Span&lt;byte&gt; GetSpan(long address, int length)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int64</span></td>
+        <td><span class="parametername">address</span></td>
+        <td><p>The zero-based address of the start of the span.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">length</span></td>
+        <td><p>The length of the span.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Span</span>&lt;<span class="xref">System.Byte</span>&gt;</td>
+        <td><p>Returns the span of a section of the memory.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Memory_GetSpan_System_Int64_System_Int32__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>
+The span may become invalid if the memory grows.
+<p>This may happen if the memory is explicitly requested to grow or
+grows as a result of WebAssembly execution.</p>
+</p>
+<p>
+Therefore, the returned span should not be used after calling the grow method or
+after calling into WebAssembly code.
+</p>
 </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_GetSpan__1_System_Int32_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.GetSpan%60%601(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L110">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L205">View Source</a>
   </span>
   <a id="Wasmtime_Memory_GetSpan_" data-uid="Wasmtime.Memory.GetSpan*"></a>
   <h4 id="Wasmtime_Memory_GetSpan__1_System_Int32_" data-uid="Wasmtime.Memory.GetSpan``1(System.Int32)">GetSpan&lt;T&gt;(Int32)</h4>
@@ -371,27 +558,36 @@ after calling into WebAssembly code.</p>
     </tbody>
   </table>
   <h5 id="Wasmtime_Memory_GetSpan__1_System_Int32__remarks">Remarks</h5>
-  <div class="markdown level1 remarks"><p>The span may become invalid if the memory grows.</p>
+  <div class="markdown level1 remarks"><p>
+The span may become invalid if the memory grows.
 <p>This may happen if the memory is explicitly requested to grow or
 grows as a result of WebAssembly execution.</p>
-<p>Therefore, the returned span should not be used after calling the grow method or
-after calling into WebAssembly code.</p>
+</p>
+<p>
+Therefore, the returned span should not be used after calling the grow method or
+after calling into WebAssembly code.
+</p>
+<p>
+Note that WebAssembly always uses little endian as byte order. On platforms 
+that use big endian, you will need to convert numeric values accordingly.
+</p>
 </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_Grow_System_UInt32_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.Grow(System.UInt32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_GetSpan__1_System_Int64_System_Int32_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.GetSpan%60%601(System.Int64%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L362">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L233">View Source</a>
   </span>
-  <a id="Wasmtime_Memory_Grow_" data-uid="Wasmtime.Memory.Grow*"></a>
-  <h4 id="Wasmtime_Memory_Grow_System_UInt32_" data-uid="Wasmtime.Memory.Grow(System.UInt32)">Grow(UInt32)</h4>
-  <div class="markdown level1 summary"><p>Grows the memory by the specified number of pages.</p>
+  <a id="Wasmtime_Memory_GetSpan_" data-uid="Wasmtime.Memory.GetSpan*"></a>
+  <h4 id="Wasmtime_Memory_GetSpan__1_System_Int64_System_Int32_" data-uid="Wasmtime.Memory.GetSpan``1(System.Int64,System.Int32)">GetSpan&lt;T&gt;(Int64, Int32)</h4>
+  <div class="markdown level1 summary"><p>Gets a span of a section of the memory.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public uint Grow(uint delta)</code></pre>
+    <pre><code class="lang-csharp hljs">public Span&lt;T&gt; GetSpan&lt;T&gt;(long address, int length)
+    where T : struct</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -404,7 +600,93 @@ after calling into WebAssembly code.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.UInt32</span></td>
+        <td><span class="xref">System.Int64</span></td>
+        <td><span class="parametername">address</span></td>
+        <td><p>The zero-based address of the start of the span.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">length</span></td>
+        <td><p>The length of the span.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Span</span>&lt;T&gt;</td>
+        <td><p>Returns the span of a section of the memory.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Wasmtime_Memory_GetSpan__1_System_Int64_System_Int32__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>
+The span may become invalid if the memory grows.
+<p>This may happen if the memory is explicitly requested to grow or
+grows as a result of WebAssembly execution.</p>
+</p>
+<p>
+Therefore, the returned span should not be used after calling the grow method or
+after calling into WebAssembly code.
+</p>
+<p>
+Note that WebAssembly always uses little endian as byte order. On platforms 
+that use big endian, you will need to convert numeric values accordingly.
+</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_Grow_System_Int64_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.Grow(System.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L518">View Source</a>
+  </span>
+  <a id="Wasmtime_Memory_Grow_" data-uid="Wasmtime.Memory.Grow*"></a>
+  <h4 id="Wasmtime_Memory_Grow_System_Int64_" data-uid="Wasmtime.Memory.Grow(System.Int64)">Grow(Int64)</h4>
+  <div class="markdown level1 summary"><p>Grows the memory by the specified number of pages.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public long Grow(long delta)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int64</span></td>
         <td><span class="parametername">delta</span></td>
         <td><p>The number of WebAssembly pages to grow the memory by.</p>
 </td>
@@ -421,30 +703,30 @@ after calling into WebAssembly code.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.UInt32</span></td>
+        <td><span class="xref">System.Int64</span></td>
         <td><p>Returns the previous size of the Webassembly memory, in pages.</p>
 </td>
       </tr>
     </tbody>
   </table>
-  <h5 id="Wasmtime_Memory_Grow_System_UInt32__remarks">Remarks</h5>
+  <h5 id="Wasmtime_Memory_Grow_System_Int64__remarks">Remarks</h5>
   <div class="markdown level1 remarks"><p>This method will invalidate previously returned values from <code>GetSpan</code>.</p>
 </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_Read__1_System_Int32_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.Read%60%601(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_Read__1_System_Int64_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.Read%60%601(System.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L122">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L275">View Source</a>
   </span>
   <a id="Wasmtime_Memory_Read_" data-uid="Wasmtime.Memory.Read*"></a>
-  <h4 id="Wasmtime_Memory_Read__1_System_Int32_" data-uid="Wasmtime.Memory.Read``1(System.Int32)">Read&lt;T&gt;(Int32)</h4>
+  <h4 id="Wasmtime_Memory_Read__1_System_Int64_" data-uid="Wasmtime.Memory.Read``1(System.Int64)">Read&lt;T&gt;(Int64)</h4>
   <div class="markdown level1 summary"><p>Read a struct from memory.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public T Read&lt;T&gt;(int address)
+    <pre><code class="lang-csharp hljs">public T Read&lt;T&gt;(long address)
     where T : struct</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
@@ -458,7 +740,7 @@ after calling into WebAssembly code.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">System.Int64</span></td>
         <td><span class="parametername">address</span></td>
         <td><p>The zero-based address to read from.</p>
 </td>
@@ -497,21 +779,27 @@ after calling into WebAssembly code.</p>
       </tr>
     </tbody>
   </table>
+  <h5 id="Wasmtime_Memory_Read__1_System_Int64__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>
+Note that WebAssembly always uses little endian as byte order. On platforms 
+that use big endian, you will need to convert numeric values accordingly.
+</p>
+</div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_ReadByte_System_Int32_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.ReadByte(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_ReadByte_System_Int64_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.ReadByte(System.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L196">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L366">View Source</a>
   </span>
   <a id="Wasmtime_Memory_ReadByte_" data-uid="Wasmtime.Memory.ReadByte*"></a>
-  <h4 id="Wasmtime_Memory_ReadByte_System_Int32_" data-uid="Wasmtime.Memory.ReadByte(System.Int32)">ReadByte(Int32)</h4>
+  <h4 id="Wasmtime_Memory_ReadByte_System_Int64_" data-uid="Wasmtime.Memory.ReadByte(System.Int64)">ReadByte(Int64)</h4>
   <div class="markdown level1 summary"><p>Reads a byte from memory.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public byte ReadByte(int address)</code></pre>
+    <pre><code class="lang-csharp hljs">public byte ReadByte(long address)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -524,7 +812,7 @@ after calling into WebAssembly code.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">System.Int64</span></td>
         <td><span class="parametername">address</span></td>
         <td><p>The zero-based address to read from.</p>
 </td>
@@ -549,19 +837,19 @@ after calling into WebAssembly code.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_ReadDouble_System_Int32_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.ReadDouble(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_ReadDouble_System_Int64_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.ReadDouble(System.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L334">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L497">View Source</a>
   </span>
   <a id="Wasmtime_Memory_ReadDouble_" data-uid="Wasmtime.Memory.ReadDouble*"></a>
-  <h4 id="Wasmtime_Memory_ReadDouble_System_Int32_" data-uid="Wasmtime.Memory.ReadDouble(System.Int32)">ReadDouble(Int32)</h4>
+  <h4 id="Wasmtime_Memory_ReadDouble_System_Int64_" data-uid="Wasmtime.Memory.ReadDouble(System.Int64)">ReadDouble(Int64)</h4>
   <div class="markdown level1 summary"><p>Reads a double from memory.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public double ReadDouble(int address)</code></pre>
+    <pre><code class="lang-csharp hljs">public double ReadDouble(long address)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -574,7 +862,7 @@ after calling into WebAssembly code.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">System.Int64</span></td>
         <td><span class="parametername">address</span></td>
         <td><p>The zero-based address to read from.</p>
 </td>
@@ -599,19 +887,19 @@ after calling into WebAssembly code.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_ReadInt16_System_Int32_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.ReadInt16(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_ReadInt16_System_Int64_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.ReadInt16(System.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L216">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L386">View Source</a>
   </span>
   <a id="Wasmtime_Memory_ReadInt16_" data-uid="Wasmtime.Memory.ReadInt16*"></a>
-  <h4 id="Wasmtime_Memory_ReadInt16_System_Int32_" data-uid="Wasmtime.Memory.ReadInt16(System.Int32)">ReadInt16(Int32)</h4>
+  <h4 id="Wasmtime_Memory_ReadInt16_System_Int64_" data-uid="Wasmtime.Memory.ReadInt16(System.Int64)">ReadInt16(Int64)</h4>
   <div class="markdown level1 summary"><p>Reads a short from memory.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public short ReadInt16(int address)</code></pre>
+    <pre><code class="lang-csharp hljs">public short ReadInt16(long address)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -624,7 +912,7 @@ after calling into WebAssembly code.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">System.Int64</span></td>
         <td><span class="parametername">address</span></td>
         <td><p>The zero-based address to read from.</p>
 </td>
@@ -649,19 +937,19 @@ after calling into WebAssembly code.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_ReadInt32_System_Int32_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.ReadInt32(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_ReadInt32_System_Int64_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.ReadInt32(System.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L236">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L406">View Source</a>
   </span>
   <a id="Wasmtime_Memory_ReadInt32_" data-uid="Wasmtime.Memory.ReadInt32*"></a>
-  <h4 id="Wasmtime_Memory_ReadInt32_System_Int32_" data-uid="Wasmtime.Memory.ReadInt32(System.Int32)">ReadInt32(Int32)</h4>
+  <h4 id="Wasmtime_Memory_ReadInt32_System_Int64_" data-uid="Wasmtime.Memory.ReadInt32(System.Int64)">ReadInt32(Int64)</h4>
   <div class="markdown level1 summary"><p>Reads an int from memory.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public int ReadInt32(int address)</code></pre>
+    <pre><code class="lang-csharp hljs">public int ReadInt32(long address)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -674,7 +962,7 @@ after calling into WebAssembly code.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">System.Int64</span></td>
         <td><span class="parametername">address</span></td>
         <td><p>The zero-based address to read from.</p>
 </td>
@@ -699,19 +987,19 @@ after calling into WebAssembly code.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_ReadInt64_System_Int32_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.ReadInt64(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_ReadInt64_System_Int64_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.ReadInt64(System.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L256">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L426">View Source</a>
   </span>
   <a id="Wasmtime_Memory_ReadInt64_" data-uid="Wasmtime.Memory.ReadInt64*"></a>
-  <h4 id="Wasmtime_Memory_ReadInt64_System_Int32_" data-uid="Wasmtime.Memory.ReadInt64(System.Int32)">ReadInt64(Int32)</h4>
+  <h4 id="Wasmtime_Memory_ReadInt64_System_Int64_" data-uid="Wasmtime.Memory.ReadInt64(System.Int64)">ReadInt64(Int64)</h4>
   <div class="markdown level1 summary"><p>Reads a long from memory.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public long ReadInt64(int address)</code></pre>
+    <pre><code class="lang-csharp hljs">public long ReadInt64(long address)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -724,7 +1012,7 @@ after calling into WebAssembly code.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">System.Int64</span></td>
         <td><span class="parametername">address</span></td>
         <td><p>The zero-based address to read from.</p>
 </td>
@@ -749,19 +1037,19 @@ after calling into WebAssembly code.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_ReadIntPtr_System_Int32_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.ReadIntPtr(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_ReadIntPtr_System_Int64_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.ReadIntPtr(System.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L276">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L446">View Source</a>
   </span>
   <a id="Wasmtime_Memory_ReadIntPtr_" data-uid="Wasmtime.Memory.ReadIntPtr*"></a>
-  <h4 id="Wasmtime_Memory_ReadIntPtr_System_Int32_" data-uid="Wasmtime.Memory.ReadIntPtr(System.Int32)">ReadIntPtr(Int32)</h4>
+  <h4 id="Wasmtime_Memory_ReadIntPtr_System_Int64_" data-uid="Wasmtime.Memory.ReadIntPtr(System.Int64)">ReadIntPtr(Int64)</h4>
   <div class="markdown level1 summary"><p>Reads an IntPtr from memory.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IntPtr ReadIntPtr(int address)</code></pre>
+    <pre><code class="lang-csharp hljs">public IntPtr ReadIntPtr(long address)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -774,7 +1062,7 @@ after calling into WebAssembly code.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">System.Int64</span></td>
         <td><span class="parametername">address</span></td>
         <td><p>The zero-based address to read from.</p>
 </td>
@@ -799,19 +1087,19 @@ after calling into WebAssembly code.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_ReadNullTerminatedString_System_Int32_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.ReadNullTerminatedString(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_ReadNullTerminatedString_System_Int64_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.ReadNullTerminatedString(System.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L162">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L321">View Source</a>
   </span>
   <a id="Wasmtime_Memory_ReadNullTerminatedString_" data-uid="Wasmtime.Memory.ReadNullTerminatedString*"></a>
-  <h4 id="Wasmtime_Memory_ReadNullTerminatedString_System_Int32_" data-uid="Wasmtime.Memory.ReadNullTerminatedString(System.Int32)">ReadNullTerminatedString(Int32)</h4>
+  <h4 id="Wasmtime_Memory_ReadNullTerminatedString_System_Int64_" data-uid="Wasmtime.Memory.ReadNullTerminatedString(System.Int64)">ReadNullTerminatedString(Int64)</h4>
   <div class="markdown level1 summary"><p>Reads a null-terminated UTF-8 string from memory.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public string ReadNullTerminatedString(int address)</code></pre>
+    <pre><code class="lang-csharp hljs">public string ReadNullTerminatedString(long address)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -824,7 +1112,7 @@ after calling into WebAssembly code.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">System.Int64</span></td>
         <td><span class="parametername">address</span></td>
         <td><p>The zero-based address to read from.</p>
 </td>
@@ -849,19 +1137,19 @@ after calling into WebAssembly code.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_ReadSingle_System_Int32_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.ReadSingle(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_ReadSingle_System_Int64_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.ReadSingle(System.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L307">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L477">View Source</a>
   </span>
   <a id="Wasmtime_Memory_ReadSingle_" data-uid="Wasmtime.Memory.ReadSingle*"></a>
-  <h4 id="Wasmtime_Memory_ReadSingle_System_Int32_" data-uid="Wasmtime.Memory.ReadSingle(System.Int32)">ReadSingle(Int32)</h4>
+  <h4 id="Wasmtime_Memory_ReadSingle_System_Int64_" data-uid="Wasmtime.Memory.ReadSingle(System.Int64)">ReadSingle(Int64)</h4>
   <div class="markdown level1 summary"><p>Reads a single from memory.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public float ReadSingle(int address)</code></pre>
+    <pre><code class="lang-csharp hljs">public float ReadSingle(long address)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -874,7 +1162,7 @@ after calling into WebAssembly code.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">System.Int64</span></td>
         <td><span class="parametername">address</span></td>
         <td><p>The zero-based address to read from.</p>
 </td>
@@ -899,19 +1187,19 @@ after calling into WebAssembly code.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_ReadString_System_Int32_System_Int32_System_Nullable_Encoding__.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.ReadString(System.Int32%2CSystem.Int32%2CSystem.Nullable%7BEncoding%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_ReadString_System_Int64_System_Int32_System_Nullable_Encoding__.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.ReadString(System.Int64%2CSystem.Int32%2CSystem.Nullable%7BEncoding%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L147">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L306">View Source</a>
   </span>
   <a id="Wasmtime_Memory_ReadString_" data-uid="Wasmtime.Memory.ReadString*"></a>
-  <h4 id="Wasmtime_Memory_ReadString_System_Int32_System_Int32_System_Nullable_Encoding__" data-uid="Wasmtime.Memory.ReadString(System.Int32,System.Int32,System.Nullable{Encoding})">ReadString(Int32, Int32, Nullable&lt;Encoding&gt;)</h4>
+  <h4 id="Wasmtime_Memory_ReadString_System_Int64_System_Int32_System_Nullable_Encoding__" data-uid="Wasmtime.Memory.ReadString(System.Int64,System.Int32,System.Nullable{Encoding})">ReadString(Int64, Int32, Nullable&lt;Encoding&gt;)</h4>
   <div class="markdown level1 summary"><p>Reads a string from memory with the specified encoding.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public string ReadString(int address, int length, Encoding? encoding = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public string ReadString(long address, int length, Encoding? encoding = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -924,7 +1212,7 @@ after calling into WebAssembly code.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">System.Int64</span></td>
         <td><span class="parametername">address</span></td>
         <td><p>The zero-based address to read from.</p>
 </td>
@@ -961,19 +1249,19 @@ after calling into WebAssembly code.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_Write__1_System_Int32___0_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.Write%60%601(System.Int32%2C%60%600)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_Write__1_System_Int64___0_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.Write%60%601(System.Int64%2C%60%600)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L134">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L293">View Source</a>
   </span>
   <a id="Wasmtime_Memory_Write_" data-uid="Wasmtime.Memory.Write*"></a>
-  <h4 id="Wasmtime_Memory_Write__1_System_Int32___0_" data-uid="Wasmtime.Memory.Write``1(System.Int32,``0)">Write&lt;T&gt;(Int32, T)</h4>
+  <h4 id="Wasmtime_Memory_Write__1_System_Int64___0_" data-uid="Wasmtime.Memory.Write``1(System.Int64,``0)">Write&lt;T&gt;(Int64, T)</h4>
   <div class="markdown level1 summary"><p>Write a struct to memory.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void Write&lt;T&gt;(int address, T value)
+    <pre><code class="lang-csharp hljs">public void Write&lt;T&gt;(long address, T value)
     where T : struct</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
@@ -987,7 +1275,7 @@ after calling into WebAssembly code.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">System.Int64</span></td>
         <td><span class="parametername">address</span></td>
         <td><p>The zero-based address to read from.</p>
 </td>
@@ -1015,21 +1303,27 @@ after calling into WebAssembly code.</p>
       </tr>
     </tbody>
   </table>
+  <h5 id="Wasmtime_Memory_Write__1_System_Int64___0__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>
+Note that WebAssembly always uses little endian as byte order. On platforms 
+that use big endian, you will need to convert numeric values accordingly.
+</p>
+</div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_WriteByte_System_Int32_System_Byte_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.WriteByte(System.Int32%2CSystem.Byte)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_WriteByte_System_Int64_System_Byte_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.WriteByte(System.Int64%2CSystem.Byte)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L206">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L376">View Source</a>
   </span>
   <a id="Wasmtime_Memory_WriteByte_" data-uid="Wasmtime.Memory.WriteByte*"></a>
-  <h4 id="Wasmtime_Memory_WriteByte_System_Int32_System_Byte_" data-uid="Wasmtime.Memory.WriteByte(System.Int32,System.Byte)">WriteByte(Int32, Byte)</h4>
+  <h4 id="Wasmtime_Memory_WriteByte_System_Int64_System_Byte_" data-uid="Wasmtime.Memory.WriteByte(System.Int64,System.Byte)">WriteByte(Int64, Byte)</h4>
   <div class="markdown level1 summary"><p>Writes a byte to memory.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void WriteByte(int address, byte value)</code></pre>
+    <pre><code class="lang-csharp hljs">public void WriteByte(long address, byte value)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -1042,7 +1336,7 @@ after calling into WebAssembly code.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">System.Int64</span></td>
         <td><span class="parametername">address</span></td>
         <td><p>The zero-based address to write to.</p>
 </td>
@@ -1057,19 +1351,19 @@ after calling into WebAssembly code.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_WriteDouble_System_Int32_System_Double_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.WriteDouble(System.Int32%2CSystem.Double)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_WriteDouble_System_Int64_System_Double_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.WriteDouble(System.Int64%2CSystem.Double)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L348">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L507">View Source</a>
   </span>
   <a id="Wasmtime_Memory_WriteDouble_" data-uid="Wasmtime.Memory.WriteDouble*"></a>
-  <h4 id="Wasmtime_Memory_WriteDouble_System_Int32_System_Double_" data-uid="Wasmtime.Memory.WriteDouble(System.Int32,System.Double)">WriteDouble(Int32, Double)</h4>
+  <h4 id="Wasmtime_Memory_WriteDouble_System_Int64_System_Double_" data-uid="Wasmtime.Memory.WriteDouble(System.Int64,System.Double)">WriteDouble(Int64, Double)</h4>
   <div class="markdown level1 summary"><p>Writes a double to memory.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void WriteDouble(int address, double value)</code></pre>
+    <pre><code class="lang-csharp hljs">public void WriteDouble(long address, double value)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -1082,7 +1376,7 @@ after calling into WebAssembly code.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">System.Int64</span></td>
         <td><span class="parametername">address</span></td>
         <td><p>The zero-based address to write to.</p>
 </td>
@@ -1097,19 +1391,19 @@ after calling into WebAssembly code.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_WriteInt16_System_Int32_System_Int16_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.WriteInt16(System.Int32%2CSystem.Int16)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_WriteInt16_System_Int64_System_Int16_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.WriteInt16(System.Int64%2CSystem.Int16)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L226">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L396">View Source</a>
   </span>
   <a id="Wasmtime_Memory_WriteInt16_" data-uid="Wasmtime.Memory.WriteInt16*"></a>
-  <h4 id="Wasmtime_Memory_WriteInt16_System_Int32_System_Int16_" data-uid="Wasmtime.Memory.WriteInt16(System.Int32,System.Int16)">WriteInt16(Int32, Int16)</h4>
+  <h4 id="Wasmtime_Memory_WriteInt16_System_Int64_System_Int16_" data-uid="Wasmtime.Memory.WriteInt16(System.Int64,System.Int16)">WriteInt16(Int64, Int16)</h4>
   <div class="markdown level1 summary"><p>Writes a short to memory.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void WriteInt16(int address, short value)</code></pre>
+    <pre><code class="lang-csharp hljs">public void WriteInt16(long address, short value)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -1122,7 +1416,7 @@ after calling into WebAssembly code.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">System.Int64</span></td>
         <td><span class="parametername">address</span></td>
         <td><p>The zero-based address to write to.</p>
 </td>
@@ -1137,19 +1431,19 @@ after calling into WebAssembly code.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_WriteInt32_System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.WriteInt32(System.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_WriteInt32_System_Int64_System_Int32_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.WriteInt32(System.Int64%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L246">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L416">View Source</a>
   </span>
   <a id="Wasmtime_Memory_WriteInt32_" data-uid="Wasmtime.Memory.WriteInt32*"></a>
-  <h4 id="Wasmtime_Memory_WriteInt32_System_Int32_System_Int32_" data-uid="Wasmtime.Memory.WriteInt32(System.Int32,System.Int32)">WriteInt32(Int32, Int32)</h4>
+  <h4 id="Wasmtime_Memory_WriteInt32_System_Int64_System_Int32_" data-uid="Wasmtime.Memory.WriteInt32(System.Int64,System.Int32)">WriteInt32(Int64, Int32)</h4>
   <div class="markdown level1 summary"><p>Writes an int to memory.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void WriteInt32(int address, int value)</code></pre>
+    <pre><code class="lang-csharp hljs">public void WriteInt32(long address, int value)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -1162,7 +1456,7 @@ after calling into WebAssembly code.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">System.Int64</span></td>
         <td><span class="parametername">address</span></td>
         <td><p>The zero-based address to write to.</p>
 </td>
@@ -1177,19 +1471,19 @@ after calling into WebAssembly code.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_WriteInt64_System_Int32_System_Int64_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.WriteInt64(System.Int32%2CSystem.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_WriteInt64_System_Int64_System_Int64_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.WriteInt64(System.Int64%2CSystem.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L266">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L436">View Source</a>
   </span>
   <a id="Wasmtime_Memory_WriteInt64_" data-uid="Wasmtime.Memory.WriteInt64*"></a>
-  <h4 id="Wasmtime_Memory_WriteInt64_System_Int32_System_Int64_" data-uid="Wasmtime.Memory.WriteInt64(System.Int32,System.Int64)">WriteInt64(Int32, Int64)</h4>
+  <h4 id="Wasmtime_Memory_WriteInt64_System_Int64_System_Int64_" data-uid="Wasmtime.Memory.WriteInt64(System.Int64,System.Int64)">WriteInt64(Int64, Int64)</h4>
   <div class="markdown level1 summary"><p>Writes a long to memory.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void WriteInt64(int address, long value)</code></pre>
+    <pre><code class="lang-csharp hljs">public void WriteInt64(long address, long value)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -1202,7 +1496,7 @@ after calling into WebAssembly code.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">System.Int64</span></td>
         <td><span class="parametername">address</span></td>
         <td><p>The zero-based address to write to.</p>
 </td>
@@ -1217,19 +1511,19 @@ after calling into WebAssembly code.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_WriteIntPtr_System_Int32_IntPtr_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.WriteIntPtr(System.Int32%2CIntPtr)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_WriteIntPtr_System_Int64_IntPtr_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.WriteIntPtr(System.Int64%2CIntPtr)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L290">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L460">View Source</a>
   </span>
   <a id="Wasmtime_Memory_WriteIntPtr_" data-uid="Wasmtime.Memory.WriteIntPtr*"></a>
-  <h4 id="Wasmtime_Memory_WriteIntPtr_System_Int32_IntPtr_" data-uid="Wasmtime.Memory.WriteIntPtr(System.Int32,IntPtr)">WriteIntPtr(Int32, IntPtr)</h4>
+  <h4 id="Wasmtime_Memory_WriteIntPtr_System_Int64_IntPtr_" data-uid="Wasmtime.Memory.WriteIntPtr(System.Int64,IntPtr)">WriteIntPtr(Int64, IntPtr)</h4>
   <div class="markdown level1 summary"><p>Writes an IntPtr to memory.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void WriteIntPtr(int address, IntPtr value)</code></pre>
+    <pre><code class="lang-csharp hljs">public void WriteIntPtr(long address, IntPtr value)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -1242,7 +1536,7 @@ after calling into WebAssembly code.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">System.Int64</span></td>
         <td><span class="parametername">address</span></td>
         <td><p>The zero-based address to write to.</p>
 </td>
@@ -1257,19 +1551,19 @@ after calling into WebAssembly code.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_WriteSingle_System_Int32_System_Single_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.WriteSingle(System.Int32%2CSystem.Single)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_WriteSingle_System_Int64_System_Single_.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.WriteSingle(System.Int64%2CSystem.Single)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L321">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L487">View Source</a>
   </span>
   <a id="Wasmtime_Memory_WriteSingle_" data-uid="Wasmtime.Memory.WriteSingle*"></a>
-  <h4 id="Wasmtime_Memory_WriteSingle_System_Int32_System_Single_" data-uid="Wasmtime.Memory.WriteSingle(System.Int32,System.Single)">WriteSingle(Int32, Single)</h4>
+  <h4 id="Wasmtime_Memory_WriteSingle_System_Int64_System_Single_" data-uid="Wasmtime.Memory.WriteSingle(System.Int64,System.Single)">WriteSingle(Int64, Single)</h4>
   <div class="markdown level1 summary"><p>Writes a single to memory.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void WriteSingle(int address, float value)</code></pre>
+    <pre><code class="lang-csharp hljs">public void WriteSingle(long address, float value)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -1282,7 +1576,7 @@ after calling into WebAssembly code.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">System.Int64</span></td>
         <td><span class="parametername">address</span></td>
         <td><p>The zero-based address to write to.</p>
 </td>
@@ -1297,19 +1591,19 @@ after calling into WebAssembly code.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_WriteString_System_Int32_System_String_System_Nullable_Encoding__.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.WriteString(System.Int32%2CSystem.String%2CSystem.Nullable%7BEncoding%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Memory_WriteString_System_Int64_System_String_System_Nullable_Encoding__.md&amp;value=---%0Auid%3A%20Wasmtime.Memory.WriteString(System.Int64%2CSystem.String%2CSystem.Nullable%7BEncoding%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L181">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Memory.cs/#L346">View Source</a>
   </span>
   <a id="Wasmtime_Memory_WriteString_" data-uid="Wasmtime.Memory.WriteString*"></a>
-  <h4 id="Wasmtime_Memory_WriteString_System_Int32_System_String_System_Nullable_Encoding__" data-uid="Wasmtime.Memory.WriteString(System.Int32,System.String,System.Nullable{Encoding})">WriteString(Int32, String, Nullable&lt;Encoding&gt;)</h4>
+  <h4 id="Wasmtime_Memory_WriteString_System_Int64_System_String_System_Nullable_Encoding__" data-uid="Wasmtime.Memory.WriteString(System.Int64,System.String,System.Nullable{Encoding})">WriteString(Int64, String, Nullable&lt;Encoding&gt;)</h4>
   <div class="markdown level1 summary"><p>Writes a string at the given address with the given encoding.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public int WriteString(int address, string value, Encoding? encoding = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public int WriteString(long address, string value, Encoding? encoding = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -1322,7 +1616,7 @@ after calling into WebAssembly code.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">System.Int64</span></td>
         <td><span class="parametername">address</span></td>
         <td><p>The zero-based address to write to.</p>
 </td>

@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class Store
    ">
-    <meta name="generator" content="docfx 2.59.3.0">
+    <meta name="generator" content="docfx 2.59.4.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -81,16 +81,11 @@
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">Store</span></div>
   </div>
-  <div class="implements">
-    <h5>Implements</h5>
-    <div><a class="xref" href="Wasmtime.IStore.html">IStore</a></div>
-    <div><span class="xref">IDisposable</span></div>
-  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Wasmtime.html">Wasmtime</a></h6>
   <h6><strong>Assembly</strong>: Wasmtime.Dotnet.dll</h6>
   <h5 id="Wasmtime_Store_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class Store : object, IStore</code></pre>
+    <pre><code class="lang-csharp hljs">public class Store : IDisposable</code></pre>
   </div>
   <h5 id="Wasmtime_Store_remarks"><strong>Remarks</strong></h5>
   <div class="markdown level0 remarks"><p>A Wasmtime store may be sent between threads but cannot be used from more than one thread
@@ -103,7 +98,7 @@ simultaneously.</p>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Store__ctor_Wasmtime_Engine_.md&amp;value=---%0Auid%3A%20Wasmtime.Store.%23ctor(Wasmtime.Engine)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Store.cs/#L198">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Store.cs/#L134">View Source</a>
   </span>
   <a id="Wasmtime_Store__ctor_" data-uid="Wasmtime.Store.#ctor*"></a>
   <h4 id="Wasmtime_Store__ctor_Wasmtime_Engine_" data-uid="Wasmtime.Store.#ctor(Wasmtime.Engine)">Store(Engine)</h4>
@@ -132,6 +127,46 @@ simultaneously.</p>
       </tr>
     </tbody>
   </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Store__ctor_Wasmtime_Engine_System_Nullable_System_Object__.md&amp;value=---%0Auid%3A%20Wasmtime.Store.%23ctor(Wasmtime.Engine%2CSystem.Nullable%7BSystem.Object%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Store.cs/#L141">View Source</a>
+  </span>
+  <a id="Wasmtime_Store__ctor_" data-uid="Wasmtime.Store.#ctor*"></a>
+  <h4 id="Wasmtime_Store__ctor_Wasmtime_Engine_System_Nullable_System_Object__" data-uid="Wasmtime.Store.#ctor(Wasmtime.Engine,System.Nullable{System.Object})">Store(Engine, Nullable&lt;Object&gt;)</h4>
+  <div class="markdown level1 summary"><p>Constructs a new store with the given context data.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Store(Engine engine, object? data)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Wasmtime.Engine.html">Engine</a></td>
+        <td><span class="parametername">engine</span></td>
+        <td><p>The engine to use for the store.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Object</span>&gt;</td>
+        <td><span class="parametername">data</span></td>
+        <td><p>The data to initialize the store with; this can later be accessed with the GetData function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
   <h3 id="methods">Methods
   </h3>
   <span class="small pull-right mobile-hide">
@@ -139,7 +174,7 @@ simultaneously.</p>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Store_AddFuel_System_UInt64_.md&amp;value=---%0Auid%3A%20Wasmtime.Store.AddFuel(System.UInt64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Store.cs/#L217">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Store.cs/#L173">View Source</a>
   </span>
   <a id="Wasmtime_Store_AddFuel_" data-uid="Wasmtime.Store.AddFuel*"></a>
   <h4 id="Wasmtime_Store_AddFuel_System_UInt64_" data-uid="Wasmtime.Store.AddFuel(System.UInt64)">AddFuel(UInt64)</h4>
@@ -173,7 +208,7 @@ simultaneously.</p>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Store_ConsumeFuel_System_UInt64_.md&amp;value=---%0Auid%3A%20Wasmtime.Store.ConsumeFuel(System.UInt64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Store.cs/#L234">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Store.cs/#L194">View Source</a>
   </span>
   <a id="Wasmtime_Store_ConsumeFuel_" data-uid="Wasmtime.Store.ConsumeFuel*"></a>
   <h4 id="Wasmtime_Store_ConsumeFuel_System_UInt64_" data-uid="Wasmtime.Store.ConsumeFuel(System.UInt64)">ConsumeFuel(UInt64)</h4>
@@ -245,7 +280,7 @@ is thrown and no fuel is consumed.</p>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Store_Dispose.md&amp;value=---%0Auid%3A%20Wasmtime.Store.Dispose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Store.cs/#L257">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Store.cs/#L255">View Source</a>
   </span>
   <a id="Wasmtime_Store_Dispose_" data-uid="Wasmtime.Store.Dispose*"></a>
   <h4 id="Wasmtime_Store_Dispose" data-uid="Wasmtime.Store.Dispose">Dispose()</h4>
@@ -260,7 +295,7 @@ is thrown and no fuel is consumed.</p>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Store_GC.md&amp;value=---%0Auid%3A%20Wasmtime.Store.GC%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Store.cs/#L211">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Store.cs/#L163">View Source</a>
   </span>
   <a id="Wasmtime_Store_GC_" data-uid="Wasmtime.Store.GC*"></a>
   <h4 id="Wasmtime_Store_GC" data-uid="Wasmtime.Store.GC">GC()</h4>
@@ -276,7 +311,7 @@ is thrown and no fuel is consumed.</p>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Store_GetConsumedFuel.md&amp;value=---%0Auid%3A%20Wasmtime.Store.GetConsumedFuel%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Store.cs/#L240">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Store.cs/#L205">View Source</a>
   </span>
   <a id="Wasmtime_Store_GetConsumedFuel_" data-uid="Wasmtime.Store.GetConsumedFuel*"></a>
   <h4 id="Wasmtime_Store_GetConsumedFuel" data-uid="Wasmtime.Store.GetConsumedFuel">GetConsumedFuel()</h4>
@@ -305,10 +340,74 @@ is thrown and no fuel is consumed.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Store_GetData.md&amp;value=---%0Auid%3A%20Wasmtime.Store.GetData%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Store.cs/#L235">View Source</a>
+  </span>
+  <a id="Wasmtime_Store_GetData_" data-uid="Wasmtime.Store.GetData*"></a>
+  <h4 id="Wasmtime_Store_GetData" data-uid="Wasmtime.Store.GetData">GetData()</h4>
+  <div class="markdown level1 summary"><p>Retrieves the data stored in the Store context</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public object? GetData()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Object</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Store_SetData_System_Nullable_System_Object__.md&amp;value=---%0Auid%3A%20Wasmtime.Store.SetData(System.Nullable%7BSystem.Object%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Store.cs/#L240">View Source</a>
+  </span>
+  <a id="Wasmtime_Store_SetData_" data-uid="Wasmtime.Store.SetData*"></a>
+  <h4 id="Wasmtime_Store_SetData_System_Nullable_System_Object__" data-uid="Wasmtime.Store.SetData(System.Nullable{System.Object})">SetData(Nullable&lt;Object&gt;)</h4>
+  <div class="markdown level1 summary"><p>Replaces the data stored in the Store context</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetData(object? data)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Object</span>&gt;</td>
+        <td><span class="parametername">data</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Store_SetEpochDeadline_System_UInt64_.md&amp;value=---%0Auid%3A%20Wasmtime.Store.SetEpochDeadline(System.UInt64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Store.cs/#L252">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Store.cs/#L226">View Source</a>
   </span>
   <a id="Wasmtime_Store_SetEpochDeadline_" data-uid="Wasmtime.Store.SetEpochDeadline*"></a>
   <h4 id="Wasmtime_Store_SetEpochDeadline_System_UInt64_" data-uid="Wasmtime.Store.SetEpochDeadline(System.UInt64)">SetEpochDeadline(UInt64)</h4>
@@ -341,11 +440,11 @@ is thrown and no fuel is consumed.</p>
     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Store_SetWasiConfiguration_Wasmtime_WasiConfiguration_.md&amp;value=---%0Auid%3A%20Wasmtime.Store.SetWasiConfiguration(Wasmtime.WasiConfiguration)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Store.cs/#L246">View Source</a>
+    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Store.cs/#L216">View Source</a>
   </span>
   <a id="Wasmtime_Store_SetWasiConfiguration_" data-uid="Wasmtime.Store.SetWasiConfiguration*"></a>
   <h4 id="Wasmtime_Store_SetWasiConfiguration_Wasmtime_WasiConfiguration_" data-uid="Wasmtime.Store.SetWasiConfiguration(Wasmtime.WasiConfiguration)">SetWasiConfiguration(WasiConfiguration)</h4>
-  <div class="markdown level1 summary"><p>Configres WASI within the store.</p>
+  <div class="markdown level1 summary"><p>Configures WASI within the store.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -370,45 +469,6 @@ is thrown and no fuel is consumed.</p>
       </tr>
     </tbody>
   </table>
-  <h3 id="eii">Explicit Interface Implementations
-  </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Store_Wasmtime_IStore_Context.md&amp;value=---%0Auid%3A%20Wasmtime.Store.Wasmtime%23IStore%23Context%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Store.cs/#L254">View Source</a>
-  </span>
-  <a id="Wasmtime_Store_Wasmtime_IStore_Context_" data-uid="Wasmtime.Store.Wasmtime#IStore#Context*"></a>
-  <h4 id="Wasmtime_Store_Wasmtime_IStore_Context" data-uid="Wasmtime.Store.Wasmtime#IStore#Context">IStore.Context</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">StoreContext IStore.Context { get; }</code></pre>
-  </div>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Wasmtime.StoreContext.html">StoreContext</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h3 id="implements">Implements</h3>
-  <div>
-      <a class="xref" href="Wasmtime.IStore.html">IStore</a>
-  </div>
-  <div>
-      <span class="xref">IDisposable</span>
-  </div>
 </article>
           </div>
           
@@ -420,7 +480,7 @@ is thrown and no fuel is consumed.</p>
                     <a href="https://github.com/bytecodealliance/wasmtime-dotnet/new/main/apiSpec/new?filename=Wasmtime_Store.md&amp;value=---%0Auid%3A%20Wasmtime.Store%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Store.cs/#L192" class="contribution-link">View Source</a>
+                    <a href="https://github.com/peterhuene/wasmtime-dotnet/blob/main/src/Store.cs/#L128" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
