@@ -7,7 +7,7 @@ namespace Wasmtime
     /// <summary>
     /// Represents caller information for a function.
     /// </summary>
-    public class Caller : IDisposable
+    public readonly ref struct Caller
     {
         internal Caller(IntPtr handle)
         {
@@ -17,7 +17,8 @@ namespace Wasmtime
             }
 
             this.handle = handle;
-            store = Context.Store;
+            this.context = new StoreContext(Native.wasmtime_caller_context(handle));
+            this.store = context.Store;
         }
 
         /// <summary>
@@ -33,7 +34,7 @@ namespace Wasmtime
 
                 fixed (byte* ptr = bytes)
                 {
-                    if (!Native.wasmtime_caller_export_get(NativeHandle, ptr, (UIntPtr)bytes.Length, out var item))
+                    if (!Native.wasmtime_caller_export_get(handle, ptr, (UIntPtr)bytes.Length, out var item))
                     {
                         return null;
                     }
@@ -44,7 +45,7 @@ namespace Wasmtime
                         return null;
                     }
 
-                    return new Memory(Store, item.of.memory);
+                    return new Memory(store, item.of.memory);
                 }
             }
         }
@@ -62,7 +63,7 @@ namespace Wasmtime
 
                 fixed (byte* ptr = bytes)
                 {
-                    if (!Native.wasmtime_caller_export_get(NativeHandle, ptr, (UIntPtr)bytes.Length, out var item))
+                    if (!Native.wasmtime_caller_export_get(handle, ptr, (UIntPtr)bytes.Length, out var item))
                     {
                         return null;
                     }
@@ -73,53 +74,21 @@ namespace Wasmtime
                         return null;
                     }
 
-                    return new Function(Store, item.of.func);
+                    return new Function(store, item.of.func);
                 }
             }
-        }
-
-        /// <inheritdoc/>
-        public void Dispose()
-        {
-            this.handle = IntPtr.Zero;
         }
 
         /// <summary>
         /// Gets the <see cref="Store"/> associated with this caller.
         /// </summary>
-        public Store Store
-        {
-            get
-            {
-                if (this.handle == IntPtr.Zero)
-                {
-                    throw new ObjectDisposedException(typeof(Caller).FullName);
-                }
-
-                return this.store;
-            }
-        }
-
-        internal StoreContext Context => new StoreContext(Native.wasmtime_caller_context(NativeHandle));
-
-        private IntPtr NativeHandle
-        {
-            get
-            {
-                if (this.handle == IntPtr.Zero)
-                {
-                    throw new ObjectDisposedException(typeof(Caller).FullName);
-                }
-
-                return this.handle;
-            }
-        }
+        public Store Store => store;
 
         /// <summary>
         /// Adds fuel to this store for WebAssembly code to consume while executing.
         /// </summary>
         /// <param name="fuel">The fuel to add to the store.</param>
-        public void AddFuel(ulong fuel) => Context.AddFuel(fuel);
+        public void AddFuel(ulong fuel) => context.AddFuel(fuel);
 
         /// <summary>
         /// Synthetically consumes fuel from this store.
@@ -136,36 +105,37 @@ namespace Wasmtime
         /// <param name="fuel">The fuel to consume from the store.</param>
         /// <returns>Returns the remaining amount of fuel.</returns>
         /// <exception cref="WasmtimeException">Thrown if more fuel is consumed than the store currently has.</exception>
-        public ulong ConsumeFuel(ulong fuel) => Context.ConsumeFuel(fuel);
+        public ulong ConsumeFuel(ulong fuel) => context.ConsumeFuel(fuel);
 
         /// <summary>
         /// Gets the fuel consumed by the executing WebAssembly code.
         /// </summary>
         /// <returns>Returns the fuel consumed by the executing WebAssembly code or 0 if fuel consumption was not enabled.</returns>
-        public ulong GetConsumedFuel() => Context.GetConsumedFuel();
+        public ulong GetConsumedFuel() => context.GetConsumedFuel();
 
         /// <summary>
         /// Gets the user-defined data from the Store. 
         /// </summary>
         /// <returns>An object represeting the user defined data from this Store</returns>
-        public object? GetData() => Store.GetData();
+        public object? GetData() => store.GetData();
 
         /// <summary>
         /// Replaces the user-defined data in the Store.
         /// </summary>
-        public void SetData(object? data) => Store.SetData(data);
+        public void SetData(object? data) => store.SetData(data);
 
         internal static class Native
         {
             [DllImport(Engine.LibraryName)]
             [return: MarshalAs(UnmanagedType.I1)]
-            public static unsafe extern bool wasmtime_caller_export_get(IntPtr caller, byte* name, UIntPtr len, out Extern item);
+            public static extern unsafe bool wasmtime_caller_export_get(IntPtr caller, byte* name, UIntPtr len, out Extern item);
 
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasmtime_caller_context(IntPtr caller);
         }
 
-        private IntPtr handle;
-        private readonly Store store;
+        private readonly IntPtr handle;
+        internal readonly Store store;
+        internal readonly StoreContext context;
     }
 }

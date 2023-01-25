@@ -9,11 +9,9 @@ void GenerateCallbackContent(bool hasCaller, int resultCount, int parameterCount
 #>
                     try
                     {
-                        var storeContext = new StoreContext(Caller.Native.wasmtime_caller_context(callerPtr));
-                        var store = storeContext.Store;
-<# if (hasCaller) { #>
-                        using var caller = new Caller(callerPtr);
-<# } #>
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
 
                         <#= resultCount > 0 ? "var result = " : "" #>callback(
                             <#
@@ -95,29 +93,21 @@ IEnumerable<(
             for (int parameterCount = 0; parameterCount <= maxParameterCount; parameterCount++)
             {
                 var methodGenerics = new StringBuilder();
-                var delegateType = new StringBuilder(resultCount == 0 ? "Action" : "Func");
                 var delegateReturnType = new StringBuilder();
                 var parameterConverters = new StringBuilder();
                 var resultConverters = new StringBuilder();
         
+                var delegateType = new StringBuilder(hasCaller ? "Caller" : "");
+                delegateType.Append(resultCount == 0 ? "Action" : "Func");
+
                 if (parameterCount > 0 || resultCount > 0)
                 {
                     methodGenerics.Append('<');
                 }
 
-                if (parameterCount > 0 || resultCount > 0 || hasCaller)
+                if (parameterCount > 0 || resultCount > 0)
                 {
                     delegateType.Append('<');
-                }
-
-                if (hasCaller)
-                {
-                    delegateType.Append("Caller");
-
-                    if (parameterCount + resultCount > 0)
-                    {
-                        delegateType.Append(", ");
-                    }
                 }
 
                 for (int x = 0; x < parameterCount; x++)
@@ -193,7 +183,7 @@ IEnumerable<(
                     methodGenerics.Append('>');
                 }
 
-                if (parameterCount > 0 || resultCount > 0 || hasCaller)
+                if (parameterCount > 0 || resultCount > 0)
                 {
                     delegateType.Append(">");
                 }

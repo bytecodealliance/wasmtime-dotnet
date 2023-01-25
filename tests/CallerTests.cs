@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using FluentAssertions;
 using Xunit;
 
@@ -254,30 +253,10 @@ public class CallerTests : IClassFixture<CallerFixture>, IDisposable
         callback.Invoke();
     }
 
-
-    [Fact]
-    public void ItCannotBeAccessedAfterDisposal()
-    {
-        Caller stash = null!;
-
-        Linker.DefineFunction("env", "callback", (Caller c) =>
-        {
-            stash = c;
-        });
-
-        var instance = Linker.Instantiate(Store, Fixture.Module);
-        var callback = instance.GetFunction("call_callback")!;
-
-        callback.Invoke();
-
-        var act = () => stash.GetMemory("memory");
-        act.Should().Throw<ObjectDisposedException>();
-    }
-
     [Fact]
     public void ItCannotBeConstructedFromNullPointer()
     {
-        var act = () => new Caller(IntPtr.Zero);
+        Action act = () => new Caller(IntPtr.Zero);
         act.Should().Throw<InvalidOperationException>();
     }
 
