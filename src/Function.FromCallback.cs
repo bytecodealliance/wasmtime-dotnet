@@ -31,7 +31,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(Array.Empty<Type>(), default(Type), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(Array.Empty<Type>(), default(Type), allowCaller: false, allowTuple: false);
 
             unsafe
             {
@@ -94,7 +94,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T), }, default(Type), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T), }, default(Type), allowCaller: false, allowTuple: false);
             var convT = ValueRaw.Converter<T>();
 
             unsafe
@@ -158,7 +158,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), }, default(Type), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), }, default(Type), allowCaller: false, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
 
@@ -224,7 +224,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), }, default(Type), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), }, default(Type), allowCaller: false, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -292,7 +292,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, default(Type), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, default(Type), allowCaller: false, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -362,7 +362,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, default(Type), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, default(Type), allowCaller: false, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -434,7 +434,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, default(Type), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, default(Type), allowCaller: false, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -508,7 +508,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, default(Type), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, default(Type), allowCaller: false, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -584,7 +584,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, default(Type), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, default(Type), allowCaller: false, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -662,7 +662,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, default(Type), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, default(Type), allowCaller: false, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -742,7 +742,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, default(Type), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, default(Type), allowCaller: false, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -824,7 +824,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, default(Type), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, default(Type), allowCaller: false, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -908,7 +908,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, default(Type), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, default(Type), allowCaller: false, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -994,7 +994,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(Array.Empty<Type>(), typeof(TResult), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(Array.Empty<Type>(), typeof(TResult), allowCaller: false, allowTuple: false);
             var convTResult = ValueRaw.Converter<TResult>();
 
             unsafe
@@ -1059,7 +1059,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T), }, typeof(TResult), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T), }, typeof(TResult), allowCaller: false, allowTuple: false);
             var convT = ValueRaw.Converter<T>();
             var convTResult = ValueRaw.Converter<TResult>();
 
@@ -1125,7 +1125,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), }, typeof(TResult), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), }, typeof(TResult), allowCaller: false, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convTResult = ValueRaw.Converter<TResult>();
@@ -1193,7 +1193,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), }, typeof(TResult), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), }, typeof(TResult), allowCaller: false, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -1263,7 +1263,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, typeof(TResult), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, typeof(TResult), allowCaller: false, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -1335,7 +1335,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, typeof(TResult), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, typeof(TResult), allowCaller: false, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -1409,7 +1409,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, typeof(TResult), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, typeof(TResult), allowCaller: false, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -1485,7 +1485,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, typeof(TResult), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, typeof(TResult), allowCaller: false, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -1563,7 +1563,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, typeof(TResult), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, typeof(TResult), allowCaller: false, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -1643,7 +1643,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, typeof(TResult), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, typeof(TResult), allowCaller: false, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -1725,7 +1725,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, typeof(TResult), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, typeof(TResult), allowCaller: false, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -1809,7 +1809,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, typeof(TResult), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, typeof(TResult), allowCaller: false, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -1895,7 +1895,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, typeof(TResult), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, typeof(TResult), allowCaller: false, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -1983,7 +1983,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(Array.Empty<Type>(), typeof(ValueTuple<TResult1, TResult2>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(Array.Empty<Type>(), typeof(ValueTuple<TResult1, TResult2>), allowCaller: false, allowTuple: true);
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
@@ -2050,7 +2050,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T), }, typeof(ValueTuple<TResult1, TResult2>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: false, allowTuple: true);
             var convT = ValueRaw.Converter<T>();
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
@@ -2118,7 +2118,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), }, typeof(ValueTuple<TResult1, TResult2>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: false, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convTResult1 = ValueRaw.Converter<TResult1>();
@@ -2188,7 +2188,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), }, typeof(ValueTuple<TResult1, TResult2>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: false, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -2260,7 +2260,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, typeof(ValueTuple<TResult1, TResult2>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: false, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -2334,7 +2334,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, typeof(ValueTuple<TResult1, TResult2>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: false, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -2410,7 +2410,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, typeof(ValueTuple<TResult1, TResult2>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: false, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -2488,7 +2488,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, typeof(ValueTuple<TResult1, TResult2>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: false, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -2568,7 +2568,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, typeof(ValueTuple<TResult1, TResult2>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: false, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -2650,7 +2650,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, typeof(ValueTuple<TResult1, TResult2>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: false, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -2734,7 +2734,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, typeof(ValueTuple<TResult1, TResult2>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: false, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -2820,7 +2820,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, typeof(ValueTuple<TResult1, TResult2>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: false, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -2908,7 +2908,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, typeof(ValueTuple<TResult1, TResult2>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: false, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -2998,7 +2998,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(Array.Empty<Type>(), typeof(ValueTuple<TResult1, TResult2, TResult3>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(Array.Empty<Type>(), typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: false, allowTuple: true);
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
@@ -3067,7 +3067,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: false, allowTuple: true);
             var convT = ValueRaw.Converter<T>();
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
@@ -3137,7 +3137,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: false, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convTResult1 = ValueRaw.Converter<TResult1>();
@@ -3209,7 +3209,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: false, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -3283,7 +3283,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: false, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -3359,7 +3359,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: false, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -3437,7 +3437,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: false, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -3517,7 +3517,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: false, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -3599,7 +3599,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: false, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -3683,7 +3683,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: false, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -3769,7 +3769,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: false, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -3857,7 +3857,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: false, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -3947,7 +3947,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: false, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -4039,7 +4039,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(Array.Empty<Type>(), typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(Array.Empty<Type>(), typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: false, allowTuple: true);
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
@@ -4110,7 +4110,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: false, allowTuple: true);
             var convT = ValueRaw.Converter<T>();
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
@@ -4182,7 +4182,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: false, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convTResult1 = ValueRaw.Converter<TResult1>();
@@ -4256,7 +4256,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: false, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -4332,7 +4332,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: false, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -4410,7 +4410,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: false, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -4490,7 +4490,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: false, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -4572,7 +4572,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: false, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -4656,7 +4656,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: false, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -4742,7 +4742,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: false, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -4830,7 +4830,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: false, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -4920,7 +4920,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: false, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -5012,7 +5012,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), false, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: false, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -5106,7 +5106,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), }, default(Type), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), }, default(Type), allowCaller: true, allowTuple: false);
 
             unsafe
             {
@@ -5170,7 +5170,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T), }, default(Type), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T), }, default(Type), allowCaller: true, allowTuple: false);
             var convT = ValueRaw.Converter<T>();
 
             unsafe
@@ -5236,7 +5236,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), }, default(Type), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), }, default(Type), allowCaller: true, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
 
@@ -5304,7 +5304,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), }, default(Type), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), }, default(Type), allowCaller: true, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -5374,7 +5374,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, default(Type), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, default(Type), allowCaller: true, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -5446,7 +5446,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, default(Type), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, default(Type), allowCaller: true, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -5520,7 +5520,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, default(Type), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, default(Type), allowCaller: true, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -5596,7 +5596,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, default(Type), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, default(Type), allowCaller: true, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -5674,7 +5674,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, default(Type), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, default(Type), allowCaller: true, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -5754,7 +5754,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, default(Type), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, default(Type), allowCaller: true, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -5836,7 +5836,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, default(Type), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, default(Type), allowCaller: true, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -5920,7 +5920,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, default(Type), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, default(Type), allowCaller: true, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -6006,7 +6006,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, default(Type), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, default(Type), allowCaller: true, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -6094,7 +6094,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), }, typeof(TResult), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), }, typeof(TResult), allowCaller: true, allowTuple: false);
             var convTResult = ValueRaw.Converter<TResult>();
 
             unsafe
@@ -6160,7 +6160,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T), }, typeof(TResult), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T), }, typeof(TResult), allowCaller: true, allowTuple: false);
             var convT = ValueRaw.Converter<T>();
             var convTResult = ValueRaw.Converter<TResult>();
 
@@ -6228,7 +6228,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), }, typeof(TResult), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), }, typeof(TResult), allowCaller: true, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convTResult = ValueRaw.Converter<TResult>();
@@ -6298,7 +6298,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), }, typeof(TResult), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), }, typeof(TResult), allowCaller: true, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -6370,7 +6370,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, typeof(TResult), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, typeof(TResult), allowCaller: true, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -6444,7 +6444,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, typeof(TResult), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, typeof(TResult), allowCaller: true, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -6520,7 +6520,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, typeof(TResult), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, typeof(TResult), allowCaller: true, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -6598,7 +6598,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, typeof(TResult), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, typeof(TResult), allowCaller: true, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -6678,7 +6678,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, typeof(TResult), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, typeof(TResult), allowCaller: true, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -6760,7 +6760,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, typeof(TResult), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, typeof(TResult), allowCaller: true, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -6844,7 +6844,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, typeof(TResult), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, typeof(TResult), allowCaller: true, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -6930,7 +6930,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, typeof(TResult), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, typeof(TResult), allowCaller: true, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -7018,7 +7018,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, typeof(TResult), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, typeof(TResult), allowCaller: true, allowTuple: false);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -7108,7 +7108,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), }, typeof(ValueTuple<TResult1, TResult2>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: true, allowTuple: true);
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
 
@@ -7176,7 +7176,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T), }, typeof(ValueTuple<TResult1, TResult2>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: true, allowTuple: true);
             var convT = ValueRaw.Converter<T>();
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
@@ -7246,7 +7246,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), }, typeof(ValueTuple<TResult1, TResult2>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: true, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convTResult1 = ValueRaw.Converter<TResult1>();
@@ -7318,7 +7318,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), }, typeof(ValueTuple<TResult1, TResult2>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: true, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -7392,7 +7392,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, typeof(ValueTuple<TResult1, TResult2>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: true, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -7468,7 +7468,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, typeof(ValueTuple<TResult1, TResult2>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: true, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -7546,7 +7546,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, typeof(ValueTuple<TResult1, TResult2>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: true, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -7626,7 +7626,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, typeof(ValueTuple<TResult1, TResult2>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: true, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -7708,7 +7708,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, typeof(ValueTuple<TResult1, TResult2>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: true, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -7792,7 +7792,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, typeof(ValueTuple<TResult1, TResult2>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: true, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -7878,7 +7878,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, typeof(ValueTuple<TResult1, TResult2>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: true, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -7966,7 +7966,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, typeof(ValueTuple<TResult1, TResult2>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: true, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -8056,7 +8056,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, typeof(ValueTuple<TResult1, TResult2>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: true, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -8148,7 +8148,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: true, allowTuple: true);
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
@@ -8218,7 +8218,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: true, allowTuple: true);
             var convT = ValueRaw.Converter<T>();
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
@@ -8290,7 +8290,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: true, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convTResult1 = ValueRaw.Converter<TResult1>();
@@ -8364,7 +8364,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: true, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -8440,7 +8440,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: true, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -8518,7 +8518,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: true, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -8598,7 +8598,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: true, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -8680,7 +8680,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: true, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -8764,7 +8764,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: true, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -8850,7 +8850,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: true, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -8938,7 +8938,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: true, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -9028,7 +9028,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: true, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -9120,7 +9120,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: true, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -9214,7 +9214,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: true, allowTuple: true);
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
             var convTResult3 = ValueRaw.Converter<TResult3>();
@@ -9286,7 +9286,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: true, allowTuple: true);
             var convT = ValueRaw.Converter<T>();
             var convTResult1 = ValueRaw.Converter<TResult1>();
             var convTResult2 = ValueRaw.Converter<TResult2>();
@@ -9360,7 +9360,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: true, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convTResult1 = ValueRaw.Converter<TResult1>();
@@ -9436,7 +9436,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: true, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -9514,7 +9514,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: true, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -9594,7 +9594,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: true, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -9676,7 +9676,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: true, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -9760,7 +9760,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: true, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -9846,7 +9846,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: true, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -9934,7 +9934,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: true, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -10024,7 +10024,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: true, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -10116,7 +10116,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: true, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
@@ -10210,7 +10210,7 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), true, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: true, allowTuple: true);
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();

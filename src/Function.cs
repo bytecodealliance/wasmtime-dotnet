@@ -557,7 +557,7 @@ namespace Wasmtime
         }
 
         internal static (IReadOnlyList<ValueKind> parameterKinds, IReadOnlyList<ValueKind> resultKinds)
-            GetFunctionType(ReadOnlySpan<Type> parameterTypes, Type? returnType, bool allowCaller, uint maxResults)
+            GetFunctionType(ReadOnlySpan<Type> parameterTypes, Type? returnType, bool allowCaller, bool allowTuple)
         {
             var hasCaller = parameterTypes.Length > 0 && parameterTypes[0] == typeof(Caller);
 
@@ -583,7 +583,7 @@ namespace Wasmtime
                 parameterKinds[i] = kind;
             }
 
-            var resultKinds = EnumerateReturnTypes(returnType, out var ReturnsTuple).Select(t =>
+            var resultKinds = EnumerateReturnTypes(returnType, out var returnsTuple).Select(t =>
             {
                 if (!Value.TryGetKind(t, out var kind))
                 {
@@ -597,9 +597,9 @@ namespace Wasmtime
                 throw new InvalidOperationException($"A 'Caller' parameter is not allowed for this callback.");
             }
 
-            if (resultKinds.Length > maxResults)
+            if (returnsTuple && !allowTuple)
             {
-                throw new InvalidOperationException($"The number of return values for the callback exceeds the maximum of {maxResults}; use an untyped callback instead.");
+                throw new InvalidOperationException($"Returning a ValueTuple is not allowed for this callback; use an overload that implicitly returns ValueTuple or an untyped callback for returning more than 4 values.");
             }
 
             return (parameterKinds, resultKinds);

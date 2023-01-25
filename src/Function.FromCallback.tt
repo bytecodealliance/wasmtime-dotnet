@@ -53,7 +53,7 @@ foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateTy
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = GetFunctionType(<# if (callbackParameterTypeExpressions.Length == 0) { #>Array.Empty<Type>()<# } else { #>new Type[] { <#= callbackParameterTypeExpressions #>}<# } #>, <#= callbackReturnTypeExpression #>, <#= hasCaller ? "true" : "false" #>, 4);
+            var (parameterKinds, resultKinds) = GetFunctionType(<# if (callbackParameterTypeExpressions.Length == 0) { #>Array.Empty<Type>()<# } else { #>new Type[] { <#= callbackParameterTypeExpressions #>}<# } #>, <#= callbackReturnTypeExpression #>, allowCaller: <#= hasCaller ? "true" : "false" #>, allowTuple: <#= (resultCount > 1) ? "true" : "false" #>);
 <#= parameterConverters
 #><#= resultConverters
 #>
