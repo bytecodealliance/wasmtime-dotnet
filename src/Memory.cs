@@ -2,7 +2,6 @@ using System;
 using System.Buffers.Binary;
 using System.Runtime.InteropServices;
 using System.Text;
-using Microsoft.Win32.SafeHandles;
 
 namespace Wasmtime
 {
@@ -563,21 +562,6 @@ namespace Wasmtime
             finally
             {
                 Native.wasm_memorytype_delete(typeHandle);
-            }
-        }
-
-        internal class TypeHandle : SafeHandleZeroOrMinusOneIsInvalid
-        {
-            public TypeHandle(IntPtr handle)
-                : base(true)
-            {
-                SetHandle(handle);
-            }
-
-            protected override bool ReleaseHandle()
-            {
-                Native.wasm_memorytype_delete(handle);
-                return true;
             }
         }
 
