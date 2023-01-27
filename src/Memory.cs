@@ -232,6 +232,14 @@ namespace Wasmtime
         public unsafe Span<T> GetSpan<T>(long address, int length)
             where T : unmanaged
         {
+            var span = GetSpan<T>(store.Context, memory, address, length);
+            GC.KeepAlive(store);
+            return span;
+        }
+
+        internal static unsafe Span<T> GetSpan<T>(StoreContext context, ExternMemory memory, long address, int length)
+            where T : unmanaged
+        {
             if (address < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(address));
@@ -242,11 +250,9 @@ namespace Wasmtime
                 throw new ArgumentOutOfRangeException(nameof(length));
             }
 
-            var context = store.Context;
-            var data = Native.wasmtime_memory_data(context.handle, this.memory);
-            GC.KeepAlive(store);
+            var data = Native.wasmtime_memory_data(context.handle, memory);
 
-            var memoryLength = this.GetLength();
+            var memoryLength = checked((long)Native.wasmtime_memory_data_size(context.handle, memory));
 
             // Note: A Span<T> can span more than 2 GiB bytes if sizeof(T) > 1.
             long byteLength = (long)length * sizeof(T);

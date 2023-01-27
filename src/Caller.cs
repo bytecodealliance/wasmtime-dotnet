@@ -9,6 +9,8 @@ namespace Wasmtime
     /// </summary>
     public readonly ref struct Caller
     {
+        private const int StackallocThreshold = 256;
+
         internal Caller(IntPtr handle)
         {
             if (handle == IntPtr.Zero)
@@ -19,6 +21,61 @@ namespace Wasmtime
             this.handle = handle;
             this.context = new StoreContext(Native.wasmtime_caller_context(handle));
             this.store = context.Store;
+        }
+
+        /// <summary>
+        /// Gets a Span from an exported memory of the caller by the given name.
+        /// </summary>
+        /// <param name="name">The name of the exported memory.</param>
+        /// <param name="address">The zero-based address of the start of the span.</param>
+        /// <param name="length">The length of the span.</param>
+        /// <param name="result">The Span of memory (if the function returns true)</param>
+        /// <returns>Returns true if the exported memory is found or false if a memory of the requested name is not exported.</returns>
+        /// <remarks>
+        /// <para>
+        /// The span may become invalid if the memory grows.
+        ///
+        /// This may happen if the memory is explicitly requested to grow or
+        /// grows as a result of WebAssembly execution.
+        /// </para>
+        /// <para>
+        /// Therefore, the returned span should not be used after calling the grow method or
+        /// after calling into WebAssembly code.
+        /// </para>
+        /// <para>
+        /// Note that WebAssembly always uses little endian as byte order. On platforms 
+        /// that use big endian, you will need to convert numeric values accordingly.
+        /// </para>
+        /// </remarks>
+        public bool TryGetMemorySpan<T>(string name, long address, int length, out Span<T> result)
+            where T : unmanaged
+        {
+            var nameLength = Encoding.UTF8.GetMaxByteCount(name.Length);
+            var nameBytes = nameLength < StackallocThreshold ? stackalloc byte[nameLength] : new byte[nameLength];
+            nameLength = Encoding.UTF8.GetBytes(name, nameBytes);
+            nameBytes = nameBytes[..nameLength];
+
+            unsafe
+            {
+                fixed (byte* ptr = nameBytes)
+                {
+                    if (!Native.wasmtime_caller_export_get(handle, ptr, (UIntPtr)nameBytes.Length, out var item))
+                    {
+                        result = default;
+                        return false;
+                    }
+
+                    if (item.kind != ExternKind.Memory)
+                    {
+                        item.Dispose();
+                        result = default;
+                        return false;
+                    }
+
+                    result = Memory.GetSpan<T>(context, item.of.memory, address, length);
+                    return true;
+                }
+            }
         }
 
         /// <summary>
