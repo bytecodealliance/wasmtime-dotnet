@@ -50,6 +50,17 @@ namespace Wasmtime
             return Value.GetHashCode();
         }
 
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return Value switch
+            {
+                0 => nameof(Immutable),
+                1 => nameof(Mutable),
+                _ => throw new ArgumentOutOfRangeException()
+            };
+        }
+
         /// <summary>
         /// Compare a to b and return true if they are equal
         /// </summary>
