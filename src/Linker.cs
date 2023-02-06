@@ -63,6 +63,11 @@ namespace Wasmtime
                 throw new ArgumentException($"Objects of type `{item.GetType()}` cannot be defined in a linker.");
             }
 
+            if (external.Store is null)
+            {
+                throw new ArgumentException($"The item is not associated with a store.");
+            }
+
             var ext = external.AsExtern();
 
             unsafe
@@ -71,11 +76,13 @@ namespace Wasmtime
                 var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define(handle, modulePtr, (UIntPtr)moduleBytes.Length, namePtr, (UIntPtr)nameBytes.Length, ext);
+                    var error = Native.wasmtime_linker_define(handle, external.Store.Context.handle, modulePtr, (UIntPtr)moduleBytes.Length, namePtr, (UIntPtr)nameBytes.Length, ext);
                     if (error != IntPtr.Zero)
                     {
                         throw WasmtimeException.FromOwnedError(error);
                     }
+
+                    GC.KeepAlive(external);
                 }
             }
         }
@@ -473,7 +480,7 @@ namespace Wasmtime
             public static extern void wasmtime_linker_allow_shadowing(Handle linker, [MarshalAs(UnmanagedType.I1)] bool allow);
 
             [DllImport(Engine.LibraryName)]
-            public static unsafe extern IntPtr wasmtime_linker_define(Handle linker, byte* module, nuint moduleLen, byte* name, nuint nameLen, in Extern item);
+            public static unsafe extern IntPtr wasmtime_linker_define(Handle linker, IntPtr context, byte* module, nuint moduleLen, byte* name, nuint nameLen, in Extern item);
 
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasmtime_linker_define_wasi(Handle linker);

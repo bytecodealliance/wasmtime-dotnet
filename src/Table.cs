@@ -173,6 +173,8 @@ namespace Wasmtime
             };
         }
 
+        Store? IExternal.Store => store;
+
         internal class TypeHandle : SafeHandleZeroOrMinusOneIsInvalid
         {
             public TypeHandle(IntPtr handle)

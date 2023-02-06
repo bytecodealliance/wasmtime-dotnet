@@ -185,6 +185,8 @@ namespace Wasmtime
             };
         }
 
+        Store? IExternal.Store => store;
+
         internal Global(Store store, ExternGlobal global)
         {
             this.global = global;
@@ -309,6 +311,8 @@ namespace Wasmtime
             {
                 return ((IExternal)_global).AsExtern();
             }
+
+            Store? IExternal.Store => _store;
         }
     }
 }
