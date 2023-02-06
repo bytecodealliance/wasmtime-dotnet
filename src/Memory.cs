@@ -540,6 +540,9 @@ namespace Wasmtime
                 of = new ExternUnion { memory = this.memory }
             };
         }
+
+        Store? IExternal.Store => store;
+
         internal Memory(Store store, ExternMemory memory)
         {
             this.memory = memory;

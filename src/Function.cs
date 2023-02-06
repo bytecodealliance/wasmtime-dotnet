@@ -439,6 +439,8 @@ namespace Wasmtime
             };
         }
 
+        Store? IExternal.Store => store;
+
         internal Function()
         {
             this.store = null;

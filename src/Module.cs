@@ -28,6 +28,8 @@ namespace Wasmtime
     internal interface IExternal
     {
         Extern AsExtern();
+
+        Store? Store { get; }
     }
 
     /// <summary>
