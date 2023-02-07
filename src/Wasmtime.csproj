@@ -151,6 +151,7 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
       SourceUrl="$(ReleaseURLBase)/$(ReleaseFileNameBase)-%(Wasmtime.Arch)-%(Wasmtime.OS)-c-api.%(Wasmtime.FileExtension)"
       DestinationFolder="$(BaseIntermediateOutputPath)"
       SkipUnchangedFiles="true"
+      Retries="5"
     />
 
     <!-- Workaround for https://github.com/msys2/MSYS2-packages/issues/1548 -->
