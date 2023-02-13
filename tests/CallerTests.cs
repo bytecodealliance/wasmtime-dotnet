@@ -90,7 +90,33 @@ public class CallerTests : IClassFixture<CallerFixture>, IDisposable
         var callback = instance.GetFunction("call_callback")!;
 
         // Write a value into memory
-        var memory = instance.GetMemory("memory");
+        var memory = instance.GetMemory("memory")!;
+        memory.WriteByte(10, 20);
+
+        // Callback checks that value and writes another
+        callback.Invoke();
+
+        // Read value back from memory, checking it has been modified
+        memory.ReadByte(10).Should().Be(21);
+    }
+
+    [Fact]
+    public void ItCanReadAndWriteMemorySpanFromCaller()
+    {
+        Linker.DefineFunction("env", "callback", (Caller c) =>
+        {
+            c.TryGetMemorySpan<byte>("memory", 10, 1, out var span).Should().BeTrue();
+
+            span.Length.Should().Be(1);
+            span[0].Should().Be(20);
+            span[0] = 21;
+        });
+
+        var instance = Linker.Instantiate(Store, Fixture.Module);
+        var callback = instance.GetFunction("call_callback")!;
+
+        // Write a value into memory
+        var memory = instance.GetMemory("memory")!;
         memory.WriteByte(10, 20);
 
         // Callback checks that value and writes another
