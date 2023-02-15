@@ -80,7 +80,7 @@ public class CallerTests : IClassFixture<CallerFixture>, IDisposable
     {
         Linker.DefineFunction("env", "callback", (Caller c) =>
         {
-            var mem = c.GetMemory("memory");
+            var mem = c.GetMemory("memory")!.Value;
 
             mem.ReadByte(10).Should().Be(20);
             mem.WriteByte(10, 21);
@@ -90,7 +90,7 @@ public class CallerTests : IClassFixture<CallerFixture>, IDisposable
         var callback = instance.GetFunction("call_callback")!;
 
         // Write a value into memory
-        var memory = instance.GetMemory("memory")!;
+        var memory = instance.GetMemory("memory")!.Value;
         memory.WriteByte(10, 20);
 
         // Callback checks that value and writes another
@@ -116,7 +116,7 @@ public class CallerTests : IClassFixture<CallerFixture>, IDisposable
         var callback = instance.GetFunction("call_callback")!;
 
         // Write a value into memory
-        var memory = instance.GetMemory("memory")!;
+        var memory = instance.GetMemory("memory")!.Value;
         memory.WriteByte(10, 20);
 
         // Callback checks that value and writes another

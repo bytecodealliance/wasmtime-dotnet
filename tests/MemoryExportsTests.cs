@@ -57,9 +57,7 @@ namespace Wasmtime.Tests
         public void ItReadsAndWritesGenericTypes()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var memory = instance.GetMemory("mem");
-
-            memory.Should().NotBeNull();
+            var memory = instance.GetMemory("mem")!.Value;
 
             memory.Write(11, new TestStruct { A = 17, B = -34346 });
             var result = memory.Read<TestStruct>(11);
@@ -78,9 +76,7 @@ namespace Wasmtime.Tests
         public void ItCreatesExternsForTheMemories()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var memory = instance.GetMemory("mem");
-
-            memory.Should().NotBeNull();
+            var memory = instance.GetMemory("mem")!.Value;
 
             memory.ReadString(0, 11).Should().Be("Hello World");
             int written = memory.WriteString(0, "WebAssembly Rocks!");

@@ -24,7 +24,7 @@ namespace Wasmtime.Tests
             store.SetWasiConfiguration(new WasiConfiguration());
             var instance = linker.Instantiate(store, module);
 
-            var memory = instance.GetMemory("memory");
+            var memory = instance.GetMemory("memory")!.Value;
             memory.Should().NotBeNull();
             var call_environ_sizes_get = instance.GetFunction("call_environ_sizes_get");
             call_environ_sizes_get.Should().NotBeNull();
@@ -58,7 +58,7 @@ namespace Wasmtime.Tests
             store.SetWasiConfiguration(config);
             var instance = linker.Instantiate(store, module);
 
-            var memory = instance.GetMemory("memory");
+            var memory = instance.GetMemory("memory")!.Value;
             memory.Should().NotBeNull();
             var call_environ_sizes_get = instance.GetFunction("call_environ_sizes_get");
             call_environ_sizes_get.Should().NotBeNull();
@@ -95,7 +95,7 @@ namespace Wasmtime.Tests
             store.SetWasiConfiguration(config);
             var instance = linker.Instantiate(store, module);
 
-            var memory = instance.GetMemory("memory");
+            var memory = instance.GetMemory("memory")!.Value;
             memory.Should().NotBeNull();
             var call_environ_sizes_get = instance.GetFunction("call_environ_sizes_get");
             call_environ_sizes_get.Should().NotBeNull();
@@ -119,7 +119,7 @@ namespace Wasmtime.Tests
             store.SetWasiConfiguration(new WasiConfiguration());
             var instance = linker.Instantiate(store, module);
 
-            var memory = instance.GetMemory("memory");
+            var memory = instance.GetMemory("memory")!.Value;
             memory.Should().NotBeNull();
             var call_args_sizes_get = instance.GetFunction("call_args_sizes_get");
             call_args_sizes_get.Should().NotBeNull();
@@ -154,7 +154,7 @@ namespace Wasmtime.Tests
             store.SetWasiConfiguration(config);
             var instance = linker.Instantiate(store, module);
 
-            var memory = instance.GetMemory("memory");
+            var memory = instance.GetMemory("memory")!.Value;
             memory.Should().NotBeNull();
             var call_args_sizes_get = instance.GetFunction("call_args_sizes_get");
             call_args_sizes_get.Should().NotBeNull();
@@ -191,7 +191,7 @@ namespace Wasmtime.Tests
             store.SetWasiConfiguration(config);
             var instance = linker.Instantiate(store, module);
 
-            var memory = instance.GetMemory("memory");
+            var memory = instance.GetMemory("memory")!.Value;
             memory.Should().NotBeNull();
             var call_args_sizes_get = instance.GetFunction("call_args_sizes_get");
             call_args_sizes_get.Should().NotBeNull();
@@ -223,7 +223,7 @@ namespace Wasmtime.Tests
             store.SetWasiConfiguration(config);
             var instance = linker.Instantiate(store, module);
 
-            var memory = instance.GetMemory("memory");
+            var memory = instance.GetMemory("memory")!.Value;
             memory.Should().NotBeNull();
             var call_fd_read = instance.GetFunction("call_fd_read");
             call_fd_read.Should().NotBeNull();
@@ -267,7 +267,7 @@ namespace Wasmtime.Tests
             store.SetWasiConfiguration(config);
             var instance = linker.Instantiate(store, module);
 
-            var memory = instance.GetMemory("memory");
+            var memory = instance.GetMemory("memory")!.Value;
             memory.Should().NotBeNull();
             var call_fd_write = instance.GetFunction("call_fd_write");
             call_fd_write.Should().NotBeNull();
@@ -306,7 +306,7 @@ namespace Wasmtime.Tests
             store.SetWasiConfiguration(config);
             var instance = linker.Instantiate(store, module);
 
-            var memory = instance.GetMemory("memory");
+            var memory = instance.GetMemory("memory")!.Value;
             memory.Should().NotBeNull();
             var call_path_open = instance.GetFunction("call_path_open");
             call_path_open.Should().NotBeNull();

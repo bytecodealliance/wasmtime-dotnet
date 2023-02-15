@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using FluentAssertions;
+using FluentAssertions.Execution;
 using Xunit;
 
 namespace Wasmtime.Tests
@@ -34,7 +35,7 @@ namespace Wasmtime.Tests
             memoryExport.Is64Bit.Should().BeTrue();
 
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var memory = instance.GetMemory("mem");
+            var memory = instance.GetMemory("mem")!.Value;
 
             memory.Minimum.Should().Be(0x10001);
             memory.Maximum.Should().Be(0x1000000000000);
@@ -75,7 +76,7 @@ namespace Wasmtime.Tests
         public void ItThrowsForOutOfBoundsAccess()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var memory = instance.GetMemory("mem");
+            var memory = instance.GetMemory("mem")!.Value;
 
 #pragma warning disable CS0618 // Type or member is obsolete
             Action action = () => memory.GetSpan();

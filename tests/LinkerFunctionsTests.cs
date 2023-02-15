@@ -29,7 +29,7 @@ namespace Wasmtime.Tests
             Linker.DefineFunction("env", "do_throw", () => throw new Exception(THROW_MESSAGE));
             Linker.DefineFunction("env", "check_string", (Caller caller, int address, int length) =>
             {
-                caller.GetMemory("mem").ReadString(address, length).Should().Be("Hello World");
+                caller.GetMemory("mem")!.Value.ReadString(address, length).Should().Be("Hello World");
             });
 
             Linker.DefineFunction("env", "return_i32", GetBoundFuncIntDelegate());

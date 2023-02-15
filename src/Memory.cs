@@ -8,7 +8,7 @@ namespace Wasmtime
     /// <summary>
     /// Represents a WebAssembly memory.
     /// </summary>
-    public class Memory : IExternal
+    public readonly struct Memory : IExternal
     {
         /// <summary>
         /// Creates a new WebAssembly memory.
@@ -553,6 +553,7 @@ namespace Wasmtime
         {
             this.memory = memory;
             this.store = store;
+            this.Maximum = null;
 
             var typeHandle = Native.wasmtime_memory_type(store.Context.handle, this.memory);
             try
@@ -580,7 +581,7 @@ namespace Wasmtime
             public static extern IntPtr wasmtime_memory_new(IntPtr context, IntPtr typeHandle, out ExternMemory memory);
 
             [DllImport(Engine.LibraryName)]
-            public static unsafe extern byte* wasmtime_memory_data(IntPtr context, in ExternMemory memory);
+            public static extern unsafe byte* wasmtime_memory_data(IntPtr context, in ExternMemory memory);
 
             [DllImport(Engine.LibraryName)]
             public static extern nuint wasmtime_memory_data_size(IntPtr context, in ExternMemory memory);

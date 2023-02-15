@@ -26,6 +26,14 @@ namespace Wasmtime.Tests
         }
 
         [Fact]
+        public void AccessDefaultThrows()
+        {
+            var memory = default(Memory);
+
+            Assert.Throws<NullReferenceException>(() => memory.GetLength());
+        }
+
+        [Fact]
         public void ItGrows()
         {
             var memory = new Memory(Store, 1, 4);
@@ -67,7 +75,7 @@ namespace Wasmtime.Tests
             memoryExport.Is64Bit.Should().BeFalse();
 
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var memory = instance.GetMemory("mem");
+            var memory = instance.GetMemory("mem")!.Value;
 
             memory.Minimum.Should().Be(0x10000);
             memory.Maximum.Should().BeNull();
@@ -108,7 +116,7 @@ namespace Wasmtime.Tests
         public void ItThrowsForOutOfBoundsAccess()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var memory = instance.GetMemory("mem");
+            var memory = instance.GetMemory("mem")!.Value;
 
 #pragma warning disable CS0618 // Type or member is obsolete
             Action action = () => memory.GetSpan();
