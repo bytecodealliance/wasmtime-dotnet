@@ -50,10 +50,9 @@ namespace Wasmtime
         public bool TryGetMemorySpan<T>(string name, long address, int length, out Span<T> result)
             where T : unmanaged
         {
-            var nameLength = Encoding.UTF8.GetMaxByteCount(name.Length);
-            var nameBytes = nameLength < StackallocThreshold ? stackalloc byte[nameLength] : new byte[nameLength];
-            nameLength = Encoding.UTF8.GetBytes(name, nameBytes);
-            nameBytes = nameBytes[..nameLength];
+            var nameLength = Encoding.UTF8.GetByteCount(name);
+            var nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : new byte[nameLength];
+            Encoding.UTF8.GetBytes(name, nameBytes);
 
             unsafe
             {
