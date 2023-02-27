@@ -42,7 +42,7 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="../README.md" Pack="true" PackagePath="\"/>
+    <None Include="README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
   
   <ItemGroup>
