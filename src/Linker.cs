@@ -14,6 +14,8 @@ namespace Wasmtime
     /// </summary>
     public partial class Linker : IDisposable
     {
+        private const int StackallocThreshold = 256;
+
         /// <summary>
         /// Constructs a new linker from the given engine.
         /// </summary>
@@ -39,13 +41,8 @@ namespace Wasmtime
             }
         }
 
-        /// <summary>
-        /// Defines an item in the linker.
-        /// </summary>
-        /// <param name="module">The module name of the item.</param>
-        /// <param name="name">The name of the item.</param>
-        /// <param name="item">The item being defined (e.g. function, global, table, etc.).</param>
-        public void Define(string module, string name, object item)
+        private void Define<T>(string module, string name, T item)
+            where T : IExternal
         {
             if (module is null)
             {
@@ -57,34 +54,90 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(name));
             }
 
-            var external = item as IExternal;
-            if (external is null)
-            {
-                throw new ArgumentException($"Objects of type `{item.GetType()}` cannot be defined in a linker.");
-            }
-
-            if (external.Store is null)
+            var store = item.Store;
+            if (store is null)
             {
                 throw new ArgumentException($"The item is not associated with a store.");
             }
 
-            var ext = external.AsExtern();
+            var ext = item.AsExtern();
+
+            var nameLength = Encoding.UTF8.GetByteCount(name);
+            var nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : new byte[nameLength];
+            Encoding.UTF8.GetBytes(name, nameBytes);
+
+            var moduleLength = Encoding.UTF8.GetByteCount(name);
+            var moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : new byte[moduleLength];
+            Encoding.UTF8.GetBytes(module, moduleBytes);
 
             unsafe
             {
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
                 fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
                 {
-                    var error = Native.wasmtime_linker_define(handle, external.Store.Context.handle, modulePtr, (UIntPtr)moduleBytes.Length, namePtr, (UIntPtr)nameBytes.Length, ext);
+                    var error = Native.wasmtime_linker_define(handle, store.Context.handle, modulePtr, (UIntPtr)moduleBytes.Length, namePtr, (UIntPtr)nameBytes.Length, ext);
                     if (error != IntPtr.Zero)
                     {
                         throw WasmtimeException.FromOwnedError(error);
                     }
-
-                    GC.KeepAlive(external);
                 }
             }
+
+            GC.KeepAlive(store);
+        }
+
+        /// <summary>
+        /// Defines an item in the linker.
+        /// </summary>
+        /// <param name="module">The module name of the item.</param>
+        /// <param name="name">The name of the item.</param>
+        /// <param name="function">The item being defined</param>
+        public void Define(string module, string name, Function function)
+        {
+            Define<Function>(module, name, function);
+        }
+
+        /// <summary>
+        /// Defines an item in the linker.
+        /// </summary>
+        /// <param name="module">The module name of the item.</param>
+        /// <param name="name">The name of the item.</param>
+        /// <param name="global">The item being defined</param>
+        public void Define(string module, string name, Global global)
+        {
+            Define<Global>(module, name, global);
+        }
+
+        /// <summary>
+        /// Defines an item in the linker.
+        /// </summary>
+        /// <param name="module">The module name of the item.</param>
+        /// <param name="name">The name of the item.</param>
+        /// <param name="global">The item being defined</param>
+        public void Define<T>(string module, string name, Global.Accessor<T> global)
+        {
+            Define<Global.Accessor<T>>(module, name, global);
+        }
+
+        /// <summary>
+        /// Defines an item in the linker.
+        /// </summary>
+        /// <param name="module">The module name of the item.</param>
+        /// <param name="name">The name of the item.</param>
+        /// <param name="memory">The item being defined</param>
+        public void Define(string module, string name, Memory memory)
+        {
+            Define<Memory>(module, name, memory);
+        }
+
+        /// <summary>
+        /// Defines an item in the linker.
+        /// </summary>
+        /// <param name="module">The module name of the item.</param>
+        /// <param name="name">The name of the item.</param>
+        /// <param name="table">The item being defined</param>
+        public void Define(string module, string name, Table table)
+        {
+            Define<Table>(module, name, table);
         }
 
         /// <summary>
@@ -388,8 +441,6 @@ namespace Wasmtime
                 {
                     return Function.InvokeUntypedCallback(callback, callerPtr, args, (int)nargs, results, (int)nresults, resultKinds);
                 };
-
-                const int StackallocThreshold = 256;
 
                 byte[]? moduleBytesBuffer = null;
                 var moduleLength = Encoding.UTF8.GetByteCount(module);
