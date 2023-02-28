@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Buffers;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -14,8 +13,6 @@ namespace Wasmtime
     /// </summary>
     public partial class Linker : IDisposable
     {
-        private const int StackallocThreshold = 256;
-
         /// <summary>
         /// Constructs a new linker from the given engine.
         /// </summary>
@@ -62,17 +59,12 @@ namespace Wasmtime
 
             var ext = item.AsExtern();
 
-            var nameLength = Encoding.UTF8.GetByteCount(name);
-            var nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : new byte[nameLength];
-            Encoding.UTF8.GetBytes(name, nameBytes);
-
-            var moduleLength = Encoding.UTF8.GetByteCount(module);
-            var moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : new byte[moduleLength];
-            Encoding.UTF8.GetBytes(module, moduleBytes);
+            using var nameBytes = name.ToUTF8(stackalloc byte[Math.Min(64, name.Length * 2)]);
+            using var moduleBytes = module.ToUTF8(stackalloc byte[Math.Min(64, module.Length * 2)]);
 
             unsafe
             {
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                fixed (byte* modulePtr = moduleBytes.Span, namePtr = nameBytes.Span)
                 {
                     var error = Native.wasmtime_linker_define(handle, store.Context.handle, modulePtr, (UIntPtr)moduleBytes.Length, namePtr, (UIntPtr)nameBytes.Length, ext);
                     if (error != IntPtr.Zero)
@@ -442,20 +434,13 @@ namespace Wasmtime
                     return Function.InvokeUntypedCallback(callback, callerPtr, args, (int)nargs, results, (int)nresults, resultKinds);
                 };
 
-                byte[]? moduleBytesBuffer = null;
-                var moduleLength = Encoding.UTF8.GetByteCount(module);
-                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
-                Encoding.UTF8.GetBytes(module, moduleBytes);
-
-                byte[]? nameBytesBuffer = null;
-                var nameLength = Encoding.UTF8.GetByteCount(name);
-                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
-                Encoding.UTF8.GetBytes(name, nameBytes);
+                using var nameBytes = name.ToUTF8(stackalloc byte[Math.Min(64, name.Length * 2)]);
+                using var moduleBytes = module.ToUTF8(stackalloc byte[Math.Min(64, module.Length * 2)]);
 
                 var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
                 try
                 {
-                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    fixed (byte* modulePtr = moduleBytes.Span, namePtr = nameBytes.Span)
                     {
                         var error = Native.wasmtime_linker_define_func(
                             handle,
@@ -478,15 +463,6 @@ namespace Wasmtime
                 finally
                 {
                     Function.Native.wasm_functype_delete(funcType);
-
-                    if (moduleBytesBuffer is not null)
-                    {
-                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
-                    }
-                    if (nameBytesBuffer is not null)
-                    {
-                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
-                    }
                 }
             }
         }
@@ -495,9 +471,10 @@ namespace Wasmtime
         {
             unsafe
             {
-                var moduleBytes = Encoding.UTF8.GetBytes(module);
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                using var moduleBytes = module.ToUTF8(stackalloc byte[Math.Min(64, module.Length * 2)]);
+                using var nameBytes = name.ToUTF8(stackalloc byte[Math.Min(64, name.Length * 2)]);
+
+                fixed (byte* modulePtr = moduleBytes.Span, namePtr = nameBytes.Span)
                 {
                     return Native.wasmtime_linker_get(handle, context.handle, modulePtr, (UIntPtr)moduleBytes.Length, namePtr, (UIntPtr)nameBytes.Length, out ext);
                 }
