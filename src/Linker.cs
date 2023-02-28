@@ -66,7 +66,7 @@ namespace Wasmtime
             var nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : new byte[nameLength];
             Encoding.UTF8.GetBytes(name, nameBytes);
 
-            var moduleLength = Encoding.UTF8.GetByteCount(name);
+            var moduleLength = Encoding.UTF8.GetByteCount(module);
             var moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : new byte[moduleLength];
             Encoding.UTF8.GetBytes(module, moduleBytes);
 
