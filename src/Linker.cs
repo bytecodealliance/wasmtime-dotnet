@@ -13,6 +13,8 @@ namespace Wasmtime
     /// </summary>
     public partial class Linker : IDisposable
     {
+        private const int StackallocThreshold = 256;
+
         /// <summary>
         /// Constructs a new linker from the given engine.
         /// </summary>
@@ -58,7 +60,7 @@ namespace Wasmtime
             }
 
             var ext = item.AsExtern();
-
+            
             using var nameBytes = name.ToUTF8(stackalloc byte[Math.Min(64, name.Length * 2)]);
             using var moduleBytes = module.ToUTF8(stackalloc byte[Math.Min(64, module.Length * 2)]);
 
