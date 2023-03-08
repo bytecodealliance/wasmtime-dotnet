@@ -9,8 +9,6 @@ namespace Wasmtime
     /// </summary>
     public readonly ref struct Caller
     {
-        private const int StackallocThreshold = 256;
-
         internal Caller(IntPtr handle)
         {
             if (handle == IntPtr.Zero)
@@ -50,13 +48,11 @@ namespace Wasmtime
         public bool TryGetMemorySpan<T>(string name, long address, int length, out Span<T> result)
             where T : unmanaged
         {
-            var nameLength = Encoding.UTF8.GetByteCount(name);
-            var nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : new byte[nameLength];
-            Encoding.UTF8.GetBytes(name, nameBytes);
+            using var nameBytes = name.ToUTF8(stackalloc byte[Math.Min(64, name.Length * 2)]);
 
             unsafe
             {
-                fixed (byte* ptr = nameBytes)
+                fixed (byte* ptr = nameBytes.Span)
                 {
                     if (!Native.wasmtime_caller_export_get(handle, ptr, (UIntPtr)nameBytes.Length, out var item))
                     {
