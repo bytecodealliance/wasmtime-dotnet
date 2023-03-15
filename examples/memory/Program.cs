@@ -11,7 +11,7 @@ linker.Define(
     "log",
     Function.FromCallback(store, (Caller caller, int address, int length) =>
     {
-        var message = caller.GetMemory("mem").ReadString(address, length);
+        var message = caller.GetMemory("mem")?.ReadString(address, length);
         Console.WriteLine($"Message from WebAssembly: {message}");
     }
 ));
