@@ -142,6 +142,59 @@ public class CallerTests : IClassFixture<CallerFixture>, IDisposable
     }
 
     [Fact]
+    public void ItCanTryCallFunctionFromCaller()
+    {
+        Linker.DefineFunction("env", "callback", (Caller c) =>
+        {
+            var parameters = new ValueBox[] { 1, 2 };
+            var results = new ValueBox[1];
+
+            c.TryCallFunction("add", parameters, results).Should().BeTrue();
+
+            results[0].AsInt32().Should().Be(3);
+        });
+
+        var instance = Linker.Instantiate(Store, Fixture.Module);
+        var callback = instance.GetFunction("call_callback")!;
+
+        callback.Invoke();
+    }
+
+    [Fact]
+    public void ItCanTryCallFunctionFromCallerWithIncorrectParameterCount()
+    {
+        Linker.DefineFunction("env", "callback", (Caller c) =>
+        {
+            var parameters = new ValueBox[] { 1, 2, 3 };
+            var results = new ValueBox[1];
+
+            c.TryCallFunction("add", parameters, results).Should().BeFalse();
+        });
+
+        var instance = Linker.Instantiate(Store, Fixture.Module);
+        var callback = instance.GetFunction("call_callback")!;
+
+        Assert.Throws<WasmtimeException>(() => { callback.Invoke(); });
+    }
+
+    [Fact]
+    public void ItCanTryCallFunctionFromCallerWithIncorrectResultCount()
+    {
+        Linker.DefineFunction("env", "callback", (Caller c) =>
+        {
+            var parameters = new ValueBox[] { 1, 2 };
+            var results = new ValueBox[2];
+
+            c.TryCallFunction("add", parameters, results).Should().BeFalse();
+        });
+
+        var instance = Linker.Instantiate(Store, Fixture.Module);
+        var callback = instance.GetFunction("call_callback")!;
+
+        Assert.Throws<WasmtimeException>(() => { callback.Invoke(); });
+    }
+
+    [Fact]
     public void ItReturnsNullForNonExistantFunction()
     {
         Linker.DefineFunction("env", "callback", (Caller c) =>

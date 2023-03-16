@@ -347,14 +347,6 @@ namespace Wasmtime
 
         }
 
-        /// <summary>
-        /// Invokes the Wasmtime function. Assumes arguments are the correct type and return span is the correct size.
-        /// </summary>
-        /// <param name="arguments">The arguments to pass to the function, wrapped as `Value`</param>
-        /// <param name="resultsOut">Output span to store the results in, must be the correct length</param>
-        /// <returns>
-        ///   Returns the trap ptr or zero
-        /// </returns>
         private unsafe IntPtr Invoke(ReadOnlySpan<Value> arguments, Span<Value> resultsOut)
         {
             if (IsNull)
@@ -367,15 +359,12 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
-            var context = store.Context;
-
-            IntPtr error;
-            IntPtr trap;
-            fixed (Value* argsPtr = arguments)
-            fixed (Value* resultsPtr = resultsOut)
+            try
             {
-                error = Native.wasmtime_func_call(context.handle, func, argsPtr, (nuint)Parameters.Count, resultsPtr, (nuint)Results.Count, out trap);
-
+                return Invoke(store.Context, func, arguments, resultsOut);
+            }
+            finally
+            {
                 // We need to keep the `Store` alive here for two reasons:
                 // 1) The `Store` references the `Store.Handle` instance which must be kept alive
                 //    during native calls where a `wasmtime_context_t*` is passed, to prevent the GC
@@ -387,6 +376,27 @@ namespace Wasmtime
                 //    we need to be able to retrieve the `Store` from a `Caller` using a weak
                 //    `GCHandle`.
                 GC.KeepAlive(store);
+            }
+        }
+
+        /// <summary>
+        /// Invokes the Wasmtime function. Assumes arguments are the correct type and return span is the correct size.
+        /// </summary>
+        /// <param name="func">Function to invoke</param>
+        /// <param name="arguments">The arguments to pass to the function, wrapped as `Value`</param>
+        /// <param name="resultsOut">Output span to store the results in, must be the correct length</param>
+        /// <param name="context">StoreContext to use to invoke the function</param>
+        /// <returns>
+        ///   Returns the trap ptr or zero
+        /// </returns>
+        internal static unsafe nint Invoke(StoreContext context, ExternFunc func, ReadOnlySpan<Value> arguments, Span<Value> resultsOut)
+        {
+            nint error;
+            nint trap;
+            fixed (Value* argsPtr = arguments)
+            fixed (Value* resultsPtr = resultsOut)
+            {
+                error = Native.wasmtime_func_call(context.handle, func, argsPtr, (nuint)arguments.Length, resultsPtr, (nuint)resultsOut.Length, out trap);
             }
 
             if (error != IntPtr.Zero)

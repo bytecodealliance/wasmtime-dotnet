@@ -102,6 +102,30 @@ namespace Wasmtime
             }
         }
 
+        private ExternFunc? TryGetFunc(string name)
+        {
+            unsafe
+            {
+                using var nameBytes = TemporaryAllocation.FromString(name, stackalloc byte[Math.Min(64, name.Length * 2)]);
+
+                fixed (byte* ptr = nameBytes.Span)
+                {
+                    if (!Native.wasmtime_caller_export_get(handle, ptr, (nuint)nameBytes.Length, out var item))
+                    {
+                        return default;
+                    }
+
+                    if (item.kind != ExternKind.Func)
+                    {
+                        item.Dispose();
+                        return default;
+                    }
+
+                    return item.of.func;
+                }
+            }
+        }
+
         /// <summary>
         /// Gets an exported function of the caller by the given name.
         /// </summary>
@@ -109,25 +133,74 @@ namespace Wasmtime
         /// <returns>Returns the exported function if found or null if a function of the requested name is not exported.</returns>
         public Function? GetFunction(string name)
         {
+            var func = TryGetFunc(name);
+            if (!func.HasValue)
+                return default;
+
+            return new Function(store, func.Value);
+        }
+
+        /// <summary>
+        /// Try to call an exported function with no parameters and no results.
+        /// </summary>
+        /// <param name="name">The name of the exported memory.</param>
+        /// <returns>false if the function did not exist. True if it was called.</returns>
+        public bool TryCallFunction(string name)
+        {
+            var func = TryGetFunc(name);
+            if (!func.HasValue)
+            {
+                return false;
+            }
+
+            var trap = Function.Invoke(context, func.Value, stackalloc Value[0], stackalloc Value[0]);
+            if (trap != IntPtr.Zero)
+            {
+                throw TrapException.FromOwnedTrap(trap);
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Try to call an exported function
+        /// </summary>
+        /// <param name="name">The name of the exported memory.</param>
+        /// <param name="parameters">Parameters to call the function with.</param>
+        /// <param name="results">Span to put the return results into.</param>
+        /// <returns>false if the function did not exist. True if it was called.</returns>
+        public bool TryCallFunction(string name, ReadOnlySpan<ValueBox> parameters, Span<ValueBox> results)
+        {
+            var func = TryGetFunc(name);
+            if (!func.HasValue)
+            {
+                return false;
+            }
+
             unsafe
             {
-                var bytes = Encoding.UTF8.GetBytes(name);
-
-                fixed (byte* ptr = bytes)
+                // "unbox" inputs
+                Span<Value> parametersSpan = stackalloc Value[parameters.Length];
+                for (var i = 0; i < parameters.Length; i++)
                 {
-                    if (!Native.wasmtime_caller_export_get(handle, ptr, (UIntPtr)bytes.Length, out var item))
-                    {
-                        return null;
-                    }
-
-                    if (item.kind != ExternKind.Func)
-                    {
-                        item.Dispose();
-                        return null;
-                    }
-
-                    return new Function(store, item.of.func);
+                    parametersSpan[i] = Value.FromValueBox(parameters[i]);
                 }
+
+                // Invoke function
+                Span<Value> resultsSpan = stackalloc Value[results.Length];
+                var trap = Function.Invoke(context, func.Value, parametersSpan, resultsSpan);
+                if (trap != IntPtr.Zero)
+                {
+                    throw TrapException.FromOwnedTrap(trap);
+                }
+
+                // "box" outputs
+                for (var i = 0; i < results.Length; i++)
+                {
+                    results[i] = resultsSpan[i].ToValueBox();
+                }
+
+                return true;
             }
         }
 
