@@ -12,6 +12,8 @@ namespace Wasmtime
 {
     public partial class Function
     {
+        private object? _wrapperCache;
+
         /// <summary>
         /// Attempt to wrap this function as an <c>Action</c>. Wrapped <c>Action</c> is faster than a normal Invoke call.
         /// </summary>
@@ -26,6 +28,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = Array.Empty<Type>();
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Action cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
                 return null;
@@ -33,15 +43,21 @@ namespace Wasmtime
 
             // Fetch a converter for each parameter type to box it
 
-            return () =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(0, Results.Count);
+
+            Action result = () =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(0, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
 
                 InvokeWithoutReturn(argsAndResults, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
         /// <summary>
@@ -58,6 +74,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = new Type[] { typeof(T), };
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Action<T> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
                 return null;
@@ -66,16 +90,22 @@ namespace Wasmtime
             // Fetch a converter for each parameter type to box it
             var convT = ValueRaw.Converter<T>();
 
-            return (p0) =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(1, Results.Count);
+
+            Action<T> result = (p0) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(1, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
                 convT.Box(storeContext, store, ref argsAndResults[0], p0);
 
                 InvokeWithoutReturn(argsAndResults, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
         /// <summary>
@@ -92,6 +122,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = new Type[] { typeof(T1), typeof(T2), };
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Action<T1, T2> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
                 return null;
@@ -101,10 +139,13 @@ namespace Wasmtime
             var convT1 = ValueRaw.Converter<T1>();
             var convT2 = ValueRaw.Converter<T2>();
 
-            return (p0, p1) =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(2, Results.Count);
+
+            Action<T1, T2> result = (p0, p1) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(2, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
                 convT1.Box(storeContext, store, ref argsAndResults[0], p0);
@@ -112,6 +153,9 @@ namespace Wasmtime
 
                 InvokeWithoutReturn(argsAndResults, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
         /// <summary>
@@ -128,6 +172,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), };
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Action<T1, T2, T3> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
                 return null;
@@ -138,10 +190,13 @@ namespace Wasmtime
             var convT2 = ValueRaw.Converter<T2>();
             var convT3 = ValueRaw.Converter<T3>();
 
-            return (p0, p1, p2) =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(3, Results.Count);
+
+            Action<T1, T2, T3> result = (p0, p1, p2) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(3, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
                 convT1.Box(storeContext, store, ref argsAndResults[0], p0);
@@ -150,6 +205,9 @@ namespace Wasmtime
 
                 InvokeWithoutReturn(argsAndResults, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
         /// <summary>
@@ -166,6 +224,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Action<T1, T2, T3, T4> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
                 return null;
@@ -177,10 +243,13 @@ namespace Wasmtime
             var convT3 = ValueRaw.Converter<T3>();
             var convT4 = ValueRaw.Converter<T4>();
 
-            return (p0, p1, p2, p3) =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(4, Results.Count);
+
+            Action<T1, T2, T3, T4> result = (p0, p1, p2, p3) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(4, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
                 convT1.Box(storeContext, store, ref argsAndResults[0], p0);
@@ -190,6 +259,9 @@ namespace Wasmtime
 
                 InvokeWithoutReturn(argsAndResults, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
         /// <summary>
@@ -206,6 +278,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Action<T1, T2, T3, T4, T5> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
                 return null;
@@ -218,10 +298,13 @@ namespace Wasmtime
             var convT4 = ValueRaw.Converter<T4>();
             var convT5 = ValueRaw.Converter<T5>();
 
-            return (p0, p1, p2, p3, p4) =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(5, Results.Count);
+
+            Action<T1, T2, T3, T4, T5> result = (p0, p1, p2, p3, p4) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(5, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
                 convT1.Box(storeContext, store, ref argsAndResults[0], p0);
@@ -232,6 +315,9 @@ namespace Wasmtime
 
                 InvokeWithoutReturn(argsAndResults, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
         /// <summary>
@@ -248,6 +334,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Action<T1, T2, T3, T4, T5, T6> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
                 return null;
@@ -261,10 +355,13 @@ namespace Wasmtime
             var convT5 = ValueRaw.Converter<T5>();
             var convT6 = ValueRaw.Converter<T6>();
 
-            return (p0, p1, p2, p3, p4, p5) =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(6, Results.Count);
+
+            Action<T1, T2, T3, T4, T5, T6> result = (p0, p1, p2, p3, p4, p5) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(6, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
                 convT1.Box(storeContext, store, ref argsAndResults[0], p0);
@@ -276,6 +373,9 @@ namespace Wasmtime
 
                 InvokeWithoutReturn(argsAndResults, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
         /// <summary>
@@ -292,6 +392,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Action<T1, T2, T3, T4, T5, T6, T7> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
                 return null;
@@ -306,10 +414,13 @@ namespace Wasmtime
             var convT6 = ValueRaw.Converter<T6>();
             var convT7 = ValueRaw.Converter<T7>();
 
-            return (p0, p1, p2, p3, p4, p5, p6) =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(7, Results.Count);
+
+            Action<T1, T2, T3, T4, T5, T6, T7> result = (p0, p1, p2, p3, p4, p5, p6) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(7, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
                 convT1.Box(storeContext, store, ref argsAndResults[0], p0);
@@ -322,6 +433,9 @@ namespace Wasmtime
 
                 InvokeWithoutReturn(argsAndResults, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
         /// <summary>
@@ -338,6 +452,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Action<T1, T2, T3, T4, T5, T6, T7, T8> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
                 return null;
@@ -353,10 +475,13 @@ namespace Wasmtime
             var convT7 = ValueRaw.Converter<T7>();
             var convT8 = ValueRaw.Converter<T8>();
 
-            return (p0, p1, p2, p3, p4, p5, p6, p7) =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(8, Results.Count);
+
+            Action<T1, T2, T3, T4, T5, T6, T7, T8> result = (p0, p1, p2, p3, p4, p5, p6, p7) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(8, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
                 convT1.Box(storeContext, store, ref argsAndResults[0], p0);
@@ -370,6 +495,9 @@ namespace Wasmtime
 
                 InvokeWithoutReturn(argsAndResults, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
         /// <summary>
@@ -386,6 +514,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Action<T1, T2, T3, T4, T5, T6, T7, T8, T9> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
                 return null;
@@ -402,10 +538,13 @@ namespace Wasmtime
             var convT8 = ValueRaw.Converter<T8>();
             var convT9 = ValueRaw.Converter<T9>();
 
-            return (p0, p1, p2, p3, p4, p5, p6, p7, p8) =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(9, Results.Count);
+
+            Action<T1, T2, T3, T4, T5, T6, T7, T8, T9> result = (p0, p1, p2, p3, p4, p5, p6, p7, p8) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(9, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
                 convT1.Box(storeContext, store, ref argsAndResults[0], p0);
@@ -420,6 +559,9 @@ namespace Wasmtime
 
                 InvokeWithoutReturn(argsAndResults, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
         /// <summary>
@@ -436,6 +578,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
                 return null;
@@ -453,10 +603,13 @@ namespace Wasmtime
             var convT9 = ValueRaw.Converter<T9>();
             var convT10 = ValueRaw.Converter<T10>();
 
-            return (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9) =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(10, Results.Count);
+
+            Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> result = (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(10, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
                 convT1.Box(storeContext, store, ref argsAndResults[0], p0);
@@ -472,6 +625,9 @@ namespace Wasmtime
 
                 InvokeWithoutReturn(argsAndResults, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
         /// <summary>
@@ -488,6 +644,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
                 return null;
@@ -506,10 +670,13 @@ namespace Wasmtime
             var convT10 = ValueRaw.Converter<T10>();
             var convT11 = ValueRaw.Converter<T11>();
 
-            return (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10) =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(11, Results.Count);
+
+            Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> result = (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(11, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
                 convT1.Box(storeContext, store, ref argsAndResults[0], p0);
@@ -526,6 +693,9 @@ namespace Wasmtime
 
                 InvokeWithoutReturn(argsAndResults, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
         /// <summary>
@@ -542,6 +712,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
                 return null;
@@ -561,10 +739,13 @@ namespace Wasmtime
             var convT11 = ValueRaw.Converter<T11>();
             var convT12 = ValueRaw.Converter<T12>();
 
-            return (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11) =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(12, Results.Count);
+
+            Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> result = (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(12, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
                 convT1.Box(storeContext, store, ref argsAndResults[0], p0);
@@ -582,6 +763,9 @@ namespace Wasmtime
 
                 InvokeWithoutReturn(argsAndResults, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
         /// <summary>
@@ -598,6 +782,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), };
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
                 return null;
@@ -618,10 +810,13 @@ namespace Wasmtime
             var convT12 = ValueRaw.Converter<T12>();
             var convT13 = ValueRaw.Converter<T13>();
 
-            return (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12) =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(13, Results.Count);
+
+            Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> result = (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(13, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
                 convT1.Box(storeContext, store, ref argsAndResults[0], p0);
@@ -640,6 +835,9 @@ namespace Wasmtime
 
                 InvokeWithoutReturn(argsAndResults, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
         /// <summary>
@@ -656,6 +854,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), typeof(T14), };
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
                 return null;
@@ -677,10 +883,13 @@ namespace Wasmtime
             var convT13 = ValueRaw.Converter<T13>();
             var convT14 = ValueRaw.Converter<T14>();
 
-            return (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13) =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(14, Results.Count);
+
+            Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> result = (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(14, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
                 convT1.Box(storeContext, store, ref argsAndResults[0], p0);
@@ -700,6 +909,9 @@ namespace Wasmtime
 
                 InvokeWithoutReturn(argsAndResults, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
         /// <summary>
@@ -716,6 +928,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), typeof(T14), typeof(T15), };
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
                 return null;
@@ -738,10 +958,13 @@ namespace Wasmtime
             var convT14 = ValueRaw.Converter<T14>();
             var convT15 = ValueRaw.Converter<T15>();
 
-            return (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14) =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(15, Results.Count);
+
+            Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> result = (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(15, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
                 convT1.Box(storeContext, store, ref argsAndResults[0], p0);
@@ -762,6 +985,9 @@ namespace Wasmtime
 
                 InvokeWithoutReturn(argsAndResults, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
         /// <summary>
@@ -778,6 +1004,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), typeof(T14), typeof(T15), typeof(T16), };
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
                 return null;
@@ -801,10 +1035,13 @@ namespace Wasmtime
             var convT15 = ValueRaw.Converter<T15>();
             var convT16 = ValueRaw.Converter<T16>();
 
-            return (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15) =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(16, Results.Count);
+
+            Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> result = (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(16, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
                 convT1.Box(storeContext, store, ref argsAndResults[0], p0);
@@ -826,6 +1063,9 @@ namespace Wasmtime
 
                 InvokeWithoutReturn(argsAndResults, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
         /// <summary>
@@ -842,6 +1082,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = Array.Empty<Type>();
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Func<TResult?> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
                 return null;
@@ -852,15 +1100,21 @@ namespace Wasmtime
             // Create a factory for the return type
             var factory = IReturnTypeFactory<TResult>.Create();
 
-            return () =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(0, Results.Count);
+
+            Func<TResult?> result = () =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(0, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
 
                 return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
         /// <summary>
@@ -877,6 +1131,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = new Type[] { typeof(T), };
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Func<T, TResult?> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
                 return null;
@@ -888,16 +1150,22 @@ namespace Wasmtime
             // Create a factory for the return type
             var factory = IReturnTypeFactory<TResult>.Create();
 
-            return (p0) =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(1, Results.Count);
+
+            Func<T, TResult?> result = (p0) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(1, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
                 convT.Box(storeContext, store, ref argsAndResults[0], p0);
 
                 return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
         /// <summary>
@@ -914,6 +1182,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = new Type[] { typeof(T1), typeof(T2), };
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Func<T1, T2, TResult?> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
                 return null;
@@ -926,10 +1202,13 @@ namespace Wasmtime
             // Create a factory for the return type
             var factory = IReturnTypeFactory<TResult>.Create();
 
-            return (p0, p1) =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(2, Results.Count);
+
+            Func<T1, T2, TResult?> result = (p0, p1) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(2, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
                 convT1.Box(storeContext, store, ref argsAndResults[0], p0);
@@ -937,6 +1216,9 @@ namespace Wasmtime
 
                 return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
         /// <summary>
@@ -953,6 +1235,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), };
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Func<T1, T2, T3, TResult?> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
                 return null;
@@ -966,10 +1256,13 @@ namespace Wasmtime
             // Create a factory for the return type
             var factory = IReturnTypeFactory<TResult>.Create();
 
-            return (p0, p1, p2) =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(3, Results.Count);
+
+            Func<T1, T2, T3, TResult?> result = (p0, p1, p2) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(3, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
                 convT1.Box(storeContext, store, ref argsAndResults[0], p0);
@@ -978,6 +1271,9 @@ namespace Wasmtime
 
                 return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
         /// <summary>
@@ -994,6 +1290,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Func<T1, T2, T3, T4, TResult?> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
                 return null;
@@ -1008,10 +1312,13 @@ namespace Wasmtime
             // Create a factory for the return type
             var factory = IReturnTypeFactory<TResult>.Create();
 
-            return (p0, p1, p2, p3) =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(4, Results.Count);
+
+            Func<T1, T2, T3, T4, TResult?> result = (p0, p1, p2, p3) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(4, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
                 convT1.Box(storeContext, store, ref argsAndResults[0], p0);
@@ -1021,6 +1328,9 @@ namespace Wasmtime
 
                 return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
         /// <summary>
@@ -1037,6 +1347,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Func<T1, T2, T3, T4, T5, TResult?> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
                 return null;
@@ -1052,10 +1370,13 @@ namespace Wasmtime
             // Create a factory for the return type
             var factory = IReturnTypeFactory<TResult>.Create();
 
-            return (p0, p1, p2, p3, p4) =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(5, Results.Count);
+
+            Func<T1, T2, T3, T4, T5, TResult?> result = (p0, p1, p2, p3, p4) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(5, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
                 convT1.Box(storeContext, store, ref argsAndResults[0], p0);
@@ -1066,6 +1387,9 @@ namespace Wasmtime
 
                 return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
         /// <summary>
@@ -1082,6 +1406,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Func<T1, T2, T3, T4, T5, T6, TResult?> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
                 return null;
@@ -1098,10 +1430,13 @@ namespace Wasmtime
             // Create a factory for the return type
             var factory = IReturnTypeFactory<TResult>.Create();
 
-            return (p0, p1, p2, p3, p4, p5) =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(6, Results.Count);
+
+            Func<T1, T2, T3, T4, T5, T6, TResult?> result = (p0, p1, p2, p3, p4, p5) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(6, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
                 convT1.Box(storeContext, store, ref argsAndResults[0], p0);
@@ -1113,6 +1448,9 @@ namespace Wasmtime
 
                 return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
         /// <summary>
@@ -1129,6 +1467,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Func<T1, T2, T3, T4, T5, T6, T7, TResult?> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
                 return null;
@@ -1146,10 +1492,13 @@ namespace Wasmtime
             // Create a factory for the return type
             var factory = IReturnTypeFactory<TResult>.Create();
 
-            return (p0, p1, p2, p3, p4, p5, p6) =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(7, Results.Count);
+
+            Func<T1, T2, T3, T4, T5, T6, T7, TResult?> result = (p0, p1, p2, p3, p4, p5, p6) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(7, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
                 convT1.Box(storeContext, store, ref argsAndResults[0], p0);
@@ -1162,6 +1511,9 @@ namespace Wasmtime
 
                 return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
         /// <summary>
@@ -1178,6 +1530,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult?> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
                 return null;
@@ -1196,10 +1556,13 @@ namespace Wasmtime
             // Create a factory for the return type
             var factory = IReturnTypeFactory<TResult>.Create();
 
-            return (p0, p1, p2, p3, p4, p5, p6, p7) =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(8, Results.Count);
+
+            Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult?> result = (p0, p1, p2, p3, p4, p5, p6, p7) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(8, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
                 convT1.Box(storeContext, store, ref argsAndResults[0], p0);
@@ -1213,6 +1576,9 @@ namespace Wasmtime
 
                 return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
         /// <summary>
@@ -1229,6 +1595,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult?> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
                 return null;
@@ -1248,10 +1622,13 @@ namespace Wasmtime
             // Create a factory for the return type
             var factory = IReturnTypeFactory<TResult>.Create();
 
-            return (p0, p1, p2, p3, p4, p5, p6, p7, p8) =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(9, Results.Count);
+
+            Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult?> result = (p0, p1, p2, p3, p4, p5, p6, p7, p8) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(9, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
                 convT1.Box(storeContext, store, ref argsAndResults[0], p0);
@@ -1266,6 +1643,9 @@ namespace Wasmtime
 
                 return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
         /// <summary>
@@ -1282,6 +1662,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult?> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
                 return null;
@@ -1302,10 +1690,13 @@ namespace Wasmtime
             // Create a factory for the return type
             var factory = IReturnTypeFactory<TResult>.Create();
 
-            return (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9) =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(10, Results.Count);
+
+            Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult?> result = (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(10, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
                 convT1.Box(storeContext, store, ref argsAndResults[0], p0);
@@ -1321,6 +1712,9 @@ namespace Wasmtime
 
                 return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
         /// <summary>
@@ -1337,6 +1731,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult?> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
                 return null;
@@ -1358,10 +1760,13 @@ namespace Wasmtime
             // Create a factory for the return type
             var factory = IReturnTypeFactory<TResult>.Create();
 
-            return (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10) =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(11, Results.Count);
+
+            Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult?> result = (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(11, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
                 convT1.Box(storeContext, store, ref argsAndResults[0], p0);
@@ -1378,6 +1783,9 @@ namespace Wasmtime
 
                 return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
         /// <summary>
@@ -1394,6 +1802,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult?> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
                 return null;
@@ -1416,10 +1832,13 @@ namespace Wasmtime
             // Create a factory for the return type
             var factory = IReturnTypeFactory<TResult>.Create();
 
-            return (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11) =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(12, Results.Count);
+
+            Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult?> result = (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(12, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
                 convT1.Box(storeContext, store, ref argsAndResults[0], p0);
@@ -1437,6 +1856,9 @@ namespace Wasmtime
 
                 return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
         /// <summary>
@@ -1453,6 +1875,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), };
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult?> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
                 return null;
@@ -1476,10 +1906,13 @@ namespace Wasmtime
             // Create a factory for the return type
             var factory = IReturnTypeFactory<TResult>.Create();
 
-            return (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12) =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(13, Results.Count);
+
+            Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult?> result = (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(13, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
                 convT1.Box(storeContext, store, ref argsAndResults[0], p0);
@@ -1498,6 +1931,9 @@ namespace Wasmtime
 
                 return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
         /// <summary>
@@ -1514,6 +1950,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), typeof(T14), };
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult?> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
                 return null;
@@ -1538,10 +1982,13 @@ namespace Wasmtime
             // Create a factory for the return type
             var factory = IReturnTypeFactory<TResult>.Create();
 
-            return (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13) =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(14, Results.Count);
+
+            Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult?> result = (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(14, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
                 convT1.Box(storeContext, store, ref argsAndResults[0], p0);
@@ -1561,6 +2008,9 @@ namespace Wasmtime
 
                 return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
         /// <summary>
@@ -1577,6 +2027,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), typeof(T14), typeof(T15), };
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult?> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
                 return null;
@@ -1602,10 +2060,13 @@ namespace Wasmtime
             // Create a factory for the return type
             var factory = IReturnTypeFactory<TResult>.Create();
 
-            return (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14) =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(15, Results.Count);
+
+            Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult?> result = (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(15, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
                 convT1.Box(storeContext, store, ref argsAndResults[0], p0);
@@ -1626,6 +2087,9 @@ namespace Wasmtime
 
                 return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
         /// <summary>
@@ -1642,6 +2106,14 @@ namespace Wasmtime
             // Check that the requested type signature is compatible
             var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), typeof(T14), typeof(T15), typeof(T16), };
             
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult?> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
                 return null;
@@ -1668,10 +2140,13 @@ namespace Wasmtime
             // Create a factory for the return type
             var factory = IReturnTypeFactory<TResult>.Create();
 
-            return (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15) =>
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(16, Results.Count);
+
+            Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult?> result = (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(16, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
                 convT1.Box(storeContext, store, ref argsAndResults[0], p0);
@@ -1693,6 +2168,9 @@ namespace Wasmtime
 
                 return InvokeWithReturn(argsAndResults, factory, storeContext);
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
     }

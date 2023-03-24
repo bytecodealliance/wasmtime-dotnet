@@ -23,6 +23,8 @@ namespace Wasmtime
 {
     public partial class Function
     {
+        private object? _wrapperCache;
+
 <#
 // Generate overloads of WrapAction/WrapFunc for up to 16 parameters and up to one return type
 // (2 * 17 overloads).
@@ -51,6 +53,14 @@ var parameterTypes = Array.Empty<Type>();
 var parameterTypes = new Type[] { <#= callbackParameterTypeExpressions #>};
             <# } #>
 
+            // Try to retrieve it from the cache. if it's cached it must have passed the type
+            // signature check already, so it's safe to do this before CheckTypeSignature.
+            if (_wrapperCache is <#= delegateType #> cached)
+            {
+                return cached;
+            }
+
+            // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(<#= callbackReturnTypeExpression #>, parameterTypes))
             {
                 return null;
@@ -68,7 +78,10 @@ var parameterTypes = new Type[] { <#= callbackParameterTypeExpressions #>};
 <# 
     } 
 #>
-            return (<#
+            // Determine how much space to allocate for params/results
+            var allocCount = Math.Max(<#= parameterCount.ToString(CultureInfo.InvariantCulture) #>, Results.Count);
+
+            <#= delegateType #> result = (<#
     for (int x = 0; x < parameterCount; x++)
     {
         if (x >= 1)
@@ -82,7 +95,7 @@ var parameterTypes = new Type[] { <#= callbackParameterTypeExpressions #>};
 #>) =>
             {
                 // Allocate space for both the arguments and the results.
-                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[Math.Max(<#= parameterCount.ToString(CultureInfo.InvariantCulture) #>, Results.Count)];
+                Span<ValueRaw> argsAndResults = stackalloc ValueRaw[allocCount];
                 var storeContext = store.Context;
 
 <#
@@ -110,6 +123,9 @@ var parameterTypes = new Type[] { <#= callbackParameterTypeExpressions #>};
     }
 #>
             };
+
+            _wrapperCache = result;
+            return result;
         }
 
 <#
