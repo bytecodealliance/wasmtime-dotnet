@@ -314,7 +314,7 @@ namespace Wasmtime
             if (!_funcCache.TryGetValue(@extern.index, out var func))
             {
                 func = new Function(this, @extern);
-                _funcCache.TryAdd(@extern.index, func);
+                func = _funcCache.GetOrAdd(@extern.index, func);
             }
 
             return func;
