@@ -97,7 +97,7 @@ namespace Wasmtime
                         return null;
                     }
 
-                    return new Memory(store, item.of.memory);
+                    return store.GetCachedExtern(item.of.memory);
                 }
             }
         }

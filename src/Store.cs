@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;
 
@@ -164,6 +165,7 @@ namespace Wasmtime
         public void GC()
         {
             _funcCache.Clear();
+            _memCache.Clear();
 
             Context.GC();
             System.GC.KeepAlive(this);
@@ -308,7 +310,7 @@ namespace Wasmtime
 
         private static readonly Native.Finalizer Finalizer = (p) => GCHandle.FromIntPtr(p).Free();
 
-        private readonly ConcurrentDictionary<UIntPtr, Function> _funcCache = new();
+        private readonly ConcurrentDictionary<nuint, Function> _funcCache = new();
         internal Function GetCachedExtern(ExternFunc @extern)
         {
             if (!_funcCache.TryGetValue(@extern.index, out var func))
@@ -318,6 +320,18 @@ namespace Wasmtime
             }
 
             return func;
+        }
+
+        private readonly ConcurrentDictionary<nuint, Memory> _memCache = new();
+        internal Memory GetCachedExtern(ExternMemory @extern)
+        {
+            if (!_memCache.TryGetValue(@extern.index, out var mem))
+            {
+                mem = new Memory(this, @extern);
+                mem = _memCache.GetOrAdd(@extern.index, mem);
+            }
+
+            return mem;
         }
     }
 }

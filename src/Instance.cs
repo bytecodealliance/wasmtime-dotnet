@@ -557,9 +557,7 @@ namespace Wasmtime
                 return null;
             }
 
-            GC.KeepAlive(_store);
-
-            return new Memory(_store, ext.of.memory);
+            return _store.GetCachedExtern(ext.of.memory);
         }
 
         /// <summary>

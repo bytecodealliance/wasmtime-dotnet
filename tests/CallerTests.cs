@@ -62,11 +62,39 @@ public class CallerTests : IClassFixture<CallerFixture>, IDisposable
     }
 
     [Fact]
+    public void ItReturnsNoSpanForNonExistantMemory()
+    {
+        Linker.DefineFunction("env", "callback", (Caller c) =>
+        {
+            c.TryGetMemorySpan<byte>("idontexist", 0, 1, out var span).Should().BeFalse();
+        });
+
+        var instance = Linker.Instantiate(Store, Fixture.Module);
+        var callback = instance.GetFunction("call_callback")!;
+
+        callback.Invoke();
+    }
+
+    [Fact]
     public void ItReturnsNullForNonMemoryExport()
     {
         Linker.DefineFunction("env", "callback", (Caller c) =>
         {
             c.GetMemory("call_callback").Should().BeNull();
+        });
+
+        var instance = Linker.Instantiate(Store, Fixture.Module);
+        var callback = instance.GetFunction("call_callback")!;
+
+        callback.Invoke();
+    }
+
+    [Fact]
+    public void ItReturnsNoSpanForNonMemoryExport()
+    {
+        Linker.DefineFunction("env", "callback", (Caller c) =>
+        {
+            c.TryGetMemorySpan<byte>("call_callback", 0, 1, out var span).Should().BeFalse();
         });
 
         var instance = Linker.Instantiate(Store, Fixture.Module);
