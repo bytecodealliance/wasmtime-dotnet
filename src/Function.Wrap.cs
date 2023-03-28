@@ -25,9 +25,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = Array.Empty<Type>();
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Action cached)
@@ -35,6 +32,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = Array.Empty<Type>();
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -71,9 +71,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = new Type[] { typeof(T), };
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Action<T> cached)
@@ -81,6 +78,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = new Type[] { typeof(T), };
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -119,9 +119,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = new Type[] { typeof(T1), typeof(T2), };
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Action<T1, T2> cached)
@@ -129,6 +126,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), };
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -169,9 +169,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), };
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Action<T1, T2, T3> cached)
@@ -179,6 +176,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), };
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -221,9 +221,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Action<T1, T2, T3, T4> cached)
@@ -231,6 +228,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -275,9 +275,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Action<T1, T2, T3, T4, T5> cached)
@@ -285,6 +282,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -331,9 +331,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Action<T1, T2, T3, T4, T5, T6> cached)
@@ -341,6 +338,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -389,9 +389,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Action<T1, T2, T3, T4, T5, T6, T7> cached)
@@ -399,6 +396,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -449,9 +449,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Action<T1, T2, T3, T4, T5, T6, T7, T8> cached)
@@ -459,6 +456,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -511,9 +511,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Action<T1, T2, T3, T4, T5, T6, T7, T8, T9> cached)
@@ -521,6 +518,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -575,9 +575,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> cached)
@@ -585,6 +582,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -641,9 +641,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> cached)
@@ -651,6 +648,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -709,9 +709,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> cached)
@@ -719,6 +716,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -779,9 +779,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), };
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> cached)
@@ -789,6 +786,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), };
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -851,9 +851,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), typeof(T14), };
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> cached)
@@ -861,6 +858,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), typeof(T14), };
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -925,9 +925,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), typeof(T14), typeof(T15), };
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> cached)
@@ -935,6 +932,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), typeof(T14), typeof(T15), };
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -1001,9 +1001,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), typeof(T14), typeof(T15), typeof(T16), };
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> cached)
@@ -1011,6 +1008,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), typeof(T14), typeof(T15), typeof(T16), };
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(default(Type), parameterTypes))
             {
@@ -1079,9 +1079,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = Array.Empty<Type>();
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Func<TResult?> cached)
@@ -1089,6 +1086,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = Array.Empty<Type>();
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
@@ -1128,9 +1128,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = new Type[] { typeof(T), };
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Func<T, TResult?> cached)
@@ -1138,6 +1135,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = new Type[] { typeof(T), };
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
@@ -1179,9 +1179,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = new Type[] { typeof(T1), typeof(T2), };
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Func<T1, T2, TResult?> cached)
@@ -1189,6 +1186,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), };
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
@@ -1232,9 +1232,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), };
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Func<T1, T2, T3, TResult?> cached)
@@ -1242,6 +1239,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), };
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
@@ -1287,9 +1287,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Func<T1, T2, T3, T4, TResult?> cached)
@@ -1297,6 +1294,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), };
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
@@ -1344,9 +1344,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Func<T1, T2, T3, T4, T5, TResult?> cached)
@@ -1354,6 +1351,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), };
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
@@ -1403,9 +1403,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Func<T1, T2, T3, T4, T5, T6, TResult?> cached)
@@ -1413,6 +1410,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), };
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
@@ -1464,9 +1464,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Func<T1, T2, T3, T4, T5, T6, T7, TResult?> cached)
@@ -1474,6 +1471,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), };
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
@@ -1527,9 +1527,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult?> cached)
@@ -1537,6 +1534,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), };
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
@@ -1592,9 +1592,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult?> cached)
@@ -1602,6 +1599,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), };
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
@@ -1659,9 +1659,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult?> cached)
@@ -1669,6 +1666,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), };
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
@@ -1728,9 +1728,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult?> cached)
@@ -1738,6 +1735,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), };
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
@@ -1799,9 +1799,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult?> cached)
@@ -1809,6 +1806,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), };
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
@@ -1872,9 +1872,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), };
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult?> cached)
@@ -1882,6 +1879,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), };
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
@@ -1947,9 +1947,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), typeof(T14), };
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult?> cached)
@@ -1957,6 +1954,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), typeof(T14), };
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
@@ -2024,9 +2024,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), typeof(T14), typeof(T15), };
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult?> cached)
@@ -2034,6 +2031,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), typeof(T14), typeof(T15), };
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {
@@ -2103,9 +2103,6 @@ namespace Wasmtime
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), typeof(T14), typeof(T15), typeof(T16), };
-            
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult?> cached)
@@ -2113,6 +2110,9 @@ namespace Wasmtime
                 return cached;
             }
 
+            // Check that the requested type signature is compatible
+            var parameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), typeof(T13), typeof(T14), typeof(T15), typeof(T16), };
+            
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(typeof(TResult), parameterTypes))
             {

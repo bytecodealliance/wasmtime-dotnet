@@ -46,19 +46,19 @@ foreach (var (_, returnTypeCount, parameterCount, methodGenerics, delegateType, 
                 throw new InvalidOperationException("Cannot wrap a null function reference.");
             }
 
-            // Check that the requested type signature is compatible
-            <# if (callbackParameterTypeExpressions.Length == 0) { #>
-var parameterTypes = Array.Empty<Type>();
-            <# } else { #>
-var parameterTypes = new Type[] { <#= callbackParameterTypeExpressions #>};
-            <# } #>
-
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
             if (_wrapperCache is <#= delegateType #> cached)
             {
                 return cached;
             }
+
+            // Check that the requested type signature is compatible
+            <# if (callbackParameterTypeExpressions.Length == 0) { #>
+var parameterTypes = Array.Empty<Type>();
+            <# } else { #>
+var parameterTypes = new Type[] { <#= callbackParameterTypeExpressions #>};
+            <# } #>
 
             // Check if the requested type signature is compatible with the function being wrapped
             if (!CheckTypeSignature(<#= callbackReturnTypeExpression #>, parameterTypes))
