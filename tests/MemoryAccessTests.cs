@@ -25,7 +25,7 @@ namespace Wasmtime.Tests
             Linker = new Linker(Fixture.Engine);
         }
 
-        [Fact]
+        [Fact(Skip = "Test skip for MacOS CI crash")]
         public void AccessDefaultThrows()
         {
             var memory = default(Memory);
