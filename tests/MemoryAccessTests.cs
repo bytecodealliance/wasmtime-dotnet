@@ -34,6 +34,22 @@ namespace Wasmtime.Tests
         }
 
         [Fact]
+        public void TestMacOsCI()
+        {
+            try
+            {
+                object? o = null;
+                o.Equals(o).Should().BeTrue();
+            }
+            catch (NullReferenceException)
+            {
+                return;
+            }
+
+            Assert.False(true);
+        }
+
+        [Fact]
         public void ItGrows()
         {
             var memory = new Memory(Store, 1, 4);
