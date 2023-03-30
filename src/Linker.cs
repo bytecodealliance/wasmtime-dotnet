@@ -364,6 +364,8 @@ namespace Wasmtime
                 return null;
             }
 
+            GC.KeepAlive(store);
+
             return store.GetCachedExtern(ext.of.memory);
         }
 

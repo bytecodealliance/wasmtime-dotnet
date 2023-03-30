@@ -524,7 +524,7 @@ namespace Wasmtime
 
             GC.KeepAlive(_store);
 
-            return new Function(_store, ext.of.func);
+            return _store.GetCachedExtern(ext.of.func);
         }
 
         /// <summary>
