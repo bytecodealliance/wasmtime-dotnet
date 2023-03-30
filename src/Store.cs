@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;
 
@@ -164,9 +163,6 @@ namespace Wasmtime
         /// </summary>
         public void GC()
         {
-            _funcCache.Clear();
-            _memCache.Clear();
-
             Context.GC();
             System.GC.KeepAlive(this);
         }
