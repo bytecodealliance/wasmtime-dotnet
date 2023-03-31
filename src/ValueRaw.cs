@@ -201,7 +201,7 @@ namespace Wasmtime
                 Function.Native.wasmtime_func_from_raw(storeContext.handle, valueRaw.funcref, out funcref);
             }
 
-            return new Function(store!, funcref);
+            return store.GetCachedExtern(funcref);
         }
 
         public void Box(StoreContext storeContext, Store store, ref ValueRaw valueRaw, Function? value)
