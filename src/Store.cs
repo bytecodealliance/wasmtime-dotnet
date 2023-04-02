@@ -306,25 +306,29 @@ namespace Wasmtime
 
         private static readonly Native.Finalizer Finalizer = (p) => GCHandle.FromIntPtr(p).Free();
 
-        private readonly ConcurrentDictionary<nuint, Function> _funcCache = new();
+        private readonly ConcurrentDictionary<(ulong store, nuint index), Function> _funcCache = new();
         internal Function GetCachedExtern(ExternFunc @extern)
         {
-            if (!_funcCache.TryGetValue(@extern.index, out var func))
+            var key = (@extern.store, @extern.index);
+
+            if (!_funcCache.TryGetValue(key, out var func))
             {
                 func = new Function(this, @extern);
-                func = _funcCache.GetOrAdd(@extern.index, func);
+                func = _funcCache.GetOrAdd(key, func);
             }
 
             return func;
         }
 
-        private readonly ConcurrentDictionary<nuint, Memory> _memCache = new();
+        private readonly ConcurrentDictionary<(ulong store, nuint index), Memory> _memCache = new();
         internal Memory GetCachedExtern(ExternMemory @extern)
         {
-            if (!_memCache.TryGetValue(@extern.index, out var mem))
+            var key = (@extern.store, @extern.index);
+
+            if (!_memCache.TryGetValue(key, out var mem))
             {
                 mem = new Memory(this, @extern);
-                mem = _memCache.GetOrAdd(@extern.index, mem);
+                mem = _memCache.GetOrAdd(key, mem);
             }
 
             return mem;
