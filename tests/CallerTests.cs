@@ -195,11 +195,15 @@ public class CallerTests : IClassFixture<CallerFixture>, IDisposable
     [Fact]
     public void ItCanGetCachedFunctionFromCaller()
     {
-        var memories = new HashSet<Function>();
+        var functions = new HashSet<Function>();
 
         Linker.DefineFunction("env", "callback", (Caller c) =>
         {
-            memories.Add(c.GetFunction("add"));
+            var add = c.GetFunction("add");
+            var call = c.GetFunction("call_callback");
+
+            add.Should().NotBe(call);
+            functions.Add(add);
         });
 
         var instance = Linker.Instantiate(Store, Fixture.Module);
@@ -212,7 +216,7 @@ public class CallerTests : IClassFixture<CallerFixture>, IDisposable
         callback.Invoke();
 
         // Check that it retrieved the exact same `Function` object for all calls
-        memories.Count.Should().Be(1);
+        functions.Count.Should().Be(1);
     }
 
     [Fact]
