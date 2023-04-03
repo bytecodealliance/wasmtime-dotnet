@@ -50,7 +50,7 @@ public class CallerTests : IClassFixture<CallerFixture>, IDisposable
     [Fact]
     public void ItCanGetCachedMemoryFromCaller()
     {
-        var memories = new HashSet<Memory>();
+        var memories = new HashSet<Memory>(ReferenceEqualityComparer.Instance);
 
         Linker.DefineFunction("env", "callback", (Caller c) =>
         {
@@ -196,7 +196,7 @@ public class CallerTests : IClassFixture<CallerFixture>, IDisposable
     [Fact]
     public void ItCanGetCachedFunctionFromCaller()
     {
-        var functions = new HashSet<Function>();
+        var functions = new HashSet<Function>(ReferenceEqualityComparer.Instance);
 
         Linker.DefineFunction("env", "callback", (Caller c) =>
         {
