@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;
 
@@ -304,5 +305,33 @@ namespace Wasmtime
         private object? data;
 
         private static readonly Native.Finalizer Finalizer = (p) => GCHandle.FromIntPtr(p).Free();
+
+        private readonly ConcurrentDictionary<(ExternKind kind, ulong store, nuint index), object> _externCache = new();
+
+        internal Function GetCachedExtern(ExternFunc @extern)
+        {
+            var key = (ExternKind.Func, @extern.store, @extern.index);
+
+            if (!_externCache.TryGetValue(key, out var func))
+            {
+                func = new Function(this, @extern);
+                func = _externCache.GetOrAdd(key, func);
+            }
+
+            return (Function)func;
+        }
+
+        internal Memory GetCachedExtern(ExternMemory @extern)
+        {
+            var key = (ExternKind.Memory, @extern.store, @extern.index);
+
+            if (!_externCache.TryGetValue(key, out var mem))
+            {
+                mem = new Memory(this, @extern);
+                mem = _externCache.GetOrAdd(key, mem);
+            }
+
+            return (Memory)mem;
+        }
     }
 }

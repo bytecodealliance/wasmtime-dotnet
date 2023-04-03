@@ -84,8 +84,8 @@ namespace Wasmtime
         public Function AsFunction(Store store)
         {
             ThrowIfNotOfCorrectKind(ValueKind.FuncRef);
-
-            return new Function(store, Union.funcref);
+            
+            return store.GetCachedExtern(Union.funcref);
         }
 
         /// <summary>
@@ -390,7 +390,7 @@ namespace Wasmtime
 
         public Function Unbox(Store store, ValueBox value)
         {
-            return new Function(store, value.Union.funcref);
+            return store.GetCachedExtern(value.Union.funcref);
         }
     }
 

@@ -82,9 +82,9 @@ namespace Wasmtime
         {
             unsafe
             {
-                var bytes = Encoding.UTF8.GetBytes(name);
+                using var bytes = name.ToUTF8(stackalloc byte[Math.Min(64, name.Length * 2)]);
 
-                fixed (byte* ptr = bytes)
+                fixed (byte* ptr = bytes.Span)
                 {
                     if (!Native.wasmtime_caller_export_get(handle, ptr, (UIntPtr)bytes.Length, out var item))
                     {
@@ -97,7 +97,7 @@ namespace Wasmtime
                         return null;
                     }
 
-                    return new Memory(store, item.of.memory);
+                    return store.GetCachedExtern(item.of.memory);
                 }
             }
         }
@@ -111,9 +111,9 @@ namespace Wasmtime
         {
             unsafe
             {
-                var bytes = Encoding.UTF8.GetBytes(name);
+                using var bytes = name.ToUTF8(stackalloc byte[Math.Min(64, name.Length * 2)]);
 
-                fixed (byte* ptr = bytes)
+                fixed (byte* ptr = bytes.Span)
                 {
                     if (!Native.wasmtime_caller_export_get(handle, ptr, (UIntPtr)bytes.Length, out var item))
                     {
@@ -126,7 +126,7 @@ namespace Wasmtime
                         return null;
                     }
 
-                    return new Function(store, item.of.func);
+                    return store.GetCachedExtern(item.of.func);
                 }
             }
         }

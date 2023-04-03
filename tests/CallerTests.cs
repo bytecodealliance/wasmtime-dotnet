@@ -48,6 +48,30 @@ public class CallerTests : IClassFixture<CallerFixture>, IDisposable
     }
 
     [Fact]
+    public void ItCanGetCachedMemoryFromCaller()
+    {
+        var memories = new HashSet<Memory>(ReferenceEqualityComparer.Instance);
+
+        Linker.DefineFunction("env", "callback", (Caller c) =>
+        {
+            memories.Add(c.GetMemory("memory"));
+            c.GetMemory("none").Should().BeNull();
+        });
+
+        var instance = Linker.Instantiate(Store, Fixture.Module);
+        var callback = instance.GetFunction("call_callback")!;
+
+        callback.Invoke();
+        callback.Invoke();
+        callback.Invoke();
+        callback.Invoke();
+        callback.Invoke();
+
+        // Check that it retrieved the exact same `Memory` object for all calls
+        memories.Count.Should().Be(1);
+    }
+
+    [Fact]
     public void ItReturnsNullForNonExistantMemory()
     {
         Linker.DefineFunction("env", "callback", (Caller c) =>
@@ -62,11 +86,39 @@ public class CallerTests : IClassFixture<CallerFixture>, IDisposable
     }
 
     [Fact]
+    public void ItReturnsNoSpanForNonExistantMemory()
+    {
+        Linker.DefineFunction("env", "callback", (Caller c) =>
+        {
+            c.TryGetMemorySpan<byte>("idontexist", 0, 1, out var span).Should().BeFalse();
+        });
+
+        var instance = Linker.Instantiate(Store, Fixture.Module);
+        var callback = instance.GetFunction("call_callback")!;
+
+        callback.Invoke();
+    }
+
+    [Fact]
     public void ItReturnsNullForNonMemoryExport()
     {
         Linker.DefineFunction("env", "callback", (Caller c) =>
         {
             c.GetMemory("call_callback").Should().BeNull();
+        });
+
+        var instance = Linker.Instantiate(Store, Fixture.Module);
+        var callback = instance.GetFunction("call_callback")!;
+
+        callback.Invoke();
+    }
+
+    [Fact]
+    public void ItReturnsNoSpanForNonMemoryExport()
+    {
+        Linker.DefineFunction("env", "callback", (Caller c) =>
+        {
+            c.TryGetMemorySpan<byte>("call_callback", 0, 1, out var span).Should().BeFalse();
         });
 
         var instance = Linker.Instantiate(Store, Fixture.Module);
@@ -139,6 +191,33 @@ public class CallerTests : IClassFixture<CallerFixture>, IDisposable
         var callback = instance.GetFunction("call_callback")!;
 
         callback.Invoke();
+    }
+
+    [Fact]
+    public void ItCanGetCachedFunctionFromCaller()
+    {
+        var functions = new HashSet<Function>(ReferenceEqualityComparer.Instance);
+
+        Linker.DefineFunction("env", "callback", (Caller c) =>
+        {
+            var add = c.GetFunction("add");
+            var call = c.GetFunction("call_callback");
+
+            add.Should().NotBe(call);
+            functions.Add(add);
+        });
+
+        var instance = Linker.Instantiate(Store, Fixture.Module);
+        var callback = instance.GetFunction("call_callback")!;
+
+        callback.Invoke();
+        callback.Invoke();
+        callback.Invoke();
+        callback.Invoke();
+        callback.Invoke();
+
+        // Check that it retrieved the exact same `Function` object for all calls
+        functions.Count.Should().Be(1);
     }
 
     [Fact]

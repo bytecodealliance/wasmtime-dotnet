@@ -289,7 +289,7 @@ namespace Wasmtime
                         throw WasmtimeException.FromOwnedError(error);
                     }
 
-                    return new Function(store, func);
+                    return store.GetCachedExtern(func);
                 }
             }
         }
@@ -316,7 +316,7 @@ namespace Wasmtime
 
             GC.KeepAlive(store);
 
-            return new Function(store, ext.of.func);
+            return store.GetCachedExtern(ext.of.func);
         }
 
         /// <summary>
@@ -366,7 +366,7 @@ namespace Wasmtime
 
             GC.KeepAlive(store);
 
-            return new Memory(store, ext.of.memory);
+            return store.GetCachedExtern(ext.of.memory);
         }
 
         /// <summary>

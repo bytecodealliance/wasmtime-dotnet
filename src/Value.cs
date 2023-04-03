@@ -353,7 +353,7 @@ namespace Wasmtime
                     return ResolveExternRef();
 
                 case ValueKind.FuncRef:
-                    return new Function(store, of.funcref);
+                    return store.GetCachedExtern(of.funcref);
 
                 default:
                     throw new NotSupportedException("Unsupported value kind.");
