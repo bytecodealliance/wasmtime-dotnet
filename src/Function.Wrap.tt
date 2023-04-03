@@ -48,9 +48,9 @@ foreach (var (_, returnTypeCount, parameterCount, methodGenerics, delegateType, 
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is <#= delegateType #> cached)
+            if (_wrapperCache?.GetType() == typeof(<#= delegateType #>))
             {
-                return cached;
+                return (<#= delegateType #>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
