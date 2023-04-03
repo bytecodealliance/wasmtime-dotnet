@@ -44,6 +44,11 @@
  )
  (data (i32.const 0) "Hello World")
 
+ (func $return_funcref (result funcref)
+    unreachable
+ )
+ (export "return_funcref" (func $return_funcref)) 
+
  (func (export "noop"))
  (func $echo_i32 (param i32) (result i32) local.get 0)
  (export "$echo_i32" (func $echo_i32))
