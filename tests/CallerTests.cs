@@ -55,6 +55,7 @@ public class CallerTests : IClassFixture<CallerFixture>, IDisposable
         Linker.DefineFunction("env", "callback", (Caller c) =>
         {
             memories.Add(c.GetMemory("memory"));
+            c.GetMemory("none").Should().BeNull();
         });
 
         var instance = Linker.Instantiate(Store, Fixture.Module);
