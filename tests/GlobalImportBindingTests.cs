@@ -139,6 +139,17 @@ namespace Wasmtime.Tests
         }
 
         [Fact]
+        public void ItCachesGlobalWrapper()
+        {
+            var global_i32_mut = new Global(Store, ValueKind.Int32, 0, Mutability.Immutable);
+
+            var a = global_i32_mut.Wrap<int>();
+            var b = global_i32_mut.Wrap<int>();
+
+            a.Should().Be(b);
+        }
+
+        [Fact]
         public void ItBindsTheGlobalsCorrectly()
         {
             var global_i32_mut = new Global(Store, ValueKind.Int32, 0, Mutability.Mutable).Wrap<int>();

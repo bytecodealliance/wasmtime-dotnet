@@ -174,18 +174,24 @@ namespace Wasmtime
                 return null;
             }
 
-            return new Accessor<T>(this, store);
+            if (_accessor is not Accessor<T> accessor)
+            {
+                accessor = new Accessor<T>(this, store);
+                _accessor = accessor;
+            }
+
+            return accessor;
         }
 
         /// <summary>
         /// Gets the value kind of the global.
         /// </summary>
-        public ValueKind Kind { get; private set; }
+        public ValueKind Kind { get; }
 
         /// <summary>
         /// Gets the mutability of the global.
         /// </summary>
-        public Mutability Mutability { get; private set; }
+        public Mutability Mutability { get; }
 
         Extern IExternal.AsExtern()
         {
@@ -254,6 +260,7 @@ namespace Wasmtime
 
         private readonly Store store;
         private readonly ExternGlobal global;
+        private object? _accessor;
 
         /// <summary>
         /// A typed accessor for a WebAssembly global value.
