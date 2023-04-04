@@ -333,5 +333,18 @@ namespace Wasmtime
 
             return (Memory)mem;
         }
+
+        internal Global GetCachedExtern(ExternGlobal @extern)
+        {
+            var key = (ExternKind.Global, @extern.store, @extern.index);
+
+            if (!_externCache.TryGetValue(key, out var global))
+            {
+                global = new Global(this, @extern);
+                global = _externCache.GetOrAdd(key, global);
+            }
+
+            return (Global)global;
+        }
     }
 }
