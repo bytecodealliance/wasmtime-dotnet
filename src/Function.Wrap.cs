@@ -27,9 +27,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Action cached)
+            if (_wrapperCache?.GetType() == typeof(Action))
             {
-                return cached;
+                return (Action)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
@@ -73,9 +73,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Action<T> cached)
+            if (_wrapperCache?.GetType() == typeof(Action<T>))
             {
-                return cached;
+                return (Action<T>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
@@ -121,9 +121,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Action<T1, T2> cached)
+            if (_wrapperCache?.GetType() == typeof(Action<T1, T2>))
             {
-                return cached;
+                return (Action<T1, T2>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
@@ -171,9 +171,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Action<T1, T2, T3> cached)
+            if (_wrapperCache?.GetType() == typeof(Action<T1, T2, T3>))
             {
-                return cached;
+                return (Action<T1, T2, T3>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
@@ -223,9 +223,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Action<T1, T2, T3, T4> cached)
+            if (_wrapperCache?.GetType() == typeof(Action<T1, T2, T3, T4>))
             {
-                return cached;
+                return (Action<T1, T2, T3, T4>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
@@ -277,9 +277,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Action<T1, T2, T3, T4, T5> cached)
+            if (_wrapperCache?.GetType() == typeof(Action<T1, T2, T3, T4, T5>))
             {
-                return cached;
+                return (Action<T1, T2, T3, T4, T5>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
@@ -333,9 +333,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Action<T1, T2, T3, T4, T5, T6> cached)
+            if (_wrapperCache?.GetType() == typeof(Action<T1, T2, T3, T4, T5, T6>))
             {
-                return cached;
+                return (Action<T1, T2, T3, T4, T5, T6>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
@@ -391,9 +391,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Action<T1, T2, T3, T4, T5, T6, T7> cached)
+            if (_wrapperCache?.GetType() == typeof(Action<T1, T2, T3, T4, T5, T6, T7>))
             {
-                return cached;
+                return (Action<T1, T2, T3, T4, T5, T6, T7>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
@@ -451,9 +451,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Action<T1, T2, T3, T4, T5, T6, T7, T8> cached)
+            if (_wrapperCache?.GetType() == typeof(Action<T1, T2, T3, T4, T5, T6, T7, T8>))
             {
-                return cached;
+                return (Action<T1, T2, T3, T4, T5, T6, T7, T8>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
@@ -513,9 +513,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Action<T1, T2, T3, T4, T5, T6, T7, T8, T9> cached)
+            if (_wrapperCache?.GetType() == typeof(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9>))
             {
-                return cached;
+                return (Action<T1, T2, T3, T4, T5, T6, T7, T8, T9>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
@@ -577,9 +577,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> cached)
+            if (_wrapperCache?.GetType() == typeof(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>))
             {
-                return cached;
+                return (Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
@@ -643,9 +643,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> cached)
+            if (_wrapperCache?.GetType() == typeof(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>))
             {
-                return cached;
+                return (Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
@@ -711,9 +711,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> cached)
+            if (_wrapperCache?.GetType() == typeof(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>))
             {
-                return cached;
+                return (Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
@@ -781,9 +781,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> cached)
+            if (_wrapperCache?.GetType() == typeof(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>))
             {
-                return cached;
+                return (Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
@@ -853,9 +853,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> cached)
+            if (_wrapperCache?.GetType() == typeof(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>))
             {
-                return cached;
+                return (Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
@@ -927,9 +927,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> cached)
+            if (_wrapperCache?.GetType() == typeof(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>))
             {
-                return cached;
+                return (Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
@@ -1003,9 +1003,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> cached)
+            if (_wrapperCache?.GetType() == typeof(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>))
             {
-                return cached;
+                return (Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
@@ -1081,9 +1081,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Func<TResult?> cached)
+            if (_wrapperCache?.GetType() == typeof(Func<TResult?>))
             {
-                return cached;
+                return (Func<TResult?>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
@@ -1130,9 +1130,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Func<T, TResult?> cached)
+            if (_wrapperCache?.GetType() == typeof(Func<T, TResult?>))
             {
-                return cached;
+                return (Func<T, TResult?>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
@@ -1181,9 +1181,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Func<T1, T2, TResult?> cached)
+            if (_wrapperCache?.GetType() == typeof(Func<T1, T2, TResult?>))
             {
-                return cached;
+                return (Func<T1, T2, TResult?>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
@@ -1234,9 +1234,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Func<T1, T2, T3, TResult?> cached)
+            if (_wrapperCache?.GetType() == typeof(Func<T1, T2, T3, TResult?>))
             {
-                return cached;
+                return (Func<T1, T2, T3, TResult?>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
@@ -1289,9 +1289,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Func<T1, T2, T3, T4, TResult?> cached)
+            if (_wrapperCache?.GetType() == typeof(Func<T1, T2, T3, T4, TResult?>))
             {
-                return cached;
+                return (Func<T1, T2, T3, T4, TResult?>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
@@ -1346,9 +1346,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Func<T1, T2, T3, T4, T5, TResult?> cached)
+            if (_wrapperCache?.GetType() == typeof(Func<T1, T2, T3, T4, T5, TResult?>))
             {
-                return cached;
+                return (Func<T1, T2, T3, T4, T5, TResult?>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
@@ -1405,9 +1405,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Func<T1, T2, T3, T4, T5, T6, TResult?> cached)
+            if (_wrapperCache?.GetType() == typeof(Func<T1, T2, T3, T4, T5, T6, TResult?>))
             {
-                return cached;
+                return (Func<T1, T2, T3, T4, T5, T6, TResult?>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
@@ -1466,9 +1466,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Func<T1, T2, T3, T4, T5, T6, T7, TResult?> cached)
+            if (_wrapperCache?.GetType() == typeof(Func<T1, T2, T3, T4, T5, T6, T7, TResult?>))
             {
-                return cached;
+                return (Func<T1, T2, T3, T4, T5, T6, T7, TResult?>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
@@ -1529,9 +1529,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult?> cached)
+            if (_wrapperCache?.GetType() == typeof(Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult?>))
             {
-                return cached;
+                return (Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult?>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
@@ -1594,9 +1594,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult?> cached)
+            if (_wrapperCache?.GetType() == typeof(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult?>))
             {
-                return cached;
+                return (Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult?>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
@@ -1661,9 +1661,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult?> cached)
+            if (_wrapperCache?.GetType() == typeof(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult?>))
             {
-                return cached;
+                return (Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult?>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
@@ -1730,9 +1730,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult?> cached)
+            if (_wrapperCache?.GetType() == typeof(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult?>))
             {
-                return cached;
+                return (Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult?>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
@@ -1801,9 +1801,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult?> cached)
+            if (_wrapperCache?.GetType() == typeof(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult?>))
             {
-                return cached;
+                return (Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult?>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
@@ -1874,9 +1874,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult?> cached)
+            if (_wrapperCache?.GetType() == typeof(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult?>))
             {
-                return cached;
+                return (Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult?>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
@@ -1949,9 +1949,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult?> cached)
+            if (_wrapperCache?.GetType() == typeof(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult?>))
             {
-                return cached;
+                return (Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult?>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
@@ -2026,9 +2026,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult?> cached)
+            if (_wrapperCache?.GetType() == typeof(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult?>))
             {
-                return cached;
+                return (Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult?>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
@@ -2105,9 +2105,9 @@ namespace Wasmtime
 
             // Try to retrieve it from the cache. if it's cached it must have passed the type
             // signature check already, so it's safe to do this before CheckTypeSignature.
-            if (_wrapperCache is Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult?> cached)
+            if (_wrapperCache?.GetType() == typeof(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult?>))
             {
-                return cached;
+                return (Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult?>)_wrapperCache;
             }
 
             // Check that the requested type signature is compatible
