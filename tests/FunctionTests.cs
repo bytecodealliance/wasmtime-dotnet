@@ -124,6 +124,27 @@ namespace Wasmtime.Tests
         private FunctionsFixture Fixture { get; }
 
         [Fact]
+        public void WrappedFunctionIsNotCovariant()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var func = instance.GetFunction("return_funcref")!;
+
+            // This function returns `Function`, not `externref`, so this should be null
+            func.WrapFunc<object>().Should().BeNull();
+
+            // Wrap it as returning a `Function`, which should return as we expect
+            func.WrapFunc<Function>().Should().NotBeNull();
+
+            // Check that the cache does not give us back that function
+            func.WrapFunc<object>().Should().BeNull();
+
+            // Check that the cache still works
+            var a = func.WrapFunc<Function>();
+            var b = func.WrapFunc<Function>();
+            a.Should().BeSameAs(b);
+        }
+
+        [Fact]
         public void ItBindsImportMethodsAndCallsThemCorrectly()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
