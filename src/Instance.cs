@@ -577,7 +577,7 @@ namespace Wasmtime
 
             GC.KeepAlive(_store);
 
-            return new Global(_store, ext.of.global);
+            return _store.GetCachedExtern(ext.of.global);
         }
 
         private bool TryGetExtern(StoreContext context, string name, out Extern ext)
