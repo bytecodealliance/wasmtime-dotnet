@@ -53,7 +53,7 @@ namespace Wasmtime.Tests
         {
             Store.SetLimits(instances: 3);
 
-            using var module = Module.FromTextFile(Engine, Path.Combine("Modules", "trap.wat"));
+            using var module = Module.FromTextFile(Engine, Path.Combine("Modules", "Trap.wat"));
 
             var inst1 = new Instance(Store, module);
             var inst2 = new Instance(Store, module);
