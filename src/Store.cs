@@ -159,6 +159,25 @@ namespace Wasmtime
         }
 
         /// <summary>
+        /// Limit the resources that this store may consume. Note that the limits are only used to limit the creation/growth of resources in the future,
+        /// this does not retroactively attempt to apply limits to the store.
+        /// </summary>
+        /// <param name="memorySize">the maximum number of bytes a linear memory can grow to. Growing a linear memory beyond this limit will fail.
+        /// Pass in a null or negative value to use the default value (unlimited)</param>
+        /// <param name="tableElements">the maximum number of elements in a table. Growing a table beyond this limit will fail.
+        /// Pass in a null or negative value to use the default value (unlimited)</param>
+        /// <param name="instances">the maximum number of instances that can be created for a Store. Module instantiation will fail if this limit is exceeded.
+        /// Pass in a null or negative value to use the default value (10000)</param>
+        /// <param name="tables">the maximum number of tables that can be created for a Store. Module instantiation will fail if this limit is exceeded.
+        /// Pass in a null or negative value to use the default value (10000)</param>
+        /// <param name="memories">the maximum number of linear memories that can be created for a Store. Instantiation will fail with an error if this limit is exceeded.
+        /// Pass in a null or negative value to use the default value (10000)</param>
+        public void SetLimits(long? memorySize = null, long? tableElements = null, long? instances = null, long? tables = null, long? memories = null)
+        {
+            Native.wasmtime_store_limiter(NativeHandle, memorySize ?? -1, tableElements ?? -1, instances ?? -1, tables ?? -1, memories ?? -1);
+        }
+
+        /// <summary>
         /// Perform garbage collection within the given store.
         /// </summary>
         public void GC()
@@ -298,6 +317,9 @@ namespace Wasmtime
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_store_delete(IntPtr store);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_store_limiter(Handle store, long memory_size, long table_elements, long instances, long tables, long memories);
         }
 
         private readonly Handle handle;
