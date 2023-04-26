@@ -163,18 +163,42 @@ namespace Wasmtime
         /// this does not retroactively attempt to apply limits to the store.
         /// </summary>
         /// <param name="memorySize">the maximum number of bytes a linear memory can grow to. Growing a linear memory beyond this limit will fail.
-        /// Pass in a null or negative value to use the default value (unlimited)</param>
+        /// Pass in a null value to use the default value (unlimited)</param>
         /// <param name="tableElements">the maximum number of elements in a table. Growing a table beyond this limit will fail.
-        /// Pass in a null or negative value to use the default value (unlimited)</param>
+        /// Pass in a null value to use the default value (unlimited)</param>
         /// <param name="instances">the maximum number of instances that can be created for a Store. Module instantiation will fail if this limit is exceeded.
-        /// Pass in a null or negative value to use the default value (10000)</param>
+        /// Pass in a null value to use the default value (10000)</param>
         /// <param name="tables">the maximum number of tables that can be created for a Store. Module instantiation will fail if this limit is exceeded.
-        /// Pass in a null or negative value to use the default value (10000)</param>
+        /// Pass in a null value to use the default value (10000)</param>
         /// <param name="memories">the maximum number of linear memories that can be created for a Store. Instantiation will fail with an error if this limit is exceeded.
-        /// Pass in a null or negative value to use the default value (10000)</param>
-        public void SetLimits(long? memorySize = null, long? tableElements = null, long? instances = null, long? tables = null, long? memories = null)
+        /// Pass in a null value to use the default value (10000)</param>
+        public void SetLimits(long? memorySize = null, uint? tableElements = null, long? instances = null, long? tables = null, long? memories = null)
         {
-            Native.wasmtime_store_limiter(NativeHandle, memorySize ?? -1, tableElements ?? -1, instances ?? -1, tables ?? -1, memories ?? -1);
+            if (memorySize.HasValue && memorySize.Value < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(memorySize));
+            }
+
+            if (instances.HasValue && instances.Value < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(instances));
+            }
+
+            if (tables.HasValue && tables.Value < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(tables));
+            }
+
+            if (memories.HasValue && memories.Value < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(memories));
+            }
+
+            long tableElements64 = -1;
+            if (tableElements.HasValue)
+                tableElements64 = tableElements.Value;
+
+            Native.wasmtime_store_limiter(NativeHandle, memorySize ?? -1, tableElements64, instances ?? -1, tables ?? -1, memories ?? -1);
         }
 
         /// <summary>
