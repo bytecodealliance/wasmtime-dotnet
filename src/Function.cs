@@ -416,7 +416,7 @@ namespace Wasmtime
             IntPtr trap;
             fixed (ValueRaw* argsAndResultsPtr = argumentsAndResults)
             {
-                error = Native.wasmtime_func_call_unchecked(storeContext.handle, func, argsAndResultsPtr, out trap);
+                error = Native.wasmtime_func_call_unchecked(storeContext.handle, func, argsAndResultsPtr, (nuint)argumentsAndResults.Length, out trap);
 
                 // See comments above for the two reasons why the `Store` must be kept alive here.
                 GC.KeepAlive(store);
@@ -718,7 +718,7 @@ namespace Wasmtime
             public static unsafe extern IntPtr wasmtime_func_call(IntPtr context, in ExternFunc func, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap);
 
             [DllImport(Engine.LibraryName)]
-            public static unsafe extern IntPtr wasmtime_func_call_unchecked(IntPtr context, in ExternFunc func, ValueRaw* args_and_results, out IntPtr trap);
+            public static unsafe extern IntPtr wasmtime_func_call_unchecked(IntPtr context, in ExternFunc func, ValueRaw* args_and_results, nuint args_and_results_len, out IntPtr trap);
 
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasmtime_func_type(IntPtr context, in ExternFunc func);
