@@ -355,7 +355,7 @@ namespace Wasmtime
 
             if (!string.IsNullOrEmpty(_standardInputPath))
             {
-                if (!Native.wasi_config_set_stdin_file(config, _standardInputPath))
+                if (!Native.wasi_config_set_stdin_file(config, _standardInputPath!))
                 {
                     throw new InvalidOperationException($"Failed to set stdin to file '{_standardInputPath}'.");
                 }
@@ -372,7 +372,7 @@ namespace Wasmtime
 
             if (!string.IsNullOrEmpty(_standardOutputPath))
             {
-                if (!Native.wasi_config_set_stdout_file(config, _standardOutputPath))
+                if (!Native.wasi_config_set_stdout_file(config, _standardOutputPath!))
                 {
                     throw new InvalidOperationException($"Failed to set stdout to file '{_standardOutputPath}'.");
                 }
@@ -389,7 +389,7 @@ namespace Wasmtime
 
             if (!string.IsNullOrEmpty(_standardErrorPath))
             {
-                if (!Native.wasi_config_set_stderr_file(config, _standardErrorPath))
+                if (!Native.wasi_config_set_stderr_file(config, _standardErrorPath!))
                 {
                     throw new InvalidOperationException($"Failed to set stderr to file '{_standardErrorPath}'.");
                 }
@@ -467,7 +467,7 @@ namespace Wasmtime
             [return: MarshalAs(UnmanagedType.I1)]
             public static extern bool wasi_config_set_stdin_file(
                 Handle config,
-                [MarshalAs(UnmanagedType.LPUTF8Str)] string path
+                [MarshalAs(Extensions.LPUTF8Str)] string path
             );
 
             [DllImport(Engine.LibraryName)]
@@ -477,7 +477,7 @@ namespace Wasmtime
             [return: MarshalAs(UnmanagedType.I1)]
             public static extern bool wasi_config_set_stdout_file(
                 Handle config,
-                [MarshalAs(UnmanagedType.LPUTF8Str)] string path
+                [MarshalAs(Extensions.LPUTF8Str)] string path
             );
 
             [DllImport(Engine.LibraryName)]
@@ -487,7 +487,7 @@ namespace Wasmtime
             [return: MarshalAs(UnmanagedType.I1)]
             public static extern bool wasi_config_set_stderr_file(
                 Handle config,
-                [MarshalAs(UnmanagedType.LPUTF8Str)] string path
+                [MarshalAs(Extensions.LPUTF8Str)] string path
             );
 
             [DllImport(Engine.LibraryName)]
@@ -497,8 +497,8 @@ namespace Wasmtime
             [return: MarshalAs(UnmanagedType.I1)]
             public static extern bool wasi_config_preopen_dir(
                 Handle config,
-                [MarshalAs(UnmanagedType.LPUTF8Str)] string path,
-                [MarshalAs(UnmanagedType.LPUTF8Str)] string guestPath
+                [MarshalAs(Extensions.LPUTF8Str)] string path,
+                [MarshalAs(Extensions.LPUTF8Str)] string guestPath
             );
         }
 

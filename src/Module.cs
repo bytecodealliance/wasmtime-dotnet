@@ -438,7 +438,7 @@ namespace Wasmtime
             public static extern unsafe IntPtr wasmtime_module_deserialize(Engine.Handle engine, byte* bytes, UIntPtr size, out IntPtr handle);
 
             [DllImport(Engine.LibraryName)]
-            public static extern IntPtr wasmtime_module_deserialize_file(Engine.Handle engine, [MarshalAs(UnmanagedType.LPUTF8Str)] string path, out IntPtr handle);
+            public static extern IntPtr wasmtime_module_deserialize_file(Engine.Handle engine, [MarshalAs(Extensions.LPUTF8Str)] string path, out IntPtr handle);
         }
 
         private readonly Handle handle;

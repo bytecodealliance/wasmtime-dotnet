@@ -73,7 +73,7 @@ var parameterTypes = new Type[] { <#= callbackParameterTypeExpressions #>};
     { 
 #>
             // Create a factory for the return type
-            var factory = IReturnTypeFactory<TResult>.Create();
+            var factory = ReturnTypeFactory<TResult>.Create();
 
 <# 
     } 

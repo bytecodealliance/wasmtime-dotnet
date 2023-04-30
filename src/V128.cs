@@ -92,7 +92,14 @@ namespace Wasmtime
         {
             unsafe
             {
+#if NETSTANDARD2_0
+                fixed (byte* bytesPtr = bytes)
+                {
+                    return new Span<byte>(bytesPtr, 16);
+                }
+#else
                 return MemoryMarshal.CreateSpan(ref bytes[0], 16);
+#endif
             }
         }
 

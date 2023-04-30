@@ -37,7 +37,7 @@ namespace Wasmtime
 
             var rented = ArrayPool<byte>.Shared.Rent(length);
             Encoding.UTF8.GetBytes(str, rented);
-            return new TemporaryAllocation(rented[..length], rented);
+            return new TemporaryAllocation(rented.AsSpan()[..length], rented);
         }
 
         /// <summary>
