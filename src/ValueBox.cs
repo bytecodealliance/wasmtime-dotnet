@@ -210,7 +210,11 @@ namespace Wasmtime
             var union = new ValueUnion();
             unsafe
             {
+#if NETSTANDARD2_0
+                value.CopyTo(new Span<byte>(union.v128.bytes, 16));
+#else
                 value.CopyTo(union.v128.AsSpan());
+#endif
             }
 
             return new ValueBox(ValueKind.V128, union);
