@@ -196,7 +196,9 @@ namespace Wasmtime
 
             long tableElements64 = -1;
             if (tableElements.HasValue)
+            {
                 tableElements64 = tableElements.Value;
+            }
 
             Native.wasmtime_store_limiter(NativeHandle, memorySize ?? -1, tableElements64, instances ?? -1, tables ?? -1, memories ?? -1);
         }
