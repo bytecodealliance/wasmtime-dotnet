@@ -724,10 +724,10 @@ namespace Wasmtime
             public static extern IntPtr wasmtime_func_type(IntPtr context, in ExternFunc func);
 
             [DllImport(Engine.LibraryName)]
-            public static unsafe extern void wasmtime_func_from_raw(IntPtr context, nuint raw, out ExternFunc func);
+            public static unsafe extern void wasmtime_func_from_raw(IntPtr context, IntPtr raw, out ExternFunc func);
 
             [DllImport(Engine.LibraryName)]
-            public static unsafe extern nuint wasmtime_func_to_raw(IntPtr context, in ExternFunc func);
+            public static unsafe extern IntPtr wasmtime_func_to_raw(IntPtr context, in ExternFunc func);
 
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasm_functype_new(in ValueTypeArray parameters, in ValueTypeArray results);

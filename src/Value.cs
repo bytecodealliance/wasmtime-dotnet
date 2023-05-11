@@ -391,10 +391,10 @@ namespace Wasmtime
             public static extern void wasmtime_externref_delete(IntPtr externref);
 
             [DllImport(Engine.LibraryName)]
-            public static extern IntPtr wasmtime_externref_from_raw(IntPtr context, nuint raw);
+            public static extern IntPtr wasmtime_externref_from_raw(IntPtr context, IntPtr raw);
 
             [DllImport(Engine.LibraryName)]
-            public static extern nuint wasmtime_externref_to_raw(IntPtr context, IntPtr externref);
+            public static extern IntPtr wasmtime_externref_to_raw(IntPtr context, IntPtr externref);
         }
 
         public static readonly Native.Finalizer Finalizer = (p) => GCHandle.FromIntPtr(p).Free();

@@ -22,10 +22,10 @@ namespace Wasmtime
         public V128 v128;
 
         [FieldOffset(0)]
-        public nuint funcref;
+        public IntPtr funcref;
 
         [FieldOffset(0)]
-        public nuint externref;
+        public IntPtr externref;
 
         public static IValueRawConverter<T> Converter<T>()
         {
@@ -196,7 +196,7 @@ namespace Wasmtime
         {
             var funcref = default(ExternFunc);
 
-            if (valueRaw.funcref != 0)
+            if (valueRaw.funcref != IntPtr.Zero)
             {
                 Function.Native.wasmtime_func_from_raw(storeContext.handle, valueRaw.funcref, out funcref);
             }
@@ -206,7 +206,7 @@ namespace Wasmtime
 
         public void Box(StoreContext storeContext, Store store, ref ValueRaw valueRaw, Function? value)
         {
-            nuint funcrefInt = 0;
+            IntPtr funcrefPtr = IntPtr.Zero;
 
             if (value?.IsNull is false)
             {
@@ -219,10 +219,10 @@ namespace Wasmtime
                     throw new InvalidOperationException("Returning a Function is only allowed when it belongs to the current store.");
                 }
 
-                funcrefInt = Function.Native.wasmtime_func_to_raw(storeContext.handle, value.func);
+                funcrefPtr = Function.Native.wasmtime_func_to_raw(storeContext.handle, value.func);
             }
 
-            valueRaw.funcref = funcrefInt;
+            valueRaw.funcref = funcrefPtr;
         }
     }
 
@@ -238,7 +238,7 @@ namespace Wasmtime
         {
             object? o = null;
 
-            if (valueRaw.externref != 0)
+            if (valueRaw.externref != IntPtr.Zero)
             {
                 // The externref is an owned value, so we must delete it afterwards.
                 var externref = Value.Native.wasmtime_externref_from_raw(storeContext.handle, valueRaw.externref);
@@ -262,7 +262,7 @@ namespace Wasmtime
 
         public void Box(StoreContext storeContext, Store store, ref ValueRaw valueRaw, T value)
         {
-            nuint externrefInt = 0;
+            IntPtr externrefPtr = IntPtr.Zero;
 
             if (value is not null)
             {
@@ -276,7 +276,7 @@ namespace Wasmtime
                     // Note: The externref data isn't tracked by wasmtime's GC until
                     // it enters WebAssembly, so Store.GC() mustn't be called between
                     // converting the value and passing it to WebAssembly.
-                    externrefInt = Value.Native.wasmtime_externref_to_raw(storeContext.handle, externref);
+                    externrefPtr = Value.Native.wasmtime_externref_to_raw(storeContext.handle, externref);
                 }
                 finally
                 {
@@ -286,7 +286,7 @@ namespace Wasmtime
                 }
             }
 
-            valueRaw.externref = externrefInt;
+            valueRaw.externref = externrefPtr;
         }
     }
 }
