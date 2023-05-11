@@ -41,11 +41,10 @@ public class EpochInterruptionTests : IClassFixture<EpochInterruptionFixture>, I
 
         var action = () =>
         {
-            using (var timer = new Timer(state => Fixture.Engine.IncrementEpoch()))
-            {
-                timer.Change(TimeSpan.FromMilliseconds(100), TimeSpan.FromMilliseconds(Timeout.Infinite));
-                run.Invoke();
-            }
+            using var cts = new CancellationTokenSource(100);
+            using var tokenRegistration = cts.Token.Register(Fixture.Engine.IncrementEpoch);
+
+            run.Invoke();            
         };
 
         action.Should()
