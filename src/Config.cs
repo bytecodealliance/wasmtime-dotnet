@@ -54,7 +54,11 @@ namespace Wasmtime
         /// <summary>
         /// VTune code profiling.
         /// </summary>
-        VTune
+        VTune,
+        /// <summary>
+        /// Linux "perfmap" profiling.
+        /// </summary>
+        PerfMap
     }
 
     /// <summary>
