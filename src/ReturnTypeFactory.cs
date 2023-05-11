@@ -9,8 +9,11 @@ namespace Wasmtime
     interface IReturnTypeFactory<out TReturn>
     {
         TReturn? Create(StoreContext storeContext, Store store, IntPtr trap, Span<ValueRaw> values);
+    }
 
-        static IReturnTypeFactory<TReturn> Create()
+    internal static class ReturnTypeFactory<TReturn>
+    {
+        public static IReturnTypeFactory<TReturn> Create()
         {
             // First, check if the value is a result builder
             var resultInterface = typeof(TReturn).TryGetResultInterface();
@@ -76,7 +79,7 @@ namespace Wasmtime
         /// <returns></returns>
         private static List<Type>? GetTupleTypes()
         {
-            if (typeof(ITuple).IsAssignableFrom(typeof(TReturn)))
+            if (typeof(TReturn).IsTupleType())
             {
                 return typeof(TReturn).GetGenericArguments().ToList();
             }
@@ -115,7 +118,7 @@ namespace Wasmtime
 
         public FunctionResultFactory()
         {
-            _valueFactory = IReturnTypeFactory<TValue>.Create();
+            _valueFactory = ReturnTypeFactory<TValue>.Create();
         }
 
         public TResult Create(StoreContext storeContext, Store store, IntPtr trap, Span<ValueRaw> values)
@@ -165,8 +168,10 @@ namespace Wasmtime
             // Get all the generic arguments of TFunc. All of the Parameters, followed by the return type
             var args = typeof(TFunc).GetGenericArguments();
 
-            Factory = (TFunc)GetCreateMethodInfo(args.Length - 1)
-                .MakeGenericMethod(args[..^1])
+            Array.Resize(ref args, args.Length - 1);
+
+            Factory = (TFunc)GetCreateMethodInfo(args.Length)
+                .MakeGenericMethod(args)
                 .CreateDelegate(typeof(TFunc));
         }
 

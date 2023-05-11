@@ -1098,7 +1098,7 @@ namespace Wasmtime
             // Fetch a converter for each parameter type to box it
 
             // Create a factory for the return type
-            var factory = IReturnTypeFactory<TResult>.Create();
+            var factory = ReturnTypeFactory<TResult>.Create();
 
             // Determine how much space to allocate for params/results
             var allocCount = Math.Max(0, Results.Count);
@@ -1148,7 +1148,7 @@ namespace Wasmtime
             var convT = ValueRaw.Converter<T>();
 
             // Create a factory for the return type
-            var factory = IReturnTypeFactory<TResult>.Create();
+            var factory = ReturnTypeFactory<TResult>.Create();
 
             // Determine how much space to allocate for params/results
             var allocCount = Math.Max(1, Results.Count);
@@ -1200,7 +1200,7 @@ namespace Wasmtime
             var convT2 = ValueRaw.Converter<T2>();
 
             // Create a factory for the return type
-            var factory = IReturnTypeFactory<TResult>.Create();
+            var factory = ReturnTypeFactory<TResult>.Create();
 
             // Determine how much space to allocate for params/results
             var allocCount = Math.Max(2, Results.Count);
@@ -1254,7 +1254,7 @@ namespace Wasmtime
             var convT3 = ValueRaw.Converter<T3>();
 
             // Create a factory for the return type
-            var factory = IReturnTypeFactory<TResult>.Create();
+            var factory = ReturnTypeFactory<TResult>.Create();
 
             // Determine how much space to allocate for params/results
             var allocCount = Math.Max(3, Results.Count);
@@ -1310,7 +1310,7 @@ namespace Wasmtime
             var convT4 = ValueRaw.Converter<T4>();
 
             // Create a factory for the return type
-            var factory = IReturnTypeFactory<TResult>.Create();
+            var factory = ReturnTypeFactory<TResult>.Create();
 
             // Determine how much space to allocate for params/results
             var allocCount = Math.Max(4, Results.Count);
@@ -1368,7 +1368,7 @@ namespace Wasmtime
             var convT5 = ValueRaw.Converter<T5>();
 
             // Create a factory for the return type
-            var factory = IReturnTypeFactory<TResult>.Create();
+            var factory = ReturnTypeFactory<TResult>.Create();
 
             // Determine how much space to allocate for params/results
             var allocCount = Math.Max(5, Results.Count);
@@ -1428,7 +1428,7 @@ namespace Wasmtime
             var convT6 = ValueRaw.Converter<T6>();
 
             // Create a factory for the return type
-            var factory = IReturnTypeFactory<TResult>.Create();
+            var factory = ReturnTypeFactory<TResult>.Create();
 
             // Determine how much space to allocate for params/results
             var allocCount = Math.Max(6, Results.Count);
@@ -1490,7 +1490,7 @@ namespace Wasmtime
             var convT7 = ValueRaw.Converter<T7>();
 
             // Create a factory for the return type
-            var factory = IReturnTypeFactory<TResult>.Create();
+            var factory = ReturnTypeFactory<TResult>.Create();
 
             // Determine how much space to allocate for params/results
             var allocCount = Math.Max(7, Results.Count);
@@ -1554,7 +1554,7 @@ namespace Wasmtime
             var convT8 = ValueRaw.Converter<T8>();
 
             // Create a factory for the return type
-            var factory = IReturnTypeFactory<TResult>.Create();
+            var factory = ReturnTypeFactory<TResult>.Create();
 
             // Determine how much space to allocate for params/results
             var allocCount = Math.Max(8, Results.Count);
@@ -1620,7 +1620,7 @@ namespace Wasmtime
             var convT9 = ValueRaw.Converter<T9>();
 
             // Create a factory for the return type
-            var factory = IReturnTypeFactory<TResult>.Create();
+            var factory = ReturnTypeFactory<TResult>.Create();
 
             // Determine how much space to allocate for params/results
             var allocCount = Math.Max(9, Results.Count);
@@ -1688,7 +1688,7 @@ namespace Wasmtime
             var convT10 = ValueRaw.Converter<T10>();
 
             // Create a factory for the return type
-            var factory = IReturnTypeFactory<TResult>.Create();
+            var factory = ReturnTypeFactory<TResult>.Create();
 
             // Determine how much space to allocate for params/results
             var allocCount = Math.Max(10, Results.Count);
@@ -1758,7 +1758,7 @@ namespace Wasmtime
             var convT11 = ValueRaw.Converter<T11>();
 
             // Create a factory for the return type
-            var factory = IReturnTypeFactory<TResult>.Create();
+            var factory = ReturnTypeFactory<TResult>.Create();
 
             // Determine how much space to allocate for params/results
             var allocCount = Math.Max(11, Results.Count);
@@ -1830,7 +1830,7 @@ namespace Wasmtime
             var convT12 = ValueRaw.Converter<T12>();
 
             // Create a factory for the return type
-            var factory = IReturnTypeFactory<TResult>.Create();
+            var factory = ReturnTypeFactory<TResult>.Create();
 
             // Determine how much space to allocate for params/results
             var allocCount = Math.Max(12, Results.Count);
@@ -1904,7 +1904,7 @@ namespace Wasmtime
             var convT13 = ValueRaw.Converter<T13>();
 
             // Create a factory for the return type
-            var factory = IReturnTypeFactory<TResult>.Create();
+            var factory = ReturnTypeFactory<TResult>.Create();
 
             // Determine how much space to allocate for params/results
             var allocCount = Math.Max(13, Results.Count);
@@ -1980,7 +1980,7 @@ namespace Wasmtime
             var convT14 = ValueRaw.Converter<T14>();
 
             // Create a factory for the return type
-            var factory = IReturnTypeFactory<TResult>.Create();
+            var factory = ReturnTypeFactory<TResult>.Create();
 
             // Determine how much space to allocate for params/results
             var allocCount = Math.Max(14, Results.Count);
@@ -2058,7 +2058,7 @@ namespace Wasmtime
             var convT15 = ValueRaw.Converter<T15>();
 
             // Create a factory for the return type
-            var factory = IReturnTypeFactory<TResult>.Create();
+            var factory = ReturnTypeFactory<TResult>.Create();
 
             // Determine how much space to allocate for params/results
             var allocCount = Math.Max(15, Results.Count);
@@ -2138,7 +2138,7 @@ namespace Wasmtime
             var convT16 = ValueRaw.Converter<T16>();
 
             // Create a factory for the return type
-            var factory = IReturnTypeFactory<TResult>.Create();
+            var factory = ReturnTypeFactory<TResult>.Create();
 
             // Determine how much space to allocate for params/results
             var allocCount = Math.Max(16, Results.Count);

@@ -481,7 +481,7 @@ namespace Wasmtime
         /// <returns>Returns the single read from memory.</returns>
         public float ReadSingle(long address)
         {
-            return BitConverter.Int32BitsToSingle(ReadInt32(address));
+            return Extensions.Int32BitsToSingle(ReadInt32(address));
         }
 
         /// <summary>
@@ -491,7 +491,7 @@ namespace Wasmtime
         /// <param name="value">The single to write.</param>
         public void WriteSingle(long address, float value)
         {
-            WriteInt32(address, BitConverter.SingleToInt32Bits(value));
+            WriteInt32(address, Extensions.SingleToInt32Bits(value));
         }
 
         /// <summary>

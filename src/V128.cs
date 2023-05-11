@@ -19,7 +19,12 @@ namespace Wasmtime
         );
 
 #pragma warning disable CS0649 // "Field `bytes` is never assigned". Justification: This is assigned through the span returned from AsSpan().
-        private unsafe fixed byte bytes[16];
+#if NETSTANDARD2_0
+        internal
+#else
+        private
+#endif
+        unsafe fixed byte bytes[16];
 #pragma warning restore CS0649
 
         /// <summary>
@@ -34,7 +39,17 @@ namespace Wasmtime
                 throw new ArgumentException("Must supply exactly 16 bytes to construct V128");
             }
 
+#if NETSTANDARD2_0
+            unsafe
+            {
+                fixed (byte* bytesPtr = this.bytes)
+                {
+                    bytes.CopyTo(new Span<byte>(bytesPtr, 16));
+                }
+            }
+#else
             bytes.CopyTo(AsSpan());
+#endif
         }
 
         /// <summary>
@@ -84,6 +99,7 @@ namespace Wasmtime
         {
         }
 
+#if !NETSTANDARD2_0
         /// <summary>
         /// Creates a new writeable span over the bytes of this V128
         /// </summary>
@@ -95,6 +111,7 @@ namespace Wasmtime
                 return MemoryMarshal.CreateSpan(ref bytes[0], 16);
             }
         }
+#endif
 
         internal unsafe void CopyTo(byte* dest)
         {
@@ -108,7 +125,17 @@ namespace Wasmtime
         /// <param name="dest">span to copy bytes into</param>
         public void CopyTo(Span<byte> dest)
         {
+#if NETSTANDARD2_0
+            unsafe
+            {
+                fixed (byte* bytesPtr = bytes)
+                {
+                    new Span<byte>(bytesPtr, 16).CopyTo(dest);
+                }
+            }
+#else
             AsSpan().CopyTo(dest);
+#endif
         }
     }
 }

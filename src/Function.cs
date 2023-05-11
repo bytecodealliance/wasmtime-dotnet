@@ -132,10 +132,10 @@ namespace Wasmtime
             }
 
             // Validate the return type(s)
-            if (returnType != null)
+            if(returnType != null)
             {
                 // Multiple return types are represented by a tuple.
-                if (typeof(ITuple).IsAssignableFrom(returnType))
+                if (returnType.IsTupleType())
                 {
                     // Get the types from the tuple
                     var returnTypes = returnType.GetGenericArguments();

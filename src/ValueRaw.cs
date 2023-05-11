@@ -142,7 +142,7 @@ namespace Wasmtime
         public void Box(StoreContext storeContext, Store store, ref ValueRaw valueRaw, float value)
         {
             // See comments in Int32ValueRawConverter for why we set the i64 field.
-            valueRaw.i64 = unchecked((uint)BitConverter.SingleToInt32Bits(value));
+            valueRaw.i64 = unchecked((uint)Extensions.SingleToInt32Bits(value));
         }
     }
 
