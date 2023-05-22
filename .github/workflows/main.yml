@@ -32,10 +32,10 @@ jobs:
             os: macos-latest
             config: release
           - build: windows-debug
-            os: windows-latest
+            os: windows-2019
             config: debug
           - build: windows-release
-            os: windows-latest
+            os: windows-2019
             config: release
     steps:
     - uses: actions/checkout@v2
