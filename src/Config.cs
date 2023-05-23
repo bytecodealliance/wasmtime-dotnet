@@ -157,7 +157,7 @@ namespace Wasmtime
         }
 
         /// <summary>
-        /// Sets whether or not enable WebAssembly Relaxed SIMD support. New SIMD instructions that may be non-deterministic across different hosts unless deterministic mode is enabled.
+        /// Sets whether or not to enable WebAssembly Relaxed SIMD support. New SIMD instructions that may be non-deterministic across different hosts unless deterministic mode is enabled.
         /// </summary>
         /// <param name="enable">True to enable WebAssembly Relaxed SIMD support or false to disable.</param>
         /// <param name="deterministic">True to enable deterministic mode for WebAssembly Relaxed SIMD or false to allow non-deterministic execution.</param>
