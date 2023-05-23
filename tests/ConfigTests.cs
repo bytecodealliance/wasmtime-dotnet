@@ -120,6 +120,16 @@ namespace Wasmtime.Tests
         }
 
         [Fact]
+        public void ItSetsRelaxedSIMD()
+        {
+            var config = new Config();
+            config.WithRelaxedSIMD(true, true);
+
+            using var engine = new Engine(config);
+            using var module = Module.FromTextFile(engine, Path.Combine("Modules", "RelaxedSIMD.wat"));
+        }
+
+        [Fact]
         public void ItSetsBulkMemory()
         {
             var config = new Config();

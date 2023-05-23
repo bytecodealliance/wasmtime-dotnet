@@ -157,6 +157,19 @@ namespace Wasmtime
         }
 
         /// <summary>
+        /// Sets whether or not to enable WebAssembly Relaxed SIMD support. New SIMD instructions that may be non-deterministic across different hosts unless deterministic mode is enabled.
+        /// </summary>
+        /// <param name="enable">True to enable WebAssembly Relaxed SIMD support or false to disable.</param>
+        /// <param name="deterministic">True to enable deterministic mode for WebAssembly Relaxed SIMD or false to allow non-deterministic execution.</param>
+        /// <returns>Returns the current config.</returns>
+        public Config WithRelaxedSIMD(bool enable, bool deterministic)
+        {
+            Native.wasmtime_config_wasm_relaxed_simd_set(handle, enable);
+            Native.wasmtime_config_wasm_relaxed_simd_deterministic_set(handle, deterministic);
+            return this;
+        }
+
+        /// <summary>
         /// Sets whether or not enable WebAssembly bulk memory support.
         /// </summary>
         /// <param name="enable">True to enable WebAssembly bulk memory support or false to disable.</param>
@@ -392,6 +405,12 @@ namespace Wasmtime
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_config_wasm_simd_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_wasm_relaxed_simd_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_wasm_relaxed_simd_deterministic_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_config_wasm_bulk_memory_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
