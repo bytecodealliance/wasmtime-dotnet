@@ -33,7 +33,7 @@ $ dotnet add package wasmtime
 
 Replace the contents of `Program.cs` with the following code:
 
-```c#
+```csharp
 using System;
 using Wasmtime;
 
