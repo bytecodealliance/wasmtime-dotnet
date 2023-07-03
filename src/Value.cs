@@ -59,6 +59,11 @@ namespace Wasmtime
 
     internal static class ValueType
     {
+        public static IntPtr FromKind(TableKind kind)
+        {
+            return FromKind((ValueKind)kind);
+        }
+
         public static IntPtr FromKind(ValueKind kind)
         {
             switch (kind)
@@ -249,6 +254,11 @@ namespace Wasmtime
             {
                 return new ValueBox(ResolveExternRef());
             }
+        }
+
+        public static Value FromObject(object? o, TableKind kind)
+        {
+            return FromObject(o, (ValueKind)kind);
         }
 
         public static Value FromObject(object? o, ValueKind kind)
