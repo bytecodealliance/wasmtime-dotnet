@@ -33,6 +33,7 @@ namespace Wasmtime
         /// <param name="initialValue">The initial value for elements in the table.</param>
         /// <param name="initial">The number of initial elements in the table.</param>
         /// <param name="maximum">The maximum number of elements in the table.</param>
+        [Obsolete("Replace ValueKind parameter with TableKind")]
         public Table(Store store, ValueKind kind, object? initialValue, uint initial, uint maximum = uint.MaxValue)
             : this(store, (TableKind)kind, initialValue, initial, maximum)
         {
