@@ -1,7 +1,6 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
-using Microsoft.Win32.SafeHandles;
 
 namespace Wasmtime
 {
@@ -601,21 +600,6 @@ namespace Wasmtime
 
             this._store = store;
             this.instance = instance;
-        }
-
-        internal class TypeHandle : SafeHandleZeroOrMinusOneIsInvalid
-        {
-            public TypeHandle(IntPtr handle)
-                : base(true)
-            {
-                SetHandle(handle);
-            }
-
-            protected override bool ReleaseHandle()
-            {
-                Native.wasmtime_instancetype_delete(handle);
-                return true;
-            }
         }
 
         private static class Native
