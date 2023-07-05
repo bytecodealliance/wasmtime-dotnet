@@ -6,7 +6,7 @@ using var module = Module.FromTextFile(engine, "table.wat");
 using var linker = new Linker(engine);
 using var store = new Store(engine);
 
-var table = new Table(store, ValueKind.FuncRef, null, 4);
+var table = new Table(store, TableKind.FuncRef, null, 4);
 
 table.SetElement(0, Function.FromCallback(store, (int a, int b) => a + b));
 table.SetElement(1, Function.FromCallback(store, (int a, int b) => a - b));
