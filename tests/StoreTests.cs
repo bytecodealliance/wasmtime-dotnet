@@ -39,7 +39,7 @@ namespace Wasmtime.Tests
         {
             Store.SetLimits(tableElements: 5);
 
-            var table = new Table(Store, ValueKind.ExternRef, null, 0);
+            var table = new Table(Store, TableKind.ExternRef, null, 0);
             table.GetSize().Should().Be(0);
 
             table.Grow(5, null);
