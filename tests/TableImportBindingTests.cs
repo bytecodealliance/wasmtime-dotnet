@@ -38,8 +38,8 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItFailsToInstantiateWithTableTypeMismatch()
         {
-            var funcs = new Table(Store, ValueKind.ExternRef, null, 10);
-            var externs = new Table(Store, ValueKind.ExternRef, null, 10);
+            var funcs = new Table(Store, TableKind.ExternRef, null, 10);
+            var externs = new Table(Store, TableKind.ExternRef, null, 10);
 
             Linker.Define("", "funcs", funcs);
             Linker.Define("", "externs", externs);
@@ -55,8 +55,8 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItFailsToInstantiateWithTableLimitsMismatch()
         {
-            var funcs = new Table(Store, ValueKind.FuncRef, null, 10);
-            var externs = new Table(Store, ValueKind.ExternRef, null, 1);
+            var funcs = new Table(Store, TableKind.FuncRef, null, 10);
+            var externs = new Table(Store, TableKind.ExternRef, null, 1);
 
             Linker.Define("", "funcs", funcs);
             Linker.Define("", "externs", externs);
@@ -72,8 +72,8 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItBindsTheTableCorrectly()
         {
-            var funcs = new Table(Store, ValueKind.FuncRef, null, 10);
-            var externs = new Table(Store, ValueKind.ExternRef, null, 10);
+            var funcs = new Table(Store, TableKind.FuncRef, null, 10);
+            var externs = new Table(Store, TableKind.ExternRef, null, 10);
 
             Linker.Define("", "funcs", funcs);
             Linker.Define("", "externs", externs);
@@ -120,8 +120,8 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItGrowsATable()
         {
-            var funcs = new Table(Store, ValueKind.FuncRef, null, 10, 20);
-            var externs = new Table(Store, ValueKind.ExternRef, null, 10, 20);
+            var funcs = new Table(Store, TableKind.FuncRef, null, 10, 20);
+            var externs = new Table(Store, TableKind.ExternRef, null, 10, 20);
 
             Linker.Define("", "funcs", funcs);
             Linker.Define("", "externs", externs);

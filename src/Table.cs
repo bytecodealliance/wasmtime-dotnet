@@ -5,6 +5,22 @@ using Microsoft.Win32.SafeHandles;
 namespace Wasmtime
 {
     /// <summary>
+    /// Represents the possible kinds of WebAssembly values stored in a table
+    /// </summary>
+    public enum TableKind
+    {
+        /// <summary>
+        /// The value is a function reference.
+        /// </summary>
+        FuncRef = ValueKind.FuncRef,
+
+        /// <summary>
+        /// The value is an external reference.
+        /// </summary>
+        ExternRef = ValueKind.ExternRef,
+    }
+
+    /// <summary>
     /// Represents a WebAssembly table.
     /// </summary>
     public class Table : IExternal
@@ -17,14 +33,28 @@ namespace Wasmtime
         /// <param name="initialValue">The initial value for elements in the table.</param>
         /// <param name="initial">The number of initial elements in the table.</param>
         /// <param name="maximum">The maximum number of elements in the table.</param>
+        [Obsolete("Replace ValueKind parameter with TableKind")]
         public Table(Store store, ValueKind kind, object? initialValue, uint initial, uint maximum = uint.MaxValue)
+            : this(store, (TableKind)kind, initialValue, initial, maximum)
+        {
+        }
+
+        /// <summary>
+        /// Creates a new WebAssembly table.
+        /// </summary>
+        /// <param name="store">The store to create the table in.</param>
+        /// <param name="kind">The value kind for the elements in the table.</param>
+        /// <param name="initialValue">The initial value for elements in the table.</param>
+        /// <param name="initial">The number of initial elements in the table.</param>
+        /// <param name="maximum">The maximum number of elements in the table.</param>
+        public Table(Store store, TableKind kind, object? initialValue, uint initial, uint maximum = uint.MaxValue)
         {
             if (store is null)
             {
                 throw new ArgumentNullException(nameof(store));
             }
 
-            if (kind != ValueKind.ExternRef && kind != ValueKind.FuncRef)
+            if (kind != TableKind.ExternRef && kind != TableKind.FuncRef)
             {
                 throw new WasmtimeException($"Table elements must be externref or funcref.");
             }
@@ -63,7 +93,7 @@ namespace Wasmtime
         /// Gets the value kind of the table.
         /// </summary>
         /// <value></value>
-        public ValueKind Kind { get; private set; }
+        public TableKind Kind { get; private set; }
 
         /// <summary>
         /// The minimum table element size.
@@ -154,7 +184,7 @@ namespace Wasmtime
             using var type = new TypeHandle(Native.wasmtime_table_type(store.Context.handle, this.table));
             GC.KeepAlive(store);
 
-            this.Kind = ValueType.ToKind(Native.wasm_tabletype_element(type.DangerousGetHandle()));
+            this.Kind = (TableKind)ValueType.ToKind(Native.wasm_tabletype_element(type.DangerousGetHandle()));
 
             unsafe
             {
