@@ -163,10 +163,10 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
       StandardOutputImportance="Low"
       StandardErrorImportance="Low"
     />
-    <Exec
+    <Unzip
       Condition="('$(Packing)'=='true' Or '%(Wasmtime.Copy)'=='true') And %(Wasmtime.FileExtension) == 'zip' And !Exists('$(BaseIntermediateOutputPath)$(ReleaseFileNameBase)-%(Wasmtime.Arch)-%(Wasmtime.OS)-c-api')"
-      Command="unzip $(ReleaseFileNameBase)-%(Wasmtime.Arch)-%(Wasmtime.OS)-c-api.%(Wasmtime.FileExtension)"
-      WorkingDirectory="$(BaseIntermediateOutputPath)"
+      SourceFiles="$(BaseIntermediateOutputPath)\$(ReleaseFileNameBase)-%(Wasmtime.Arch)-%(Wasmtime.OS)-c-api.%(Wasmtime.FileExtension)"
+      DestinationFolder="$(BaseIntermediateOutputPath)"
       StandardOutputImportance="Low"
       StandardErrorImportance="Low"
     />
