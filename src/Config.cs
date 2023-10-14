@@ -343,6 +343,48 @@ namespace Wasmtime
             return this;
         }
 
+        /// <summary>
+        /// Whether or not to enable support for asynchronous functions in Wasmtime.
+        /// </summary>
+        /// <remarks>
+        /// When enabled, the config can optionally define host functions with async. 
+        /// Instances created and functions called with this Config must be called through their asynchronous APIs, however.
+        /// For example using wasmtime_func_call will panic when used with this config.
+        /// <br />
+        /// For more information see the Rust documentation at <a href="https://docs.wasmtime.dev/api/wasmtime/struct.Config.html#method.async_support" />
+        /// </remarks>
+        /// <param name="async"></param>
+        /// <returns></returns>
+        public Config WithAsync(bool async)
+        {
+            Native.wasmtime_config_async_support_set(handle, async);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Configures the size of the stacks used for asynchronous execution.
+        /// </summary>
+        /// <remarks>
+        /// This setting configures the size of the stacks that are allocated for asynchronous execution. The value cannot be less than max_wasm_stack.
+        /// <br />
+        /// The amount of stack space guaranteed for host functions is async_stack_size - max_wasm_stack, so take care
+        /// not to set these two values close to one another; doing so may cause host functions to overflow the stack 
+        /// and abort the process.
+        /// <br />
+        /// By default this option is 2 MiB.
+        /// <br />
+        /// For more information see the Rust documentation at <a href="https://docs.wasmtime.dev/api/wasmtime/struct.Config.html#method.async_stack_size" />
+        /// </remarks>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        public Config WithAsyncStackSize(ulong size)
+        {
+            Native.wasmtime_config_async_stack_size_set(handle, size);
+
+            return this;
+        }
+
         /// <inheritdoc/>
         public void Dispose()
         {
@@ -450,6 +492,12 @@ namespace Wasmtime
 
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasmtime_config_cache_config_load(Handle config, [MarshalAs(Extensions.LPUTF8Str)] string? path);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_async_support_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_async_stack_size_set(Handle config, ulong size);
         }
 
         private readonly Handle handle;

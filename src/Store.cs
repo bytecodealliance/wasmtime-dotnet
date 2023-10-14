@@ -70,6 +70,16 @@ namespace Wasmtime
             return fuel;
         }
 
+        internal void OutOfFuelAsyncYield(ulong injectionCount, ulong fuelToInject)
+        {
+            Native.wasmtime_context_out_of_fuel_async_yield(handle, injectionCount, fuelToInject);
+        }
+
+        internal void EpochDeadlineAsyncYieldAndUpdate(ulong delta)
+        {
+            Native.wasmtime_context_epoch_deadline_async_yield_and_update(handle, delta);
+        }
+
         internal void SetWasiConfiguration(WasiConfiguration config)
         {
             var wasi = config.Build();
@@ -114,6 +124,12 @@ namespace Wasmtime
 
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasmtime_context_get_data(IntPtr handle);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_context_out_of_fuel_async_yield(IntPtr handle, ulong injection_count, ulong fuel_to_inject);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_context_epoch_deadline_async_yield_and_update(IntPtr handle, ulong delta);
         }
 
         internal readonly IntPtr handle;
@@ -253,6 +269,52 @@ namespace Wasmtime
             var result = Context.GetConsumedFuel();
             System.GC.KeepAlive(this);
             return result;
+        }
+
+        /// <summary>
+        /// Configures a <see cref="Store"/> to yield execution of async WebAssembly code periodically.
+        /// 
+        /// When a Store is configured to consume fuel with <see cref="Config.WithFuelConsumption"/> this method will configure what happens when fuel runs out.
+        /// Specifically executing WebAssembly will be suspended and control will be yielded back to the caller. This is only suitable with use of a store associated
+        /// with an async config because only then are futures used and yields are possible.
+        /// <br /><br />
+        /// The purpose of this behavior is to ensure that futures which represent execution of WebAssembly do not execute too long inside their Future::poll method.
+        /// This allows for some form of cooperative multitasking where WebAssembly will voluntarily yield control periodically (based on fuel consumption) back to
+        /// the running thread.
+        /// <br /><br />
+        /// Note that futures returned by this crate will automatically flag themselves to get re-polled if a yield happens. This means that WebAssembly will continue
+        /// to execute, just after giving the host an opportunity to do something else.
+        /// </summary>
+        /// <param name="injectionCount">
+        /// indicates how many times this fuel will be injected. Multiplying the two parameters is the total amount of fuel this store
+        /// is allowed before wasm traps.
+        /// </param>
+        /// <param name="fuelToInject">
+        /// indicates how much fuel should be automatically re-injected after fuel runs out. This is how much fuel will be consumed
+        /// between yields of an async future.
+        /// </param>
+        public void OutOfFuelYieldAsync(ulong injectionCount, ulong fuelToInject)
+        {
+            Context.OutOfFuelAsyncYield(injectionCount, fuelToInject);
+            System.GC.KeepAlive(this);
+        }
+
+        /// <summary>
+        /// Configures epoch-deadline expiration to yield to the async caller and the update the deadline.
+        /// </summary>
+        /// <remarks>
+        /// When epoch-interruption-instrumented code is executed on this store and the epoch deadline is reached before completion, with the store
+        /// configured in this way, execution will yield (the future will return Pending but re-awake itself for later execution) and, upon resuming,
+        /// the store will be configured with an epoch deadline equal to the current epoch plus delta ticks.
+        /// <br /><br />
+        /// This setting is intended to allow for cooperative timeslicing of multiple CPU-bound Wasm guests in different stores, all executing under
+        /// the control of an async executor. To drive this, stores should be configured to “yield and update” automatically with this function, and
+        /// some external driver (a thread that wakes up periodically, or a timer signal/interrupt) should call <see cref="Engine.IncrementEpoch"/>.
+        /// </remarks>
+        /// <param name="delta">Indicates how many ticks to advance the epoch by</param>
+        public void EpochDeadlineAsyncYieldAndUpdate(ulong delta)
+        {
+            Context.EpochDeadlineAsyncYieldAndUpdate(delta);
         }
 
         /// <summary>

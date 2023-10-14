@@ -34,6 +34,20 @@ public class CallerTests : IClassFixture<CallerFixture>, IDisposable
     }
 
     [Fact]
+    public void ItReturnsStoreFromCaller()
+    {
+        Linker.DefineFunction("env", "callback", c =>
+        {
+            c.Store.Should().Be(Store);
+        });
+
+        var instance = Linker.Instantiate(Store, Fixture.Module);
+        var callback = instance.GetFunction("call_callback")!;
+
+        callback.Invoke();
+    }
+
+    [Fact]
     public void ItCanGetMemoryFromCaller()
     {
         Linker.DefineFunction("env", "callback", (Caller c) =>
