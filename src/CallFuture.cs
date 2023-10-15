@@ -16,7 +16,8 @@ namespace Wasmtime
 
         public void Dispose()
         {
-            handle.Dispose();
+            if (!handle.IsClosed)
+                handle.Dispose();
         }
 
         /// <summary>
@@ -37,7 +38,14 @@ namespace Wasmtime
         /// </returns>
         public bool Poll()
         {
-            return Native.wasmtime_call_future_poll(this);
+            if (handle.IsClosed)
+                throw new InvalidOperationException("Cannot call `Poll` after future has been disposed");
+
+            var result = Native.wasmtime_call_future_poll(this);
+            if (result)
+                Dispose();
+
+            return result;
         }
 
         internal class Handle : SafeHandleZeroOrMinusOneIsInvalid
@@ -61,6 +69,7 @@ namespace Wasmtime
             public static extern void wasmtime_call_future_delete(IntPtr future);
 
             [DllImport(Engine.LibraryName)]
+            [return: MarshalAs(UnmanagedType.I1)]
             public static extern bool wasmtime_call_future_poll(CallFuture future);
         }
     }
