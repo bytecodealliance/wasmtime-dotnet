@@ -235,6 +235,12 @@ namespace Wasmtime
             return new Instance(store, instance);
         }
 
+        /// <summary>
+        /// Instantiates a module with imports from items defined in the linker.
+        /// </summary>
+        /// <param name="store">The store to instantiate in.</param>
+        /// <param name="module">The module to instantiate.</param>
+        /// <returns>Returns the new instance.</returns>
         public async Task<AsyncInstance> InstantiateAsync(Store store, Module module)
         {
             if (store is null)
