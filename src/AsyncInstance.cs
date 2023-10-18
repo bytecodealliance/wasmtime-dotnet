@@ -3,6 +3,9 @@ using System.Text;
 
 namespace Wasmtime
 {
+    /// <summary>
+    /// Represents an instantiated asynchronous WebAssembly module.
+    /// </summary>
     public class AsyncInstance
     {
         /// <summary>

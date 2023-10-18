@@ -349,7 +349,6 @@ namespace Wasmtime
         /// <remarks>
         /// When enabled, the config can optionally define host functions with async. 
         /// Instances created and functions called with this Config must be called through their asynchronous APIs, however.
-        /// For example using wasmtime_func_call will panic when used with this config.
         /// <br />
         /// For more information see the Rust documentation at <a href="https://docs.wasmtime.dev/api/wasmtime/struct.Config.html#method.async_support" />
         /// </remarks>

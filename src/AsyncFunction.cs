@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace Wasmtime
 {
+    /// <summary>
+    /// Represents an asynchronous Wasmtime function.
+    /// </summary>
     public partial class AsyncFunction
         : IExternal
     {
@@ -60,6 +63,12 @@ namespace Wasmtime
             }
         }
 
+        /// <summary>
+        /// Check if this function has the given type signature
+        /// </summary>
+        /// <param name="returnType">Return type (use a tuple for multiple return types)</param>
+        /// <param name="parameters">The parameters of the function</param>
+        /// <returns>Returns true if the type signature of the function is valid or false if not.</returns>
         public bool CheckTypeSignature(Type? returnType = null, params Type[] parameters)
         {
             return Function.CheckTypeSignature(returnType, parameters, Results, Parameters);
