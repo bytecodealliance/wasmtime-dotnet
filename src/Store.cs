@@ -416,11 +416,24 @@ namespace Wasmtime
 
         private static readonly Native.Finalizer Finalizer = (p) => GCHandle.FromIntPtr(p).Free();
 
-        private readonly ConcurrentDictionary<(ExternKind kind, ulong store, nuint index), object> _externCache = new();
+        private readonly ConcurrentDictionary<(ExternKind kind, ulong store, nuint index, bool async), object> _externCache = new();
+
+        internal AsyncFunction GetCachedExternAsync(ExternFunc @extern)
+        {
+            var key = (ExternKind.Func, @extern.store, @extern.index, true);
+
+            if (!_externCache.TryGetValue(key, out var func))
+            {
+                func = new AsyncFunction(this, @extern);
+                func = _externCache.GetOrAdd(key, func);
+            }
+
+            return (AsyncFunction)func;
+        }
 
         internal Function GetCachedExtern(ExternFunc @extern)
         {
-            var key = (ExternKind.Func, @extern.store, @extern.index);
+            var key = (ExternKind.Func, @extern.store, @extern.index, false);
 
             if (!_externCache.TryGetValue(key, out var func))
             {
@@ -433,7 +446,7 @@ namespace Wasmtime
 
         internal Memory GetCachedExtern(ExternMemory @extern)
         {
-            var key = (ExternKind.Memory, @extern.store, @extern.index);
+            var key = (ExternKind.Memory, @extern.store, @extern.index, false);
 
             if (!_externCache.TryGetValue(key, out var mem))
             {
@@ -446,7 +459,7 @@ namespace Wasmtime
 
         internal Global GetCachedExtern(ExternGlobal @extern)
         {
-            var key = (ExternKind.Global, @extern.store, @extern.index);
+            var key = (ExternKind.Global, @extern.store, @extern.index, false);
 
             if (!_externCache.TryGetValue(key, out var global))
             {

@@ -602,7 +602,7 @@ namespace Wasmtime
             this.instance = instance;
         }
 
-        private static class Native
+        internal static class Native
         {
             [DllImport(Engine.LibraryName)]
             public static extern unsafe IntPtr wasmtime_instance_new(IntPtr context, Module.Handle module, Extern* imports, UIntPtr nimports, out ExternInstance instance, out IntPtr trap);

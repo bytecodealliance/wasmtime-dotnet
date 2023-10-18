@@ -75,6 +75,81 @@ void GenerateCallbackContent(bool hasCaller, int resultCount, int parameterCount
 <#
 }
 
+// Suppress the "not used" warning when this file is referenced but the function is not called.
+#pragma warning disable CS8321 // Local function is declared but never used
+void GenerateAsyncCallbackContent(bool hasCaller, int resultCount, int parameterCount) {
+#pragma warning restore CS8321 // Local function is declared but never used
+#>
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            <#
+    if (hasCaller)
+    {
+        #>caller<#
+
+        if (parameterCount > 0)
+        {
+            #>,
+                            <#
+        }
+    }
+
+    // Generate code for passing the parameters.
+    for (int i = 0; i < parameterCount; i++)
+    {
+        string genericType = "T";
+        if (parameterCount > 1)
+        {
+            genericType += (i + 1).ToString(CultureInfo.InvariantCulture);
+        }
+
+        #>conv<#= genericType #>.Unbox(store, args[<#= i.ToString(CultureInfo.InvariantCulture) #>].ToValueBox())<#
+
+        if (i + 1 < parameterCount)
+        {
+        #>,
+                            <#
+        }
+    }
+    #>);
+
+                        <#
+    // Generate code for assigning the results.
+    for (int i = 0; i < resultCount; i++)
+    {
+        string genericType = "TResult";
+        if (resultCount > 1)
+        {
+            genericType += (i + 1).ToString(CultureInfo.InvariantCulture);
+        }
+
+        string tupleAccessor = "";
+        if (resultCount > 1)
+        {
+            tupleAccessor = ".Item" + (i + 1).ToString(CultureInfo.InvariantCulture);
+        }
+
+        #>conv<#= genericType #>.Box(storeContext, store, ref args[<#= i.ToString(CultureInfo.InvariantCulture) #>], task.Result<#= tupleAccessor #>);
+                        <#
+    }
+    #>
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = wasmtime_async_continuation_t.FromTask(task);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = wasmtime_async_continuation_t.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+<#
+}
+
 IEnumerable<(
     bool hasCaller,
     int resultCount,
@@ -85,7 +160,7 @@ IEnumerable<(
     string callbackReturnType,
     string parameterConverters,
     string resultConverters
-)> EnumerateTypeCombinations(int maxParameterCount = 12, int maxResultCount = 4, bool canHaveCaller = true, bool delegateInputsNullable = true) {
+)> EnumerateTypeCombinations(int maxParameterCount = 12, int maxResultCount = 4, bool canHaveCaller = true, bool delegateInputsNullable = true, bool async = false) {
     foreach (var hasCaller in canHaveCaller ? new[] { false, true } : new[] { false })
     {
         for (int resultCount = 0; resultCount <= maxResultCount; resultCount++)
@@ -97,7 +172,11 @@ IEnumerable<(
                 var parameterConverters = new StringBuilder();
                 var resultConverters = new StringBuilder();
         
-                var delegateType = new StringBuilder(hasCaller ? "Caller" : "");
+                var delegateType = new StringBuilder();
+                if (async)
+                    delegateType.Append("Async");
+                if (hasCaller)
+                    delegateType.Append("Caller");
                 delegateType.Append(resultCount == 0 ? "Action" : "Func");
 
                 if (parameterCount > 0 || resultCount > 0)
@@ -132,7 +211,8 @@ IEnumerable<(
                         delegateType.Append('?');
                     }
 
-                    parameterConverters.AppendLine($"            var conv{genericType} = ValueRaw.Converter<{genericType}>();");
+                    var converterType = async ? "ValueBox" : "ValueRaw";
+                    parameterConverters.AppendLine($"            var conv{genericType} = {converterType}.Converter<{genericType}>();");
                 }
 
                 if (parameterCount > 0 && resultCount > 0)

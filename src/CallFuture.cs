@@ -41,7 +41,7 @@ namespace Wasmtime
             if (handle.IsClosed)
                 throw new InvalidOperationException("Cannot call `Poll` after future has been disposed");
 
-            var result = Native.wasmtime_call_future_poll(this);
+            var result = Native.wasmtime_call_future_poll(handle);
             if (result)
                 Dispose();
 
@@ -63,14 +63,18 @@ namespace Wasmtime
             }
         }
 
-        private static class Native
+        internal static class Native
         {
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_call_future_delete(IntPtr future);
 
             [DllImport(Engine.LibraryName)]
             [return: MarshalAs(UnmanagedType.I1)]
-            public static extern bool wasmtime_call_future_poll(CallFuture future);
+            public static extern bool wasmtime_call_future_poll(Handle future);
+
+            [DllImport(Engine.LibraryName)]
+            [return: MarshalAs(UnmanagedType.I1)]
+            public static extern bool wasmtime_call_future_poll(nint futurePtr);
         }
     }
 }

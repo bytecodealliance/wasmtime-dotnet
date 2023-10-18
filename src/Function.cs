@@ -103,6 +103,11 @@ namespace Wasmtime
         /// <returns>Returns true if the type signature of the function is valid or false if not.</returns>
         public bool CheckTypeSignature(Type? returnType = null, params Type[] parameters)
         {
+            return CheckTypeSignature(returnType, parameters, Results, Parameters);
+        }
+
+        internal static bool CheckTypeSignature(Type? returnType, IReadOnlyList<Type> parameters, IReadOnlyList<ValueKind> functionResults, IReadOnlyList<ValueKind> functionParameters)
+        {
             // Check if the return type is a recognised result type (i.e. implements IActionResult or IFunctionResult)
             if (returnType != null && returnType.IsResultType())
             {
@@ -116,23 +121,23 @@ namespace Wasmtime
                 }
 
                 // Type check with the wrapped value instead of the result
-                return CheckTypeSignature(wrappedReturnType, parameters);
+                return CheckTypeSignature(wrappedReturnType, parameters, functionResults, functionParameters);
             }
 
             // Check if the func returns no values if that's expected
-            if (Results.Count == 0 && returnType != null)
+            if (functionResults.Count == 0 && returnType != null)
             {
                 return false;
             }
 
             // Check if the func does return a value if that's expected
-            if (Results.Count != 0 && returnType == null)
+            if (functionResults.Count != 0 && returnType == null)
             {
                 return false;
             }
 
             // Validate the return type(s)
-            if(returnType != null)
+            if (returnType != null)
             {
                 // Multiple return types are represented by a tuple.
                 if (returnType.IsTupleType())
@@ -150,7 +155,7 @@ namespace Wasmtime
                     }
 
                     // If the list lengths are different that's an instant fail
-                    if (returnTypes.Length != Results.Count)
+                    if (returnTypes.Length != functionResults.Count)
                     {
                         return false;
                     }
@@ -158,7 +163,7 @@ namespace Wasmtime
                     // Validate the types one by one
                     for (int i = 0; i < returnTypes.Length; i++)
                     {
-                        if (!Results[i].IsAssignableFrom(returnTypes[i]))
+                        if (!functionResults[i].IsAssignableFrom(returnTypes[i]))
                         {
                             return false;
                         }
@@ -167,13 +172,13 @@ namespace Wasmtime
                 else
                 {
                     // Return type is not a tuple, so if there are multiple results this is not valid.
-                    if (Results.Count != 1)
+                    if (functionResults.Count != 1)
                     {
                         return false;
                     }
 
                     // If the return type is not compatible then this is not valid.
-                    if (!Results[0].IsAssignableFrom(returnType))
+                    if (!functionResults[0].IsAssignableFrom(returnType))
                     {
                         return false;
                     }
@@ -181,15 +186,15 @@ namespace Wasmtime
             }
 
             // Check if the parameter lists are the same length
-            if (parameters.Length != Parameters.Count)
+            if (parameters.Count != functionParameters.Count)
             {
                 return false;
             }
 
             // Validate the parameter types one by one
-            for (int i = 0; i < parameters.Length; i++)
+            for (var i = 0; i < parameters.Count; i++)
             {
-                if (!Parameters[i].IsAssignableFrom(parameters[i]))
+                if (!functionParameters[i].IsAssignableFrom(parameters[i]))
                 {
                     return false;
                 }
