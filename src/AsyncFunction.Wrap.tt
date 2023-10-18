@@ -80,7 +80,7 @@ var parameterTypes = new Type[] { <#= callbackParameterTypeExpressions #>};
     } 
 #>
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(<#= parameterCount.ToString(CultureInfo.InvariantCulture) #>, Results.Count);
+            var allocCount = <#= parameterCount.ToString(CultureInfo.InvariantCulture) #> + Results.Count;
 
             <#= delegateType #> result = (<#
     for (int x = 0; x < parameterCount; x++)

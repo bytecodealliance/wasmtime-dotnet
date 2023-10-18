@@ -118,33 +118,37 @@ void GenerateAsyncCallbackContent(bool hasCaller, int resultCount, int parameter
     }
     #>);
 
-                        <#
-    // Generate code for assigning the results.
-    for (int i = 0; i < resultCount; i++)
-    {
-        string genericType = "TResult";
-        if (resultCount > 1)
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            <#
+        // Generate code for assigning the results.
+        for (int i = 0; i < resultCount; i++)
         {
-            genericType += (i + 1).ToString(CultureInfo.InvariantCulture);
-        }
+            string genericType = "TResult";
+            if (resultCount > 1)
+            {
+                genericType += (i + 1).ToString(CultureInfo.InvariantCulture);
+            }
 
-        string tupleAccessor = "";
-        if (resultCount > 1)
-        {
-            tupleAccessor = ".Item" + (i + 1).ToString(CultureInfo.InvariantCulture);
-        }
+            string tupleAccessor = "";
+            if (resultCount > 1)
+            {
+                tupleAccessor = ".Item" + (i + 1).ToString(CultureInfo.InvariantCulture);
+            }
 
-        #>conv<#= genericType #>.Box(storeContext, store, ref args[<#= i.ToString(CultureInfo.InvariantCulture) #>], task.Result<#= tupleAccessor #>);
-                        <#
-    }
-    #>
+            #>results[<#= i.ToString(CultureInfo.InvariantCulture) #>] = Value.FromValueBox(conv<#= genericType #>.Box(task.Result<#= tupleAccessor #>));
+                            <#
+        }
+        #>
+
+                        });
 
                         trap_ret = IntPtr.Zero;
-                        continuation_ret = wasmtime_async_continuation_t.FromTask(task);
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
                     }
                     catch (Exception ex)
                     {
-                        continuation_ret = wasmtime_async_continuation_t.ImmediateCompletion;
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
                         trap_ret = Function.HandleCallbackException(ex);
                     }
 <#
@@ -243,7 +247,8 @@ IEnumerable<(
                     methodGenerics.Append(genericType);
                     delegateReturnType.Append(genericType);
 
-                    resultConverters.AppendLine($"            var conv{genericType} = ValueRaw.Converter<{genericType}>();");
+                    var converterType = async ? "ValueBox" : "ValueRaw";
+                    resultConverters.AppendLine($"            var conv{genericType} = {converterType}.Converter<{genericType}>();");
                 }
 
                 if (resultCount > 1)

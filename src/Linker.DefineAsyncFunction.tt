@@ -36,7 +36,7 @@ namespace Wasmtime
 // Note that more than 200 overloads can cause the C# compiler to no longer resolve the overloads
 // correctly (tested with Visual Studio 17.4.0 Preview 2.1).
 // For delegate types not covered by these overloads, users will need to use an untyped callback.
-foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateType, callbackParameterTypeExpressions, callbackReturnTypeExpression, parameterConverters, resultConverters) in EnumerateTypeCombinations(maxResultCount:0, async:true)) //todo:remove the count parameters here
+foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateType, callbackParameterTypeExpressions, callbackReturnTypeExpression, parameterConverters, resultConverters) in EnumerateTypeCombinations(async:true))
 {
 #>
         /// <summary>
@@ -69,7 +69,7 @@ foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateTy
 #>
             unsafe
             {
-                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out wasmtime_async_continuation_t continuation_ret) =>
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
                 {
 <# GenerateAsyncCallbackContent(hasCaller, resultCount, parameterCount); #>
                 };

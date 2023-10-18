@@ -4,12 +4,15 @@ using System.Threading.Tasks;
 
 namespace Wasmtime
 {
+    /// <summary>
+    /// wasmtime_async_continuation_t
+    /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    internal struct wasmtime_async_continuation_t
+    internal struct WasmtimeAsyncContinuation
     {
         private static readonly Native.wasmtime_func_async_continuation_callback_t ReturnTrue = _ => true;
         private static readonly Native.Finalizer DoNothingFinalizer = _ => { };
-        public static readonly wasmtime_async_continuation_t ImmediateCompletion = new()
+        public static readonly WasmtimeAsyncContinuation ImmediateCompletion = new()
         {
             Env = IntPtr.Zero,
             Callback = ReturnTrue,
@@ -23,12 +26,12 @@ namespace Wasmtime
         public IntPtr Env;
         public Native.Finalizer Finalizer;
 
-        public static wasmtime_async_continuation_t FromTask<T>(Task<T> task)
+        public static WasmtimeAsyncContinuation FromTask<T>(Task<T> task)
         {
             return FromTask((Task)task);
         }
 
-        public static wasmtime_async_continuation_t FromTask(Task task)
+        public static WasmtimeAsyncContinuation FromTask(Task task)
         {
             return new()
             {

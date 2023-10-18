@@ -45,7 +45,7 @@ namespace Wasmtime
 
             unsafe
             {
-                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out wasmtime_async_continuation_t continuation_ret) =>
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
                 {
                     try
                     {
@@ -56,13 +56,17 @@ namespace Wasmtime
                         var task = callback(
                             );
 
-                        
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            
+                        });
+
                         trap_ret = IntPtr.Zero;
-                        continuation_ret = wasmtime_async_continuation_t.FromTask(task);
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
                     }
                     catch (Exception ex)
                     {
-                        continuation_ret = wasmtime_async_continuation_t.ImmediateCompletion;
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
                         trap_ret = Function.HandleCallbackException(ex);
                     }
                 };
@@ -145,7 +149,7 @@ namespace Wasmtime
 
             unsafe
             {
-                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out wasmtime_async_continuation_t continuation_ret) =>
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
                 {
                     try
                     {
@@ -156,13 +160,17 @@ namespace Wasmtime
                         var task = callback(
                             convT.Unbox(store, args[0].ToValueBox()));
 
-                        
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            
+                        });
+
                         trap_ret = IntPtr.Zero;
-                        continuation_ret = wasmtime_async_continuation_t.FromTask(task);
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
                     }
                     catch (Exception ex)
                     {
-                        continuation_ret = wasmtime_async_continuation_t.ImmediateCompletion;
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
                         trap_ret = Function.HandleCallbackException(ex);
                     }
                 };
@@ -246,7 +254,7 @@ namespace Wasmtime
 
             unsafe
             {
-                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out wasmtime_async_continuation_t continuation_ret) =>
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
                 {
                     try
                     {
@@ -258,13 +266,17 @@ namespace Wasmtime
                             convT1.Unbox(store, args[0].ToValueBox()),
                             convT2.Unbox(store, args[1].ToValueBox()));
 
-                        
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            
+                        });
+
                         trap_ret = IntPtr.Zero;
-                        continuation_ret = wasmtime_async_continuation_t.FromTask(task);
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
                     }
                     catch (Exception ex)
                     {
-                        continuation_ret = wasmtime_async_continuation_t.ImmediateCompletion;
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
                         trap_ret = Function.HandleCallbackException(ex);
                     }
                 };
@@ -349,7 +361,7 @@ namespace Wasmtime
 
             unsafe
             {
-                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out wasmtime_async_continuation_t continuation_ret) =>
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
                 {
                     try
                     {
@@ -362,13 +374,17 @@ namespace Wasmtime
                             convT2.Unbox(store, args[1].ToValueBox()),
                             convT3.Unbox(store, args[2].ToValueBox()));
 
-                        
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            
+                        });
+
                         trap_ret = IntPtr.Zero;
-                        continuation_ret = wasmtime_async_continuation_t.FromTask(task);
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
                     }
                     catch (Exception ex)
                     {
-                        continuation_ret = wasmtime_async_continuation_t.ImmediateCompletion;
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
                         trap_ret = Function.HandleCallbackException(ex);
                     }
                 };
@@ -454,7 +470,7 @@ namespace Wasmtime
 
             unsafe
             {
-                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out wasmtime_async_continuation_t continuation_ret) =>
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
                 {
                     try
                     {
@@ -468,13 +484,17 @@ namespace Wasmtime
                             convT3.Unbox(store, args[2].ToValueBox()),
                             convT4.Unbox(store, args[3].ToValueBox()));
 
-                        
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            
+                        });
+
                         trap_ret = IntPtr.Zero;
-                        continuation_ret = wasmtime_async_continuation_t.FromTask(task);
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
                     }
                     catch (Exception ex)
                     {
-                        continuation_ret = wasmtime_async_continuation_t.ImmediateCompletion;
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
                         trap_ret = Function.HandleCallbackException(ex);
                     }
                 };
@@ -561,7 +581,7 @@ namespace Wasmtime
 
             unsafe
             {
-                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out wasmtime_async_continuation_t continuation_ret) =>
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
                 {
                     try
                     {
@@ -576,13 +596,17 @@ namespace Wasmtime
                             convT4.Unbox(store, args[3].ToValueBox()),
                             convT5.Unbox(store, args[4].ToValueBox()));
 
-                        
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            
+                        });
+
                         trap_ret = IntPtr.Zero;
-                        continuation_ret = wasmtime_async_continuation_t.FromTask(task);
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
                     }
                     catch (Exception ex)
                     {
-                        continuation_ret = wasmtime_async_continuation_t.ImmediateCompletion;
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
                         trap_ret = Function.HandleCallbackException(ex);
                     }
                 };
@@ -670,7 +694,7 @@ namespace Wasmtime
 
             unsafe
             {
-                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out wasmtime_async_continuation_t continuation_ret) =>
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
                 {
                     try
                     {
@@ -686,13 +710,17 @@ namespace Wasmtime
                             convT5.Unbox(store, args[4].ToValueBox()),
                             convT6.Unbox(store, args[5].ToValueBox()));
 
-                        
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            
+                        });
+
                         trap_ret = IntPtr.Zero;
-                        continuation_ret = wasmtime_async_continuation_t.FromTask(task);
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
                     }
                     catch (Exception ex)
                     {
-                        continuation_ret = wasmtime_async_continuation_t.ImmediateCompletion;
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
                         trap_ret = Function.HandleCallbackException(ex);
                     }
                 };
@@ -781,7 +809,7 @@ namespace Wasmtime
 
             unsafe
             {
-                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out wasmtime_async_continuation_t continuation_ret) =>
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
                 {
                     try
                     {
@@ -798,13 +826,17 @@ namespace Wasmtime
                             convT6.Unbox(store, args[5].ToValueBox()),
                             convT7.Unbox(store, args[6].ToValueBox()));
 
-                        
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            
+                        });
+
                         trap_ret = IntPtr.Zero;
-                        continuation_ret = wasmtime_async_continuation_t.FromTask(task);
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
                     }
                     catch (Exception ex)
                     {
-                        continuation_ret = wasmtime_async_continuation_t.ImmediateCompletion;
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
                         trap_ret = Function.HandleCallbackException(ex);
                     }
                 };
@@ -894,7 +926,7 @@ namespace Wasmtime
 
             unsafe
             {
-                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out wasmtime_async_continuation_t continuation_ret) =>
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
                 {
                     try
                     {
@@ -912,13 +944,17 @@ namespace Wasmtime
                             convT7.Unbox(store, args[6].ToValueBox()),
                             convT8.Unbox(store, args[7].ToValueBox()));
 
-                        
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            
+                        });
+
                         trap_ret = IntPtr.Zero;
-                        continuation_ret = wasmtime_async_continuation_t.FromTask(task);
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
                     }
                     catch (Exception ex)
                     {
-                        continuation_ret = wasmtime_async_continuation_t.ImmediateCompletion;
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
                         trap_ret = Function.HandleCallbackException(ex);
                     }
                 };
@@ -1009,7 +1045,7 @@ namespace Wasmtime
 
             unsafe
             {
-                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out wasmtime_async_continuation_t continuation_ret) =>
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
                 {
                     try
                     {
@@ -1028,13 +1064,17 @@ namespace Wasmtime
                             convT8.Unbox(store, args[7].ToValueBox()),
                             convT9.Unbox(store, args[8].ToValueBox()));
 
-                        
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            
+                        });
+
                         trap_ret = IntPtr.Zero;
-                        continuation_ret = wasmtime_async_continuation_t.FromTask(task);
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
                     }
                     catch (Exception ex)
                     {
-                        continuation_ret = wasmtime_async_continuation_t.ImmediateCompletion;
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
                         trap_ret = Function.HandleCallbackException(ex);
                     }
                 };
@@ -1126,7 +1166,7 @@ namespace Wasmtime
 
             unsafe
             {
-                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out wasmtime_async_continuation_t continuation_ret) =>
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
                 {
                     try
                     {
@@ -1146,13 +1186,17 @@ namespace Wasmtime
                             convT9.Unbox(store, args[8].ToValueBox()),
                             convT10.Unbox(store, args[9].ToValueBox()));
 
-                        
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            
+                        });
+
                         trap_ret = IntPtr.Zero;
-                        continuation_ret = wasmtime_async_continuation_t.FromTask(task);
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
                     }
                     catch (Exception ex)
                     {
-                        continuation_ret = wasmtime_async_continuation_t.ImmediateCompletion;
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
                         trap_ret = Function.HandleCallbackException(ex);
                     }
                 };
@@ -1245,7 +1289,7 @@ namespace Wasmtime
 
             unsafe
             {
-                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out wasmtime_async_continuation_t continuation_ret) =>
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
                 {
                     try
                     {
@@ -1266,13 +1310,17 @@ namespace Wasmtime
                             convT10.Unbox(store, args[9].ToValueBox()),
                             convT11.Unbox(store, args[10].ToValueBox()));
 
-                        
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            
+                        });
+
                         trap_ret = IntPtr.Zero;
-                        continuation_ret = wasmtime_async_continuation_t.FromTask(task);
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
                     }
                     catch (Exception ex)
                     {
-                        continuation_ret = wasmtime_async_continuation_t.ImmediateCompletion;
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
                         trap_ret = Function.HandleCallbackException(ex);
                     }
                 };
@@ -1366,7 +1414,7 @@ namespace Wasmtime
 
             unsafe
             {
-                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out wasmtime_async_continuation_t continuation_ret) =>
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
                 {
                     try
                     {
@@ -1388,13 +1436,6209 @@ namespace Wasmtime
                             convT11.Unbox(store, args[10].ToValueBox()),
                             convT12.Unbox(store, args[11].ToValueBox()));
 
-                        
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            
+                        });
+
                         trap_ret = IntPtr.Zero;
-                        continuation_ret = wasmtime_async_continuation_t.FromTask(task);
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
                     }
                     catch (Exception ex)
                     {
-                        continuation_ret = wasmtime_async_continuation_t.ImmediateCompletion;
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<TResult>(string module, string name, AsyncFunc<TResult> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(Array.Empty<Type>(), typeof(TResult), allowCaller: false, allowTuple: false);
+            var convTResult = ValueBox.Converter<TResult>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            );
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult.Box(task.Result));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T, TResult>(string module, string name, AsyncFunc<T?, TResult> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T), }, typeof(TResult), allowCaller: false, allowTuple: false);
+            var convT = ValueBox.Converter<T>();
+            var convTResult = ValueBox.Converter<TResult>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT.Unbox(store, args[0].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult.Box(task.Result));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, TResult>(string module, string name, AsyncFunc<T1?, T2?, TResult> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), }, typeof(TResult), allowCaller: false, allowTuple: false);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convTResult = ValueBox.Converter<TResult>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult.Box(task.Result));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, TResult>(string module, string name, AsyncFunc<T1?, T2?, T3?, TResult> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), }, typeof(TResult), allowCaller: false, allowTuple: false);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convTResult = ValueBox.Converter<TResult>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult.Box(task.Result));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, TResult>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, TResult> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, typeof(TResult), allowCaller: false, allowTuple: false);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convTResult = ValueBox.Converter<TResult>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult.Box(task.Result));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, TResult>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, T5?, TResult> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, typeof(TResult), allowCaller: false, allowTuple: false);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convTResult = ValueBox.Converter<TResult>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult.Box(task.Result));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, TResult>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, T5?, T6?, TResult> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, typeof(TResult), allowCaller: false, allowTuple: false);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convTResult = ValueBox.Converter<TResult>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult.Box(task.Result));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, TResult>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, TResult> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, typeof(TResult), allowCaller: false, allowTuple: false);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convTResult = ValueBox.Converter<TResult>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult.Box(task.Result));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, TResult> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, typeof(TResult), allowCaller: false, allowTuple: false);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convTResult = ValueBox.Converter<TResult>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult.Box(task.Result));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, TResult> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, typeof(TResult), allowCaller: false, allowTuple: false);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convT9 = ValueBox.Converter<T9>();
+            var convTResult = ValueBox.Converter<TResult>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()),
+                            convT9.Unbox(store, args[8].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult.Box(task.Result));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, TResult> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, typeof(TResult), allowCaller: false, allowTuple: false);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convT9 = ValueBox.Converter<T9>();
+            var convT10 = ValueBox.Converter<T10>();
+            var convTResult = ValueBox.Converter<TResult>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()),
+                            convT9.Unbox(store, args[8].ToValueBox()),
+                            convT10.Unbox(store, args[9].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult.Box(task.Result));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, TResult> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, typeof(TResult), allowCaller: false, allowTuple: false);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convT9 = ValueBox.Converter<T9>();
+            var convT10 = ValueBox.Converter<T10>();
+            var convT11 = ValueBox.Converter<T11>();
+            var convTResult = ValueBox.Converter<TResult>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()),
+                            convT9.Unbox(store, args[8].ToValueBox()),
+                            convT10.Unbox(store, args[9].ToValueBox()),
+                            convT11.Unbox(store, args[10].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult.Box(task.Result));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, T12?, TResult> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, typeof(TResult), allowCaller: false, allowTuple: false);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convT9 = ValueBox.Converter<T9>();
+            var convT10 = ValueBox.Converter<T10>();
+            var convT11 = ValueBox.Converter<T11>();
+            var convT12 = ValueBox.Converter<T12>();
+            var convTResult = ValueBox.Converter<TResult>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()),
+                            convT9.Unbox(store, args[8].ToValueBox()),
+                            convT10.Unbox(store, args[9].ToValueBox()),
+                            convT11.Unbox(store, args[10].ToValueBox()),
+                            convT12.Unbox(store, args[11].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult.Box(task.Result));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<TResult1, TResult2>(string module, string name, AsyncFunc<ValueTuple<TResult1, TResult2>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(Array.Empty<Type>(), typeof(ValueTuple<TResult1, TResult2>), allowCaller: false, allowTuple: true);
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            );
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T, TResult1, TResult2>(string module, string name, AsyncFunc<T?, ValueTuple<TResult1, TResult2>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: false, allowTuple: true);
+            var convT = ValueBox.Converter<T>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT.Unbox(store, args[0].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, TResult1, TResult2>(string module, string name, AsyncFunc<T1?, T2?, ValueTuple<TResult1, TResult2>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: false, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, TResult1, TResult2>(string module, string name, AsyncFunc<T1?, T2?, T3?, ValueTuple<TResult1, TResult2>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: false, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, TResult1, TResult2>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, ValueTuple<TResult1, TResult2>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: false, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, TResult1, TResult2>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, T5?, ValueTuple<TResult1, TResult2>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: false, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, TResult1, TResult2>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, T5?, T6?, ValueTuple<TResult1, TResult2>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: false, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, TResult1, TResult2>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, ValueTuple<TResult1, TResult2>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: false, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, TResult1, TResult2>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, ValueTuple<TResult1, TResult2>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: false, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult1, TResult2>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, ValueTuple<TResult1, TResult2>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: false, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convT9 = ValueBox.Converter<T9>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()),
+                            convT9.Unbox(store, args[8].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult1, TResult2>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, ValueTuple<TResult1, TResult2>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: false, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convT9 = ValueBox.Converter<T9>();
+            var convT10 = ValueBox.Converter<T10>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()),
+                            convT9.Unbox(store, args[8].ToValueBox()),
+                            convT10.Unbox(store, args[9].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult1, TResult2>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, ValueTuple<TResult1, TResult2>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: false, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convT9 = ValueBox.Converter<T9>();
+            var convT10 = ValueBox.Converter<T10>();
+            var convT11 = ValueBox.Converter<T11>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()),
+                            convT9.Unbox(store, args[8].ToValueBox()),
+                            convT10.Unbox(store, args[9].ToValueBox()),
+                            convT11.Unbox(store, args[10].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult1, TResult2>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, T12?, ValueTuple<TResult1, TResult2>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: false, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convT9 = ValueBox.Converter<T9>();
+            var convT10 = ValueBox.Converter<T10>();
+            var convT11 = ValueBox.Converter<T11>();
+            var convT12 = ValueBox.Converter<T12>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()),
+                            convT9.Unbox(store, args[8].ToValueBox()),
+                            convT10.Unbox(store, args[9].ToValueBox()),
+                            convT11.Unbox(store, args[10].ToValueBox()),
+                            convT12.Unbox(store, args[11].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<TResult1, TResult2, TResult3>(string module, string name, AsyncFunc<ValueTuple<TResult1, TResult2, TResult3>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(Array.Empty<Type>(), typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: false, allowTuple: true);
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            );
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T, TResult1, TResult2, TResult3>(string module, string name, AsyncFunc<T?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: false, allowTuple: true);
+            var convT = ValueBox.Converter<T>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT.Unbox(store, args[0].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, TResult1, TResult2, TResult3>(string module, string name, AsyncFunc<T1?, T2?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: false, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, TResult1, TResult2, TResult3>(string module, string name, AsyncFunc<T1?, T2?, T3?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: false, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, TResult1, TResult2, TResult3>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: false, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, TResult1, TResult2, TResult3>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, T5?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: false, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, TResult1, TResult2, TResult3>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, T5?, T6?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: false, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, TResult1, TResult2, TResult3>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: false, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, TResult1, TResult2, TResult3>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: false, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult1, TResult2, TResult3>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: false, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convT9 = ValueBox.Converter<T9>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()),
+                            convT9.Unbox(store, args[8].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult1, TResult2, TResult3>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: false, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convT9 = ValueBox.Converter<T9>();
+            var convT10 = ValueBox.Converter<T10>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()),
+                            convT9.Unbox(store, args[8].ToValueBox()),
+                            convT10.Unbox(store, args[9].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult1, TResult2, TResult3>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: false, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convT9 = ValueBox.Converter<T9>();
+            var convT10 = ValueBox.Converter<T10>();
+            var convT11 = ValueBox.Converter<T11>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()),
+                            convT9.Unbox(store, args[8].ToValueBox()),
+                            convT10.Unbox(store, args[9].ToValueBox()),
+                            convT11.Unbox(store, args[10].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult1, TResult2, TResult3>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, T12?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: false, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convT9 = ValueBox.Converter<T9>();
+            var convT10 = ValueBox.Converter<T10>();
+            var convT11 = ValueBox.Converter<T11>();
+            var convT12 = ValueBox.Converter<T12>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()),
+                            convT9.Unbox(store, args[8].ToValueBox()),
+                            convT10.Unbox(store, args[9].ToValueBox()),
+                            convT11.Unbox(store, args[10].ToValueBox()),
+                            convT12.Unbox(store, args[11].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<TResult1, TResult2, TResult3, TResult4>(string module, string name, AsyncFunc<ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(Array.Empty<Type>(), typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: false, allowTuple: true);
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convTResult4 = ValueBox.Converter<TResult4>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            );
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            results[3] = Value.FromValueBox(convTResult4.Box(task.Result.Item4));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T, TResult1, TResult2, TResult3, TResult4>(string module, string name, AsyncFunc<T?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: false, allowTuple: true);
+            var convT = ValueBox.Converter<T>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convTResult4 = ValueBox.Converter<TResult4>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT.Unbox(store, args[0].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            results[3] = Value.FromValueBox(convTResult4.Box(task.Result.Item4));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, TResult1, TResult2, TResult3, TResult4>(string module, string name, AsyncFunc<T1?, T2?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: false, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convTResult4 = ValueBox.Converter<TResult4>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            results[3] = Value.FromValueBox(convTResult4.Box(task.Result.Item4));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, TResult1, TResult2, TResult3, TResult4>(string module, string name, AsyncFunc<T1?, T2?, T3?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: false, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convTResult4 = ValueBox.Converter<TResult4>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            results[3] = Value.FromValueBox(convTResult4.Box(task.Result.Item4));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, TResult1, TResult2, TResult3, TResult4>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: false, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convTResult4 = ValueBox.Converter<TResult4>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            results[3] = Value.FromValueBox(convTResult4.Box(task.Result.Item4));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, TResult1, TResult2, TResult3, TResult4>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, T5?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: false, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convTResult4 = ValueBox.Converter<TResult4>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            results[3] = Value.FromValueBox(convTResult4.Box(task.Result.Item4));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, TResult1, TResult2, TResult3, TResult4>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, T5?, T6?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: false, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convTResult4 = ValueBox.Converter<TResult4>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            results[3] = Value.FromValueBox(convTResult4.Box(task.Result.Item4));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, TResult1, TResult2, TResult3, TResult4>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: false, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convTResult4 = ValueBox.Converter<TResult4>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            results[3] = Value.FromValueBox(convTResult4.Box(task.Result.Item4));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, TResult1, TResult2, TResult3, TResult4>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: false, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convTResult4 = ValueBox.Converter<TResult4>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            results[3] = Value.FromValueBox(convTResult4.Box(task.Result.Item4));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult1, TResult2, TResult3, TResult4>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: false, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convT9 = ValueBox.Converter<T9>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convTResult4 = ValueBox.Converter<TResult4>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()),
+                            convT9.Unbox(store, args[8].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            results[3] = Value.FromValueBox(convTResult4.Box(task.Result.Item4));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult1, TResult2, TResult3, TResult4>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: false, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convT9 = ValueBox.Converter<T9>();
+            var convT10 = ValueBox.Converter<T10>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convTResult4 = ValueBox.Converter<TResult4>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()),
+                            convT9.Unbox(store, args[8].ToValueBox()),
+                            convT10.Unbox(store, args[9].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            results[3] = Value.FromValueBox(convTResult4.Box(task.Result.Item4));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult1, TResult2, TResult3, TResult4>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: false, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convT9 = ValueBox.Converter<T9>();
+            var convT10 = ValueBox.Converter<T10>();
+            var convT11 = ValueBox.Converter<T11>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convTResult4 = ValueBox.Converter<TResult4>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()),
+                            convT9.Unbox(store, args[8].ToValueBox()),
+                            convT10.Unbox(store, args[9].ToValueBox()),
+                            convT11.Unbox(store, args[10].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            results[3] = Value.FromValueBox(convTResult4.Box(task.Result.Item4));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult1, TResult2, TResult3, TResult4>(string module, string name, AsyncFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, T12?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: false, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convT9 = ValueBox.Converter<T9>();
+            var convT10 = ValueBox.Converter<T10>();
+            var convT11 = ValueBox.Converter<T11>();
+            var convT12 = ValueBox.Converter<T12>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convTResult4 = ValueBox.Converter<TResult4>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()),
+                            convT9.Unbox(store, args[8].ToValueBox()),
+                            convT10.Unbox(store, args[9].ToValueBox()),
+                            convT11.Unbox(store, args[10].ToValueBox()),
+                            convT12.Unbox(store, args[11].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            results[3] = Value.FromValueBox(convTResult4.Box(task.Result.Item4));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
                         trap_ret = Function.HandleCallbackException(ex);
                     }
                 };
@@ -1476,7 +7720,7 @@ namespace Wasmtime
 
             unsafe
             {
-                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out wasmtime_async_continuation_t continuation_ret) =>
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
                 {
                     try
                     {
@@ -1487,13 +7731,17 @@ namespace Wasmtime
                         var task = callback(
                             caller);
 
-                        
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            
+                        });
+
                         trap_ret = IntPtr.Zero;
-                        continuation_ret = wasmtime_async_continuation_t.FromTask(task);
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
                     }
                     catch (Exception ex)
                     {
-                        continuation_ret = wasmtime_async_continuation_t.ImmediateCompletion;
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
                         trap_ret = Function.HandleCallbackException(ex);
                     }
                 };
@@ -1576,7 +7824,7 @@ namespace Wasmtime
 
             unsafe
             {
-                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out wasmtime_async_continuation_t continuation_ret) =>
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
                 {
                     try
                     {
@@ -1588,13 +7836,17 @@ namespace Wasmtime
                             caller,
                             convT.Unbox(store, args[0].ToValueBox()));
 
-                        
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            
+                        });
+
                         trap_ret = IntPtr.Zero;
-                        continuation_ret = wasmtime_async_continuation_t.FromTask(task);
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
                     }
                     catch (Exception ex)
                     {
-                        continuation_ret = wasmtime_async_continuation_t.ImmediateCompletion;
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
                         trap_ret = Function.HandleCallbackException(ex);
                     }
                 };
@@ -1678,7 +7930,7 @@ namespace Wasmtime
 
             unsafe
             {
-                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out wasmtime_async_continuation_t continuation_ret) =>
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
                 {
                     try
                     {
@@ -1691,13 +7943,17 @@ namespace Wasmtime
                             convT1.Unbox(store, args[0].ToValueBox()),
                             convT2.Unbox(store, args[1].ToValueBox()));
 
-                        
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            
+                        });
+
                         trap_ret = IntPtr.Zero;
-                        continuation_ret = wasmtime_async_continuation_t.FromTask(task);
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
                     }
                     catch (Exception ex)
                     {
-                        continuation_ret = wasmtime_async_continuation_t.ImmediateCompletion;
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
                         trap_ret = Function.HandleCallbackException(ex);
                     }
                 };
@@ -1782,7 +8038,7 @@ namespace Wasmtime
 
             unsafe
             {
-                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out wasmtime_async_continuation_t continuation_ret) =>
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
                 {
                     try
                     {
@@ -1796,13 +8052,17 @@ namespace Wasmtime
                             convT2.Unbox(store, args[1].ToValueBox()),
                             convT3.Unbox(store, args[2].ToValueBox()));
 
-                        
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            
+                        });
+
                         trap_ret = IntPtr.Zero;
-                        continuation_ret = wasmtime_async_continuation_t.FromTask(task);
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
                     }
                     catch (Exception ex)
                     {
-                        continuation_ret = wasmtime_async_continuation_t.ImmediateCompletion;
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
                         trap_ret = Function.HandleCallbackException(ex);
                     }
                 };
@@ -1888,7 +8148,7 @@ namespace Wasmtime
 
             unsafe
             {
-                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out wasmtime_async_continuation_t continuation_ret) =>
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
                 {
                     try
                     {
@@ -1903,13 +8163,17 @@ namespace Wasmtime
                             convT3.Unbox(store, args[2].ToValueBox()),
                             convT4.Unbox(store, args[3].ToValueBox()));
 
-                        
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            
+                        });
+
                         trap_ret = IntPtr.Zero;
-                        continuation_ret = wasmtime_async_continuation_t.FromTask(task);
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
                     }
                     catch (Exception ex)
                     {
-                        continuation_ret = wasmtime_async_continuation_t.ImmediateCompletion;
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
                         trap_ret = Function.HandleCallbackException(ex);
                     }
                 };
@@ -1996,7 +8260,7 @@ namespace Wasmtime
 
             unsafe
             {
-                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out wasmtime_async_continuation_t continuation_ret) =>
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
                 {
                     try
                     {
@@ -2012,13 +8276,17 @@ namespace Wasmtime
                             convT4.Unbox(store, args[3].ToValueBox()),
                             convT5.Unbox(store, args[4].ToValueBox()));
 
-                        
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            
+                        });
+
                         trap_ret = IntPtr.Zero;
-                        continuation_ret = wasmtime_async_continuation_t.FromTask(task);
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
                     }
                     catch (Exception ex)
                     {
-                        continuation_ret = wasmtime_async_continuation_t.ImmediateCompletion;
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
                         trap_ret = Function.HandleCallbackException(ex);
                     }
                 };
@@ -2106,7 +8374,7 @@ namespace Wasmtime
 
             unsafe
             {
-                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out wasmtime_async_continuation_t continuation_ret) =>
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
                 {
                     try
                     {
@@ -2123,13 +8391,17 @@ namespace Wasmtime
                             convT5.Unbox(store, args[4].ToValueBox()),
                             convT6.Unbox(store, args[5].ToValueBox()));
 
-                        
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            
+                        });
+
                         trap_ret = IntPtr.Zero;
-                        continuation_ret = wasmtime_async_continuation_t.FromTask(task);
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
                     }
                     catch (Exception ex)
                     {
-                        continuation_ret = wasmtime_async_continuation_t.ImmediateCompletion;
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
                         trap_ret = Function.HandleCallbackException(ex);
                     }
                 };
@@ -2218,7 +8490,7 @@ namespace Wasmtime
 
             unsafe
             {
-                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out wasmtime_async_continuation_t continuation_ret) =>
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
                 {
                     try
                     {
@@ -2236,13 +8508,17 @@ namespace Wasmtime
                             convT6.Unbox(store, args[5].ToValueBox()),
                             convT7.Unbox(store, args[6].ToValueBox()));
 
-                        
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            
+                        });
+
                         trap_ret = IntPtr.Zero;
-                        continuation_ret = wasmtime_async_continuation_t.FromTask(task);
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
                     }
                     catch (Exception ex)
                     {
-                        continuation_ret = wasmtime_async_continuation_t.ImmediateCompletion;
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
                         trap_ret = Function.HandleCallbackException(ex);
                     }
                 };
@@ -2332,7 +8608,7 @@ namespace Wasmtime
 
             unsafe
             {
-                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out wasmtime_async_continuation_t continuation_ret) =>
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
                 {
                     try
                     {
@@ -2351,13 +8627,17 @@ namespace Wasmtime
                             convT7.Unbox(store, args[6].ToValueBox()),
                             convT8.Unbox(store, args[7].ToValueBox()));
 
-                        
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            
+                        });
+
                         trap_ret = IntPtr.Zero;
-                        continuation_ret = wasmtime_async_continuation_t.FromTask(task);
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
                     }
                     catch (Exception ex)
                     {
-                        continuation_ret = wasmtime_async_continuation_t.ImmediateCompletion;
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
                         trap_ret = Function.HandleCallbackException(ex);
                     }
                 };
@@ -2448,7 +8728,7 @@ namespace Wasmtime
 
             unsafe
             {
-                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out wasmtime_async_continuation_t continuation_ret) =>
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
                 {
                     try
                     {
@@ -2468,13 +8748,17 @@ namespace Wasmtime
                             convT8.Unbox(store, args[7].ToValueBox()),
                             convT9.Unbox(store, args[8].ToValueBox()));
 
-                        
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            
+                        });
+
                         trap_ret = IntPtr.Zero;
-                        continuation_ret = wasmtime_async_continuation_t.FromTask(task);
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
                     }
                     catch (Exception ex)
                     {
-                        continuation_ret = wasmtime_async_continuation_t.ImmediateCompletion;
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
                         trap_ret = Function.HandleCallbackException(ex);
                     }
                 };
@@ -2566,7 +8850,7 @@ namespace Wasmtime
 
             unsafe
             {
-                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out wasmtime_async_continuation_t continuation_ret) =>
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
                 {
                     try
                     {
@@ -2587,13 +8871,17 @@ namespace Wasmtime
                             convT9.Unbox(store, args[8].ToValueBox()),
                             convT10.Unbox(store, args[9].ToValueBox()));
 
-                        
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            
+                        });
+
                         trap_ret = IntPtr.Zero;
-                        continuation_ret = wasmtime_async_continuation_t.FromTask(task);
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
                     }
                     catch (Exception ex)
                     {
-                        continuation_ret = wasmtime_async_continuation_t.ImmediateCompletion;
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
                         trap_ret = Function.HandleCallbackException(ex);
                     }
                 };
@@ -2686,7 +8974,7 @@ namespace Wasmtime
 
             unsafe
             {
-                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out wasmtime_async_continuation_t continuation_ret) =>
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
                 {
                     try
                     {
@@ -2708,13 +8996,17 @@ namespace Wasmtime
                             convT10.Unbox(store, args[9].ToValueBox()),
                             convT11.Unbox(store, args[10].ToValueBox()));
 
-                        
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            
+                        });
+
                         trap_ret = IntPtr.Zero;
-                        continuation_ret = wasmtime_async_continuation_t.FromTask(task);
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
                     }
                     catch (Exception ex)
                     {
-                        continuation_ret = wasmtime_async_continuation_t.ImmediateCompletion;
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
                         trap_ret = Function.HandleCallbackException(ex);
                     }
                 };
@@ -2808,7 +9100,7 @@ namespace Wasmtime
 
             unsafe
             {
-                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out wasmtime_async_continuation_t continuation_ret) =>
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
                 {
                     try
                     {
@@ -2831,13 +9123,6257 @@ namespace Wasmtime
                             convT11.Unbox(store, args[10].ToValueBox()),
                             convT12.Unbox(store, args[11].ToValueBox()));
 
-                        
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            
+                        });
+
                         trap_ret = IntPtr.Zero;
-                        continuation_ret = wasmtime_async_continuation_t.FromTask(task);
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
                     }
                     catch (Exception ex)
                     {
-                        continuation_ret = wasmtime_async_continuation_t.ImmediateCompletion;
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<TResult>(string module, string name, AsyncCallerFunc<TResult> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), }, typeof(TResult), allowCaller: true, allowTuple: false);
+            var convTResult = ValueBox.Converter<TResult>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller);
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult.Box(task.Result));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T, TResult>(string module, string name, AsyncCallerFunc<T?, TResult> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T), }, typeof(TResult), allowCaller: true, allowTuple: false);
+            var convT = ValueBox.Converter<T>();
+            var convTResult = ValueBox.Converter<TResult>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT.Unbox(store, args[0].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult.Box(task.Result));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, TResult>(string module, string name, AsyncCallerFunc<T1?, T2?, TResult> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), }, typeof(TResult), allowCaller: true, allowTuple: false);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convTResult = ValueBox.Converter<TResult>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult.Box(task.Result));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, TResult>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, TResult> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), }, typeof(TResult), allowCaller: true, allowTuple: false);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convTResult = ValueBox.Converter<TResult>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult.Box(task.Result));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, TResult>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, TResult> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, typeof(TResult), allowCaller: true, allowTuple: false);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convTResult = ValueBox.Converter<TResult>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult.Box(task.Result));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, TResult>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, T5?, TResult> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, typeof(TResult), allowCaller: true, allowTuple: false);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convTResult = ValueBox.Converter<TResult>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult.Box(task.Result));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, TResult>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, TResult> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, typeof(TResult), allowCaller: true, allowTuple: false);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convTResult = ValueBox.Converter<TResult>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult.Box(task.Result));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, TResult>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, TResult> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, typeof(TResult), allowCaller: true, allowTuple: false);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convTResult = ValueBox.Converter<TResult>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult.Box(task.Result));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, TResult> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, typeof(TResult), allowCaller: true, allowTuple: false);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convTResult = ValueBox.Converter<TResult>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult.Box(task.Result));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, TResult> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, typeof(TResult), allowCaller: true, allowTuple: false);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convT9 = ValueBox.Converter<T9>();
+            var convTResult = ValueBox.Converter<TResult>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()),
+                            convT9.Unbox(store, args[8].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult.Box(task.Result));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, TResult> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, typeof(TResult), allowCaller: true, allowTuple: false);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convT9 = ValueBox.Converter<T9>();
+            var convT10 = ValueBox.Converter<T10>();
+            var convTResult = ValueBox.Converter<TResult>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()),
+                            convT9.Unbox(store, args[8].ToValueBox()),
+                            convT10.Unbox(store, args[9].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult.Box(task.Result));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, TResult> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, typeof(TResult), allowCaller: true, allowTuple: false);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convT9 = ValueBox.Converter<T9>();
+            var convT10 = ValueBox.Converter<T10>();
+            var convT11 = ValueBox.Converter<T11>();
+            var convTResult = ValueBox.Converter<TResult>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()),
+                            convT9.Unbox(store, args[8].ToValueBox()),
+                            convT10.Unbox(store, args[9].ToValueBox()),
+                            convT11.Unbox(store, args[10].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult.Box(task.Result));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, T12?, TResult> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, typeof(TResult), allowCaller: true, allowTuple: false);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convT9 = ValueBox.Converter<T9>();
+            var convT10 = ValueBox.Converter<T10>();
+            var convT11 = ValueBox.Converter<T11>();
+            var convT12 = ValueBox.Converter<T12>();
+            var convTResult = ValueBox.Converter<TResult>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()),
+                            convT9.Unbox(store, args[8].ToValueBox()),
+                            convT10.Unbox(store, args[9].ToValueBox()),
+                            convT11.Unbox(store, args[10].ToValueBox()),
+                            convT12.Unbox(store, args[11].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult.Box(task.Result));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<TResult1, TResult2>(string module, string name, AsyncCallerFunc<ValueTuple<TResult1, TResult2>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: true, allowTuple: true);
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller);
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T, TResult1, TResult2>(string module, string name, AsyncCallerFunc<T?, ValueTuple<TResult1, TResult2>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: true, allowTuple: true);
+            var convT = ValueBox.Converter<T>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT.Unbox(store, args[0].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, TResult1, TResult2>(string module, string name, AsyncCallerFunc<T1?, T2?, ValueTuple<TResult1, TResult2>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: true, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, TResult1, TResult2>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, ValueTuple<TResult1, TResult2>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: true, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, TResult1, TResult2>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, ValueTuple<TResult1, TResult2>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: true, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, TResult1, TResult2>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, T5?, ValueTuple<TResult1, TResult2>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: true, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, TResult1, TResult2>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, ValueTuple<TResult1, TResult2>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: true, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, TResult1, TResult2>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, ValueTuple<TResult1, TResult2>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: true, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, TResult1, TResult2>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, ValueTuple<TResult1, TResult2>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: true, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult1, TResult2>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, ValueTuple<TResult1, TResult2>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: true, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convT9 = ValueBox.Converter<T9>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()),
+                            convT9.Unbox(store, args[8].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult1, TResult2>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, ValueTuple<TResult1, TResult2>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: true, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convT9 = ValueBox.Converter<T9>();
+            var convT10 = ValueBox.Converter<T10>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()),
+                            convT9.Unbox(store, args[8].ToValueBox()),
+                            convT10.Unbox(store, args[9].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult1, TResult2>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, ValueTuple<TResult1, TResult2>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: true, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convT9 = ValueBox.Converter<T9>();
+            var convT10 = ValueBox.Converter<T10>();
+            var convT11 = ValueBox.Converter<T11>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()),
+                            convT9.Unbox(store, args[8].ToValueBox()),
+                            convT10.Unbox(store, args[9].ToValueBox()),
+                            convT11.Unbox(store, args[10].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult1, TResult2>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, T12?, ValueTuple<TResult1, TResult2>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, typeof(ValueTuple<TResult1, TResult2>), allowCaller: true, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convT9 = ValueBox.Converter<T9>();
+            var convT10 = ValueBox.Converter<T10>();
+            var convT11 = ValueBox.Converter<T11>();
+            var convT12 = ValueBox.Converter<T12>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()),
+                            convT9.Unbox(store, args[8].ToValueBox()),
+                            convT10.Unbox(store, args[9].ToValueBox()),
+                            convT11.Unbox(store, args[10].ToValueBox()),
+                            convT12.Unbox(store, args[11].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<TResult1, TResult2, TResult3>(string module, string name, AsyncCallerFunc<ValueTuple<TResult1, TResult2, TResult3>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: true, allowTuple: true);
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller);
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T, TResult1, TResult2, TResult3>(string module, string name, AsyncCallerFunc<T?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: true, allowTuple: true);
+            var convT = ValueBox.Converter<T>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT.Unbox(store, args[0].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, TResult1, TResult2, TResult3>(string module, string name, AsyncCallerFunc<T1?, T2?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: true, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, TResult1, TResult2, TResult3>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: true, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, TResult1, TResult2, TResult3>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: true, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, TResult1, TResult2, TResult3>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, T5?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: true, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, TResult1, TResult2, TResult3>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: true, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, TResult1, TResult2, TResult3>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: true, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, TResult1, TResult2, TResult3>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: true, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult1, TResult2, TResult3>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: true, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convT9 = ValueBox.Converter<T9>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()),
+                            convT9.Unbox(store, args[8].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult1, TResult2, TResult3>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: true, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convT9 = ValueBox.Converter<T9>();
+            var convT10 = ValueBox.Converter<T10>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()),
+                            convT9.Unbox(store, args[8].ToValueBox()),
+                            convT10.Unbox(store, args[9].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult1, TResult2, TResult3>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: true, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convT9 = ValueBox.Converter<T9>();
+            var convT10 = ValueBox.Converter<T10>();
+            var convT11 = ValueBox.Converter<T11>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()),
+                            convT9.Unbox(store, args[8].ToValueBox()),
+                            convT10.Unbox(store, args[9].ToValueBox()),
+                            convT11.Unbox(store, args[10].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult1, TResult2, TResult3>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, T12?, ValueTuple<TResult1, TResult2, TResult3>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, typeof(ValueTuple<TResult1, TResult2, TResult3>), allowCaller: true, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convT9 = ValueBox.Converter<T9>();
+            var convT10 = ValueBox.Converter<T10>();
+            var convT11 = ValueBox.Converter<T11>();
+            var convT12 = ValueBox.Converter<T12>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()),
+                            convT9.Unbox(store, args[8].ToValueBox()),
+                            convT10.Unbox(store, args[9].ToValueBox()),
+                            convT11.Unbox(store, args[10].ToValueBox()),
+                            convT12.Unbox(store, args[11].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<TResult1, TResult2, TResult3, TResult4>(string module, string name, AsyncCallerFunc<ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: true, allowTuple: true);
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convTResult4 = ValueBox.Converter<TResult4>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller);
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            results[3] = Value.FromValueBox(convTResult4.Box(task.Result.Item4));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T, TResult1, TResult2, TResult3, TResult4>(string module, string name, AsyncCallerFunc<T?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: true, allowTuple: true);
+            var convT = ValueBox.Converter<T>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convTResult4 = ValueBox.Converter<TResult4>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT.Unbox(store, args[0].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            results[3] = Value.FromValueBox(convTResult4.Box(task.Result.Item4));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, TResult1, TResult2, TResult3, TResult4>(string module, string name, AsyncCallerFunc<T1?, T2?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: true, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convTResult4 = ValueBox.Converter<TResult4>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            results[3] = Value.FromValueBox(convTResult4.Box(task.Result.Item4));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, TResult1, TResult2, TResult3, TResult4>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: true, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convTResult4 = ValueBox.Converter<TResult4>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            results[3] = Value.FromValueBox(convTResult4.Box(task.Result.Item4));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, TResult1, TResult2, TResult3, TResult4>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: true, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convTResult4 = ValueBox.Converter<TResult4>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            results[3] = Value.FromValueBox(convTResult4.Box(task.Result.Item4));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, TResult1, TResult2, TResult3, TResult4>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, T5?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: true, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convTResult4 = ValueBox.Converter<TResult4>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            results[3] = Value.FromValueBox(convTResult4.Box(task.Result.Item4));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, TResult1, TResult2, TResult3, TResult4>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: true, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convTResult4 = ValueBox.Converter<TResult4>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            results[3] = Value.FromValueBox(convTResult4.Box(task.Result.Item4));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, TResult1, TResult2, TResult3, TResult4>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: true, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convTResult4 = ValueBox.Converter<TResult4>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            results[3] = Value.FromValueBox(convTResult4.Box(task.Result.Item4));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, TResult1, TResult2, TResult3, TResult4>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: true, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convTResult4 = ValueBox.Converter<TResult4>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            results[3] = Value.FromValueBox(convTResult4.Box(task.Result.Item4));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult1, TResult2, TResult3, TResult4>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: true, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convT9 = ValueBox.Converter<T9>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convTResult4 = ValueBox.Converter<TResult4>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()),
+                            convT9.Unbox(store, args[8].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            results[3] = Value.FromValueBox(convTResult4.Box(task.Result.Item4));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult1, TResult2, TResult3, TResult4>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: true, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convT9 = ValueBox.Converter<T9>();
+            var convT10 = ValueBox.Converter<T10>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convTResult4 = ValueBox.Converter<TResult4>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()),
+                            convT9.Unbox(store, args[8].ToValueBox()),
+                            convT10.Unbox(store, args[9].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            results[3] = Value.FromValueBox(convTResult4.Box(task.Result.Item4));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult1, TResult2, TResult3, TResult4>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: true, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convT9 = ValueBox.Converter<T9>();
+            var convT10 = ValueBox.Converter<T10>();
+            var convT11 = ValueBox.Converter<T11>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convTResult4 = ValueBox.Converter<TResult4>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()),
+                            convT9.Unbox(store, args[8].ToValueBox()),
+                            convT10.Unbox(store, args[9].ToValueBox()),
+                            convT11.Unbox(store, args[10].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            results[3] = Value.FromValueBox(convTResult4.Box(task.Result.Item4));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
+                        trap_ret = Function.HandleCallbackException(ex);
+                    }
+                };
+
+                const int StackallocThreshold = 256;
+
+                byte[]? moduleBytesBuffer = null;
+                var moduleLength = Encoding.UTF8.GetByteCount(module);
+                Span<byte> moduleBytes = moduleLength <= StackallocThreshold ? stackalloc byte[moduleLength] : (moduleBytesBuffer = ArrayPool<byte>.Shared.Rent(moduleLength)).AsSpan()[..moduleLength];
+                Encoding.UTF8.GetBytes(module, moduleBytes);
+
+                byte[]? nameBytesBuffer = null;
+                var nameLength = Encoding.UTF8.GetByteCount(name);
+                Span<byte> nameBytes = nameLength <= StackallocThreshold ? stackalloc byte[nameLength] : (nameBytesBuffer = ArrayPool<byte>.Shared.Rent(nameLength)).AsSpan()[..nameLength];
+                Encoding.UTF8.GetBytes(name, nameBytes);
+
+                var funcType = Function.CreateFunctionType(parameterKinds, resultKinds);
+                try
+                {
+                    fixed (byte* modulePtr = moduleBytes, namePtr = nameBytes)
+                    {
+                        var error = Native.wasmtime_linker_define_async_func(
+                            handle,
+                            modulePtr, (nuint)moduleBytes.Length,
+                            namePtr, (nuint)nameBytes.Length,
+                            funcType,
+                            func,
+                            GCHandle.ToIntPtr(GCHandle.Alloc(func)),
+                            Function.Finalizer
+                        );
+
+                        if (error != IntPtr.Zero)
+                        {
+                            throw WasmtimeException.FromOwnedError(error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Function.Native.wasm_functype_delete(funcType);
+
+                    if (moduleBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(moduleBytesBuffer);
+                    }
+                    if (nameBytesBuffer is not null)
+                    {
+                        ArrayPool<byte>.Shared.Return(nameBytesBuffer);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Defines a function in the linker.
+        /// </summary>
+        /// <remarks>Functions defined with this method are store-independent.</remarks>
+        /// <param name="module">The module name of the function.</param>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="callback">The callback for when the function is invoked.</param>
+        public void DefineAsyncFunction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult1, TResult2, TResult3, TResult4>(string module, string name, AsyncCallerFunc<T1?, T2?, T3?, T4?, T5?, T6?, T7?, T8?, T9?, T10?, T11?, T12?, ValueTuple<TResult1, TResult2, TResult3, TResult4>> callback)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(new Type[] { typeof(Caller), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8), typeof(T9), typeof(T10), typeof(T11), typeof(T12), }, typeof(ValueTuple<TResult1, TResult2, TResult3, TResult4>), allowCaller: true, allowTuple: true);
+            var convT1 = ValueBox.Converter<T1>();
+            var convT2 = ValueBox.Converter<T2>();
+            var convT3 = ValueBox.Converter<T3>();
+            var convT4 = ValueBox.Converter<T4>();
+            var convT5 = ValueBox.Converter<T5>();
+            var convT6 = ValueBox.Converter<T6>();
+            var convT7 = ValueBox.Converter<T7>();
+            var convT8 = ValueBox.Converter<T8>();
+            var convT9 = ValueBox.Converter<T9>();
+            var convT10 = ValueBox.Converter<T10>();
+            var convT11 = ValueBox.Converter<T11>();
+            var convT12 = ValueBox.Converter<T12>();
+            var convTResult1 = ValueBox.Converter<TResult1>();
+            var convTResult2 = ValueBox.Converter<TResult2>();
+            var convTResult3 = ValueBox.Converter<TResult3>();
+            var convTResult4 = ValueBox.Converter<TResult4>();
+
+            unsafe
+            {
+                AsyncFunction.Native.WasmtimeFuncAsyncCallback func = (IntPtr env, IntPtr callerPtr, Value* args, nuint nargs, Value* results, nuint nresults, out IntPtr trap_ret, out WasmtimeAsyncContinuation continuation_ret) =>
+                {
+                    try
+                    {
+                        var caller = new Caller(callerPtr);
+                        var storeContext = caller.context;
+                        var store = caller.store;
+
+                        var task = callback(
+                            caller,
+                            convT1.Unbox(store, args[0].ToValueBox()),
+                            convT2.Unbox(store, args[1].ToValueBox()),
+                            convT3.Unbox(store, args[2].ToValueBox()),
+                            convT4.Unbox(store, args[3].ToValueBox()),
+                            convT5.Unbox(store, args[4].ToValueBox()),
+                            convT6.Unbox(store, args[5].ToValueBox()),
+                            convT7.Unbox(store, args[6].ToValueBox()),
+                            convT8.Unbox(store, args[7].ToValueBox()),
+                            convT9.Unbox(store, args[8].ToValueBox()),
+                            convT10.Unbox(store, args[9].ToValueBox()),
+                            convT11.Unbox(store, args[10].ToValueBox()),
+                            convT12.Unbox(store, args[11].ToValueBox()));
+
+                        var task2 = task.ContinueWith(task =>
+                        {
+                            results[0] = Value.FromValueBox(convTResult1.Box(task.Result.Item1));
+                            results[1] = Value.FromValueBox(convTResult2.Box(task.Result.Item2));
+                            results[2] = Value.FromValueBox(convTResult3.Box(task.Result.Item3));
+                            results[3] = Value.FromValueBox(convTResult4.Box(task.Result.Item4));
+                            
+                        });
+
+                        trap_ret = IntPtr.Zero;
+                        continuation_ret = WasmtimeAsyncContinuation.FromTask(task2);
+                    }
+                    catch (Exception ex)
+                    {
+                        continuation_ret = WasmtimeAsyncContinuation.ImmediateCompletion;
                         trap_ret = Function.HandleCallbackException(ex);
                     }
                 };

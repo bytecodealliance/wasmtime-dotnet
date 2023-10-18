@@ -38,7 +38,9 @@ public sealed class AsyncTests
 
         Linker.DefineAsyncFunction("", "no_args", () => Task.CompletedTask);
         Linker.DefineAsyncFunction("", "one_arg", (int x) => Task.CompletedTask);
-        //Linker.DefineAsyncFunction("", "no_args_one_result", async () => 0);
+        Linker.DefineAsyncFunction("", "no_args_one_result", async () => 0);
+        Linker.DefineAsyncFunction("", "two_args_one_result", async (float a, float b) => 0f);
+        Linker.DefineAsyncFunction("", "many_args_many_results", async (float a, float b, int c, double d) => (a, c, b, d));
 
         Store.AddFuel(1000000);
     }
@@ -64,12 +66,6 @@ public sealed class AsyncTests
         new Config()
            .WithAsyncStackSize(1234567890)
            .Should().NotBeNull();
-    }
-
-    [Fact]
-    public void AddAsyncToLinkerUntyped()
-    {
-        Linker.DefineAsyncFunction("module", "name", (c, a, r) => { }, Array.Empty<ValueKind>(), Array.Empty<ValueKind>());
     }
 
     [Fact]
@@ -199,32 +195,63 @@ public sealed class AsyncTests
         Assert.True(success, "didn't set flag");
     }
 
-    //[Fact]
-    //public async Task InvokeAsyncNoArgsOneResult()
-    //{
-    //    var success = false;
+    [Fact]
+    public async Task InvokeAsyncNoArgsOneResult()
+    {
+        var success = false;
 
-    //    Linker.DefineAsyncFunction("", "no_args_one_result", async () =>
-    //    {
-    //        await Task.Delay(100);
-    //        success = true;
-    //        return 42;
-    //    });
+        Linker.DefineAsyncFunction("", "no_args_one_result", async () =>
+        {
+            await Task.Delay(100);
+            success = true;
+            return 42;
+        });
 
-    //    var instance = await Linker.InstantiateAsync(Store, Fixture.Module);
-    //    Assert.NotNull(instance);
+        var instance = await Linker.InstantiateAsync(Store, Fixture.Module);
+        Assert.NotNull(instance);
 
-    //    var func = instance.GetFunction("call_no_args_one_result")?.WrapFunc<int>();
-    //    func.Should().NotBeNull();
+        var func = instance.GetFunction("call_no_args_one_result")?.WrapFunc<int>();
+        func.Should().NotBeNull();
 
-    //    var timer = new Stopwatch();
-    //    timer.Start();
-    //    {
-    //        Assert.Equal(42, await func!());
-    //    }
-    //    timer.Stop();
-    //    Assert.True(timer.ElapsedMilliseconds > 50, "didn't delay for long enough");
+        var timer = new Stopwatch();
+        timer.Start();
+        {
+            Assert.Equal(42, await func!());
+        }
+        timer.Stop();
+        Assert.True(timer.ElapsedMilliseconds > 50, "didn't delay for long enough");
 
-    //    Assert.True(success, "didn't set flag");
-    //}
+        Assert.True(success, "didn't set flag");
+    }
+
+    [Fact]
+    public async Task InvokeAsyncTwoArgsOneResult()
+    {
+        Linker.DefineAsyncFunction("", "two_args_one_result", async (float a, float b) => a + b);
+
+        var instance = await Linker.InstantiateAsync(Store, Fixture.Module);
+        Assert.NotNull(instance);
+
+        var func = instance.GetFunction("call_two_args_one_result")?.WrapFunc<float, float, float>();
+        func.Should().NotBeNull();
+
+        Assert.Equal(42, await func!(40, 2));
+        Assert.Equal(42, await func!(2, 40));
+        Assert.Equal(15, await func!(7, 8));
+    }
+
+    [Fact]
+    public async Task InvokeAsyncManyArgsManyResults()
+    {
+        var instance = await Linker.InstantiateAsync(Store, Fixture.Module);
+        Assert.NotNull(instance);
+
+        var func = instance.GetFunction("call_many_args_many_results")?.WrapFunc<float, float, int, double, (float, int, float, double)>();
+        func.Should().NotBeNull();
+
+        // (float a, float b, int c, double d) => (a, c, b, d)
+
+        Assert.Equal((40f, 0, 2f, 1.0), await func!(40, 2, 0, 1));
+        Assert.Equal((9f, 9, 9f, 9.0), await func!(9, 9, 9, 9));
+    }
 }

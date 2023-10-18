@@ -45,7 +45,7 @@ namespace Wasmtime
             // Fetch a converter for each parameter type to box it
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(0, Results.Count);
+            var allocCount = 0 + Results.Count;
 
             AsyncAction result = () =>
             {
@@ -96,7 +96,7 @@ namespace Wasmtime
             var convT = ValueBox.Converter<T>();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(1, Results.Count);
+            var allocCount = 1 + Results.Count;
 
             AsyncAction<T> result = (p0) =>
             {
@@ -151,7 +151,7 @@ namespace Wasmtime
             var convT2 = ValueBox.Converter<T2>();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(2, Results.Count);
+            var allocCount = 2 + Results.Count;
 
             AsyncAction<T1, T2> result = (p0, p1) =>
             {
@@ -210,7 +210,7 @@ namespace Wasmtime
             var convT3 = ValueBox.Converter<T3>();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(3, Results.Count);
+            var allocCount = 3 + Results.Count;
 
             AsyncAction<T1, T2, T3> result = (p0, p1, p2) =>
             {
@@ -273,7 +273,7 @@ namespace Wasmtime
             var convT4 = ValueBox.Converter<T4>();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(4, Results.Count);
+            var allocCount = 4 + Results.Count;
 
             AsyncAction<T1, T2, T3, T4> result = (p0, p1, p2, p3) =>
             {
@@ -340,7 +340,7 @@ namespace Wasmtime
             var convT5 = ValueBox.Converter<T5>();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(5, Results.Count);
+            var allocCount = 5 + Results.Count;
 
             AsyncAction<T1, T2, T3, T4, T5> result = (p0, p1, p2, p3, p4) =>
             {
@@ -411,7 +411,7 @@ namespace Wasmtime
             var convT6 = ValueBox.Converter<T6>();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(6, Results.Count);
+            var allocCount = 6 + Results.Count;
 
             AsyncAction<T1, T2, T3, T4, T5, T6> result = (p0, p1, p2, p3, p4, p5) =>
             {
@@ -486,7 +486,7 @@ namespace Wasmtime
             var convT7 = ValueBox.Converter<T7>();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(7, Results.Count);
+            var allocCount = 7 + Results.Count;
 
             AsyncAction<T1, T2, T3, T4, T5, T6, T7> result = (p0, p1, p2, p3, p4, p5, p6) =>
             {
@@ -565,7 +565,7 @@ namespace Wasmtime
             var convT8 = ValueBox.Converter<T8>();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(8, Results.Count);
+            var allocCount = 8 + Results.Count;
 
             AsyncAction<T1, T2, T3, T4, T5, T6, T7, T8> result = (p0, p1, p2, p3, p4, p5, p6, p7) =>
             {
@@ -648,7 +648,7 @@ namespace Wasmtime
             var convT9 = ValueBox.Converter<T9>();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(9, Results.Count);
+            var allocCount = 9 + Results.Count;
 
             AsyncAction<T1, T2, T3, T4, T5, T6, T7, T8, T9> result = (p0, p1, p2, p3, p4, p5, p6, p7, p8) =>
             {
@@ -735,7 +735,7 @@ namespace Wasmtime
             var convT10 = ValueBox.Converter<T10>();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(10, Results.Count);
+            var allocCount = 10 + Results.Count;
 
             AsyncAction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> result = (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9) =>
             {
@@ -826,7 +826,7 @@ namespace Wasmtime
             var convT11 = ValueBox.Converter<T11>();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(11, Results.Count);
+            var allocCount = 11 + Results.Count;
 
             AsyncAction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> result = (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10) =>
             {
@@ -921,7 +921,7 @@ namespace Wasmtime
             var convT12 = ValueBox.Converter<T12>();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(12, Results.Count);
+            var allocCount = 12 + Results.Count;
 
             AsyncAction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> result = (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11) =>
             {
@@ -1010,7 +1010,7 @@ namespace Wasmtime
             var factory = ReturnTypeFactory<TResult>.Create();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(0, Results.Count);
+            var allocCount = 0 + Results.Count;
 
             AsyncFunc<TResult?> result = () =>
             {
@@ -1064,7 +1064,7 @@ namespace Wasmtime
             var factory = ReturnTypeFactory<TResult>.Create();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(1, Results.Count);
+            var allocCount = 1 + Results.Count;
 
             AsyncFunc<T, TResult?> result = (p0) =>
             {
@@ -1122,7 +1122,7 @@ namespace Wasmtime
             var factory = ReturnTypeFactory<TResult>.Create();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(2, Results.Count);
+            var allocCount = 2 + Results.Count;
 
             AsyncFunc<T1, T2, TResult?> result = (p0, p1) =>
             {
@@ -1184,7 +1184,7 @@ namespace Wasmtime
             var factory = ReturnTypeFactory<TResult>.Create();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(3, Results.Count);
+            var allocCount = 3 + Results.Count;
 
             AsyncFunc<T1, T2, T3, TResult?> result = (p0, p1, p2) =>
             {
@@ -1250,7 +1250,7 @@ namespace Wasmtime
             var factory = ReturnTypeFactory<TResult>.Create();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(4, Results.Count);
+            var allocCount = 4 + Results.Count;
 
             AsyncFunc<T1, T2, T3, T4, TResult?> result = (p0, p1, p2, p3) =>
             {
@@ -1320,7 +1320,7 @@ namespace Wasmtime
             var factory = ReturnTypeFactory<TResult>.Create();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(5, Results.Count);
+            var allocCount = 5 + Results.Count;
 
             AsyncFunc<T1, T2, T3, T4, T5, TResult?> result = (p0, p1, p2, p3, p4) =>
             {
@@ -1394,7 +1394,7 @@ namespace Wasmtime
             var factory = ReturnTypeFactory<TResult>.Create();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(6, Results.Count);
+            var allocCount = 6 + Results.Count;
 
             AsyncFunc<T1, T2, T3, T4, T5, T6, TResult?> result = (p0, p1, p2, p3, p4, p5) =>
             {
@@ -1472,7 +1472,7 @@ namespace Wasmtime
             var factory = ReturnTypeFactory<TResult>.Create();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(7, Results.Count);
+            var allocCount = 7 + Results.Count;
 
             AsyncFunc<T1, T2, T3, T4, T5, T6, T7, TResult?> result = (p0, p1, p2, p3, p4, p5, p6) =>
             {
@@ -1554,7 +1554,7 @@ namespace Wasmtime
             var factory = ReturnTypeFactory<TResult>.Create();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(8, Results.Count);
+            var allocCount = 8 + Results.Count;
 
             AsyncFunc<T1, T2, T3, T4, T5, T6, T7, T8, TResult?> result = (p0, p1, p2, p3, p4, p5, p6, p7) =>
             {
@@ -1640,7 +1640,7 @@ namespace Wasmtime
             var factory = ReturnTypeFactory<TResult>.Create();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(9, Results.Count);
+            var allocCount = 9 + Results.Count;
 
             AsyncFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult?> result = (p0, p1, p2, p3, p4, p5, p6, p7, p8) =>
             {
@@ -1730,7 +1730,7 @@ namespace Wasmtime
             var factory = ReturnTypeFactory<TResult>.Create();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(10, Results.Count);
+            var allocCount = 10 + Results.Count;
 
             AsyncFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult?> result = (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9) =>
             {
@@ -1824,7 +1824,7 @@ namespace Wasmtime
             var factory = ReturnTypeFactory<TResult>.Create();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(11, Results.Count);
+            var allocCount = 11 + Results.Count;
 
             AsyncFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult?> result = (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10) =>
             {
@@ -1922,7 +1922,7 @@ namespace Wasmtime
             var factory = ReturnTypeFactory<TResult>.Create();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(12, Results.Count);
+            var allocCount = 12 + Results.Count;
 
             AsyncFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult?> result = (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11) =>
             {

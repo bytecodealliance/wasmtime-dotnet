@@ -8,10 +8,6 @@ namespace Wasmtime
     public partial class AsyncFunction
         : IExternal
     {
-        internal static readonly Function.Native.Finalizer Finalizer = (p) => GCHandle.FromIntPtr(p).Free();
-
-        public delegate void UntypedCallbackDelegate(Caller caller, ReadOnlySpan<ValueBox> arguments, Span<ValueBox> results);
-
         private readonly Store store;
         private readonly ExternFunc func;
 
@@ -71,8 +67,32 @@ namespace Wasmtime
 
         private async Task InvokeWithoutReturn(Value[] argsAndResults)
         {
-            using var pin = argsAndResults.AsMemory().Pin();
+            var trap = await Invoke(argsAndResults);
 
+            if (trap != IntPtr.Zero)
+            {
+                throw TrapException.FromOwnedTrap(trap);
+            }
+        }
+
+        private async Task<TResult?> InvokeWithReturn<TResult>(Value[] argsAndResults, IReturnTypeFactory<TResult> factory)
+        {
+            if (Results.Count == 0)
+            {
+                throw new InvalidOperationException($"Cannot call `InvokeWithReturn` on a method with 0 results");
+            }
+
+            var trap = await Invoke(argsAndResults.AsMemory());
+
+            return factory.Create(store.Context, store, trap, argsAndResults.AsSpan(Parameters.Count));
+        }
+
+        private async Task<IntPtr> Invoke(Memory<Value> argsAndResults)
+        {
+            using var pin = argsAndResults.Pin();
+
+            IntPtr trap;
+            IntPtr error;
             nint futurePtr;
             unsafe
             {
@@ -89,7 +109,7 @@ namespace Wasmtime
                     resultsPtr = (Value*)0;
                 }
 
-                futurePtr = Native.wasmtime_func_call_async(store.Context.handle, func, argsPtr, (nuint)Parameters.Count, resultsPtr, (nuint)Results.Count, out var trap, out var error);
+                futurePtr = Native.wasmtime_func_call_async(store.Context.handle, func, argsPtr, (nuint)Parameters.Count, resultsPtr, (nuint)Results.Count, out trap, out error);
 
                 if (error != IntPtr.Zero)
                 {
@@ -98,31 +118,34 @@ namespace Wasmtime
 
                 if (trap != IntPtr.Zero)
                 {
-                    throw TrapException.FromOwnedTrap(trap);
+                    return trap;
                 }
             }
 
             try
             {
-                //todo: why is this crashing?!
-                // - NullReferenceException, but from where
                 while (!CallFuture.Native.wasmtime_call_future_poll(futurePtr))
-                    await Task.Yield();
+                {
+                    if (error != IntPtr.Zero)
+                    {
+                        throw WasmtimeException.FromOwnedError(error);
+                    }
 
-                //todo: how do I get traps and errors from the future?
-                //todo: results are in `resultsPtr`
+                    if (trap != IntPtr.Zero)
+                    {
+                        return trap;
+                    }
+
+                    await Task.Yield();
+                }
+
+                return trap;
             }
             finally
             {
                 CallFuture.Native.wasmtime_call_future_delete(futurePtr);
+                GC.KeepAlive(store);
             }
-
-            GC.KeepAlive(store);
-        }
-
-        private Task<TResult?> InvokeWithReturn<TResult>(Value[] argsAndResults, IReturnTypeFactory<TResult> factory)
-        {
-            throw new NotImplementedException();
         }
 
         #region IExternal
@@ -149,7 +172,7 @@ namespace Wasmtime
                 Value* args, nuint nargs,
                 Value* results, nuint nresults,
                 out IntPtr trap_ret,
-                out wasmtime_async_continuation_t continuation_ret
+                out WasmtimeAsyncContinuation continuation_ret
             );
 
             [DllImport(Engine.LibraryName)]
