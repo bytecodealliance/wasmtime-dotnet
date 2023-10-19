@@ -254,4 +254,26 @@ public sealed class AsyncTests
         Assert.Equal((40f, 0, 2f, 1.0), await func!(40, 2, 0, 1));
         Assert.Equal((9f, 9, 9f, 9.0), await func!(9, 9, 9, 9));
     }
+
+    [Fact]
+    public async Task MultipleAsync()
+    {
+        Linker.DefineAsyncFunction("", "no_args_one_result", async () => 42);
+
+        var instance = await Linker.InstantiateAsync(Store, Fixture.Module);
+        Assert.NotNull(instance);
+
+        var func = instance.GetFunction("call_no_args_one_result")?.WrapFunc<int>();
+        func.Should().NotBeNull();
+
+        var a = func!();
+        var b = func!();
+        var c = func!();
+        var d = func!();
+
+        Assert.Equal(42, await a);
+        Assert.Equal(42, await b);
+        Assert.Equal(42, await c);
+        Assert.Equal(42, await d);
+    }
 }
