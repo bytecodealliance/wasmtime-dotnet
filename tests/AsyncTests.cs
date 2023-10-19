@@ -266,14 +266,11 @@ public sealed class AsyncTests
         var func = instance.GetFunction("call_no_args_one_result")?.WrapFunc<int>();
         func.Should().NotBeNull();
 
-        var a = func!();
-        var b = func!();
-        var c = func!();
-        var d = func!();
+        throw new NotImplementedException("todo: this is not valid! There can only be one active future **per store**. Ideally this error should be caught and converted into an exception");
 
-        Assert.Equal(42, await a);
-        Assert.Equal(42, await b);
-        Assert.Equal(42, await c);
-        Assert.Equal(42, await d);
+        var a = func!(); // Ok
+        var b = func!(); // todo: This should throw
+
+        Assert.Equal(42, await a); // This should still be fine if the exception is caught
     }
 }
