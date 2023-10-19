@@ -82,7 +82,7 @@ var parameterTypes = new Type[] { <#= callbackParameterTypeExpressions #>};
             // Determine how much space to allocate for params/results
             var allocCount = <#= parameterCount.ToString(CultureInfo.InvariantCulture) #> + Results.Count;
 
-            <#= delegateType #> result = (<#
+            <#= delegateType #> result = async (<#
     for (int x = 0; x < parameterCount; x++)
     {
         if (x >= 1)
@@ -113,13 +113,13 @@ var parameterTypes = new Type[] { <#= callbackParameterTypeExpressions #>};
     if (returnTypeCount > 0)
     {
 #>
-                    return InvokeWithReturn(argsAndResults, factory);
+                    return await InvokeWithReturn(argsAndResults, factory);
 <#
     }
     else
     {
 #>
-                    return InvokeWithoutReturn(argsAndResults);
+                    await InvokeWithoutReturn(argsAndResults);
 <#
     }
 #>
