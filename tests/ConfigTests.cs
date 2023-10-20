@@ -109,6 +109,7 @@ namespace Wasmtime.Tests
         {
             var config = new Config();
             config.WithSIMD(false);
+            config.WithRelaxedSIMD(false, false);
 
             Action act = () =>
             {
@@ -123,10 +124,15 @@ namespace Wasmtime.Tests
         public void ItSetsRelaxedSIMD()
         {
             var config = new Config();
-            config.WithRelaxedSIMD(true, true);
+            config.WithRelaxedSIMD(false, false);
 
-            using var engine = new Engine(config);
-            using var module = Module.FromTextFile(engine, Path.Combine("Modules", "RelaxedSIMD.wat"));
+            Action act = () =>
+            {
+                using var engine = new Engine(config);
+                using var module = Module.FromTextFile(engine, Path.Combine("Modules", "RelaxedSIMD.wat"));
+            };
+
+            act.Should().Throw<WasmtimeException>();
         }
 
         [Fact]
@@ -134,6 +140,7 @@ namespace Wasmtime.Tests
         {
             var config = new Config();
             config.WithBulkMemory(false);
+            config.WithWasmThreads(false);
             config.WithReferenceTypes(false);
 
             Action act = () =>
