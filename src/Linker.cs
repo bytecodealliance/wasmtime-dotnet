@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.Win32.SafeHandles;
 
 namespace Wasmtime
@@ -77,6 +78,17 @@ namespace Wasmtime
             }
 
             GC.KeepAlive(store);
+        }
+
+        /// <summary>
+        /// Defines an item in the linker.
+        /// </summary>
+        /// <param name="module">The module name of the item.</param>
+        /// <param name="name">The name of the item.</param>
+        /// <param name="function">The item being defined</param>
+        public void Define(string module, string name, AsyncFunction function)
+        {
+            Define<AsyncFunction>(module, name, function);
         }
 
         /// <summary>
@@ -221,6 +233,50 @@ namespace Wasmtime
             }
 
             return new Instance(store, instance);
+        }
+
+        /// <summary>
+        /// Instantiates a module with imports from items defined in the linker.
+        /// </summary>
+        /// <param name="store">The store to instantiate in.</param>
+        /// <param name="module">The module to instantiate.</param>
+        /// <returns>Returns the new instance.</returns>
+        public async Task<AsyncInstance> InstantiateAsync(Store store, Module module)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            var futurePtr = Native.wasmtime_linker_instantiate_async(handle, store.Context.handle, module.NativeHandle, out var instance, out var trap, out var error);
+            GC.KeepAlive(store);
+
+            if (error != IntPtr.Zero)
+            {
+                throw WasmtimeException.FromOwnedError(error);
+            }
+
+            if (trap != IntPtr.Zero)
+            {
+                throw TrapException.FromOwnedTrap(trap);
+            }
+
+            try
+            {
+                while (!CallFuture.Native.wasmtime_call_future_poll(futurePtr))
+                    await Task.Yield();
+            }
+            finally
+            {
+                CallFuture.Native.wasmtime_call_future_delete(futurePtr);
+            }
+
+            return new AsyncInstance(store, instance);
         }
 
         /// <summary>
@@ -525,7 +581,13 @@ namespace Wasmtime
             public static unsafe extern IntPtr wasmtime_linker_define_func_unchecked(Handle linker, byte* module, nuint moduleLen, byte* name, nuint nameLen, IntPtr type, Function.Native.WasmtimeFuncUncheckedCallback callback, IntPtr data, Function.Native.Finalizer? finalizer);
 
             [DllImport(Engine.LibraryName)]
+            public static extern unsafe IntPtr wasmtime_linker_define_async_func(Handle linker, byte* module, nuint moduleLen, byte* name, nuint nameLen, IntPtr type, AsyncFunction.Native.WasmtimeFuncAsyncCallback callback, IntPtr data, Function.Native.Finalizer? finalizer);
+
+            [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasmtime_linker_instantiate(Handle linker, IntPtr context, Module.Handle module, out ExternInstance instance, out IntPtr trap);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasmtime_linker_instantiate_async(Handle linker, IntPtr context, Module.Handle module, out ExternInstance instance, out IntPtr trap, out IntPtr err);
 
             [DllImport(Engine.LibraryName)]
             public static unsafe extern IntPtr wasmtime_linker_module(Handle linker, IntPtr context, byte* name, nuint len, Module.Handle module);

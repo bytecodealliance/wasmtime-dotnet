@@ -48,6 +48,10 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
   </ItemGroup>
   
   <ItemGroup>
+    <None Update="AsyncFunction.Wrap.tt">
+      <LastGenOutput>AsyncFunction.Wrap.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
     <None Update="Function.FromCallback.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Function.FromCallback.cs</LastGenOutput>
@@ -56,10 +60,19 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Function.Wrap.cs</LastGenOutput>
     </None>
+    <None Update="Linker.DefineAsyncFunction.tt">
+      <LastGenOutput>Linker.DefineAsyncFunction.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
     <None Update="Linker.DefineFunction.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Linker.DefineFunction.cs</LastGenOutput>
     </None>
+    <Compile Update="AsyncFunction.Wrap.cs">
+      <DependentUpon>AsyncFunction.Wrap.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Update="Function.FromCallback.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -69,6 +82,11 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Function.Wrap.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Linker.DefineAsyncFunction.cs">
+      <DependentUpon>Linker.DefineAsyncFunction.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Update="Linker.DefineFunction.cs">
       <DesignTime>True</DesignTime>
@@ -148,26 +166,11 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
 
   <!-- This target downloads wasmtime and runs before any inner TFM-specific builds -->
   <Target Name="DownloadWasmtime" BeforeTargets="DispatchToInnerBuilds">
-    <DownloadFile
-      Condition="('$(Packing)'=='true' Or '%(Wasmtime.Copy)'=='true') And !Exists('$(BaseIntermediateOutputPath)/$(ReleaseFileNameBase)-%(Wasmtime.Arch)-%(Wasmtime.OS)-c-api.%(Wasmtime.FileExtension)')"
-      SourceUrl="$(ReleaseURLBase)/$(ReleaseFileNameBase)-%(Wasmtime.Arch)-%(Wasmtime.OS)-c-api.%(Wasmtime.FileExtension)"
-      DestinationFolder="$(BaseIntermediateOutputPath)"
-      SkipUnchangedFiles="true"
-    />
+    <DownloadFile Condition="('$(Packing)'=='true' Or '%(Wasmtime.Copy)'=='true') And !Exists('$(BaseIntermediateOutputPath)/$(ReleaseFileNameBase)-%(Wasmtime.Arch)-%(Wasmtime.OS)-c-api.%(Wasmtime.FileExtension)')" SourceUrl="$(ReleaseURLBase)/$(ReleaseFileNameBase)-%(Wasmtime.Arch)-%(Wasmtime.OS)-c-api.%(Wasmtime.FileExtension)" DestinationFolder="$(BaseIntermediateOutputPath)" SkipUnchangedFiles="true" />
 
     <!-- Workaround for https://github.com/msys2/MSYS2-packages/issues/1548 -->
-    <Exec
-      Condition="('$(Packing)'=='true' Or '%(Wasmtime.Copy)'=='true') And %(Wasmtime.FileExtension) == 'tar.xz' And !Exists('$(BaseIntermediateOutputPath)$(ReleaseFileNameBase)-%(Wasmtime.Arch)-%(Wasmtime.OS)-c-api')"
-      Command="xz --decompress --stdout $(ReleaseFileNameBase)-%(Wasmtime.Arch)-%(Wasmtime.OS)-c-api.%(Wasmtime.FileExtension) | tar xf -"
-      WorkingDirectory="$(BaseIntermediateOutputPath)"
-      StandardOutputImportance="Low"
-      StandardErrorImportance="Low"
-    />
-    <Unzip
-      Condition="('$(Packing)'=='true' Or '%(Wasmtime.Copy)'=='true') And %(Wasmtime.FileExtension) == 'zip' And !Exists('$(BaseIntermediateOutputPath)$(ReleaseFileNameBase)-%(Wasmtime.Arch)-%(Wasmtime.OS)-c-api')"
-      SourceFiles="$(BaseIntermediateOutputPath)\$(ReleaseFileNameBase)-%(Wasmtime.Arch)-%(Wasmtime.OS)-c-api.%(Wasmtime.FileExtension)"
-      DestinationFolder="$(BaseIntermediateOutputPath)"
-    />
+    <Exec Condition="('$(Packing)'=='true' Or '%(Wasmtime.Copy)'=='true') And %(Wasmtime.FileExtension) == 'tar.xz' And !Exists('$(BaseIntermediateOutputPath)$(ReleaseFileNameBase)-%(Wasmtime.Arch)-%(Wasmtime.OS)-c-api')" Command="xz --decompress --stdout $(ReleaseFileNameBase)-%(Wasmtime.Arch)-%(Wasmtime.OS)-c-api.%(Wasmtime.FileExtension) | tar xf -" WorkingDirectory="$(BaseIntermediateOutputPath)" StandardOutputImportance="Low" StandardErrorImportance="Low" />
+    <Unzip Condition="('$(Packing)'=='true' Or '%(Wasmtime.Copy)'=='true') And %(Wasmtime.FileExtension) == 'zip' And !Exists('$(BaseIntermediateOutputPath)$(ReleaseFileNameBase)-%(Wasmtime.Arch)-%(Wasmtime.OS)-c-api')" SourceFiles="$(BaseIntermediateOutputPath)\$(ReleaseFileNameBase)-%(Wasmtime.Arch)-%(Wasmtime.OS)-c-api.%(Wasmtime.FileExtension)" DestinationFolder="$(BaseIntermediateOutputPath)" />
 
     <!-- The content here is specifically for packing -->
     <ItemGroup Condition="'$(Packing)'=='true'">

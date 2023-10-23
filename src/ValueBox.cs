@@ -298,6 +298,14 @@ namespace Wasmtime
         public T Unbox(Store store, ValueBox value);
     }
 
+    internal static class IValueBoxConverterExtensions
+    {
+        public static T Unbox<T>(this IValueBoxConverter<T> converter, Store store, Value value)
+        {
+            return converter.Unbox(store, value.ToValueBox());
+        }
+    }
+
     internal class Int32ValueBoxConverter
         : IValueBoxConverter<int>
     {
