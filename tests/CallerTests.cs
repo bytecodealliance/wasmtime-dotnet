@@ -30,7 +30,7 @@ public class CallerTests : IClassFixture<CallerFixture>, IDisposable
         Linker = new Linker(Fixture.Engine);
         Store = new Store(Fixture.Engine);
 
-        Store.AddFuel(1000000);
+        Store.Fuel = 1000000;
     }
 
     [Fact]
@@ -309,11 +309,12 @@ public class CallerTests : IClassFixture<CallerFixture>, IDisposable
 
 
     [Fact]
-    public void ItCanConsumeFuel()
+    public void ItCanRemoveFuel()
     {
         Linker.DefineFunction("env", "callback", (Caller c) =>
         {
-            c.ConsumeFuel(10).Should().Be(1000000 - (10 + 2));
+            c.Fuel -= 10;
+            c.Fuel.Should().Be(1000000 - (10 + 2));
         });
 
         var instance = Linker.Instantiate(Store, Fixture.Module);
@@ -323,7 +324,7 @@ public class CallerTests : IClassFixture<CallerFixture>, IDisposable
 
         // 10 is consumed by the explicit fuel consumption
         // 2 is consumed by the rest of the WASM which executes behind the scenes in this test
-        Store.GetConsumedFuel().Should().Be(10 + 2);
+        Store.Fuel.Should().Be(1000000 - (10 + 2));
     }
 
     [Fact]
@@ -331,8 +332,8 @@ public class CallerTests : IClassFixture<CallerFixture>, IDisposable
     {
         Linker.DefineFunction("env", "callback", (Caller c) =>
         {
-            c.AddFuel(2);
-            c.ConsumeFuel(0).Should().Be(1000000);
+            c.Fuel += 2;
+            c.Fuel.Should().Be(1000000);
         });
 
         var instance = Linker.Instantiate(Store, Fixture.Module);
@@ -341,15 +342,15 @@ public class CallerTests : IClassFixture<CallerFixture>, IDisposable
         callback.Invoke();
 
         // 2 is consumed by the WASM which executes behind the scenes in this test
-        Store.GetConsumedFuel().Should().Be(2);
+        Store.Fuel.Should().Be(1000000);
     }
 
     [Fact]
-    public void ItCanGetConsumedFuel()
+    public void ItCanGetFuel()
     {
         Linker.DefineFunction("env", "callback", (Caller c) =>
         {
-            c.GetConsumedFuel().Should().Be(2);
+            c.Fuel.Should().Be(1000000 - 2);
         });
 
         var instance = Linker.Instantiate(Store, Fixture.Module);
