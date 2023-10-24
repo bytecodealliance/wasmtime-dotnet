@@ -137,33 +137,18 @@ namespace Wasmtime
         public Store Store => store;
 
         /// <summary>
-        /// Adds fuel to this store for WebAssembly code to consume while executing.
+        /// Sets the remaining fuel in this store for WebAssembly code to consume while executing.
         /// </summary>
-        /// <param name="fuel">The fuel to add to the store.</param>
-        public void AddFuel(ulong fuel) => context.AddFuel(fuel);
+        /// <remarks>This function will throw an exception if fuel consumption is not enabled.</remarks>
+        /// <param name="fuel">The fuel to set to the store.</param>
+        public void SetFuel(ulong fuel) => context.SetFuel(fuel);
 
         /// <summary>
-        /// Synthetically consumes fuel from this store.
-        ///
-        /// For this method to work fuel consumption must be enabled via <see cref="Config.WithFuelConsumption(bool)"/>.
-        ///
-        /// WebAssembly execution will automatically consume fuel but if so desired the embedder can also consume fuel manually
-        /// to account for relative costs of host functions, for example.
-        ///
-        /// This method will attempt to consume <paramref name="fuel"/> units of fuel from within this store. If the remaining
-        /// amount of fuel allows this then the amount of remaining fuel is returned. Otherwise, a <see cref="WasmtimeException"/>
-        /// is thrown and no fuel is consumed.
+        /// Gets the remaining fuel by the executing WebAssembly code.
         /// </summary>
-        /// <param name="fuel">The fuel to consume from the store.</param>
-        /// <returns>Returns the remaining amount of fuel.</returns>
-        /// <exception cref="WasmtimeException">Thrown if more fuel is consumed than the store currently has.</exception>
-        public ulong ConsumeFuel(ulong fuel) => context.ConsumeFuel(fuel);
-
-        /// <summary>
-        /// Gets the fuel consumed by the executing WebAssembly code.
-        /// </summary>
-        /// <returns>Returns the fuel consumed by the executing WebAssembly code or 0 if fuel consumption was not enabled.</returns>
-        public ulong GetConsumedFuel() => context.GetConsumedFuel();
+        /// <remarks>This function will throw an exception if fuel consumption is not enabled.</remarks>
+        /// <returns>Returns the remaining fuel.</returns>
+        public ulong GetFuel() => context.GetFuel();
 
         /// <summary>
         /// Gets the user-defined data from the Store. 

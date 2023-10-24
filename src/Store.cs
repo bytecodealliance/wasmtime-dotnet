@@ -20,13 +20,24 @@ namespace Wasmtime
             Native.wasmtime_context_gc(handle);
         }
 
-        internal void AddFuel(ulong fuel)
+        internal void SetFuel(ulong fuel)
         {
-            var error = Native.wasmtime_context_add_fuel(handle, fuel);
+            var error = Native.wasmtime_context_set_fuel(handle, fuel);
             if (error != IntPtr.Zero)
             {
                 throw WasmtimeException.FromOwnedError(error);
             }
+        }
+
+        internal ulong GetFuel()
+        {
+            var error = Native.wasmtime_context_get_fuel(handle, out var fuel);
+            if (error != IntPtr.Zero)
+            {
+                throw WasmtimeException.FromOwnedError(error);
+            }
+
+            return fuel;
         }
 
         internal Store Store
@@ -47,27 +58,6 @@ namespace Wasmtime
 
                 return targetStore;
             }
-        }
-
-        internal ulong ConsumeFuel(ulong fuel)
-        {
-            var error = Native.wasmtime_context_consume_fuel(handle, fuel, out var remaining);
-            if (error != IntPtr.Zero)
-            {
-                throw WasmtimeException.FromOwnedError(error);
-            }
-
-            return remaining;
-        }
-
-        internal ulong GetConsumedFuel()
-        {
-            if (!Native.wasmtime_context_fuel_consumed(handle, out var fuel))
-            {
-                return 0;
-            }
-
-            return fuel;
         }
 
         internal void SetWasiConfiguration(WasiConfiguration config)
@@ -97,14 +87,10 @@ namespace Wasmtime
             public static extern void wasmtime_context_gc(IntPtr handle);
 
             [DllImport(Engine.LibraryName)]
-            public static extern IntPtr wasmtime_context_add_fuel(IntPtr handle, ulong fuel);
+            public static extern IntPtr wasmtime_context_set_fuel(IntPtr handle, ulong fuel);
 
             [DllImport(Engine.LibraryName)]
-            public static extern IntPtr wasmtime_context_consume_fuel(IntPtr handle, ulong fuel, out ulong remaining);
-
-            [DllImport(Engine.LibraryName)]
-            [return: MarshalAs(UnmanagedType.I1)]
-            public static extern bool wasmtime_context_fuel_consumed(IntPtr handle, out ulong fuel);
+            public static extern IntPtr wasmtime_context_get_fuel(IntPtr handle, out ulong fuel);
 
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasmtime_context_set_wasi(IntPtr handle, IntPtr config);
@@ -213,44 +199,24 @@ namespace Wasmtime
         }
 
         /// <summary>
-        /// Adds fuel to this store for WebAssembly code to consume while executing.
+        /// Sets the remaining fuel in this store for WebAssembly code to consume while executing.
         /// </summary>
-        /// <param name="fuel">The fuel to add to the store.</param>
-        public void AddFuel(ulong fuel)
+        /// <remarks>This function will throw an exception if fuel consumption is not enabled.</remarks>
+        /// <param name="fuel">The fuel to set to the store.</param>
+        public void SetFuel(ulong fuel)
         {
-            Context.AddFuel(fuel);
+            Context.SetFuel(fuel);
             System.GC.KeepAlive(this);
         }
 
         /// <summary>
-        /// Synthetically consumes fuel from this store.
-        /// 
-        /// For this method to work fuel consumption must be enabled via <see cref="Config.WithFuelConsumption(bool)"/>.
-        /// 
-        /// WebAssembly execution will automatically consume fuel but if so desired the embedder can also consume fuel manually
-        /// to account for relative costs of host functions, for example.
-        /// 
-        /// This method will attempt to consume <paramref name="fuel"/> units of fuel from within this store. If the remaining
-        /// amount of fuel allows this then the amount of remaining fuel is returned. Otherwise, a <see cref="WasmtimeException"/>
-        /// is thrown and no fuel is consumed.
+        /// Gets the remaining fuel by the executing WebAssembly code.
         /// </summary>
-        /// <param name="fuel">The fuel to consume from the store.</param>
-        /// <returns>Returns the remaining amount of fuel.</returns>
-        /// <exception cref="WasmtimeException">Thrown if more fuel is consumed than the store currently has.</exception>
-        public ulong ConsumeFuel(ulong fuel)
+        /// <remarks>This function will throw an exception if fuel consumption is not enabled.</remarks>
+        /// <returns>Returns the remaining fuel.</returns>
+        public ulong GetFuel()
         {
-            var result = Context.ConsumeFuel(fuel);
-            System.GC.KeepAlive(this);
-            return result;
-        }
-
-        /// <summary>
-        /// Gets the fuel consumed by the executing WebAssembly code.
-        /// </summary>
-        /// <returns>Returns the fuel consumed by the executing WebAssembly code or 0 if fuel consumption was not enabled.</returns>
-        public ulong GetConsumedFuel()
-        {
-            var result = Context.GetConsumedFuel();
+            var result = Context.GetFuel();
             System.GC.KeepAlive(this);
             return result;
         }

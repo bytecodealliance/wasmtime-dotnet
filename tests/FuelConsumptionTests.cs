@@ -35,61 +35,24 @@ namespace Wasmtime.Tests
             }));
             Linker.Define("env", "expensive", Function.FromCallback(Store, (Caller caller) =>
             {
-                caller.ConsumeFuel(100UL);
+                caller.SetFuel(Math.Max(caller.GetFuel(), 100UL) - 100UL);
             }));
         }
 
         [Fact]
-        public void ItConsumesNoFuelBeforeFuelIsAdded()
+        public void InitialFuelShouldBeZero()
         {
-            var consumed = Store.GetConsumedFuel();
-            consumed.Should().Be(0UL);
+            Store.GetFuel().Should().Be(0UL);
         }
 
         [Fact]
-        public void ItConsumesNoFuelWhenFuelIsAdded()
+        public void ItSetsFuel()
         {
-            Store.AddFuel(1000UL);
+            Store.SetFuel(1000UL);
+            Store.GetFuel().Should().Be(1000UL);
 
-            var consumed = Store.GetConsumedFuel();
-            consumed.Should().Be(0UL);
-        }
-
-        [Fact]
-        public void ItConsumesAddedFuel()
-        {
-            Store.AddFuel(1000UL);
-            var remaining = Store.ConsumeFuel(250UL);
-            remaining.Should().Be(750UL);
-
-            var consumed = Store.GetConsumedFuel();
-            consumed.Should().Be(250UL);
-        }
-
-        [Fact]
-        public void ItCanConsumeZeroFuel()
-        {
-            Store.AddFuel(1000UL);
-            var remaining = Store.ConsumeFuel(0UL);
-            remaining.Should().Be(1000UL);
-
-            var consumed = Store.GetConsumedFuel();
-            consumed.Should().Be(0UL);
-        }
-
-        [Fact]
-        public void ItThrowsOnConsumingTooMuchFuel()
-        {
-            Store.AddFuel(1000UL);
-
-            Action action = () => Store.ConsumeFuel(2000UL);
-            action
-                .Should()
-                .Throw<WasmtimeException>()
-                .WithMessage("not enough fuel remaining in store*");
-
-            var consumed = Store.GetConsumedFuel();
-            consumed.Should().Be(0UL);
+            Store.SetFuel(1UL);
+            Store.GetFuel().Should().Be(1UL);
         }
 
         [Fact]
@@ -98,15 +61,13 @@ namespace Wasmtime.Tests
             var instance = Linker.Instantiate(Store, Fixture.Module);
             var free = instance.GetFunction("free").WrapFunc<ActionResult>();
 
-            Store.AddFuel(1000UL);
+            Store.SetFuel(1000UL);
 
             free.Invoke().Type.Should().Be(ResultType.Ok);
-            var consumed = Store.GetConsumedFuel();
-            consumed.Should().Be(2UL);
+            Store.GetFuel().Should().Be(998UL);
 
             free.Invoke().Type.Should().Be(ResultType.Ok);
-            consumed = Store.GetConsumedFuel();
-            consumed.Should().Be(4UL);
+            Store.GetFuel().Should().Be(996UL);
         }
 
         [Fact]
@@ -115,11 +76,10 @@ namespace Wasmtime.Tests
             var instance = Linker.Instantiate(Store, Fixture.Module);
             var expensive = instance.GetFunction("expensive");
 
-            Store.AddFuel(1000UL);
+            Store.SetFuel(1000UL);
 
             expensive.Invoke();
-            var consumed = Store.GetConsumedFuel();
-            consumed.Should().Be(102UL);
+            Store.GetFuel().Should().Be(898UL);
         }
 
         [Fact]
@@ -135,8 +95,7 @@ namespace Wasmtime.Tests
                 .Where(e => e.Type == TrapCode.OutOfFuel)
                 .WithMessage("*all fuel consumed by WebAssembly*");
 
-            var consumed = Store.GetConsumedFuel();
-            consumed.Should().Be(1UL);
+            Store.GetFuel().Should().Be(0UL);
         }
 
         [Fact]
@@ -145,15 +104,13 @@ namespace Wasmtime.Tests
             var instance = Linker.Instantiate(Store, Fixture.Module);
             var free = instance.GetFunction("free");
 
-            Store.AddFuel(4UL);
+            Store.SetFuel(4UL);
 
             free.Invoke();
-            var consumed = Store.GetConsumedFuel();
-            consumed.Should().Be(2UL);
+            Store.GetFuel().Should().Be(2UL);
 
             free.Invoke();
-            consumed = Store.GetConsumedFuel();
-            consumed.Should().Be(4UL);
+            Store.GetFuel().Should().Be(0UL);
 
             Action action = () => free.Invoke();
             action
@@ -162,8 +119,7 @@ namespace Wasmtime.Tests
                 .Where(e => e.Type == TrapCode.OutOfFuel)
                 .WithMessage("*all fuel consumed by WebAssembly*");
 
-            consumed = Store.GetConsumedFuel();
-            consumed.Should().Be(5UL);
+            Store.GetFuel().Should().Be(0UL);
         }
 
         [Fact]
@@ -172,33 +128,30 @@ namespace Wasmtime.Tests
             var instance = Linker.Instantiate(Store, Fixture.Module);
             var expensive = instance.GetFunction("expensive");
 
-            Store.AddFuel(50UL);
+            Store.SetFuel(50UL);
+            expensive.Invoke();
+            Store.GetFuel().Should().Be(0UL);
 
             Action action = () => expensive.Invoke();
             action
                 .Should()
                 .Throw<WasmtimeException>()
-                .WithMessage("*not enough fuel remaining in store*");
-
-            var consumed = Store.GetConsumedFuel();
-            consumed.Should().Be(2UL);
+                .WithMessage("*all fuel consumed by WebAssembly*");
         }
 
         [Fact]
-        public void ItAddsAdditonalFuelAfterCallingImportMethods()
+        public void ItAddsAdditionalFuelAfterCallingImportMethods()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
             var free = instance.GetFunction("free");
 
-            Store.AddFuel(4UL);
+            Store.SetFuel(4UL);
 
             free.Invoke();
-            var consumed = Store.GetConsumedFuel();
-            consumed.Should().Be(2UL);
+            Store.GetFuel().Should().Be(2UL);
 
             free.Invoke();
-            consumed = Store.GetConsumedFuel();
-            consumed.Should().Be(4UL);
+            Store.GetFuel().Should().Be(0UL);
 
             Action action = () => free.Invoke();
             action
@@ -207,14 +160,12 @@ namespace Wasmtime.Tests
                 .Where(e => e.Type == TrapCode.OutOfFuel)
                 .WithMessage("*all fuel consumed by WebAssembly*");
 
-            consumed = Store.GetConsumedFuel();
-            consumed.Should().Be(5UL);
+            Store.GetFuel().Should().Be(0UL);
 
-            Store.AddFuel(3UL);
+            Store.SetFuel(3UL);
 
             free.Invoke();
-            consumed = Store.GetConsumedFuel();
-            consumed.Should().Be(7UL);
+            Store.GetFuel().Should().Be(1UL);
 
             action
                 .Should()
@@ -222,8 +173,7 @@ namespace Wasmtime.Tests
                 .Where(e => e.Type == TrapCode.OutOfFuel)
                 .WithMessage("*all fuel consumed by WebAssembly*");
 
-            consumed = Store.GetConsumedFuel();
-            consumed.Should().Be(8UL);
+            Store.GetFuel().Should().Be(0UL);
         }
 
         public void Dispose()

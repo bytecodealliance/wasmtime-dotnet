@@ -29,8 +29,7 @@ public class CallerTests : IClassFixture<CallerFixture>, IDisposable
         Fixture = fixture;
         Linker = new Linker(Fixture.Engine);
         Store = new Store(Fixture.Engine);
-
-        Store.AddFuel(1000000);
+        Store.SetFuel(1000000);
     }
 
     [Fact]
@@ -309,52 +308,31 @@ public class CallerTests : IClassFixture<CallerFixture>, IDisposable
 
 
     [Fact]
-    public void ItCanConsumeFuel()
+    public void ItCanSetFuel()
     {
         Linker.DefineFunction("env", "callback", (Caller c) =>
         {
-            c.ConsumeFuel(10).Should().Be(1000000 - (10 + 2));
+            c.SetFuel(10);
         });
 
         var instance = Linker.Instantiate(Store, Fixture.Module);
         var callback = instance.GetFunction("call_callback")!;
 
         callback.Invoke();
-
-        // 10 is consumed by the explicit fuel consumption
-        // 2 is consumed by the rest of the WASM which executes behind the scenes in this test
-        Store.GetConsumedFuel().Should().Be(10 + 2);
+        Store.GetFuel().Should().Be(10);
     }
 
     [Fact]
-    public void ItCanAddFuel()
+    public void ItCanGetFuel()
     {
         Linker.DefineFunction("env", "callback", (Caller c) =>
         {
-            c.AddFuel(2);
-            c.ConsumeFuel(0).Should().Be(1000000);
+            // Initial fuel is 100000, minus 2 for the executed wasm
+            c.GetFuel().Should().Be(999998);
         });
 
         var instance = Linker.Instantiate(Store, Fixture.Module);
         var callback = instance.GetFunction("call_callback")!;
-
-        callback.Invoke();
-
-        // 2 is consumed by the WASM which executes behind the scenes in this test
-        Store.GetConsumedFuel().Should().Be(2);
-    }
-
-    [Fact]
-    public void ItCanGetConsumedFuel()
-    {
-        Linker.DefineFunction("env", "callback", (Caller c) =>
-        {
-            c.GetConsumedFuel().Should().Be(2);
-        });
-
-        var instance = Linker.Instantiate(Store, Fixture.Module);
-        var callback = instance.GetFunction("call_callback")!;
-
         callback.Invoke();
     }
 

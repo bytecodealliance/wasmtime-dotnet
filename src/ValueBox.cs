@@ -84,7 +84,7 @@ namespace Wasmtime
         public Function AsFunction(Store store)
         {
             ThrowIfNotOfCorrectKind(ValueKind.FuncRef);
-            
+
             return store.GetCachedExtern(Union.funcref);
         }
 
