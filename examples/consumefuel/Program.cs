@@ -12,7 +12,12 @@ linker.Define(
     "expensive",
     Function.FromCallback(store, (Caller caller) =>
     {
-        var remaining = caller.ConsumeFuel(1000UL);
+        checked
+        {
+            caller.Fuel -= 1000UL;
+        }
+
+        var remaining = caller.Fuel;
         Console.WriteLine($"Called an expensive function which consumed 1000 fuel. {remaining} units of fuel remaining.");
     }
 ));
@@ -26,7 +31,7 @@ if (expensive is null)
     return;
 }
 
-store.AddFuel(5000UL);
+store.Fuel += 5000UL;
 Console.WriteLine("Added 5000 units of fuel");
 
 for (var i = 0; i < 4; i++)
