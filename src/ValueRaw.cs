@@ -1,4 +1,6 @@
 using System;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Wasmtime
@@ -35,6 +37,22 @@ namespace Wasmtime
             if (!BitConverter.IsLittleEndian)
             {
                 throw new PlatformNotSupportedException("Big endian systems are currently not supported for raw values.");
+            }
+
+            if (typeof(T).IsTupleType())
+            {
+                var args = typeof(T).GetGenericArguments();
+                var converter = (args.Length) switch
+                {
+                    2 => typeof(Tuple2ValueRawConverter<,>),
+                    3 => typeof(Tuple3ValueRawConverter<,,>),
+                    4 => typeof(Tuple4ValueRawConverter<,,,>),
+                    _ => throw new InvalidOperationException($"Cannot convert tuple with {args.Length} elements"),
+                };
+
+                var instance = converter.MakeGenericType(args).GetField("Instance", BindingFlags.Public | BindingFlags.Static);
+
+                return (IValueRawConverter<T>)instance!.GetValue(null)!;
             }
 
             if (typeof(T) == typeof(int))
@@ -287,6 +305,102 @@ namespace Wasmtime
             }
 
             valueRaw.externref = externrefPtr;
+        }
+    }
+
+    internal class Tuple2ValueRawConverter<T1, T2>
+        : IValueRawConverter<ValueTuple<T1, T2>>
+    {
+        public static readonly Tuple2ValueRawConverter<T1, T2> Instance = new();
+
+        private readonly IValueRawConverter<T1> Converter1 = ValueRaw.Converter<T1>();
+        private readonly IValueRawConverter<T2> Converter2 = ValueRaw.Converter<T2>();
+
+        public (T1, T2) Unbox(StoreContext storeContext, Store store, in ValueRaw valueRaw)
+        {
+            throw new NotSupportedException("Cannot unbox tuple");
+        }
+
+        public void Box(StoreContext storeContext, Store store, ref ValueRaw valueRaw, (T1, T2) value)
+        {
+            unsafe
+            {
+                fixed (ValueRaw* ptr = &valueRaw)
+                {
+                    ref var a = ref *(ptr + 0);
+                    ref var b = ref *(ptr + 1);
+
+                    Converter1.Box(storeContext, store, ref a, value.Item1);
+                    Converter2.Box(storeContext, store, ref b, value.Item2);
+                }
+            }
+        }
+    }
+
+    internal class Tuple3ValueRawConverter<T1, T2, T3>
+        : IValueRawConverter<ValueTuple<T1, T2, T3>>
+    {
+        public static Tuple3ValueRawConverter<T1, T2, T3> Instance = new();
+
+        private readonly IValueRawConverter<T1> Converter1 = ValueRaw.Converter<T1>();
+        private readonly IValueRawConverter<T2> Converter2 = ValueRaw.Converter<T2>();
+        private readonly IValueRawConverter<T3> Converter3 = ValueRaw.Converter<T3>();
+
+        public (T1, T2, T3) Unbox(StoreContext storeContext, Store store, in ValueRaw valueRaw)
+        {
+            throw new NotSupportedException("Cannot unbox tuple");
+        }
+
+        public void Box(StoreContext storeContext, Store store, ref ValueRaw valueRaw, (T1, T2, T3) value)
+        {
+            unsafe
+            {
+                fixed (ValueRaw* ptr = &valueRaw)
+                {
+                    ref var a = ref *(ptr + 0);
+                    ref var b = ref *(ptr + 1);
+                    ref var c = ref *(ptr + 2);
+
+                    Converter1.Box(storeContext, store, ref a, value.Item1);
+                    Converter2.Box(storeContext, store, ref b, value.Item2);
+                    Converter3.Box(storeContext, store, ref c, value.Item3);
+                }
+            }
+        }
+    }
+
+    internal class Tuple4ValueRawConverter<T1, T2, T3, T4>
+        : IValueRawConverter<ValueTuple<T1, T2, T3, T4>>
+    {
+        public static Tuple4ValueRawConverter<T1, T2, T3, T4> Instance = new();
+
+        private readonly IValueRawConverter<T1> Converter1 = ValueRaw.Converter<T1>();
+        private readonly IValueRawConverter<T2> Converter2 = ValueRaw.Converter<T2>();
+        private readonly IValueRawConverter<T3> Converter3 = ValueRaw.Converter<T3>();
+        private readonly IValueRawConverter<T4> Converter4 = ValueRaw.Converter<T4>();
+
+        public (T1, T2, T3, T4) Unbox(StoreContext storeContext, Store store, in ValueRaw valueRaw)
+        {
+            throw new NotSupportedException("Cannot unbox tuple");
+        }
+
+        public void Box(StoreContext storeContext, Store store, ref ValueRaw valueRaw, (T1, T2, T3, T4) value)
+        {
+            unsafe
+            {
+                fixed (ValueRaw* ptr = &valueRaw)
+                {
+                    ref var a = ref *(ptr + 0);
+                    ref var b = ref *(ptr + 1);
+                    ref var c = ref *(ptr + 2);
+                    ref var d = ref *(ptr + 3);
+
+                    Converter1.Box(storeContext, store, ref a, value.Item1);
+                    Converter2.Box(storeContext, store, ref b, value.Item2);
+                    Converter3.Box(storeContext, store, ref c, value.Item3);
+                    Converter4.Box(storeContext, store, ref d, value.Item4);
+                }
+            }
         }
     }
 }

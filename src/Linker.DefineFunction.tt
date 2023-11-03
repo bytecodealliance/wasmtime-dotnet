@@ -19,7 +19,6 @@
 
 using System;
 using System.Buffers;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -62,7 +61,7 @@ foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateTy
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var (parameterKinds, resultKinds) = Function.GetFunctionType(<# if (callbackParameterTypeExpressions.Length == 0) { #>Array.Empty<Type>()<# } else { #>new Type[] { <#= callbackParameterTypeExpressions #>}<# } #>, <#= callbackReturnTypeExpression #>, allowCaller: <#= hasCaller ? "true" : "false" #>, allowTuple: <#= (resultCount > 1) ? "true" : "false" #>);
+            var (parameterKinds, resultKinds) = Function.GetFunctionType(<# if (callbackParameterTypeExpressions.Length == 0) { #>Array.Empty<Type>()<# } else { #>new Type[] { <#= callbackParameterTypeExpressions #>}<# } #>, <#= callbackReturnTypeExpression #>, allowCaller: <#= hasCaller ? "true" : "false" #>, allowTuple: true);
 <#= parameterConverters
 #><#= resultConverters
 #>

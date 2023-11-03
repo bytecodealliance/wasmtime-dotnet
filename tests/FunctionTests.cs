@@ -494,10 +494,9 @@ namespace Wasmtime.Tests
         }
 
         [Fact]
-        public void ItThrowsForInvalidDefinitionWithTupleReturn()
+        public void ItAcceptsDefinitionWithTupleReturn()
         {
-            var action = () => { Linker.DefineFunction<(int, int)>("", "invalid", () => (1, 2)); };
-            action.Should().Throw<InvalidOperationException>().WithMessage("Returning a ValueTuple is not allowed for this callback*");
+            Linker.DefineFunction<(int, int)>("", "invalid", () => (1, 2));
         }
 
         [Fact]
