@@ -355,6 +355,32 @@ namespace Wasmtime.Tests
                 .WithInnerException<InvalidCastException>().WithMessage("Cannot convert from `ExternRef` to `Int32`");
         }
 
+        [Fact]
+        public void ItWrapsTupleReturningFunc()
+        {
+            Linker.AllowShadowing = true;
+
+            // Define the function through a generic helpers which "hides" the fact it's returning a tuple
+            Define((int a, int b) => (b, a));
+
+            // Now try to call that
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var func = instance.GetFunction<int, int, (int, int)>("swap");
+            func.Should().NotBeNull();
+            var result = func!.Invoke(1, 2);
+
+            // Check result
+            result.Should().Be((2, 1));
+            return;
+
+            // Define a function on the linker. Because this is inside a separate generic function with one single 
+            // return type the fact that `TOut` is a tuple is concealed. This means it takes a different path internally.
+            void Define<TA, TB, TOut>(Func<TA, TB, TOut> func)
+            {
+                Linker.DefineFunction("env", "swap", func);
+            }
+        }
+
         public void Dispose()
         {
             Store.Dispose();
