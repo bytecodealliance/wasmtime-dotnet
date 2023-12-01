@@ -581,10 +581,11 @@ namespace Wasmtime
 
         private bool TryGetExtern(StoreContext context, string name, out Extern ext)
         {
+            using var nameBytes = name.ToUTF8(stackalloc byte[Math.Min(64, name.Length * 2)]);
+
             unsafe
             {
-                var nameBytes = Encoding.UTF8.GetBytes(name);
-                fixed (byte* ptr = nameBytes)
+                fixed (byte* ptr = nameBytes.Span)
                 {
                     return Native.wasmtime_instance_export_get(context.handle, this.instance, ptr, (UIntPtr)nameBytes.Length, out ext);
                 }
