@@ -4,14 +4,23 @@
 
 // Suppress the "not used" warning when this file is referenced but the function is not called.
 #pragma warning disable CS8321 // Local function is declared but never used
-void GenerateCallbackContent(bool hasCaller, int resultCount, int parameterCount) {
+void GenerateCallbackContent(bool hasCaller, int resultCount, int parameterCount, bool storeAvailable) {
 #pragma warning restore CS8321 // Local function is declared but never used
 #>
                     try
                     {
-                        var caller = new Caller(callerPtr);
+                        <# if (storeAvailable && !hasCaller)
+                        {
+                            #>var storeContext = store.Context;<#
+                        }
+                        else
+                        {
+                            #>var caller = new Caller(callerPtr);
                         var storeContext = caller.context;
                         var store = caller.store;
+<#
+                        }
+                        #>
 
                         <#= resultCount > 0 ? "var result = " : "" #>callback(
                             <#

@@ -142,6 +142,8 @@ namespace Wasmtime
             var storeHandle = GCHandle.Alloc(this, GCHandleType.Weak);
 
             handle = new Handle(Native.wasmtime_store_new(engine.NativeHandle, (IntPtr)storeHandle, Finalizer));
+
+            contextHandle = Native.wasmtime_store_context(NativeHandle);
         }
 
         /// <summary>
@@ -257,18 +259,6 @@ namespace Wasmtime
         /// </summary>
         public void SetData(object? data) => this.data = data;
 
-        /// <summary>
-        /// Gets the context of the store.
-        /// </summary>
-        /// <remarks>
-        /// Note: Generally, you must keep the <see cref="Store"/> alive (by using
-        /// <see cref="GC.KeepAlive(object)"/>) until the <see cref="StoreContext"/> is no longer
-        /// used, to prevent the the <see cref="Handle"/> finalizer from prematurely deleting the
-        /// store handle in the GC finalizer thread while the <see cref="StoreContext"/> is still
-        /// in use.
-        /// </remarks>
-        internal StoreContext Context => new StoreContext(Native.wasmtime_store_context(NativeHandle));
-
         /// <inheritdoc/>
         public void Dispose()
         {
@@ -285,6 +275,29 @@ namespace Wasmtime
                 }
 
                 return handle;
+            }
+        }
+
+        /// <summary>
+        /// Gets the context of the store.
+        /// </summary>
+        /// <remarks>
+        /// Note: Generally, you must keep the <see cref="Store"/> alive (by using
+        /// <see cref="GC.KeepAlive(object)"/>) until the <see cref="StoreContext"/> is no longer
+        /// used, to prevent the the <see cref="Handle"/> finalizer from prematurely deleting the
+        /// store handle in the GC finalizer thread while the <see cref="StoreContext"/> is still
+        /// in use.
+        /// </remarks>
+        internal StoreContext Context
+        {
+            get
+            {
+                if (handle.IsInvalid)
+                {
+                    throw new ObjectDisposedException(typeof(Store).FullName);
+                }
+
+                return new StoreContext(contextHandle);
             }
         }
 
@@ -320,6 +333,7 @@ namespace Wasmtime
             public static extern void wasmtime_store_limiter(Handle store, long memory_size, long table_elements, long instances, long tables, long memories);
         }
 
+        private readonly IntPtr contextHandle;
         private readonly Handle handle;
 
         private object? data;

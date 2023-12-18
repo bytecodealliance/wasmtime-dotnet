@@ -39,10 +39,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         callback(
                             );
 
@@ -104,10 +101,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         callback(
                             convT.Unbox(storeContext, store, args_and_results[0]));
 
@@ -170,10 +164,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]));
@@ -238,10 +229,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -308,10 +296,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -380,10 +365,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -454,10 +436,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -530,10 +509,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -608,10 +584,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -688,10 +661,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -770,10 +740,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -854,10 +821,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -940,10 +904,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -1016,10 +977,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             );
 
@@ -1083,10 +1041,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT.Unbox(storeContext, store, args_and_results[0]));
 
@@ -1151,10 +1106,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]));
@@ -1221,10 +1173,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -1293,10 +1242,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -1367,10 +1313,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -1443,10 +1386,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -1521,10 +1461,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -1601,10 +1538,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -1683,10 +1617,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -1767,10 +1698,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -1853,10 +1781,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -1941,10 +1866,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -2019,10 +1941,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             );
 
@@ -2088,10 +2007,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT.Unbox(storeContext, store, args_and_results[0]));
 
@@ -2158,10 +2074,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]));
@@ -2230,10 +2143,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -2304,10 +2214,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -2380,10 +2287,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -2458,10 +2362,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -2538,10 +2439,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -2620,10 +2518,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -2704,10 +2599,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -2790,10 +2682,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -2878,10 +2767,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -2968,10 +2854,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -3048,10 +2931,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             );
 
@@ -3119,10 +2999,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT.Unbox(storeContext, store, args_and_results[0]));
 
@@ -3191,10 +3068,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]));
@@ -3265,10 +3139,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -3341,10 +3212,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -3419,10 +3287,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -3499,10 +3364,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -3581,10 +3443,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -3665,10 +3524,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -3751,10 +3607,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -3839,10 +3692,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -3929,10 +3779,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -4021,10 +3868,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -4103,10 +3947,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             );
 
@@ -4176,10 +4017,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT.Unbox(storeContext, store, args_and_results[0]));
 
@@ -4250,10 +4088,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]));
@@ -4326,10 +4161,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -4404,10 +4236,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -4484,10 +4313,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -4566,10 +4392,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -4650,10 +4473,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -4736,10 +4556,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -4824,10 +4641,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -4914,10 +4728,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -5006,10 +4817,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
@@ -5100,10 +4908,7 @@ namespace Wasmtime
                 {
                     try
                     {
-                        var caller = new Caller(callerPtr);
-                        var storeContext = caller.context;
-                        var store = caller.store;
-
+                        var storeContext = store.Context;
                         var result = callback(
                             convT1.Unbox(storeContext, store, args_and_results[0]),
                             convT2.Unbox(storeContext, store, args_and_results[1]),
