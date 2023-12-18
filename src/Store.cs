@@ -292,7 +292,7 @@ namespace Wasmtime
         {
             get
             {
-                if (handle.IsInvalid)
+                if (handle.IsClosed)
                 {
                     throw new ObjectDisposedException(typeof(Store).FullName);
                 }
