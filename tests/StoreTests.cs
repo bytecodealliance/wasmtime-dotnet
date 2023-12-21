@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using System.IO;
 using Xunit;
 
@@ -90,6 +91,20 @@ namespace Wasmtime.Tests
 
             var act = () => { new Instance(Store, module); };
             act.Should().Throw<WasmtimeException>();
+        }
+
+        [Fact]
+        public void ItCannotBeAccessedOnceDisposed()
+        {
+            var ctx = Store.Context;
+            Assert.Equal(Store, ctx.Store);
+
+            Store.Dispose();
+
+            Assert.Throws<ObjectDisposedException>(() => { var x = Store.Context; });
+            Assert.Throws<ObjectDisposedException>(() => Store.NativeHandle);
+            Assert.Throws<ObjectDisposedException>(() => Store.Fuel);
+            Assert.Throws<ObjectDisposedException>(() => Store.GC());
         }
     }
 }

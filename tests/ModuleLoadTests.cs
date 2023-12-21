@@ -51,5 +51,20 @@ namespace Wasmtime.Tests
             // `ObjectDisposedException`
             stream.Read(new byte[0], 0, 0);
         }
+
+        [Fact]
+        public void ItCannotBeAccessedOnceDisposed()
+        {
+            using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("hello.wasm");
+            stream.Should().NotBeNull();
+
+            using var engine = new Engine();
+            var module = Module.FromStream(engine, "hello.wasm", stream);
+
+            module.Dispose();
+
+            Assert.Throws<ObjectDisposedException>(() => module.NativeHandle);
+            Assert.Throws<ObjectDisposedException>(() => module.Serialize());
+        }
     }
 }
