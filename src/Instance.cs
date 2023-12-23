@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -579,6 +580,95 @@ namespace Wasmtime
             return _store.GetCachedExtern(ext.of.global);
         }
 
+        /// <summary>
+        /// Get all exported functions
+        /// </summary>
+        /// <returns>An enumerable of functions exported from this instance</returns>
+        public IEnumerable<(string Name, Function Function)> GetFunctions()
+        {
+            for (var i = 0; i < int.MaxValue; i++)
+            {
+                if (TryGetExtern(i, ExternKind.Func) is not var (name, @extern))
+                    break;
+
+                yield return (name, _store.GetCachedExtern(@extern.of.func));
+            }
+
+            GC.KeepAlive(_store);
+        }
+
+        /// <summary>
+        /// Get all exported tables
+        /// </summary>
+        /// <returns>An enumerable of tables exported from this instance</returns>
+        public IEnumerable<(string Name, Table Table)> GetTables()
+        {
+            for (var i = 0; i < int.MaxValue; i++)
+            {
+                if (TryGetExtern(i, ExternKind.Table) is not var (name, @extern))
+                    break;
+
+                yield return (name, new Table(_store, @extern.of.table));
+            }
+
+            GC.KeepAlive(_store);
+        }
+
+        /// <summary>
+        /// Get all exported memories
+        /// </summary>
+        /// <returns>An enumerable of memories exported from this instance</returns>
+        public IEnumerable<(string Name, Memory Memory)> GetMemories()
+        {
+            for (var i = 0; i < int.MaxValue; i++)
+            {
+                if (TryGetExtern(i, ExternKind.Memory) is not var (name, @extern))
+                    break;
+
+                yield return (name, _store.GetCachedExtern(@extern.of.memory));
+            }
+
+            GC.KeepAlive(_store);
+        }
+
+        /// <summary>
+        /// Get all exported globals
+        /// </summary>
+        /// <returns>An enumerable of globals exported from this instance</returns>
+        public IEnumerable<(string Name, Global Global)> GetGlobals()
+        {
+            for (var i = 0; i < int.MaxValue; i++)
+            {
+                if (TryGetExtern(i, ExternKind.Global) is not var (name, @extern))
+                    break;
+
+                yield return (name, _store.GetCachedExtern(@extern.of.global));
+            }
+
+            GC.KeepAlive(_store);
+        }
+
+        /// <summary>
+        /// Try to get the nth extern, optionally filtered to a specific type
+        /// </summary>
+        /// <param name="i"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        private (string name, Extern @extern)? TryGetExtern(int i, ExternKind? type = null)
+        {
+            unsafe
+            {
+                if (!Native.wasmtime_instance_export_nth(_store.Context.handle, instance, (UIntPtr)i, out var namePtr, out var nameLen, out var @extern))
+                    return null;
+
+                if (type != null && type.Value != @extern.kind)
+                    return null;
+
+                var name = Encoding.UTF8.GetString(namePtr, checked((int)nameLen));
+                return (name, @extern);
+            }
+        }
+
         private bool TryGetExtern(StoreContext context, string name, out Extern ext)
         {
             using var nameBytes = name.ToUTF8(stackalloc byte[Math.Min(64, name.Length * 2)]);
@@ -615,9 +705,6 @@ namespace Wasmtime
             [DllImport(Engine.LibraryName)]
             [return: MarshalAs(UnmanagedType.I1)]
             public static extern unsafe bool wasmtime_instance_export_nth(IntPtr context, in ExternInstance instance, UIntPtr index, out byte* name, out UIntPtr len, out Extern ext);
-
-            [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_instancetype_delete(IntPtr handle);
         }
 
         private readonly Store _store;
