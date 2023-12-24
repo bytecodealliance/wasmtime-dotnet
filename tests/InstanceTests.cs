@@ -8,7 +8,7 @@ namespace Wasmtime.Tests
     public class InstanceFixture
         : ModuleFixture
     {
-        protected override string ModuleFileName => "Hello.wat";
+        protected override string ModuleFileName => "hello.wat";
     }
 
     public class InstanceTests
