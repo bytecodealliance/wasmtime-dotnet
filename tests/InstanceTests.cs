@@ -5,7 +5,8 @@ using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class InstanceFixture : ModuleFixture
+    public class InstanceFixture
+        : ModuleFixture
     {
         protected override string ModuleFileName => "Hello.wat";
     }
@@ -25,6 +26,8 @@ namespace Wasmtime.Tests
 
             Linker.DefineFunction("env", "add", (int x, int y) => x + y);
             Linker.DefineFunction("env", "swap", (int x, int y) => (y, x));
+            Linker.DefineFunction("", "hi", (int x, int y) => (y, x));
+
             Linker.DefineFunction("", "hello", () => { });
         }
 
