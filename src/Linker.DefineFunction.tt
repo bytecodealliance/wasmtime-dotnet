@@ -69,7 +69,7 @@ foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateTy
             {
                 Function.Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-<# GenerateCallbackContent(hasCaller, resultCount, parameterCount); #>
+<# GenerateCallbackContent(hasCaller, resultCount, parameterCount, false); #>
                 };
 
                 const int StackallocThreshold = 256;

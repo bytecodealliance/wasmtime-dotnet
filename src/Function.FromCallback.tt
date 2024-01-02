@@ -61,7 +61,7 @@ foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateTy
             {
                 Native.WasmtimeFuncUncheckedCallback func = (env, callerPtr, args_and_results, num_args_and_results) =>
                 {
-<# GenerateCallbackContent(hasCaller, resultCount, parameterCount); #>
+<# GenerateCallbackContent(hasCaller, resultCount, parameterCount, true); #>
                 };
 
                 var funcType = CreateFunctionType(parameterKinds, resultKinds);
