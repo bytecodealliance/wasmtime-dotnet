@@ -589,7 +589,9 @@ namespace Wasmtime
             for (var i = 0; i < int.MaxValue; i++)
             {
                 if (TryGetExtern(i, ExternKind.Func) is not var (name, @extern))
+                {
                     break;
+                }
 
                 yield return (name, _store.GetCachedExtern(@extern.of.func));
             }
@@ -606,7 +608,9 @@ namespace Wasmtime
             for (var i = 0; i < int.MaxValue; i++)
             {
                 if (TryGetExtern(i, ExternKind.Table) is not var (name, @extern))
+                {
                     break;
+                }
 
                 yield return (name, new Table(_store, @extern.of.table));
             }
@@ -623,7 +627,9 @@ namespace Wasmtime
             for (var i = 0; i < int.MaxValue; i++)
             {
                 if (TryGetExtern(i, ExternKind.Memory) is not var (name, @extern))
+                {
                     break;
+                }
 
                 yield return (name, _store.GetCachedExtern(@extern.of.memory));
             }
@@ -640,7 +646,9 @@ namespace Wasmtime
             for (var i = 0; i < int.MaxValue; i++)
             {
                 if (TryGetExtern(i, ExternKind.Global) is not var (name, @extern))
+                {
                     break;
+                }
 
                 yield return (name, _store.GetCachedExtern(@extern.of.global));
             }
@@ -659,10 +667,14 @@ namespace Wasmtime
             unsafe
             {
                 if (!Native.wasmtime_instance_export_nth(_store.Context.handle, instance, (UIntPtr)i, out var namePtr, out var nameLen, out var @extern))
+                {
                     return null;
+                }
 
                 if (type != null && type.Value != @extern.kind)
-                    return null;
+                {
+                    return  null;
+                }
 
                 var name = Encoding.UTF8.GetString(namePtr, checked((int)nameLen));
                 return (name, @extern);
