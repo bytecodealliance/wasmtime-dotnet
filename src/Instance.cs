@@ -656,17 +656,11 @@ namespace Wasmtime
             GC.KeepAlive(_store);
         }
 
-        /// <summary>
-        /// Try to get the nth extern, optionally filtered to a specific type
-        /// </summary>
-        /// <param name="i"></param>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        private (string name, Extern @extern)? TryGetExtern(int i, ExternKind? type = null)
+        private (string name, Extern @extern)? TryGetExtern(int index, ExternKind? type = null)
         {
             unsafe
             {
-                if (!Native.wasmtime_instance_export_nth(_store.Context.handle, instance, (UIntPtr)i, out var namePtr, out var nameLen, out var @extern))
+                if (!Native.wasmtime_instance_export_nth(_store.Context.handle, instance, (UIntPtr)index, out var namePtr, out var nameLen, out var @extern))
                 {
                     return null;
                 }
