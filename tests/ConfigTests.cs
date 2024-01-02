@@ -166,5 +166,17 @@ namespace Wasmtime.Tests
 
             act.Should().Throw<WasmtimeException>();
         }
+
+        [Fact]
+        public void ItCannotBeAccessedOnceDisposed()
+        {
+            var config = new Config();
+            config.Dispose();
+
+            Assert.Throws<ObjectDisposedException>(() => config.NativeHandle);
+            Assert.Throws<ObjectDisposedException>(() => config.WithBulkMemory(true));
+            Assert.Throws<ObjectDisposedException>(() => config.WithCacheConfig(null));
+            Assert.Throws<ObjectDisposedException>(() => config.WithEpochInterruption(true));
+        }
     }
 }

@@ -48,7 +48,7 @@ namespace Wasmtime
         {
             get
             {
-                if (handle.IsInvalid)
+                if (handle.IsInvalid || handle.IsClosed)
                 {
                     throw new ObjectDisposedException(typeof(Engine).FullName);
                 }
