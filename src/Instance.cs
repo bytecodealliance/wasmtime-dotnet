@@ -516,6 +516,12 @@ namespace Wasmtime
         /// <returns>Returns the function if a function of that name was exported or null if not.</returns>
         public Function? GetFunction(string name)
         {
+            lock (_functionCache)
+            {
+                if (_functionCache.TryGetValue(name, out var func))
+                    return func;
+            }
+
             var context = _store.Context;
             if (!TryGetExtern(context, name, out var ext) || ext.kind != ExternKind.Func)
             {
@@ -524,7 +530,13 @@ namespace Wasmtime
 
             GC.KeepAlive(_store);
 
-            return _store.GetCachedExtern(ext.of.func);
+            var result = _store.GetCachedExtern(ext.of.func);
+            lock (_functionCache)
+            {
+                _functionCache[name] = result;
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -552,6 +564,12 @@ namespace Wasmtime
         /// <returns>Returns the memory if a memory of that name was exported or null if not.</returns>
         public Memory? GetMemory(string name)
         {
+            lock (_memoryCache)
+            {
+                if (_memoryCache.TryGetValue(name, out var memory))
+                    return memory;
+            }
+
             if (!TryGetExtern(_store.Context, name, out var ext) || ext.kind != ExternKind.Memory)
             {
                 return null;
@@ -559,7 +577,13 @@ namespace Wasmtime
 
             GC.KeepAlive(_store);
 
-            return _store.GetCachedExtern(ext.of.memory);
+            var result = _store.GetCachedExtern(ext.of.memory);
+            lock (_memoryCache)
+            {
+                _memoryCache[name] = result;
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -727,5 +751,8 @@ namespace Wasmtime
 
         private readonly Store _store;
         internal readonly ExternInstance instance;
+
+        private readonly Dictionary<string, Function?> _functionCache = new();
+        private readonly Dictionary<string, Memory?> _memoryCache = new();
     }
 }
