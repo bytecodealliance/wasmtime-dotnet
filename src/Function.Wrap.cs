@@ -44,7 +44,7 @@ namespace Wasmtime
             // Fetch a converter for each parameter type to box it
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(0, Results.Count);
+            const int allocCount = 0;
 
             Action result = () =>
             {
@@ -91,7 +91,7 @@ namespace Wasmtime
             var convT = ValueRaw.Converter<T>();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(1, Results.Count);
+            const int allocCount = 1;
 
             Action<T> result = (p0) =>
             {
@@ -140,7 +140,7 @@ namespace Wasmtime
             var convT2 = ValueRaw.Converter<T2>();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(2, Results.Count);
+            const int allocCount = 2;
 
             Action<T1, T2> result = (p0, p1) =>
             {
@@ -191,7 +191,7 @@ namespace Wasmtime
             var convT3 = ValueRaw.Converter<T3>();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(3, Results.Count);
+            const int allocCount = 3;
 
             Action<T1, T2, T3> result = (p0, p1, p2) =>
             {
@@ -244,7 +244,7 @@ namespace Wasmtime
             var convT4 = ValueRaw.Converter<T4>();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(4, Results.Count);
+            const int allocCount = 4;
 
             Action<T1, T2, T3, T4> result = (p0, p1, p2, p3) =>
             {
@@ -299,7 +299,7 @@ namespace Wasmtime
             var convT5 = ValueRaw.Converter<T5>();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(5, Results.Count);
+            const int allocCount = 5;
 
             Action<T1, T2, T3, T4, T5> result = (p0, p1, p2, p3, p4) =>
             {
@@ -356,7 +356,7 @@ namespace Wasmtime
             var convT6 = ValueRaw.Converter<T6>();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(6, Results.Count);
+            const int allocCount = 6;
 
             Action<T1, T2, T3, T4, T5, T6> result = (p0, p1, p2, p3, p4, p5) =>
             {
@@ -415,7 +415,7 @@ namespace Wasmtime
             var convT7 = ValueRaw.Converter<T7>();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(7, Results.Count);
+            const int allocCount = 7;
 
             Action<T1, T2, T3, T4, T5, T6, T7> result = (p0, p1, p2, p3, p4, p5, p6) =>
             {
@@ -476,7 +476,7 @@ namespace Wasmtime
             var convT8 = ValueRaw.Converter<T8>();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(8, Results.Count);
+            const int allocCount = 8;
 
             Action<T1, T2, T3, T4, T5, T6, T7, T8> result = (p0, p1, p2, p3, p4, p5, p6, p7) =>
             {
@@ -539,7 +539,7 @@ namespace Wasmtime
             var convT9 = ValueRaw.Converter<T9>();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(9, Results.Count);
+            const int allocCount = 9;
 
             Action<T1, T2, T3, T4, T5, T6, T7, T8, T9> result = (p0, p1, p2, p3, p4, p5, p6, p7, p8) =>
             {
@@ -604,7 +604,7 @@ namespace Wasmtime
             var convT10 = ValueRaw.Converter<T10>();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(10, Results.Count);
+            const int allocCount = 10;
 
             Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> result = (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9) =>
             {
@@ -671,7 +671,7 @@ namespace Wasmtime
             var convT11 = ValueRaw.Converter<T11>();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(11, Results.Count);
+            const int allocCount = 11;
 
             Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> result = (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10) =>
             {
@@ -740,7 +740,7 @@ namespace Wasmtime
             var convT12 = ValueRaw.Converter<T12>();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(12, Results.Count);
+            const int allocCount = 12;
 
             Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> result = (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11) =>
             {
@@ -811,7 +811,7 @@ namespace Wasmtime
             var convT13 = ValueRaw.Converter<T13>();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(13, Results.Count);
+            const int allocCount = 13;
 
             Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> result = (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12) =>
             {
@@ -884,7 +884,7 @@ namespace Wasmtime
             var convT14 = ValueRaw.Converter<T14>();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(14, Results.Count);
+            const int allocCount = 14;
 
             Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> result = (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13) =>
             {
@@ -959,7 +959,7 @@ namespace Wasmtime
             var convT15 = ValueRaw.Converter<T15>();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(15, Results.Count);
+            const int allocCount = 15;
 
             Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> result = (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14) =>
             {
@@ -1036,7 +1036,7 @@ namespace Wasmtime
             var convT16 = ValueRaw.Converter<T16>();
 
             // Determine how much space to allocate for params/results
-            var allocCount = Math.Max(16, Results.Count);
+            const int allocCount = 16;
 
             Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> result = (p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15) =>
             {
