@@ -343,6 +343,20 @@ namespace Wasmtime
             return this;
         }
 
+        /// <summary>
+        /// Configures whether, when on macOS, Mach ports are used for exception handling
+        /// instead of traditional Unix-based signal handling.
+        /// 
+        /// This option defaults to true, using Mach ports by default.
+        /// </summary>
+        /// <param name="enable">True to enable Mach ports or false to disable.</param>
+        /// <returns>Returns the current config.</returns>
+        public Config WithMacosMachPorts(bool enable)
+        {
+            Native.wasmtime_config_macos_use_mach_ports(handle, enable);
+            return this;
+        }
+
         /// <inheritdoc/>
         public void Dispose()
         {
@@ -450,6 +464,9 @@ namespace Wasmtime
 
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasmtime_config_cache_config_load(Handle config, [MarshalAs(Extensions.LPUTF8Str)] string? path);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_macos_use_mach_ports(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
         }
 
         private readonly Handle handle;
