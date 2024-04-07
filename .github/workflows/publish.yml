@@ -1,0 +1,27 @@
+# The purpose of this workflow is to publish the packages to NuGet
+# whenever a tag is created.
+
+name: "Publish to NuGet"
+
+on:
+  push:
+    tags:
+    - 'v*'
+
+jobs:
+  publish:
+    name: "Publish NuGet Package"
+    if: github.repository == 'bytecodealliance/wasmtime-dotnet'
+    runs-on: ubuntu-latest
+    env:
+      DevBuild: 'false'
+    steps:
+    - uses: actions/checkout@v3
+    - name: Create NuGet package
+      run: |
+        cd src
+        dotnet pack -c Release /p:Packing=true
+    - name: Publish NuGet Package
+      run: |
+        cd src/bin/Release
+        dotnet nuget push Wasmtime.${GITHUB_REF_NAME:1}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
