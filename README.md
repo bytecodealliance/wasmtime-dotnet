@@ -32,7 +32,8 @@ $ dotnet add package wasmtime
 
 ## Introduction
 
-For this introduction, we'll be using a simple WebAssembly module that imports a `hello` function and exports a `run` function:
+For this introduction, we'll be using a simple WebAssembly module that imports
+a `hello` function and exports a `run` function:
 
 ```wat
 (module
@@ -83,7 +84,8 @@ var run = instance.GetAction("run")!;
 run();
 ```
 
-An `Engine` is created and then a WebAssembly module is loaded from a string in WebAssembly text format.
+An `Engine` is created and then a WebAssembly module is loaded from a string in
+WebAssembly text format.
 
 A `Linker` defines a function called `hello` that simply prints a hello message.
 
@@ -107,7 +109,8 @@ Use `dotnet` to build the repository:
 $ dotnet build Wasmtime.sln
 ```
 
-This will download the latest development snapshot of Wasmtime for your platform.
+This will download the latest development snapshot of Wasmtime for your
+platform.
 
 ### Testing
 
@@ -128,4 +131,36 @@ $ dotnet pack Wasmtime.sln -c Release /p:Packing=true
 
 This will create a `.nupkg` file in `src/bin/Release`.
 
-By default, local builds will use a `-dev` suffix for the package to differentiate between official packages and development packages.
+By default, local builds will use a `-dev` suffix for the package to
+differentiate between official packages and development packages.
+
+### Updating Wasmtime for a release
+
+To update the Wasmtime library used for a new release, change `WasmtimeVersion`
+in `Directory.Build.props`:
+
+```xml
+<WasmtimeVersion Condition="'$(WasmtimeVersion)'==''">$VERSION</WasmtimeVersion>
+```
+
+Additionally, edit `Wasmtime.csproj` to change the `PackageReleaseNotes` to the
+new version:
+
+```xml
+<PackageReleaseNotes>Update Wasmtime to $VERSION.</PackageReleaseNotes>
+```
+
+### Publishing the Wasmtime .NET NuGet package
+
+GitHub actions is used to automatically publish a package to NuGet when a tag
+is pushed to the repository.
+
+To publish a new release, create a release in GitHub and add the relevant
+release notes.
+
+Use a tag of the format `v$VERSION` where `$VERSION` matches the Wasmtime
+version used by the .NET package; ensure the tagged commit matches the last
+commit to make for the release.
+
+When the release is published on GitHub, an action should automatically start
+to build and publish the package to NuGet.
