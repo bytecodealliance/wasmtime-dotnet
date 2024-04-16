@@ -263,7 +263,7 @@ namespace Wasmtime
 
                 try
                 {
-                    var data = Value.Native.wasmtime_externref_data(externref);
+                    var data = Value.Native.wasmtime_externref_data(storeContext.handle, externref);
                     if (data != IntPtr.Zero)
                     {
                         o = GCHandle.FromIntPtr(data).Target!;
@@ -271,7 +271,7 @@ namespace Wasmtime
                 }
                 finally
                 {
-                    Value.Native.wasmtime_externref_delete(externref);
+                    Value.Native.wasmtime_externref_delete(storeContext.handle, externref);
                 }
             }
 
@@ -285,6 +285,7 @@ namespace Wasmtime
             if (value is not null)
             {
                 var externref = Value.Native.wasmtime_externref_new(
+                    storeContext.handle,
                     GCHandle.ToIntPtr(GCHandle.Alloc(value)),
                     Value.Finalizer);
 
@@ -300,7 +301,7 @@ namespace Wasmtime
                 {
                     // We still must delete the old externref afterwards because
                     // wasmtime_externref_to_raw doesn't transfer ownership.
-                    Value.Native.wasmtime_externref_delete(externref);
+                    Value.Native.wasmtime_externref_delete(storeContext.handle, externref);
                 }
             }
 

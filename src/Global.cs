@@ -117,7 +117,7 @@ namespace Wasmtime
                 throw new InvalidOperationException("Failed to create global type, invalid ValueKind or Mutability");
             }
 
-            var value = Value.FromObject(initialValue, Kind);
+            var value = Value.FromObject(store, initialValue, Kind);
             var error = Native.wasmtime_global_new(store.Context.handle, globalType, in value, out this.global);
             GC.KeepAlive(store);
 
@@ -155,7 +155,7 @@ namespace Wasmtime
                 throw new InvalidOperationException("The global is immutable and cannot be changed.");
             }
 
-            var v = Value.FromObject(value, Kind);
+            var v = Value.FromObject(store, value, Kind);
             Native.wasmtime_global_set(store.Context.handle, this.global, in v);
             GC.KeepAlive(store);
 
@@ -300,7 +300,7 @@ namespace Wasmtime
                 Native.wasmtime_global_get(context.handle, _global.global, out var v);
                 GC.KeepAlive(_store);
 
-                var result = _converter.Unbox(_store, v.ToValueBox());
+                var result = _converter.Unbox(_store, v.ToValueBox(_store));
                 v.Dispose();
 
                 return result;
@@ -317,7 +317,7 @@ namespace Wasmtime
                     throw new InvalidOperationException("The global is immutable and cannot be changed.");
                 }
 
-                using (var v = _converter.Box(value).ToValue(_global.Kind))
+                using (var v = _converter.Box(value).ToValue(_store, _global.Kind))
                 {
                     var context = _store.Context;
                     Native.wasmtime_global_set(context.handle, _global.global, in v);

@@ -84,7 +84,7 @@ namespace Wasmtime
         public Function AsFunction(Store store)
         {
             ThrowIfNotOfCorrectKind(ValueKind.FuncRef);
-            
+
             return store.GetCachedExtern(Union.funcref);
         }
 
@@ -100,12 +100,12 @@ namespace Wasmtime
             return (T?)ExternRefObject;
         }
 
-        internal Value ToValue(ValueKind convertTo)
+        internal Value ToValue(Store store, ValueKind convertTo)
         {
             if (convertTo != Kind)
-                return Value.FromValueBox(ConvertTo(convertTo));
+                return Value.FromValueBox(store, ConvertTo(convertTo));
 
-            return Value.FromValueBox(this);
+            return Value.FromValueBox(store, this);
         }
 
         private ValueBox ConvertTo(ValueKind convertTo)

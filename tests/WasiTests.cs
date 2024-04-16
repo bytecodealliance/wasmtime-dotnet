@@ -10,7 +10,6 @@ namespace Wasmtime.Tests
     public class WasiTests
     {
         [Theory]
-        [InlineData("WasiSnapshot0.wat")]
         [InlineData("Wasi.wat")]
         public void ItHasNoEnvironmentByDefault(string path)
         {
@@ -35,7 +34,6 @@ namespace Wasmtime.Tests
         }
 
         [Theory]
-        [InlineData("WasiSnapshot0.wat")]
         [InlineData("Wasi.wat")]
         public void ItHasSpecifiedEnvironment(string path)
         {
@@ -78,7 +76,6 @@ namespace Wasmtime.Tests
         }
 
         [Theory]
-        [InlineData("WasiSnapshot0.wat")]
         [InlineData("Wasi.wat")]
         public void ItInheritsEnvironment(string path)
         {
@@ -105,7 +102,6 @@ namespace Wasmtime.Tests
         }
 
         [Theory]
-        [InlineData("WasiSnapshot0.wat")]
         [InlineData("Wasi.wat")]
         public void ItHasNoArgumentsByDefault(string path)
         {
@@ -130,7 +126,6 @@ namespace Wasmtime.Tests
         }
 
         [Theory]
-        [InlineData("WasiSnapshot0.wat")]
         [InlineData("Wasi.wat")]
         public void ItHasSpecifiedArguments(string path)
         {
@@ -174,7 +169,6 @@ namespace Wasmtime.Tests
         }
 
         [Theory]
-        [InlineData("WasiSnapshot0.wat")]
         [InlineData("Wasi.wat")]
         public void ItInheritsArguments(string path)
         {
@@ -201,7 +195,6 @@ namespace Wasmtime.Tests
         }
 
         [Theory]
-        [InlineData("WasiSnapshot0.wat")]
         [InlineData("Wasi.wat")]
         public void ItSetsStdIn(string path)
         {
@@ -237,8 +230,6 @@ namespace Wasmtime.Tests
         }
 
         [Theory]
-        [InlineData("WasiSnapshot0.wat", 1)]
-        [InlineData("WasiSnapshot0.wat", 2)]
         [InlineData("Wasi.wat", 1)]
         [InlineData("Wasi.wat", 2)]
         public void ItSetsStdOutAndStdErr(string path, int fd)
@@ -259,33 +250,35 @@ namespace Wasmtime.Tests
 
             using var engine = new Engine();
             using var module = Module.FromTextFile(engine, Path.Combine("Modules", path));
-            using var store = new Store(engine);
             using var linker = new Linker(engine);
 
             linker.DefineWasi();
 
-            store.SetWasiConfiguration(config);
-            var instance = linker.Instantiate(store, module);
+            using (var store = new Store(engine))
+            {
+                store.SetWasiConfiguration(config);
+                var instance = linker.Instantiate(store, module);
 
-            var memory = instance.GetMemory("memory");
-            memory.Should().NotBeNull();
-            var call_fd_write = instance.GetFunction("call_fd_write");
-            call_fd_write.Should().NotBeNull();
-            var call_fd_close = instance.GetFunction("call_fd_close");
-            call_fd_close.Should().NotBeNull();
+                var memory = instance.GetMemory("memory");
+                memory.Should().NotBeNull();
+                var call_fd_write = instance.GetFunction("call_fd_write");
+                call_fd_write.Should().NotBeNull();
+                var call_fd_close = instance.GetFunction("call_fd_close");
+                call_fd_close.Should().NotBeNull();
 
-            memory.WriteInt32(0, 8);
-            memory.WriteInt32(4, MESSAGE.Length);
-            memory.WriteString(8, MESSAGE);
+                memory.WriteInt32(0, 8);
+                memory.WriteInt32(4, MESSAGE.Length);
+                memory.WriteString(8, MESSAGE);
 
-            Assert.Equal(0, call_fd_write.Invoke(fd, 0, 1, 32));
-            Assert.Equal(MESSAGE.Length, memory.ReadInt32(32));
-            Assert.Equal(0, call_fd_close.Invoke(fd));
+                Assert.Equal(0, call_fd_write.Invoke(fd, 0, 1, 32));
+                Assert.Equal(MESSAGE.Length, memory.ReadInt32(32));
+                Assert.Equal(0, call_fd_close.Invoke(fd));
+            }
+
             Assert.Equal(MESSAGE, File.ReadAllText(file.Path));
         }
 
         [Theory]
-        [InlineData("WasiSnapshot0.wat")]
         [InlineData("Wasi.wat")]
         public void ItSetsPreopenDirectories(string path)
         {
