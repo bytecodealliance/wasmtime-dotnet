@@ -44,7 +44,7 @@ public class EpochInterruptionTests : IClassFixture<EpochInterruptionFixture>, I
             using var cts = new CancellationTokenSource(100);
             using var tokenRegistration = cts.Token.Register(Fixture.Engine.IncrementEpoch);
 
-            run.Invoke();            
+            run.Invoke();
         };
 
         action.Should()

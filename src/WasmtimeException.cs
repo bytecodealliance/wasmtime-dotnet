@@ -33,9 +33,6 @@ namespace Wasmtime
         /// </summary>
         public int? ExitCode { get; private set; }
 
-        /// <inheritdoc/>
-        protected WasmtimeException(SerializationInfo info, StreamingContext context) : base(info, context) { }
-
         internal static WasmtimeException FromOwnedError(IntPtr error)
         {
             try

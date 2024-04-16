@@ -10,7 +10,6 @@ namespace Wasmtime.Tests
     public class WasiTests
     {
         [Theory]
-        [InlineData("WasiSnapshot0.wat")]
         [InlineData("Wasi.wat")]
         public void ItHasNoEnvironmentByDefault(string path)
         {
@@ -35,7 +34,6 @@ namespace Wasmtime.Tests
         }
 
         [Theory]
-        [InlineData("WasiSnapshot0.wat")]
         [InlineData("Wasi.wat")]
         public void ItHasSpecifiedEnvironment(string path)
         {
@@ -78,7 +76,6 @@ namespace Wasmtime.Tests
         }
 
         [Theory]
-        [InlineData("WasiSnapshot0.wat")]
         [InlineData("Wasi.wat")]
         public void ItInheritsEnvironment(string path)
         {
@@ -105,7 +102,6 @@ namespace Wasmtime.Tests
         }
 
         [Theory]
-        [InlineData("WasiSnapshot0.wat")]
         [InlineData("Wasi.wat")]
         public void ItHasNoArgumentsByDefault(string path)
         {
@@ -130,7 +126,6 @@ namespace Wasmtime.Tests
         }
 
         [Theory]
-        [InlineData("WasiSnapshot0.wat")]
         [InlineData("Wasi.wat")]
         public void ItHasSpecifiedArguments(string path)
         {
@@ -174,7 +169,6 @@ namespace Wasmtime.Tests
         }
 
         [Theory]
-        [InlineData("WasiSnapshot0.wat")]
         [InlineData("Wasi.wat")]
         public void ItInheritsArguments(string path)
         {
@@ -201,7 +195,6 @@ namespace Wasmtime.Tests
         }
 
         [Theory]
-        [InlineData("WasiSnapshot0.wat")]
         [InlineData("Wasi.wat")]
         public void ItSetsStdIn(string path)
         {
@@ -237,8 +230,6 @@ namespace Wasmtime.Tests
         }
 
         [Theory]
-        [InlineData("WasiSnapshot0.wat", 1)]
-        [InlineData("WasiSnapshot0.wat", 2)]
         [InlineData("Wasi.wat", 1)]
         [InlineData("Wasi.wat", 2)]
         public void ItSetsStdOutAndStdErr(string path, int fd)
@@ -285,7 +276,6 @@ namespace Wasmtime.Tests
         }
 
         [Theory]
-        [InlineData("WasiSnapshot0.wat")]
         [InlineData("Wasi.wat")]
         public void ItSetsPreopenDirectories(string path)
         {

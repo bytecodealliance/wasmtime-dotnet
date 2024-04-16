@@ -132,7 +132,7 @@ namespace Wasmtime
             }
 
             // Validate the return type(s)
-            if(returnType != null)
+            if (returnType != null)
             {
                 // Multiple return types are represented by a tuple.
                 if (returnType.IsTupleType())
@@ -295,7 +295,7 @@ namespace Wasmtime
             Span<Value> args = stackalloc Value[Parameters.Count];
             for (var i = 0; i < arguments.Length; ++i)
             {
-                args[i] = arguments[i].ToValue(Parameters[i]);
+                args[i] = arguments[i].ToValue(store, Parameters[i]);
             }
 
             // Make some space to store the return results
@@ -641,14 +641,14 @@ namespace Wasmtime
 
                     for (int i = 0; i < argumentsSpan.Length; i++)
                     {
-                        argumentsSpan[i] = args[i].ToValueBox();
+                        argumentsSpan[i] = args[i].ToValueBox(caller.Store);
                     }
 
                     callback(caller, argumentsSpan, resultsSpan);
 
                     for (int i = 0; i < resultsSpan.Length; i++)
                     {
-                        results[i] = resultsSpan[i].ToValue(resultKinds[i]);
+                        results[i] = resultsSpan[i].ToValue(caller.Store, resultKinds[i]);
                     }
                 }
                 finally

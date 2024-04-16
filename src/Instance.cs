@@ -667,7 +667,7 @@ namespace Wasmtime
 
                 if (type != null && type.Value != @extern.kind)
                 {
-                    return  null;
+                    return null;
                 }
 
                 var name = Encoding.UTF8.GetString(namePtr, checked((int)nameLen));

@@ -222,7 +222,7 @@ namespace Wasmtime
             return false;
         }
 
-        public static Value FromValueBox(ValueBox box)
+        public static Value FromValueBox(Store store, ValueBox box)
         {
             var value = new Value();
             value.kind = box.Kind;
@@ -235,16 +235,19 @@ namespace Wasmtime
                 if (box.ExternRefObject is not null)
                 {
                     value.of.externref = Native.wasmtime_externref_new(
+                        store.Context.handle,
                         GCHandle.ToIntPtr(GCHandle.Alloc(box.ExternRefObject)),
                         Finalizer
                     );
+
+                    GC.KeepAlive(store);
                 }
             }
 
             return value;
         }
 
-        public ValueBox ToValueBox()
+        public ValueBox ToValueBox(Store store)
         {
             if (kind != ValueKind.ExternRef)
             {
@@ -252,16 +255,16 @@ namespace Wasmtime
             }
             else
             {
-                return new ValueBox(ResolveExternRef());
+                return new ValueBox(ResolveExternRef(store));
             }
         }
 
-        public static Value FromObject(object? o, TableKind kind)
+        public static Value FromObject(Store store, object? o, TableKind kind)
         {
-            return FromObject(o, (ValueKind)kind);
+            return FromObject(store, o, (ValueKind)kind);
         }
 
-        public static Value FromObject(object? o, ValueKind kind)
+        public static Value FromObject(Store store, object? o, ValueKind kind)
         {
             var value = new Value();
             value.kind = kind;
@@ -306,9 +309,12 @@ namespace Wasmtime
                         if (!(o is null))
                         {
                             value.of.externref = Native.wasmtime_externref_new(
+                                store.Context.handle,
                                 GCHandle.ToIntPtr(GCHandle.Alloc(o)),
                                 Value.Finalizer
                             );
+
+                            GC.KeepAlive(store);
                         }
                         break;
 
@@ -360,7 +366,7 @@ namespace Wasmtime
                     return of.v128;
 
                 case ValueKind.ExternRef:
-                    return ResolveExternRef();
+                    return ResolveExternRef(store);
 
                 case ValueKind.FuncRef:
                     return store.GetCachedExtern(of.funcref);
@@ -370,13 +376,13 @@ namespace Wasmtime
             }
         }
 
-        private object? ResolveExternRef()
+        private object? ResolveExternRef(Store store)
         {
             if (of.externref == IntPtr.Zero)
             {
                 return null;
             }
-            var data = Native.wasmtime_externref_data(of.externref);
+            var data = Native.wasmtime_externref_data(store.Context.handle, of.externref);
             if (data == IntPtr.Zero)
             {
                 return null;
@@ -392,13 +398,13 @@ namespace Wasmtime
             public static extern void wasmtime_val_delete(in Value val);
 
             [DllImport(Engine.LibraryName)]
-            public static extern IntPtr wasmtime_externref_new(IntPtr data, Finalizer? finalizer);
+            public static extern IntPtr wasmtime_externref_new(IntPtr context, IntPtr data, Finalizer? finalizer);
 
             [DllImport(Engine.LibraryName)]
-            public static extern IntPtr wasmtime_externref_data(IntPtr externref);
+            public static extern IntPtr wasmtime_externref_data(IntPtr context, IntPtr externref);
 
             [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_externref_delete(IntPtr externref);
+            public static extern void wasmtime_externref_delete(IntPtr context, IntPtr externref);
 
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasmtime_externref_from_raw(IntPtr context, IntPtr raw);

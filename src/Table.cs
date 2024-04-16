@@ -78,7 +78,7 @@ namespace Wasmtime
                 limits
             ));
 
-            var value = Value.FromObject(initialValue, Kind);
+            var value = Value.FromObject(store, initialValue, Kind);
             var error = Native.wasmtime_table_new(store.Context.handle, tableType, in value, out this.table);
             GC.KeepAlive(store);
             value.Dispose();
@@ -132,7 +132,7 @@ namespace Wasmtime
         /// <param name="value">The value to set.</param>
         public void SetElement(uint index, object? value)
         {
-            var v = Value.FromObject(value, Kind);
+            var v = Value.FromObject(store, value, Kind);
             var error = Native.wasmtime_table_set(store.Context.handle, this.table, index, v);
             GC.KeepAlive(store);
             v.Dispose();
@@ -162,7 +162,7 @@ namespace Wasmtime
         /// <returns>Returns the previous number of elements in the table.</returns>
         public uint Grow(uint delta, object? initialValue)
         {
-            var v = Value.FromObject(initialValue, Kind);
+            var v = Value.FromObject(store, initialValue, Kind);
 
             var error = Native.wasmtime_table_grow(store.Context.handle, this.table, delta, v, out var prev);
             GC.KeepAlive(store);
