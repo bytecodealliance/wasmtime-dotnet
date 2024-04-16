@@ -250,28 +250,31 @@ namespace Wasmtime.Tests
 
             using var engine = new Engine();
             using var module = Module.FromTextFile(engine, Path.Combine("Modules", path));
-            using var store = new Store(engine);
             using var linker = new Linker(engine);
 
             linker.DefineWasi();
 
-            store.SetWasiConfiguration(config);
-            var instance = linker.Instantiate(store, module);
+            using (var store = new Store(engine))
+            {
+                store.SetWasiConfiguration(config);
+                var instance = linker.Instantiate(store, module);
 
-            var memory = instance.GetMemory("memory");
-            memory.Should().NotBeNull();
-            var call_fd_write = instance.GetFunction("call_fd_write");
-            call_fd_write.Should().NotBeNull();
-            var call_fd_close = instance.GetFunction("call_fd_close");
-            call_fd_close.Should().NotBeNull();
+                var memory = instance.GetMemory("memory");
+                memory.Should().NotBeNull();
+                var call_fd_write = instance.GetFunction("call_fd_write");
+                call_fd_write.Should().NotBeNull();
+                var call_fd_close = instance.GetFunction("call_fd_close");
+                call_fd_close.Should().NotBeNull();
 
-            memory.WriteInt32(0, 8);
-            memory.WriteInt32(4, MESSAGE.Length);
-            memory.WriteString(8, MESSAGE);
+                memory.WriteInt32(0, 8);
+                memory.WriteInt32(4, MESSAGE.Length);
+                memory.WriteString(8, MESSAGE);
 
-            Assert.Equal(0, call_fd_write.Invoke(fd, 0, 1, 32));
-            Assert.Equal(MESSAGE.Length, memory.ReadInt32(32));
-            Assert.Equal(0, call_fd_close.Invoke(fd));
+                Assert.Equal(0, call_fd_write.Invoke(fd, 0, 1, 32));
+                Assert.Equal(MESSAGE.Length, memory.ReadInt32(32));
+                Assert.Equal(0, call_fd_close.Invoke(fd));
+            }
+
             Assert.Equal(MESSAGE, File.ReadAllText(file.Path));
         }
 
