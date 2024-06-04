@@ -38,8 +38,8 @@ jobs:
             os: windows-2019
             config: release
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-dotnet@v1
+    - uses: actions/checkout@v4
+    - uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0.x'
     #  workaround for actions/setup-dotnet#155
