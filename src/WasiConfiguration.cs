@@ -454,6 +454,7 @@ namespace Wasmtime
             public static extern void wasi_config_delete(IntPtr config);
 
             [DllImport(Engine.LibraryName)]
+            [return: MarshalAs(UnmanagedType.I1)]
             public unsafe static extern bool wasi_config_set_argv(Handle config, nuint argc, byte** argv);
 
             [DllImport(Engine.LibraryName)]
