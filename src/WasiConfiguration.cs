@@ -458,6 +458,7 @@ namespace Wasmtime
             public unsafe static extern bool wasi_config_set_argv(Handle config, nuint argc, byte** argv);
 
             [DllImport(Engine.LibraryName)]
+            [return: MarshalAs(UnmanagedType.I1)]
             public static extern unsafe bool wasi_config_set_env(
                 Handle config,
                 nuint envc,
