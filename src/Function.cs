@@ -88,7 +88,7 @@ namespace Wasmtime
         /// <summary>
         /// Determines if the underlying function reference is null.
         /// </summary>
-        public bool IsNull => func.index == UIntPtr.Zero && func.store == 0;
+        public bool IsNull => func.IsNull();
 
         /// <summary>
         /// Represents a null function reference.
@@ -333,7 +333,7 @@ namespace Wasmtime
                 {
                     for (int i = 0; i < Results.Count; ++i)
                     {
-                        resultsSpan[i].Dispose();
+                        resultsSpan[i].Release(store);
                     }
                 }
             }
@@ -341,7 +341,7 @@ namespace Wasmtime
             {
                 for (int i = 0; i < arguments.Length; ++i)
                 {
-                    args[i].Dispose();
+                    args[i].Release(store);
                 }
             }
 
@@ -444,8 +444,7 @@ namespace Wasmtime
         internal Function()
         {
             this.store = null;
-            this.func.store = 0;
-            this.func.index = (UIntPtr)0;
+            this.func = default;
             this.Parameters = this.Results = Array.Empty<ValueKind>();
         }
 

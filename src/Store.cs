@@ -344,7 +344,8 @@ namespace Wasmtime
 
         internal Function GetCachedExtern(ExternFunc @extern)
         {
-            var key = (ExternKind.Func, @extern.store, @extern.index);
+            // TODO: Check if using the __private field is Ok.
+            var key = (ExternKind.Func, @extern.store, @extern.__private);
 
             if (!_externCache.TryGetValue(key, out var func))
             {
@@ -357,7 +358,7 @@ namespace Wasmtime
 
         internal Memory GetCachedExtern(ExternMemory @extern)
         {
-            var key = (ExternKind.Memory, @extern.store, @extern.index);
+            var key = (ExternKind.Memory, @extern.store, @extern.__private);
 
             if (!_externCache.TryGetValue(key, out var mem))
             {
@@ -370,7 +371,7 @@ namespace Wasmtime
 
         internal Global GetCachedExtern(ExternGlobal @extern)
         {
-            var key = (ExternKind.Global, @extern.store, @extern.index);
+            var key = (ExternKind.Global, @extern.store, @extern.__private);
 
             if (!_externCache.TryGetValue(key, out var global))
             {
