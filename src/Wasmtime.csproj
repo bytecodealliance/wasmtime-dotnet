@@ -152,9 +152,9 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
   <Target Name="DownloadWasmtime" BeforeTargets="DispatchToInnerBuilds">
     <DownloadFile
       Condition="('$(Packing)'=='true' Or '%(Wasmtime.Copy)'=='true') And !Exists('$(BaseIntermediateOutputPath)/$(ReleaseFileNameBase)-%(Wasmtime.Arch)-%(Wasmtime.OS)-c-api.%(Wasmtime.FileExtension)')"
-	  SourceUrl="$(ReleaseURLBase)/$(ReleaseFileNameBase)-%(Wasmtime.Arch)-%(Wasmtime.OS)-c-api.%(Wasmtime.FileExtension)"
-	  DestinationFolder="$(BaseIntermediateOutputPath)"
-	  SkipUnchangedFiles="true"
+      SourceUrl="$(ReleaseURLBase)/$(ReleaseFileNameBase)-%(Wasmtime.Arch)-%(Wasmtime.OS)-c-api.%(Wasmtime.FileExtension)"
+      DestinationFolder="$(BaseIntermediateOutputPath)"
+      SkipUnchangedFiles="true"
     />
 
     <!-- Workaround for https://github.com/msys2/MSYS2-packages/issues/1548 -->

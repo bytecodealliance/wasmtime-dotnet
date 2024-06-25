@@ -18,7 +18,7 @@
 
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
-  	<AssemblyOriginatorKeyFile>Utils\wasmtime.tests.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>Utils\wasmtime.tests.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
