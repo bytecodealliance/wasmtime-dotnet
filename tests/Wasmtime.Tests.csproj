@@ -16,6 +16,11 @@
     </PackageReference>
   </ItemGroup>
 
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  	<AssemblyOriginatorKeyFile>Utils\wasmtime.tests.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\src\Wasmtime.csproj" />
   </ItemGroup>
