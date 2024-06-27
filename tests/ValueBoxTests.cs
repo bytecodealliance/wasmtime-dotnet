@@ -199,13 +199,11 @@ namespace Wasmtime.Tests
             var converted = box.ToValue(Store, ValueKind.FuncRef).ToValueBox(Store);
             converted.Kind.Should().Be(ValueKind.FuncRef);
             var unboxed = ValueBox.Converter<Function>().Unbox(Store, converted);
-            unboxed.func.__private.Should().Be(func.func.__private);
-            unboxed.func.store.Should().Be(func.func.store);
+            unboxed.func.Should().Be(func.func);
 
             var value = box.ToValue(Store, ValueKind.FuncRef);
             var obj = (Function)value.ToObject(Store)!;
-            obj.func.__private.Should().Be(func.func.__private);
-            obj.func.store.Should().Be(func.func.store);
+            obj.func.Should().Be(func.func);
         }
 
         private struct Unsupported
