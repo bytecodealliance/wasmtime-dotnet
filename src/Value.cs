@@ -65,7 +65,7 @@ namespace Wasmtime
     {
         public static bool IsNull(this in AnyRef anyref)
         {
-            // This code originates from macro "wasmtime_anyref_is_null" in `val.h`.
+            // This code originates from inline function "wasmtime_anyref_is_null" in `val.h`.
             return anyref.store == 0;
         }
     }
@@ -74,7 +74,7 @@ namespace Wasmtime
     {
         public static bool IsNull(this in ExternRef externref)
         {
-            // This code originates from macro "wasmtime_externref_is_null" in `val.h`.
+            // This code originates from inline function "wasmtime_externref_is_null" in `val.h`.
             return externref.store == 0;
         }
     }
@@ -83,7 +83,7 @@ namespace Wasmtime
     {
         public static bool IsNull(this in ExternFunc externfunc)
         {
-            // This code originates from macro "wasmtime_funcref_is_null" in `val.h`.
+            // This code originates from inline function "wasmtime_funcref_is_null" in `val.h`.
             return externfunc.store == 0;
         }
     }
@@ -514,9 +514,9 @@ namespace Wasmtime
     {
         public ulong store;
 
-        public uint __private1;
+        private uint __private1;
 
-        public uint __private2;
+        private uint __private2;
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -524,8 +524,8 @@ namespace Wasmtime
     {
         public ulong store;
 
-        public uint __private1;
+        private uint __private1;
 
-        public uint __private2;
+        private uint __private2;
     }
 }
