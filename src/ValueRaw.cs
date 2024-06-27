@@ -292,13 +292,16 @@ namespace Wasmtime
 
                 try
                 {
+                    // The externref allocated here won't be rooted when this method returns
+                    // (see comments below), so unlike with the regular `Value`, we don't
+                    // need to do a special clean-up in the caller when trying to allocate
+                    // multiple (externref) values and one of it fails.
                     if (!Value.Native.wasmtime_externref_new(
                         storeContext.handle,
                         GCHandle.ToIntPtr(gcHandle),
                         Value.Finalizer,
                         ref externref))
                     {
-                        // TODO: Check in which places this exception could be thrown.
                         throw new WasmtimeException("The host wasn't able to create more GC values at this time.");
                     }
                 }

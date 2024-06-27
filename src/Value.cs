@@ -196,6 +196,22 @@ namespace Wasmtime
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// When owning the value and you are finished with using it, you must release/unroot
+    /// it by calling the <see cref="Release(Store)"/> method. After that, the
+    /// <see cref="Value"/> must no longer be used.
+    /// </para>
+    /// <para>
+    /// Previously, this type implemented the <see cref="IDisposable"/> interface, but since
+    /// Wasmtime v20.0.0, unrooting the value requires passing a store context, which is why
+    /// the <see cref="Release(Store)"/> method needs to explicitly be called, passing a
+    /// <see cref="Store"/>.
+    /// </para>
+    /// </remarks>
     [StructLayout(LayoutKind.Sequential)]
     internal struct Value
     {
@@ -276,7 +292,6 @@ namespace Wasmtime
                             ref value.of.externref
                         ))
                         {
-                            // TODO: Check in which places this exception could be thrown.
                             throw new WasmtimeException("The host wasn't able to create more GC values at this time.");
                         }
                     }
@@ -365,7 +380,6 @@ namespace Wasmtime
                                     ref value.of.externref
                                 ))
                                 {
-                                    // TODO: Check in which places this exception could be thrown.
                                     throw new WasmtimeException("The host wasn't able to create more GC values at this time.");
                                 }
                             }
