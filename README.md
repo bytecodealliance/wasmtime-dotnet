@@ -143,13 +143,6 @@ in `Directory.Build.props`:
 <WasmtimeVersion Condition="'$(WasmtimeVersion)'==''">$VERSION</WasmtimeVersion>
 ```
 
-Additionally, edit `Wasmtime.csproj` to change the `PackageReleaseNotes` to the
-new version:
-
-```xml
-<PackageReleaseNotes>Update Wasmtime to $VERSION.</PackageReleaseNotes>
-```
-
 ### Publishing the Wasmtime .NET NuGet package
 
 GitHub actions is used to automatically publish a package to NuGet when a tag
