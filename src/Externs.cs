@@ -7,35 +7,35 @@ namespace Wasmtime
     internal struct ExternFunc
     {
         public ulong store;
-        public nuint __private;
+        private nuint __private;
     }
 
     [StructLayout(LayoutKind.Sequential)]
     internal struct ExternTable
     {
         public ulong store;
-        public nuint __private;
+        private nuint __private;
     }
 
     [StructLayout(LayoutKind.Sequential)]
     internal struct ExternMemory
     {
         public ulong store;
-        public nuint __private;
+        private nuint __private;
     }
 
     [StructLayout(LayoutKind.Sequential)]
     internal struct ExternInstance
     {
         public ulong store;
-        public nuint __private;
+        private nuint __private;
     }
 
     [StructLayout(LayoutKind.Sequential)]
     internal struct ExternGlobal
     {
         public ulong store;
-        public nuint __private;
+        private nuint __private;
     }
 
     internal enum ExternKind : byte
