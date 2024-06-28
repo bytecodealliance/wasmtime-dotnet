@@ -97,6 +97,8 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
     <ReleaseURLBase Condition="'$(ReleaseURLBase)'==''">$(BaseURL)/v$(WasmtimeVersion)</ReleaseURLBase>
     <ReleaseFileNameBase Condition="'$(DevBuild)'=='true'">wasmtime-dev</ReleaseFileNameBase>
     <ReleaseFileNameBase Condition="'$(ReleaseFileNameBase)'==''">wasmtime-v$(WasmtimeVersion)</ReleaseFileNameBase>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>Utils\wasmtime.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
