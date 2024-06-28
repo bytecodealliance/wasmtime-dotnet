@@ -118,14 +118,20 @@ namespace Wasmtime
             }
 
             var value = Value.FromObject(store, initialValue, Kind);
-            var error = Native.wasmtime_global_new(store.Context.handle, globalType, in value, out this.global);
-            GC.KeepAlive(store);
 
-            value.Dispose();
-
-            if (error != IntPtr.Zero)
+            try
             {
-                throw WasmtimeException.FromOwnedError(error);
+                var error = Native.wasmtime_global_new(store.Context.handle, globalType, in value, out this.global);
+                GC.KeepAlive(store);
+
+                if (error != IntPtr.Zero)
+                {
+                    throw WasmtimeException.FromOwnedError(error);
+                }
+            }
+            finally
+            {
+                value.Release(store);
             }
         }
 
@@ -139,9 +145,15 @@ namespace Wasmtime
             Native.wasmtime_global_get(context.handle, this.global, out var v);
             GC.KeepAlive(store);
 
-            var val = v.ToObject(store);
-            v.Dispose();
-            return val;
+            try
+            {
+                var val = v.ToObject(store);
+                return val;
+            }
+            finally
+            {
+                v.Release(store);
+            }
         }
 
         /// <summary>
@@ -156,10 +168,16 @@ namespace Wasmtime
             }
 
             var v = Value.FromObject(store, value, Kind);
-            Native.wasmtime_global_set(store.Context.handle, this.global, in v);
-            GC.KeepAlive(store);
 
-            v.Dispose();
+            try
+            {
+                Native.wasmtime_global_set(store.Context.handle, this.global, in v);
+                GC.KeepAlive(store);
+            }
+            finally
+            {
+                v.Release(store);
+            }
         }
 
         /// <summary>
@@ -300,10 +318,15 @@ namespace Wasmtime
                 Native.wasmtime_global_get(context.handle, _global.global, out var v);
                 GC.KeepAlive(_store);
 
-                var result = _converter.Unbox(_store, v.ToValueBox(_store));
-                v.Dispose();
-
-                return result;
+                try
+                {
+                    var result = _converter.Unbox(_store, v.ToValueBox(_store));
+                    return result;
+                }
+                finally
+                {
+                    v.Release(_store);
+                }
             }
 
             /// <summary>
@@ -317,11 +340,17 @@ namespace Wasmtime
                     throw new InvalidOperationException("The global is immutable and cannot be changed.");
                 }
 
-                using (var v = _converter.Box(value).ToValue(_store, _global.Kind))
+                var v = _converter.Box(value).ToValue(_store, _global.Kind);
+
+                try 
                 {
                     var context = _store.Context;
                     Native.wasmtime_global_set(context.handle, _global.global, in v);
                     GC.KeepAlive(_store);
+                }
+                finally
+                {
+                    v.Release(_store);
                 }
             }
 

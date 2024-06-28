@@ -79,13 +79,20 @@ namespace Wasmtime
             ));
 
             var value = Value.FromObject(store, initialValue, Kind);
-            var error = Native.wasmtime_table_new(store.Context.handle, tableType, in value, out this.table);
-            GC.KeepAlive(store);
-            value.Dispose();
 
-            if (error != IntPtr.Zero)
+            try
             {
-                throw WasmtimeException.FromOwnedError(error);
+                var error = Native.wasmtime_table_new(store.Context.handle, tableType, in value, out this.table);
+                GC.KeepAlive(store);
+
+                if (error != IntPtr.Zero)
+                {
+                    throw WasmtimeException.FromOwnedError(error);
+                }
+            }
+            finally
+            {
+                value.Release(store);
             }
         }
 
@@ -120,9 +127,15 @@ namespace Wasmtime
 
             GC.KeepAlive(store);
 
-            var val = v.ToObject(store);
-            v.Dispose();
-            return val;
+            try
+            {
+                var val = v.ToObject(store);
+                return val;
+            }
+            finally
+            {
+                v.Release(store);
+            }
         }
 
         /// <summary>
@@ -133,13 +146,20 @@ namespace Wasmtime
         public void SetElement(uint index, object? value)
         {
             var v = Value.FromObject(store, value, Kind);
-            var error = Native.wasmtime_table_set(store.Context.handle, this.table, index, v);
-            GC.KeepAlive(store);
-            v.Dispose();
 
-            if (error != IntPtr.Zero)
+            try 
             {
-                throw WasmtimeException.FromOwnedError(error);
+                var error = Native.wasmtime_table_set(store.Context.handle, this.table, index, v);
+                GC.KeepAlive(store);                
+
+                if (error != IntPtr.Zero)
+                {
+                    throw WasmtimeException.FromOwnedError(error);
+                }
+            }
+            finally 
+            {
+                v.Release(store);
             }
         }
 
@@ -164,16 +184,22 @@ namespace Wasmtime
         {
             var v = Value.FromObject(store, initialValue, Kind);
 
-            var error = Native.wasmtime_table_grow(store.Context.handle, this.table, delta, v, out var prev);
-            GC.KeepAlive(store);
-            v.Dispose();
-
-            if (error != IntPtr.Zero)
+            try
             {
-                throw WasmtimeException.FromOwnedError(error);
-            }
+                var error = Native.wasmtime_table_grow(store.Context.handle, this.table, delta, v, out var prev);
+                GC.KeepAlive(store);                
 
-            return prev;
+                if (error != IntPtr.Zero)
+                {
+                    throw WasmtimeException.FromOwnedError(error);
+                }
+
+                return prev;
+            }
+            finally
+            {
+                v.Release(store);
+            }
         }
 
         internal Table(Store store, ExternTable table)

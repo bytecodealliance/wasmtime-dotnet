@@ -1,6 +1,5 @@
 using System;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Wasmtime
@@ -24,10 +23,13 @@ namespace Wasmtime
         public V128 v128;
 
         [FieldOffset(0)]
-        public IntPtr funcref;
+        public uint anyref;
 
         [FieldOffset(0)]
-        public IntPtr externref;
+        public uint externref;
+
+        [FieldOffset(0)]
+        public IntPtr funcref;
 
         public static IValueRawConverter<T> Converter<T>()
         {
@@ -256,10 +258,10 @@ namespace Wasmtime
         {
             object? o = null;
 
-            if (valueRaw.externref != IntPtr.Zero)
+            if (valueRaw.externref != 0)
             {
-                // The externref is an owned value, so we must delete it afterwards.
-                var externref = Value.Native.wasmtime_externref_from_raw(storeContext.handle, valueRaw.externref);
+                // The externref is an owned value, so we must unroot it afterwards.
+                Value.Native.wasmtime_externref_from_raw(storeContext.handle, valueRaw.externref, out var externref);
 
                 try
                 {
@@ -271,7 +273,7 @@ namespace Wasmtime
                 }
                 finally
                 {
-                    Value.Native.wasmtime_externref_delete(storeContext.handle, externref);
+                    Value.Native.wasmtime_externref_unroot(storeContext.handle, externref);
                 }
             }
 
@@ -280,14 +282,34 @@ namespace Wasmtime
 
         public void Box(StoreContext storeContext, Store store, ref ValueRaw valueRaw, T value)
         {
-            IntPtr externrefPtr = IntPtr.Zero;
+            uint externrefRaw = 0;
 
             if (value is not null)
             {
-                var externref = Value.Native.wasmtime_externref_new(
-                    storeContext.handle,
-                    GCHandle.ToIntPtr(GCHandle.Alloc(value)),
-                    Value.Finalizer);
+                var externref = default(ExternRef);
+
+                var gcHandle = GCHandle.Alloc(value);
+
+                try
+                {
+                    // The externref allocated here won't be rooted when this method returns
+                    // (see comments below), so unlike with the regular `Value`, we don't
+                    // need to do a special clean-up in the caller when trying to allocate
+                    // multiple (externref) values and one of it fails.
+                    if (!Value.Native.wasmtime_externref_new(
+                        storeContext.handle,
+                        GCHandle.ToIntPtr(gcHandle),
+                        Value.Finalizer,
+                        ref externref))
+                    {
+                        throw new WasmtimeException("The host wasn't able to create more GC values at this time.");
+                    }
+                }
+                catch
+                {
+                    gcHandle.Free();
+                    throw;
+                }
 
                 try
                 {
@@ -295,17 +317,17 @@ namespace Wasmtime
                     // Note: The externref data isn't tracked by wasmtime's GC until
                     // it enters WebAssembly, so Store.GC() mustn't be called between
                     // converting the value and passing it to WebAssembly.
-                    externrefPtr = Value.Native.wasmtime_externref_to_raw(storeContext.handle, externref);
+                    externrefRaw = Value.Native.wasmtime_externref_to_raw(storeContext.handle, externref);
                 }
                 finally
                 {
-                    // We still must delete the old externref afterwards because
+                    // We still must unroot the old externref afterwards because
                     // wasmtime_externref_to_raw doesn't transfer ownership.
-                    Value.Native.wasmtime_externref_delete(storeContext.handle, externref);
+                    Value.Native.wasmtime_externref_unroot(storeContext.handle, externref);
                 }
             }
 
-            valueRaw.externref = externrefPtr;
+            valueRaw.externref = externrefRaw;
         }
     }
 

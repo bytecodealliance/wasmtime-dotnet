@@ -88,7 +88,7 @@ namespace Wasmtime
         /// <summary>
         /// Determines if the underlying function reference is null.
         /// </summary>
-        public bool IsNull => func.index == UIntPtr.Zero && func.store == 0;
+        public bool IsNull => func.IsNull();
 
         /// <summary>
         /// Represents a null function reference.
@@ -295,14 +295,28 @@ namespace Wasmtime
             Span<Value> args = stackalloc Value[Parameters.Count];
             for (var i = 0; i < arguments.Length; ++i)
             {
-                args[i] = arguments[i].ToValue(store, Parameters[i]);
-            }
+                try
+                {
+                    args[i] = arguments[i].ToValue(store, Parameters[i]);
+                }
+                catch
+                {
+                    // Clean-up the previous values in case an exception occured (e.g. when
+                    // `wasmtime_externref_new` failed).
+                    for (int releaseIndex = 0; releaseIndex < i; releaseIndex++)
+                    {
+                        args[releaseIndex].Release(store);
+                    }
 
-            // Make some space to store the return results
-            Span<Value> resultsSpan = stackalloc Value[Results.Count];
+                    throw;
+                }
+            }
 
             try
             {
+                // Make some space to store the return results
+                Span<Value> resultsSpan = stackalloc Value[Results.Count];
+
                 var trap = Invoke(args, resultsSpan);
                 if (trap != IntPtr.Zero)
                 {
@@ -333,7 +347,7 @@ namespace Wasmtime
                 {
                     for (int i = 0; i < Results.Count; ++i)
                     {
-                        resultsSpan[i].Dispose();
+                        resultsSpan[i].Release(store);
                     }
                 }
             }
@@ -341,10 +355,9 @@ namespace Wasmtime
             {
                 for (int i = 0; i < arguments.Length; ++i)
                 {
-                    args[i].Dispose();
+                    args[i].Release(store);
                 }
             }
-
         }
 
         /// <summary>
@@ -444,8 +457,7 @@ namespace Wasmtime
         internal Function()
         {
             this.store = null;
-            this.func.store = 0;
-            this.func.index = (UIntPtr)0;
+            this.func = default;
             this.Parameters = this.Results = Array.Empty<ValueKind>();
         }
 
@@ -648,7 +660,23 @@ namespace Wasmtime
 
                     for (int i = 0; i < resultsSpan.Length; i++)
                     {
-                        results[i] = resultsSpan[i].ToValue(caller.Store, resultKinds[i]);
+                        try
+                        {
+                            results[i] = resultsSpan[i].ToValue(caller.Store, resultKinds[i]);
+                        }
+                        catch
+                        {
+                            // Clean-up the previous result values in case an exception occured
+                            // (e.g. when `wasmtime_externref_new` failed), because we will
+                            // return an error in that case and therefore can't pass ownership
+                            // of already allocated result values.
+                            for (int releaseIndex = 0; releaseIndex < i; releaseIndex++) 
+                            {
+                                results[releaseIndex].Release(caller.Store);
+                            }
+
+                            throw;
+                        }
                     }
                 }
                 finally

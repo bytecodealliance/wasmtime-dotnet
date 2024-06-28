@@ -340,45 +340,41 @@ namespace Wasmtime
 
         private static readonly Native.Finalizer Finalizer = (p) => GCHandle.FromIntPtr(p).Free();
 
-        private readonly ConcurrentDictionary<(ExternKind kind, ulong store, nuint index), object> _externCache = new();
+        private readonly ConcurrentDictionary<ExternFunc, Function> _externFuncCache = new();
+        private readonly ConcurrentDictionary<ExternMemory, Memory> _externMemoryCache = new();
+        private readonly ConcurrentDictionary<ExternGlobal, Global> _externGlobalCache = new();
 
         internal Function GetCachedExtern(ExternFunc @extern)
         {
-            var key = (ExternKind.Func, @extern.store, @extern.index);
-
-            if (!_externCache.TryGetValue(key, out var func))
+            if (!_externFuncCache.TryGetValue(@extern, out var func))
             {
                 func = new Function(this, @extern);
-                func = _externCache.GetOrAdd(key, func);
+                func = _externFuncCache.GetOrAdd(@extern, func);
             }
 
-            return (Function)func;
+            return func;
         }
 
         internal Memory GetCachedExtern(ExternMemory @extern)
         {
-            var key = (ExternKind.Memory, @extern.store, @extern.index);
-
-            if (!_externCache.TryGetValue(key, out var mem))
+            if (!_externMemoryCache.TryGetValue(@extern, out var mem))
             {
                 mem = new Memory(this, @extern);
-                mem = _externCache.GetOrAdd(key, mem);
+                mem = _externMemoryCache.GetOrAdd(@extern, mem);
             }
 
-            return (Memory)mem;
+            return mem;
         }
 
         internal Global GetCachedExtern(ExternGlobal @extern)
         {
-            var key = (ExternKind.Global, @extern.store, @extern.index);
-
-            if (!_externCache.TryGetValue(key, out var global))
+            if (!_externGlobalCache.TryGetValue(@extern, out var global))
             {
                 global = new Global(this, @extern);
-                global = _externCache.GetOrAdd(key, global);
+                global = _externGlobalCache.GetOrAdd(@extern, global);
             }
 
-            return (Global)global;
+            return global;
         }
     }
 }

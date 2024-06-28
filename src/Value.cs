@@ -37,6 +37,10 @@ namespace Wasmtime
         /// The value is an external reference.
         /// </summary>
         ExternRef,
+        /// <summary>
+        /// The value is an `anyref`.
+        /// </summary>
+        AnyRef,
     }
 
     internal static class ValueKindExtensions
@@ -54,6 +58,33 @@ namespace Wasmtime
                 ValueKind.ExternRef => type.IsClass,
                 _ => throw new ArgumentOutOfRangeException(nameof(kind), kind, null)
             };
+        }
+    }
+
+    internal static class AnyRefExtensions
+    {
+        public static bool IsNull(this in AnyRef anyref)
+        {
+            // This code originates from inline function "wasmtime_anyref_is_null" in `val.h`.
+            return anyref.store == 0;
+        }
+    }
+
+    internal static class ExternRefExtensions
+    {
+        public static bool IsNull(this in ExternRef externref)
+        {
+            // This code originates from inline function "wasmtime_externref_is_null" in `val.h`.
+            return externref.store == 0;
+        }
+    }
+
+    internal static class ExternFuncExtensions
+    {
+        public static bool IsNull(this in ExternFunc externfunc)
+        {
+            // This code originates from inline function "wasmtime_funcref_is_null" in `val.h`.
+            return externfunc.store == 0;
         }
     }
 
@@ -165,13 +196,29 @@ namespace Wasmtime
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// When owning the value and you are finished with using it, you must release/unroot
+    /// it by calling the <see cref="Release(Store)"/> method. After that, the
+    /// <see cref="Value"/> must no longer be used.
+    /// </para>
+    /// <para>
+    /// Previously, this type implemented the <see cref="IDisposable"/> interface, but since
+    /// Wasmtime v20.0.0, unrooting the value requires passing a store context, which is why
+    /// the <see cref="Release(Store)"/> method needs to explicitly be called, passing a
+    /// <see cref="Store"/>.
+    /// </para>
+    /// </remarks>
     [StructLayout(LayoutKind.Sequential)]
-    internal struct Value : IDisposable
+    internal struct Value
     {
-        /// <inheritdoc/>
-        public void Dispose()
+        public void Release(Store store)
         {
-            Native.wasmtime_val_delete(this);
+            Native.wasmtime_val_unroot(store.Context.handle, this);
+            GC.KeepAlive(store);
         }
 
         public static bool TryGetKind(Type type, out ValueKind kind)
@@ -230,15 +277,29 @@ namespace Wasmtime
 
             if (value.kind == ValueKind.ExternRef)
             {
-                value.of.externref = IntPtr.Zero;
+                value.of.externref = default;
 
                 if (box.ExternRefObject is not null)
                 {
-                    value.of.externref = Native.wasmtime_externref_new(
-                        store.Context.handle,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(box.ExternRefObject)),
-                        Finalizer
-                    );
+                    var gcHandle = GCHandle.Alloc(box.ExternRefObject);
+
+                    try
+                    {
+                        if (!Native.wasmtime_externref_new(
+                            store.Context.handle,
+                            GCHandle.ToIntPtr(gcHandle),
+                            Finalizer,
+                            ref value.of.externref
+                        ))
+                        {
+                            throw new WasmtimeException("The host wasn't able to create more GC values at this time.");
+                        }
+                    }
+                    catch
+                    {
+                        gcHandle.Free();
+                        throw;
+                    }
 
                     GC.KeepAlive(store);
                 }
@@ -304,15 +365,29 @@ namespace Wasmtime
                         break;
 
                     case ValueKind.ExternRef:
-                        value.of.externref = IntPtr.Zero;
+                        value.of.externref = default;
 
-                        if (!(o is null))
+                        if (o is not null)
                         {
-                            value.of.externref = Native.wasmtime_externref_new(
-                                store.Context.handle,
-                                GCHandle.ToIntPtr(GCHandle.Alloc(o)),
-                                Value.Finalizer
-                            );
+                            var gcHandle = GCHandle.Alloc(o);
+
+                            try
+                            {
+                                if (!Native.wasmtime_externref_new(
+                                    store.Context.handle,
+                                    GCHandle.ToIntPtr(gcHandle),
+                                    Value.Finalizer,
+                                    ref value.of.externref
+                                ))
+                                {
+                                    throw new WasmtimeException("The host wasn't able to create more GC values at this time.");
+                                }
+                            }
+                            catch
+                            {
+                                gcHandle.Free();
+                                throw;
+                            }
 
                             GC.KeepAlive(store);
                         }
@@ -378,7 +453,7 @@ namespace Wasmtime
 
         private object? ResolveExternRef(Store store)
         {
-            if (of.externref == IntPtr.Zero)
+            if (of.externref.IsNull())
             {
                 return null;
             }
@@ -395,22 +470,23 @@ namespace Wasmtime
             public delegate void Finalizer(IntPtr data);
 
             [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_val_delete(in Value val);
+            public static extern void wasmtime_val_unroot(IntPtr context, in Value val);
 
             [DllImport(Engine.LibraryName)]
-            public static extern IntPtr wasmtime_externref_new(IntPtr context, IntPtr data, Finalizer? finalizer);
+            [return: MarshalAs(UnmanagedType.I1)]
+            public static extern bool wasmtime_externref_new(IntPtr context, IntPtr data, Finalizer? finalizer, ref ExternRef @out);
 
             [DllImport(Engine.LibraryName)]
-            public static extern IntPtr wasmtime_externref_data(IntPtr context, IntPtr externref);
+            public static extern IntPtr wasmtime_externref_data(IntPtr context, in ExternRef externref);
 
             [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_externref_delete(IntPtr context, IntPtr externref);
+            public static extern void wasmtime_externref_unroot(IntPtr context, in ExternRef externref);
 
             [DllImport(Engine.LibraryName)]
-            public static extern IntPtr wasmtime_externref_from_raw(IntPtr context, IntPtr raw);
+            public static extern void wasmtime_externref_from_raw(IntPtr context, uint raw, out ExternRef @out);
 
             [DllImport(Engine.LibraryName)]
-            public static extern IntPtr wasmtime_externref_to_raw(IntPtr context, IntPtr externref);
+            public static extern uint wasmtime_externref_to_raw(IntPtr context, in ExternRef externref);
         }
 
         public static readonly Native.Finalizer Finalizer = (p) => GCHandle.FromIntPtr(p).Free();
@@ -435,12 +511,35 @@ namespace Wasmtime
         public double f64;
 
         [FieldOffset(0)]
+        public AnyRef anyref;
+
+        [FieldOffset(0)]
+        public ExternRef externref;
+
+        [FieldOffset(0)]
         public ExternFunc funcref;
 
         [FieldOffset(0)]
-        public IntPtr externref;
-
-        [FieldOffset(0)]
         public V128 v128;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct AnyRef
+    {
+        public ulong store;
+
+        private uint __private1;
+
+        private uint __private2;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct ExternRef
+    {
+        public ulong store;
+
+        private uint __private1;
+
+        private uint __private2;
     }
 }
