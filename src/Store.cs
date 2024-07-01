@@ -344,7 +344,12 @@ namespace Wasmtime
 
         internal Function GetCachedExtern(ExternFunc @extern)
         {
-            // TODO: Check if using the __private field is Ok.
+            // We use a `ValueTuple` as key, consisting of the extern type and the both
+            // struct fields, which works since all `Extern...` structs have the same
+            // fields.
+            // Even though the second field is named "__private", it should be Ok to
+            // access it since we won't interpret the value in any way, but just use it
+            // to compare it to other values.
             var key = (ExternKind.Func, @extern.store, @extern.__private);
 
             if (!_externCache.TryGetValue(key, out var func))
