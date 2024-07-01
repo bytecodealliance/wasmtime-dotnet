@@ -9,8 +9,8 @@
   <strong>A <a href="https://bytecodealliance.org/">Bytecode Alliance</a> project</strong>
 
   <p>
-    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/actions?query=workflow%3ACI">
-      <img src="https://github.com/bytecodealliance/wasmtime-dotnet/workflows/CI/badge.svg" alt="CI status"/>
+    <a href="https://github.com/bytecodealliance/wasmtime-dotnet/actions/workflows/main.yml">
+      <img src="https://github.com/bytecodealliance/wasmtime-dotnet/actions/workflows/main.yml/badge.svg" alt="CI status"/>
     </a>
     <a href="https://www.nuget.org/packages/Wasmtime">
       <img src="https://img.shields.io/nuget/v/wasmtime" alt="Latest Version"/>
@@ -141,13 +141,6 @@ in `Directory.Build.props`:
 
 ```xml
 <WasmtimeVersion Condition="'$(WasmtimeVersion)'==''">$VERSION</WasmtimeVersion>
-```
-
-Additionally, edit `Wasmtime.csproj` to change the `PackageReleaseNotes` to the
-new version:
-
-```xml
-<PackageReleaseNotes>Update Wasmtime to $VERSION.</PackageReleaseNotes>
 ```
 
 ### Publishing the Wasmtime .NET NuGet package
