@@ -299,7 +299,9 @@ namespace Wasmtime
             {
                 fixed (byte** arrayOfStringsPtrNamedArgs = args)
                 {
-                    Native.wasi_config_set_argv(config, _args.Count, arrayOfStringsPtrNamedArgs);
+                    // This shouldn't ever fail - it would only return false if `ToUTF8PtrArray` creates invalid UTF8 bytes!
+                    if (!Native.wasi_config_set_argv(config, (nuint)_args.Count, arrayOfStringsPtrNamedArgs))
+                        throw new WasmtimeException("Failed to encode string to UTF8");
                 }
             }
             finally
@@ -329,7 +331,9 @@ namespace Wasmtime
 
             try
             {
-                Native.wasi_config_set_env(config, _vars.Count, names, values);
+                // This shouldn't ever fail - it would only return false if `ToUTF8PtrArray` creates invalid UTF8 bytes!
+                if (!Native.wasi_config_set_env(config, (nuint)_vars.Count, names, values))
+                    throw new WasmtimeException("Failed to encode string to UTF8");
             }
             finally
             {
@@ -450,12 +454,14 @@ namespace Wasmtime
             public static extern void wasi_config_delete(IntPtr config);
 
             [DllImport(Engine.LibraryName)]
-            public unsafe static extern void wasi_config_set_argv(Handle config, int argc, byte** argv);
+            [return: MarshalAs(UnmanagedType.I1)]
+            public unsafe static extern bool wasi_config_set_argv(Handle config, nuint argc, byte** argv);
 
             [DllImport(Engine.LibraryName)]
-            public static extern unsafe void wasi_config_set_env(
+            [return: MarshalAs(UnmanagedType.I1)]
+            public static extern unsafe bool wasi_config_set_env(
                 Handle config,
-                int envc,
+                nuint envc,
                 byte*[] names,
                 byte*[] values
             );
