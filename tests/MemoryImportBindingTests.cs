@@ -43,7 +43,11 @@ namespace Wasmtime.Tests
             action
                .Should()
                .Throw<ArgumentNullException>()
-               .WithMessage("Value cannot be null. (Parameter 'store')");
+#if NETFRAMEWORK
+               .WithMessage("Value cannot be null.\r\nParameter name: store");
+#else
+               .WithMessage("Value cannot be null. (Parameter 'store')");        
+#endif
         }
 
         [Fact]
@@ -67,7 +71,11 @@ namespace Wasmtime.Tests
             action
                .Should()
                .Throw<ArgumentOutOfRangeException>()
+#if NETFRAMEWORK
+               .WithMessage("Specified argument was out of the range of valid values.\r\nParameter name: minimum");
+#else
                .WithMessage("Specified argument was out of the range of valid values. (Parameter 'minimum')");
+#endif
         }
 
         [Fact]
@@ -78,7 +86,11 @@ namespace Wasmtime.Tests
             action
                .Should()
                .Throw<ArgumentOutOfRangeException>()
+#if NETFRAMEWORK
+               .WithMessage("Specified argument was out of the range of valid values.\r\nParameter name: maximum");
+#else
                .WithMessage("Specified argument was out of the range of valid values. (Parameter 'maximum')");
+#endif
         }
 
         [Fact]
@@ -89,7 +101,12 @@ namespace Wasmtime.Tests
             action
                .Should()
                .Throw<ArgumentException>()
+#if NETFRAMEWORK
+               .WithMessage("The maximum cannot be less than the minimum.\r\nParameter name: maximum");
+#else
                .WithMessage("The maximum cannot be less than the minimum. (Parameter 'maximum')");
+#endif
+
         }
 
         [Fact]
