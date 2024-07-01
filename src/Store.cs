@@ -340,7 +340,7 @@ namespace Wasmtime
 
         private static readonly Native.Finalizer Finalizer = (p) => GCHandle.FromIntPtr(p).Free();
 
-        private readonly ConcurrentDictionary<(ExternKind kind, ulong store, nuint index), object> _externCache = new();
+        private readonly ConcurrentDictionary<(ExternKind kind, ulong store, nuint __private), object> _externCache = new();
 
         internal Function GetCachedExtern(ExternFunc @extern)
         {
