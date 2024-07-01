@@ -1,8 +1,6 @@
 using System;
-using System.Diagnostics.Metrics;
 using System.Linq;
 using FluentAssertions;
-using Newtonsoft.Json.Linq;
 using Xunit;
 
 namespace Wasmtime.Tests
