@@ -340,41 +340,51 @@ namespace Wasmtime
 
         private static readonly Native.Finalizer Finalizer = (p) => GCHandle.FromIntPtr(p).Free();
 
-        private readonly ConcurrentDictionary<ExternFunc, Function> _externFuncCache = new();
-        private readonly ConcurrentDictionary<ExternMemory, Memory> _externMemoryCache = new();
-        private readonly ConcurrentDictionary<ExternGlobal, Global> _externGlobalCache = new();
+        private readonly ConcurrentDictionary<(ExternKind kind, ulong store, nuint __private), object> _externCache = new();
 
         internal Function GetCachedExtern(ExternFunc @extern)
         {
-            if (!_externFuncCache.TryGetValue(@extern, out var func))
+            // We use a `ValueTuple` as key, consisting of the extern type and the both
+            // struct fields, which works since all `Extern...` structs have the same
+            // fields.
+            // Even though the second field is named "__private", it should be Ok to
+            // access it since we won't interpret the value in any way, but just use it
+            // to compare it to other values.
+            var key = (ExternKind.Func, @extern.store, @extern.__private);
+
+            if (!_externCache.TryGetValue(key, out var func))
             {
                 func = new Function(this, @extern);
-                func = _externFuncCache.GetOrAdd(@extern, func);
+                func = _externCache.GetOrAdd(key, func);
             }
 
-            return func;
+            return (Function)func;
         }
 
         internal Memory GetCachedExtern(ExternMemory @extern)
         {
-            if (!_externMemoryCache.TryGetValue(@extern, out var mem))
+            var key = (ExternKind.Memory, @extern.store, @extern.__private);
+
+            if (!_externCache.TryGetValue(key, out var mem))
             {
                 mem = new Memory(this, @extern);
-                mem = _externMemoryCache.GetOrAdd(@extern, mem);
+                mem = _externCache.GetOrAdd(key, mem);
             }
 
-            return mem;
+            return (Memory)mem;
         }
 
         internal Global GetCachedExtern(ExternGlobal @extern)
         {
-            if (!_externGlobalCache.TryGetValue(@extern, out var global))
+            var key = (ExternKind.Global, @extern.store, @extern.__private);
+
+            if (!_externCache.TryGetValue(key, out var global))
             {
                 global = new Global(this, @extern);
-                global = _externGlobalCache.GetOrAdd(@extern, global);
+                global = _externCache.GetOrAdd(key, global);
             }
 
-            return global;
+            return (Global)global;
         }
     }
 }
