@@ -298,7 +298,7 @@ namespace Wasmtime
         /// <returns>Returns the current config.</returns>
         public Config WithStaticMemoryMaximumSize(ulong size)
         {
-            Native.wasmtime_config_static_memory_maximum_size_set(handle, size);
+            Native.wasmtime_config_memory_reservation_set(handle, size);
             return this;
         }
 
@@ -443,7 +443,7 @@ namespace Wasmtime
             public static extern void wasmtime_config_profiler_set(Handle config, byte strategy);
 
             [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_config_static_memory_maximum_size_set(Handle config, ulong size);
+            public static extern void wasmtime_config_memory_reservation_set(Handle config, ulong size);
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_config_memory_guard_size_set(Handle config, ulong size);
