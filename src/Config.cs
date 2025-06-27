@@ -303,24 +303,13 @@ namespace Wasmtime
         }
 
         /// <summary>
-        /// Sets the maximum size of the guard region for static WebAssembly linear memories.
+        /// Sets the size of the guard region used at the end of a linear memory’s address space reservation
         /// </summary>
-        /// <param name="size">The maximum guard region size for static WebAssembly linear memories, in bytes.</param>
+        /// <param name="size">The size, in bytes, of the guard region used at the end of a linear memory’s address space reservation</param>
         /// <returns>Returns the current config.</returns>
-        public Config WithStaticMemoryGuardSize(ulong size)
+        public Config WithMemoryGuardSize(ulong size)
         {
-            Native.wasmtime_config_static_memory_guard_size_set(handle, size);
-            return this;
-        }
-
-        /// <summary>
-        /// Sets the maximum size of the guard region for dynamic WebAssembly linear memories.
-        /// </summary>
-        /// <param name="size">The maximum guard region size for dynamic WebAssembly linear memories, in bytes.</param>
-        /// <returns>Returns the current config.</returns>
-        public Config WithDynamicMemoryGuardSize(ulong size)
-        {
-            Native.wasmtime_config_dynamic_memory_guard_size_set(handle, size);
+            Native.wasmtime_config_memory_guard_size_set(handle, size);
             return this;
         }
 
@@ -457,10 +446,7 @@ namespace Wasmtime
             public static extern void wasmtime_config_static_memory_maximum_size_set(Handle config, ulong size);
 
             [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_config_static_memory_guard_size_set(Handle config, ulong size);
-
-            [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_config_dynamic_memory_guard_size_set(Handle config, ulong size);
+            public static extern void wasmtime_config_memory_guard_size_set(Handle config, ulong size);
 
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasmtime_config_cache_config_load(Handle config, [MarshalAs(Extensions.LPUTF8Str)] string? path);

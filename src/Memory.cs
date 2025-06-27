@@ -17,7 +17,8 @@ namespace Wasmtime
         /// <param name="minimum">The minimum number of WebAssembly pages.</param>
         /// <param name="maximum">The maximum number of WebAssembly pages, or <c>null</c> to not specify a maximum.</param>
         /// <param name="is64Bit"><c>true</c> when memory type represents a 64-bit memory, <c>false</c> when it represents a 32-bit memory.</param>
-        public Memory(Store store, long minimum = 0, long? maximum = null, bool is64Bit = false)
+        /// <param name="isShared"><c>true</c> when memory is shared, <c>false</c> when it is not shared.</param>
+        public Memory(Store store, long minimum = 0, long? maximum = null, bool is64Bit = false, bool isShared = false)
         {
             if (store is null)
             {
@@ -43,8 +44,9 @@ namespace Wasmtime
             Minimum = minimum;
             Maximum = maximum;
             Is64Bit = is64Bit;
+            IsShared = isShared;
 
-            var typeHandle = Native.wasmtime_memorytype_new((ulong)minimum, maximum is not null, (ulong)(maximum ?? 0), is64Bit);
+            var typeHandle = Native.wasmtime_memorytype_new((ulong)minimum, maximum is not null, (ulong)(maximum ?? 0), is64Bit, isShared);
             try
             {
 
@@ -61,7 +63,7 @@ namespace Wasmtime
                 Native.wasm_memorytype_delete(typeHandle);
             }
         }
-
+        
         /// <summary>
         /// The size, in bytes, of a WebAssembly memory page.
         /// </summary>
@@ -84,6 +86,12 @@ namespace Wasmtime
         /// </summary>
         /// <value><c>true</c> if this type of memory represents a 64-bit memory, <c>false</c> otherwise.</value>
         public bool Is64Bit { get; }
+
+        /// <summary>
+        /// Gets a value that indicates whether this memory is shared.
+        /// </summary>
+        /// <value><c>true</c> if this memory is shared, <c>false</c> otherwise.</value>
+        public bool IsShared { get; }
 
         /// <summary>
         /// Gets the current size of the memory, in WebAssembly page units.
@@ -595,7 +603,7 @@ namespace Wasmtime
             public static extern IntPtr wasmtime_memory_type(IntPtr context, in ExternMemory memory);
 
             [DllImport(Engine.LibraryName)]
-            public static extern IntPtr wasmtime_memorytype_new(ulong min, [MarshalAs(UnmanagedType.I1)] bool max_present, ulong max, [MarshalAs(UnmanagedType.I1)] bool is_64);
+            public static extern IntPtr wasmtime_memorytype_new(ulong min, [MarshalAs(UnmanagedType.I1)] bool max_present, ulong max, [MarshalAs(UnmanagedType.I1)] bool is_64, [MarshalAs(UnmanagedType.I1)] bool shared);
 
             [DllImport(Engine.LibraryName)]
             public static extern ulong wasmtime_memorytype_minimum(IntPtr type);
