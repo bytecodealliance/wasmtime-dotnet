@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
     <DevBuild Condition="'$(DevBuild)'==''">false</DevBuild>
-    <WasmtimeVersion Condition="'$(WasmtimeVersion)'==''">32.0.1</WasmtimeVersion>
+    <WasmtimeVersion Condition="'$(WasmtimeVersion)'==''">33.0.1</WasmtimeVersion>
     <WasmtimeDotnetVersion Condition="'$(WasmtimeDotnetVersion)'==''"></WasmtimeDotnetVersion>
     <WasmtimePackageVersion Condition="'$(DevBuild)'=='true'">
       $(WasmtimeVersion)$(WasmtimeDotnetVersion)-dev</WasmtimePackageVersion>
