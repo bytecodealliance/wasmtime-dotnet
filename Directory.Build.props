@@ -1,11 +1,9 @@
 <Project>
   <PropertyGroup>
-    <DevBuild Condition="'$(DevBuild)'==''">false</DevBuild>
-    <WasmtimeVersion Condition="'$(WasmtimeVersion)'==''">33.0.1</WasmtimeVersion>
+    <DevBuild Condition="'$(DevBuild)'==''">true</DevBuild>
+    <WasmtimeVersion Condition="'$(WasmtimeVersion)'==''">34.0.1</WasmtimeVersion>
     <WasmtimeDotnetVersion Condition="'$(WasmtimeDotnetVersion)'==''"></WasmtimeDotnetVersion>
-    <WasmtimePackageVersion Condition="'$(DevBuild)'=='true'">
-      $(WasmtimeVersion)$(WasmtimeDotnetVersion)-dev</WasmtimePackageVersion>
-    <WasmtimePackageVersion Condition="'$(WasmtimePackageVersion)'==''">
-      $(WasmtimeVersion)$(WasmtimeDotnetVersion)</WasmtimePackageVersion>
+    <WasmtimePackageVersion Condition="'$(DevBuild)'=='true'">$(WasmtimeVersion)$(WasmtimeDotnetVersion)-dev</WasmtimePackageVersion>
+    <WasmtimePackageVersion Condition="'$(WasmtimePackageVersion)'==''">$(WasmtimeVersion)$(WasmtimeDotnetVersion)</WasmtimePackageVersion>
   </PropertyGroup>
 </Project>
