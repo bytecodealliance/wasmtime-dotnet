@@ -17,8 +17,7 @@ namespace Wasmtime
         /// <param name="minimum">The minimum number of WebAssembly pages.</param>
         /// <param name="maximum">The maximum number of WebAssembly pages, or <c>null</c> to not specify a maximum.</param>
         /// <param name="is64Bit"><c>true</c> when memory type represents a 64-bit memory, <c>false</c> when it represents a 32-bit memory.</param>
-        /// <param name="isShared"><c>true</c> when memory is shared, <c>false</c> when it is not shared.</param>
-        public Memory(Store store, long minimum = 0, long? maximum = null, bool is64Bit = false, bool isShared = false)
+        public Memory(Store store, long minimum = 0, long? maximum = null, bool is64Bit = false)
         {
             if (store is null)
             {
@@ -44,9 +43,9 @@ namespace Wasmtime
             Minimum = minimum;
             Maximum = maximum;
             Is64Bit = is64Bit;
-            IsShared = isShared;
-
-            var typeHandle = Native.wasmtime_memorytype_new((ulong)minimum, maximum is not null, (ulong)(maximum ?? 0), is64Bit, isShared);
+            IsShared = false;
+            
+            var typeHandle = Native.wasmtime_memorytype_new((ulong)minimum, maximum is not null, (ulong)(maximum ?? 0), is64Bit, IsShared);
             try
             {
 
