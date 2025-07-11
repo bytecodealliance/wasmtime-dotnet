@@ -339,17 +339,19 @@ namespace Wasmtime
         private object? data;
 
         private static readonly Native.Finalizer Finalizer = (p) => GCHandle.FromIntPtr(p).Free();
-
-        private readonly ConcurrentDictionary<ExternFunc, Function> _externFuncCache = new();
+        
+        // The caches below use the external struct type as key type. These structs contain
+        // __private fields, but these are not interpreted and merely used for value comparison.
+        private readonly ConcurrentDictionary<ExternFunc, Function> _externFunctionCache = new();
         private readonly ConcurrentDictionary<ExternMemory, Memory> _externMemoryCache = new();
         private readonly ConcurrentDictionary<ExternGlobal, Global> _externGlobalCache = new();
 
         internal Function GetCachedExtern(ExternFunc @extern)
         {
-            if (!_externFuncCache.TryGetValue(@extern, out var func))
+            if (!_externFunctionCache.TryGetValue(@extern, out var func))
             {
                 func = new Function(this, @extern);
-                func = _externFuncCache.GetOrAdd(@extern, func);
+                func = _externFunctionCache.GetOrAdd(@extern, func);
             }
 
             return func;
