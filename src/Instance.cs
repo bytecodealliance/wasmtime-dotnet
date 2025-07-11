@@ -588,12 +588,15 @@ namespace Wasmtime
         {
             for (var i = 0; i < int.MaxValue; i++)
             {
-                if (TryGetExtern(i, ExternKind.Func) is not var (name, @extern))
+                if (TryGetExtern(i) is not var (name, @extern))
                 {
                     break;
                 }
 
-                yield return (name, _store.GetCachedExtern(@extern.of.func));
+                if (@extern.kind == ExternKind.Func)
+                {
+                    yield return (name, _store.GetCachedExtern(@extern.of.func));
+                }
             }
 
             GC.KeepAlive(_store);
@@ -607,12 +610,15 @@ namespace Wasmtime
         {
             for (var i = 0; i < int.MaxValue; i++)
             {
-                if (TryGetExtern(i, ExternKind.Table) is not var (name, @extern))
+                if (TryGetExtern(i) is not var (name, @extern))
                 {
                     break;
                 }
 
-                yield return (name, new Table(_store, @extern.of.table));
+                if (@extern.kind == ExternKind.Table)
+                {
+                    yield return (name, new Table(_store, @extern.of.table));
+                }
             }
 
             GC.KeepAlive(_store);
@@ -626,12 +632,15 @@ namespace Wasmtime
         {
             for (var i = 0; i < int.MaxValue; i++)
             {
-                if (TryGetExtern(i, ExternKind.Memory) is not var (name, @extern))
+                if (TryGetExtern(i) is not var (name, @extern))
                 {
                     break;
                 }
 
-                yield return (name, _store.GetCachedExtern(@extern.of.memory));
+                if (@extern.kind == ExternKind.Memory)
+                {
+                    yield return (name, _store.GetCachedExtern(@extern.of.memory));
+                }
             }
 
             GC.KeepAlive(_store);
@@ -645,12 +654,15 @@ namespace Wasmtime
         {
             for (var i = 0; i < int.MaxValue; i++)
             {
-                if (TryGetExtern(i, ExternKind.Global) is not var (name, @extern))
+                if (TryGetExtern(i) is not var (name, @extern))
                 {
                     break;
                 }
 
-                yield return (name, _store.GetCachedExtern(@extern.of.global));
+                if (@extern.kind == ExternKind.Global)
+                {
+                    yield return (name, _store.GetCachedExtern(@extern.of.global));
+                }
             }
 
             GC.KeepAlive(_store);
