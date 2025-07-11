@@ -1,41 +1,69 @@
 using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace Wasmtime
 {
     [StructLayout(LayoutKind.Sequential)]
-    internal struct ExternFunc
+    internal record struct ExternFunc
     {
+        static ExternFunc() => Debug.Assert(Marshal.SizeOf(typeof(ExternFunc)) == 16);
+
+        public ulong store;
+        public IntPtr __private;
+    }
+
+    [StructLayout(LayoutKind.Explicit)]
+    internal record struct ExternTable
+    {
+        static ExternTable() => Debug.Assert(Marshal.SizeOf(typeof(ExternTable)) == 24);
+
+        // Use explicit offsets because the struct in the C api has extra padding
+        // due to field alignments. The total struct size is 24 bytes.
+        
+        [FieldOffset(0)]
+        public ulong store;
+        [FieldOffset(8)]
+        public uint __private1;
+        [FieldOffset(16)]
+        public uint __private2;
+    }
+
+    
+    [StructLayout(LayoutKind.Explicit)]
+    internal record struct ExternMemory
+    {
+        static ExternMemory() => Debug.Assert(Marshal.SizeOf(typeof(ExternMemory)) == 24);
+
+        // Use explicit offsets because the struct in the C api has extra padding
+        // due to field alignments. The total struct size is 24 bytes.
+        
+        [FieldOffset(0)]
+        public ulong store;
+        [FieldOffset(8)]
+        public uint __private1;
+        [FieldOffset(16)]
+        public uint __private2;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal record struct ExternInstance
+    {
+        static ExternInstance() => Debug.Assert(Marshal.SizeOf(typeof(ExternInstance)) == 16);
+
         public ulong store;
         public nuint __private;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct ExternTable
+    internal record struct ExternGlobal
     {
-        public ulong store;
-        public nuint __private;
-    }
+        static ExternGlobal() => Debug.Assert(Marshal.SizeOf(typeof(ExternMemory)) == 24);
 
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct ExternMemory
-    {
         public ulong store;
-        public nuint __private;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct ExternInstance
-    {
-        public ulong store;
-        public nuint __private;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct ExternGlobal
-    {
-        public ulong store;
-        public nuint __private;
+        public uint __private1;
+        public uint __private2;
+        public uint __private3;
     }
 
     internal enum ExternKind : byte
@@ -50,6 +78,8 @@ namespace Wasmtime
     [StructLayout(LayoutKind.Explicit)]
     internal struct ExternUnion
     {
+        static ExternUnion() => Debug.Assert(Marshal.SizeOf(typeof(ExternUnion)) == 24);
+
         [FieldOffset(0)]
         public ExternFunc func;
 
@@ -69,6 +99,8 @@ namespace Wasmtime
     [StructLayout(LayoutKind.Sequential)]
     internal struct Extern : IDisposable
     {
+        static Extern() => Debug.Assert(Marshal.SizeOf(typeof(Extern)) == 32);
+        
         public ExternKind kind;
         public ExternUnion of;
 

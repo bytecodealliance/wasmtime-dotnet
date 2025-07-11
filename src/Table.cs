@@ -147,17 +147,17 @@ namespace Wasmtime
         {
             var v = Value.FromObject(store, value, Kind);
 
-            try 
+            try
             {
                 var error = Native.wasmtime_table_set(store.Context.handle, this.table, index, v);
-                GC.KeepAlive(store);                
+                GC.KeepAlive(store);
 
                 if (error != IntPtr.Zero)
                 {
                     throw WasmtimeException.FromOwnedError(error);
                 }
             }
-            finally 
+            finally
             {
                 v.Release(store);
             }
@@ -167,7 +167,7 @@ namespace Wasmtime
         /// Gets the current size of the table.
         /// </summary>
         /// <value>Returns the current size of the table.</value>
-        public uint GetSize()
+        public ulong GetSize()
         {
             var result = Native.wasmtime_table_size(store.Context.handle, this.table);
             GC.KeepAlive(store);
@@ -180,14 +180,14 @@ namespace Wasmtime
         /// <param name="delta">The number of elements to grow the table.</param>
         /// <param name="initialValue">The initial value for the new elements.</param>
         /// <returns>Returns the previous number of elements in the table.</returns>
-        public uint Grow(uint delta, object? initialValue)
+        public ulong Grow(uint delta, object? initialValue)
         {
             var v = Value.FromObject(store, initialValue, Kind);
 
             try
             {
                 var error = Native.wasmtime_table_grow(store.Context.handle, this.table, delta, v, out var prev);
-                GC.KeepAlive(store);                
+                GC.KeepAlive(store);
 
                 if (error != IntPtr.Zero)
                 {
@@ -261,16 +261,16 @@ namespace Wasmtime
 
             [DllImport(Engine.LibraryName)]
             [return: MarshalAs(UnmanagedType.I1)]
-            public static extern bool wasmtime_table_get(IntPtr context, in ExternTable table, uint index, out Value val);
+            public static extern bool wasmtime_table_get(IntPtr context, in ExternTable table, ulong index, out Value val);
 
             [DllImport(Engine.LibraryName)]
-            public static extern IntPtr wasmtime_table_set(IntPtr context, in ExternTable table, uint index, in Value val);
+            public static extern IntPtr wasmtime_table_set(IntPtr context, in ExternTable table, ulong index, in Value val);
 
             [DllImport(Engine.LibraryName)]
-            public static extern uint wasmtime_table_size(IntPtr context, in ExternTable table);
+            public static extern ulong wasmtime_table_size(IntPtr context, in ExternTable table);
 
             [DllImport(Engine.LibraryName)]
-            public static extern IntPtr wasmtime_table_grow(IntPtr context, in ExternTable table, uint delta, in Value value, out uint prev);
+            public static extern IntPtr wasmtime_table_grow(IntPtr context, in ExternTable table, ulong delta, in Value value, out ulong prev);
 
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasmtime_table_type(IntPtr context, in ExternTable table);
