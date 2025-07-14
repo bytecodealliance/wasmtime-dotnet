@@ -72,6 +72,13 @@ namespace Wasmtime
             }
         }
 
+        internal void SetWasiConfiguration(Wasi2Configuration config)
+        {
+            var wasi = config.Build();
+            Native.wasmtime_context_set_wasip2(handle, wasi.DangerousGetHandle());
+            wasi.SetHandleAsInvalid();
+        }
+
         /// <summary>
         /// Configures the relative deadline at which point WebAssembly code will trap.
         /// </summary>
@@ -94,6 +101,9 @@ namespace Wasmtime
 
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasmtime_context_set_wasi(IntPtr handle, IntPtr config);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_context_set_wasip2(IntPtr handle, IntPtr config2);
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_context_set_epoch_deadline(IntPtr handle, ulong ticksBeyondCurrent);
@@ -234,6 +244,16 @@ namespace Wasmtime
         /// </summary>
         /// <param name="config">The WASI configuration to use.</param>
         public void SetWasiConfiguration(WasiConfiguration config)
+        {
+            Context.SetWasiConfiguration(config);
+            System.GC.KeepAlive(this);
+        }
+
+        /// <summary>
+        /// Configures WASI2 within the store.
+        /// </summary>
+        /// <param name="config">The WASI2 configuration to use.</param>
+        public void SetWasiConfiguration(Wasi2Configuration config)
         {
             Context.SetWasiConfiguration(config);
             System.GC.KeepAlive(this);
