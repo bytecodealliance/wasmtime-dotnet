@@ -287,7 +287,7 @@ namespace Wasmtime.Tests
             using var file = new TempFile();
 
             var config = new WasiConfiguration()
-                .WithPreopenedDirectory(Path.GetDirectoryName(file.Path), "/foo");
+                .WithPreopenedDirectory(Path.GetDirectoryName(file.Path), "/foo", WasiDirectoryPermissions.Read | WasiDirectoryPermissions.Write, WasiFilePermissions.Read | WasiFilePermissions.Write);
 
             using var engine = new Engine();
             using var module = Module.FromTextFile(engine, Path.Combine("Modules", path));

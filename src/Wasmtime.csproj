@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.1;netstandard2.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.1;netstandard2.0;net8.0;net9.0</TargetFrameworks>
     <LangVersion>10</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Nullable>enable</Nullable>
@@ -141,6 +141,15 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
       <OS>windows</OS>
       <Arch>x86_64</Arch>
       <RID>win-x64</RID>
+      <FileExtension>zip</FileExtension>
+      <LibraryFilename>wasmtime.dll</LibraryFilename>
+    </Wasmtime>
+
+    <Wasmtime Include="windows-aarch64">
+      <Copy Condition="$([MSBuild]::IsOsPlatform('Windows')) And '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)'=='Arm64'">true</Copy>
+      <OS>windows</OS>
+      <Arch>aarch64</Arch>
+      <RID>win-arm64</RID>
       <FileExtension>zip</FileExtension>
       <LibraryFilename>wasmtime.dll</LibraryFilename>
     </Wasmtime>
