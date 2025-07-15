@@ -44,6 +44,11 @@ namespace Wasmtime
             Native.wasmtime_engine_increment_epoch(handle);
         }
 
+        /// <summary>
+        /// Returns whether this engine is using the Pulley interpreter to execute WebAssembly code.
+        /// </summary>
+        public bool IsPulleyInterpreter => Native.wasmtime_engine_is_pulley(NativeHandle);
+
         internal Handle NativeHandle
         {
             get
@@ -76,7 +81,7 @@ namespace Wasmtime
         {
             [DllImport(LibraryName)]
             public static extern IntPtr wasm_engine_new();
-
+            
             [DllImport(LibraryName)]
             public static extern IntPtr wasm_engine_new_with_config(Config.Handle config);
 
@@ -85,6 +90,9 @@ namespace Wasmtime
 
             [DllImport(LibraryName)]
             public static extern void wasmtime_engine_increment_epoch(Handle engine);
+            
+            [DllImport(LibraryName)]
+            public static extern bool wasmtime_engine_is_pulley(Handle engine);
         }
 
         private readonly Handle handle;
