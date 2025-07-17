@@ -92,6 +92,7 @@ namespace Wasmtime
             public static extern void wasmtime_engine_increment_epoch(Handle engine);
             
             [DllImport(LibraryName)]
+            [return: MarshalAs(UnmanagedType.I1)]
             public static extern bool wasmtime_engine_is_pulley(Handle engine);
         }
 
