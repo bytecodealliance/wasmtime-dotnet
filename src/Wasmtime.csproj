@@ -46,7 +46,7 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
   <ItemGroup>
     <None Include="README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <None Update="Function.FromCallback.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
