@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using System;
+using Xunit;
 
 namespace Wasmtime.Tests;
 
@@ -12,6 +13,8 @@ public class Wasi2Tests
 
         var config = new Wasi2Configuration();
         config.WithInheritedStandardInput();
+        config.WithInheritedStandardOutput();
+        config.WithInheritedStandardError();
 
         store.SetWasiConfiguration(config);
     }
