@@ -9,3 +9,4 @@ bin/
 obj/
 
 BenchmarkDotNet.Artifacts/
+/Wasmtime.sln.DotSettings.user
