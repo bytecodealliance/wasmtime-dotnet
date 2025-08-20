@@ -1,9 +1,4 @@
-﻿using System.Drawing;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace Wasmtime.Components;
+﻿namespace Wasmtime.Components;
 
 // todo: everything here: https://docs.wasmtime.dev/c-api/component_2val_8h.html
 /*
