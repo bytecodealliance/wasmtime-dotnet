@@ -21,6 +21,9 @@ using System;
 using System.Buffers;
 using System.Runtime.InteropServices;
 using System.Text;
+#if NET5_0_OR_GREATER
+using System.Diagnostics.CodeAnalysis;
+#endif
 
 namespace Wasmtime
 {
@@ -44,6 +47,12 @@ foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateTy
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Defining functions may require runtime code generation for parameter and result types.")]
+<# if (resultCount > 0) { #>
+        [RequiresUnreferencedCode("Defining functions with results may require reflection.")]
+<# } #>
+#endif
         public void DefineFunction<#= methodGenerics #>(string module, string name, <#= delegateType #> callback)
         {
             if (module is null)

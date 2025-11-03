@@ -18,6 +18,9 @@
 #nullable enable
 
 using System;
+#if NET5_0_OR_GREATER
+using System.Diagnostics.CodeAnalysis;
+#endif
 
 namespace Wasmtime
 {
@@ -39,6 +42,16 @@ foreach (var (_, returnTypeCount, parameterCount, methodGenerics, delegateType, 
         /// Attempt to wrap this function as <#= returnTypeCount > 0 ? "a <c>Func</c>" : "an <c>Action</c>" #>. Wrapped <c><#= returnTypeCount > 0 ? "Func" : "Action" #></c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c><#= returnTypeCount > 0 ? "Func" : "Action" #></c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+<# if (returnTypeCount > 0) { #>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+#endif
+<# } else { #>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions may require runtime code generation for parameter types.")]
+#endif
+<# } #>
         public <#= delegateType #>? Wrap<#= returnTypeCount > 0 ? "Func" : "Action" #><#= methodGenerics #>()
         {
             if (store is null || IsNull)

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+#if NET5_0_OR_GREATER
+using System.Diagnostics.CodeAnalysis;
+#endif
 
 namespace Wasmtime
 {
@@ -13,6 +16,14 @@ namespace Wasmtime
 
     internal static class ReturnTypeFactory<TReturn>
     {
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Creating factory instances requires runtime code generation which is not supported with AOT compilation.")]
+        [RequiresUnreferencedCode("Creating factory instances requires reflection which may break with trimming.")]
+        [UnconditionalSuppressMessage("ReflectionAnalysis", "IL2055:MakeGenericType",
+            Justification = "The generic types are constrained by the function signature and will be available at runtime.")]
+        [UnconditionalSuppressMessage("ReflectionAnalysis", "IL2072:DynamicallyAccessedMembers",
+            Justification = "The factory types have parameterless constructors by design.")]
+#endif
         public static IReturnTypeFactory<TReturn> Create()
         {
             // First, check if the value is a result builder
@@ -116,6 +127,10 @@ namespace Wasmtime
     {
         private readonly IReturnTypeFactory<TValue> _valueFactory;
 
+#if NET5_0_OR_GREATER
+        [RequiresUnreferencedCode("Calls Wasmtime.ReturnTypeFactory<TReturn>.Create()")]
+        [RequiresDynamicCode("Calls Wasmtime.ReturnTypeFactory<TReturn>.Create()")]
+#endif
         public FunctionResultFactory()
         {
             _valueFactory = ReturnTypeFactory<TValue>.Create();
@@ -141,6 +156,10 @@ namespace Wasmtime
     {
         private readonly IValueRawConverter<TReturn> converter;
 
+#if NET5_0_OR_GREATER
+        [UnconditionalSuppressMessage("AOT", "IL3050:RequiresDynamicCode",
+            Justification = "NonTupleTypeFactory is instantiated through reflection-based code paths that are already marked with RequiresDynamicCode.")]
+#endif
         public NonTupleTypeFactory()
         {
             converter = ValueRaw.Converter<TReturn>();
@@ -163,6 +182,11 @@ namespace Wasmtime
     {
         protected TFunc Factory { get; }
 
+#if NET5_0_OR_GREATER
+        [UnconditionalSuppressMessage("ReflectionAnalysis", "IL2060:MakeGenericMethod",
+            Justification = "The ValueTuple.Create method is available for all tuple arities used.")]
+        [RequiresDynamicCode("Calls System.Reflection.MethodInfo.MakeGenericMethod(params Type[])")]
+#endif
         protected BaseTupleFactory()
         {
             // Get all the generic arguments of TFunc. All of the Parameters, followed by the return type
@@ -193,6 +217,10 @@ namespace Wasmtime
         private readonly IValueRawConverter<TA> converterA;
         private readonly IValueRawConverter<TB> converterB;
 
+#if NET5_0_OR_GREATER
+        [UnconditionalSuppressMessage("AOT", "IL3050:RequiresDynamicCode",
+            Justification = "Tuple factories are only instantiated through reflection which is already marked with RequiresDynamicCode.")]
+#endif
         public TupleFactory2()
         {
             converterA = ValueRaw.Converter<TA>();
@@ -220,6 +248,10 @@ namespace Wasmtime
         private readonly IValueRawConverter<TB> converterB;
         private readonly IValueRawConverter<TC> converterC;
 
+#if NET5_0_OR_GREATER
+        [UnconditionalSuppressMessage("AOT", "IL3050:RequiresDynamicCode",
+            Justification = "Tuple factories are only instantiated through reflection which is already marked with RequiresDynamicCode.")]
+#endif
         public TupleFactory3()
         {
             converterA = ValueRaw.Converter<TA>();
@@ -250,6 +282,10 @@ namespace Wasmtime
         private readonly IValueRawConverter<TC> converterC;
         private readonly IValueRawConverter<TD> converterD;
 
+#if NET5_0_OR_GREATER
+        [UnconditionalSuppressMessage("AOT", "IL3050:RequiresDynamicCode",
+            Justification = "Tuple factories are only instantiated through reflection which is already marked with RequiresDynamicCode.")]
+#endif
         public TupleFactory4()
         {
             converterA = ValueRaw.Converter<TA>();
@@ -283,6 +319,10 @@ namespace Wasmtime
         private readonly IValueRawConverter<TD> converterD;
         private readonly IValueRawConverter<TE> converterE;
 
+#if NET5_0_OR_GREATER
+        [UnconditionalSuppressMessage("AOT", "IL3050:RequiresDynamicCode",
+            Justification = "Tuple factories are only instantiated through reflection which is already marked with RequiresDynamicCode.")]
+#endif
         public TupleFactory5()
         {
             converterA = ValueRaw.Converter<TA>();
@@ -319,6 +359,10 @@ namespace Wasmtime
         private readonly IValueRawConverter<TE> converterE;
         private readonly IValueRawConverter<TF> converterF;
 
+#if NET5_0_OR_GREATER
+        [UnconditionalSuppressMessage("AOT", "IL3050:RequiresDynamicCode",
+            Justification = "Tuple factories are only instantiated through reflection which is already marked with RequiresDynamicCode.")]
+#endif
         public TupleFactory6()
         {
             converterA = ValueRaw.Converter<TA>();
@@ -358,6 +402,10 @@ namespace Wasmtime
         private readonly IValueRawConverter<TF> converterF;
         private readonly IValueRawConverter<TG> converterG;
 
+#if NET5_0_OR_GREATER
+        [UnconditionalSuppressMessage("AOT", "IL3050:RequiresDynamicCode",
+            Justification = "Tuple factories are only instantiated through reflection which is already marked with RequiresDynamicCode.")]
+#endif
         public TupleFactory7()
         {
             converterA = ValueRaw.Converter<TA>();

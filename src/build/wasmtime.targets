@@ -1,0 +1,69 @@
+<Project>
+  <PropertyGroup>
+    <WasmtimeLibPath Condition="'$(WasmtimeLibPath)'==''">$(MSBuildThisFileDirectory)..\runtimes</WasmtimeLibPath>
+    <WasmtimeLibPath Condition="!Exists('$(WasmtimeLibPath)')">$(MSBuildThisFileDirectory)..\obj</WasmtimeLibPath>
+    <WasmtimeStaticLink Condition="'$(WasmtimeStaticLink)'==''">false</WasmtimeStaticLink>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(PublishAot)'=='true' And '$(WasmtimeStaticLink)'=='true'">
+    <DirectPInvoke Include="wasmtime" />
+
+    <NativeLibrary Include="$(WasmtimeLibPath)\wasmtime-dev-aarch64-macos-c-api\lib\libwasmtime.a"
+      Condition="'$(RuntimeIdentifier)'=='osx-arm64' And Exists('$(WasmtimeLibPath)\wasmtime-dev-aarch64-macos-c-api\lib\libwasmtime.a')" />
+    <NativeLibrary Include="$(WasmtimeLibPath)\osx-arm64\native\libwasmtime.a"
+      Condition="'$(RuntimeIdentifier)'=='osx-arm64' And Exists('$(WasmtimeLibPath)\osx-arm64\native\libwasmtime.a')" />
+
+    <NativeLibrary Include="$(WasmtimeLibPath)\wasmtime-dev-x86_64-macos-c-api\lib\libwasmtime.a"
+      Condition="'$(RuntimeIdentifier)'=='osx-x64' And Exists('$(WasmtimeLibPath)\wasmtime-dev-x86_64-macos-c-api\lib\libwasmtime.a')" />
+    <NativeLibrary Include="$(WasmtimeLibPath)\osx-x64\native\libwasmtime.a"
+      Condition="'$(RuntimeIdentifier)'=='osx-x64' And Exists('$(WasmtimeLibPath)\osx-x64\native\libwasmtime.a')" />
+
+    <NativeLibrary Include="$(WasmtimeLibPath)\wasmtime-dev-aarch64-linux-c-api\lib\libwasmtime.a"
+      Condition="'$(RuntimeIdentifier)'=='linux-arm64' And Exists('$(WasmtimeLibPath)\wasmtime-dev-aarch64-linux-c-api\lib\libwasmtime.a')" />
+    <NativeLibrary Include="$(WasmtimeLibPath)\linux-arm64\native\libwasmtime.a"
+      Condition="'$(RuntimeIdentifier)'=='linux-arm64' And Exists('$(WasmtimeLibPath)\linux-arm64\native\libwasmtime.a')" />
+
+    <NativeLibrary Include="$(WasmtimeLibPath)\wasmtime-dev-x86_64-linux-c-api\lib\libwasmtime.a"
+      Condition="'$(RuntimeIdentifier)'=='linux-x64' And Exists('$(WasmtimeLibPath)\wasmtime-dev-x86_64-linux-c-api\lib\libwasmtime.a')" />
+    <NativeLibrary Include="$(WasmtimeLibPath)\linux-x64\native\libwasmtime.a"
+      Condition="'$(RuntimeIdentifier)'=='linux-x64' And Exists('$(WasmtimeLibPath)\linux-x64\native\libwasmtime.a')" />
+
+    <NativeLibrary Include="$(WasmtimeLibPath)\wasmtime-dev-x86_64-windows-c-api\lib\wasmtime.lib"
+      Condition="'$(RuntimeIdentifier)'=='win-x64' And Exists('$(WasmtimeLibPath)\wasmtime-dev-x86_64-windows-c-api\lib\wasmtime.lib')" />
+    <NativeLibrary Include="$(WasmtimeLibPath)\win-x64\native\wasmtime.lib"
+      Condition="'$(RuntimeIdentifier)'=='win-x64' And Exists('$(WasmtimeLibPath)\win-x64\native\wasmtime.lib')" />
+
+    <NativeLibrary Include="$(WasmtimeLibPath)\wasmtime-dev-aarch64-windows-c-api\lib\wasmtime.lib"
+      Condition="'$(RuntimeIdentifier)'=='win-arm64' And Exists('$(WasmtimeLibPath)\wasmtime-dev-aarch64-windows-c-api\lib\wasmtime.lib')" />
+    <NativeLibrary Include="$(WasmtimeLibPath)\win-arm64\native\wasmtime.lib"
+      Condition="'$(RuntimeIdentifier)'=='win-arm64' And Exists('$(WasmtimeLibPath)\win-arm64\native\wasmtime.lib')" />
+  </ItemGroup>
+
+  <Target Name="RemoveWasmtimeLibrariesForBuild"
+    BeforeTargets="_CopyOutOfDateSourceItemsToOutputDirectory"
+    Condition="'$(PublishAot)'=='true' And '$(WasmtimeStaticLink)'=='true'">
+    <ItemGroup>
+      <_SourceItemsToCopyToOutputDirectory
+        Remove="@(_SourceItemsToCopyToOutputDirectory->'%(Identity)')"
+        Condition="'%(Filename)%(Extension)' == 'libwasmtime.so' Or 
+                                                       '%(Filename)%(Extension)' == 'libwasmtime.dylib' Or 
+                                                       '%(Filename)%(Extension)' == 'libwasmtime.a' Or
+                                                       '%(Filename)%(Extension)' == 'wasmtime.dll' Or
+                                                       '%(Filename)%(Extension)' == 'wasmtime.lib'" />
+    </ItemGroup>
+  </Target>
+
+
+  <Target Name="RemoveWasmtimeLibrariesForPublish"
+    AfterTargets="ComputeResolvedFilesToPublishList"
+    Condition="'$(PublishAot)'=='true' And '$(WasmtimeStaticLink)'=='true'">
+    <ItemGroup>
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish->'%(Identity)')"
+        Condition="'%(Filename)%(Extension)' == 'libwasmtime.so' Or 
+                                        '%(Filename)%(Extension)' == 'libwasmtime.dylib' Or 
+                                        '%(Filename)%(Extension)' == 'libwasmtime.a' Or
+                                        '%(Filename)%(Extension)' == 'wasmtime.dll' Or
+                                        '%(Filename)%(Extension)' == 'wasmtime.lib'" />
+    </ItemGroup>
+  </Target>
+</Project>

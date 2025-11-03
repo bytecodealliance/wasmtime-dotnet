@@ -1,4 +1,7 @@
 ﻿using System;
+#if NET5_0_OR_GREATER
+using System.Diagnostics.CodeAnalysis;
+#endif
 
 namespace Wasmtime
 {
@@ -245,7 +248,15 @@ namespace Wasmtime
 
     internal static class TypeExtensions
     {
-        public static Type? TryGetResultInterface(this Type type)
+#if NET5_0_OR_GREATER
+        [UnconditionalSuppressMessage("ReflectionAnalysis", "IL2070:DynamicallyAccessedMembers",
+            Justification = "The interfaces we're looking for (IActionResult and IFunctionResult) are part of the type definition and will be preserved.")]
+#endif
+        public static Type? TryGetResultInterface(
+#if NET5_0_OR_GREATER
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)]
+#endif
+            this Type type)
         {
             foreach (var @interface in type.GetInterfaces())
             {
@@ -264,12 +275,20 @@ namespace Wasmtime
             return null;
         }
 
-        public static bool IsResultType(this Type type)
+        public static bool IsResultType(
+#if NET5_0_OR_GREATER
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)]
+#endif
+            this Type type)
         {
             return type.TryGetResultInterface() != null;
         }
 
-        public static Type? GetResultInnerType(this Type type)
+        public static Type? GetResultInnerType(
+#if NET5_0_OR_GREATER
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)]
+#endif
+            this Type type)
         {
             var result = type.TryGetResultInterface();
             if (result == null)

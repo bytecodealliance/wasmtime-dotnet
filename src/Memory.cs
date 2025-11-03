@@ -44,11 +44,51 @@ namespace Wasmtime
             Maximum = maximum;
             Is64Bit = is64Bit;
             IsShared = false;
-            
-            var typeHandle = Native.wasmtime_memorytype_new((ulong)minimum, maximum is not null, (ulong)(maximum ?? 0), is64Bit, IsShared);
+
+        #if WASMTIME_DEV
+        #if NET5_0_OR_GREATER
+            byte pageSizeLog2 = (byte)Math.Log2(PageSize);
+        #else
+            byte pageSizeLog2 = (byte)(Math.Log(PageSize) / Math.Log(2));
+        #endif
+            var typeError = Native.wasmtime_memorytype_new(
+                (ulong)minimum,
+                maximum is not null,
+                (ulong)(maximum ?? 0),
+                is64Bit,
+                IsShared,
+                pageSizeLog2,
+                out IntPtr typeHandle);
+
+            if (typeError != IntPtr.Zero)
+            {
+                throw WasmtimeException.FromOwnedError(typeError);
+            }
+
             try
             {
+                var memError = Native.wasmtime_memory_new(store.Context.handle, typeHandle, out this.memory);
+                GC.KeepAlive(store);
 
+                if (memError != IntPtr.Zero)
+                {
+                    throw WasmtimeException.FromOwnedError(memError);
+                }
+            }
+            finally
+            {
+                Native.wasm_memorytype_delete(typeHandle);
+            }
+        #else
+            var typeHandle = Native.wasmtime_memorytype_new(
+                (ulong)minimum,
+                maximum is not null,
+                (ulong)(maximum ?? 0),
+                is64Bit,
+                IsShared);
+
+            try
+            {
                 var error = Native.wasmtime_memory_new(store.Context.handle, typeHandle, out this.memory);
                 GC.KeepAlive(store);
 
@@ -61,8 +101,9 @@ namespace Wasmtime
             {
                 Native.wasm_memorytype_delete(typeHandle);
             }
+        #endif
         }
-        
+
         /// <summary>
         /// The size, in bytes, of a WebAssembly memory page.
         /// </summary>
@@ -574,6 +615,7 @@ namespace Wasmtime
                 }
 
                 Is64Bit = Native.wasmtime_memorytype_is64(typeHandle);
+                IsShared = Native.wasmtime_memorytype_isshared(typeHandle);
             }
             finally
             {
@@ -601,8 +643,26 @@ namespace Wasmtime
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasmtime_memory_type(IntPtr context, in ExternMemory memory);
 
+#if WASMTIME_DEV
             [DllImport(Engine.LibraryName)]
-            public static extern IntPtr wasmtime_memorytype_new(ulong min, [MarshalAs(UnmanagedType.I1)] bool max_present, ulong max, [MarshalAs(UnmanagedType.I1)] bool is_64, [MarshalAs(UnmanagedType.I1)] bool shared);
+            public static extern IntPtr wasmtime_memorytype_new(
+                ulong min,
+                [MarshalAs(UnmanagedType.I1)] bool max_present,
+                ulong max,
+                [MarshalAs(UnmanagedType.I1)] bool is_64,
+                [MarshalAs(UnmanagedType.I1)] bool shared,
+                byte page_size_log2,
+                out IntPtr ret);
+#else
+    
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasmtime_memorytype_new(
+                ulong min, 
+                [MarshalAs(UnmanagedType.I1)] bool max_present, 
+                ulong max, 
+                [MarshalAs(UnmanagedType.I1)] bool is_64, 
+                [MarshalAs(UnmanagedType.I1)] bool shared);
+#endif
 
             [DllImport(Engine.LibraryName)]
             public static extern ulong wasmtime_memorytype_minimum(IntPtr type);
@@ -614,6 +674,10 @@ namespace Wasmtime
             [DllImport(Engine.LibraryName)]
             [return: MarshalAs(UnmanagedType.I1)]
             public static extern bool wasmtime_memorytype_is64(IntPtr type);
+
+            [DllImport(Engine.LibraryName)]
+            [return: MarshalAs(UnmanagedType.I1)]
+            public static extern bool wasmtime_memorytype_isshared(IntPtr type);
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasm_memorytype_delete(IntPtr handle);

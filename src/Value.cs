@@ -217,7 +217,7 @@ namespace Wasmtime
     {
         public void Release(Store store)
         {
-            Native.wasmtime_val_unroot(store.Context.handle, this);
+            Native.wasmtime_val_unroot(this);
             GC.KeepAlive(store);
         }
 
@@ -470,7 +470,7 @@ namespace Wasmtime
             public delegate void Finalizer(IntPtr data);
 
             [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_val_unroot(IntPtr context, in Value val);
+            public static extern void wasmtime_val_unroot(in Value val);
 
             [DllImport(Engine.LibraryName)]
             [return: MarshalAs(UnmanagedType.I1)]
@@ -480,7 +480,7 @@ namespace Wasmtime
             public static extern IntPtr wasmtime_externref_data(IntPtr context, in ExternRef externref);
 
             [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_externref_unroot(IntPtr context, in ExternRef externref);
+            public static extern void wasmtime_externref_unroot(in ExternRef externref);
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_externref_from_raw(IntPtr context, uint raw, out ExternRef @out);
@@ -531,6 +531,8 @@ namespace Wasmtime
         private uint __private1;
 
         private uint __private2;
+
+        private IntPtr __private3;
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -541,5 +543,7 @@ namespace Wasmtime
         private uint __private1;
 
         private uint __private2;
+
+        private IntPtr __private3;
     }
 }

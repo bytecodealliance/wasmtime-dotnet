@@ -20,6 +20,7 @@
     <RepositoryUrl>https://github.com/bytecodealliance/wasmtime-dotnet</RepositoryUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IsAotCompatible>true</IsAotCompatible>
     <PackageReleaseNotes>Update Wasmtime to $(WasmtimeVersion).</PackageReleaseNotes>
     <Summary>A .NET API for Wasmtime, a standalone WebAssembly runtime</Summary>
     <PackageTags>webassembly, .net, wasm, wasmtime</PackageTags>
@@ -37,6 +38,10 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
     <ContinuousIntegrationBuild Condition="'$(DevBuild)'=='false'">true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(DevBuild)'=='true'">
+    <DefineConstants>$(DefineConstants);WASMTIME_DEV</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
     <PackageReference Include="System.Memory" Version="4.5.5" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
@@ -45,6 +50,8 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
 
   <ItemGroup>
     <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="build\wasmtime.targets" Pack="true" PackagePath="build\" />
+    <None Include="build\wasmtime.targets" Pack="true" PackagePath="buildTransitive\" />
   </ItemGroup>
   
   <ItemGroup>
@@ -107,6 +114,7 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
       <RID>linux-x64</RID>
       <FileExtension>tar.xz</FileExtension>
       <LibraryFilename>libwasmtime.so</LibraryFilename>
+      <StaticLibraryFilename>libwasmtime.a</StaticLibraryFilename>
     </Wasmtime>
 
     <Wasmtime Include="linux-aarch64">
@@ -116,6 +124,7 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
       <RID>linux-arm64</RID>
       <FileExtension>tar.xz</FileExtension>
       <LibraryFilename>libwasmtime.so</LibraryFilename>
+      <StaticLibraryFilename>libwasmtime.a</StaticLibraryFilename>
     </Wasmtime>
 
     <Wasmtime Include="macos-x86_64">
@@ -125,6 +134,7 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
       <RID>osx-x64</RID>
       <FileExtension>tar.xz</FileExtension>
       <LibraryFilename>libwasmtime.dylib</LibraryFilename>
+      <StaticLibraryFilename>libwasmtime.a</StaticLibraryFilename>
     </Wasmtime>
 
     <Wasmtime Include="macos-aarch64">
@@ -134,6 +144,7 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
       <RID>osx-arm64</RID>
       <FileExtension>tar.xz</FileExtension>
       <LibraryFilename>libwasmtime.dylib</LibraryFilename>
+      <StaticLibraryFilename>libwasmtime.a</StaticLibraryFilename>
     </Wasmtime>
 
     <Wasmtime Include="windows-x86_64">
@@ -143,6 +154,7 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
       <RID>win-x64</RID>
       <FileExtension>zip</FileExtension>
       <LibraryFilename>wasmtime.dll</LibraryFilename>
+      <StaticLibraryFilename>wasmtime.lib</StaticLibraryFilename>
     </Wasmtime>
 
     <Wasmtime Include="windows-aarch64">
@@ -152,6 +164,7 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
       <RID>win-arm64</RID>
       <FileExtension>zip</FileExtension>
       <LibraryFilename>wasmtime.dll</LibraryFilename>
+      <StaticLibraryFilename>wasmtime.lib</StaticLibraryFilename>
     </Wasmtime>
   </ItemGroup>
 
@@ -183,10 +196,14 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
       <Content Include="$(BaseIntermediateOutputPath)$(ReleaseFileNameBase)-%(Wasmtime.Arch)-%(Wasmtime.OS)-c-api/lib/%(Wasmtime.LibraryFilename)">
         <PackagePath>runtimes/%(Wasmtime.RID)/native/%(Wasmtime.LibraryFilename)</PackagePath>
       </Content>
+      <Content Include="$(BaseIntermediateOutputPath)$(ReleaseFileNameBase)-%(Wasmtime.Arch)-%(Wasmtime.OS)-c-api/lib/%(Wasmtime.StaticLibraryFilename)">
+        <PackagePath>runtimes/%(Wasmtime.RID)/native/%(Wasmtime.StaticLibraryFilename)</PackagePath>
+      </Content>
     </ItemGroup>
   </Target>
 
-   <Target Name="CopyWasmtimeLibrary" BeforeTargets="BeforeBuild">
+  <Target Name="CopyWasmtimeLibrary" AfterTargets="ResolveProjectReferences"
+    Condition="'$(PublishAot)'!='true' And '$(IsPublishing)'!='true' And '$(WasmtimeStaticLink)'!='true'">
     <ItemGroup>
       <Content Condition="'%(Wasmtime.Copy)'=='true'" Include="$(BaseIntermediateOutputPath)$(ReleaseFileNameBase)-%(Wasmtime.Arch)-%(Wasmtime.OS)-c-api/lib/%(Wasmtime.LibraryFilename)">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

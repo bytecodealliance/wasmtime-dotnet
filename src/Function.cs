@@ -5,6 +5,9 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
+#if NET5_0_OR_GREATER
+using System.Diagnostics.CodeAnalysis;
+#endif
 
 namespace Wasmtime
 {
@@ -101,7 +104,16 @@ namespace Wasmtime
         /// <param name="returnType">Return type (use a tuple for multiple return types)</param>
         /// <param name="parameters">The parameters of the function</param>
         /// <returns>Returns true if the type signature of the function is valid or false if not.</returns>
-        public bool CheckTypeSignature(Type? returnType = null, params Type[] parameters)
+#if NET5_0_OR_GREATER
+        [UnconditionalSuppressMessage("ReflectionAnalysis", "IL2072:UnrecognizedReflectionPattern",
+            Justification = "The GetResultInnerType method returns a type that maintains the same interface requirements as the input type.")]
+#endif
+        public bool CheckTypeSignature(
+#if NET5_0_OR_GREATER
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)] 
+#endif
+            Type? returnType = null, 
+            params Type[] parameters)
         {
             // Check if the return type is a recognised result type (i.e. implements IActionResult or IFunctionResult)
             if (returnType != null && returnType.IsResultType())

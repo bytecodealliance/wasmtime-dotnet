@@ -1,6 +1,9 @@
 using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
+#if NET5_0_OR_GREATER
+using System.Diagnostics.CodeAnalysis;
+#endif
 
 namespace Wasmtime
 {
@@ -31,6 +34,11 @@ namespace Wasmtime
         [FieldOffset(0)]
         public IntPtr funcref;
 
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Creating converter instances for tuple types requires runtime code generation which is not supported with AOT compilation.")]
+        [UnconditionalSuppressMessage("ReflectionAnalysis", "IL3050:RequiresDynamicCode",
+            Justification = "Tuple converters require MakeGenericType which is annotated with RequiresDynamicCode.")]
+#endif
         public static IValueRawConverter<T> Converter<T>()
         {
             // Ensure we are on a little endian system. For big endian, we would need
@@ -273,7 +281,7 @@ namespace Wasmtime
                 }
                 finally
                 {
-                    Value.Native.wasmtime_externref_unroot(storeContext.handle, externref);
+                    Value.Native.wasmtime_externref_unroot(externref);
                 }
             }
 
@@ -323,7 +331,7 @@ namespace Wasmtime
                 {
                     // We still must unroot the old externref afterwards because
                     // wasmtime_externref_to_raw doesn't transfer ownership.
-                    Value.Native.wasmtime_externref_unroot(storeContext.handle, externref);
+                    Value.Native.wasmtime_externref_unroot(externref);
                 }
             }
 
@@ -336,8 +344,18 @@ namespace Wasmtime
     {
         public static readonly Tuple2ValueRawConverter<T1, T2> Instance = new();
 
-        private readonly IValueRawConverter<T1> Converter1 = ValueRaw.Converter<T1>();
-        private readonly IValueRawConverter<T2> Converter2 = ValueRaw.Converter<T2>();
+        private readonly IValueRawConverter<T1> Converter1;
+        private readonly IValueRawConverter<T2> Converter2;
+
+#if NET5_0_OR_GREATER
+        [UnconditionalSuppressMessage("AOT", "IL3050:RequiresDynamicCode",
+            Justification = "Tuple converters are only instantiated through reflection which is already marked with RequiresDynamicCode.")]
+#endif
+        public Tuple2ValueRawConverter()
+        {
+            Converter1 = ValueRaw.Converter<T1>();
+            Converter2 = ValueRaw.Converter<T2>();
+        }
 
         public (T1, T2) Unbox(StoreContext storeContext, Store store, in ValueRaw valueRaw)
         {
@@ -365,9 +383,20 @@ namespace Wasmtime
     {
         public static Tuple3ValueRawConverter<T1, T2, T3> Instance = new();
 
-        private readonly IValueRawConverter<T1> Converter1 = ValueRaw.Converter<T1>();
-        private readonly IValueRawConverter<T2> Converter2 = ValueRaw.Converter<T2>();
-        private readonly IValueRawConverter<T3> Converter3 = ValueRaw.Converter<T3>();
+        private readonly IValueRawConverter<T1> Converter1;
+        private readonly IValueRawConverter<T2> Converter2;
+        private readonly IValueRawConverter<T3> Converter3;
+
+#if NET5_0_OR_GREATER
+        [UnconditionalSuppressMessage("AOT", "IL3050:RequiresDynamicCode",
+            Justification = "Tuple converters are only instantiated through reflection which is already marked with RequiresDynamicCode.")]
+#endif
+        public Tuple3ValueRawConverter()
+        {
+            Converter1 = ValueRaw.Converter<T1>();
+            Converter2 = ValueRaw.Converter<T2>();
+            Converter3 = ValueRaw.Converter<T3>();
+        }
 
         public (T1, T2, T3) Unbox(StoreContext storeContext, Store store, in ValueRaw valueRaw)
         {
@@ -397,10 +426,22 @@ namespace Wasmtime
     {
         public static Tuple4ValueRawConverter<T1, T2, T3, T4> Instance = new();
 
-        private readonly IValueRawConverter<T1> Converter1 = ValueRaw.Converter<T1>();
-        private readonly IValueRawConverter<T2> Converter2 = ValueRaw.Converter<T2>();
-        private readonly IValueRawConverter<T3> Converter3 = ValueRaw.Converter<T3>();
-        private readonly IValueRawConverter<T4> Converter4 = ValueRaw.Converter<T4>();
+        private readonly IValueRawConverter<T1> Converter1;
+        private readonly IValueRawConverter<T2> Converter2;
+        private readonly IValueRawConverter<T3> Converter3;
+        private readonly IValueRawConverter<T4> Converter4;
+
+#if NET5_0_OR_GREATER
+        [UnconditionalSuppressMessage("AOT", "IL3050:RequiresDynamicCode",
+            Justification = "Tuple converters are only instantiated through reflection which is already marked with RequiresDynamicCode.")]
+#endif
+        public Tuple4ValueRawConverter()
+        {
+            Converter1 = ValueRaw.Converter<T1>();
+            Converter2 = ValueRaw.Converter<T2>();
+            Converter3 = ValueRaw.Converter<T3>();
+            Converter4 = ValueRaw.Converter<T4>();
+        }
 
         public (T1, T2, T3, T4) Unbox(StoreContext storeContext, Store store, in ValueRaw valueRaw)
         {

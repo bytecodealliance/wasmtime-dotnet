@@ -20,6 +20,9 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+#if NET5_0_OR_GREATER
+using System.Diagnostics.CodeAnalysis;
+#endif
 
 namespace Wasmtime
 {
@@ -41,6 +44,12 @@ foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateTy
         /// </summary>
         /// <param name="store">The store to create the function in.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Creating functions from callbacks may require runtime code generation for parameter and result types.")]
+<# if (resultCount > 0) { #>
+        [RequiresUnreferencedCode("Creating functions with results may require reflection.")]
+<# } #>
+#endif
         public static Function FromCallback<#= methodGenerics #>(Store store, <#= delegateType #> callback)
         {
             if (store is null)

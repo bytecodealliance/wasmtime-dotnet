@@ -7,6 +7,9 @@
 #nullable enable
 
 using System;
+#if NET5_0_OR_GREATER
+using System.Diagnostics.CodeAnalysis;
+#endif
 
 namespace Wasmtime
 {
@@ -18,6 +21,9 @@ namespace Wasmtime
         /// Attempt to wrap this function as an <c>Action</c>. Wrapped <c>Action</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Action</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions may require runtime code generation for parameter types.")]
+#endif
         public Action? WrapAction()
         {
             if (store is null || IsNull)
@@ -64,6 +70,9 @@ namespace Wasmtime
         /// Attempt to wrap this function as an <c>Action</c>. Wrapped <c>Action</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Action</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions may require runtime code generation for parameter types.")]
+#endif
         public Action<T>? WrapAction<T>()
         {
             if (store is null || IsNull)
@@ -112,6 +121,9 @@ namespace Wasmtime
         /// Attempt to wrap this function as an <c>Action</c>. Wrapped <c>Action</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Action</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions may require runtime code generation for parameter types.")]
+#endif
         public Action<T1, T2>? WrapAction<T1, T2>()
         {
             if (store is null || IsNull)
@@ -162,6 +174,9 @@ namespace Wasmtime
         /// Attempt to wrap this function as an <c>Action</c>. Wrapped <c>Action</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Action</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions may require runtime code generation for parameter types.")]
+#endif
         public Action<T1, T2, T3>? WrapAction<T1, T2, T3>()
         {
             if (store is null || IsNull)
@@ -214,6 +229,9 @@ namespace Wasmtime
         /// Attempt to wrap this function as an <c>Action</c>. Wrapped <c>Action</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Action</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions may require runtime code generation for parameter types.")]
+#endif
         public Action<T1, T2, T3, T4>? WrapAction<T1, T2, T3, T4>()
         {
             if (store is null || IsNull)
@@ -268,6 +286,9 @@ namespace Wasmtime
         /// Attempt to wrap this function as an <c>Action</c>. Wrapped <c>Action</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Action</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions may require runtime code generation for parameter types.")]
+#endif
         public Action<T1, T2, T3, T4, T5>? WrapAction<T1, T2, T3, T4, T5>()
         {
             if (store is null || IsNull)
@@ -324,6 +345,9 @@ namespace Wasmtime
         /// Attempt to wrap this function as an <c>Action</c>. Wrapped <c>Action</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Action</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions may require runtime code generation for parameter types.")]
+#endif
         public Action<T1, T2, T3, T4, T5, T6>? WrapAction<T1, T2, T3, T4, T5, T6>()
         {
             if (store is null || IsNull)
@@ -382,6 +406,9 @@ namespace Wasmtime
         /// Attempt to wrap this function as an <c>Action</c>. Wrapped <c>Action</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Action</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions may require runtime code generation for parameter types.")]
+#endif
         public Action<T1, T2, T3, T4, T5, T6, T7>? WrapAction<T1, T2, T3, T4, T5, T6, T7>()
         {
             if (store is null || IsNull)
@@ -442,6 +469,9 @@ namespace Wasmtime
         /// Attempt to wrap this function as an <c>Action</c>. Wrapped <c>Action</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Action</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions may require runtime code generation for parameter types.")]
+#endif
         public Action<T1, T2, T3, T4, T5, T6, T7, T8>? WrapAction<T1, T2, T3, T4, T5, T6, T7, T8>()
         {
             if (store is null || IsNull)
@@ -504,6 +534,9 @@ namespace Wasmtime
         /// Attempt to wrap this function as an <c>Action</c>. Wrapped <c>Action</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Action</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions may require runtime code generation for parameter types.")]
+#endif
         public Action<T1, T2, T3, T4, T5, T6, T7, T8, T9>? WrapAction<T1, T2, T3, T4, T5, T6, T7, T8, T9>()
         {
             if (store is null || IsNull)
@@ -568,6 +601,9 @@ namespace Wasmtime
         /// Attempt to wrap this function as an <c>Action</c>. Wrapped <c>Action</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Action</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions may require runtime code generation for parameter types.")]
+#endif
         public Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>? WrapAction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>()
         {
             if (store is null || IsNull)
@@ -634,6 +670,9 @@ namespace Wasmtime
         /// Attempt to wrap this function as an <c>Action</c>. Wrapped <c>Action</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Action</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions may require runtime code generation for parameter types.")]
+#endif
         public Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>? WrapAction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>()
         {
             if (store is null || IsNull)
@@ -702,6 +741,9 @@ namespace Wasmtime
         /// Attempt to wrap this function as an <c>Action</c>. Wrapped <c>Action</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Action</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions may require runtime code generation for parameter types.")]
+#endif
         public Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>? WrapAction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>()
         {
             if (store is null || IsNull)
@@ -772,6 +814,9 @@ namespace Wasmtime
         /// Attempt to wrap this function as an <c>Action</c>. Wrapped <c>Action</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Action</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions may require runtime code generation for parameter types.")]
+#endif
         public Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>? WrapAction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>()
         {
             if (store is null || IsNull)
@@ -844,6 +889,9 @@ namespace Wasmtime
         /// Attempt to wrap this function as an <c>Action</c>. Wrapped <c>Action</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Action</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions may require runtime code generation for parameter types.")]
+#endif
         public Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>? WrapAction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>()
         {
             if (store is null || IsNull)
@@ -918,6 +966,9 @@ namespace Wasmtime
         /// Attempt to wrap this function as an <c>Action</c>. Wrapped <c>Action</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Action</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions may require runtime code generation for parameter types.")]
+#endif
         public Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>? WrapAction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>()
         {
             if (store is null || IsNull)
@@ -994,6 +1045,9 @@ namespace Wasmtime
         /// Attempt to wrap this function as an <c>Action</c>. Wrapped <c>Action</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Action</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions may require runtime code generation for parameter types.")]
+#endif
         public Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>? WrapAction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>()
         {
             if (store is null || IsNull)
@@ -1072,6 +1126,10 @@ namespace Wasmtime
         /// Attempt to wrap this function as a <c>Func</c>. Wrapped <c>Func</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Func</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+#endif
         public Func<TResult?>? WrapFunc<TResult>()
         {
             if (store is null || IsNull)
@@ -1121,6 +1179,10 @@ namespace Wasmtime
         /// Attempt to wrap this function as a <c>Func</c>. Wrapped <c>Func</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Func</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+#endif
         public Func<T, TResult?>? WrapFunc<T, TResult>()
         {
             if (store is null || IsNull)
@@ -1172,6 +1234,10 @@ namespace Wasmtime
         /// Attempt to wrap this function as a <c>Func</c>. Wrapped <c>Func</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Func</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+#endif
         public Func<T1, T2, TResult?>? WrapFunc<T1, T2, TResult>()
         {
             if (store is null || IsNull)
@@ -1225,6 +1291,10 @@ namespace Wasmtime
         /// Attempt to wrap this function as a <c>Func</c>. Wrapped <c>Func</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Func</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+#endif
         public Func<T1, T2, T3, TResult?>? WrapFunc<T1, T2, T3, TResult>()
         {
             if (store is null || IsNull)
@@ -1280,6 +1350,10 @@ namespace Wasmtime
         /// Attempt to wrap this function as a <c>Func</c>. Wrapped <c>Func</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Func</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+#endif
         public Func<T1, T2, T3, T4, TResult?>? WrapFunc<T1, T2, T3, T4, TResult>()
         {
             if (store is null || IsNull)
@@ -1337,6 +1411,10 @@ namespace Wasmtime
         /// Attempt to wrap this function as a <c>Func</c>. Wrapped <c>Func</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Func</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+#endif
         public Func<T1, T2, T3, T4, T5, TResult?>? WrapFunc<T1, T2, T3, T4, T5, TResult>()
         {
             if (store is null || IsNull)
@@ -1396,6 +1474,10 @@ namespace Wasmtime
         /// Attempt to wrap this function as a <c>Func</c>. Wrapped <c>Func</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Func</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+#endif
         public Func<T1, T2, T3, T4, T5, T6, TResult?>? WrapFunc<T1, T2, T3, T4, T5, T6, TResult>()
         {
             if (store is null || IsNull)
@@ -1457,6 +1539,10 @@ namespace Wasmtime
         /// Attempt to wrap this function as a <c>Func</c>. Wrapped <c>Func</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Func</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+#endif
         public Func<T1, T2, T3, T4, T5, T6, T7, TResult?>? WrapFunc<T1, T2, T3, T4, T5, T6, T7, TResult>()
         {
             if (store is null || IsNull)
@@ -1520,6 +1606,10 @@ namespace Wasmtime
         /// Attempt to wrap this function as a <c>Func</c>. Wrapped <c>Func</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Func</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+#endif
         public Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult?>? WrapFunc<T1, T2, T3, T4, T5, T6, T7, T8, TResult>()
         {
             if (store is null || IsNull)
@@ -1585,6 +1675,10 @@ namespace Wasmtime
         /// Attempt to wrap this function as a <c>Func</c>. Wrapped <c>Func</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Func</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+#endif
         public Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult?>? WrapFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>()
         {
             if (store is null || IsNull)
@@ -1652,6 +1746,10 @@ namespace Wasmtime
         /// Attempt to wrap this function as a <c>Func</c>. Wrapped <c>Func</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Func</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+#endif
         public Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult?>? WrapFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>()
         {
             if (store is null || IsNull)
@@ -1721,6 +1819,10 @@ namespace Wasmtime
         /// Attempt to wrap this function as a <c>Func</c>. Wrapped <c>Func</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Func</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+#endif
         public Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult?>? WrapFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult>()
         {
             if (store is null || IsNull)
@@ -1792,6 +1894,10 @@ namespace Wasmtime
         /// Attempt to wrap this function as a <c>Func</c>. Wrapped <c>Func</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Func</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+#endif
         public Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult?>? WrapFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult>()
         {
             if (store is null || IsNull)
@@ -1865,6 +1971,10 @@ namespace Wasmtime
         /// Attempt to wrap this function as a <c>Func</c>. Wrapped <c>Func</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Func</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+#endif
         public Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult?>? WrapFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult>()
         {
             if (store is null || IsNull)
@@ -1940,6 +2050,10 @@ namespace Wasmtime
         /// Attempt to wrap this function as a <c>Func</c>. Wrapped <c>Func</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Func</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+#endif
         public Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult?>? WrapFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult>()
         {
             if (store is null || IsNull)
@@ -2017,6 +2131,10 @@ namespace Wasmtime
         /// Attempt to wrap this function as a <c>Func</c>. Wrapped <c>Func</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Func</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+#endif
         public Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult?>? WrapFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult>()
         {
             if (store is null || IsNull)
@@ -2096,6 +2214,10 @@ namespace Wasmtime
         /// Attempt to wrap this function as a <c>Func</c>. Wrapped <c>Func</c> is faster than a normal Invoke call.
         /// </summary>
         /// <returns>A <c>Func</c> to invoke this function, or <c>null</c> if the type signature is incompatible.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+#endif
         public Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult?>? WrapFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult>()
         {
             if (store is null || IsNull)

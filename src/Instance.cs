@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+#if NET5_0_OR_GREATER
+using System.Diagnostics.CodeAnalysis;
+#endif
 
 namespace Wasmtime
 {
@@ -69,6 +72,9 @@ namespace Wasmtime
         /// </summary>
         /// <param name="name">The name of the exported function.</param>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions may require runtime code generation for parameter types.")]
+#endif
         public Action? GetAction(string name)
         {
             return GetFunction(name)
@@ -81,6 +87,9 @@ namespace Wasmtime
         /// <param name="name">The name of the exported function.</param>
         /// <typeparam name="TA">Parameter type</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions may require runtime code generation for parameter types.")]
+#endif
         public Action<TA>? GetAction<TA>(string name)
         {
             return GetFunction(name)
@@ -94,6 +103,9 @@ namespace Wasmtime
         /// <typeparam name="TA">First parameter type</typeparam>
         /// <typeparam name="TB">Second parameter type</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions may require runtime code generation for parameter types.")]
+#endif
         public Action<TA, TB>? GetAction<TA, TB>(string name)
         {
             return GetFunction(name)
@@ -108,6 +120,9 @@ namespace Wasmtime
         /// <typeparam name="TB">Second parameter type</typeparam>
         /// <typeparam name="TC">Third parameter type</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions may require runtime code generation for parameter types.")]
+#endif
         public Action<TA, TB, TC>? GetAction<TA, TB, TC>(string name)
         {
             return GetFunction(name)
@@ -123,6 +138,9 @@ namespace Wasmtime
         /// <typeparam name="TC">Third parameter type</typeparam>
         /// <typeparam name="TD">Fourth parameter type</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions may require runtime code generation for parameter types.")]
+#endif
         public Action<TA, TB, TC, TD>? GetAction<TA, TB, TC, TD>(string name)
         {
             return GetFunction(name)
@@ -139,6 +157,9 @@ namespace Wasmtime
         /// <typeparam name="TD">Fourth parameter type</typeparam>
         /// <typeparam name="TE">Fifth parameter type</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresDynamicCode("Wrapping functions may require runtime code generation for parameter types.")]
+#endif
         public Action<TA, TB, TC, TD, TE>? GetAction<TA, TB, TC, TD, TE>(string name)
         {
             return GetFunction(name)
@@ -151,6 +172,10 @@ namespace Wasmtime
         /// <param name="name">The name of the exported function.</param>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+#endif
         public Func<TR?>? GetFunction<TR>(string name)
         {
             return GetFunction(name)
@@ -164,6 +189,10 @@ namespace Wasmtime
         /// <typeparam name="TA">First parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+#endif
         public Func<TA, TR?>? GetFunction<TA, TR>(string name)
         {
             return GetFunction(name)
@@ -178,6 +207,10 @@ namespace Wasmtime
         /// <typeparam name="TB">Second parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+#endif
         public Func<TA, TB, TR?>? GetFunction<TA, TB, TR>(string name)
         {
             return GetFunction(name)
@@ -193,6 +226,10 @@ namespace Wasmtime
         /// <typeparam name="TC">Third parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+#endif
         public Func<TA, TB, TC, TR?>? GetFunction<TA, TB, TC, TR>(string name)
         {
             return GetFunction(name)
@@ -209,6 +246,10 @@ namespace Wasmtime
         /// <typeparam name="TD">Fourth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+#endif
         public Func<TA, TB, TC, TD, TR?>? GetFunction<TA, TB, TC, TD, TR>(string name)
         {
             return GetFunction(name)
@@ -226,6 +267,10 @@ namespace Wasmtime
         /// <typeparam name="TE">Fifth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+#endif
         public Func<TA, TB, TC, TD, TE, TR?>? GetFunction<TA, TB, TC, TD, TE, TR>(string name)
         {
             return GetFunction(name)
@@ -244,6 +289,10 @@ namespace Wasmtime
         /// <typeparam name="TF">Sixth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+#endif
         public Func<TA, TB, TC, TD, TE, TF, TR?>? GetFunction<TA, TB, TC, TD, TE, TF, TR>(string name)
         {
             return GetFunction(name)
@@ -263,6 +312,10 @@ namespace Wasmtime
         /// <typeparam name="TG">Seventh parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+#endif
         public Func<TA, TB, TC, TD, TE, TF, TG, TR?>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TR>(string name)
         {
             return GetFunction(name)
@@ -283,6 +336,10 @@ namespace Wasmtime
         /// <typeparam name="TH">Eighth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+#endif
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TR?>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TR>(string name)
         {
             return GetFunction(name)
@@ -304,6 +361,10 @@ namespace Wasmtime
         /// <typeparam name="TI">Ninth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+#endif
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR?>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TR>(string name)
         {
             return GetFunction(name)
@@ -326,6 +387,10 @@ namespace Wasmtime
         /// <typeparam name="TJ">Tenth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+#endif
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR?>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TR>(string name)
         {
             return GetFunction(name)
@@ -349,6 +414,10 @@ namespace Wasmtime
         /// <typeparam name="TK">Eleventh parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+#endif
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR?>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TR>(string name)
         {
             return GetFunction(name)
@@ -373,6 +442,10 @@ namespace Wasmtime
         /// <typeparam name="TL">Twelfth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+#endif
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR?>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TR>(string name)
         {
             return GetFunction(name)
@@ -398,6 +471,10 @@ namespace Wasmtime
         /// <typeparam name="TM">Thirteenth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+#endif
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR?>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TR>(string name)
         {
             return GetFunction(name)
@@ -424,6 +501,10 @@ namespace Wasmtime
         /// <typeparam name="TN">Fourteenth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+#endif
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR?>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TR>(string name)
         {
             return GetFunction(name)
@@ -451,6 +532,10 @@ namespace Wasmtime
         /// <typeparam name="TO">Fifteenth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+#endif
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR?>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TR>(string name)
         {
             return GetFunction(name)
@@ -479,6 +564,10 @@ namespace Wasmtime
         /// <typeparam name="TP">Sixteenth parameter type</typeparam>
         /// <typeparam name="TR">Return type. Use a tuple for multiple return values</typeparam>
         /// <returns>Returns the function if a function of that name and type was exported or null if not.</returns>
+#if NET5_0_OR_GREATER
+        [RequiresUnreferencedCode("Wrapping functions with return types may require reflection.")]
+        [RequiresDynamicCode("Wrapping functions with return types may require runtime code generation for tuple types.")]
+#endif
         public Func<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR?>? GetFunction<TA, TB, TC, TD, TE, TF, TG, TH, TI, TJ, TK, TL, TM, TN, TO, TP, TR>(string name)
         {
             return GetFunction(name)
@@ -493,7 +582,12 @@ namespace Wasmtime
         /// <param name="returnType">The return type of the function. Null if no return type. Tuple of types is multiple returns expected.</param>
         /// <param name="parameterTypes">The expected parameters to the function</param>
         /// <returns>Returns the function if a function of that name and type signature was exported or null if not.</returns>
-        public Function? GetFunction(string name, Type? returnType, params Type[] parameterTypes)
+        public Function? GetFunction(string name,
+#if NET5_0_OR_GREATER
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)]
+#endif
+        Type? returnType,
+        params Type[] parameterTypes)
         {
             var func = GetFunction(name);
             if (func is null)
