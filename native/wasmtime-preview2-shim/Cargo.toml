@@ -1,0 +1,15 @@
+[package]
+name = "wasmtime-preview2-shim"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.86"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+anyhow = "1.0"
+wasmtime = "35.0.0"
+wasmtime-wasi = "35.0.0"
+wasmtime-wasi-http = "35.0.0"
+wasmparser = "0.244.0"

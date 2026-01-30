@@ -1,2 +1,4 @@
 - name: Introduction to the .NET embedding of Wasmtime
   href: intro.md
+- name: WASI Preview2 Component Runner (Shim)
+  href: wasi-preview2-shim.md
