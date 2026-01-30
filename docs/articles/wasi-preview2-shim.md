@@ -70,6 +70,7 @@ store.SetWasiConfiguration(
 
 using var linker = new Linker(engine);
 linker.DefineWasi();
+linker.DefineWasiPreview2Stubs();
 
 using var instance = linker.Instantiate(store, module);
 var alloc = instance.GetFunction<int, int>("alloc");
@@ -77,4 +78,10 @@ var dealloc = instance.GetAction<int, int>("dealloc");
 ```
 
 The extracted core module imports `wasi_snapshot_preview1`, so the core WASI
-linker (`DefineWasi`) is required.
+linker (`DefineWasi`) is required. Some extracted modules also import:
+
+- `wasi_snapshot_preview1.adapter_close_badfd`
+- `wasi_snapshot_preview1.adapter_open_badfd`
+- WASI preview2 `[resource-drop]` functions (no-op stubs are sufficient)
+
+`DefineWasiPreview2Stubs` provides these stubs for common preview2 interfaces.

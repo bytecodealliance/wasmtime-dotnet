@@ -151,6 +151,70 @@ namespace Wasmtime
         }
 
         /// <summary>
+        /// Defines preview1 adapter stubs expected by some extracted core modules.
+        /// </summary>
+        /// <remarks>
+        /// These stubs return EBADF for invalid file descriptors.
+        /// </remarks>
+        public void DefineWasiPreview1AdapterStubs()
+        {
+            DefineFunction(
+                "wasi_snapshot_preview1",
+                "adapter_close_badfd",
+                (Caller caller, int fd) => 8);
+
+            DefineFunction(
+                "wasi_snapshot_preview1",
+                "adapter_open_badfd",
+                (Caller caller, int fd) => 8);
+        }
+
+        /// <summary>
+        /// Defines common WASI preview2 resource-drop stubs as no-ops.
+        /// </summary>
+        /// <remarks>
+        /// These are useful when running extracted core modules from components.
+        /// </remarks>
+        public void DefineWasiPreview2ResourceDropStubs()
+        {
+            DefineResourceDropStub("wasi:io/error@0.2.0", "error");
+            DefineResourceDropStub("wasi:io/poll@0.2.0", "pollable");
+            DefineResourceDropStub("wasi:io/streams@0.2.0", "input-stream");
+            DefineResourceDropStub("wasi:io/streams@0.2.0", "output-stream");
+            DefineResourceDropStub("wasi:sockets/udp@0.2.0", "udp-socket");
+            DefineResourceDropStub("wasi:sockets/udp@0.2.0", "incoming-datagram-stream");
+            DefineResourceDropStub("wasi:sockets/udp@0.2.0", "outgoing-datagram-stream");
+            DefineResourceDropStub("wasi:sockets/tcp@0.2.0", "tcp-socket");
+        }
+
+        /// <summary>
+        /// Defines both preview1 adapter stubs and preview2 resource-drop stubs.
+        /// </summary>
+        public void DefineWasiPreview2Stubs()
+        {
+            DefineWasiPreview1AdapterStubs();
+            DefineWasiPreview2ResourceDropStubs();
+        }
+
+        private void DefineResourceDropStub(string module, string resourceName)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            if (resourceName is null)
+            {
+                throw new ArgumentNullException(nameof(resourceName));
+            }
+
+            DefineFunction(
+                module,
+                $"[resource-drop]{resourceName}",
+                (Caller caller, int handle) => { });
+        }
+
+        /// <summary>
         /// Defines an instance with the specified name in the linker.
         /// </summary>
         /// <param name="store">The store that owns the instance.</param>
