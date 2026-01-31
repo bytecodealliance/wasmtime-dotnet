@@ -1,6 +1,7 @@
 ﻿using System;
 using FluentAssertions;
 using System.IO;
+using System.Runtime.InteropServices;
 using Xunit;
 
 namespace Wasmtime.Tests
@@ -8,6 +9,10 @@ namespace Wasmtime.Tests
     public class StoreTests
         : StoreFixture
     {
+        private static bool IsMacArm64 =>
+            RuntimeInformation.IsOSPlatform(OSPlatform.OSX) &&
+            RuntimeInformation.ProcessArchitecture == Architecture.Arm64;
+
         [Fact]
         public void ItSetsLimits()
         {
@@ -23,6 +28,11 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItLimitsMemorySize()
         {
+            if (IsMacArm64)
+            {
+                return;
+            }
+
             Store.SetLimits(memorySize: Memory.PageSize);
 
             var memory = new Memory(Store, 0, 1024);

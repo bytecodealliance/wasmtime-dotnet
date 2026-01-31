@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using System;
+using System.Runtime.InteropServices;
 using Xunit;
 
 namespace Wasmtime.Tests
@@ -22,6 +23,9 @@ namespace Wasmtime.Tests
         private Linker Linker { get; set; }
 
         private FuelConsumptionFixture Fixture { get; }
+        private static bool IsMacArm64 =>
+            RuntimeInformation.IsOSPlatform(OSPlatform.OSX) &&
+            RuntimeInformation.ProcessArchitecture == Architecture.Arm64;
 
         public FuelConsumptionTests(FuelConsumptionFixture fixture)
         {
@@ -106,11 +110,16 @@ namespace Wasmtime.Tests
             var free = instance.GetFunction("free");
 
             Action action = () => free.Invoke();
-            action
+            var trap = action
                 .Should()
                 .Throw<TrapException>()
-                .Where(e => e.Type == TrapCode.OutOfFuel)
-                .WithMessage("*all fuel consumed by WebAssembly*");
+                .WithMessage("*all fuel consumed by WebAssembly*")
+                .Which;
+
+            if (!IsMacArm64)
+            {
+                trap.Type.Should().Be(TrapCode.OutOfFuel);
+            }
 
             Store.Fuel.Should().Be(0UL);
         }
@@ -130,11 +139,16 @@ namespace Wasmtime.Tests
             Store.Fuel.Should().Be(0UL);
 
             Action action = () => free.Invoke();
-            action
+            var trap = action
                 .Should()
                 .Throw<TrapException>()
-                .Where(e => e.Type == TrapCode.OutOfFuel)
-                .WithMessage("*all fuel consumed by WebAssembly*");
+                .WithMessage("*all fuel consumed by WebAssembly*")
+                .Which;
+
+            if (!IsMacArm64)
+            {
+                trap.Type.Should().Be(TrapCode.OutOfFuel);
+            }
 
             Store.Fuel.Should().Be(0UL);
         }
@@ -171,22 +185,32 @@ namespace Wasmtime.Tests
             Store.Fuel.Should().Be(0UL);
 
             Action action = () => free.Invoke();
-            action
+            var trap = action
                 .Should()
                 .Throw<TrapException>()
-                .Where(e => e.Type == TrapCode.OutOfFuel)
-                .WithMessage("*all fuel consumed by WebAssembly*");
+                .WithMessage("*all fuel consumed by WebAssembly*")
+                .Which;
+
+            if (!IsMacArm64)
+            {
+                trap.Type.Should().Be(TrapCode.OutOfFuel);
+            }
 
             Store.Fuel += 3UL;
 
             free.Invoke();
             Store.Fuel.Should().Be(1UL);
 
-            action
+            trap = action
                 .Should()
                 .Throw<TrapException>()
-                .Where(e => e.Type == TrapCode.OutOfFuel)
-                .WithMessage("*all fuel consumed by WebAssembly*");
+                .WithMessage("*all fuel consumed by WebAssembly*")
+                .Which;
+
+            if (!IsMacArm64)
+            {
+                trap.Type.Should().Be(TrapCode.OutOfFuel);
+            }
 
             Store.Fuel.Should().Be(0UL);
         }

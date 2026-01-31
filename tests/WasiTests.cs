@@ -25,10 +25,10 @@ namespace Wasmtime.Tests
 
             var memory = instance.GetMemory("memory");
             memory.Should().NotBeNull();
-            var call_environ_sizes_get = instance.GetFunction("call_environ_sizes_get");
+            var call_environ_sizes_get = instance.GetFunction<int, int, int>("call_environ_sizes_get");
             call_environ_sizes_get.Should().NotBeNull();
 
-            Assert.Equal(0, call_environ_sizes_get.Invoke(0, 4));
+            Assert.Equal(0, call_environ_sizes_get!(0, 4));
             Assert.Equal(0, memory.ReadInt32(0));
             Assert.Equal(0, memory.ReadInt32(4));
         }
@@ -58,15 +58,15 @@ namespace Wasmtime.Tests
 
             var memory = instance.GetMemory("memory");
             memory.Should().NotBeNull();
-            var call_environ_sizes_get = instance.GetFunction("call_environ_sizes_get");
+            var call_environ_sizes_get = instance.GetFunction<int, int, int>("call_environ_sizes_get");
             call_environ_sizes_get.Should().NotBeNull();
-            var call_environ_get = instance.GetFunction("call_environ_get");
+            var call_environ_get = instance.GetFunction<int, int, int>("call_environ_get");
             call_environ_sizes_get.Should().NotBeNull();
 
-            Assert.Equal(0, call_environ_sizes_get.Invoke(0, 4));
+            Assert.Equal(0, call_environ_sizes_get!(0, 4));
             Assert.Equal(env.Count, memory.ReadInt32(0));
             Assert.Equal(env.Sum(kvp => kvp.Key.Length + kvp.Value.Length + 2), memory.ReadInt32(4));
-            Assert.Equal(0, call_environ_get.Invoke(0, 4 * env.Count));
+            Assert.Equal(0, call_environ_get!(0, 4 * env.Count));
 
             for (int i = 0; i < env.Count; ++i)
             {
@@ -94,10 +94,10 @@ namespace Wasmtime.Tests
 
             var memory = instance.GetMemory("memory");
             memory.Should().NotBeNull();
-            var call_environ_sizes_get = instance.GetFunction("call_environ_sizes_get");
+            var call_environ_sizes_get = instance.GetFunction<int, int, int>("call_environ_sizes_get");
             call_environ_sizes_get.Should().NotBeNull();
 
-            Assert.Equal(0, call_environ_sizes_get.Invoke(0, 4));
+            Assert.Equal(0, call_environ_sizes_get!(0, 4));
             Assert.Equal(Environment.GetEnvironmentVariables().Keys.Count, memory.ReadInt32(0));
         }
 
@@ -117,10 +117,10 @@ namespace Wasmtime.Tests
 
             var memory = instance.GetMemory("memory");
             memory.Should().NotBeNull();
-            var call_args_sizes_get = instance.GetFunction("call_args_sizes_get");
+            var call_args_sizes_get = instance.GetFunction<int, int, int>("call_args_sizes_get");
             call_args_sizes_get.Should().NotBeNull();
 
-            Assert.Equal(0, call_args_sizes_get.Invoke(0, 4));
+            Assert.Equal(0, call_args_sizes_get!(0, 4));
             Assert.Equal(0, memory.ReadInt32(0));
             Assert.Equal(0, memory.ReadInt32(4));
         }
@@ -151,15 +151,15 @@ namespace Wasmtime.Tests
 
             var memory = instance.GetMemory("memory");
             memory.Should().NotBeNull();
-            var call_args_sizes_get = instance.GetFunction("call_args_sizes_get");
+            var call_args_sizes_get = instance.GetFunction<int, int, int>("call_args_sizes_get");
             call_args_sizes_get.Should().NotBeNull();
-            var call_args_get = instance.GetFunction("call_args_get");
+            var call_args_get = instance.GetFunction<int, int, int>("call_args_get");
             call_args_get.Should().NotBeNull();
 
-            Assert.Equal(0, call_args_sizes_get.Invoke(0, 4));
+            Assert.Equal(0, call_args_sizes_get!(0, 4));
             Assert.Equal(args.Count, memory.ReadInt32(0));
             Assert.Equal(args.Sum(a => a.Length + 1), memory.ReadInt32(4));
-            Assert.Equal(0, call_args_get.Invoke(0, 4 * args.Count));
+            Assert.Equal(0, call_args_get!(0, 4 * args.Count));
 
             for (int i = 0; i < args.Count; ++i)
             {
@@ -187,10 +187,10 @@ namespace Wasmtime.Tests
 
             var memory = instance.GetMemory("memory");
             memory.Should().NotBeNull();
-            var call_args_sizes_get = instance.GetFunction("call_args_sizes_get");
+            var call_args_sizes_get = instance.GetFunction<int, int, int>("call_args_sizes_get");
             call_args_sizes_get.Should().NotBeNull();
 
-            Assert.Equal(0, call_args_sizes_get.Invoke(0, 4));
+            Assert.Equal(0, call_args_sizes_get!(0, 4));
             Assert.Equal(Environment.GetCommandLineArgs().Length, memory.ReadInt32(0));
         }
 
@@ -218,13 +218,13 @@ namespace Wasmtime.Tests
 
             var memory = instance.GetMemory("memory");
             memory.Should().NotBeNull();
-            var call_fd_read = instance.GetFunction("call_fd_read");
+            var call_fd_read = instance.GetFunction<int, int, int, int, int>("call_fd_read");
             call_fd_read.Should().NotBeNull();
 
             memory.WriteInt32(0, 8);
             memory.WriteInt32(4, MESSAGE.Length);
 
-            Assert.Equal(0, call_fd_read.Invoke(0, 0, 1, 32));
+            Assert.Equal(0, call_fd_read!(0, 0, 1, 32));
             Assert.Equal(MESSAGE.Length, memory.ReadInt32(32));
             Assert.Equal(MESSAGE, memory.ReadString(8, MESSAGE.Length));
         }
@@ -261,18 +261,18 @@ namespace Wasmtime.Tests
 
                 var memory = instance.GetMemory("memory");
                 memory.Should().NotBeNull();
-                var call_fd_write = instance.GetFunction("call_fd_write");
+                var call_fd_write = instance.GetFunction<int, int, int, int, int>("call_fd_write");
                 call_fd_write.Should().NotBeNull();
-                var call_fd_close = instance.GetFunction("call_fd_close");
+                var call_fd_close = instance.GetFunction<int, int>("call_fd_close");
                 call_fd_close.Should().NotBeNull();
 
                 memory.WriteInt32(0, 8);
                 memory.WriteInt32(4, MESSAGE.Length);
                 memory.WriteString(8, MESSAGE);
 
-                Assert.Equal(0, call_fd_write.Invoke(fd, 0, 1, 32));
+                Assert.Equal(0, call_fd_write!(fd, 0, 1, 32));
                 Assert.Equal(MESSAGE.Length, memory.ReadInt32(32));
-                Assert.Equal(0, call_fd_close.Invoke(fd));
+                Assert.Equal(0, call_fd_close!(fd));
             }
 
             Assert.Equal(MESSAGE, File.ReadAllText(file.Path));
@@ -301,17 +301,17 @@ namespace Wasmtime.Tests
 
             var memory = instance.GetMemory("memory");
             memory.Should().NotBeNull();
-            var call_path_open = instance.GetFunction("call_path_open");
+            var call_path_open = instance.GetFunction<int, int, int, int, int, long, long, int, int, int>("call_path_open");
             call_path_open.Should().NotBeNull();
-            var call_fd_write = instance.GetFunction("call_fd_write");
+            var call_fd_write = instance.GetFunction<int, int, int, int, int>("call_fd_write");
             call_fd_write.Should().NotBeNull();
-            var call_fd_close = instance.GetFunction("call_fd_close");
+            var call_fd_close = instance.GetFunction<int, int>("call_fd_close");
             call_fd_close.Should().NotBeNull();
 
             var fileName = Path.GetFileName(file.Path);
             memory.WriteString(0, fileName);
 
-            Assert.Equal(0, call_path_open.Invoke(
+            Assert.Equal(0, call_path_open!(
                     3,
                     0,
                     0,
@@ -331,9 +331,9 @@ namespace Wasmtime.Tests
             memory.WriteInt32(4, MESSAGE.Length);
             memory.WriteString(8, MESSAGE);
 
-            Assert.Equal(0, call_fd_write.Invoke(fileFd, 0, 1, 64));
+            Assert.Equal(0, call_fd_write!(fileFd, 0, 1, 64));
             Assert.Equal(MESSAGE.Length, memory.ReadInt32(64));
-            Assert.Equal(0, call_fd_close.Invoke(fileFd));
+            Assert.Equal(0, call_fd_close!(fileFd));
             Assert.Equal(MESSAGE, File.ReadAllText(file.Path));
         }
     }

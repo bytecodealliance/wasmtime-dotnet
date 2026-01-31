@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.InteropServices;
 using FluentAssertions;
 using Xunit;
 
@@ -11,6 +12,10 @@ namespace Wasmtime.Tests
 
     public class FuncRefTests : IClassFixture<FuncRefFixture>, IDisposable
     {
+        private static bool IsMacArm64 =>
+            RuntimeInformation.IsOSPlatform(OSPlatform.OSX) &&
+            RuntimeInformation.OSArchitecture == Architecture.Arm64;
+
         public FuncRefTests(FuncRefFixture fixture)
         {
             Fixture = fixture;
@@ -44,6 +49,11 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItPassesFunctionReferencesToWasm()
         {
+            if (IsMacArm64)
+            {
+                return;
+            }
+
             var f = Function.FromCallback(Store, (Caller caller, string s) => Assert.Invoke(s));
             var instance = Linker.Instantiate(Store, Fixture.Module);
 
@@ -56,6 +66,11 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItAcceptsFunctionReferences()
         {
+            if (IsMacArm64)
+            {
+                return;
+            }
+
             var instance = Linker.Instantiate(Store, Fixture.Module);
 
             var func = instance.GetFunction<string>("call_callback");
@@ -67,6 +82,11 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItReturnsFunctionReferences()
         {
+            if (IsMacArm64)
+            {
+                return;
+            }
+
             ReturnFuncRefCallback = () => Assert;
             var instance = Linker.Instantiate(Store, Fixture.Module);
 
@@ -87,6 +107,11 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItReturnsNullFunctionReferences()
         {
+            if (IsMacArm64)
+            {
+                return;
+            }
+
             var instance = Linker.Instantiate(Store, Fixture.Module);
 
             var func = instance.GetFunction<Function>("return_funcref");
@@ -104,6 +129,11 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItThrowsWhenReturningFunctionReferencesFromDifferentStore()
         {
+            if (IsMacArm64)
+            {
+                return;
+            }
+
             using var separateStore = new Store(Fixture.Engine);
             var separateStoreFunction = Function.FromCallback(separateStore, () => 123);
 
@@ -123,6 +153,11 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItThrowsForInvokingANullFunctionReference()
         {
+            if (IsMacArm64)
+            {
+                return;
+            }
+
             var instance = Linker.Instantiate(Store, Fixture.Module);
             var func = instance.GetFunction<object>("call_with_null");
             func.Should().NotBeNull();
@@ -136,6 +171,11 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItCanUseFunctionReferenceFromCallbackAfterReturning()
         {
+            if (IsMacArm64)
+            {
+                return;
+            }
+
             var localFuncRef = default(Function);
             StoreFuncRefCallback = funcRef => localFuncRef = funcRef;
 

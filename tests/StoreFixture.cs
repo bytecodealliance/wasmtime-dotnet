@@ -8,7 +8,7 @@ namespace Wasmtime.Tests
     {
         protected StoreFixture()
         {
-            Engine = new Engine();
+            Engine = new Engine(new Config().WithReferenceTypes(true));
             Store = new Store(Engine);
         }
 

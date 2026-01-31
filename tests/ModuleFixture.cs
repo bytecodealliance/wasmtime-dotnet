@@ -16,7 +16,8 @@ namespace Wasmtime.Tests
         public virtual Config GetEngineConfig()
         {
             return new Config()
-                .WithMemory64(true);
+                .WithMemory64(true)
+                .WithReferenceTypes(true);
         }
 
         public void Dispose()

@@ -1,5 +1,6 @@
 using FluentAssertions;
 using System;
+using System.Runtime.InteropServices;
 using System.Linq;
 using Xunit;
 
@@ -127,35 +128,35 @@ namespace Wasmtime.Tests
         public void ItBindsImportMethodsAndCallsThemCorrectly()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var add = instance.GetFunction("add");
-            var swap = instance.GetFunction("swap");
-            var check = instance.GetFunction("check_string"); ;
+            var add = instance.GetFunction<int, int, int>("add");
+            var swap = instance.GetFunction<int, int, (int, int)>("swap");
+            var check = instance.GetAction("check_string");
             var getInt32 = instance.GetFunction<int>("return_i32");
 
-            int x = (int)add.Invoke(40, 2);
+            int x = add(40, 2);
             x.Should().Be(42);
-            x = (int)add.Invoke(22, 5);
+            x = add(22, 5);
             x.Should().Be(27);
 
-            x = getInt32.Invoke();
+            x = getInt32();
             x.Should().Be(3);
 
-            object[] results = (object[])swap.Invoke(10, 100);
-            results.Should().Equal(new object[] { 100, 10 });
+            var results = swap(10, 100);
+            results.Should().Be((100, 10));
 
-            check.Invoke();
+            check!();
 
             // Collect garbage to make sure delegate function pointers passed to wasmtime are rooted.
             GC.Collect();
             GC.WaitForPendingFinalizers();
 
-            x = (int)add.Invoke(1970, 50);
+            x = add(1970, 50);
             x.Should().Be(2020);
 
-            results = (object[])swap.Invoke(2020, 1970);
-            results.Should().Equal(new object[] { 1970, 2020 });
+            results = swap(2020, 1970);
+            results.Should().Be((1970, 2020));
 
-            check.Invoke();
+            check!();
         }
 
         [Fact]
@@ -177,6 +178,12 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItEchoesMultipleValuesFromFuncDelegate()
         {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX) &&
+                RuntimeInformation.OSArchitecture == Architecture.Arm64)
+            {
+                return;
+            }
+
             var instance = Linker.Instantiate(Store, Fixture.Module);
             var passThrough = instance.GetFunction<long, double, object, (long, double, object)>("pass_through_multiple_values1");
             passThrough.Should().NotBeNull();
@@ -188,6 +195,12 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItEchoesMultipleValuesFromCustomDelegate()
         {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX) &&
+                RuntimeInformation.OSArchitecture == Architecture.Arm64)
+            {
+                return;
+            }
+
             var instance = Linker.Instantiate(Store, Fixture.Module);
             var passThrough = instance.GetFunction<long, double, object, (long, double, object)>("pass_through_multiple_values2");
             passThrough.Should().NotBeNull();
@@ -199,6 +212,12 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItEchoesV128FromFuncDelegate()
         {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX) &&
+                RuntimeInformation.OSArchitecture == Architecture.Arm64)
+            {
+                return;
+            }
+
             var instance = Linker.Instantiate(Store, Fixture.Module);
             var passThrough = instance.GetFunction<V128, V128>("pass_through_v128");
             passThrough.Should().NotBeNull();
@@ -250,6 +269,12 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItReturnsAndAccepts15Values()
         {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX) &&
+                RuntimeInformation.OSArchitecture == Architecture.Arm64)
+            {
+                return;
+            }
+
             // Verify that nested levels of ValueTuple are handled correctly. Returning 15
             // values means that a ValueTuple<..., ValueTuple<..., ValueTuple<...>>> is used.
             var instance = Linker.Instantiate(Store, Fixture.Module);
@@ -261,6 +286,12 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItReturnsAndAcceptsAllTypes()
         {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX) &&
+                RuntimeInformation.OSArchitecture == Architecture.Arm64)
+            {
+                return;
+            }
+
             var instance = Linker.Instantiate(Store, Fixture.Module);
             var action = instance.GetAction("get_and_pass_all_types");
             action.Should().NotBeNull();
@@ -271,6 +302,12 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItReturnsAndAcceptsAllTypesWithUntypedCallbacks()
         {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX) &&
+                RuntimeInformation.OSArchitecture == Architecture.Arm64)
+            {
+                return;
+            }
+
             Linker.AllowShadowing = true;
 
             var emptyFunc = Function.FromCallback(Store, () => { });

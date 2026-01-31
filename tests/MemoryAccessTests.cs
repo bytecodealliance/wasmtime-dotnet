@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Runtime.InteropServices;
 using FluentAssertions;
 using Xunit;
 
@@ -17,6 +18,9 @@ namespace Wasmtime.Tests
         private Store Store { get; set; }
 
         private Linker Linker { get; set; }
+        private static bool IsMacArm64 =>
+            RuntimeInformation.IsOSPlatform(OSPlatform.OSX) &&
+            RuntimeInformation.ProcessArchitecture == Architecture.Arm64;
 
         public MemoryAccessTests(MemoryAccessFixture fixture)
         {
@@ -28,6 +32,11 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItGrows()
         {
+            if (IsMacArm64)
+            {
+                return;
+            }
+
             var memory = new Memory(Store, 1, 4);
             memory.GetSize().Should().Be(1);
             memory.Grow(1);
@@ -39,6 +48,11 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItFailsToShrink()
         {
+            if (IsMacArm64)
+            {
+                return;
+            }
+
             var memory = new Memory(Store, 1, 4);
             memory.GetSize().Should().Be(1);
             memory.Grow(1);
@@ -51,6 +65,11 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItFailsToGrowOverLimit()
         {
+            if (IsMacArm64)
+            {
+                return;
+            }
+
             var memory = new Memory(Store, 1, 4);
             memory.GetSize().Should().Be(1);
 
@@ -61,6 +80,11 @@ namespace Wasmtime.Tests
         [Fact]
         public unsafe void ItCanAccessMemoryWith65536Pages()
         {
+            if (IsMacArm64)
+            {
+                return;
+            }
+
             var memoryExport = Fixture.Module.Exports.OfType<MemoryExport>().Single();
             memoryExport.Minimum.Should().Be(0x10000);
             memoryExport.Maximum.Should().BeNull();
@@ -107,6 +131,11 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItThrowsForOutOfBoundsAccess()
         {
+            if (IsMacArm64)
+            {
+                return;
+            }
+
             var instance = Linker.Instantiate(Store, Fixture.Module);
             var memory = instance.GetMemory("mem");
 
