@@ -262,6 +262,7 @@ namespace Wasmtime
         /// <inheritdoc/>
         public void Dispose()
         {
+            _disposed = true;
             handle.Dispose();
         }
 
@@ -269,7 +270,7 @@ namespace Wasmtime
         {
             get
             {
-                if (handle.IsInvalid || handle.IsClosed)
+                if (_disposed || handle.IsInvalid || handle.IsClosed)
                 {
                     throw new ObjectDisposedException(typeof(Store).FullName);
                 }
@@ -292,7 +293,7 @@ namespace Wasmtime
         {
             get
             {
-                if (handle.IsClosed)
+                if (_disposed || handle.IsInvalid || handle.IsClosed)
                 {
                     throw new ObjectDisposedException(typeof(Store).FullName);
                 }
@@ -335,6 +336,7 @@ namespace Wasmtime
 
         private readonly IntPtr contextHandle;
         private readonly Handle handle;
+        private bool _disposed;
 
         private object? data;
 

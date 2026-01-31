@@ -24,6 +24,8 @@ namespace Wasmtime
                 throw new ArgumentNullException(nameof(store));
             }
 
+            _ = store.NativeHandle;
+
             if (minimum < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(minimum));
