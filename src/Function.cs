@@ -730,10 +730,13 @@ namespace Wasmtime
 
         internal static class Native
         {
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
             public delegate void Finalizer(IntPtr data);
 
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
             public unsafe delegate IntPtr WasmtimeFuncCallback(IntPtr env, IntPtr caller, Value* args, nuint nargs, Value* results, nuint nresults);
 
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
             public unsafe delegate IntPtr WasmtimeFuncUncheckedCallback(IntPtr env, IntPtr caller, ValueRaw* args_and_results, nuint num_args_and_results);
 
             [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
