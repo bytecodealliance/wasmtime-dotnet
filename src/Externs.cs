@@ -111,7 +111,7 @@ namespace Wasmtime
 
         private static class Native
         {
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern void wasmtime_extern_delete(in Extern self);
         }
     }

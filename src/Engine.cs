@@ -79,19 +79,19 @@ namespace Wasmtime
 
         private static class Native
         {
-            [DllImport(LibraryName)]
+            [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr wasm_engine_new();
             
-            [DllImport(LibraryName)]
+            [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr wasm_engine_new_with_config(Config.Handle config);
 
-            [DllImport(LibraryName)]
+            [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern void wasm_engine_delete(IntPtr engine);
 
-            [DllImport(LibraryName)]
+            [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern void wasmtime_engine_increment_epoch(Handle engine);
             
-            [DllImport(LibraryName)]
+            [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
             [return: MarshalAs(UnmanagedType.I1)]
             public static extern bool wasmtime_engine_is_pulley(Handle engine);
         }

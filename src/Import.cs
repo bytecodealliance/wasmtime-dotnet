@@ -68,10 +68,10 @@ namespace Wasmtime
 
         private static class Native
         {
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern void wasm_importtype_vec_delete(in ImportTypeArray vec);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr wasm_importtype_type(IntPtr importType);
         }
     }
@@ -124,10 +124,10 @@ namespace Wasmtime
 
         private static class Native
         {
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static unsafe extern ByteArray* wasm_importtype_module(IntPtr type);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static unsafe extern ByteArray* wasm_importtype_name(IntPtr type);
         }
     }
@@ -235,7 +235,7 @@ namespace Wasmtime
 
         private static class Native
         {
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr wasm_externtype_as_memorytype_const(IntPtr type);
         }
     }

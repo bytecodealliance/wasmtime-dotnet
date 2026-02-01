@@ -382,76 +382,76 @@ namespace Wasmtime
 
         private static class Native
         {
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr wasm_config_new();
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern void wasm_config_delete(IntPtr config);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern void wasmtime_config_debug_info_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern void wasmtime_config_epoch_interruption_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern void wasmtime_config_consume_fuel_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern void wasmtime_config_max_wasm_stack_set(Handle config, nuint size);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern void wasmtime_config_wasm_threads_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern void wasmtime_config_wasm_reference_types_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern void wasmtime_config_wasm_simd_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern void wasmtime_config_wasm_relaxed_simd_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern void wasmtime_config_wasm_relaxed_simd_deterministic_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern void wasmtime_config_wasm_bulk_memory_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern void wasmtime_config_wasm_multi_value_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern void wasmtime_config_wasm_multi_memory_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern void wasmtime_config_wasm_memory64_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern void wasmtime_config_strategy_set(Handle config, byte strategy);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern void wasmtime_config_cranelift_debug_verifier_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern void wasmtime_config_cranelift_nan_canonicalization_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern void wasmtime_config_cranelift_opt_level_set(Handle config, byte level);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern void wasmtime_config_profiler_set(Handle config, byte strategy);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern void wasmtime_config_memory_reservation_set(Handle config, ulong size);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern void wasmtime_config_memory_guard_size_set(Handle config, ulong size);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr wasmtime_config_cache_config_load(Handle config, [MarshalAs(Extensions.LPUTF8Str)] string? path);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern void wasmtime_config_macos_use_mach_ports(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
         }
 

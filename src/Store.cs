@@ -83,22 +83,22 @@ namespace Wasmtime
 
         private static class Native
         {
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern void wasmtime_context_gc(IntPtr handle);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr wasmtime_context_set_fuel(IntPtr handle, ulong fuel);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr wasmtime_context_get_fuel(IntPtr handle, out ulong fuel);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr wasmtime_context_set_wasi(IntPtr handle, IntPtr config);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern void wasmtime_context_set_epoch_deadline(IntPtr handle, ulong ticksBeyondCurrent);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr wasmtime_context_get_data(IntPtr handle);
         }
 
@@ -320,16 +320,16 @@ namespace Wasmtime
         {
             public delegate void Finalizer(IntPtr data);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr wasmtime_store_new(Engine.Handle engine, IntPtr data, Finalizer? finalizer);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr wasmtime_store_context(Handle store);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern void wasmtime_store_delete(IntPtr store);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern void wasmtime_store_limiter(Handle store, long memory_size, long table_elements, long instances, long tables, long memories);
         }
 

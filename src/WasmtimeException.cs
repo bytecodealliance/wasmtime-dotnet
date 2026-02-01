@@ -82,16 +82,16 @@ namespace Wasmtime
 
         internal static class Native
         {
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern void wasmtime_error_message(IntPtr error, out ByteArray message);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern void wasmtime_error_wasm_trace(IntPtr error, out TrapException.Native.FrameArray frames);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             public static extern void wasmtime_error_delete(IntPtr error);
 
-            [DllImport(Engine.LibraryName)]
+            [DllImport(Engine.LibraryName, CallingConvention = CallingConvention.Cdecl)]
             [return: MarshalAs(UnmanagedType.I1)]
             public static extern bool wasmtime_error_exit_status(IntPtr error, out int exitStatus);
         }
