@@ -112,6 +112,18 @@ $ dotnet build Wasmtime.sln
 This will download the latest development snapshot of Wasmtime for your
 platform.
 
+By default, local builds set `DevBuild=true`, which uses the dev C API artifacts
+(`wasmtime-dev-*`) and enables a `WASMTIME_DEV` build define to match the dev
+ABI (value/trap layouts). To build against the stable Wasmtime release instead,
+override the flag:
+
+```
+$ dotnet build Wasmtime.sln -p:DevBuild=false
+```
+
+If you switch between `DevBuild=true` and `DevBuild=false`, you may need to
+delete `src/obj` to force the correct C API download.
+
 ### Testing
 
 Use `dotnet` to run the unit tests:

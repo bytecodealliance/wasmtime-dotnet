@@ -37,8 +37,112 @@ namespace Wasmtime
         Unreachable = 9,
         /// <summary>The trap was the result of interrupting execution.</summary>
         Interrupt = 10,
+#if WASMTIME_DEV
+        /// <summary>The trap was the result of running out of the configured fuel amount.</summary>
+        OutOfFuel = 11,
         /// <summary>
-        /// The trap was the result of executing a function that was `canon lift`'d, then `canonlower`'d, then called. 
+        /// The trap was the result of atomic wait operations on non-shared memory.
+        /// </summary>
+        AtomicWaitNonSharedMemory = 12,
+        /// <summary>
+        /// The trap was the result of a call to a null reference.
+        /// </summary>
+        NullReference = 13,
+        /// <summary>
+        /// The trap was the result of an attempt to access beyond the bounds of an array.
+        /// </summary>
+        ArrayOutOfBounds = 14,
+        /// <summary>
+        /// The trap was the result of an allocation that was too large to succeed.
+        /// </summary>
+        AllocationTooLarge = 15,
+        /// <summary>
+        /// The trap was the result of an attempt to cast a reference to a type that it is not an instance of.
+        /// </summary>
+        CastFailure = 16,
+        /// <summary>
+        /// The trap was the result of a component calling another component that would have violated the reentrance rules.
+        /// </summary>
+        CannotEnterComponent = 17,
+        /// <summary>
+        /// The trap was the result of an async-lifted export failing to return a valid async result.
+        /// </summary>
+        /// <remarks>
+        /// An async-lifted export failed to produce a result by calling `task.return` before returning `STATUS_DONE`
+        /// and/or after all host tasks completed.
+        /// </remarks>
+        NoAsyncResult = 18,
+        /// <summary>
+        /// The trap was the result of suspending to a tag for which there is no active handler.
+        /// </summary>
+        UnhandledTag = 19,
+        /// <summary>
+        /// The trap was the result of an attempt to resume a continuation twice.
+        /// </summary>
+        ContinuationAlreadyConsumed = 20,
+        /// <summary>
+        /// The trap was the result of a Pulley opcode executed at runtime when the opcode was disabled at compile time.
+        /// </summary>
+        DisabledOpCode = 21,
+        /// <summary>
+        /// The trap was the result of an async event loop deadlock.
+        /// </summary>
+        /// <remarks>
+        /// The async event loop cannot make further progress given that all host tasks have completed
+        /// and any/all host-owned stream/future handles have been dropped.
+        /// </remarks>
+        AsyncDeadlock = 22,
+        /// <summary>
+        /// The trap was the result of a component instance trying to call an import or intrinsic when not allowed.
+        /// </summary>
+        /// <remarks>
+        /// When the component-model feature is enabled this trap represents a scenario where a component instance
+        /// tried to call an import or intrinsic when it wasn't allowed to, e.g. from a post-return function.
+        /// </remarks>
+        CannotLeaveComponent = 23,
+        /// <summary>
+        /// The trap was the result of a synchronous task attempting to make a potentially blocking call prior to returning.
+        /// </summary>
+        CannotBlockSyncTask = 24,
+        /// <summary>
+        /// The trap was the result of a component trying to lift a char with an invalid bit pattern.
+        /// </summary>
+        InvalidChar = 25,
+        /// <summary>
+        /// Debug assertion generated for a fused adapter regarding the expected completion of a string encoding operation.
+        /// </summary>
+        DebugAssertStringEncodingFinished = 26,
+        /// <summary>
+        /// Debug assertion generated for a fused adapter regarding a string encoding operation.
+        /// </summary>
+        DebugAssertEqualCodeUnits = 27,
+        /// <summary>
+        /// Debug assertion generated for a fused adapter regarding the alignment of a pointer.
+        /// </summary>
+        DebugAssertPointerAligned = 28,
+        /// <summary>
+        /// Debug assertion generated for a fused adapter regarding the upper bits of a 64-bit value.
+        /// </summary>
+        DebugAssertUpperBitsUnset = 29,
+        /// <summary>
+        /// The trap was the result of a component trying to lift or lower a string past the end of its memory.
+        /// </summary>
+        StringOutOfBounds = 30,
+        /// <summary>
+        /// The trap was the result of a component trying to lift or lower a list past the end of its memory.
+        /// </summary>
+        ListOutOfBounds = 31,
+        /// <summary>
+        /// The trap was the result of a component using an invalid discriminant when lowering a variant value.
+        /// </summary>
+        InvalidDiscriminant = 32,
+        /// <summary>
+        /// The trap was the result of a component passing an unaligned pointer when lifting or lowering a value.
+        /// </summary>
+        UnalignedPointer = 33
+#else
+        /// <summary>
+        /// The trap was the result of executing a function that was `canon lift`'d, then `canonlower`'d, then called.
         /// </summary>
         /// <remarks>
         /// When the component model feature is enabled this trap represents a function that was `canon lift`'d,
@@ -84,6 +188,7 @@ namespace Wasmtime
         /// The trap was the result of a Pulley opcode executed at runtime when the opcode was disabled at compile time.
         /// </summary>
         DisabledOpCode = 20
+#endif
     }
 
     /// <summary>
