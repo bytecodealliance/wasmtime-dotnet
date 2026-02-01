@@ -6,4 +6,7 @@
     <WasmtimePackageVersion Condition="'$(DevBuild)'=='true'">$(WasmtimeVersion)$(WasmtimeDotnetVersion)-dev</WasmtimePackageVersion>
     <WasmtimePackageVersion Condition="'$(WasmtimePackageVersion)'==''">$(WasmtimeVersion)$(WasmtimeDotnetVersion)</WasmtimePackageVersion>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(DevBuild)'=='true'">
+    <DefineConstants>$(DefineConstants);WASMTIME_DEV</DefineConstants>
+  </PropertyGroup>
 </Project>
