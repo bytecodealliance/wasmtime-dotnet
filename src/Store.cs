@@ -17,7 +17,11 @@ namespace Wasmtime
 
         internal void GC()
         {
-            Native.wasmtime_context_gc(handle);
+            var error = Native.wasmtime_context_gc(handle);
+            if (error != IntPtr.Zero)
+            {
+                throw WasmtimeException.FromOwnedError(error);
+            }
         }
 
         internal ulong GetFuel()
@@ -84,7 +88,7 @@ namespace Wasmtime
         private static class Native
         {
             [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_context_gc(IntPtr handle);
+            public static extern IntPtr wasmtime_context_gc(IntPtr handle);
 
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasmtime_context_set_fuel(IntPtr handle, ulong fuel);
