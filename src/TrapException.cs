@@ -140,7 +140,54 @@ namespace Wasmtime
         /// The trap was the result of a component passing an unaligned pointer when lifting or
         /// lowering a value.
         /// </summary>
-        UnalignedPointer = 33
+        UnalignedPointer = 33,
+        /// <summary>
+        /// The trap was the result of <c>task.cancel</c> being invoked in an invalid way.
+        /// </summary>
+        TaskCancelNotCancelled = 34,
+        /// <summary>
+        /// The trap was the result of <c>task.cancel</c> or <c>task.return</c> being called too many times
+        /// </summary>
+        TaskCancelOrReturnTwice = 35,
+        /// <summary>
+        /// The trap was the result of <c>subtask.cancel</c> being invoked after it already finished.
+        /// </summary>
+        SubtaskCancelAfterTerminal = 36,
+        /// <summary>
+        /// The trap was the result of <c>task.return</c> being invoked with an invalid type.
+        /// </summary>
+        TaskReturnInvalid = 37,
+        /// <summary>
+        /// The trap was the result of <c>waitable-set.drop</c> being invoked on a waitable set with waiters.
+        /// </summary>
+        WaitableSetDropHasWaiters = 38,
+        /// <summary>
+        /// The trap was the result of <c>subtask.drop</c> being invoked on a subtask that hasn't resolved yet.
+        /// </summary>
+        SubtaskDropNotResolved = 39,
+        /// <summary>
+        /// The trap was the result of <c>thread.new-indirect</c> being invoked with a function that
+        /// has an invalid type.
+        /// </summary>
+        ThreadNewIndirectInvalidType = 40,
+        /// <summary>
+        /// The trap was the result of <c>thread.new-indirect</c> being invoked with an
+        /// uninitialized function reference.
+        /// </summary>
+        ThreadNewIndirectUninitialized = 41,
+        /// <summary>
+        /// The trap was the result of backpressure-related intrinsics overflowing the built-in counter.
+        /// </summary>
+        BackpressureOverflow = 42,
+        /// <summary>
+        /// The trap was the result of an invalid code being returned from the callback of an
+        /// async-lifted function.
+        /// </summary>
+        UnsupportedCallbackCode = 43,
+        /// <summary>
+        /// The trap was the result of trying to resume a thread which is not suspended.
+        /// </summary>
+        CannotResumeThread = 44,
     }
 
     /// <summary>
