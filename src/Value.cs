@@ -201,24 +201,16 @@ namespace Wasmtime
     /// </summary>
     /// <remarks>
     /// <para>
-    /// When owning the value and you are finished with using it, you must release/unroot
-    /// it by calling the <see cref="Release(Store)"/> method. After that, the
-    /// <see cref="Value"/> must no longer be used.
-    /// </para>
-    /// <para>
-    /// Previously, this type implemented the <see cref="IDisposable"/> interface, but since
-    /// Wasmtime v20.0.0, unrooting the value requires passing a store context, which is why
-    /// the <see cref="Release(Store)"/> method needs to explicitly be called, passing a
-    /// <see cref="Store"/>.
+    /// Although previously this type had its own function for freeing the object, now the
+    /// <see cref="IDisposable"/> interface is implemented.
     /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential)]
-    internal struct Value
+    internal struct Value : IDisposable
     {
-        public void Release(Store store)
+        public void Dispose()
         {
             Native.wasmtime_val_unroot(this);
-            GC.KeepAlive(store);
         }
 
         public static bool TryGetKind(Type type, out ValueKind kind)
