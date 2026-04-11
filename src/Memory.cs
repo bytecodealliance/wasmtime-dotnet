@@ -45,11 +45,17 @@ namespace Wasmtime
             Is64Bit = is64Bit;
             IsShared = false;
             
-            var typeHandle = Native.wasmtime_memorytype_new((ulong)minimum, maximum is not null, (ulong)(maximum ?? 0), is64Bit, IsShared);
+            IntPtr typeHandle;
+            var error = Native.wasmtime_memorytype_new((ulong)minimum, maximum is not null, (ulong)(maximum ?? 0), is64Bit, IsShared, PageSizeLog2, out typeHandle);
+
+            if (error != IntPtr.Zero){
+                throw WasmtimeException.FromOwnedError(error);
+            }
+
             try
             {
 
-                var error = Native.wasmtime_memory_new(store.Context.handle, typeHandle, out this.memory);
+                error = Native.wasmtime_memory_new(store.Context.handle, typeHandle, out this.memory);
                 GC.KeepAlive(store);
 
                 if (error != IntPtr.Zero)
@@ -62,6 +68,8 @@ namespace Wasmtime
                 Native.wasm_memorytype_delete(typeHandle);
             }
         }
+
+        private const int PageSizeLog2 = 16;
         
         /// <summary>
         /// The size, in bytes, of a WebAssembly memory page.
@@ -602,7 +610,7 @@ namespace Wasmtime
             public static extern IntPtr wasmtime_memory_type(IntPtr context, in ExternMemory memory);
 
             [DllImport(Engine.LibraryName)]
-            public static extern IntPtr wasmtime_memorytype_new(ulong min, [MarshalAs(UnmanagedType.I1)] bool max_present, ulong max, [MarshalAs(UnmanagedType.I1)] bool is_64, [MarshalAs(UnmanagedType.I1)] bool shared);
+            public static extern IntPtr wasmtime_memorytype_new(ulong min, [MarshalAs(UnmanagedType.I1)] bool max_present, ulong max, [MarshalAs(UnmanagedType.I1)] bool is_64, [MarshalAs(UnmanagedType.I1)] bool shared, byte page_size_log2, out IntPtr ret);
 
             [DllImport(Engine.LibraryName)]
             public static extern ulong wasmtime_memorytype_minimum(IntPtr type);
