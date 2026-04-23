@@ -188,6 +188,11 @@ namespace Wasmtime
         /// The trap was the result of trying to resume a thread which is not suspended.
         /// </summary>
         CannotResumeThread = 44,
+        /// <summary>
+        /// The trap was the result of a read/write being issued on a future/stream while there is a
+        /// pending operation already.
+        /// </summary>
+        ConcurrentFutureStreamOp = 45,
     }
 
     /// <summary>
