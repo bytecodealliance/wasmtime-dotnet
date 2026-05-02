@@ -43,6 +43,13 @@ The .NET embedding of Wasmtime enables .NET code to instantiate WebAssembly modu
     <PackageReference Include="IndexRange" Version="1.0.2" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
   </ItemGroup>
 
+  <!-- Source generator project lives alongside in src/, exclude from this assembly. -->
+  <ItemGroup>
+    <Compile Remove="Wasmtime.Component.SourceGenerators\**" />
+    <None Remove="Wasmtime.Component.SourceGenerators\**" />
+    <EmbeddedResource Remove="Wasmtime.Component.SourceGenerators\**" />
+  </ItemGroup>
+
   <ItemGroup>
     <None Include="README.md" Pack="true" PackagePath="\" />
   </ItemGroup>

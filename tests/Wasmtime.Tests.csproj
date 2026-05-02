@@ -18,6 +18,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\src\Wasmtime.csproj" />
+    <ProjectReference Include="..\src\Wasmtime.Component.SourceGenerators\Wasmtime.Component.SourceGenerators.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="false" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,6 +31,7 @@
     <EmbeddedResource Include="Components/hello-string.wasm" LogicalName="hello-string.wasm" />
     <EmbeddedResource Include="Components/host-add.wasm" LogicalName="host-add.wasm" />
     <EmbeddedResource Update="Components/fixtures.wasm" LogicalName="fixtures.wasm" />
+    <AdditionalFiles Include="Components/fixtures.wit" />
     <EmbeddedResource Include="Components/fixtures.wasm" LogicalName="fixtures.wasm" />
     <None Update="Components/*.wat" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
