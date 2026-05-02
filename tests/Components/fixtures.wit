@@ -1,0 +1,39 @@
+package wasmtime:tests@0.1.0;
+
+/// Reference WIT for the composite-types e2e fixture. Mirrored at
+/// `fixtures-src/wit/world.wit` so cargo-component can compile the Rust
+/// implementation in `fixtures-src/` into the resulting `fixtures.wasm`
+/// component used by `ComponentCompositesTests`.
+world fixture {
+    record point {
+        x: u32,
+        y: u32,
+    }
+
+    enum priority {
+        low,
+        medium,
+        high,
+    }
+
+    flags permissions {
+        read,
+        write,
+        execute,
+    }
+
+    variant greeting {
+        formal(string),
+        casual(string),
+        none,
+    }
+
+    export origin: func() -> point;
+    export range: func() -> list<u32>;
+    export top-priority: func() -> priority;
+    export defaults: func() -> permissions;
+    export greet: func(formal: bool) -> greeting;
+    export safe-divide: func(n: u32, d: u32) -> result<u32, string>;
+    export find: func(needle: u32) -> option<string>;
+    export pair: func() -> tuple<u32, string>;
+}

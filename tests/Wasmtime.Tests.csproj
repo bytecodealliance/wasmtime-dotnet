@@ -26,6 +26,8 @@
     <EmbeddedResource Include="Modules/hello.wasm" LogicalName="hello.wasm" />
     <EmbeddedResource Include="Components/add.wasm" LogicalName="add.wasm" />
     <EmbeddedResource Include="Components/hello-string.wasm" LogicalName="hello-string.wasm" />
+    <EmbeddedResource Include="Components/fixtures.wasm" LogicalName="fixtures.wasm" />
+    <EmbeddedResource Include="Components/fixtures.wasm" LogicalName="fixtures.wasm" />
     <None Update="Components/*.wat" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
