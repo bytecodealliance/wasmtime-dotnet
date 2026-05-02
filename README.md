@@ -99,6 +99,46 @@ $ dotnet run
 
 This should print `Hello from C#!`.
 
+## Component Model
+
+WASI 0.2 components are supported in the `Wasmtime.Components` namespace. A
+component is loaded with `Component.FromBytes`/`FromFile`, instantiated through
+`ComponentLinker`, and called via `ComponentInstance.GetFunction` +
+`ComponentValue` marshalling. A Roslyn source generator
+(`Wasmtime.Component.SourceGenerators`) turns `.wit` files into idiomatic C#
+bindings — types, export call wrappers, and an `IImports` interface for
+host-supplied functions.
+
+```csharp
+using Wasmtime;
+using Wasmtime.Components;
+
+[ComponentBindings("greeter.wit", world: "host")]
+public partial class GreeterBindings { }
+
+class HostImports : GreeterBindings.IImports
+{
+    public void Log(string message) => Console.WriteLine(message);
+}
+
+using var engine = new Engine();
+using var component = Component.FromFile(engine, "greeter.wasm");
+using var linker = new ComponentLinker(engine);
+using var store = new Store(engine);
+store.SetWasiConfiguration(new WasiConfiguration());
+linker.AddWasiPreview2();
+
+GreeterBindings.RegisterImports(linker, new HostImports());
+var instance = linker.Instantiate(store, component);
+var bindings = new GreeterBindings(instance);
+
+string result = bindings.Greet(new GreeterBindings.Person("Alice", 30));
+```
+
+See [`docs/component-model.md`](docs/component-model.md) for the full type
+mapping, build pipeline, and current limitations (notably WIT `resource` types,
+which require a wasmtime C API upgrade — tracked as a follow-up).
+
 ## Contributing
 
 ### Building
