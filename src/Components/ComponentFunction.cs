@@ -116,13 +116,16 @@ namespace Wasmtime.Components
     }
 
     /// <summary>
-    /// Mirror of <c>wasmtime_component_func_t</c> — value-typed handle (16 bytes: store_id + two private indices).
+    /// Mirror of <c>wasmtime_component_func_t</c>. The C header declares an anonymous nested
+    /// struct, which carries trailing padding to satisfy 8-byte alignment, so the actual size
+    /// is 24 bytes (not the 16 a flat reading suggests). The Rust side enforces this layout via
+    /// a const assertion in <c>crates/wasmtime/src/runtime/component/func.rs</c>.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 24)]
     internal struct WasmtimeComponentFunc
     {
-        public ulong StoreId;
-        public uint Private1;
-        public uint Private2;
+        [FieldOffset(0)] public ulong StoreId;
+        [FieldOffset(8)] public uint Private1;
+        [FieldOffset(16)] public uint Private2;
     }
 }
