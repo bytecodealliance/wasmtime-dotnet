@@ -18,6 +18,15 @@ internal sealed class EmitContext
         this.types = types;
     }
 
+    public WitTypeDef? GetTypeDef(int index)
+    {
+        if (index < 0 || index >= types.Count)
+        {
+            return null;
+        }
+        return types[index];
+    }
+
     public string ResolveTypeRef(WitTypeRef typeRef)
     {
         return typeRef switch

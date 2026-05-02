@@ -87,24 +87,163 @@ public class ComponentBindingsGeneratorTests
         g.Should().BeOfType<FixtureBindings.Greeting.None>();
     }
 
-    [Fact]
-    public void Generator_EmitsPrimitiveExportMethod_EndToEnd()
+    private static FixtureBindings CreateBindings(out Engine engine, out Component component, out ComponentLinker linker, out Store store)
     {
         var bytes = LoadFixtureBytes("fixtures.wasm");
 
-        using var engine = new Engine();
-        using var component = Component.FromBytes(engine, bytes);
-        using var linker = new ComponentLinker(engine);
-        using var store = new Store(engine);
+        engine = new Engine();
+        component = Component.FromBytes(engine, bytes);
+        linker = new ComponentLinker(engine);
+        store = new Store(engine);
 
         store.SetWasiConfiguration(new WasiConfiguration());
         linker.AddWasiPreview2();
 
         var instance = linker.Instantiate(store, component);
-        var bindings = new FixtureBindings(instance);
+        return new FixtureBindings(instance);
+    }
 
-        bindings.Square(7).Should().Be(49u);
-        bindings.Square(0).Should().Be(0u);
+    [Fact]
+    public void Generator_PrimitiveExport_EndToEnd()
+    {
+        var b = CreateBindings(out var engine, out var component, out var linker, out var store);
+        try
+        {
+            b.Square(7).Should().Be(49u);
+            b.Square(0).Should().Be(0u);
+        }
+        finally
+        {
+            store.Dispose(); linker.Dispose(); component.Dispose(); engine.Dispose();
+        }
+    }
+
+    [Fact]
+    public void Generator_RecordExport_EndToEnd()
+    {
+        var b = CreateBindings(out var engine, out var component, out var linker, out var store);
+        try
+        {
+            var p = b.Origin();
+            p.Should().Be(new FixtureBindings.Point(3, 4));
+        }
+        finally
+        {
+            store.Dispose(); linker.Dispose(); component.Dispose(); engine.Dispose();
+        }
+    }
+
+    [Fact]
+    public void Generator_EnumExport_EndToEnd()
+    {
+        var b = CreateBindings(out var engine, out var component, out var linker, out var store);
+        try
+        {
+            b.TopPriority().Should().Be(FixtureBindings.Priority.High);
+        }
+        finally
+        {
+            store.Dispose(); linker.Dispose(); component.Dispose(); engine.Dispose();
+        }
+    }
+
+    [Fact]
+    public void Generator_FlagsExport_EndToEnd()
+    {
+        var b = CreateBindings(out var engine, out var component, out var linker, out var store);
+        try
+        {
+            b.Defaults().Should().Be(FixtureBindings.Permissions.Read | FixtureBindings.Permissions.Write);
+        }
+        finally
+        {
+            store.Dispose(); linker.Dispose(); component.Dispose(); engine.Dispose();
+        }
+    }
+
+    [Fact]
+    public void Generator_VariantExport_EndToEnd()
+    {
+        var b = CreateBindings(out var engine, out var component, out var linker, out var store);
+        try
+        {
+            var formal = b.Greet(true);
+            formal.Should().BeOfType<FixtureBindings.Greeting.Formal>();
+            ((FixtureBindings.Greeting.Formal)formal).Value.Should().Be("Sir");
+
+            var casual = b.Greet(false);
+            casual.Should().BeOfType<FixtureBindings.Greeting.Casual>();
+            ((FixtureBindings.Greeting.Casual)casual).Value.Should().Be("hi");
+        }
+        finally
+        {
+            store.Dispose(); linker.Dispose(); component.Dispose(); engine.Dispose();
+        }
+    }
+
+    [Fact]
+    public void Generator_ListExport_EndToEnd()
+    {
+        var b = CreateBindings(out var engine, out var component, out var linker, out var store);
+        try
+        {
+            b.Range().Should().Equal(10u, 20u, 30u);
+        }
+        finally
+        {
+            store.Dispose(); linker.Dispose(); component.Dispose(); engine.Dispose();
+        }
+    }
+
+    [Fact]
+    public void Generator_OptionExport_EndToEnd()
+    {
+        var b = CreateBindings(out var engine, out var component, out var linker, out var store);
+        try
+        {
+            b.Find(42).Should().Be("answer");
+            b.Find(0).Should().BeNull();
+        }
+        finally
+        {
+            store.Dispose(); linker.Dispose(); component.Dispose(); engine.Dispose();
+        }
+    }
+
+    [Fact]
+    public void Generator_ResultExport_EndToEnd()
+    {
+        var b = CreateBindings(out var engine, out var component, out var linker, out var store);
+        try
+        {
+            var ok = b.SafeDivide(10, 2);
+            ok.IsOk.Should().BeTrue();
+            ok.Value.Should().Be(5u);
+
+            var err = b.SafeDivide(10, 0);
+            err.IsOk.Should().BeFalse();
+            err.Error.Should().Be("division by zero");
+        }
+        finally
+        {
+            store.Dispose(); linker.Dispose(); component.Dispose(); engine.Dispose();
+        }
+    }
+
+    [Fact]
+    public void Generator_TupleExport_EndToEnd()
+    {
+        var b = CreateBindings(out var engine, out var component, out var linker, out var store);
+        try
+        {
+            var (n, s) = b.Pair();
+            n.Should().Be(7u);
+            s.Should().Be("seven");
+        }
+        finally
+        {
+            store.Dispose(); linker.Dispose(); component.Dispose(); engine.Dispose();
+        }
     }
 
     private static byte[] LoadFixtureBytes(string name)

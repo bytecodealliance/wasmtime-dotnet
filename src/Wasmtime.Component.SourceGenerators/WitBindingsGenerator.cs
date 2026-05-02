@@ -167,7 +167,7 @@ public sealed class WitBindingsGenerator : IIncrementalGenerator
         TypeEmitter.EmitNamedTypes(sb, model, ctx, indent: 4);
 
         sb.AppendLine();
-        FunctionEmitter.EmitMethods(sb, request.ClassName, world, ctx, "    ");
+        FunctionEmitter.EmitMethods(sb, request.ClassName, world, model, ctx, "    ");
 
         sb.AppendLine("}");
 
