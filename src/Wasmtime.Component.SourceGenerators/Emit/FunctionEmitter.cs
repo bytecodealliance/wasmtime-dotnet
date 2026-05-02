@@ -33,6 +33,16 @@ internal static class FunctionEmitter
 
         EmitNamedTypeHelpers(sb, model, ctx, indent);
 
+        var importFns = world.Imports
+            .Where(i => i.Kind is WitWorldItemFunction)
+            .Select(i => (Name: i.Name, Function: ((WitWorldItemFunction)i.Kind).Function))
+            .ToList();
+        if (importFns.Count > 0)
+        {
+            EmitImportsInterface(sb, importFns, ctx, indent);
+            EmitRegisterImports(sb, importFns, ctx, indent);
+        }
+
         foreach (var item in world.Exports)
         {
             if (item.Kind is not WitWorldItemFunction fn)
@@ -42,6 +52,101 @@ internal static class FunctionEmitter
 
             EmitMethod(sb, item.Name, fn.Function, ctx, indent);
         }
+    }
+
+    /// <summary>
+    /// Emits the user-implementable <c>IImports</c> interface for the world's imported functions.
+    /// </summary>
+    private static void EmitImportsInterface(
+        StringBuilder sb,
+        IReadOnlyList<(string Name, WitFunction Function)> imports,
+        EmitContext ctx,
+        string indent)
+    {
+        sb.Append(indent).AppendLine("public interface IImports");
+        sb.Append(indent).AppendLine("{");
+        foreach (var (name, fn) in imports)
+        {
+            var methodName = EmitContext.ToPascalCase(fn.Name);
+            var resultType = fn.Result is null ? "void" : ctx.ResolveTypeRef(fn.Result);
+            sb.Append(indent).Append("    ").Append(resultType).Append(' ').Append(methodName).Append('(');
+            for (var i = 0; i < fn.Params.Count; i++)
+            {
+                if (i > 0)
+                {
+                    sb.Append(", ");
+                }
+                sb.Append(ctx.ResolveTypeRef(fn.Params[i].Type)).Append(' ').Append(EmitContext.ToCamelCase(fn.Params[i].Name));
+            }
+            sb.AppendLine(");");
+        }
+        sb.Append(indent).AppendLine("}");
+        sb.AppendLine();
+    }
+
+    /// <summary>
+    /// Emits a static <c>RegisterImports</c> method that wires every <c>IImports</c> member to a
+    /// <c>ComponentLinker.Root().DefineFunc(...)</c> callback so the host implementation runs when
+    /// the component invokes the matching import.
+    /// </summary>
+    private static void EmitRegisterImports(
+        StringBuilder sb,
+        IReadOnlyList<(string Name, WitFunction Function)> imports,
+        EmitContext ctx,
+        string indent)
+    {
+        sb.Append(indent).AppendLine("public static void RegisterImports(Wasmtime.Components.ComponentLinker linker, IImports impl)");
+        sb.Append(indent).AppendLine("{");
+        sb.Append(indent).AppendLine("    if (linker is null) throw new System.ArgumentNullException(nameof(linker));");
+        sb.Append(indent).AppendLine("    if (impl is null) throw new System.ArgumentNullException(nameof(impl));");
+        sb.Append(indent).AppendLine("    var root = linker.Root();");
+        sb.Append(indent).AppendLine("    try");
+        sb.Append(indent).AppendLine("    {");
+        foreach (var (name, fn) in imports)
+        {
+            var methodName = EmitContext.ToPascalCase(fn.Name);
+            sb.Append(indent).Append("        root.DefineFunc(\"").Append(EscapeString(name)).AppendLine("\", (args, results) =>");
+            sb.Append(indent).AppendLine("        {");
+
+            for (var i = 0; i < fn.Params.Count; i++)
+            {
+                var paramType = ctx.ResolveTypeRef(fn.Params[i].Type);
+                sb.Append(indent).Append("            ").Append(paramType).Append(" arg").Append(i).Append(" = ")
+                    .Append(LiftExpr(fn.Params[i].Type, $"args[{i}]", ctx)).AppendLine(";");
+            }
+
+            if (fn.Result is null)
+            {
+                sb.Append(indent).Append("            impl.").Append(methodName).Append('(');
+                for (var i = 0; i < fn.Params.Count; i++)
+                {
+                    if (i > 0) sb.Append(", ");
+                    sb.Append("arg").Append(i);
+                }
+                sb.AppendLine(");");
+            }
+            else
+            {
+                var resultType = ctx.ResolveTypeRef(fn.Result);
+                sb.Append(indent).Append("            ").Append(resultType).Append(" hostResult = impl.").Append(methodName).Append('(');
+                for (var i = 0; i < fn.Params.Count; i++)
+                {
+                    if (i > 0) sb.Append(", ");
+                    sb.Append("arg").Append(i);
+                }
+                sb.AppendLine(");");
+                sb.Append(indent).Append("            results[0] = ").Append(LowerExpr(fn.Result, "hostResult", ctx)).AppendLine(";");
+            }
+
+            sb.Append(indent).AppendLine("        });");
+        }
+        sb.Append(indent).AppendLine("    }");
+        sb.Append(indent).AppendLine("    finally");
+        sb.Append(indent).AppendLine("    {");
+        sb.Append(indent).AppendLine("        root.Dispose();");
+        sb.Append(indent).AppendLine("    }");
+        sb.Append(indent).AppendLine("}");
+        sb.AppendLine();
     }
 
     private static void EmitMethod(

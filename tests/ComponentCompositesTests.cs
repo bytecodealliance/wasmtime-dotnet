@@ -36,6 +36,16 @@ public class ComponentCompositesTests
             Store.SetWasiConfiguration(new WasiConfiguration());
             Linker.AddWasiPreview2();
 
+            // The componentize-dotnet-built fixture imports `host-double`; register a passthrough so
+            // the runtime-API tests can still instantiate the component without using generated bindings.
+            using (var root = Linker.Root())
+            {
+                root.DefineFunc("host-double", (args, results) =>
+                {
+                    results[0] = ComponentValue.FromU32(args[0].AsU32() * 2);
+                });
+            }
+
             Instance = Linker.Instantiate(Store, Component);
         }
 

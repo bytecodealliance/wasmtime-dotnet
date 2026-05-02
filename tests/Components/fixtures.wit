@@ -40,4 +40,7 @@ world fixture {
     export square: func(n: u32) -> u32;
 
     export translate: func(p: point, dx: u32, dy: u32) -> point;
+
+    import host-double: func(n: u32) -> u32;
+    export use-host: func(n: u32) -> u32;
 }

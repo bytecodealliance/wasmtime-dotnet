@@ -6,6 +6,14 @@
     <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
   </PropertyGroup>
 
+  <!-- The wasm component fixture is its own project (Components/fixtures-src/) and gets built
+       separately in a Linux container; exclude its sources from this assembly. -->
+  <ItemGroup>
+    <Compile Remove="Components/fixtures-src/**" />
+    <None Remove="Components/fixtures-src/**" />
+    <EmbeddedResource Remove="Components/fixtures-src/**" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="6.12.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />

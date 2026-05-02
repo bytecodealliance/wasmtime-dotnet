@@ -1,9 +1,5 @@
 package wasmtime:tests@0.1.0;
 
-/// Reference WIT for the composite-types e2e fixture. Mirrored at
-/// `fixtures-src/wit/world.wit` so cargo-component can compile the Rust
-/// implementation in `fixtures-src/` into the resulting `fixtures.wasm`
-/// component used by `ComponentCompositesTests`.
 world fixture {
     record point {
         x: u32,
@@ -38,6 +34,8 @@ world fixture {
     export pair: func() -> tuple<u32, string>;
 
     export square: func(n: u32) -> u32;
-
     export translate: func(p: point, dx: u32, dy: u32) -> point;
+
+    import host-double: func(n: u32) -> u32;
+    export use-host: func(n: u32) -> u32;
 }

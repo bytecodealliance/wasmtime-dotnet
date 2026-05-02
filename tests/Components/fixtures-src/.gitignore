@@ -1,3 +1,2 @@
-/target
-/src/bindings.rs
-/Cargo.lock
+/bin
+/obj

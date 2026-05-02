@@ -14,6 +14,19 @@
         },
         "greeting": {
           "type": 3
+        },
+        "host-double": {
+          "function": {
+            "name": "host-double",
+            "kind": "freestanding",
+            "params": [
+              {
+                "name": "n",
+                "type": "u32"
+              }
+            ],
+            "result": "u32"
+          }
         }
       },
       "exports": {
@@ -132,6 +145,19 @@
               }
             ],
             "result": 0
+          }
+        },
+        "use-host": {
+          "function": {
+            "name": "use-host",
+            "kind": "freestanding",
+            "params": [
+              {
+                "name": "n",
+                "type": "u32"
+              }
+            ],
+            "result": "u32"
           }
         }
       },

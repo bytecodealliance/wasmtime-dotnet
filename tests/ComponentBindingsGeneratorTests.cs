@@ -22,7 +22,7 @@ public class ComponentBindingsGeneratorTests
         // (list<u32>, result<u32, string>, option<string>, tuple<u32, string>)
         FixtureBindings.WitTypeCount.Should().Be(8);
         FixtureBindings.WitImportCount.Should().Be(4);
-        FixtureBindings.WitExportCount.Should().Be(10);
+        FixtureBindings.WitExportCount.Should().Be(11);
     }
 
     [Fact]
@@ -40,6 +40,7 @@ public class ComponentBindingsGeneratorTests
             "pair",
             "square",
             "translate",
+            "use-host",
         }, options => options.WithStrictOrdering());
     }
 
@@ -88,6 +89,11 @@ public class ComponentBindingsGeneratorTests
         g.Should().BeOfType<FixtureBindings.Greeting.None>();
     }
 
+    private sealed class NoopImports : FixtureBindings.IImports
+    {
+        public uint HostDouble(uint n) => n * 2;
+    }
+
     private static FixtureBindings CreateBindings(out Engine engine, out Component component, out ComponentLinker linker, out Store store)
     {
         var bytes = LoadFixtureBytes("fixtures.wasm");
@@ -99,6 +105,8 @@ public class ComponentBindingsGeneratorTests
 
         store.SetWasiConfiguration(new WasiConfiguration());
         linker.AddWasiPreview2();
+
+        FixtureBindings.RegisterImports(linker, new NoopImports());
 
         var instance = linker.Instantiate(store, component);
         return new FixtureBindings(instance);
@@ -229,6 +237,39 @@ public class ComponentBindingsGeneratorTests
         {
             store.Dispose(); linker.Dispose(); component.Dispose(); engine.Dispose();
         }
+    }
+
+    private sealed class HostImports : FixtureBindings.IImports
+    {
+        public int Calls;
+        public uint HostDouble(uint n)
+        {
+            Calls++;
+            return n * 2;
+        }
+    }
+
+    [Fact]
+    public void Generator_HostImport_BoundsAndInvokes_EndToEnd()
+    {
+        var bytes = LoadFixtureBytes("fixtures.wasm");
+
+        using var engine = new Engine();
+        using var component = Component.FromBytes(engine, bytes);
+        using var linker = new ComponentLinker(engine);
+        using var store = new Store(engine);
+
+        store.SetWasiConfiguration(new WasiConfiguration());
+        linker.AddWasiPreview2();
+
+        var imports = new HostImports();
+        FixtureBindings.RegisterImports(linker, imports);
+
+        var instance = linker.Instantiate(store, component);
+        var bindings = new FixtureBindings(instance);
+
+        bindings.UseHost(21).Should().Be(42u);
+        imports.Calls.Should().Be(1);
     }
 
     [Fact]
