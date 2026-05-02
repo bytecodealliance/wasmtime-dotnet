@@ -8,6 +8,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using Wasmtime.Component.SourceGenerators.Diagnostics;
+using Wasmtime.Component.SourceGenerators.Emit;
 using Wasmtime.Component.SourceGenerators.Wit;
 
 namespace Wasmtime.Component.SourceGenerators;
@@ -160,6 +161,10 @@ public sealed class WitBindingsGenerator : IIncrementalGenerator
             sb.Append("        \"").Append(EscapeString(type.Name ?? "<anonymous>")).AppendLine("\",");
         }
         sb.AppendLine("    };");
+
+        sb.AppendLine();
+        var ctx = new EmitContext(model.Types);
+        TypeEmitter.EmitNamedTypes(sb, model, ctx, indent: 4);
 
         sb.AppendLine("}");
 
