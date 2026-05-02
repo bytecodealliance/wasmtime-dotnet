@@ -280,4 +280,58 @@ public class ComponentValueTests
     {
         Assert.Throws<System.ArgumentNullException>(() => ComponentValue.FromList(null!));
     }
+
+    [Fact]
+    public void Record_RoundTrips()
+    {
+        var v = ComponentValue.FromRecord(new[]
+        {
+            new RecordField("name", ComponentValue.FromString("Alice")),
+            new RecordField("age", ComponentValue.FromU32(30)),
+        });
+        try
+        {
+            v.Kind.Should().Be(ComponentValueKind.Record);
+            var fields = v.AsRecord();
+            fields.Should().HaveCount(2);
+            fields[0].Name.Should().Be("name");
+            fields[0].Value.AsString().Should().Be("Alice");
+            fields[1].Name.Should().Be("age");
+            fields[1].Value.AsU32().Should().Be(30u);
+        }
+        finally
+        {
+            v.Free();
+        }
+    }
+
+    [Fact]
+    public void Record_EmptyRoundTrips()
+    {
+        var v = ComponentValue.FromRecord(System.Array.Empty<RecordField>());
+        try
+        {
+            v.AsRecord().Should().BeEmpty();
+        }
+        finally
+        {
+            v.Free();
+        }
+    }
+
+    [Fact]
+    public void Record_FromNullThrows()
+    {
+        Assert.Throws<System.ArgumentNullException>(() => ComponentValue.FromRecord(null!));
+    }
+
+    [Fact]
+    public void Record_NullFieldNameRollsBack()
+    {
+        Assert.Throws<System.ArgumentException>(() => ComponentValue.FromRecord(new[]
+        {
+            new RecordField("first", ComponentValue.FromU32(1)),
+            new RecordField(null!, ComponentValue.FromU32(2)),
+        }));
+    }
 }

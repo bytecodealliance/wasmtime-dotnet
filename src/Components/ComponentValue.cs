@@ -297,6 +297,30 @@ namespace Wasmtime.Components
             return v;
         }
 
+        /// <summary>
+        /// Creates a value of kind <see cref="ComponentValueKind.Record"/> from a sequence of named fields.
+        /// </summary>
+        /// <remarks>
+        /// Takes ownership of the field values: callers must not call <see cref="Free"/> on
+        /// <see cref="RecordField.Value"/> afterwards. <see cref="Free"/> on the returned value releases
+        /// every name buffer and recursively frees every value.
+        /// </remarks>
+        public static ComponentValue FromRecord(IReadOnlyList<RecordField> fields)
+        {
+            if (fields is null)
+            {
+                throw new ArgumentNullException(nameof(fields));
+            }
+
+            var v = new ComponentValue
+            {
+                kind = (byte)ComponentValueKind.Record,
+                ownsHeap = 1,
+            };
+            v.of.Record = AllocateRecordEntries(fields);
+            return v;
+        }
+
         /// <summary>Reads the value as <see cref="bool"/>; throws if <see cref="Kind"/> is not <see cref="ComponentValueKind.Bool"/>.</summary>
         public bool AsBool() { ExpectKind(ComponentValueKind.Bool); return of.Boolean != 0; }
 
@@ -390,6 +414,29 @@ namespace Wasmtime.Components
             return DecodeValueArray(of.Tuple);
         }
 
+        /// <summary>Reads the named fields of a <see cref="ComponentValueKind.Record"/> value.</summary>
+        /// <remarks>The returned values share ownership with the parent — do not Free them individually.</remarks>
+        public IReadOnlyList<RecordField> AsRecord()
+        {
+            ExpectKind(ComponentValueKind.Record);
+            var n = checked((int)(uint)of.Record.Size);
+            if (n == 0)
+            {
+                return System.Array.Empty<RecordField>();
+            }
+
+            var result = new RecordField[n];
+            unsafe
+            {
+                var entries = (ComponentValRecordEntry*)of.Record.Data;
+                for (var i = 0; i < n; i++)
+                {
+                    result[i] = new RecordField(DecodeName(entries[i].Name), entries[i].Val);
+                }
+            }
+            return result;
+        }
+
         /// <summary>
         /// Releases any heap-allocated payload associated with this value (currently strings).
         /// </summary>
@@ -420,6 +467,9 @@ namespace Wasmtime.Components
                     break;
                 case ComponentValueKind.Tuple:
                     FreeValueArray(ref of.Tuple);
+                    break;
+                case ComponentValueKind.Record:
+                    FreeRecordEntries(ref of.Record);
                     break;
             }
 
@@ -584,6 +634,57 @@ namespace Wasmtime.Components
             Marshal.FreeHGlobal(vec.Data);
             vec = default;
         }
+
+        private static unsafe ComponentValVec AllocateRecordEntries(IReadOnlyList<RecordField> fields)
+        {
+            var n = fields.Count;
+            if (n == 0)
+            {
+                return new ComponentValVec { Size = UIntPtr.Zero, Data = IntPtr.Zero };
+            }
+
+            var entrySize = sizeof(ComponentValRecordEntry);
+            var arrayPtr = Marshal.AllocHGlobal(n * entrySize);
+            var entries = (ComponentValRecordEntry*)arrayPtr;
+            for (var i = 0; i < n; i++)
+            {
+                if (fields[i].Name is null)
+                {
+                    for (var j = 0; j < i; j++)
+                    {
+                        FreeName(ref entries[j].Name);
+                        entries[j].Val.Free();
+                    }
+                    Marshal.FreeHGlobal(arrayPtr);
+                    throw new ArgumentException("Record field name must not be null.", nameof(fields));
+                }
+
+                entries[i].Name = AllocateName(fields[i].Name);
+                entries[i].Val = fields[i].Value;
+            }
+
+            return new ComponentValVec { Size = (UIntPtr)n, Data = arrayPtr };
+        }
+
+        private static unsafe void FreeRecordEntries(ref ComponentValVec vec)
+        {
+            if (vec.Data == IntPtr.Zero)
+            {
+                vec = default;
+                return;
+            }
+
+            var n = checked((int)(uint)vec.Size);
+            var entries = (ComponentValRecordEntry*)vec.Data;
+            for (var i = 0; i < n; i++)
+            {
+                FreeName(ref entries[i].Name);
+                entries[i].Val.Free();
+            }
+
+            Marshal.FreeHGlobal(vec.Data);
+            vec = default;
+        }
     }
 
     /// <summary>
@@ -628,6 +729,21 @@ namespace Wasmtime.Components
         // Trailing padding to 8-byte alignment is implicit; matches the C struct's layout exactly.
         public IntPtr Val;
     }
+
+    /// <summary>
+    /// Mirror of <c>wasmtime_component_valrecord_entry_t</c>: a name and the value associated with it.
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct ComponentValRecordEntry
+    {
+        public WasmName Name;
+        public ComponentValue Val;
+    }
+
+    /// <summary>
+    /// A single named field within a record value.
+    /// </summary>
+    public readonly record struct RecordField(string Name, ComponentValue Value);
 
     /// <summary>
     /// Mirror of <c>wasmtime_component_valunion_t</c>. The largest case (<c>variant</c>) drives the size: 24 bytes.
