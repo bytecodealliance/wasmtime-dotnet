@@ -63,4 +63,71 @@ public class ComponentValueTests
         Assert.Throws<System.InvalidOperationException>(() => v.AsBool());
         Assert.Throws<System.InvalidOperationException>(() => v.AsS32());
     }
+
+    [Fact]
+    public void String_AsciiRoundTrips()
+    {
+        var v = ComponentValue.FromString("hello");
+        try
+        {
+            v.Kind.Should().Be(ComponentValueKind.String);
+            v.AsString().Should().Be("hello");
+        }
+        finally
+        {
+            v.Free();
+        }
+    }
+
+    [Fact]
+    public void String_EmptyRoundTrips()
+    {
+        var v = ComponentValue.FromString(string.Empty);
+        try
+        {
+            v.Kind.Should().Be(ComponentValueKind.String);
+            v.AsString().Should().BeEmpty();
+        }
+        finally
+        {
+            v.Free();
+        }
+    }
+
+    [Fact]
+    public void String_UnicodeRoundTrips()
+    {
+        var input = "Привет, 🌍! 日本語";
+        var v = ComponentValue.FromString(input);
+        try
+        {
+            v.AsString().Should().Be(input);
+        }
+        finally
+        {
+            v.Free();
+        }
+    }
+
+    [Fact]
+    public void String_FreeIsIdempotent()
+    {
+        var v = ComponentValue.FromString("x");
+        v.Free();
+        v.Free();
+    }
+
+    [Fact]
+    public void String_FromNullThrows()
+    {
+        Assert.Throws<System.ArgumentNullException>(() => ComponentValue.FromString(null!));
+    }
+
+    [Fact]
+    public void Free_OnPrimitiveIsNoOp()
+    {
+        var v = ComponentValue.FromU32(7);
+        v.Free();
+        v.AsU32().Should().Be(7u);
+    }
 }

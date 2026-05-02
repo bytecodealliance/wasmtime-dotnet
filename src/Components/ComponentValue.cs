@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace Wasmtime.Components
 {
@@ -60,31 +61,29 @@ namespace Wasmtime.Components
     /// Represents a single value passed to or returned from a component function.
     /// </summary>
     /// <remarks>
-    /// This struct mirrors <c>wasmtime_component_val_t</c> for blittable interop. Currently only
-    /// primitive values (bool, integers, floats, char) are supported via the <c>From*</c> /
-    /// <c>As*</c> helpers. Strings, lists, records, tuples, variants, enums, options, results,
-    /// and flags will be wired up in subsequent commits as part of the marshalling phase.
+    /// Mirrors <c>wasmtime_component_val_t</c> for blittable interop. Composite values
+    /// (currently <see cref="ComponentValueKind.String"/>) own a heap-allocated buffer
+    /// when constructed by <c>From*</c> factories — call <see cref="Free"/> after use,
+    /// preferably from a <c>finally</c> block.
     /// </remarks>
     [StructLayout(LayoutKind.Sequential)]
     public struct ComponentValue
     {
-        // Verify the struct matches the C layout: 1 byte kind + 7 bytes padding + 24 byte union = 32 bytes total.
+        // Verify the struct matches the C layout: 1 byte kind + 1 byte allocation flag + 6 bytes padding + 24 byte union = 32 bytes total.
         static ComponentValue() => Debug.Assert(Marshal.SizeOf(typeof(ComponentValue)) == 32);
 
         private byte kind;
+        private byte ownsHeap;
         private byte _pad0;
         private byte _pad1;
         private byte _pad2;
         private byte _pad3;
         private byte _pad4;
         private byte _pad5;
-        private byte _pad6;
 
         private WasmtimeComponentValUnion of;
 
-        /// <summary>
-        /// The discriminant indicating which alternative this value holds.
-        /// </summary>
+        /// <summary>The discriminant indicating which alternative this value holds.</summary>
         public ComponentValueKind Kind => (ComponentValueKind)kind;
 
         /// <summary>Creates a value of kind <see cref="ComponentValueKind.Bool"/>.</summary>
@@ -183,6 +182,41 @@ namespace Wasmtime.Components
             return v;
         }
 
+        /// <summary>
+        /// Creates a value of kind <see cref="ComponentValueKind.String"/> by encoding <paramref name="value"/> as UTF-8.
+        /// </summary>
+        /// <remarks>
+        /// The returned value owns a heap-allocated UTF-8 buffer. Call <see cref="Free"/> after use to release it.
+        /// </remarks>
+        public static ComponentValue FromString(string value)
+        {
+            if (value is null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            var byteCount = Encoding.UTF8.GetByteCount(value);
+            var ptr = byteCount == 0 ? IntPtr.Zero : Marshal.AllocHGlobal(byteCount);
+            if (byteCount > 0)
+            {
+                unsafe
+                {
+                    fixed (char* chars = value)
+                    {
+                        Encoding.UTF8.GetBytes(chars, value.Length, (byte*)ptr, byteCount);
+                    }
+                }
+            }
+
+            var v = new ComponentValue
+            {
+                kind = (byte)ComponentValueKind.String,
+                ownsHeap = 1,
+            };
+            v.of.String = new WasmName { Size = (UIntPtr)byteCount, Data = ptr };
+            return v;
+        }
+
         /// <summary>Reads the value as <see cref="bool"/>; throws if <see cref="Kind"/> is not <see cref="ComponentValueKind.Bool"/>.</summary>
         public bool AsBool() { ExpectKind(ComponentValueKind.Bool); return of.Boolean != 0; }
 
@@ -219,6 +253,50 @@ namespace Wasmtime.Components
         /// <summary>Reads the value as a Unicode scalar value.</summary>
         public uint AsChar() { ExpectKind(ComponentValueKind.Char); return of.Character; }
 
+        /// <summary>Reads the value as <see cref="string"/>; the underlying UTF-8 bytes are decoded into a managed string.</summary>
+        public string AsString()
+        {
+            ExpectKind(ComponentValueKind.String);
+            var size = checked((int)(uint)of.String.Size);
+            if (size == 0)
+            {
+                return string.Empty;
+            }
+
+            unsafe
+            {
+                return Encoding.UTF8.GetString((byte*)of.String.Data, size);
+            }
+        }
+
+        /// <summary>
+        /// Releases any heap-allocated payload associated with this value (currently strings).
+        /// </summary>
+        /// <remarks>
+        /// Safe to call multiple times. Has no effect on values of primitive kinds or values not allocated
+        /// by the managed factories. After <see cref="Free"/> the value's payload is no longer accessible.
+        /// </remarks>
+        public void Free()
+        {
+            if (ownsHeap == 0)
+            {
+                return;
+            }
+
+            switch ((ComponentValueKind)kind)
+            {
+                case ComponentValueKind.String:
+                    if (of.String.Data != IntPtr.Zero)
+                    {
+                        Marshal.FreeHGlobal(of.String.Data);
+                        of.String = default;
+                    }
+                    break;
+            }
+
+            ownsHeap = 0;
+        }
+
         private void ExpectKind(ComponentValueKind expected)
         {
             if (Kind != expected)
@@ -229,13 +307,52 @@ namespace Wasmtime.Components
     }
 
     /// <summary>
-    /// Mirror of <c>wasmtime_component_valunion_t</c>. Largest case (<c>variant</c>) determines the size: 24 bytes.
+    /// Mirror of <c>wasm_byte_vec_t</c> / <c>wasm_name_t</c> — used for strings, enum case names, and flag names.
     /// </summary>
-    /// <remarks>
-    /// Composite cases (string, list, record, tuple, variant, enum, option, result, flags) have their
-    /// fields reserved by the explicit size of 24 bytes but C# accessors will be added in Phase 2 alongside
-    /// the marshalling support.
-    /// </remarks>
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct WasmName
+    {
+        public UIntPtr Size;
+        public IntPtr Data;
+    }
+
+    /// <summary>
+    /// Mirror of the vec types <c>wasmtime_component_vallist_t</c>, <c>wasmtime_component_valtuple_t</c>,
+    /// <c>wasmtime_component_valrecord_t</c>, and <c>wasmtime_component_valflags_t</c>. They share the same
+    /// <c>{ size, data* }</c> layout — the element type differs but is always referenced by an opaque pointer.
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct ComponentValVec
+    {
+        public UIntPtr Size;
+        public IntPtr Data;
+    }
+
+    /// <summary>
+    /// Mirror of <c>wasmtime_component_valvariant_t</c>: a name discriminant plus an optional payload pointer.
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct ComponentValVariant
+    {
+        public WasmName Discriminant;
+        public IntPtr Val;
+    }
+
+    /// <summary>
+    /// Mirror of <c>wasmtime_component_valresult_t</c>: an <c>ok</c> flag plus an optional payload pointer.
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct ComponentValResult
+    {
+        public byte IsOk;
+        // Trailing padding to 8-byte alignment is implicit; matches the C struct's layout exactly.
+        public IntPtr Val;
+    }
+
+    /// <summary>
+    /// Mirror of <c>wasmtime_component_valunion_t</c>. The largest case (<c>variant</c>) drives the size: 24 bytes.
+    /// All cases overlap at offset 0 — at most one is valid at any time, indicated by <see cref="ComponentValue.Kind"/>.
+    /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 24)]
     internal struct WasmtimeComponentValUnion
     {
@@ -251,5 +368,14 @@ namespace Wasmtime.Components
         [FieldOffset(0)] public float F32;
         [FieldOffset(0)] public double F64;
         [FieldOffset(0)] public uint Character;
+        [FieldOffset(0)] public WasmName String;
+        [FieldOffset(0)] public ComponentValVec List;
+        [FieldOffset(0)] public ComponentValVec Record;
+        [FieldOffset(0)] public ComponentValVec Tuple;
+        [FieldOffset(0)] public ComponentValVariant Variant;
+        [FieldOffset(0)] public WasmName Enumeration;
+        [FieldOffset(0)] public IntPtr Option;
+        [FieldOffset(0)] public ComponentValResult Result;
+        [FieldOffset(0)] public ComponentValVec Flags;
     }
 }

@@ -91,4 +91,32 @@ public class ComponentEndToEndTests
         using var export = roundTripped.GetExport("add");
         export.Should().NotBeNull();
     }
+
+    [Fact]
+    public void HelloComponent_ReturnsString()
+    {
+        var bytes = LoadFixture("hello-string.wasm");
+
+        using var engine = new Engine();
+        using var component = Component.FromBytes(engine, bytes);
+        using var linker = new ComponentLinker(engine);
+        using var store = new Store(engine);
+
+        var instance = linker.Instantiate(store, component);
+        var hello = instance.GetFunction("hello");
+        hello.Should().NotBeNull();
+
+        var results = new ComponentValue[1];
+        try
+        {
+            hello!.Call(System.ReadOnlySpan<ComponentValue>.Empty, results);
+
+            results[0].Kind.Should().Be(ComponentValueKind.String);
+            results[0].AsString().Should().Be("Hello, world!");
+        }
+        finally
+        {
+            results[0].Free();
+        }
+    }
 }
