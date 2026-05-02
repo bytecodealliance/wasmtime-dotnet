@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -195,25 +196,58 @@ namespace Wasmtime.Components
                 throw new ArgumentNullException(nameof(value));
             }
 
-            var byteCount = Encoding.UTF8.GetByteCount(value);
-            var ptr = byteCount == 0 ? IntPtr.Zero : Marshal.AllocHGlobal(byteCount);
-            if (byteCount > 0)
-            {
-                unsafe
-                {
-                    fixed (char* chars = value)
-                    {
-                        Encoding.UTF8.GetBytes(chars, value.Length, (byte*)ptr, byteCount);
-                    }
-                }
-            }
-
+            var name = AllocateName(value);
             var v = new ComponentValue
             {
                 kind = (byte)ComponentValueKind.String,
                 ownsHeap = 1,
             };
-            v.of.String = new WasmName { Size = (UIntPtr)byteCount, Data = ptr };
+            v.of.String = name;
+            return v;
+        }
+
+        /// <summary>
+        /// Creates a value of kind <see cref="ComponentValueKind.Enum"/> with the given case name.
+        /// </summary>
+        /// <remarks>
+        /// The returned value owns a heap-allocated UTF-8 buffer for the case name. Call <see cref="Free"/> after use.
+        /// </remarks>
+        public static ComponentValue FromEnum(string caseName)
+        {
+            if (caseName is null)
+            {
+                throw new ArgumentNullException(nameof(caseName));
+            }
+
+            var name = AllocateName(caseName);
+            var v = new ComponentValue
+            {
+                kind = (byte)ComponentValueKind.Enum,
+                ownsHeap = 1,
+            };
+            v.of.Enumeration = name;
+            return v;
+        }
+
+        /// <summary>
+        /// Creates a value of kind <see cref="ComponentValueKind.Flags"/> with the given set of flag names.
+        /// </summary>
+        /// <remarks>
+        /// The returned value owns a heap-allocated array plus one buffer per flag name. Call <see cref="Free"/> after use.
+        /// </remarks>
+        public static ComponentValue FromFlags(IReadOnlyList<string> names)
+        {
+            if (names is null)
+            {
+                throw new ArgumentNullException(nameof(names));
+            }
+
+            var v = new ComponentValue
+            {
+                kind = (byte)ComponentValueKind.Flags,
+                ownsHeap = 1,
+            };
+            v.of.Flags = AllocateNameArray(names);
             return v;
         }
 
@@ -257,16 +291,36 @@ namespace Wasmtime.Components
         public string AsString()
         {
             ExpectKind(ComponentValueKind.String);
-            var size = checked((int)(uint)of.String.Size);
-            if (size == 0)
+            return DecodeName(of.String);
+        }
+
+        /// <summary>Reads an enum case name as a managed string.</summary>
+        public string AsEnum()
+        {
+            ExpectKind(ComponentValueKind.Enum);
+            return DecodeName(of.Enumeration);
+        }
+
+        /// <summary>Reads the set of flag names from a <see cref="ComponentValueKind.Flags"/> value.</summary>
+        public IReadOnlyList<string> AsFlags()
+        {
+            ExpectKind(ComponentValueKind.Flags);
+            var count = checked((int)(uint)of.Flags.Size);
+            if (count == 0)
             {
-                return string.Empty;
+                return System.Array.Empty<string>();
             }
 
+            var result = new string[count];
             unsafe
             {
-                return Encoding.UTF8.GetString((byte*)of.String.Data, size);
+                var array = (WasmName*)of.Flags.Data;
+                for (var i = 0; i < count; i++)
+                {
+                    result[i] = DecodeName(array[i]);
+                }
             }
+            return result;
         }
 
         /// <summary>
@@ -286,11 +340,13 @@ namespace Wasmtime.Components
             switch ((ComponentValueKind)kind)
             {
                 case ComponentValueKind.String:
-                    if (of.String.Data != IntPtr.Zero)
-                    {
-                        Marshal.FreeHGlobal(of.String.Data);
-                        of.String = default;
-                    }
+                    FreeName(ref of.String);
+                    break;
+                case ComponentValueKind.Enum:
+                    FreeName(ref of.Enumeration);
+                    break;
+                case ComponentValueKind.Flags:
+                    FreeNameArray(ref of.Flags);
                     break;
             }
 
@@ -303,6 +359,102 @@ namespace Wasmtime.Components
             {
                 throw new InvalidOperationException($"ComponentValue is of kind '{Kind}', not '{expected}'.");
             }
+        }
+
+        private static WasmName AllocateName(string value)
+        {
+            var byteCount = Encoding.UTF8.GetByteCount(value);
+            var ptr = byteCount == 0 ? IntPtr.Zero : Marshal.AllocHGlobal(byteCount);
+            if (byteCount > 0)
+            {
+                unsafe
+                {
+                    fixed (char* chars = value)
+                    {
+                        Encoding.UTF8.GetBytes(chars, value.Length, (byte*)ptr, byteCount);
+                    }
+                }
+            }
+
+            return new WasmName { Size = (UIntPtr)byteCount, Data = ptr };
+        }
+
+        private static string DecodeName(WasmName name)
+        {
+            var size = checked((int)(uint)name.Size);
+            if (size == 0)
+            {
+                return string.Empty;
+            }
+
+            unsafe
+            {
+                return Encoding.UTF8.GetString((byte*)name.Data, size);
+            }
+        }
+
+        private static void FreeName(ref WasmName name)
+        {
+            if (name.Data != IntPtr.Zero)
+            {
+                Marshal.FreeHGlobal(name.Data);
+                name = default;
+            }
+        }
+
+        private static unsafe ComponentValVec AllocateNameArray(IReadOnlyList<string> names)
+        {
+            var n = names.Count;
+            if (n == 0)
+            {
+                return new ComponentValVec { Size = UIntPtr.Zero, Data = IntPtr.Zero };
+            }
+
+            var elementSize = sizeof(WasmName);
+            var arrayPtr = Marshal.AllocHGlobal(n * elementSize);
+            var array = (WasmName*)arrayPtr;
+            for (var i = 0; i < n; i++)
+            {
+                if (names[i] is null)
+                {
+                    // Roll back already-allocated entries.
+                    for (var j = 0; j < i; j++)
+                    {
+                        if (array[j].Data != IntPtr.Zero)
+                        {
+                            Marshal.FreeHGlobal(array[j].Data);
+                        }
+                    }
+                    Marshal.FreeHGlobal(arrayPtr);
+                    throw new ArgumentException("Flag names must not be null.", nameof(names));
+                }
+
+                array[i] = AllocateName(names[i]);
+            }
+
+            return new ComponentValVec { Size = (UIntPtr)n, Data = arrayPtr };
+        }
+
+        private static unsafe void FreeNameArray(ref ComponentValVec vec)
+        {
+            if (vec.Data == IntPtr.Zero)
+            {
+                vec = default;
+                return;
+            }
+
+            var n = checked((int)(uint)vec.Size);
+            var array = (WasmName*)vec.Data;
+            for (var i = 0; i < n; i++)
+            {
+                if (array[i].Data != IntPtr.Zero)
+                {
+                    Marshal.FreeHGlobal(array[i].Data);
+                }
+            }
+
+            Marshal.FreeHGlobal(vec.Data);
+            vec = default;
         }
     }
 

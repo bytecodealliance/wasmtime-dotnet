@@ -130,4 +130,66 @@ public class ComponentValueTests
         v.Free();
         v.AsU32().Should().Be(7u);
     }
+
+    [Fact]
+    public void Enum_RoundTrips()
+    {
+        var v = ComponentValue.FromEnum("high");
+        try
+        {
+            v.Kind.Should().Be(ComponentValueKind.Enum);
+            v.AsEnum().Should().Be("high");
+        }
+        finally
+        {
+            v.Free();
+        }
+    }
+
+    [Fact]
+    public void Enum_FromNullThrows()
+    {
+        Assert.Throws<System.ArgumentNullException>(() => ComponentValue.FromEnum(null!));
+    }
+
+    [Fact]
+    public void Flags_RoundTrips()
+    {
+        var v = ComponentValue.FromFlags(new[] { "read", "write", "execute" });
+        try
+        {
+            v.Kind.Should().Be(ComponentValueKind.Flags);
+            v.AsFlags().Should().BeEquivalentTo(new[] { "read", "write", "execute" }, opts => opts.WithStrictOrdering());
+        }
+        finally
+        {
+            v.Free();
+        }
+    }
+
+    [Fact]
+    public void Flags_EmptyRoundTrips()
+    {
+        var v = ComponentValue.FromFlags(System.Array.Empty<string>());
+        try
+        {
+            v.AsFlags().Should().BeEmpty();
+        }
+        finally
+        {
+            v.Free();
+        }
+    }
+
+    [Fact]
+    public void Flags_FromNullThrows()
+    {
+        Assert.Throws<System.ArgumentNullException>(() => ComponentValue.FromFlags(null!));
+    }
+
+    [Fact]
+    public void Flags_FromNullElementThrowsAndCleansUp()
+    {
+        Assert.Throws<System.ArgumentException>(() => ComponentValue.FromFlags(new string[] { "first", null! }));
+    }
 }
