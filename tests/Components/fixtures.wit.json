@@ -1,0 +1,244 @@
+{
+  "worlds": [
+    {
+      "name": "fixture",
+      "imports": {
+        "point": {
+          "type": 0
+        },
+        "priority": {
+          "type": 1
+        },
+        "permissions": {
+          "type": 2
+        },
+        "greeting": {
+          "type": 3
+        }
+      },
+      "exports": {
+        "origin": {
+          "function": {
+            "name": "origin",
+            "kind": "freestanding",
+            "params": [],
+            "result": 0
+          }
+        },
+        "range": {
+          "function": {
+            "name": "range",
+            "kind": "freestanding",
+            "params": [],
+            "result": 4
+          }
+        },
+        "top-priority": {
+          "function": {
+            "name": "top-priority",
+            "kind": "freestanding",
+            "params": [],
+            "result": 1
+          }
+        },
+        "defaults": {
+          "function": {
+            "name": "defaults",
+            "kind": "freestanding",
+            "params": [],
+            "result": 2
+          }
+        },
+        "greet": {
+          "function": {
+            "name": "greet",
+            "kind": "freestanding",
+            "params": [
+              {
+                "name": "formal",
+                "type": "bool"
+              }
+            ],
+            "result": 3
+          }
+        },
+        "safe-divide": {
+          "function": {
+            "name": "safe-divide",
+            "kind": "freestanding",
+            "params": [
+              {
+                "name": "n",
+                "type": "u32"
+              },
+              {
+                "name": "d",
+                "type": "u32"
+              }
+            ],
+            "result": 5
+          }
+        },
+        "find": {
+          "function": {
+            "name": "find",
+            "kind": "freestanding",
+            "params": [
+              {
+                "name": "needle",
+                "type": "u32"
+              }
+            ],
+            "result": 6
+          }
+        },
+        "pair": {
+          "function": {
+            "name": "pair",
+            "kind": "freestanding",
+            "params": [],
+            "result": 7
+          }
+        }
+      },
+      "package": 0,
+      "docs": {
+        "contents": "Reference WIT for the composite-types e2e fixture. Mirrored at\n`fixtures-src/wit/world.wit` so cargo-component can compile the Rust\nimplementation in `fixtures-src/` into the resulting `fixtures.wasm`\ncomponent used by `ComponentCompositesTests`."
+      }
+    }
+  ],
+  "interfaces": [],
+  "types": [
+    {
+      "name": "point",
+      "kind": {
+        "record": {
+          "fields": [
+            {
+              "name": "x",
+              "type": "u32"
+            },
+            {
+              "name": "y",
+              "type": "u32"
+            }
+          ]
+        }
+      },
+      "owner": {
+        "world": 0
+      }
+    },
+    {
+      "name": "priority",
+      "kind": {
+        "enum": {
+          "cases": [
+            {
+              "name": "low"
+            },
+            {
+              "name": "medium"
+            },
+            {
+              "name": "high"
+            }
+          ]
+        }
+      },
+      "owner": {
+        "world": 0
+      }
+    },
+    {
+      "name": "permissions",
+      "kind": {
+        "flags": {
+          "flags": [
+            {
+              "name": "read"
+            },
+            {
+              "name": "write"
+            },
+            {
+              "name": "execute"
+            }
+          ]
+        }
+      },
+      "owner": {
+        "world": 0
+      }
+    },
+    {
+      "name": "greeting",
+      "kind": {
+        "variant": {
+          "cases": [
+            {
+              "name": "formal",
+              "type": "string"
+            },
+            {
+              "name": "casual",
+              "type": "string"
+            },
+            {
+              "name": "none",
+              "type": null
+            }
+          ]
+        }
+      },
+      "owner": {
+        "world": 0
+      }
+    },
+    {
+      "name": null,
+      "kind": {
+        "list": "u32"
+      },
+      "owner": null
+    },
+    {
+      "name": null,
+      "kind": {
+        "result": {
+          "ok": "u32",
+          "err": "string"
+        }
+      },
+      "owner": null
+    },
+    {
+      "name": null,
+      "kind": {
+        "option": "string"
+      },
+      "owner": null
+    },
+    {
+      "name": null,
+      "kind": {
+        "tuple": {
+          "types": [
+            "u32",
+            "string"
+          ]
+        }
+      },
+      "owner": null
+    }
+  ],
+  "packages": [
+    {
+      "name": "wasmtime:tests@0.1.0",
+      "interfaces": {},
+      "worlds": {
+        "fixture": 0
+      }
+    }
+  ]
+}

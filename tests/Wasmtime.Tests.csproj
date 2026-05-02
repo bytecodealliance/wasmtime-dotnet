@@ -32,6 +32,7 @@
     <EmbeddedResource Include="Components/host-add.wasm" LogicalName="host-add.wasm" />
     <EmbeddedResource Update="Components/fixtures.wasm" LogicalName="fixtures.wasm" />
     <AdditionalFiles Include="Components/fixtures.wit" />
+    <AdditionalFiles Include="Components/fixtures.wit.json" />
     <EmbeddedResource Include="Components/fixtures.wasm" LogicalName="fixtures.wasm" />
     <None Update="Components/*.wat" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
