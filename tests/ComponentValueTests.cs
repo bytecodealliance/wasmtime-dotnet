@@ -334,4 +334,120 @@ public class ComponentValueTests
             new RecordField(null!, ComponentValue.FromU32(2)),
         }));
     }
+
+    [Fact]
+    public void Variant_WithPayloadRoundTrips()
+    {
+        var v = ComponentValue.FromVariant("formal", ComponentValue.FromString("Sir"));
+        try
+        {
+            v.Kind.Should().Be(ComponentValueKind.Variant);
+            v.AsVariantDiscriminant().Should().Be("formal");
+            var payload = v.AsVariantPayload();
+            payload.Should().NotBeNull();
+            payload!.Value.AsString().Should().Be("Sir");
+        }
+        finally
+        {
+            v.Free();
+        }
+    }
+
+    [Fact]
+    public void Variant_WithoutPayloadRoundTrips()
+    {
+        var v = ComponentValue.FromVariant("none");
+        try
+        {
+            v.AsVariantDiscriminant().Should().Be("none");
+            v.AsVariantPayload().Should().BeNull();
+        }
+        finally
+        {
+            v.Free();
+        }
+    }
+
+    [Fact]
+    public void Variant_NullDiscriminantThrows()
+    {
+        Assert.Throws<System.ArgumentNullException>(() => ComponentValue.FromVariant(null!));
+    }
+
+    [Fact]
+    public void Option_NoneRoundTrips()
+    {
+        var v = ComponentValue.FromOption(null);
+        try
+        {
+            v.Kind.Should().Be(ComponentValueKind.Option);
+            v.HasOption().Should().BeFalse();
+            v.AsOption().Should().BeNull();
+        }
+        finally
+        {
+            v.Free();
+        }
+    }
+
+    [Fact]
+    public void Option_SomeRoundTrips()
+    {
+        var v = ComponentValue.FromOption(ComponentValue.FromU32(7));
+        try
+        {
+            v.HasOption().Should().BeTrue();
+            v.AsOption()!.Value.AsU32().Should().Be(7u);
+        }
+        finally
+        {
+            v.Free();
+        }
+    }
+
+    [Fact]
+    public void Result_OkRoundTrips()
+    {
+        var v = ComponentValue.FromOk(ComponentValue.FromString("done"));
+        try
+        {
+            v.Kind.Should().Be(ComponentValueKind.Result);
+            v.IsOk().Should().BeTrue();
+            v.AsResultValue()!.Value.AsString().Should().Be("done");
+        }
+        finally
+        {
+            v.Free();
+        }
+    }
+
+    [Fact]
+    public void Result_ErrRoundTrips()
+    {
+        var v = ComponentValue.FromErr(ComponentValue.FromString("nope"));
+        try
+        {
+            v.IsOk().Should().BeFalse();
+            v.AsResultValue()!.Value.AsString().Should().Be("nope");
+        }
+        finally
+        {
+            v.Free();
+        }
+    }
+
+    [Fact]
+    public void Result_OkWithoutPayload()
+    {
+        var v = ComponentValue.FromOk();
+        try
+        {
+            v.IsOk().Should().BeTrue();
+            v.AsResultValue().Should().BeNull();
+        }
+        finally
+        {
+            v.Free();
+        }
+    }
 }

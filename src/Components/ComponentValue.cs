@@ -321,6 +321,85 @@ namespace Wasmtime.Components
             return v;
         }
 
+        /// <summary>
+        /// Creates a value of kind <see cref="ComponentValueKind.Variant"/> with a case discriminant and an optional payload.
+        /// </summary>
+        /// <remarks>
+        /// Takes ownership of <paramref name="payload"/> when supplied; do not call <see cref="Free"/> on it afterwards.
+        /// </remarks>
+        public static ComponentValue FromVariant(string discriminant, ComponentValue? payload = null)
+        {
+            if (discriminant is null)
+            {
+                throw new ArgumentNullException(nameof(discriminant));
+            }
+
+            var v = new ComponentValue
+            {
+                kind = (byte)ComponentValueKind.Variant,
+                ownsHeap = 1,
+            };
+            v.of.Variant = new ComponentValVariant
+            {
+                Discriminant = AllocateName(discriminant),
+                Val = AllocateValuePtr(payload),
+            };
+            return v;
+        }
+
+        /// <summary>
+        /// Creates a value of kind <see cref="ComponentValueKind.Option"/>: <see langword="null"/> for <c>none</c>, otherwise <c>some(value)</c>.
+        /// </summary>
+        /// <remarks>Takes ownership of <paramref name="value"/> when supplied; do not call <see cref="Free"/> on it afterwards.</remarks>
+        public static ComponentValue FromOption(ComponentValue? value)
+        {
+            var v = new ComponentValue
+            {
+                kind = (byte)ComponentValueKind.Option,
+                ownsHeap = 1,
+            };
+            v.of.Option = AllocateValuePtr(value);
+            return v;
+        }
+
+        /// <summary>
+        /// Creates a value of kind <see cref="ComponentValueKind.Result"/> in the <c>ok</c> case, optionally carrying a payload.
+        /// </summary>
+        /// <remarks>Takes ownership of <paramref name="value"/> when supplied; do not call <see cref="Free"/> on it afterwards.</remarks>
+        public static ComponentValue FromOk(ComponentValue? value = null)
+        {
+            var v = new ComponentValue
+            {
+                kind = (byte)ComponentValueKind.Result,
+                ownsHeap = 1,
+            };
+            v.of.Result = new ComponentValResult
+            {
+                IsOk = 1,
+                Val = AllocateValuePtr(value),
+            };
+            return v;
+        }
+
+        /// <summary>
+        /// Creates a value of kind <see cref="ComponentValueKind.Result"/> in the <c>err</c> case, optionally carrying a payload.
+        /// </summary>
+        /// <remarks>Takes ownership of <paramref name="value"/> when supplied; do not call <see cref="Free"/> on it afterwards.</remarks>
+        public static ComponentValue FromErr(ComponentValue? value = null)
+        {
+            var v = new ComponentValue
+            {
+                kind = (byte)ComponentValueKind.Result,
+                ownsHeap = 1,
+            };
+            v.of.Result = new ComponentValResult
+            {
+                IsOk = 0,
+                Val = AllocateValuePtr(value),
+            };
+            return v;
+        }
+
         /// <summary>Reads the value as <see cref="bool"/>; throws if <see cref="Kind"/> is not <see cref="ComponentValueKind.Bool"/>.</summary>
         public bool AsBool() { ExpectKind(ComponentValueKind.Bool); return of.Boolean != 0; }
 
@@ -414,6 +493,48 @@ namespace Wasmtime.Components
             return DecodeValueArray(of.Tuple);
         }
 
+        /// <summary>Reads the discriminant of a <see cref="ComponentValueKind.Variant"/> value.</summary>
+        public string AsVariantDiscriminant()
+        {
+            ExpectKind(ComponentValueKind.Variant);
+            return DecodeName(of.Variant.Discriminant);
+        }
+
+        /// <summary>Reads the optional payload of a <see cref="ComponentValueKind.Variant"/> value, or <see langword="null"/> if the case has no payload.</summary>
+        public ComponentValue? AsVariantPayload()
+        {
+            ExpectKind(ComponentValueKind.Variant);
+            return DecodeValuePtr(of.Variant.Val);
+        }
+
+        /// <summary>Indicates whether an <see cref="ComponentValueKind.Option"/> value carries a <c>some</c> payload.</summary>
+        public bool HasOption()
+        {
+            ExpectKind(ComponentValueKind.Option);
+            return of.Option != IntPtr.Zero;
+        }
+
+        /// <summary>Reads the optional payload of an <see cref="ComponentValueKind.Option"/> value; <see langword="null"/> for <c>none</c>.</summary>
+        public ComponentValue? AsOption()
+        {
+            ExpectKind(ComponentValueKind.Option);
+            return DecodeValuePtr(of.Option);
+        }
+
+        /// <summary>Indicates whether a <see cref="ComponentValueKind.Result"/> value is in the <c>ok</c> case.</summary>
+        public bool IsOk()
+        {
+            ExpectKind(ComponentValueKind.Result);
+            return of.Result.IsOk != 0;
+        }
+
+        /// <summary>Reads the optional payload of a <see cref="ComponentValueKind.Result"/> value; <see langword="null"/> if the case has no payload.</summary>
+        public ComponentValue? AsResultValue()
+        {
+            ExpectKind(ComponentValueKind.Result);
+            return DecodeValuePtr(of.Result.Val);
+        }
+
         /// <summary>Reads the named fields of a <see cref="ComponentValueKind.Record"/> value.</summary>
         /// <remarks>The returned values share ownership with the parent — do not Free them individually.</remarks>
         public IReadOnlyList<RecordField> AsRecord()
@@ -470,6 +591,19 @@ namespace Wasmtime.Components
                     break;
                 case ComponentValueKind.Record:
                     FreeRecordEntries(ref of.Record);
+                    break;
+                case ComponentValueKind.Variant:
+                    FreeName(ref of.Variant.Discriminant);
+                    FreeValuePtr(of.Variant.Val);
+                    of.Variant.Val = IntPtr.Zero;
+                    break;
+                case ComponentValueKind.Option:
+                    FreeValuePtr(of.Option);
+                    of.Option = IntPtr.Zero;
+                    break;
+                case ComponentValueKind.Result:
+                    FreeValuePtr(of.Result.Val);
+                    of.Result = default;
                     break;
             }
 
@@ -684,6 +818,39 @@ namespace Wasmtime.Components
 
             Marshal.FreeHGlobal(vec.Data);
             vec = default;
+        }
+
+        private static unsafe IntPtr AllocateValuePtr(ComponentValue? value)
+        {
+            if (value is null)
+            {
+                return IntPtr.Zero;
+            }
+
+            var ptr = Marshal.AllocHGlobal(sizeof(ComponentValue));
+            *(ComponentValue*)ptr = value.Value;
+            return ptr;
+        }
+
+        private static unsafe ComponentValue? DecodeValuePtr(IntPtr ptr)
+        {
+            if (ptr == IntPtr.Zero)
+            {
+                return null;
+            }
+
+            return *(ComponentValue*)ptr;
+        }
+
+        private static unsafe void FreeValuePtr(IntPtr ptr)
+        {
+            if (ptr == IntPtr.Zero)
+            {
+                return;
+            }
+
+            ((ComponentValue*)ptr)->Free();
+            Marshal.FreeHGlobal(ptr);
         }
     }
 
