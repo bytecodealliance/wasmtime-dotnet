@@ -251,6 +251,52 @@ namespace Wasmtime.Components
             return v;
         }
 
+        /// <summary>
+        /// Creates a value of kind <see cref="ComponentValueKind.List"/> from a sequence of elements.
+        /// </summary>
+        /// <remarks>
+        /// Takes ownership of <paramref name="elements"/>: callers must not call <see cref="Free"/> on the
+        /// individual elements afterwards. <see cref="Free"/> on the returned value releases the array and
+        /// recursively frees each element.
+        /// </remarks>
+        public static ComponentValue FromList(IReadOnlyList<ComponentValue> elements)
+        {
+            if (elements is null)
+            {
+                throw new ArgumentNullException(nameof(elements));
+            }
+
+            var v = new ComponentValue
+            {
+                kind = (byte)ComponentValueKind.List,
+                ownsHeap = 1,
+            };
+            v.of.List = AllocateValueArray(elements);
+            return v;
+        }
+
+        /// <summary>
+        /// Creates a value of kind <see cref="ComponentValueKind.Tuple"/> from a sequence of elements.
+        /// </summary>
+        /// <remarks>
+        /// Same ownership semantics as <see cref="FromList(System.Collections.Generic.IReadOnlyList{Wasmtime.Components.ComponentValue})"/>.
+        /// </remarks>
+        public static ComponentValue FromTuple(IReadOnlyList<ComponentValue> elements)
+        {
+            if (elements is null)
+            {
+                throw new ArgumentNullException(nameof(elements));
+            }
+
+            var v = new ComponentValue
+            {
+                kind = (byte)ComponentValueKind.Tuple,
+                ownsHeap = 1,
+            };
+            v.of.Tuple = AllocateValueArray(elements);
+            return v;
+        }
+
         /// <summary>Reads the value as <see cref="bool"/>; throws if <see cref="Kind"/> is not <see cref="ComponentValueKind.Bool"/>.</summary>
         public bool AsBool() { ExpectKind(ComponentValueKind.Bool); return of.Boolean != 0; }
 
@@ -324,6 +370,27 @@ namespace Wasmtime.Components
         }
 
         /// <summary>
+        /// Reads the elements of a <see cref="ComponentValueKind.List"/> value.
+        /// </summary>
+        /// <remarks>
+        /// The returned values are shallow copies pointing at the same underlying buffers; do not call
+        /// <see cref="Free"/> on them — call it on the parent list value instead.
+        /// </remarks>
+        public IReadOnlyList<ComponentValue> AsList()
+        {
+            ExpectKind(ComponentValueKind.List);
+            return DecodeValueArray(of.List);
+        }
+
+        /// <summary>Reads the elements of a <see cref="ComponentValueKind.Tuple"/> value.</summary>
+        /// <remarks>Shares ownership rules with <see cref="AsList"/>.</remarks>
+        public IReadOnlyList<ComponentValue> AsTuple()
+        {
+            ExpectKind(ComponentValueKind.Tuple);
+            return DecodeValueArray(of.Tuple);
+        }
+
+        /// <summary>
         /// Releases any heap-allocated payload associated with this value (currently strings).
         /// </summary>
         /// <remarks>
@@ -347,6 +414,12 @@ namespace Wasmtime.Components
                     break;
                 case ComponentValueKind.Flags:
                     FreeNameArray(ref of.Flags);
+                    break;
+                case ComponentValueKind.List:
+                    FreeValueArray(ref of.List);
+                    break;
+                case ComponentValueKind.Tuple:
+                    FreeValueArray(ref of.Tuple);
                     break;
             }
 
@@ -451,6 +524,61 @@ namespace Wasmtime.Components
                 {
                     Marshal.FreeHGlobal(array[i].Data);
                 }
+            }
+
+            Marshal.FreeHGlobal(vec.Data);
+            vec = default;
+        }
+
+        private static unsafe ComponentValVec AllocateValueArray(IReadOnlyList<ComponentValue> elements)
+        {
+            var n = elements.Count;
+            if (n == 0)
+            {
+                return new ComponentValVec { Size = UIntPtr.Zero, Data = IntPtr.Zero };
+            }
+
+            var elementSize = sizeof(ComponentValue);
+            var arrayPtr = Marshal.AllocHGlobal(n * elementSize);
+            var array = (ComponentValue*)arrayPtr;
+            for (var i = 0; i < n; i++)
+            {
+                array[i] = elements[i];
+            }
+
+            return new ComponentValVec { Size = (UIntPtr)n, Data = arrayPtr };
+        }
+
+        private static unsafe ComponentValue[] DecodeValueArray(ComponentValVec vec)
+        {
+            var n = checked((int)(uint)vec.Size);
+            if (n == 0)
+            {
+                return System.Array.Empty<ComponentValue>();
+            }
+
+            var result = new ComponentValue[n];
+            var array = (ComponentValue*)vec.Data;
+            for (var i = 0; i < n; i++)
+            {
+                result[i] = array[i];
+            }
+            return result;
+        }
+
+        private static unsafe void FreeValueArray(ref ComponentValVec vec)
+        {
+            if (vec.Data == IntPtr.Zero)
+            {
+                vec = default;
+                return;
+            }
+
+            var n = checked((int)(uint)vec.Size);
+            var array = (ComponentValue*)vec.Data;
+            for (var i = 0; i < n; i++)
+            {
+                array[i].Free();
             }
 
             Marshal.FreeHGlobal(vec.Data);

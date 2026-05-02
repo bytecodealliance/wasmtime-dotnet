@@ -192,4 +192,92 @@ public class ComponentValueTests
     {
         Assert.Throws<System.ArgumentException>(() => ComponentValue.FromFlags(new string[] { "first", null! }));
     }
+
+    [Fact]
+    public void List_OfPrimitivesRoundTrips()
+    {
+        var v = ComponentValue.FromList(new[]
+        {
+            ComponentValue.FromU32(1),
+            ComponentValue.FromU32(2),
+            ComponentValue.FromU32(3),
+        });
+        try
+        {
+            v.Kind.Should().Be(ComponentValueKind.List);
+            var elements = v.AsList();
+            elements.Should().HaveCount(3);
+            elements[0].AsU32().Should().Be(1u);
+            elements[1].AsU32().Should().Be(2u);
+            elements[2].AsU32().Should().Be(3u);
+        }
+        finally
+        {
+            v.Free();
+        }
+    }
+
+    [Fact]
+    public void List_OfStringsRoundTripsAndFreesRecursively()
+    {
+        var v = ComponentValue.FromList(new[]
+        {
+            ComponentValue.FromString("alpha"),
+            ComponentValue.FromString("beta"),
+        });
+        try
+        {
+            var elements = v.AsList();
+            elements[0].AsString().Should().Be("alpha");
+            elements[1].AsString().Should().Be("beta");
+        }
+        finally
+        {
+            v.Free();
+        }
+    }
+
+    [Fact]
+    public void List_EmptyRoundTrips()
+    {
+        var v = ComponentValue.FromList(System.Array.Empty<ComponentValue>());
+        try
+        {
+            v.AsList().Should().BeEmpty();
+        }
+        finally
+        {
+            v.Free();
+        }
+    }
+
+    [Fact]
+    public void Tuple_RoundTrips()
+    {
+        var v = ComponentValue.FromTuple(new[]
+        {
+            ComponentValue.FromString("answer"),
+            ComponentValue.FromU32(42),
+            ComponentValue.FromBool(true),
+        });
+        try
+        {
+            v.Kind.Should().Be(ComponentValueKind.Tuple);
+            var elements = v.AsTuple();
+            elements.Should().HaveCount(3);
+            elements[0].AsString().Should().Be("answer");
+            elements[1].AsU32().Should().Be(42u);
+            elements[2].AsBool().Should().BeTrue();
+        }
+        finally
+        {
+            v.Free();
+        }
+    }
+
+    [Fact]
+    public void List_FromNullThrows()
+    {
+        Assert.Throws<System.ArgumentNullException>(() => ComponentValue.FromList(null!));
+    }
 }
