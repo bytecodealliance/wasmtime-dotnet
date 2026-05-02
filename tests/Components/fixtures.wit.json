@@ -112,6 +112,27 @@
             ],
             "result": "u32"
           }
+        },
+        "translate": {
+          "function": {
+            "name": "translate",
+            "kind": "freestanding",
+            "params": [
+              {
+                "name": "p",
+                "type": 0
+              },
+              {
+                "name": "dx",
+                "type": "u32"
+              },
+              {
+                "name": "dy",
+                "type": "u32"
+              }
+            ],
+            "result": 0
+          }
         }
       },
       "package": 0,

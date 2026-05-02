@@ -38,4 +38,6 @@ world fixture {
     export pair: func() -> tuple<u32, string>;
 
     export square: func(n: u32) -> u32;
+
+    export translate: func(p: point, dx: u32, dy: u32) -> point;
 }

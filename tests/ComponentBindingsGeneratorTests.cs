@@ -22,7 +22,7 @@ public class ComponentBindingsGeneratorTests
         // (list<u32>, result<u32, string>, option<string>, tuple<u32, string>)
         FixtureBindings.WitTypeCount.Should().Be(8);
         FixtureBindings.WitImportCount.Should().Be(4);
-        FixtureBindings.WitExportCount.Should().Be(9);
+        FixtureBindings.WitExportCount.Should().Be(10);
     }
 
     [Fact]
@@ -39,6 +39,7 @@ public class ComponentBindingsGeneratorTests
             "find",
             "pair",
             "square",
+            "translate",
         }, options => options.WithStrictOrdering());
     }
 
@@ -223,6 +224,22 @@ public class ComponentBindingsGeneratorTests
             var err = b.SafeDivide(10, 0);
             err.IsOk.Should().BeFalse();
             err.Error.Should().Be("division by zero");
+        }
+        finally
+        {
+            store.Dispose(); linker.Dispose(); component.Dispose(); engine.Dispose();
+        }
+    }
+
+    [Fact]
+    public void Generator_RecordRoundTrip_EndToEnd()
+    {
+        var b = CreateBindings(out var engine, out var component, out var linker, out var store);
+        try
+        {
+            // Host constructs the record, ships it to the component, component returns a transformed record.
+            var moved = b.Translate(new FixtureBindings.Point(1, 2), 10, 20);
+            moved.Should().Be(new FixtureBindings.Point(11, 22));
         }
         finally
         {

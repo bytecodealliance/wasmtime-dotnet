@@ -53,6 +53,13 @@ impl Guest for Component {
     fn square(n: u32) -> u32 {
         n * n
     }
+
+    fn translate(p: Point, dx: u32, dy: u32) -> Point {
+        Point {
+            x: p.x + dx,
+            y: p.y + dy,
+        }
+    }
 }
 
 bindings::export!(Component with_types_in bindings);
