@@ -1,3 +1,5 @@
+using System.IO;
+using System.Reflection;
 using FluentAssertions;
 using Wasmtime.Components;
 using Xunit;
@@ -20,7 +22,7 @@ public class ComponentBindingsGeneratorTests
         // (list<u32>, result<u32, string>, option<string>, tuple<u32, string>)
         FixtureBindings.WitTypeCount.Should().Be(8);
         FixtureBindings.WitImportCount.Should().Be(4);
-        FixtureBindings.WitExportCount.Should().Be(8);
+        FixtureBindings.WitExportCount.Should().Be(9);
     }
 
     [Fact]
@@ -36,6 +38,7 @@ public class ComponentBindingsGeneratorTests
             "safe-divide",
             "find",
             "pair",
+            "square",
         }, options => options.WithStrictOrdering());
     }
 
@@ -82,5 +85,34 @@ public class ComponentBindingsGeneratorTests
     {
         FixtureBindings.Greeting g = new FixtureBindings.Greeting.None();
         g.Should().BeOfType<FixtureBindings.Greeting.None>();
+    }
+
+    [Fact]
+    public void Generator_EmitsPrimitiveExportMethod_EndToEnd()
+    {
+        var bytes = LoadFixtureBytes("fixtures.wasm");
+
+        using var engine = new Engine();
+        using var component = Component.FromBytes(engine, bytes);
+        using var linker = new ComponentLinker(engine);
+        using var store = new Store(engine);
+
+        store.SetWasiConfiguration(new WasiConfiguration());
+        linker.AddWasiPreview2();
+
+        var instance = linker.Instantiate(store, component);
+        var bindings = new FixtureBindings(instance);
+
+        bindings.Square(7).Should().Be(49u);
+        bindings.Square(0).Should().Be(0u);
+    }
+
+    private static byte[] LoadFixtureBytes(string name)
+    {
+        using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(name)
+            ?? throw new FileNotFoundException($"Fixture '{name}' not found.");
+        using var ms = new MemoryStream();
+        stream.CopyTo(ms);
+        return ms.ToArray();
     }
 }

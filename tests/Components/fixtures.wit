@@ -36,4 +36,6 @@ world fixture {
     export safe-divide: func(n: u32, d: u32) -> result<u32, string>;
     export find: func(needle: u32) -> option<string>;
     export pair: func() -> tuple<u32, string>;
+
+    export square: func(n: u32) -> u32;
 }

@@ -166,6 +166,9 @@ public sealed class WitBindingsGenerator : IIncrementalGenerator
         var ctx = new EmitContext(model.Types);
         TypeEmitter.EmitNamedTypes(sb, model, ctx, indent: 4);
 
+        sb.AppendLine();
+        FunctionEmitter.EmitMethods(sb, request.ClassName, world, ctx, "    ");
+
         sb.AppendLine("}");
 
         var hint = $"{request.ClassName}.WitBindings.g.cs";

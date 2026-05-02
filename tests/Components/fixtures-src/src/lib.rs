@@ -49,6 +49,10 @@ impl Guest for Component {
     fn pair() -> (u32, String) {
         (7, "seven".into())
     }
+
+    fn square(n: u32) -> u32 {
+        n * n
+    }
 }
 
 bindings::export!(Component with_types_in bindings);

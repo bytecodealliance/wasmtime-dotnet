@@ -99,6 +99,19 @@
             "params": [],
             "result": 7
           }
+        },
+        "square": {
+          "function": {
+            "name": "square",
+            "kind": "freestanding",
+            "params": [
+              {
+                "name": "n",
+                "type": "u32"
+              }
+            ],
+            "result": "u32"
+          }
         }
       },
       "package": 0,
