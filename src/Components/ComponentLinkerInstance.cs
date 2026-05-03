@@ -261,12 +261,22 @@ namespace Wasmtime.Components
 
                     unsafe
                     {
-                        var argSpan = new ReadOnlySpan<ComponentValue>(
-                            (ComponentValue*)args,
-                            checked((int)(uint)argsLength));
-                        var resultSpan = new Span<ComponentValue>(
-                            (ComponentValue*)results,
-                            checked((int)(uint)resultsLength));
+                        var argCount = checked((int)(uint)argsLength);
+                        var resultCount = checked((int)(uint)resultsLength);
+
+                        // See ComponentFunction.Call for the rationale: wasmtime writes the full
+                        // 32-byte ComponentValue slot through Rust's enum assignment, which leaves
+                        // non-zero garbage in the byte ComponentValue.Free() consults as `ownsHeap`.
+                        // Zero that byte before exposing the slot to the host callback so Free()
+                        // stays a safe no-op on wasmtime-owned values.
+                        var argBytes = new Span<byte>(args.ToPointer(), argCount * sizeof(ComponentValue));
+                        for (var i = 0; i < argCount; i++)
+                        {
+                            argBytes[i * sizeof(ComponentValue) + 1] = 0;
+                        }
+
+                        var argSpan = new ReadOnlySpan<ComponentValue>((ComponentValue*)args, argCount);
+                        var resultSpan = new Span<ComponentValue>((ComponentValue*)results, resultCount);
 
                         entry.callback(argSpan, resultSpan);
                     }

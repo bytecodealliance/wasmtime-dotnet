@@ -46,6 +46,25 @@ namespace Wasmtime.Components
                         throw WasmtimeException.FromOwnedError(error);
                     }
 
+                    // wasmtime writes the result struct via `*c_val = Rust_enum_value`, which copies
+                    // every byte of the 32-byte slot — including bytes 1..7 that ComponentValue
+                    // currently uses for its managed-only `ownsHeap` bookkeeping. Rust's
+                    // `#[repr(C, u8)]` does not zero those padding bytes, so in Release builds the
+                    // copy can leave non-zero garbage there. ComponentValue.Free() would then read
+                    // that garbage as `ownsHeap == 1` and try to free wasmtime-allocated pointers
+                    // via Marshal.FreeHGlobal — heap corruption that surfaces as panics like
+                    // `unknown wasmtime_valkind_t: 226` in adjacent core wasm tests.
+                    //
+                    // Sanitise the byte we squat on so wasmtime-filled slots register as
+                    // not-managed-owned and Free() degrades to a safe no-op. Proper ownership
+                    // tracking outside the C ABI footprint is followup #1/#2 in
+                    // docs/component-model-followups.md.
+                    var resultsByteSpan = new Span<byte>(resultsPtr, results.Length * sizeof(ComponentValue));
+                    for (var i = 0; i < results.Length; i++)
+                    {
+                        resultsByteSpan[i * sizeof(ComponentValue) + 1] = 0;
+                    }
+
                     var postReturnError = Native.wasmtime_component_func_post_return(funcPtr, store.Context.handle);
                     if (postReturnError != IntPtr.Zero)
                     {
