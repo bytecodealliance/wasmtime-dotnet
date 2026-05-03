@@ -103,7 +103,7 @@ public class ComponentBindingsGeneratorTests
         linker = new ComponentLinker(engine);
         store = new Store(engine);
 
-        store.SetWasiConfiguration(new WasiConfiguration());
+        store.SetWasiP2Configuration(new WasiP2Configuration());
         linker.AddWasiPreview2();
 
         FixtureBindings.RegisterImports(linker, new NoopImports());
@@ -259,7 +259,7 @@ public class ComponentBindingsGeneratorTests
         using var linker = new ComponentLinker(engine);
         using var store = new Store(engine);
 
-        store.SetWasiConfiguration(new WasiConfiguration());
+        store.SetWasiP2Configuration(new WasiP2Configuration());
         linker.AddWasiPreview2();
 
         var imports = new HostImports();

@@ -33,7 +33,7 @@ public class ComponentCompositesTests
             Linker = new ComponentLinker(Engine);
             Store = new Store(Engine);
 
-            Store.SetWasiConfiguration(new WasiConfiguration());
+            Store.SetWasiP2Configuration(new WasiP2Configuration());
             Linker.AddWasiPreview2();
 
             // The componentize-dotnet-built fixture imports `host-double`; register a passthrough so
