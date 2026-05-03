@@ -59,10 +59,9 @@ namespace Wasmtime.Components
                     // not-managed-owned and Free() degrades to a safe no-op. Proper ownership
                     // tracking outside the C ABI footprint is followup #1/#2 in
                     // docs/component-model-followups.md.
-                    var resultsByteSpan = new Span<byte>(resultsPtr, results.Length * sizeof(ComponentValue));
                     for (var i = 0; i < results.Length; i++)
                     {
-                        resultsByteSpan[i * sizeof(ComponentValue) + 1] = 0;
+                        resultsPtr[i].ClearManagedOwnership();
                     }
 
                     var postReturnError = Native.wasmtime_component_func_post_return(funcPtr, store.Context.handle);

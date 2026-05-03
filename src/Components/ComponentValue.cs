@@ -87,6 +87,13 @@ namespace Wasmtime.Components
         /// <summary>The discriminant indicating which alternative this value holds.</summary>
         public ComponentValueKind Kind => (ComponentValueKind)kind;
 
+        /// <summary>
+        /// Clears the managed-only ownership marker so a subsequent <see cref="Free"/> degrades
+        /// to a no-op. Used by the runtime to sanitise wasmtime-written slots whose byte 1
+        /// (where <c>ownsHeap</c> lives) carried non-zero garbage from Rust's enum copy.
+        /// </summary>
+        internal void ClearManagedOwnership() => ownsHeap = 0;
+
         /// <summary>Creates a value of kind <see cref="ComponentValueKind.Bool"/>.</summary>
         public static ComponentValue FromBool(bool value)
         {

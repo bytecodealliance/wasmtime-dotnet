@@ -269,13 +269,13 @@ namespace Wasmtime.Components
                         // non-zero garbage in the byte ComponentValue.Free() consults as `ownsHeap`.
                         // Zero that byte before exposing the slot to the host callback so Free()
                         // stays a safe no-op on wasmtime-owned values.
-                        var argBytes = new Span<byte>(args.ToPointer(), argCount * sizeof(ComponentValue));
+                        var argPtr = (ComponentValue*)args;
                         for (var i = 0; i < argCount; i++)
                         {
-                            argBytes[i * sizeof(ComponentValue) + 1] = 0;
+                            argPtr[i].ClearManagedOwnership();
                         }
 
-                        var argSpan = new ReadOnlySpan<ComponentValue>((ComponentValue*)args, argCount);
+                        var argSpan = new ReadOnlySpan<ComponentValue>(argPtr, argCount);
                         var resultSpan = new Span<ComponentValue>((ComponentValue*)results, resultCount);
 
                         entry.callback(argSpan, resultSpan);
