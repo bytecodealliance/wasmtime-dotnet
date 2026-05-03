@@ -151,9 +151,11 @@ toolchain to run the test suite.
   errors if called twice on the same store. The wrapper surfaces the wasmtime
   error directly; the API does not currently throw a friendlier
   `InvalidOperationException`.
-- **`option<option<T>>`** — generated as `T??`, which is not a valid C# type.
-  Nested options need a dedicated `Option<T>` struct in
-  `Wasmtime.Components`; not yet emitted.
+- **`option<option<T>>`** — emitted as `Wasmtime.Components.Option<T?>` (the
+  `Option<T>` struct lives in the runtime support assembly); single-level
+  options stay as `T?` for ergonomics. The three states map cleanly:
+  `Option<uint?>.None` (outer none), `.Some(null)` (outer some / inner none),
+  `.Some(42)` (both some).
 - **Variant case names** — clashes with C# keywords are guarded only at the
   type-name level (`@`-prefixed); case names like `class`, `default`, etc. are
   not specifically rewritten in `record` declarations and may produce CS9061.

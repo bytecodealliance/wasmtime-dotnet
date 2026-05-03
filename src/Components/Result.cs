@@ -9,6 +9,40 @@ namespace Wasmtime.Components
     public readonly record struct Unit;
 
     /// <summary>
+    /// Discriminated optional value used when WIT <c>option</c> can't be flattened to
+    /// <c>T?</c> — specifically <c>option&lt;option&lt;T&gt;&gt;</c>, where C# would otherwise
+    /// require the invalid <c>T??</c>.
+    /// </summary>
+    /// <remarks>
+    /// Generated bindings emit <c>Option&lt;T&gt;</c> instead of <c>T?</c> for any option whose
+    /// element is itself an option. <c>T</c> may be a nullable reference type, a
+    /// <see cref="Nullable{T}"/>, or another <see cref="Option{T}"/> in deeper nesting.
+    /// </remarks>
+    public readonly struct Option<T>
+    {
+        private readonly bool hasValue;
+        private readonly T value;
+
+        private Option(bool hasValue, T value)
+        {
+            this.hasValue = hasValue;
+            this.value = value;
+        }
+
+        /// <summary>Indicates whether the option carries a value.</summary>
+        public bool HasValue => hasValue;
+
+        /// <summary>The carried value; throws when <see cref="HasValue"/> is <see langword="false"/>.</summary>
+        public T Value => hasValue ? value : throw new InvalidOperationException("Option has no value.");
+
+        /// <summary>Constructs an option carrying <paramref name="value"/>.</summary>
+        public static Option<T> Some(T value) => new(true, value);
+
+        /// <summary>The empty option.</summary>
+        public static Option<T> None => default;
+    }
+
+    /// <summary>
     /// Discriminated union representing the value of a WIT <c>result&lt;T, E&gt;</c>.
     /// </summary>
     public readonly struct Result<T, E>

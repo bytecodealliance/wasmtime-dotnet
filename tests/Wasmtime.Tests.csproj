@@ -42,6 +42,8 @@
     <EmbeddedResource Update="Components/fixtures.wasm" LogicalName="fixtures.wasm" />
     <AdditionalFiles Include="Components/fixtures.wit" />
     <AdditionalFiles Include="Components/fixtures.wit.json" />
+    <AdditionalFiles Include="Components/nested-option.wit" />
+    <AdditionalFiles Include="Components/nested-option.wit.json" />
     <EmbeddedResource Include="Components/fixtures.wasm" LogicalName="fixtures.wasm" />
     <None Update="Components/*.wat" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>

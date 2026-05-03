@@ -1,0 +1,45 @@
+{
+  "worlds": [
+    {
+      "name": "nested",
+      "imports": {},
+      "exports": {
+        "double-maybe": {
+          "function": {
+            "name": "double-maybe",
+            "kind": "freestanding",
+            "params": [],
+            "result": 1
+          }
+        }
+      },
+      "package": 0
+    }
+  ],
+  "interfaces": [],
+  "types": [
+    {
+      "name": null,
+      "kind": {
+        "option": "u32"
+      },
+      "owner": null
+    },
+    {
+      "name": null,
+      "kind": {
+        "option": 0
+      },
+      "owner": null
+    }
+  ],
+  "packages": [
+    {
+      "name": "demo:test@0.1.0",
+      "interfaces": {},
+      "worlds": {
+        "nested": 0
+      }
+    }
+  ]
+}

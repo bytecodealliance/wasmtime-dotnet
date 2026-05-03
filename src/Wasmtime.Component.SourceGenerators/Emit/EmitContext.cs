@@ -63,8 +63,25 @@ internal sealed class EmitContext
 
     private string MakeNullable(WitTypeRef element)
     {
-        var inner = ResolveTypeRef(element);
-        return IsValueType(element) ? $"{inner}?" : $"{inner}?";
+        // option<option<T>> can't be `T??` — C# disallows double-nullable. Wrap with our own
+        // Option<T> struct in those cases; single-level options stay as `T?` for ergonomics.
+        if (IsOptionType(element))
+        {
+            var inner = ResolveTypeRef(element);
+            return $"Wasmtime.Components.Option<{inner}>";
+        }
+
+        var nullable = ResolveTypeRef(element);
+        return $"{nullable}?";
+    }
+
+    public bool IsOptionType(WitTypeRef typeRef)
+    {
+        if (typeRef is WitTypeRefIndex idx)
+        {
+            return GetTypeDef(idx.Index)?.Kind is WitOptionKind;
+        }
+        return false;
     }
 
     private string RenderResult(WitResultKind result)

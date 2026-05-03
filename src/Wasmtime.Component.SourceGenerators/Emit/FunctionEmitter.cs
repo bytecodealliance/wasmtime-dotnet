@@ -486,22 +486,41 @@ internal static class FunctionEmitter
 
     private static string LowerOption(WitOptionKind option, string variable, EmitContext ctx)
     {
-        var inner = LowerExpr(option.Element, variable + ".Value", ctx);
-        if (IsValueType(option.Element, ctx))
+        // For option<option<T>> the C# variable is `Option<T?>`, accessed via .HasValue / .Value.
+        if (ctx.IsOptionType(option.Element))
         {
+            var inner = LowerExpr(option.Element, variable + ".Value", ctx);
             return $"({variable}.HasValue ? {Cv}.FromOption({inner}) : {Cv}.FromOption(null))";
         }
-        return $"({variable} is null ? {Cv}.FromOption(null) : {Cv}.FromOption({LowerExpr(option.Element, variable + "!", ctx)}))";
+
+        // Single-level option: variable is `T?` (Nullable<T> for value types, nullable annotation otherwise).
+        if (IsValueType(option.Element, ctx))
+        {
+            var inner = LowerExpr(option.Element, variable + ".Value", ctx);
+            return $"({variable}.HasValue ? {Cv}.FromOption({inner}) : {Cv}.FromOption(null))";
+        }
+
+        var refInner = LowerExpr(option.Element, variable + "!", ctx);
+        return $"({variable} is null ? {Cv}.FromOption(null) : {Cv}.FromOption({refInner}))";
     }
 
     private static string LiftOption(WitOptionKind option, string source, EmitContext ctx)
     {
         var inner = LiftExpr(option.Element, source + ".AsOption()!.Value", ctx);
         var elemType = ctx.ResolveTypeRef(option.Element);
+
+        if (ctx.IsOptionType(option.Element))
+        {
+            // elemType is already `Wasmtime.Components.Option<...>`; wrap that in another Option<T>.
+            var fullType = $"Wasmtime.Components.Option<{elemType}>";
+            return $"({source}.HasOption() ? {fullType}.Some({inner}) : {fullType}.None)";
+        }
+
         if (IsValueType(option.Element, ctx))
         {
             return $"({source}.HasOption() ? ({elemType}?){inner} : null)";
         }
+
         return $"({source}.HasOption() ? {inner} : null)";
     }
 

@@ -1,0 +1,5 @@
+package demo:test@0.1.0;
+
+world nested {
+    export double-maybe: func() -> option<option<u32>>;
+}
