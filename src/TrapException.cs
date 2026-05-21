@@ -37,41 +37,32 @@ namespace Wasmtime
         Unreachable = 9,
         /// <summary>The trap was the result of interrupting execution.</summary>
         Interrupt = 10,
-        /// <summary>
-        /// The trap was the result of executing a function that was `canon lift`'d, then `canonlower`'d, then called. 
-        /// </summary>
-        /// <remarks>
-        /// When the component model feature is enabled this trap represents a function that was `canon lift`'d,
-        /// then `canonlower`'d, then called. This combination of creation of a function in the component model
-        /// generates a function that always traps and, when called, produces this flavor of trap.
-        /// </remarks>
-        AlwaysTrapAdapter = 11,
         /// <summary>The trap was the result of running out of the configured fuel amount.</summary>
-        OutOfFuel = 12,
+        OutOfFuel = 11,
         /// <summary>
         /// The trap was the result of atomic wait operations on non-shared memory.
         /// </summary>
-        AtomicWaitNonSharedMemory = 13,
+        AtomicWaitNonSharedMemory = 12,
         /// <summary>
         /// The trap was the result of a call to a null reference.
         /// </summary>
-        NullReference = 14,
+        NullReference = 13,
         /// <summary>
         /// The trap was the result of an attempt to access beyond the bounds of an array.
         /// </summary>
-        ArrayOutOfBounds = 15,
+        ArrayOutOfBounds = 14,
         /// <summary>
         /// The trap was the result of an allocation that was too large to succeed.
         /// </summary>
-        AllocationTooLarge = 16,
+        AllocationTooLarge = 15,
         /// <summary>
         /// The trap was the result of an attempt to cast a reference to a type that it is not an instance of.
         /// </summary>
-        CastFailure = 17,
+        CastFailure = 16,
         /// <summary>
         /// The trap was the result of a component calling another component that would have violated the reentrance rules.
         /// </summary>
-        CannotEnterComponent = 18,
+        CannotEnterComponent = 17,
         /// <summary>
         /// The trap was the result of an async-lifted export failing to return a valid async result.
         /// </summary>
@@ -79,11 +70,129 @@ namespace Wasmtime
         /// An async-lifted export failed to produce a result by calling `task.return` before returning `STATUS_DONE`
         /// and/or after all host tasks completed.
         /// </remarks>
-        NoAsyncResult = 19,
+        NoAsyncResult = 18,
+        /// <summary>
+        /// The trap was the result of suspending to a tag for which there is no active handler.
+        /// </summary>
+        UnhandledTag = 19,
+        /// <summary>
+        /// The trap was the result of an attempt to resume a continuation twice.
+        /// </summary>
+        ContinuationAlreadyConsumed = 20,
         /// <summary>
         /// The trap was the result of a Pulley opcode executed at runtime when the opcode was disabled at compile time.
         /// </summary>
-        DisabledOpCode = 20
+        DisabledOpCode = 21,
+        /// <summary>
+        /// The trap was the result of an async event loop deadlocking; i.e. it cannot make further
+        /// progress given that all host tasks have completed and any/all host-owned stream/future
+        /// handles have been dropped.
+        /// </summary>
+        AsyncDeadlock = 22,
+        /// <summary>
+        /// When the `component-model` feature is enabled this trap was the result of a scenario
+        /// where a component instance tried to call an import or intrinsic when it wasn't allowed
+        /// to, e.g. from a post-return function.
+        /// </summary>
+        CannotLeaveComponent = 23,
+        /// <summary>
+        /// The trap was the result of a synchronous task attempted to make a potentially blocking
+        /// call prior to returning.
+        /// </summary>
+        CannotBlockSyncTask = 24,
+        /// <summary>
+        /// The trap was the result of a component trying to lift a `char` with an invalid bit pattern.
+        /// </summary>
+        InvalidChar = 25,
+        /// <summary>
+        /// The trap was the result of a debug assertion generated for a fused adapter regarding the
+        /// expected completion of a string encoding operation.
+        /// </summary>
+        DebugAssertStringEncodingFinished = 26,
+        /// <summary>
+        /// The trap was the result of a debug assertion generated for a fused adapter regarding a
+        /// string encoding operation.
+        /// </summary>
+        DebugAssertEqualCodeUnits = 27,
+        /// <summary>
+        /// The trap was the result of a debug assertion generated for a fused adapter regarding the
+        /// alignment of a pointer.
+        /// </summary>
+        DebugAssertPointerAligned = 28,
+        /// <summary>
+        /// The trap was the result of a debug assertion generated for a fused adapter regarding the
+        /// upper bits of a 64-bit value.
+        /// </summary>
+        DebugAssertUpperBitsUnset = 29,
+        /// <summary>
+        /// The trap was the result of a component trying to lift or lower a string past the end of its memory.
+        /// </summary>
+        StringOutOfBounds = 30,
+        /// <summary>
+        /// The trap was the result of a component tryping to lift or lower a list past the end of its memory.
+        /// </summary>
+        ListOutOfBounds = 31,
+        /// <summary>
+        /// The trap was the result of a component using an invalid discriminant when lowering a variant value.
+        /// </summary>
+        InvalidDiscriminant = 32,
+        /// <summary>
+        /// The trap was the result of a component passing an unaligned pointer when lifting or
+        /// lowering a value.
+        /// </summary>
+        UnalignedPointer = 33,
+        /// <summary>
+        /// The trap was the result of <c>task.cancel</c> being invoked in an invalid way.
+        /// </summary>
+        TaskCancelNotCancelled = 34,
+        /// <summary>
+        /// The trap was the result of <c>task.cancel</c> or <c>task.return</c> being called too many times
+        /// </summary>
+        TaskCancelOrReturnTwice = 35,
+        /// <summary>
+        /// The trap was the result of <c>subtask.cancel</c> being invoked after it already finished.
+        /// </summary>
+        SubtaskCancelAfterTerminal = 36,
+        /// <summary>
+        /// The trap was the result of <c>task.return</c> being invoked with an invalid type.
+        /// </summary>
+        TaskReturnInvalid = 37,
+        /// <summary>
+        /// The trap was the result of <c>waitable-set.drop</c> being invoked on a waitable set with waiters.
+        /// </summary>
+        WaitableSetDropHasWaiters = 38,
+        /// <summary>
+        /// The trap was the result of <c>subtask.drop</c> being invoked on a subtask that hasn't resolved yet.
+        /// </summary>
+        SubtaskDropNotResolved = 39,
+        /// <summary>
+        /// The trap was the result of <c>thread.new-indirect</c> being invoked with a function that
+        /// has an invalid type.
+        /// </summary>
+        ThreadNewIndirectInvalidType = 40,
+        /// <summary>
+        /// The trap was the result of <c>thread.new-indirect</c> being invoked with an
+        /// uninitialized function reference.
+        /// </summary>
+        ThreadNewIndirectUninitialized = 41,
+        /// <summary>
+        /// The trap was the result of backpressure-related intrinsics overflowing the built-in counter.
+        /// </summary>
+        BackpressureOverflow = 42,
+        /// <summary>
+        /// The trap was the result of an invalid code being returned from the callback of an
+        /// async-lifted function.
+        /// </summary>
+        UnsupportedCallbackCode = 43,
+        /// <summary>
+        /// The trap was the result of trying to resume a thread which is not suspended.
+        /// </summary>
+        CannotResumeThread = 44,
+        /// <summary>
+        /// The trap was the result of a read/write being issued on a future/stream while there is a
+        /// pending operation already.
+        /// </summary>
+        ConcurrentFutureStreamOp = 45,
     }
 
     /// <summary>

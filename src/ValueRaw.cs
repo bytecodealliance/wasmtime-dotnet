@@ -273,7 +273,7 @@ namespace Wasmtime
                 }
                 finally
                 {
-                    Value.Native.wasmtime_externref_unroot(storeContext.handle, externref);
+                    Value.Native.wasmtime_externref_unroot(externref);
                 }
             }
 
@@ -323,7 +323,7 @@ namespace Wasmtime
                 {
                     // We still must unroot the old externref afterwards because
                     // wasmtime_externref_to_raw doesn't transfer ownership.
-                    Value.Native.wasmtime_externref_unroot(storeContext.handle, externref);
+                    Value.Native.wasmtime_externref_unroot(externref);
                 }
             }
 
