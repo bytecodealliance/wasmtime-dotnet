@@ -1,6 +1,6 @@
+using Microsoft.Win32.SafeHandles;
 using System;
 using System.Runtime.InteropServices;
-using Microsoft.Win32.SafeHandles;
 
 namespace Wasmtime
 {
@@ -104,6 +104,39 @@ namespace Wasmtime
         public Config WithFuelConsumption(bool enable)
         {
             Native.wasmtime_config_consume_fuel_set(handle, enable);
+            return this;
+        }
+
+        /// <summary>
+        /// Sets whether or not to the WebAssembly tail call proposal is enabled. 
+        /// </summary>
+        /// <param name="enable">True to enable tails calls or false to disable.</param>
+        /// <returns>Returns the current config.</returns>
+        public Config WithTailCalls(bool enable)
+        {
+            Native.wasmtime_config_wasm_tail_call_set(handle, enable);
+            return this;
+        }
+
+        /// <summary>
+        /// Sets whether the WebAssembly typed function reference types proposal is enabled. 
+        /// </summary>
+        /// <param name="enable">True to enable function references or false to disable.</param>
+        /// <returns>Returns the current config.</returns>
+        public Config WithFunctionReferences(bool enable)
+        {
+            Native.wasmtime_config_wasm_function_references_set(handle, enable);
+            return this;
+        }
+
+        /// <summary>
+        /// Sets whether the WebAssembly GC proposal is enabled. 
+        /// </summary>
+        /// <param name="enable">True to enable GC or false to disable.</param>
+        /// <returns>Returns the current config.</returns>
+        public Config WithGc(bool enable)
+        {
+            Native.wasmtime_config_wasm_gc_set(handle, enable);
             return this;
         }
 
@@ -214,6 +247,41 @@ namespace Wasmtime
         }
 
         /// <summary>
+        /// Sets whether the WebAssembly wide-arithmetic proposal is enabled. 
+        /// </summary>
+        /// <param name="enable">True to enable WebAssembly wide arithmetic support or false to disable.</param>
+        /// <returns>Returns the current config.</returns>
+        public Config WithWideArithmetic(bool enable)
+        {
+            Native.wasmtime_config_wasm_wide_arithmetic_set(handle, enable);
+            return this;
+        }
+
+        /// <summary>
+        /// Sets whether the WebAssembly stack switching proposal is enabled. 
+        /// </summary>
+        /// <param name="enable">True to enable WebAssembly stack switching support or false to disable.</param>
+        /// <returns>Returns the current config.</returns>
+        private Config WithStackSwitching(bool enable)
+        {
+            // todo: unlikely to be compatible with wasmtime-dotnet on Windows due to threads
+
+            Native.wasmtime_config_wasm_stack_switching_set(handle, enable);
+            return this;
+        }
+
+        /// <summary>
+        /// Sets whether wasmtime should compile a module using multiple threads.
+        /// </summary>
+        /// <param name="enable">True to enable parallel compilation or false to disable.</param>
+        /// <returns>Returns the current config.</returns>
+        public Config WithParallelCompilation(bool enable)
+        {
+            Native.wasmtime_config_parallel_compilation_set(handle, enable);
+            return this;
+        }
+
+        /// <summary>
         /// Sets the compiler strategy to use.
         /// </summary>
         /// <param name="strategy">The compiler strategy to use.</param>
@@ -237,6 +305,17 @@ namespace Wasmtime
         public Config WithCraneliftDebugVerifier(bool enable)
         {
             Native.wasmtime_config_cranelift_debug_verifier_set(handle, enable);
+            return this;
+        }
+
+        /// <summary>
+        /// Configures whether memory_reservation is the maximal size of linear memory. <see cref="WithStaticMemoryMaximumSize"/>
+        /// </summary>
+        /// <param name="enable">True to allow memory base pointer to move or false to disable</param>
+        /// <returns>Returns the current config.</returns>
+        public Config WithMemoryMayMove(bool enable)
+        {
+            Native.wasmtime_config_memory_may_move_set(handle, enable);
             return this;
         }
 
@@ -292,13 +371,40 @@ namespace Wasmtime
         }
 
         /// <summary>
-        /// Sets the maximum size of static WebAssembly linear memories.
+        /// Configures the size, in bytes, of initial memory reservation size for linear memories. If <see cref="WithMemoryMayMove"/> if not set, this is the maximum size of memory.
         /// </summary>
-        /// <param name="size">The maximum size of static WebAssembly linear memories, in bytes.</param>
+        /// <param name="size">The initial size of static WebAssembly linear memories, in bytes.</param>
         /// <returns>Returns the current config.</returns>
         public Config WithStaticMemoryMaximumSize(ulong size)
         {
             Native.wasmtime_config_memory_reservation_set(handle, size);
+            return this;
+        }
+
+        /// <summary>
+        /// Configures the size, in bytes, of the extra virtual memory space reserved for memories to grow into after being relocated.
+        /// </summary>
+        /// <param name="size">The extra reserved bytes of virtual memory reserved for future growth.</param>
+        /// <returns>Returns the current config.</returns>
+        public Config WithMemoryReservationForGrowth(ulong size)
+        {
+            Native.wasmtime_config_memory_reservation_for_growth_set(handle, size);
+            return this;
+        }
+
+        /// <summary>
+        /// Configures whether copy-on-write memory-mapped data is used to initialize a linear memory.
+        /// Initializing linear memory via a copy-on-write mapping can drastically improve instantiation costs of a
+        /// WebAssembly module because copying memory is deferred.Additionally if a page of memory is only ever read
+        /// from WebAssembly and never written too then the same underlying page of data will be reused between
+        /// all instantiations of a module meaning that if a module is instantiated many times this can lower the
+        /// overall memory required needed to run that module.
+        /// </summary>
+        /// <param name="enabled">True to enable copy on write for memory initialisation or false to disable.</param>
+        /// <returns>Returns the current config.</returns>
+        public Config WithMemoryInitCopyOnWrite(bool enabled)
+        {
+            Native.wasmtime_config_memory_init_cow_set(handle, enabled);
             return this;
         }
 
@@ -343,6 +449,45 @@ namespace Wasmtime
         public Config WithMacosMachPorts(bool enable)
         {
             Native.wasmtime_config_macos_use_mach_ports(handle, enable);
+            return this;
+        }
+
+        /// <summary>
+        /// Configures whether to generate native unwind information (e.g. .eh_frame on Linux).
+        /// 
+        /// For more information see the Rust documentation at <a href="https://docs.wasmtime.dev/api/wasmtime/struct.Config.html#method.native_unwind_info">https://docs.wasmtime.dev/api/wasmtime/struct.Config.html#method.native_unwind_info</a>
+        /// </summary>
+        /// <param name="enable">True to enable unwind info or false to disable.</param>
+        /// <returns>Returns the current config.</returns>
+        public Config WithUnwindInfo(bool enable)
+        {
+            Native.wasmtime_config_native_unwind_info_set(handle, enable);
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the Wasmtime allocation strategy to use the pooling allocator. For more
+        /// information see the Rust documentation at
+        /// <a href="https://docs.wasmtime.dev/api/wasmtime/struct.Config.html#method.allocation_strategy">https://docs.wasmtime.dev/api/wasmtime/struct.Config.html#method.allocation_strategy</a>
+        /// </summary>
+        /// <param name="strategy">The pooling strategy config</param>
+        /// <returns></returns>
+        public Config WithPoolingAllocationStrategy(PoolingAllocationConfig strategy)
+        {
+            PoolingAllocationConfig.Native.wasmtime_pooling_allocation_strategy_set(NativeHandle, strategy.NativeHandle);
+            return this;
+        }
+
+        /// <summary>
+        /// Configures whether the WebAssembly component-model proposal will be enabled for compilation. For more
+        /// information see the Rust documentation at
+        /// <a href="https://docs.wasmtime.dev/api/wasmtime/struct.Config.html#method.wasm_component_model">https://docs.wasmtime.dev/api/wasmtime/struct.Config.html#method.wasm_component_model</a>
+        /// </summary>
+        /// <param name="enabled">True to enable component model or false to disable.</param>
+        /// <returns></returns>
+        public Config WithComponentModel(bool enabled)
+        {
+            Native.wasmtime_config_wasm_component_model_set(NativeHandle, enabled);
             return this;
         }
 
@@ -398,6 +543,15 @@ namespace Wasmtime
             public static extern void wasmtime_config_consume_fuel_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
 
             [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_wasm_tail_call_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_wasm_function_references_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_wasm_gc_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
+
+            [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_config_max_wasm_stack_set(Handle config, nuint size);
 
             [DllImport(Engine.LibraryName)]
@@ -426,6 +580,15 @@ namespace Wasmtime
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_config_wasm_memory64_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
+            
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_wasm_wide_arithmetic_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
+            
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_wasm_stack_switching_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
+            
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_parallel_compilation_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_config_strategy_set(Handle config, byte strategy);
@@ -435,6 +598,18 @@ namespace Wasmtime
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_config_cranelift_nan_canonicalization_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
+            
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_memory_may_move_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_native_unwind_info_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_memory_init_cow_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
+            
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_memory_reservation_for_growth_set(Handle config, ulong bytes);
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_config_cranelift_opt_level_set(Handle config, byte level);
@@ -453,6 +628,11 @@ namespace Wasmtime
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_config_macos_use_mach_ports(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_wasm_component_model_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool value);
+
+            // todo: void wasmtime_config_host_memory_creator_set(wasm_config_t *, wasmtime_memory_creator_t *)
         }
 
         private readonly Handle handle;
