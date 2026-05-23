@@ -305,7 +305,7 @@ namespace Wasmtime
                     // `wasmtime_externref_new` failed).
                     for (int releaseIndex = 0; releaseIndex < i; releaseIndex++)
                     {
-                        args[releaseIndex].Release(store);
+                        args[releaseIndex].Dispose();
                     }
 
                     throw;
@@ -347,7 +347,7 @@ namespace Wasmtime
                 {
                     for (int i = 0; i < Results.Count; ++i)
                     {
-                        resultsSpan[i].Release(store);
+                        resultsSpan[i].Dispose();
                     }
                 }
             }
@@ -355,7 +355,7 @@ namespace Wasmtime
             {
                 for (int i = 0; i < arguments.Length; ++i)
                 {
-                    args[i].Release(store);
+                    args[i].Dispose();
                 }
             }
         }
@@ -672,7 +672,7 @@ namespace Wasmtime
                             // of already allocated result values.
                             for (int releaseIndex = 0; releaseIndex < i; releaseIndex++) 
                             {
-                                results[releaseIndex].Release(caller.Store);
+                                results[releaseIndex].Dispose();
                             }
 
                             throw;

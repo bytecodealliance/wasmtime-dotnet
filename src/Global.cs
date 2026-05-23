@@ -131,7 +131,7 @@ namespace Wasmtime
             }
             finally
             {
-                value.Release(store);
+                value.Dispose();
             }
         }
 
@@ -152,7 +152,7 @@ namespace Wasmtime
             }
             finally
             {
-                v.Release(store);
+                v.Dispose();
             }
         }
 
@@ -176,7 +176,7 @@ namespace Wasmtime
             }
             finally
             {
-                v.Release(store);
+                v.Dispose();
             }
         }
 
@@ -325,7 +325,7 @@ namespace Wasmtime
                 }
                 finally
                 {
-                    v.Release(_store);
+                    v.Dispose();
                 }
             }
 
@@ -350,7 +350,7 @@ namespace Wasmtime
                 }
                 finally
                 {
-                    v.Release(_store);
+                    v.Dispose();
                 }
             }
 
