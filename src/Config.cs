@@ -258,13 +258,24 @@ namespace Wasmtime
         }
 
         /// <summary>
+        /// Configures whether the WebAssembly exceptions proposal is enabled.
+        /// </summary>
+        /// <param name="enable">True to enable exceptions or false to disable.</param>
+        /// <returns>Returns the current config.</returns>
+        public Config WithExceptions(bool enable)
+        {
+            Native.wasmtime_config_wasm_exceptions_set(handle, enable);
+            return this;
+        }
+
+        /// <summary>
         /// Sets whether the WebAssembly stack switching proposal is enabled. 
         /// </summary>
         /// <param name="enable">True to enable WebAssembly stack switching support or false to disable.</param>
         /// <returns>Returns the current config.</returns>
         private Config WithStackSwitching(bool enable)
         {
-            // todo: unlikely to be compatible with wasmtime-dotnet on Windows due to threads
+            // warning: **unlikely to be ever compatible with wasmtime-dotnet on Windows due to fibers**
 
             Native.wasmtime_config_wasm_stack_switching_set(handle, enable);
             return this;
@@ -631,6 +642,9 @@ namespace Wasmtime
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_config_wasm_component_model_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool value);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_wasm_exceptions_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool value);
 
             // todo: void wasmtime_config_host_memory_creator_set(wasm_config_t *, wasmtime_memory_creator_t *)
         }
