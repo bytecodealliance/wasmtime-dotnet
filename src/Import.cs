@@ -8,10 +8,11 @@ namespace Wasmtime
     // in the Wasmtime API soon. The difference is the order of `Module` and `Instance`.
     internal enum WasmExternKind : byte
     {
-        Func,
-        Global,
-        Table,
-        Memory,
+        Func = 0,
+        Global = 1,
+        Table = 2,
+        Memory = 3,
+        Tag = 4,
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -36,18 +37,20 @@ namespace Wasmtime
             }
 
             var imports = new Import[(int)this.size];
-            for (int i = 0; i < (int)this.size; ++i)
+            for (var i = 0; i < (int)this.size; ++i)
             {
                 var importType = this.data[i];
                 var externType = Native.wasm_importtype_type(importType);
 
-                imports[i] = (WasmExternKind)ExportTypeArray.Native.wasm_externtype_kind(externType) switch
+                var kind = (WasmExternKind)ExportTypeArray.Native.wasm_externtype_kind(externType);
+                imports[i] = kind switch
                 {
                     WasmExternKind.Func   => new FunctionImport(importType, externType),
                     WasmExternKind.Global => new GlobalImport(importType, externType),
                     WasmExternKind.Table  => new TableImport(importType, externType),
                     WasmExternKind.Memory => new MemoryImport(importType, externType),
-                    _ => throw new NotSupportedException("Unsupported import extern type.")
+                    WasmExternKind.Tag    => new TagImport(importType, externType),
+                    _ => throw new NotSupportedException($"Unsupported import extern type: {kind}.")
                 };
             }
             return imports;
@@ -77,14 +80,9 @@ namespace Wasmtime
                            : Extensions.PtrToStringUTF8((IntPtr)moduleName->data, checked((int)moduleName->size));
 
                 var name = Native.wasm_importtype_name(importType);
-                if (name is null || name->size == 0)
-                {
-                    Name = String.Empty;
-                }
-                else
-                {
-                    Name = Extensions.PtrToStringUTF8((IntPtr)name->data, checked((int)name->size));
-                }
+                Name = name is null || name->size == 0
+                     ? string.Empty
+                     : Extensions.PtrToStringUTF8((IntPtr)name->data, checked((int)name->size));
             }
         }
 
@@ -259,5 +257,38 @@ namespace Wasmtime
         /// The maximum number of elements in the table.
         /// </summary>
         public uint Maximum { get; private set; }
+    }
+
+    /// <summary>
+    /// Represents a tag imported to a WebAssembly module or instance.
+    /// </summary>
+    public class TagImport
+        : Import
+    {
+        /// <summary>
+        /// Parameter types of this tag
+        /// </summary>
+        public ValueKind[] Parameters { get; set; }
+
+        internal TagImport(IntPtr exportType, IntPtr externType)
+            : base(exportType)
+        {
+            var tagType = TagExport.Native.wasm_externtype_as_tagtype_const(externType);
+            if (tagType == IntPtr.Zero)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var funcType = TagExport.Native.wasm_tagtype_functype(tagType);
+            if (funcType == IntPtr.Zero)
+            {
+                throw new InvalidOperationException();
+            }
+
+            unsafe
+            {
+                Parameters = (*Function.Native.wasm_functype_params(funcType)).ToArray();
+            }
+        }
     }
 }
