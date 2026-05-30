@@ -524,7 +524,7 @@ namespace Wasmtime
 
         private uint __private2;
 
-        private uint __private3;
+        private nint __private3;
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -536,6 +536,6 @@ namespace Wasmtime
 
         private uint __private2;
 
-        private uint __private3;
+        private nint __private3;
     }
 }
