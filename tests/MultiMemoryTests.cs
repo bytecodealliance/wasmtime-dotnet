@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class MultiMemoryTests
+    public sealed class MultiMemoryTests
     {
         [Fact]
         public void ItFailsWithMultiMemoryDisabled()

@@ -1,18 +1,15 @@
 using System;
-using System.Diagnostics.Metrics;
-using System.Linq;
 using FluentAssertions;
-using Newtonsoft.Json.Linq;
 using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class StoreDataFixture : ModuleFixture
+    public sealed class StoreDataFixture : ModuleFixture
     {
         protected override string ModuleFileName => "hello.wat";
     }
 
-    public class StoreDataTests : IClassFixture<StoreDataFixture>, IDisposable
+    public sealed class StoreDataTests : IClassFixture<StoreDataFixture>, IDisposable
     {
         private StoreDataFixture Fixture { get; }
 

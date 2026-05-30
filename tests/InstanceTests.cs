@@ -5,13 +5,13 @@ using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class InstanceFixture
+    public sealed class InstanceFixture
         : ModuleFixture
     {
         protected override string ModuleFileName => "hello.wat";
     }
 
-    public class InstanceTests
+    public sealed class InstanceTests
         : IClassFixture<InstanceFixture>, IDisposable
     {
         private Store Store { get; set; }

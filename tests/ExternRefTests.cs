@@ -4,12 +4,12 @@ using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class ExternRefFixture : ModuleFixture
+    public sealed class ExternRefFixture : ModuleFixture
     {
         protected override string ModuleFileName => "ExternRef.wat";
     }
 
-    public class ExternRefTests : IClassFixture<ExternRefFixture>, IDisposable
+    public sealed class ExternRefTests : IClassFixture<ExternRefFixture>, IDisposable
     {
         public ExternRefTests(ExternRefFixture fixture)
         {

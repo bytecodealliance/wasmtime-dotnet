@@ -6,12 +6,12 @@ using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class FunctionExportsFixture : ModuleFixture
+    public sealed class FunctionExportsFixture : ModuleFixture
     {
         protected override string ModuleFileName => "FunctionExports.wat";
     }
 
-    public class FunctionExportsTests : IClassFixture<FunctionExportsFixture>
+    public sealed class FunctionExportsTests : IClassFixture<FunctionExportsFixture>
     {
         private Store Store { get; set; }
 

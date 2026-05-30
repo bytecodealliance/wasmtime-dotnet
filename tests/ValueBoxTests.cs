@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class ValueBoxTests
+    public sealed class ValueBoxTests
         : StoreFixture
     {
         /// <summary>
@@ -131,7 +131,7 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItConvertsByteArrayToV128()
         {
-            var b = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
+            byte[] b = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ];
             var box = (ValueBox)b;
             Convert(Store, box, new V128(b));
         }
@@ -139,7 +139,7 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItConvertsByteSpanToV128()
         {
-            ReadOnlySpan<byte> b = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
+            ReadOnlySpan<byte> b = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ];
             var box = (ValueBox)b;
             Convert(Store, box, new V128(b));
         }
@@ -147,7 +147,7 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItFailsToConvertLongByteArrayToV128()
         {
-            var b = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 };
+            byte[] b = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ];
             var act = () => (ValueBox)b;
             act.Should().Throw<ArgumentException>();
         }
@@ -155,7 +155,7 @@ namespace Wasmtime.Tests
         [Fact]
         public void ItFailsToConvertLongByteSpanToV128()
         {
-            var b = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 };
+            byte[] b = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ];
             var act = () => new V128(b.AsSpan());
             act.Should().Throw<ArgumentException>();
         }

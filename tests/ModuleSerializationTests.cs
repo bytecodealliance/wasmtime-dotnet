@@ -1,11 +1,10 @@
-using System;
 using System.IO;
 using FluentAssertions;
 using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class ModuleSerializationTests
+    public sealed class ModuleSerializationTests
     {
         [Fact]
         public void ItSerializesAndDeserializesAModule()

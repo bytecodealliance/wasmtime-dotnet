@@ -4,12 +4,12 @@ using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class GlobalImportBindingFixture : ModuleFixture
+    public sealed class GlobalImportBindingFixture : ModuleFixture
     {
         protected override string ModuleFileName => "GlobalImportBindings.wat";
     }
 
-    public class GlobalImportBindingTests : IClassFixture<GlobalImportBindingFixture>, IDisposable
+    public sealed class GlobalImportBindingTests : IClassFixture<GlobalImportBindingFixture>, IDisposable
     {
         private GlobalImportBindingFixture Fixture { get; set; }
 

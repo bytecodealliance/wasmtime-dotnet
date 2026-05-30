@@ -4,12 +4,12 @@ using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class TableImportBindingFixture : ModuleFixture
+    public sealed class TableImportBindingFixture : ModuleFixture
     {
         protected override string ModuleFileName => "TableImportBinding.wat";
     }
 
-    public class TableImportBindingTests : IClassFixture<TableImportBindingFixture>, IDisposable
+    public sealed class TableImportBindingTests : IClassFixture<TableImportBindingFixture>, IDisposable
     {
         private TableImportBindingFixture Fixture { get; set; }
         private Store Store { get; set; }

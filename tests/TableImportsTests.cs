@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
@@ -6,12 +5,12 @@ using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class TableImportsFixture : ModuleFixture
+    public sealed class TableImportsFixture : ModuleFixture
     {
         protected override string ModuleFileName => "TableImports.wat";
     }
 
-    public class TableImportsTests : IClassFixture<TableImportsFixture>
+    public sealed class TableImportsTests : IClassFixture<TableImportsFixture>
     {
         public TableImportsTests(TableImportsFixture fixture)
         {
@@ -24,7 +23,7 @@ namespace Wasmtime.Tests
         [MemberData(nameof(GetTableImports))]
         public void ItHasTheExpectedTableImports(string importModule, string importName, ValueKind expectedKind, uint expectedMinimum, uint expectedMaximum)
         {
-            var import = Fixture.Module.Imports.Where(f => f.ModuleName == importModule && f.Name == importName).FirstOrDefault() as TableImport;
+            var import = Fixture.Module.Imports.FirstOrDefault(f => f.ModuleName == importModule && f.Name == importName) as TableImport;
             import.Should().NotBeNull();
             import.Kind.Should().Be(expectedKind);
             import.Minimum.Should().Be(expectedMinimum);

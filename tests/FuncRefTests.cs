@@ -4,12 +4,12 @@ using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class FuncRefFixture : ModuleFixture
+    public sealed class FuncRefFixture : ModuleFixture
     {
         protected override string ModuleFileName => "FuncRef.wat";
     }
 
-    public class FuncRefTests : IClassFixture<FuncRefFixture>, IDisposable
+    public sealed class FuncRefTests : IClassFixture<FuncRefFixture>, IDisposable
     {
         public FuncRefTests(FuncRefFixture fixture)
         {

@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class StoreTests
+    public sealed class StoreTests
         : StoreFixture
     {
         [Fact]

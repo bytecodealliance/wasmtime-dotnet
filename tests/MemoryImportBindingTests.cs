@@ -4,12 +4,12 @@ using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class MemoryImportBindingFixture : ModuleFixture
+    public sealed class MemoryImportBindingFixture : ModuleFixture
     {
         protected override string ModuleFileName => "MemoryImportBinding.wat";
     }
 
-    public class MemoryImportBindingTests : IClassFixture<MemoryImportBindingFixture>, IDisposable
+    public sealed class MemoryImportBindingTests : IClassFixture<MemoryImportBindingFixture>, IDisposable
     {
         private MemoryImportBindingFixture Fixture { get; set; }
 
