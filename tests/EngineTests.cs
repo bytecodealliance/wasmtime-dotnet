@@ -3,7 +3,7 @@ using Xunit;
 
 namespace Wasmtime.Tests;
 
-public class EngineTests
+public sealed class EngineTests
 {
     [Fact]
     public void ItCannotBeAccessedOnceDisposed()

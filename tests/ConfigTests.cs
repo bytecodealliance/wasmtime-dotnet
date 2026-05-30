@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class ConfigTests
+    public sealed class ConfigTests
     {
         [Fact]
         public void ItSetsCompilerStrategy()

@@ -5,12 +5,12 @@ using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class MemoryAccessFixture : ModuleFixture
+    public sealed class MemoryAccessFixture : ModuleFixture
     {
         protected override string ModuleFileName => "MemoryAccess.wat";
     }
 
-    public class MemoryAccessTests : IClassFixture<MemoryAccessFixture>, IDisposable
+    public sealed class MemoryAccessTests : IClassFixture<MemoryAccessFixture>, IDisposable
     {
         private MemoryAccessFixture Fixture { get; set; }
 

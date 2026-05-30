@@ -4,12 +4,12 @@ using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class CallExportFromImportFixture : ModuleFixture
+    public sealed class CallExportFromImportFixture : ModuleFixture
     {
         protected override string ModuleFileName => "CallExportFromImport.wat";
     }
 
-    public class CallExportFromImportTests : IClassFixture<CallExportFromImportFixture>, IDisposable
+    public sealed class CallExportFromImportTests : IClassFixture<CallExportFromImportFixture>, IDisposable
     {
         private CallExportFromImportFixture Fixture { get; }
         private Store Store { get; }
