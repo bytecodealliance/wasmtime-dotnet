@@ -11,7 +11,7 @@ namespace Wasmtime
         /// <summary>
         /// Get a V128 with all bits set to 1
         /// </summary>
-        public static readonly V128 AllBitsSet = new V128(
+        public static readonly V128 AllBitsSet = new(
             byte.MaxValue, byte.MaxValue, byte.MaxValue, byte.MaxValue,
             byte.MaxValue, byte.MaxValue, byte.MaxValue, byte.MaxValue,
             byte.MaxValue, byte.MaxValue, byte.MaxValue, byte.MaxValue,

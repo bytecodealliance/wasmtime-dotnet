@@ -41,27 +41,14 @@ namespace Wasmtime
                 var importType = this.data[i];
                 var externType = Native.wasm_importtype_type(importType);
 
-                switch ((WasmExternKind)ExportTypeArray.Native.wasm_externtype_kind(externType))
+                imports[i] = (WasmExternKind)ExportTypeArray.Native.wasm_externtype_kind(externType) switch
                 {
-                    case WasmExternKind.Func:
-                        imports[i] = new FunctionImport(importType, externType);
-                        break;
-
-                    case WasmExternKind.Global:
-                        imports[i] = new GlobalImport(importType, externType);
-                        break;
-
-                    case WasmExternKind.Table:
-                        imports[i] = new TableImport(importType, externType);
-                        break;
-
-                    case WasmExternKind.Memory:
-                        imports[i] = new MemoryImport(importType, externType);
-                        break;
-
-                    default:
-                        throw new NotSupportedException("Unsupported import extern type.");
-                }
+                    WasmExternKind.Func   => new FunctionImport(importType, externType),
+                    WasmExternKind.Global => new GlobalImport(importType, externType),
+                    WasmExternKind.Table  => new TableImport(importType, externType),
+                    WasmExternKind.Memory => new MemoryImport(importType, externType),
+                    _ => throw new NotSupportedException("Unsupported import extern type.")
+                };
             }
             return imports;
         }
@@ -85,14 +72,9 @@ namespace Wasmtime
             unsafe
             {
                 var moduleName = Native.wasm_importtype_module(importType);
-                if (moduleName->size == 0)
-                {
-                    ModuleName = String.Empty;
-                }
-                else
-                {
-                    ModuleName = Extensions.PtrToStringUTF8((IntPtr)moduleName->data, checked((int)moduleName->size));
-                }
+                ModuleName = moduleName->size == 0
+                           ? string.Empty
+                           : Extensions.PtrToStringUTF8((IntPtr)moduleName->data, checked((int)moduleName->size));
 
                 var name = Native.wasm_importtype_name(importType);
                 if (name is null || name->size == 0)
@@ -109,12 +91,12 @@ namespace Wasmtime
         /// <summary>
         /// The module name of the import.
         /// </summary>
-        public string ModuleName { get; private set; }
+        public string ModuleName { get; }
 
         /// <summary>
         /// The name of the import.
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; }
 
         /// <inheritdoc/>
         public override string ToString()

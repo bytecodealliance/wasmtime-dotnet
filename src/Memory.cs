@@ -325,10 +325,7 @@ namespace Wasmtime
         /// <returns>Returns the string read from memory.</returns>
         public string ReadString(long address, int length, Encoding? encoding = null)
         {
-            if (encoding is null)
-            {
-                encoding = Encoding.UTF8;
-            }
+            encoding ??= Encoding.UTF8;
 
             return encoding.GetString(GetSpan(address, length));
         }
@@ -353,7 +350,7 @@ namespace Wasmtime
                 throw new InvalidOperationException("string is not null terminated");
             }
 
-            return Encoding.UTF8.GetString(slice.Slice(0, terminator));
+            return Encoding.UTF8.GetString(slice[..terminator]);
         }
 
         /// <summary>
@@ -370,10 +367,7 @@ namespace Wasmtime
                 throw new ArgumentOutOfRangeException(nameof(address));
             }
 
-            if (encoding is null)
-            {
-                encoding = Encoding.UTF8;
-            }
+            encoding ??= Encoding.UTF8;
 
             return encoding.GetBytes(value, GetSpan(address, (int)Math.Min(int.MaxValue, GetLength() - address)));
         }

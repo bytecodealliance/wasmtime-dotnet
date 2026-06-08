@@ -2,7 +2,6 @@ using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -78,12 +77,12 @@ namespace Wasmtime
         /// <summary>
         /// The types of the parameters of the WebAssembly function.
         /// </summary>
-        public IReadOnlyList<ValueKind> Parameters { get; private set; }
+        public IReadOnlyList<ValueKind> Parameters { get; }
 
         /// <summary>
         /// The types of the results of the WebAssembly function.
         /// </summary>
-        public IReadOnlyList<ValueKind> Results { get; private set; }
+        public IReadOnlyList<ValueKind> Results { get; }
 
         /// <summary>
         /// Determines if the underlying function reference is null.
@@ -93,7 +92,7 @@ namespace Wasmtime
         /// <summary>
         /// Represents a null function reference.
         /// </summary>
-        public static Function Null => _null;
+        public static Function Null { get; } = new();
 
         /// <summary>
         /// Check if this function has the given type signature
@@ -586,7 +585,7 @@ namespace Wasmtime
             {
                 if (parameterTypes[i] == typeof(Caller))
                 {
-                    throw new WasmtimeException($"A 'Caller' parameter must be the first parameter of the callback.");
+                    throw new WasmtimeException("A 'Caller' parameter must be the first parameter of the callback.");
                 }
 
                 if (!Value.TryGetKind(parameterTypes[i], out var kind))
@@ -608,12 +607,12 @@ namespace Wasmtime
 
             if (hasCaller && !allowCaller)
             {
-                throw new InvalidOperationException($"A 'Caller' parameter is not allowed for this callback.");
+                throw new InvalidOperationException("A 'Caller' parameter is not allowed for this callback.");
             }
 
             if (returnsTuple && !allowTuple)
             {
-                throw new InvalidOperationException($"Returning a ValueTuple is not allowed for this callback; use an overload that implicitly returns ValueTuple or an untyped callback for returning more than 4 values.");
+                throw new InvalidOperationException("Returning a ValueTuple is not allowed for this callback; use an overload that implicitly returns ValueTuple or an untyped callback for returning more than 4 values.");
             }
 
             return (parameterKinds, resultKinds);
@@ -790,7 +789,5 @@ namespace Wasmtime
         /// </remarks>
         [ThreadStatic]
         internal static Exception? CallbackErrorCause;
-
-        private static readonly Function _null = new Function();
     }
 }
