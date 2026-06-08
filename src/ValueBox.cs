@@ -301,7 +301,7 @@ namespace Wasmtime
     internal class Int32ValueBoxConverter
         : IValueBoxConverter<int>
     {
-        public static readonly Int32ValueBoxConverter Instance = new Int32ValueBoxConverter();
+        public static readonly Int32ValueBoxConverter Instance = new();
 
         private Int32ValueBoxConverter()
         {
@@ -321,7 +321,7 @@ namespace Wasmtime
     internal class Int64ValueBoxConverter
         : IValueBoxConverter<long>
     {
-        public static readonly Int64ValueBoxConverter Instance = new Int64ValueBoxConverter();
+        public static readonly Int64ValueBoxConverter Instance = new();
 
         private Int64ValueBoxConverter()
         {
@@ -341,7 +341,7 @@ namespace Wasmtime
     internal class Float32ValueBoxConverter
         : IValueBoxConverter<float>
     {
-        public static readonly Float32ValueBoxConverter Instance = new Float32ValueBoxConverter();
+        public static readonly Float32ValueBoxConverter Instance = new();
 
         private Float32ValueBoxConverter()
         {
@@ -361,7 +361,7 @@ namespace Wasmtime
     internal class Float64ValueBoxConverter
         : IValueBoxConverter<double>
     {
-        public static readonly Float64ValueBoxConverter Instance = new Float64ValueBoxConverter();
+        public static readonly Float64ValueBoxConverter Instance = new();
 
         private Float64ValueBoxConverter()
         {
@@ -381,7 +381,7 @@ namespace Wasmtime
     internal class FuncRefValueBoxConverter
         : IValueBoxConverter<Function>
     {
-        public static readonly FuncRefValueBoxConverter Instance = new FuncRefValueBoxConverter();
+        public static readonly FuncRefValueBoxConverter Instance = new();
 
         private FuncRefValueBoxConverter()
         {
@@ -401,7 +401,7 @@ namespace Wasmtime
     internal class V128ValueBoxConverter
         : IValueBoxConverter<V128>
     {
-        public static readonly V128ValueBoxConverter Instance = new V128ValueBoxConverter();
+        public static readonly V128ValueBoxConverter Instance = new();
 
         private V128ValueBoxConverter()
         {
@@ -421,7 +421,7 @@ namespace Wasmtime
     internal class GenericValueBoxConverter<T>
         : IValueBoxConverter<T?>
     {
-        public static readonly GenericValueBoxConverter<T> Instance = new GenericValueBoxConverter<T>();
+        public static readonly GenericValueBoxConverter<T> Instance = new();
 
         private GenericValueBoxConverter()
         {

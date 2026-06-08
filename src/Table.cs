@@ -42,7 +42,7 @@ namespace Wasmtime
 
             if (kind != TableKind.ExternRef && kind != TableKind.FuncRef)
             {
-                throw new WasmtimeException($"Table elements must be externref or funcref.");
+                throw new WasmtimeException("Table elements must be externref or funcref.");
             }
 
             if (maximum < initial)
@@ -55,9 +55,11 @@ namespace Wasmtime
             Minimum = initial;
             Maximum = maximum;
 
-            var limits = new Native.Limits();
-            limits.min = initial;
-            limits.max = maximum;
+            var limits = new Native.Limits
+            {
+                min = initial,
+                max = maximum,
+            };
 
             using var tableType = new TypeHandle(Native.wasm_tabletype_new(
                 ValueType.FromKind(kind),

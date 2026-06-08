@@ -28,27 +28,15 @@ namespace Wasmtime
                 var exportType = this.data[i];
                 var externType = Native.wasm_exporttype_type(exportType);
 
-                switch ((WasmExternKind)Native.wasm_externtype_kind(externType))
+                exports[i] = (WasmExternKind)Native.wasm_externtype_kind(externType) switch
                 {
-                    case WasmExternKind.Func:
-                        exports[i] = new FunctionExport(exportType, externType);
-                        break;
+                    WasmExternKind.Func   => new FunctionExport(exportType, externType),
+                    WasmExternKind.Global => new GlobalExport(exportType, externType),
+                    WasmExternKind.Table  => new TableExport(exportType, externType),
+                    WasmExternKind.Memory => new MemoryExport(exportType, externType),
 
-                    case WasmExternKind.Global:
-                        exports[i] = new GlobalExport(exportType, externType);
-                        break;
-
-                    case WasmExternKind.Table:
-                        exports[i] = new TableExport(exportType, externType);
-                        break;
-
-                    case WasmExternKind.Memory:
-                        exports[i] = new MemoryExport(exportType, externType);
-                        break;
-
-                    default:
-                        throw new NotSupportedException("Unsupported export extern type.");
-                }
+                    _ => throw new NotSupportedException("Unsupported export extern type.")
+                };
             }
 
             return exports;
@@ -78,21 +66,16 @@ namespace Wasmtime
             unsafe
             {
                 var name = Native.wasm_exporttype_name(exportType);
-                if (name->size == 0)
-                {
-                    Name = String.Empty;
-                }
-                else
-                {
-                    Name = Extensions.PtrToStringUTF8((IntPtr)name->data, checked((int)name->size));
-                }
+                Name = name->size == 0
+                     ? string.Empty
+                     : Extensions.PtrToStringUTF8((IntPtr)name->data, checked((int)name->size));
             }
         }
 
         /// <summary>
         /// The name of the export.
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; }
 
         /// <inheritdoc/>
         public override string ToString()

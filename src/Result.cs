@@ -143,17 +143,12 @@ namespace Wasmtime
         /// <exception cref="ArgumentOutOfRangeException">Thrown if Type property contains an unknown value</exception>
         public static explicit operator T?(FunctionResult<T> value)
         {
-            switch (value.Type)
+            return value.Type switch
             {
-                case ResultType.Ok:
-                    return value._value;
-
-                case ResultType.Trap:
-                    throw value._trap!;
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(value), $"Unknown Result Type property value '{value.Type}'");
-            }
+                ResultType.Ok => value._value,
+                ResultType.Trap => throw value._trap!,
+                _ => throw new ArgumentOutOfRangeException(nameof(value), $"Unknown Result Type property value '{value.Type}'")
+            };
         }
 
         /// <summary>

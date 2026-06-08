@@ -40,8 +40,7 @@ namespace Wasmtime
                 var externs = stackalloc Extern[imports.Length];
                 for (int i = 0; i < imports.Length; ++i)
                 {
-                    var external = imports[i] as IExternal;
-                    if (external is null)
+                    if (imports[i] is not IExternal external)
                     {
                         throw new ArgumentException($"Objects of type `{imports[i].GetType()}` cannot be imported.");
                     }

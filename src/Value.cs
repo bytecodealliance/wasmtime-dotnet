@@ -166,7 +166,7 @@ namespace Wasmtime
             }
         }
 
-        public ValueKind[] ToArray()
+        public readonly ValueKind[] ToArray()
         {
             var arr = new ValueKind[(int)size];
 
@@ -263,9 +263,11 @@ namespace Wasmtime
 
         public static Value FromValueBox(Store store, ValueBox box)
         {
-            var value = new Value();
-            value.kind = box.Kind;
-            value.of = box.Union;
+            var value = new Value
+            {
+                kind = box.Kind,
+                of = box.Union,
+            };
 
             if (value.kind == ValueKind.ExternRef)
             {
@@ -300,7 +302,7 @@ namespace Wasmtime
             return value;
         }
 
-        public ValueBox ToValueBox(Store store)
+        public readonly ValueBox ToValueBox(Store store)
         {
             if (kind != ValueKind.ExternRef)
             {
@@ -319,8 +321,10 @@ namespace Wasmtime
 
         public static Value FromObject(Store store, object? o, ValueKind kind)
         {
-            var value = new Value();
-            value.kind = kind;
+            var value = new Value
+            {
+                kind = kind,
+            };
 
             try
             {
@@ -386,19 +390,12 @@ namespace Wasmtime
                         break;
 
                     case ValueKind.FuncRef:
-                        switch (o)
+                        value.of.funcref = o switch
                         {
-                            case null:
-                                value.of.funcref = Function.Null.func;
-                                break;
-
-                            case Function f:
-                                value.of.funcref = f.func;
-                                break;
-
-                            default:
-                                throw new ArgumentException("expected a function value", nameof(o));
-                        }
+                            null       => Function.Null.func,
+                            Function f => f.func,
+                            _          => throw new ArgumentException("expected a function value", nameof(o))
+                        };
                         break;
 
                     default:
@@ -413,37 +410,22 @@ namespace Wasmtime
             return value;
         }
 
-        public object? ToObject(Store store)
+        public readonly object? ToObject(Store store)
         {
-            switch (kind)
+            return kind switch
             {
-                case ValueKind.Int32:
-                    return of.i32;
-
-                case ValueKind.Int64:
-                    return of.i64;
-
-                case ValueKind.Float32:
-                    return of.f32;
-
-                case ValueKind.Float64:
-                    return of.f64;
-
-                case ValueKind.V128:
-                    return of.v128;
-
-                case ValueKind.ExternRef:
-                    return ResolveExternRef(store);
-
-                case ValueKind.FuncRef:
-                    return store.GetCachedExtern(of.funcref);
-
-                default:
-                    throw new NotSupportedException("Unsupported value kind.");
-            }
+                ValueKind.Int32   => of.i32,
+                ValueKind.Int64   => of.i64,
+                ValueKind.Float32 => of.f32,
+                ValueKind.Float64 => of.f64,
+                ValueKind.V128    => of.v128,
+                ValueKind.ExternRef => ResolveExternRef(store),
+                ValueKind.FuncRef   => store.GetCachedExtern(of.funcref),
+                _ => throw new NotSupportedException("Unsupported value kind.")
+            };
         }
 
-        private object? ResolveExternRef(Store store)
+        private readonly object? ResolveExternRef(Store store)
         {
             if (of.externref.IsNull())
             {
