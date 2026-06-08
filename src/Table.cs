@@ -102,7 +102,7 @@ namespace Wasmtime
         /// Gets the value kind of the table.
         /// </summary>
         /// <value></value>
-        public TableKind Kind { get; private set; }
+        public TableKind Kind { get; }
 
         /// <summary>
         /// The minimum table element size.
