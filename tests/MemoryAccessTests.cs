@@ -67,7 +67,7 @@ namespace Wasmtime.Tests
             memoryExport.Is64Bit.Should().BeFalse();
 
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var memory = instance.GetMemory("mem");
+            var memory = instance.GetMemory("mem")!;
 
             memory.Minimum.Should().Be(0x10000);
             memory.Maximum.Should().BeNull();
@@ -108,14 +108,9 @@ namespace Wasmtime.Tests
         public void ItThrowsForOutOfBoundsAccess()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var memory = instance.GetMemory("mem");
+            var memory = instance.GetMemory("mem")!;
 
-#pragma warning disable CS0618 // Type or member is obsolete
-            Action action = () => memory.GetSpan();
-#pragma warning restore CS0618 // Type or member is obsolete
-            action.Should().Throw<OverflowException>();
-
-            action = () => memory.GetSpan<short>(0);
+            Action action = () => memory.GetSpan<short>(0);
             action.Should().Throw<OverflowException>();
 
             action = () => memory.GetSpan(-1L, 0);
