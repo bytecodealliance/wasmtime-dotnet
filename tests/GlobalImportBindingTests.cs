@@ -39,6 +39,13 @@ namespace Wasmtime.Tests
         }
 
         [Fact]
+        public void ItFailsWithInvalidMutability()
+        {
+            var act = () => new Global(Store, (ValueKind)byte.MaxValue, 0, new Mutability(42));
+            act.Should().Throw<ArgumentException>();
+        }
+
+        [Fact]
         public void ItFailsToInstantiateWithMissingImport()
         {
             Action action = () => { Linker.Instantiate(Store, Fixture.Module); };

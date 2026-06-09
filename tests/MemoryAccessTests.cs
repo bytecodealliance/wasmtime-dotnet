@@ -1,6 +1,6 @@
+using FluentAssertions;
 using System;
 using System.Linq;
-using FluentAssertions;
 using Xunit;
 
 namespace Wasmtime.Tests
@@ -124,6 +124,26 @@ namespace Wasmtime.Tests
 
             action = () => memory.GetSpan<short>(0xFFFFFFFF, 1);
             action.Should().Throw<ArgumentException>();
+        }
+
+        [Fact]
+        public void ItThrowForNegativePointerReadString()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var memory = instance.GetMemory("mem");
+
+            var action = () => memory.ReadNullTerminatedString(-1);
+            action.Should().Throw<ArgumentOutOfRangeException>();
+        }
+
+        [Fact]
+        public void ItThrowForNegativePointerWriteString()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var memory = instance.GetMemory("mem");
+
+            var action = () => memory.WriteString(-1, "hello");
+            action.Should().Throw<ArgumentOutOfRangeException>();
         }
 
         public void Dispose()

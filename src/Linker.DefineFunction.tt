@@ -21,6 +21,7 @@ using System;
 using System.Buffers;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Wasmtime
 {
@@ -44,6 +45,7 @@ foreach (var (hasCaller, resultCount, parameterCount, methodGenerics, delegateTy
         /// <param name="module">The module name of the function.</param>
         /// <param name="name">The name of the function.</param>
         /// <param name="callback">The callback for when the function is invoked.</param>
+        [ExcludeFromCodeCoverage]
         public void DefineFunction<#= methodGenerics #>(string module, string name, <#= delegateType #> callback)
         {
             if (module is null)

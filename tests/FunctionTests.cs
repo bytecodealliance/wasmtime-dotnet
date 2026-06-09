@@ -187,11 +187,22 @@ namespace Wasmtime.Tests
         public void ItWrapsArgumentsInValueBox()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var add = instance.GetFunction("add");
+            var add = instance.GetFunction("add")!;
 
             var args = new ValueBox[] { 40, 2 };
-            int x = (int)add.Invoke(args.AsSpan());
+            int x = (int)add.Invoke(args.AsSpan())!;
             x.Should().Be(42);
+        }
+
+        [Fact]
+        public void ItThrowsWithMismatchedParameterCount()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var add = instance.GetFunction("add")!;
+
+            var args = new ValueBox[] { 40, 2, 9 };
+
+            Assert.Throws<WasmtimeException>(() => add.Invoke(args.AsSpan()));
         }
 
         [Fact]

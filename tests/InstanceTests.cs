@@ -43,6 +43,18 @@ namespace Wasmtime.Tests
             results.Single().Name.Should().Be("run");
         }
 
+        [Fact]
+        public void ItThrowsWithNullStore()
+        {
+            Assert.Throws<ArgumentNullException>(() => new Instance(null!, Fixture.Module));
+        }
+
+        [Fact]
+        public void ItThrowsWithNullModule()
+        {
+            Assert.Throws<ArgumentNullException>(() => new Instance(Store, null!));
+        }
+
         public void Dispose()
         {
             Store.Dispose();

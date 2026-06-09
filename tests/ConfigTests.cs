@@ -198,7 +198,20 @@ namespace Wasmtime.Tests
                 .WithMaxGcHeaps(15)
                 .WithMaxMemorySize(16)
                 .WithMaxUnusedWarmSlots(23)
-                .WithTableKeepResidentBytes(42);
+                .WithTableKeepResidentBytes(42)
+                .WithMaxMemoriesPerModule(67)
+                .WithMaxTableElements(69)
+                .WithMaxTablesPerModule(420)
+                .WithMaxTables(666)
+                .WithMaxCoreInstances(80085)
+                .WithMaxTables(23)
+                .WithMaxMemoriesPerComponent(1)
+                .WithMaxTablesPerComponent(2)
+                .WithMaxMemories(3)
+                .WithTotalComponentInstances(4)
+                .WithMaxComponentInstanceSize(5)
+                .WithMaxCoreInstanceSize(6)
+                .WithMaxCoreInstancesPerComponent(7);
 
             using var config = new Config();
             config.WithPoolingAllocationStrategy(strategy);

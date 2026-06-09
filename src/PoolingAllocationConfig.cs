@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32.SafeHandles;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 namespace Wasmtime;
@@ -73,6 +74,7 @@ public class PoolingAllocationConfig
     /// </summary>
     /// <param name="bytes"></param>
     /// <returns></returns>
+    [ExcludeFromCodeCoverage]
     private PoolingAllocationConfig WithAsyncStackKeepResidentBytes(nuint bytes)
     {
         // todo: Wasmtime-dotnet does not support async! Expose this if support is added.
@@ -205,6 +207,7 @@ public class PoolingAllocationConfig
     /// </summary>
     /// <param name="count"></param>
     /// <returns></returns>
+    [ExcludeFromCodeCoverage]
     private PoolingAllocationConfig WithMaxStacks(uint count)
     {
         // todo: Wasmtime-dotnet does not support async! Expose this if support is added.
