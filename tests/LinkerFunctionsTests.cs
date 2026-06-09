@@ -123,6 +123,18 @@ namespace Wasmtime.Tests
         private LinkerFunctionsFixture Fixture { get; }
 
         [Fact]
+        public void ItThrowsWithNullStore()
+        {
+            Assert.Throws<ArgumentNullException>(() => Linker.Instantiate(null!, Fixture.Module));
+        }
+
+        [Fact]
+        public void ItThrowsWithNullModule()
+        {
+            Assert.Throws<ArgumentNullException>(() => Linker.Instantiate(Store, null!));
+        }
+
+        [Fact]
         public void ItBindsImportMethodsAndCallsThemCorrectly()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
