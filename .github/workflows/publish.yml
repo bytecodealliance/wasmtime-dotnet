@@ -8,6 +8,10 @@ on:
     tags:
     - 'v*'
 
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
   publish:
     name: "Publish NuGet Package"
@@ -24,7 +28,12 @@ jobs:
       run: |
         cd src
         dotnet pack -c Release /p:Packing=true
+    - name: NuGet login
+      uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841
+      id: login
+      with:
+        user: jsturtevant
     - name: Publish NuGet Package
       run: |
         cd src/bin/Release
-        dotnet nuget push Wasmtime.${GITHUB_REF_NAME:1}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
+        dotnet nuget push Wasmtime.${GITHUB_REF_NAME:1}.nupkg -k ${{ steps.login.outputs.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
