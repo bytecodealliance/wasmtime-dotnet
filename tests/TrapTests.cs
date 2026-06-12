@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class TrapFixture : ModuleFixture
+    public sealed class TrapFixture : ModuleFixture
     {
         protected override string ModuleFileName => "Trap.wat";
     }
@@ -40,7 +40,7 @@ namespace Wasmtime.Tests
         }
     }
 
-    public class TrapTests : IClassFixture<TrapFixture>, IDisposable
+    public sealed class TrapTests : IClassFixture<TrapFixture>, IDisposable
     {
         private TrapFixture Fixture { get; set; }
 

@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class InvalidModuleTests
+    public sealed class InvalidModuleTests
     {
         [Fact]
         public void ItThrowsWithErrorMessageForInvalidModules()

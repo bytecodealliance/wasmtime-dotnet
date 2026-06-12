@@ -33,20 +33,6 @@ namespace Wasmtime
         /// <param name="initialValue">The initial value for elements in the table.</param>
         /// <param name="initial">The number of initial elements in the table.</param>
         /// <param name="maximum">The maximum number of elements in the table.</param>
-        [Obsolete("Replace ValueKind parameter with TableKind")]
-        public Table(Store store, ValueKind kind, object? initialValue, uint initial, uint maximum = uint.MaxValue)
-            : this(store, (TableKind)kind, initialValue, initial, maximum)
-        {
-        }
-
-        /// <summary>
-        /// Creates a new WebAssembly table.
-        /// </summary>
-        /// <param name="store">The store to create the table in.</param>
-        /// <param name="kind">The value kind for the elements in the table.</param>
-        /// <param name="initialValue">The initial value for elements in the table.</param>
-        /// <param name="initial">The number of initial elements in the table.</param>
-        /// <param name="maximum">The maximum number of elements in the table.</param>
         public Table(Store store, TableKind kind, object? initialValue, uint initial, uint maximum = uint.MaxValue)
         {
             if (store is null)
@@ -56,7 +42,7 @@ namespace Wasmtime
 
             if (kind != TableKind.ExternRef && kind != TableKind.FuncRef)
             {
-                throw new WasmtimeException($"Table elements must be externref or funcref.");
+                throw new WasmtimeException("Table elements must be externref or funcref.");
             }
 
             if (maximum < initial)
@@ -69,9 +55,11 @@ namespace Wasmtime
             Minimum = initial;
             Maximum = maximum;
 
-            var limits = new Native.Limits();
-            limits.min = initial;
-            limits.max = maximum;
+            var limits = new Native.Limits
+            {
+                min = initial,
+                max = maximum,
+            };
 
             using var tableType = new TypeHandle(Native.wasm_tabletype_new(
                 ValueType.FromKind(kind),
@@ -100,7 +88,7 @@ namespace Wasmtime
         /// Gets the value kind of the table.
         /// </summary>
         /// <value></value>
-        public TableKind Kind { get; private set; }
+        public TableKind Kind { get; }
 
         /// <summary>
         /// The minimum table element size.

@@ -56,7 +56,7 @@ namespace Wasmtime
             var store = item.Store;
             if (store is null)
             {
-                throw new ArgumentException($"The item is not associated with a store.");
+                throw new ArgumentException("The item is not associated with a store.");
             }
 
             var ext = item.AsExtern();

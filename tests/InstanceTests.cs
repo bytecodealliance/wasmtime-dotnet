@@ -5,13 +5,13 @@ using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class InstanceFixture
+    public sealed class InstanceFixture
         : ModuleFixture
     {
         protected override string ModuleFileName => "hello.wat";
     }
 
-    public class InstanceTests
+    public sealed class InstanceTests
         : IClassFixture<InstanceFixture>, IDisposable
     {
         private Store Store { get; set; }
@@ -41,6 +41,18 @@ namespace Wasmtime.Tests
             var results = instance.GetFunctions();
 
             results.Single().Name.Should().Be("run");
+        }
+
+        [Fact]
+        public void ItThrowsWithNullStore()
+        {
+            Assert.Throws<ArgumentNullException>(() => new Instance(null!, Fixture.Module));
+        }
+
+        [Fact]
+        public void ItThrowsWithNullModule()
+        {
+            Assert.Throws<ArgumentNullException>(() => new Instance(Store, null!));
         }
 
         public void Dispose()

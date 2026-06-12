@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 
 namespace Wasmtime
 {
@@ -114,12 +113,7 @@ namespace Wasmtime
         where TBuilder : struct, IFunctionResultBuilder<TResult, TValue>
         where TResult : struct
     {
-        private readonly IReturnTypeFactory<TValue> _valueFactory;
-
-        public FunctionResultFactory()
-        {
-            _valueFactory = ReturnTypeFactory<TValue>.Create();
-        }
+        private readonly IReturnTypeFactory<TValue> _valueFactory = ReturnTypeFactory<TValue>.Create();
 
         public TResult Create(StoreContext storeContext, Store store, IntPtr trap, Span<ValueRaw> values)
         {
@@ -139,12 +133,7 @@ namespace Wasmtime
     internal class NonTupleTypeFactory<TReturn>
         : IReturnTypeFactory<TReturn>
     {
-        private readonly IValueRawConverter<TReturn> converter;
-
-        public NonTupleTypeFactory()
-        {
-            converter = ValueRaw.Converter<TReturn>();
-        }
+        private readonly IValueRawConverter<TReturn> converter = ValueRaw.Converter<TReturn>();
 
         public TReturn? Create(StoreContext storeContext, Store store, IntPtr trap, Span<ValueRaw> values)
         {
@@ -190,14 +179,8 @@ namespace Wasmtime
     internal class TupleFactory2<TReturn, TA, TB>
         : BaseTupleFactory<TReturn, Func<TA?, TB?, TReturn>>
     {
-        private readonly IValueRawConverter<TA> converterA;
-        private readonly IValueRawConverter<TB> converterB;
-
-        public TupleFactory2()
-        {
-            converterA = ValueRaw.Converter<TA>();
-            converterB = ValueRaw.Converter<TB>();
-        }
+        private readonly IValueRawConverter<TA> converterA = ValueRaw.Converter<TA>();
+        private readonly IValueRawConverter<TB> converterB = ValueRaw.Converter<TB>();
 
         public override TReturn Create(StoreContext storeContext, Store store, IntPtr trap, Span<ValueRaw> values)
         {
@@ -216,16 +199,9 @@ namespace Wasmtime
     internal class TupleFactory3<TReturn, TA, TB, TC>
         : BaseTupleFactory<TReturn, Func<TA?, TB?, TC?, TReturn>>
     {
-        private readonly IValueRawConverter<TA> converterA;
-        private readonly IValueRawConverter<TB> converterB;
-        private readonly IValueRawConverter<TC> converterC;
-
-        public TupleFactory3()
-        {
-            converterA = ValueRaw.Converter<TA>();
-            converterB = ValueRaw.Converter<TB>();
-            converterC = ValueRaw.Converter<TC>();
-        }
+        private readonly IValueRawConverter<TA> converterA = ValueRaw.Converter<TA>();
+        private readonly IValueRawConverter<TB> converterB = ValueRaw.Converter<TB>();
+        private readonly IValueRawConverter<TC> converterC = ValueRaw.Converter<TC>();
 
         public override TReturn Create(StoreContext storeContext, Store store, IntPtr trap, Span<ValueRaw> values)
         {
@@ -245,18 +221,10 @@ namespace Wasmtime
     internal class TupleFactory4<TReturn, TA, TB, TC, TD>
         : BaseTupleFactory<TReturn, Func<TA?, TB?, TC?, TD?, TReturn>>
     {
-        private readonly IValueRawConverter<TA> converterA;
-        private readonly IValueRawConverter<TB> converterB;
-        private readonly IValueRawConverter<TC> converterC;
-        private readonly IValueRawConverter<TD> converterD;
-
-        public TupleFactory4()
-        {
-            converterA = ValueRaw.Converter<TA>();
-            converterB = ValueRaw.Converter<TB>();
-            converterC = ValueRaw.Converter<TC>();
-            converterD = ValueRaw.Converter<TD>();
-        }
+        private readonly IValueRawConverter<TA> converterA = ValueRaw.Converter<TA>();
+        private readonly IValueRawConverter<TB> converterB = ValueRaw.Converter<TB>();
+        private readonly IValueRawConverter<TC> converterC = ValueRaw.Converter<TC>();
+        private readonly IValueRawConverter<TD> converterD = ValueRaw.Converter<TD>();
 
         public override TReturn Create(StoreContext storeContext, Store store, IntPtr trap, Span<ValueRaw> values)
         {
@@ -277,20 +245,11 @@ namespace Wasmtime
     internal class TupleFactory5<TReturn, TA, TB, TC, TD, TE>
         : BaseTupleFactory<TReturn, Func<TA?, TB?, TC?, TD?, TE?, TReturn>>
     {
-        private readonly IValueRawConverter<TA> converterA;
-        private readonly IValueRawConverter<TB> converterB;
-        private readonly IValueRawConverter<TC> converterC;
-        private readonly IValueRawConverter<TD> converterD;
-        private readonly IValueRawConverter<TE> converterE;
-
-        public TupleFactory5()
-        {
-            converterA = ValueRaw.Converter<TA>();
-            converterB = ValueRaw.Converter<TB>();
-            converterC = ValueRaw.Converter<TC>();
-            converterD = ValueRaw.Converter<TD>();
-            converterE = ValueRaw.Converter<TE>();
-        }
+        private readonly IValueRawConverter<TA> converterA = ValueRaw.Converter<TA>();
+        private readonly IValueRawConverter<TB> converterB = ValueRaw.Converter<TB>();
+        private readonly IValueRawConverter<TC> converterC = ValueRaw.Converter<TC>();
+        private readonly IValueRawConverter<TD> converterD = ValueRaw.Converter<TD>();
+        private readonly IValueRawConverter<TE> converterE = ValueRaw.Converter<TE>();
 
         public override TReturn Create(StoreContext storeContext, Store store, IntPtr trap, Span<ValueRaw> values)
         {
@@ -312,22 +271,12 @@ namespace Wasmtime
     internal class TupleFactory6<TReturn, TA, TB, TC, TD, TE, TF>
         : BaseTupleFactory<TReturn, Func<TA?, TB?, TC?, TD?, TE?, TF?, TReturn>>
     {
-        private readonly IValueRawConverter<TA> converterA;
-        private readonly IValueRawConverter<TB> converterB;
-        private readonly IValueRawConverter<TC> converterC;
-        private readonly IValueRawConverter<TD> converterD;
-        private readonly IValueRawConverter<TE> converterE;
-        private readonly IValueRawConverter<TF> converterF;
-
-        public TupleFactory6()
-        {
-            converterA = ValueRaw.Converter<TA>();
-            converterB = ValueRaw.Converter<TB>();
-            converterC = ValueRaw.Converter<TC>();
-            converterD = ValueRaw.Converter<TD>();
-            converterE = ValueRaw.Converter<TE>();
-            converterF = ValueRaw.Converter<TF>();
-        }
+        private readonly IValueRawConverter<TA> converterA = ValueRaw.Converter<TA>();
+        private readonly IValueRawConverter<TB> converterB = ValueRaw.Converter<TB>();
+        private readonly IValueRawConverter<TC> converterC = ValueRaw.Converter<TC>();
+        private readonly IValueRawConverter<TD> converterD = ValueRaw.Converter<TD>();
+        private readonly IValueRawConverter<TE> converterE = ValueRaw.Converter<TE>();
+        private readonly IValueRawConverter<TF> converterF = ValueRaw.Converter<TF>();
 
         public override TReturn Create(StoreContext storeContext, Store store, IntPtr trap, Span<ValueRaw> values)
         {
@@ -350,24 +299,13 @@ namespace Wasmtime
     internal class TupleFactory7<TReturn, TA, TB, TC, TD, TE, TF, TG>
         : BaseTupleFactory<TReturn, Func<TA?, TB?, TC?, TD?, TE?, TF?, TG?, TReturn>>
     {
-        private readonly IValueRawConverter<TA> converterA;
-        private readonly IValueRawConverter<TB> converterB;
-        private readonly IValueRawConverter<TC> converterC;
-        private readonly IValueRawConverter<TD> converterD;
-        private readonly IValueRawConverter<TE> converterE;
-        private readonly IValueRawConverter<TF> converterF;
-        private readonly IValueRawConverter<TG> converterG;
-
-        public TupleFactory7()
-        {
-            converterA = ValueRaw.Converter<TA>();
-            converterB = ValueRaw.Converter<TB>();
-            converterC = ValueRaw.Converter<TC>();
-            converterD = ValueRaw.Converter<TD>();
-            converterE = ValueRaw.Converter<TE>();
-            converterF = ValueRaw.Converter<TF>();
-            converterG = ValueRaw.Converter<TG>();
-        }
+        private readonly IValueRawConverter<TA> converterA = ValueRaw.Converter<TA>();
+        private readonly IValueRawConverter<TB> converterB = ValueRaw.Converter<TB>();
+        private readonly IValueRawConverter<TC> converterC = ValueRaw.Converter<TC>();
+        private readonly IValueRawConverter<TD> converterD = ValueRaw.Converter<TD>();
+        private readonly IValueRawConverter<TE> converterE = ValueRaw.Converter<TE>();
+        private readonly IValueRawConverter<TF> converterF = ValueRaw.Converter<TF>();
+        private readonly IValueRawConverter<TG> converterG = ValueRaw.Converter<TG>();
 
         public override TReturn Create(StoreContext storeContext, Store store, IntPtr trap, Span<ValueRaw> values)
         {

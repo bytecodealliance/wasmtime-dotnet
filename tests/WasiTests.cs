@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class WasiTests
+    public sealed class WasiTests
     {
         [Theory]
         [InlineData("Wasi.wat")]

@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class ExitErrorTests
+    public sealed class ExitErrorTests
     {
         [Theory]
         [InlineData("ExitError.wat", 0)]

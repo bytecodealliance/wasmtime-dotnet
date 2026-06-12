@@ -4,12 +4,12 @@ using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class GlobalImportBindingFixture : ModuleFixture
+    public sealed class GlobalImportBindingFixture : ModuleFixture
     {
         protected override string ModuleFileName => "GlobalImportBindings.wat";
     }
 
-    public class GlobalImportBindingTests : IClassFixture<GlobalImportBindingFixture>, IDisposable
+    public sealed class GlobalImportBindingTests : IClassFixture<GlobalImportBindingFixture>, IDisposable
     {
         private GlobalImportBindingFixture Fixture { get; set; }
 
@@ -35,6 +35,13 @@ namespace Wasmtime.Tests
         public void ItFailsWithInvalidValueKind()
         {
             var act = () => new Global(Store, (ValueKind)byte.MaxValue, 0, Mutability.Mutable);
+            act.Should().Throw<ArgumentException>();
+        }
+
+        [Fact]
+        public void ItFailsWithInvalidMutability()
+        {
+            var act = () => new Global(Store, (ValueKind)byte.MaxValue, 0, new Mutability(42));
             act.Should().Throw<ArgumentException>();
         }
 

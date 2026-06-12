@@ -5,12 +5,12 @@ using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class Memory64AccessFixture : ModuleFixture
+    public sealed class Memory64AccessFixture : ModuleFixture
     {
         protected override string ModuleFileName => "Memory64Access.wat";
     }
 
-    public class Memory64AccessTests : IClassFixture<Memory64AccessFixture>, IDisposable
+    public sealed class Memory64AccessTests : IClassFixture<Memory64AccessFixture>, IDisposable
     {
         private Memory64AccessFixture Fixture { get; set; }
 
@@ -34,7 +34,7 @@ namespace Wasmtime.Tests
             memoryExport.Is64Bit.Should().BeTrue();
 
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var memory = instance.GetMemory("mem");
+            var memory = instance.GetMemory("mem")!;
 
             memory.Minimum.Should().Be(0x10001);
             memory.Maximum.Should().Be(0x1000000000000);
@@ -75,14 +75,9 @@ namespace Wasmtime.Tests
         public void ItThrowsForOutOfBoundsAccess()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var memory = instance.GetMemory("mem");
+            var memory = instance.GetMemory("mem")!;
 
-#pragma warning disable CS0618 // Type or member is obsolete
-            Action action = () => memory.GetSpan();
-#pragma warning restore CS0618 // Type or member is obsolete
-            action.Should().Throw<OverflowException>();
-
-            action = () => memory.GetSpan<short>(0x10000);
+            Action action = () => memory.GetSpan<short>(0x10000);
             action.Should().Throw<OverflowException>();
 
             action = () => memory.GetSpan(-1L, 0);

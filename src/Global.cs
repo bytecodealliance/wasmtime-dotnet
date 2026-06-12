@@ -303,10 +303,7 @@ namespace Wasmtime
             /// <summary>
             /// Gets the mutability of the global.
             /// </summary>
-            public Mutability Mutability
-            {
-                get => _global.Mutability;
-            }
+            public Mutability Mutability => _global.Mutability;
 
             /// <summary>
             /// Gets the value of the global.

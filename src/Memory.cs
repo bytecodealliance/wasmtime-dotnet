@@ -147,30 +147,6 @@ namespace Wasmtime
         }
 
         /// <summary>
-        /// Gets the span of the memory.
-        /// </summary>
-        /// <returns>Returns the span of the memory.</returns>
-        /// <exception cref="OverflowException">The memory has more than 32767 pages.</exception>
-        /// <remarks>
-        /// <para>
-        /// The span may become invalid if the memory grows.
-        ///
-        /// This may happen if the memory is explicitly requested to grow or
-        /// grows as a result of WebAssembly execution.
-        /// </para>
-        /// <para>
-        /// Therefore, the returned span should not be used after calling the grow method or
-        /// after calling into WebAssembly code.
-        /// </para>
-        /// </remarks>
-        [Obsolete("This method will throw an OverflowException if the memory has more than 32767 pages. " +
-            "Use the " + nameof(GetSpan) + " overload taking an address and a length.")]
-        public Span<byte> GetSpan()
-        {
-            return GetSpan(0, checked((int)GetLength()));
-        }
-
-        /// <summary>
         /// Gets a span of a section of the memory.
         /// </summary>
         /// <returns>Returns the span of a section of the memory.</returns>
@@ -325,10 +301,7 @@ namespace Wasmtime
         /// <returns>Returns the string read from memory.</returns>
         public string ReadString(long address, int length, Encoding? encoding = null)
         {
-            if (encoding is null)
-            {
-                encoding = Encoding.UTF8;
-            }
+            encoding ??= Encoding.UTF8;
 
             return encoding.GetString(GetSpan(address, length));
         }
@@ -353,7 +326,7 @@ namespace Wasmtime
                 throw new InvalidOperationException("string is not null terminated");
             }
 
-            return Encoding.UTF8.GetString(slice.Slice(0, terminator));
+            return Encoding.UTF8.GetString(slice[..terminator]);
         }
 
         /// <summary>
@@ -370,10 +343,7 @@ namespace Wasmtime
                 throw new ArgumentOutOfRangeException(nameof(address));
             }
 
-            if (encoding is null)
-            {
-                encoding = Encoding.UTF8;
-            }
+            encoding ??= Encoding.UTF8;
 
             return encoding.GetBytes(value, GetSpan(address, (int)Math.Min(int.MaxValue, GetLength() - address)));
         }

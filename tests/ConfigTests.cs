@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class ConfigTests
+    public sealed class ConfigTests
     {
         [Fact]
         public void ItSetsCompilerStrategy()
@@ -95,6 +95,16 @@ namespace Wasmtime.Tests
         }
 
         [Fact]
+        public void ItSetsWideArithmetic()
+        {
+            var config = new Config();
+
+            config.WithWideArithmetic(true);
+
+            using var engine = new Engine(config);
+        }
+
+        [Fact]
         public void ItSetsThreads()
         {
             var config = new Config();
@@ -177,6 +187,35 @@ namespace Wasmtime.Tests
             Assert.Throws<ObjectDisposedException>(() => config.WithBulkMemory(true));
             Assert.Throws<ObjectDisposedException>(() => config.WithCacheConfig(null));
             Assert.Throws<ObjectDisposedException>(() => config.WithEpochInterruption(true));
+        }
+
+        [Fact]
+        public void ItSetsPoolingStrategy()
+        {
+            using var strategy = new PoolingAllocationConfig()
+                .WithDecommitBatchSize(4)
+                .WithLinearMemoryKeepResidentBytes(8)
+                .WithMaxGcHeaps(15)
+                .WithMaxMemorySize(16)
+                .WithMaxUnusedWarmSlots(23)
+                .WithTableKeepResidentBytes(42)
+                .WithMaxMemoriesPerModule(67)
+                .WithMaxTableElements(69)
+                .WithMaxTablesPerModule(420)
+                .WithMaxTables(666)
+                .WithMaxCoreInstances(80085)
+                .WithMaxTables(23)
+                .WithMaxMemoriesPerComponent(1)
+                .WithMaxTablesPerComponent(2)
+                .WithMaxMemories(3)
+                .WithTotalComponentInstances(4)
+                .WithMaxComponentInstanceSize(5)
+                .WithMaxCoreInstanceSize(6)
+                .WithMaxCoreInstancesPerComponent(7);
+
+            using var config = new Config();
+            config.WithPoolingAllocationStrategy(strategy);
+            using var engine = new Engine(config);
         }
     }
 }

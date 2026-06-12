@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Wasmtime.Tests;
 
-public class EpochInterruptionFixture : ModuleFixture
+public sealed class EpochInterruptionFixture : ModuleFixture
 {
     protected override string ModuleFileName => "Interrupt.wat";
 
@@ -16,7 +16,7 @@ public class EpochInterruptionFixture : ModuleFixture
     }
 }
 
-public class EpochInterruptionTests : IClassFixture<EpochInterruptionFixture>, IDisposable
+public sealed class EpochInterruptionTests : IClassFixture<EpochInterruptionFixture>, IDisposable
 {
     public Store Store { get; set; }
 

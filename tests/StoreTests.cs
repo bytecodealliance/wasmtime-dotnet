@@ -5,13 +5,28 @@ using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class StoreTests
+    public sealed class StoreTests
         : StoreFixture
     {
         [Fact]
         public void ItSetsLimits()
         {
             Store.SetLimits(1, 2, 3, 4, 5);
+        }
+
+        [Fact]
+        public void ItEnforcesValidLimits()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => { Store.SetLimits(memorySize: -1); });
+            Assert.Throws<ArgumentOutOfRangeException>(() => { Store.SetLimits(memories: -1); });
+            Assert.Throws<ArgumentOutOfRangeException>(() => { Store.SetLimits(instances: -1); });
+            Assert.Throws<ArgumentOutOfRangeException>(() => { Store.SetLimits(tables: -1); });
+        }
+
+        [Fact]
+        public void ItFailsWithNullEngine()
+        {
+            Assert.Throws<ArgumentNullException>(() => new Store(null!));
         }
 
         [Fact]

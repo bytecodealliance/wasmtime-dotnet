@@ -5,12 +5,12 @@ using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class ErrorFixture : ModuleFixture
+    public sealed class ErrorFixture : ModuleFixture
     {
         protected override string ModuleFileName => "Error.wat";
     }
 
-    public class ErrorTests : IClassFixture<ErrorFixture>, IDisposable
+    public sealed class ErrorTests : IClassFixture<ErrorFixture>, IDisposable
     {
         private ErrorFixture Fixture { get; set; }
 

@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class ModuleLoadTests
+    public sealed class ModuleLoadTests
     {
         [Fact]
         public void ItLoadsModuleFromEmbeddedResource()

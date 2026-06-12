@@ -5,12 +5,12 @@ using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class GlobalImportsFixture : ModuleFixture
+    public sealed class GlobalImportsFixture : ModuleFixture
     {
         protected override string ModuleFileName => "GlobalImports.wat";
     }
 
-    public class GlobalImportsTests : IClassFixture<GlobalImportsFixture>
+    public sealed class GlobalImportsTests : IClassFixture<GlobalImportsFixture>
     {
         public GlobalImportsTests(GlobalImportsFixture fixture)
         {

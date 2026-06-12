@@ -1,16 +1,16 @@
+using FluentAssertions;
 using System;
 using System.Linq;
-using FluentAssertions;
 using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class MemoryAccessFixture : ModuleFixture
+    public sealed class MemoryAccessFixture : ModuleFixture
     {
         protected override string ModuleFileName => "MemoryAccess.wat";
     }
 
-    public class MemoryAccessTests : IClassFixture<MemoryAccessFixture>, IDisposable
+    public sealed class MemoryAccessTests : IClassFixture<MemoryAccessFixture>, IDisposable
     {
         private MemoryAccessFixture Fixture { get; set; }
 
@@ -67,7 +67,7 @@ namespace Wasmtime.Tests
             memoryExport.Is64Bit.Should().BeFalse();
 
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var memory = instance.GetMemory("mem");
+            var memory = instance.GetMemory("mem")!;
 
             memory.Minimum.Should().Be(0x10000);
             memory.Maximum.Should().BeNull();
@@ -108,14 +108,9 @@ namespace Wasmtime.Tests
         public void ItThrowsForOutOfBoundsAccess()
         {
             var instance = Linker.Instantiate(Store, Fixture.Module);
-            var memory = instance.GetMemory("mem");
+            var memory = instance.GetMemory("mem")!;
 
-#pragma warning disable CS0618 // Type or member is obsolete
-            Action action = () => memory.GetSpan();
-#pragma warning restore CS0618 // Type or member is obsolete
-            action.Should().Throw<OverflowException>();
-
-            action = () => memory.GetSpan<short>(0);
+            Action action = () => memory.GetSpan<short>(0);
             action.Should().Throw<OverflowException>();
 
             action = () => memory.GetSpan(-1L, 0);
@@ -129,6 +124,26 @@ namespace Wasmtime.Tests
 
             action = () => memory.GetSpan<short>(0xFFFFFFFF, 1);
             action.Should().Throw<ArgumentException>();
+        }
+
+        [Fact]
+        public void ItThrowForNegativePointerReadString()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var memory = instance.GetMemory("mem");
+
+            var action = () => memory.ReadNullTerminatedString(-1);
+            action.Should().Throw<ArgumentOutOfRangeException>();
+        }
+
+        [Fact]
+        public void ItThrowForNegativePointerWriteString()
+        {
+            var instance = Linker.Instantiate(Store, Fixture.Module);
+            var memory = instance.GetMemory("mem");
+
+            var action = () => memory.WriteString(-1, "hello");
+            action.Should().Throw<ArgumentOutOfRangeException>();
         }
 
         public void Dispose()

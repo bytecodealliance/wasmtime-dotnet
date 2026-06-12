@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Wasmtime.Tests;
 
-public class CallerFixture : ModuleFixture
+public sealed class CallerFixture : ModuleFixture
 {
     protected override string ModuleFileName => "Caller.wat";
 
@@ -16,7 +16,7 @@ public class CallerFixture : ModuleFixture
     }
 }
 
-public class CallerTests : IClassFixture<CallerFixture>, IDisposable
+public sealed class CallerTests : IClassFixture<CallerFixture>, IDisposable
 {
     public Store Store { get; set; }
 

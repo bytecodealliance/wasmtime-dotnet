@@ -4,12 +4,12 @@ using Xunit;
 
 namespace Wasmtime.Tests
 {
-    public class MemoryImportNoUpperBoundFixture : ModuleFixture
+    public sealed class MemoryImportNoUpperBoundFixture : ModuleFixture
     {
         protected override string ModuleFileName => "MemoryImportNoUpperBound.wat";
     }
 
-    public class MemoryImportNoUpperBoundTests : IClassFixture<MemoryImportNoUpperBoundFixture>
+    public sealed class MemoryImportNoUpperBoundTests : IClassFixture<MemoryImportNoUpperBoundFixture>
     {
         public MemoryImportNoUpperBoundTests(MemoryImportNoUpperBoundFixture fixture)
         {
