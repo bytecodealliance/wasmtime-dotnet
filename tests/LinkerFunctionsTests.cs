@@ -237,15 +237,61 @@ namespace Wasmtime.Tests
         }
 
         [Fact]
+        public void GetFunctionThrowsWithNullStore()
+        {
+            Assert.Throws<ArgumentNullException>(() => Linker.GetFunction(null!, "module", "name"));
+        }
+
+        [Fact]
+        public void GetFunctionThrowsWithNullName()
+        {
+            Assert.Throws<ArgumentNullException>(() => Linker.GetFunction(Store, "module", null!));
+        }
+
+        [Fact]
+        public void GetFunctionThrowsWithNullModule()
+        {
+            Assert.Throws<ArgumentNullException>(() => Linker.GetFunction(Store, null!, "name"));
+        }
+
+        [Fact]
+        public void DefineFunctionThrowsWithNullModule()
+        {
+            Assert.Throws<ArgumentNullException>(() => Linker.DefineFunction(null!, "name", (c, p, r) => { }, [ ValueKind.Int32 ], []));
+        }
+
+        [Fact]
+        public void DefineFunctionThrowsWithNullName()
+        {
+            Assert.Throws<ArgumentNullException>(() => Linker.DefineFunction("", null!, (c, p, r) => { }, [ValueKind.Int32], []));
+        }
+
+        [Fact]
+        public void DefineFunctionThrowsWithNullCallback()
+        {
+            Assert.Throws<ArgumentNullException>(() => Linker.DefineFunction("", "name", null!, [ValueKind.Int32], []));
+        }
+        
+        [Fact]
+        public void DefineFunctionThrowsWithNullParameters()
+        {
+            Assert.Throws<ArgumentNullException>(() => Linker.DefineFunction("", "name", (c, p, r) => { }, null!, []));
+        }
+
+        [Fact]
+        public void DefineFunctionThrowsWithNullResults()
+        {
+            Assert.Throws<ArgumentNullException>(() => Linker.DefineFunction("", "name", (c, p, r) => { }, [ValueKind.Int32], null!));
+        }
+
+        [Fact]
         public void ItBindsComplexFunction()
         {
-            using var store = new Store(Fixture.Engine);
-
             Linker.DefineFunction("", "complex", (c, p, r) =>
                 {
                     p.Length.Should().Be(0);
                     r.Length.Should().Be(19);
-                    for (int i = 0; i < r.Length; ++i)
+                    for (var i = 0; i < r.Length; ++i)
                     {
                         r[i] = i + 1;
                     }
@@ -254,7 +300,7 @@ namespace Wasmtime.Tests
                 Enumerable.Repeat(ValueKind.Int32, 19).ToArray()
             );
 
-            var func = Linker.GetFunction(store, "", "complex");
+            var func = Linker.GetFunction(Store, "", "complex");
             func.Should().NotBeNull();
         }
 
