@@ -1,12 +1,15 @@
+using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
-using Microsoft.Win32.SafeHandles;
 
 namespace Wasmtime
 {
+    /// <summary>
+    /// Equivalent to wasm_byte_vec_t
+    /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     internal unsafe struct ByteArray : IDisposable
     {
@@ -16,6 +19,20 @@ namespace Wasmtime
         public void Dispose()
         {
             Native.wasm_byte_vec_delete(this);
+        }
+
+        public Span<byte> AsSpan()
+        {
+            return new Span<byte>(data, checked((int)size));
+        }
+
+        public byte[] ToArray()
+        {
+            var src = AsSpan();
+            var dst = new byte[src.Length];
+            src.CopyTo(dst);
+
+            return dst;
         }
 
         private static class Native
@@ -236,22 +253,14 @@ namespace Wasmtime
         /// <returns>Returns the serialized module as an array of bytes.</returns>
         public byte[] Serialize()
         {
-            var error = Native.wasmtime_module_serialize(this.handle, out var array);
+            var error = Native.wasmtime_module_serialize(handle, out var bytes);
             if (error != IntPtr.Zero)
             {
                 throw WasmtimeException.FromOwnedError(error);
             }
 
-            using (array)
-            {
-                var len = checked((int)array.size);
-                var bytes = new byte[len];
-                unsafe
-                {
-                    Marshal.Copy((IntPtr)array.data, bytes, 0, len);
-                }
-                return bytes;
-            }
+            using (bytes)
+                return bytes.ToArray();
         }
 
         /// <summary>
