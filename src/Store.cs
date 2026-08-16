@@ -263,6 +263,91 @@ namespace Wasmtime
         /// </summary>
         public void SetData(object? data) => this.data = data;
 
+        /// <summary>
+        /// Represents a callback invoked when the epoch deadline of a store is reached.
+        /// </summary>
+        /// <param name="store">The store whose epoch deadline was reached.</param>
+        /// <returns>The new deadline, in ticks beyond the current epoch, after which execution resumes.</returns>
+        /// <remarks>
+        /// The callback runs on the thread executing the WebAssembly code. Throwing from it terminates
+        /// the execution; the exception becomes the InnerException of the resulting <see cref="WasmtimeException"/>.
+        /// </remarks>
+        public delegate ulong EpochDeadlineCallback(Store store);
+
+        /// <summary>
+        /// Sets the callback invoked when WebAssembly code running in this store reaches its epoch
+        /// deadline, instead of trapping. Replaces any previously set callback.
+        /// </summary>
+        /// <param name="callback">The callback to invoke.</param>
+        /// <remarks>
+        /// <para>
+        /// For this to work epoch interruption must be enabled via <see cref="Config.WithEpochInterruption(bool)"/>.
+        /// </para>
+        /// <para>
+        /// The callback is kept alive until it is replaced or the store is disposed, so a callback that
+        /// captures this store keeps the store alive as well; prefer the store passed to the callback.
+        /// </para>
+        /// </remarks>
+        /// <exception cref="ArgumentNullException">Thrown if callback is null</exception>
+        public void SetEpochDeadlineCallback(EpochDeadlineCallback callback)
+        {
+            if (callback is null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            unsafe
+            {
+                Native.WasmtimeEpochDeadlineCallback trampoline =
+                    (context, data, epochDeadlineDelta, updateKind) =>
+                        InvokeEpochDeadlineCallback(callback, context, epochDeadlineDelta);
+
+                // The GCHandle passed as callback data keeps the trampoline alive; Wasmtime runs the
+                // finalizer when the callback is replaced or the store is deleted.
+                Native.wasmtime_store_epoch_deadline_callback(
+                    NativeHandle,
+                    trampoline,
+                    GCHandle.ToIntPtr(GCHandle.Alloc(trampoline)),
+                    Finalizer
+                );
+            }
+        }
+
+        private static unsafe IntPtr InvokeEpochDeadlineCallback(EpochDeadlineCallback callback, IntPtr context, ulong* epochDeadlineDelta)
+        {
+            try
+            {
+                // The update kind is left at "continue"; yielding requires async support, which this binding does not enable.
+                *epochDeadlineDelta = callback(new StoreContext(context).Store);
+                return IntPtr.Zero;
+            }
+            catch (Exception ex)
+            {
+                return CreateEpochDeadlineError(ex);
+            }
+        }
+
+        private static IntPtr CreateEpochDeadlineError(Exception ex)
+        {
+            try
+            {
+                // Store the exception as error cause, so that it becomes the WasmtimeException's
+                // InnerException when the error bubbles up. See Function.HandleCallbackException.
+                Function.CallbackErrorCause = ex is WasmtimeException wasmtimeException ? wasmtimeException.InnerException : ex;
+
+                return Native.wasmtime_error_new(ex.Message);
+            }
+            catch (Exception separateException)
+            {
+                // We never must let .NET exceptions bubble through the native-to-managed transition;
+                // see Function.HandleCallbackException.
+                Environment.FailFast(separateException.Message, separateException);
+
+                // Satisfy the control-flow analyzer; this line is never reached.
+                throw;
+            }
+        }
+
         /// <inheritdoc/>
         public void Dispose()
         {
@@ -335,6 +420,14 @@ namespace Wasmtime
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_store_limiter(Handle store, long memory_size, long table_elements, long instances, long tables, long memories);
+
+            public unsafe delegate IntPtr WasmtimeEpochDeadlineCallback(IntPtr context, IntPtr data, ulong* epochDeadlineDelta, byte* updateKind);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_store_epoch_deadline_callback(Handle store, WasmtimeEpochDeadlineCallback callback, IntPtr data, Finalizer? finalizer);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasmtime_error_new([MarshalAs(Extensions.LPUTF8Str)] string message);
         }
 
         private readonly IntPtr contextHandle;
