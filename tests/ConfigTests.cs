@@ -105,6 +105,16 @@ namespace Wasmtime.Tests
         }
 
         [Fact]
+        public void ItSetsBranchHinting()
+        {
+            var config = new Config();
+
+            config.WithBranchHinting(true);
+
+            using var engine = new Engine(config);
+        }
+
+        [Fact]
         public void ItSetsThreads()
         {
             var config = new Config();
