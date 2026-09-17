@@ -8,40 +8,6 @@ using Microsoft.Win32.SafeHandles;
 namespace Wasmtime
 {
     /// <summary>
-    /// The permissions granted for a directory when preopening it.
-    /// </summary>
-    [Flags]
-    public enum WasiDirectoryPermissions
-    {
-        /// <summary>
-        /// This directory can be read, for example its entries can be iterated.
-        /// </summary>
-        Read = 1,
-        
-        /// <summary>
-        /// This directory can be written to, for example new files can be created within it.
-        /// </summary>
-        Write = 2
-    }
-    
-    /// <summary>
-    /// The permissions granted for files when preopening a directory.
-    /// </summary>
-    [Flags]
-    public enum WasiFilePermissions
-    {
-        /// <summary>
-        /// Files can be read.
-        /// </summary>
-        Read = 1,
-        
-        /// <summary>
-        /// Files can be written to.
-        /// </summary>
-        Write = 2
-    }
-    
-    /// <summary>
     /// Represents a WASI configuration.
     /// </summary>
     public class WasiConfiguration
@@ -290,12 +256,10 @@ namespace Wasmtime
         /// </summary>
         /// <param name="path">The path to the directory to add.</param>
         /// <param name="guestPath">The path the guest will use to open the directory.</param>
-        /// <param name="directoryPermissions">The permissions that wasm will have to operate on <paramref name="guestPath"/>. This can be used, for example, to provide readonly access to a directory.</param>
-        /// <param name="filePermissions">The permissions that wasm will have for any file in this directory.</param>
+        /// <param name="mutable">If true, operations that mutate the filesystem will be permitted under that path.If false, only
+        /// read operations will be permitted on under that path.</param>
         /// <returns>Returns the current configuration.</returns>
-        public WasiConfiguration WithPreopenedDirectory(
-            string path, string guestPath, 
-            WasiDirectoryPermissions directoryPermissions, WasiFilePermissions filePermissions)
+        public WasiConfiguration WithPreopenedDirectory(string path, string guestPath, bool mutable)
         {
             if (string.IsNullOrEmpty(path))
             {
@@ -306,7 +270,7 @@ namespace Wasmtime
                 throw new ArgumentException("The guest path cannot be null or empty.", nameof(guestPath));
             }
 
-            _preopenDirs.Add((path, guestPath, directoryPermissions, filePermissions));
+            _preopenDirs.Add((path, guestPath, mutable));
             return this;
         }
 
@@ -444,7 +408,7 @@ namespace Wasmtime
         {
             foreach (var dir in _preopenDirs)
             {
-                if (!Native.wasi_config_preopen_dir(config, dir.Path, dir.GuestPath, (nuint)dir.directoryPermissions, (nuint)dir.filePermissions))
+                if (!Native.wasi_config_preopen_dir(config, dir.Path, dir.GuestPath, dir.Mutable))
                 {
                     throw new InvalidOperationException($"Failed to preopen directory '{dir.Path}'.");
                 }
@@ -545,8 +509,7 @@ namespace Wasmtime
                 Handle config,
                 [MarshalAs(Extensions.LPUTF8Str)] string path,
                 [MarshalAs(Extensions.LPUTF8Str)] string guestPath,
-                nuint dirPerms,
-                nuint filePerms
+                [MarshalAs(UnmanagedType.I1)] bool fs_mutable
             );
         }
 
@@ -555,7 +518,7 @@ namespace Wasmtime
         private string? _standardInputPath;
         private string? _standardOutputPath;
         private string? _standardErrorPath;
-        private readonly List<(string Path, string GuestPath, WasiDirectoryPermissions directoryPermissions, WasiFilePermissions filePermissions)> _preopenDirs = new List<(string, string, WasiDirectoryPermissions, WasiFilePermissions)>();
+        private readonly List<(string Path, string GuestPath, bool Mutable)> _preopenDirs = new();
         private bool _inheritArgs = false;
         private bool _inheritEnv = false;
         private bool _inheritStandardInput = false;
