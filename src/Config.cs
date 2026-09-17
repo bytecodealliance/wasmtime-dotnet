@@ -258,6 +258,17 @@ namespace Wasmtime
         }
 
         /// <summary>
+        /// Sets whether the WebAssembly branch-hinting proposal is enabled. 
+        /// </summary>
+        /// <param name="enable">True to enable WebAssembly branch hinting support or false to disable.</param>
+        /// <returns>Returns the current config.</returns>
+        public Config WithBranchHinting(bool enable)
+        {
+            Native.wasmtime_config_wasm_branch_hinting_set(handle, enable);
+            return this;
+        }
+
+        /// <summary>
         /// Configures whether the WebAssembly exceptions proposal is enabled.
         /// </summary>
         /// <param name="enable">True to enable exceptions or false to disable.</param>
@@ -594,6 +605,9 @@ namespace Wasmtime
             
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_config_wasm_wide_arithmetic_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
+            
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_wasm_branch_hinting_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
             
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_config_wasm_stack_switching_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
