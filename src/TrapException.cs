@@ -192,6 +192,52 @@ namespace Wasmtime
         /// pending operation already.
         /// </summary>
         ConcurrentFutureStreamOp = 45,
+
+        /// <summary>
+        /// A reference count (for e.g. an `error-context`) overflowed.
+        /// </summary>
+        ReferenceCountOverflow = 46,
+
+        /// <summary>
+        /// A read/write on a stream must be &lt; 2**28 items.
+        /// </summary>
+        StreamOpTooBig = 47,
+
+        /// <summary>
+        /// The guest either attempted to add a waitable to a waitable set while it
+        /// was being used in a synchronous operation or tried to use it in a
+        /// synchronous operation while it was added to a waitable set.
+        /// </summary>
+        WaitableSyncAndAsync = 48,
+
+        /// <summary>
+        /// An exception propagated out of a component without being caught.
+        /// </summary>
+        UncaughtException = 49,
+
+        /// <summary>
+        /// Guest attempted to read from a stream after being notified that the
+        /// writable end was dropped.
+        /// </summary>
+        ReadFromDroppedStream = 50,
+
+        /// <summary>
+        /// Guest attempted to write to a stream after being notified that the
+        /// readable end was dropped.
+        /// </summary>
+        WriteToDroppedStream = 51,
+
+        /// <summary>
+        /// Guest attempted to write to a future after being notified that the
+        /// readable end was dropped.
+        /// </summary>
+        WriteToDroppedFuture = 52,
+
+        /// <summary>
+        /// Guest attempted to lift a stream after being notified that the writable
+        /// end was dropped.
+        /// </summary>
+        LiftDroppedStream = 53,
     }
 
     /// <summary>
