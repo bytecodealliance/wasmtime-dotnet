@@ -18,6 +18,9 @@ namespace Wasmtime
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static unsafe string GetString(this Encoding encoding, Span<byte> bytes)
         {
+            if (bytes.Length == 0)
+                return string.Empty;
+
             fixed (byte* bytesPtr = bytes)
             {
                 return encoding.GetString(bytesPtr, bytes.Length);
@@ -27,35 +30,23 @@ namespace Wasmtime
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static unsafe string GetString(this Encoding encoding, ReadOnlySpan<byte> bytes)
         {
+            if (bytes.Length == 0)
+                return string.Empty;
+
             fixed (byte* bytesPtr = bytes)
             {
                 return encoding.GetString(bytesPtr, bytes.Length);
             }
         }
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe int GetBytes(this Encoding encoding, Span<char> chars, Span<byte> bytes)
-        {
-            fixed (char* charsPtr = chars)
-            fixed (byte* bytesPtr = bytes)
-            {
-                return encoding.GetBytes(charsPtr, chars.Length, bytesPtr, bytes.Length);
-            }
-        }
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe int GetBytes(this Encoding encoding, ReadOnlySpan<char> chars, Span<byte> bytes)
-        {
-            fixed (char* charsPtr = chars)
-            fixed (byte* bytesPtr = bytes)
-            {
-                return encoding.GetBytes(charsPtr, chars.Length, bytesPtr, bytes.Length);
-            }
-        }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static unsafe int GetBytes(this Encoding encoding, string chars, Span<byte> bytes)
         {
+            if (chars.Length == 0)
+                return 0;
+            if (bytes.Length == 0)
+                return 0;
+
             fixed (char* charsPtr = chars)
             fixed (byte* bytesPtr = bytes)
             {
