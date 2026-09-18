@@ -90,6 +90,9 @@ namespace Wasmtime
 
     internal static class ValueType
     {
+        // This is used to identify `v128` types, which cannot be recognised through `wasm_valtype_kind`.
+        private static readonly IntPtr V128Type = Native.wasmtime_wasm_valtype_v128();
+
         public static IntPtr FromKind(TableKind kind)
         {
             return FromKind((ValueKind)kind);
@@ -103,8 +106,11 @@ namespace Wasmtime
                 case ValueKind.Int64:
                 case ValueKind.Float32:
                 case ValueKind.Float64:
-                case ValueKind.V128:
                     return Native.wasm_valtype_new((byte)kind);
+
+                // v128 has no `wasm_valkind_t`, so it needs its own constructor.
+                case ValueKind.V128:
+                    return Native.wasmtime_wasm_valtype_v128();
 
                 case ValueKind.ExternRef:
                     return Native.wasm_valtype_new(128);
@@ -119,6 +125,13 @@ namespace Wasmtime
 
         public static ValueKind ToKind(IntPtr type)
         {
+            // `v128` has no `wasm_valkind_t` so `wasm_valtype_kind` cannot be used to identify it.
+            // It has be identified by using `wasmtime_wasm_valtype_equal`.
+            if (Native.wasmtime_wasm_valtype_equal(type, V128Type))
+            {
+                return ValueKind.V128;
+            }
+
             var kind = (ValueKind)Native.wasm_valtype_kind(type);
             switch (kind)
             {
@@ -144,6 +157,13 @@ namespace Wasmtime
         {
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasm_valtype_new(byte kind);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasmtime_wasm_valtype_v128();
+
+            [DllImport(Engine.LibraryName)]
+            [return: MarshalAs(UnmanagedType.I1)]
+            public static extern bool wasmtime_wasm_valtype_equal(IntPtr a, IntPtr b);
 
             [DllImport(Engine.LibraryName)]
             [return: MarshalAs(UnmanagedType.I1)]
