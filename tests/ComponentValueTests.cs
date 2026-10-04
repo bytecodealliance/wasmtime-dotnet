@@ -345,11 +345,11 @@ namespace Wasmtime.Tests
         {
             using var scope = new ComponentValueMarshaller.AllocationScope();
             var pointer = scope.Allocate(ComponentValueMarshaller.ValueSize);
-            System.Runtime.InteropServices.Marshal.WriteByte(pointer, (byte)ComponentValueKind.Char);
+            System.Runtime.InteropServices.Marshal.WriteByte(pointer, (byte)ComponentValueKind.Resource);
 
             var act = () => ComponentValueMarshaller.Read(pointer);
 
-            act.Should().Throw<NotSupportedException>().WithMessage("*Char*");
+            act.Should().Throw<NotSupportedException>().WithMessage("*Resource*");
         }
 
         /// <summary>

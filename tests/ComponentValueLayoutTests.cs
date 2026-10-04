@@ -79,6 +79,7 @@ namespace Wasmtime.Tests
                 case ComponentValueKind.U32:
                 case ComponentValueKind.S64:
                 case ComponentValueKind.U64:
+                case ComponentValueKind.Char:
                     actual.Integer.Should().Be(expected.Integer, "value at {0}", path);
                     break;
 
@@ -117,6 +118,8 @@ namespace Wasmtime.Tests
 
                 case ComponentValueKind.Option:
                 case ComponentValueKind.Result:
+                case ComponentValueKind.Variant:
+                    actual.Text.Should().Be(expected.Text, "case name at {0}", path);
                     actual.Flag.Should().Be(expected.Flag, "discriminant at {0}", path);
                     if (expected.Payload is null)
                     {
@@ -130,9 +133,30 @@ namespace Wasmtime.Tests
 
                     break;
 
+                case ComponentValueKind.Flags:
+                    actual.AsFlags().Should().Equal(expected.AsFlags(), "flags at {0}", path);
+                    break;
+
                 default:
                     throw new NotSupportedException($"No comparison for kind {expected.Kind}.");
             }
+        }
+
+        [Fact]
+        public void ExtendedValuesSurviveACloneThroughWasmtime()
+        {
+            Survives(ComponentValue.Char(0));
+            Survives(ComponentValue.Char(0x1F600));
+            Survives(ComponentValue.Char(0x10FFFF));
+            Survives(ComponentValue.Flags(Array.Empty<string>()));
+            Survives(ComponentValue.Flags(new[] { "read", "write", "f69" }));
+            Survives(ComponentValue.Variant("empty"));
+            Survives(ComponentValue.Variant("nested", ComponentValue.Some(ComponentValue.List(new[]
+            {
+                ComponentValue.Variant("scalar", ComponentValue.Char(0x1F600)),
+                ComponentValue.Variant("text", ComponentValue.String("payload")),
+                ComponentValue.Variant("flags", ComponentValue.Flags(new[] { "read", "write" })),
+            }))));
         }
 
         [Fact]
