@@ -39,6 +39,7 @@ internal static class ComponentValueMarshaller
 
     /// <summary>Offset of the <c>data</c> pointer within a vec or a <c>wasm_name_t</c>.</summary>
     private const int VectorDataOffset = 8;
+    private const int NameSize = 16;
 
     /// <summary>
     /// Tracks the native allocations made while writing arguments, so they can be released
@@ -127,6 +128,22 @@ internal static class ComponentValueMarshaller
                 WriteRecord(value.Fields, payload, scope);
                 break;
 
+            case ComponentValueKind.Variant:
+                WriteName(value.Text!, payload, scope);
+                Marshal.WriteIntPtr(payload + NameSize,
+                    value.Payload is null ? IntPtr.Zero : WriteBoxed(value.Payload, scope));
+                break;
+
+            case ComponentValueKind.Flags:
+                var names = scope.Allocate(Math.Max(checked(value.Names.Count * NameSize), 1));
+                for (var i = 0; i < value.Names.Count; i++)
+                {
+                    WriteName(value.Names[i], names + i * NameSize, scope);
+                }
+                Marshal.WriteIntPtr(payload, (IntPtr)value.Names.Count);
+                Marshal.WriteIntPtr(payload + VectorDataOffset, names);
+                break;
+
             case ComponentValueKind.Option:
                 Marshal.WriteIntPtr(payload, value.Flag ? WriteBoxed(value.Payload!, scope) : IntPtr.Zero);
                 break;
@@ -194,6 +211,7 @@ internal static class ComponentValueMarshaller
 
             case ComponentValueKind.S32:
             case ComponentValueKind.U32:
+            case ComponentValueKind.Char:
                 Marshal.WriteInt32(payload, unchecked((int)value.Integer));
                 break;
 
@@ -237,6 +255,31 @@ internal static class ComponentValueMarshaller
 
             case ComponentValueKind.Record:
                 WriteOwnedRecord(value.Fields, destination);
+                break;
+
+            case ComponentValueKind.Variant:
+                Marshal.WriteByte(destination, (byte)value.Kind);
+                WriteOwnedName(value.Text!, payload);
+                if (value.Payload is not null)
+                {
+                    Marshal.WriteIntPtr(payload + NameSize, WriteOwnedBoxed(value.Payload));
+                }
+                break;
+
+            case ComponentValueKind.Flags:
+                Marshal.WriteByte(destination, (byte)value.Kind);
+                var count = value.Names.Count;
+                _ = checked(count * NameSize);
+                ComponentValueNative.wasmtime_component_valflags_new_uninit(payload, (nuint)count);
+                var names = Marshal.ReadIntPtr(payload + VectorDataOffset);
+                unsafe
+                {
+                    new Span<byte>((void*)names, count * NameSize).Clear();
+                }
+                for (var i = 0; i < count; i++)
+                {
+                    WriteOwnedName(value.Names[i], names + i * NameSize);
+                }
                 break;
 
             case ComponentValueKind.Option:
@@ -413,6 +456,9 @@ internal static class ComponentValueMarshaller
             case ComponentValueKind.U32:
                 return ComponentValue.U32(unchecked((uint)Marshal.ReadInt32(payload)));
 
+            case ComponentValueKind.Char:
+                return ComponentValue.Char(unchecked((uint)Marshal.ReadInt32(payload)));
+
             case ComponentValueKind.S64:
                 return ComponentValue.S64(Marshal.ReadInt64(payload));
 
@@ -439,6 +485,21 @@ internal static class ComponentValueMarshaller
 
             case ComponentValueKind.Record:
                 return ComponentValue.OwnedRecord(ReadRecord(payload));
+
+            case ComponentValueKind.Variant:
+                var variant = Marshal.ReadIntPtr(payload + NameSize);
+                return ComponentValue.Variant(ReadName(payload),
+                    variant == IntPtr.Zero ? null : Read(variant));
+
+            case ComponentValueKind.Flags:
+                var count = checked((int)Marshal.ReadIntPtr(payload).ToInt64());
+                var names = Marshal.ReadIntPtr(payload + VectorDataOffset);
+                var flags = new string[count];
+                for (var i = 0; i < count; i++)
+                {
+                    flags[i] = ReadName(names + checked(i * NameSize));
+                }
+                return ComponentValue.Flags(flags);
 
             case ComponentValueKind.Option:
                 var some = Marshal.ReadIntPtr(payload);

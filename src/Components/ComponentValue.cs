@@ -33,7 +33,7 @@ public enum ComponentValueKind : byte
     F32 = 9,
     /// <summary>A 64-bit IEEE-754 float.</summary>
     F64 = 10,
-    /// <summary>A Unicode scalar value. Not yet supported by this binding.</summary>
+    /// <summary>A Unicode scalar value.</summary>
     Char = 11,
     /// <summary>A UTF-8 string.</summary>
     String = 12,
@@ -43,7 +43,7 @@ public enum ComponentValueKind : byte
     Record = 14,
     /// <summary>A tuple of positional values.</summary>
     Tuple = 15,
-    /// <summary>A variant. Not yet supported by this binding.</summary>
+    /// <summary>A named variant case with an optional payload.</summary>
     Variant = 16,
     /// <summary>An enumeration, identified by case name.</summary>
     Enum = 17,
@@ -51,7 +51,7 @@ public enum ComponentValueKind : byte
     Option = 18,
     /// <summary>A result value.</summary>
     Result = 19,
-    /// <summary>A set of flags. Not yet supported by this binding.</summary>
+    /// <summary>A set of flag names.</summary>
     Flags = 20,
     /// <summary>A resource handle. Not yet supported by this binding.</summary>
     Resource = 21,
@@ -66,8 +66,7 @@ public enum ComponentValueKind : byte
 /// <remarks>
 /// Create values with the static factory methods and read them back with the typed accessors,
 /// each of which throws if the value has a different <see cref="Kind"/>. The
-/// <see cref="ComponentValueKind.Char"/>, <see cref="ComponentValueKind.Variant"/>,
-/// <see cref="ComponentValueKind.Flags"/>, <see cref="ComponentValueKind.Resource"/> and
+/// <see cref="ComponentValueKind.Resource"/> and
 /// <see cref="ComponentValueKind.Map"/> kinds are not yet supported.
 /// </remarks>
 public sealed class ComponentValue
@@ -94,6 +93,8 @@ public sealed class ComponentValue
     /// <summary>Elements of a list or tuple.</summary>
     internal IReadOnlyList<ComponentValue> Items { get; private set; } = Array.Empty<ComponentValue>();
 
+    internal IReadOnlyList<string> Names { get; private set; } = Array.Empty<string>();
+
     /// <summary>Fields of a record, in declaration order.</summary>
     internal IReadOnlyList<KeyValuePair<string, ComponentValue>> Fields { get; private set; } =
         Array.Empty<KeyValuePair<string, ComponentValue>>();
@@ -103,7 +104,8 @@ public sealed class ComponentValue
 
     /// <summary>
     /// Gets the payload of an <see cref="ComponentValueKind.Option"/> or
-    /// <see cref="ComponentValueKind.Result"/>, or <c>null</c> when there is none.
+    /// <see cref="ComponentValueKind.Result"/> or <see cref="ComponentValueKind.Variant"/>,
+    /// or <c>null</c> when there is none.
     /// </summary>
     public ComponentValue? Payload { get; private set; }
 
@@ -182,6 +184,72 @@ public sealed class ComponentValue
     /// <returns>The component value.</returns>
     public static ComponentValue F64(double value) =>
         new ComponentValue(ComponentValueKind.F64) { Real = value };
+
+    /// <summary>Creates a Unicode scalar value, not a UTF-16 code unit.</summary>
+    /// <param name="value">A value from 0 to 0x10FFFF, excluding surrogates.</param>
+    /// <returns>The component value.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown for an invalid scalar.</exception>
+    public static ComponentValue Char(uint value)
+    {
+        if (value > 0x10FFFF || (value >= 0xD800 && value <= 0xDFFF))
+        {
+            throw new ArgumentOutOfRangeException(nameof(value), value, "Expected a Unicode scalar value.");
+        }
+
+        return new ComponentValue(ComponentValueKind.Char) { Integer = value };
+    }
+
+    /// <summary>Creates a Unicode scalar value from a UTF-16 code unit.</summary>
+    /// <param name="value">A UTF-16 code unit that is not a surrogate.</param>
+    /// <returns>The component value.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown for a surrogate code unit.</exception>
+    public static ComponentValue Char(char value) => Char((uint)value);
+
+#if NETCOREAPP3_0_OR_GREATER
+    /// <summary>Creates a Unicode scalar value.</summary>
+    /// <param name="value">The value.</param>
+    /// <returns>The component value.</returns>
+    public static ComponentValue Char(System.Text.Rune value) =>
+        new ComponentValue(ComponentValueKind.Char) { Integer = value.Value };
+#endif
+
+    /// <summary>Creates a named variant case.</summary>
+    /// <param name="caseName">The WIT case name.</param>
+    /// <param name="value">The optional payload.</param>
+    /// <returns>The component value.</returns>
+    public static ComponentValue Variant(string caseName, ComponentValue? value = null)
+    {
+        if (caseName is null)
+        {
+            throw new ArgumentNullException(nameof(caseName));
+        }
+
+        return new ComponentValue(ComponentValueKind.Variant) { Text = caseName, Payload = value };
+    }
+
+    /// <summary>Creates a set of flag names, copying the input.</summary>
+    /// <param name="names">The enabled WIT flag names, with no nulls or duplicates.</param>
+    /// <returns>The component value.</returns>
+    /// <exception cref="ArgumentException">Thrown for a null or duplicate name.</exception>
+    public static ComponentValue Flags(IReadOnlyList<string> names)
+    {
+        if (names is null)
+        {
+            throw new ArgumentNullException(nameof(names));
+        }
+
+        var copy = Copy(names);
+        var seen = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var name in copy)
+        {
+            if (name is null || !seen.Add(name))
+            {
+                throw new ArgumentException("Flag names must not be null or duplicated.", nameof(names));
+            }
+        }
+
+        return new ComponentValue(ComponentValueKind.Flags) { Names = Array.AsReadOnly(copy) };
+    }
 
     /// <summary>Creates a string value.</summary>
     /// <param name="value">The value.</param>
@@ -355,6 +423,24 @@ public sealed class ComponentValue
     /// <returns>The value.</returns>
     public double AsF64() => Expect(ComponentValueKind.F64, Real);
 
+    /// <summary>Gets the Unicode scalar value.</summary>
+    /// <returns>The scalar, including supplementary-plane values.</returns>
+    public uint AsChar() => Expect(ComponentValueKind.Char, (uint)Integer);
+
+#if NETCOREAPP3_0_OR_GREATER
+    /// <summary>Gets the Unicode scalar value.</summary>
+    /// <returns>The scalar.</returns>
+    public System.Text.Rune AsRune() => new System.Text.Rune(AsChar());
+#endif
+
+    /// <summary>Gets the WIT variant case name.</summary>
+    /// <returns>The case name.</returns>
+    public string AsVariant() => Expect(ComponentValueKind.Variant, Text!);
+
+    /// <summary>Gets the enabled WIT flag names.</summary>
+    /// <returns>The read-only set of names in input order.</returns>
+    public IReadOnlyList<string> AsFlags() => Expect(ComponentValueKind.Flags, Names);
+
     /// <summary>Gets the value as a string.</summary>
     /// <returns>The value.</returns>
     public string AsString() => Expect(ComponentValueKind.String, Text ?? string.Empty);
@@ -440,6 +526,12 @@ public sealed class ComponentValue
                 return unchecked((ulong)Integer).ToString(CultureInfo.InvariantCulture);
             case ComponentValueKind.String:
                 return $"\"{Text}\"";
+            case ComponentValueKind.Char:
+                return char.ConvertFromUtf32((int)Integer);
+            case ComponentValueKind.Variant:
+                return Payload is null ? Text! : $"{Text}({Payload})";
+            case ComponentValueKind.Flags:
+                return $"{{{string.Join(", ", Names)}}}";
             case ComponentValueKind.Enum:
                 return Text ?? string.Empty;
             case ComponentValueKind.List:
@@ -476,6 +568,9 @@ internal static class ComponentValueNative
 
     [DllImport(Engine.LibraryName)]
     public static extern void wasmtime_component_valtuple_new_uninit(IntPtr value, nuint size);
+
+    [DllImport(Engine.LibraryName)]
+    public static extern void wasmtime_component_valflags_new_uninit(IntPtr value, nuint size);
 
     [DllImport(Engine.LibraryName)]
     public static extern IntPtr wasmtime_component_val_new(IntPtr value);
