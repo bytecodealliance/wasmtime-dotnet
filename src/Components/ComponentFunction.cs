@@ -151,25 +151,21 @@ public class ComponentFunction
 
     private static bool ReadHasResult(IntPtr type)
     {
-        var buffer = Marshal.AllocHGlobal(ValueTypeSize);
-        try
-        {
-            unsafe
-            {
-                new Span<byte>((void*)buffer, ValueTypeSize).Clear();
-            }
+        Span<byte> buffer = stackalloc byte[ValueTypeSize];
+        buffer.Clear();
 
-            if (!Native.wasmtime_component_func_type_result(type, buffer))
-            {
-                return false;
-            }
-
-            Native.wasmtime_component_valtype_delete(buffer);
-            return true;
-        }
-        finally
+        unsafe
         {
-            Marshal.FreeHGlobal(buffer);
+            fixed (void* bufferPtr = buffer)
+            {
+                if (!Native.wasmtime_component_func_type_result(type, (IntPtr)bufferPtr))
+                {
+                    return false;
+                }
+
+                Native.wasmtime_component_valtype_delete((IntPtr)bufferPtr);
+                return true;
+            }
         }
     }
 
