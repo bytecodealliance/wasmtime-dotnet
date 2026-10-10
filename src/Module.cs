@@ -28,11 +28,7 @@ namespace Wasmtime
 
         public byte[] ToArray()
         {
-            var src = AsSpan();
-            var dst = new byte[src.Length];
-            src.CopyTo(dst);
-
-            return dst;
+            return AsSpan().ToArray();
         }
 
         private static class Native
