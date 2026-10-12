@@ -115,6 +115,16 @@ namespace Wasmtime.Tests
         }
 
         [Fact]
+        public void ItSetsMacosMachPorts()
+        {
+            var config = new Config();
+
+            config.WithMacosMachPorts(false);
+
+            using var engine = new Engine(config);
+        }
+
+        [Fact]
         public void ItSetsThreads()
         {
             var config = new Config();
