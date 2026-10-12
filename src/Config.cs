@@ -72,6 +72,12 @@ namespace Wasmtime
         public Config()
         {
             handle = new Handle(Native.wasm_config_new());
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                // See WithMacosMachPorts for why this differs from Wasmtime's default.
+                Native.wasmtime_config_macos_use_mach_ports_set(handle, false);
+            }
         }
 
         /// <summary>
@@ -464,7 +470,9 @@ namespace Wasmtime
         /// Configures whether, when on macOS, Mach ports are used for exception handling
         /// instead of traditional Unix-based signal handling.
         /// 
-        /// This option defaults to true, using Mach ports by default.
+        /// Unlike Wasmtime itself, this dotnet library defaults to false: with Mach ports, once WebAssembly has run on a
+        /// thread, a fault on that thread such as a NullReferenceException terminates the process instead of being thrown.
+        /// Wasmtime decides this once per process, so every engine in a process must use the same value.
         /// </summary>
         /// <param name="enable">True to enable Mach ports or false to disable.</param>
         /// <returns>Returns the current config.</returns>

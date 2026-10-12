@@ -15,8 +15,8 @@ namespace Wasmtime
         /// Constructs a new default engine.
         /// </summary>
         public Engine()
+            : this(new Config())
         {
-            handle = new Handle(Native.wasm_engine_new());
         }
 
         /// <summary>
@@ -79,9 +79,6 @@ namespace Wasmtime
 
         private static class Native
         {
-            [DllImport(LibraryName)]
-            public static extern IntPtr wasm_engine_new();
-            
             [DllImport(LibraryName)]
             public static extern IntPtr wasm_engine_new_with_config(Config.Handle config);
 
