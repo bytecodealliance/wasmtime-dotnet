@@ -36,6 +36,95 @@ public sealed class LinkerTests
     }
 
     [Fact]
+    public void CloneCarriesAllowShadowing()
+    {
+        Linker.AllowShadowing = true;
+
+        using var clone = Linker.Clone();
+
+        clone.DefineFunction("", "hello", () => { });
+        clone.DefineFunction("", "hello", () => { });
+    }
+
+    [Fact]
+    public void CloneCarriesDefinitions()
+    {
+        var called = 0;
+        Linker.DefineFunction("", "hello", () => { called++; });
+
+        using var clone = Linker.Clone();
+        clone.GetFunction(Store, "", "hello")!.Invoke();
+
+        Assert.Equal(1, called);
+    }
+
+    [Fact]
+    public void CloneCarriesWasi()
+    {
+        Linker.DefineWasi();
+
+        using var clone = Linker.Clone();
+
+        Assert.Throws<WasmtimeException>(() => clone.DefineWasi());
+    }
+
+    [Fact]
+    public void CloneDisallowsShadowingByDefault()
+    {
+        using var clone = Linker.Clone();
+
+        clone.DefineFunction("", "hello", () => { });
+        Assert.Throws<WasmtimeException>(() => clone.DefineFunction("", "hello", () => { }));
+    }
+
+    [Fact]
+    public void CloneDoesNotShareDefinitionsAddedToTheClone()
+    {
+        using var clone = Linker.Clone();
+        clone.DefineFunction("", "hello", () => { });
+
+        Assert.NotNull(clone.GetFunction(Store, "", "hello"));
+        Assert.Null(Linker.GetFunction(Store, "", "hello"));
+    }
+
+    [Fact]
+    public void CloneDoesNotShareDefinitionsAddedToTheOriginal()
+    {
+        using var clone = Linker.Clone();
+        Linker.DefineFunction("", "hello", () => { });
+
+        Assert.NotNull(Linker.GetFunction(Store, "", "hello"));
+        Assert.Null(clone.GetFunction(Store, "", "hello"));
+    }
+
+    [Fact]
+    public void CloneOutlivesTheOriginal()
+    {
+        var called = 0;
+        var linker = new Linker(Fixture.Engine);
+        linker.DefineFunction("", "hello", () => { called++; });
+
+        using var clone = linker.Clone();
+        linker.Dispose();
+
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
+
+        clone.GetFunction(Store, "", "hello")!.Invoke();
+
+        Assert.Equal(1, called);
+    }
+
+    [Fact]
+    public void CloneThrowsWhenDisposed()
+    {
+        var linker = new Linker(Fixture.Engine);
+        linker.Dispose();
+
+        Assert.Throws<ObjectDisposedException>(() => linker.Clone());
+    }
+
+    [Fact]
     public void DefineThrowsWithNullStore()
     {
         Assert.Throws<ArgumentException>(() => Linker.Define("module", "name", Function.Null));
