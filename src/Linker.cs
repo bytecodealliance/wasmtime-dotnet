@@ -146,6 +146,50 @@ namespace Wasmtime
         }
 
         /// <summary>
+        /// Ensures that <paramref name="module"/> can be instantiated with this linker by defining all functions otherwise missing from this linker to return the 'default' for what that import is.
+        /// </summary>
+        /// <param name="store">The store to instantiate in.</param>
+        /// <param name="module">The module to instantiate.</param>
+        public void DefineUnknownImportsAsDefaultValues(Store store, Module module)
+        {
+            if (store is null)
+            {
+                throw new ArgumentNullException(nameof(store));
+            }
+
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            var error = Native.wasmtime_linker_define_unknown_imports_as_default_values(handle, store.Context.handle, module.NativeHandle);
+            GC.KeepAlive(store);
+
+            if (error != IntPtr.Zero)
+            {
+                throw WasmtimeException.FromOwnedError(error);
+            }
+        }
+
+        /// <summary>
+        /// Ensures that <paramref name="module"/> can be instantiated with this linker by defining all functions otherwise missing from this linker to trap.
+        /// </summary>
+        /// <param name="module">The module to instantiate.</param>
+        public void DefineUnknownImportsAsTraps(Module module)
+        {
+            if (module is null)
+            {
+                throw new ArgumentNullException(nameof(module));
+            }
+
+            var error = Native.wasmtime_linker_define_unknown_imports_as_traps(handle, module.NativeHandle);
+            if (error != IntPtr.Zero)
+            {
+                throw WasmtimeException.FromOwnedError(error);
+            }
+        }
+
+        /// <summary>
         /// Defines WASI functions in the linker.
         /// </summary>
         /// <remarks>
@@ -529,6 +573,12 @@ namespace Wasmtime
 
             [DllImport(Engine.LibraryName)]
             public static unsafe extern IntPtr wasmtime_linker_define(Handle linker, IntPtr context, byte* module, nuint moduleLen, byte* name, nuint nameLen, in Extern item);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasmtime_linker_define_unknown_imports_as_default_values(Handle linker, IntPtr context, Module.Handle module);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern IntPtr wasmtime_linker_define_unknown_imports_as_traps(Handle linker, Module.Handle module);
 
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasmtime_linker_define_wasi(Handle linker);
