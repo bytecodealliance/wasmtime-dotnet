@@ -155,6 +155,50 @@ public sealed class LinkerTests
     }
 
     [Fact]
+    public void DefineUnknownImportsAsDefaultValuesDefinesDefaultValues()
+    {
+        using var module = Module.FromText(Fixture.Engine, "test", "(module (import \"env\" \"f\" (func (result i32))) (import \"env\" \"g\" (global i32)) (func (export \"f\") (result i32) call 0) (func (export \"g\") (result i32) global.get 0))");
+
+        Linker.DefineUnknownImportsAsDefaultValues(Store, module);
+
+        var instance = Linker.Instantiate(Store, module);
+        Assert.Equal(0, instance.GetFunction<int>("f")!());
+        Assert.Equal(0, instance.GetFunction<int>("g")!());
+    }
+
+    [Fact]
+    public void DefineUnknownImportsAsDefaultValuesThrowsWithNullModule()
+    {
+        Assert.Throws<ArgumentNullException>(() => Linker.DefineUnknownImportsAsDefaultValues(Store, null!));
+    }
+
+    [Fact]
+    public void DefineUnknownImportsAsDefaultValuesThrowsWithNullStore()
+    {
+        using var module = Module.FromText(Fixture.Engine, "test", "(module)");
+
+        Assert.Throws<ArgumentNullException>(() => Linker.DefineUnknownImportsAsDefaultValues(null!, module));
+    }
+
+    [Fact]
+    public void DefineUnknownImportsAsTrapsDefinesFunctionsThatTrap()
+    {
+        using var module = Module.FromText(Fixture.Engine, "test", "(module (import \"env\" \"f\" (func)) (func (export \"run\") call 0))");
+
+        Linker.DefineUnknownImportsAsTraps(module);
+
+        var run = Linker.Instantiate(Store, module).GetAction("run")!;
+        var exception = Assert.Throws<WasmtimeException>(() => run());
+        Assert.Contains("env::f", exception.Message);
+    }
+
+    [Fact]
+    public void DefineUnknownImportsAsTrapsThrowsWithNullModule()
+    {
+        Assert.Throws<ArgumentNullException>(() => Linker.DefineUnknownImportsAsTraps(null!));
+    }
+
+    [Fact]
     public void DefineWasiTwiceThrows()
     {
         Linker.DefineWasi();
