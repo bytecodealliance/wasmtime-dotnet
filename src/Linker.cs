@@ -46,7 +46,10 @@ namespace Wasmtime
         /// <summary>
         /// Clones existing linker.
         /// </summary>
-        public Linker Clone() => new Linker(Native.wasmtime_linker_clone(handle));
+        public Linker Clone()
+        {
+            return new Linker(Native.wasmtime_linker_clone(handle));
+        }
 
         private void Define<T>(string module, string name, T item)
             where T : IExternal
