@@ -27,7 +27,10 @@ namespace Wasmtime
             handle = new Handle(Native.wasmtime_linker_new(engine.NativeHandle));
         }
 
-        private Linker(IntPtr handle) => this.handle = new Handle(handle);
+        private Linker(IntPtr handle)
+        {
+            this.handle = new Handle(handle);
+        }
 
         /// <summary>
         /// Configures whether or not the linker allows later definitions to shadow previous definitions.
