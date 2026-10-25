@@ -123,6 +123,21 @@ namespace Wasmtime.Tests
 
             using var engine = new Engine(config);
         }
+        [Fact]
+        public void ItSetsSignalsBasedTraps()
+        {
+            using var engine = new Engine(new Config().WithSignalsBasedTraps(false));
+            using var defaultEngine = new Engine();
+            using var module = Module.FromText(engine, "empty", "(module)");
+            var bytes = module.Serialize();
+
+            // Wasmtime records the setting in compiled code, so only an engine with the same setting accepts it.
+            using var sameSetting = Module.Deserialize(engine, "empty", bytes);
+            var otherSetting = () => Module.Deserialize(defaultEngine, "empty", bytes);
+
+            otherSetting.Should().Throw<WasmtimeException>().WithMessage("*signals-based traps*");
+        }
+
 
         [Fact]
         public void ItSetsThreads()
