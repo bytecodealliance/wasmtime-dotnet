@@ -496,6 +496,26 @@ namespace Wasmtime
         }
 
         /// <summary>
+        /// Configures whether traps such as out-of-bounds memory accesses, division by zero and <c>unreachable</c> are
+        /// detected with signal handlers (vectored exception handlers on Windows), or with explicit checks in the
+        /// generated code. Defaults to true.
+        ///
+        /// Disabling it costs some execution speed. It is required on Windows when the process enforces hardware
+        /// shadow stacks (Intel CET), which the apphost executable of .NET 9 and later opts into on supporting
+        /// hardware: recovering from a signal-based trap there, stack overflow included, terminates the process
+        /// instead of throwing a <see cref="TrapException"/>.
+        ///
+        /// For more information see the Rust documentation at <a href="https://docs.wasmtime.dev/api/wasmtime/struct.Config.html#method.signals_based_traps">https://docs.wasmtime.dev/api/wasmtime/struct.Config.html#method.signals_based_traps</a>
+        /// </summary>
+        /// <param name="enable">True to use signal handlers for traps or false to use explicit checks.</param>
+        /// <returns>Returns the current config.</returns>
+        public Config WithSignalsBasedTraps(bool enable)
+        {
+            Native.wasmtime_config_signals_based_traps_set(handle, enable);
+            return this;
+        }
+
+        /// <summary>
         /// Sets the Wasmtime allocation strategy to use the pooling allocator. For more
         /// information see the Rust documentation at
         /// <a href="https://docs.wasmtime.dev/api/wasmtime/struct.Config.html#method.allocation_strategy">https://docs.wasmtime.dev/api/wasmtime/struct.Config.html#method.allocation_strategy</a>
@@ -637,6 +657,9 @@ namespace Wasmtime
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_config_native_unwind_info_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_signals_based_traps_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_config_memory_init_cow_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
