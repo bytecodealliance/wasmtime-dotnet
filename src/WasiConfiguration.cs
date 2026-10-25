@@ -8,6 +8,18 @@ using Microsoft.Win32.SafeHandles;
 namespace Wasmtime
 {
     /// <summary>
+    /// Receives the bytes a WebAssembly guest writes to stdout or stderr.
+    /// </summary>
+    /// <remarks>
+    /// The callback runs on a thread owned by Wasmtime while the thread that called into the guest waits for it, so
+    /// it must not wait on a lock held around that call or use the store. A single guest write may arrive as several
+    /// calls. If the callback throws, the exception is discarded and the stream is closed: that write and every later
+    /// write to the stream fail in the guest for the lifetime of the store.
+    /// </remarks>
+    /// <param name="data">The bytes written, valid only until the callback returns.</param>
+    public delegate void WasiOutputCallback(ReadOnlySpan<byte> data);
+
+    /// <summary>
     /// Represents a WASI configuration.
     /// </summary>
     public class WasiConfiguration
@@ -204,7 +216,25 @@ namespace Wasmtime
             }
 
             _inheritStandardOutput = false;
+            _standardOutputCallback = null;
             _standardOutputPath = path;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the configuration to pass everything the guest writes to stdout to the given callback.
+        /// </summary>
+        /// <remarks>
+        /// Any explicitly specified stdout file or inheritance will be removed. See <see cref="WasiOutputCallback"/>
+        /// for when and where the callback runs.
+        /// </remarks>
+        /// <param name="callback">The callback receiving the written bytes.</param>
+        /// <returns>Returns the current configuration.</returns>
+        public WasiConfiguration WithStandardOutputCallback(WasiOutputCallback callback)
+        {
+            _inheritStandardOutput = false;
+            _standardOutputPath = null;
+            _standardOutputCallback = callback ?? throw new ArgumentNullException(nameof(callback));
             return this;
         }
 
@@ -217,6 +247,7 @@ namespace Wasmtime
         {
             _inheritStandardOutput = true;
             _standardOutputPath = null;
+            _standardOutputCallback = null;
             return this;
         }
 
@@ -233,7 +264,25 @@ namespace Wasmtime
             }
 
             _inheritStandardError = false;
+            _standardErrorCallback = null;
             _standardErrorPath = path;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the configuration to pass everything the guest writes to stderr to the given callback.
+        /// </summary>
+        /// <remarks>
+        /// Any explicitly specified stderr file or inheritance will be removed. See <see cref="WasiOutputCallback"/>
+        /// for when and where the callback runs.
+        /// </remarks>
+        /// <param name="callback">The callback receiving the written bytes.</param>
+        /// <returns>Returns the current configuration.</returns>
+        public WasiConfiguration WithStandardErrorCallback(WasiOutputCallback callback)
+        {
+            _inheritStandardError = false;
+            _standardErrorPath = null;
+            _standardErrorCallback = callback ?? throw new ArgumentNullException(nameof(callback));
             return this;
         }
 
@@ -246,6 +295,7 @@ namespace Wasmtime
         {
             _inheritStandardError = true;
             _standardErrorPath = null;
+            _standardErrorCallback = null;
             return this;
         }
 
@@ -378,6 +428,13 @@ namespace Wasmtime
                 return;
             }
 
+            if (_standardOutputCallback is not null)
+            {
+                var trampoline = CreateOutputTrampoline(_standardOutputCallback);
+                Native.wasi_config_set_stdout_custom(config, trampoline, GCHandle.ToIntPtr(GCHandle.Alloc(trampoline)), Finalizer);
+                return;
+            }
+
             if (!string.IsNullOrEmpty(_standardOutputPath))
             {
                 if (!Native.wasi_config_set_stdout_file(config, _standardOutputPath!))
@@ -395,6 +452,13 @@ namespace Wasmtime
                 return;
             }
 
+            if (_standardErrorCallback is not null)
+            {
+                var trampoline = CreateOutputTrampoline(_standardErrorCallback);
+                Native.wasi_config_set_stderr_custom(config, trampoline, GCHandle.ToIntPtr(GCHandle.Alloc(trampoline)), Finalizer);
+                return;
+            }
+
             if (!string.IsNullOrEmpty(_standardErrorPath))
             {
                 if (!Native.wasi_config_set_stderr_file(config, _standardErrorPath!))
@@ -403,6 +467,33 @@ namespace Wasmtime
                 }
             }
         }
+
+        // The GCHandle passed as callback data keeps the trampoline alive; Wasmtime runs the finalizer when the
+        // WASI context is dropped with its store, or with the native configuration if a store never takes it.
+        private static unsafe Native.OutputCallback CreateOutputTrampoline(WasiOutputCallback callback)
+        {
+            return (data, buffer, length) =>
+            {
+                if (length > int.MaxValue)
+                {
+                    return -1;
+                }
+
+                try
+                {
+                    callback(new ReadOnlySpan<byte>(buffer, (int)length));
+                    return (nint)length;
+                }
+                catch (Exception)
+                {
+                    // Exceptions must not cross the native boundary. Wasmtime reads a negative return as an OS
+                    // error code and fails the guest's write.
+                    return -1;
+                }
+            };
+        }
+
+        private static readonly Native.Finalizer Finalizer = (p) => GCHandle.FromIntPtr(p).Free();
 
         private void SetPreopenDirectories(Handle config)
         {
@@ -451,6 +542,10 @@ namespace Wasmtime
 
         private static class Native
         {
+            public unsafe delegate nint OutputCallback(IntPtr data, byte* buffer, nuint length);
+
+            public delegate void Finalizer(IntPtr data);
+
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasi_config_new();
 
@@ -494,6 +589,9 @@ namespace Wasmtime
             public static extern void wasi_config_inherit_stdout(Handle config);
 
             [DllImport(Engine.LibraryName)]
+            public static extern void wasi_config_set_stdout_custom(Handle config, OutputCallback callback, IntPtr data, Finalizer? finalizer);
+
+            [DllImport(Engine.LibraryName)]
             [return: MarshalAs(UnmanagedType.I1)]
             public static extern bool wasi_config_set_stderr_file(
                 Handle config,
@@ -502,6 +600,9 @@ namespace Wasmtime
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasi_config_inherit_stderr(Handle config);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasi_config_set_stderr_custom(Handle config, OutputCallback callback, IntPtr data, Finalizer? finalizer);
 
             [DllImport(Engine.LibraryName)]
             [return: MarshalAs(UnmanagedType.I1)]
@@ -518,6 +619,8 @@ namespace Wasmtime
         private string? _standardInputPath;
         private string? _standardOutputPath;
         private string? _standardErrorPath;
+        private WasiOutputCallback? _standardOutputCallback;
+        private WasiOutputCallback? _standardErrorCallback;
         private readonly List<(string Path, string GuestPath, bool Mutable)> _preopenDirs = new();
         private bool _inheritArgs = false;
         private bool _inheritEnv = false;
