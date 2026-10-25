@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using System.Text;
 using FluentAssertions;
 using Xunit;
 
@@ -276,6 +277,79 @@ namespace Wasmtime.Tests
             }
 
             Assert.Equal(MESSAGE, File.ReadAllText(file.Path));
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void ItSendsStdOutAndStdErrToCallbacks(int fd)
+        {
+            const string MESSAGE = "WASM IS VERY COOL";
+
+            var stdout = new MemoryStream();
+            var stderr = new MemoryStream();
+            var config = new WasiConfiguration()
+                .WithStandardOutputCallback(data => stdout.Write(data.ToArray(), 0, data.Length))
+                .WithStandardErrorCallback(data => stderr.Write(data.ToArray(), 0, data.Length));
+
+            Assert.Equal(0, WriteMessage(config, fd, MESSAGE));
+
+            Assert.Equal(fd == 1 ? MESSAGE : "", Encoding.UTF8.GetString(stdout.ToArray()));
+            Assert.Equal(fd == 2 ? MESSAGE : "", Encoding.UTF8.GetString(stderr.ToArray()));
+        }
+
+        [Fact]
+        public void ItFailsTheGuestWriteWhenTheCallbackThrows()
+        {
+            var config = new WasiConfiguration()
+                .WithStandardOutputCallback(_ => throw new InvalidOperationException());
+
+            Assert.NotEqual(0, WriteMessage(config, 1, "lost"));
+        }
+
+        [Fact]
+        public void ItReplacesTheCallbackWithALaterFile()
+        {
+            const string MESSAGE = "WASM IS VERY COOL";
+
+            using var file = new TempFile();
+            var called = false;
+            var config = new WasiConfiguration()
+                .WithStandardOutputCallback(_ => called = true)
+                .WithStandardOutput(file.Path);
+
+            Assert.Equal(0, WriteMessage(config, 1, MESSAGE));
+
+            called.Should().BeFalse();
+            Assert.Equal(MESSAGE, File.ReadAllText(file.Path));
+        }
+
+        private static int WriteMessage(WasiConfiguration config, int fd, string message)
+        {
+            using var engine = new Engine();
+            using var module = Module.FromTextFile(engine, Path.Combine("Modules", "Wasi.wat"));
+            using var linker = new Linker(engine);
+            linker.DefineWasi();
+
+            using var store = new Store(engine);
+            store.SetWasiConfiguration(config);
+
+            // Nothing managed references the callbacks now except what SetWasiConfiguration rooted.
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
+            var instance = linker.Instantiate(store, module);
+
+            var memory = instance.GetMemory("memory");
+            memory.Should().NotBeNull();
+            var call_fd_write = instance.GetFunction("call_fd_write");
+            call_fd_write.Should().NotBeNull();
+
+            memory.WriteInt32(0, 8);
+            memory.WriteInt32(4, message.Length);
+            memory.WriteString(8, message);
+
+            return (int)call_fd_write.Invoke(fd, 0, 1, 32)!;
         }
 
         [Theory]
