@@ -171,8 +171,13 @@ namespace Wasmtime
 
             try
             {
-                Native.wasmtime_global_set(store.Context.handle, this.global, in v);
+                var error = Native.wasmtime_global_set(store.Context.handle, this.global, in v);
                 GC.KeepAlive(store);
+
+                if (error != IntPtr.Zero)
+                {
+                    throw WasmtimeException.FromOwnedError(error);
+                }
             }
             finally
             {
@@ -258,7 +263,7 @@ namespace Wasmtime
             public static extern void wasmtime_global_get(IntPtr context, in ExternGlobal global, out Value val);
 
             [DllImport(Engine.LibraryName)]
-            public static extern void wasmtime_global_set(IntPtr context, in ExternGlobal global, in Value val);
+            public static extern IntPtr wasmtime_global_set(IntPtr context, in ExternGlobal global, in Value val);
 
             [DllImport(Engine.LibraryName)]
             public static extern IntPtr wasmtime_global_type(IntPtr context, in ExternGlobal global);
@@ -342,8 +347,13 @@ namespace Wasmtime
                 try 
                 {
                     var context = _store.Context;
-                    Native.wasmtime_global_set(context.handle, _global.global, in v);
+                    var error = Native.wasmtime_global_set(context.handle, _global.global, in v);
                     GC.KeepAlive(_store);
+
+                    if (error != IntPtr.Zero)
+                    {
+                        throw WasmtimeException.FromOwnedError(error);
+                    }
                 }
                 finally
                 {
