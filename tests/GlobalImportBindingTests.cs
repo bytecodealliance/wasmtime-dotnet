@@ -229,6 +229,40 @@ namespace Wasmtime.Tests
             get_global_f64_mut.Invoke().Should().Be(17);
         }
 
+        [Fact]
+        public void ItFailsToSetAFunctionFromAnotherStore()
+        {
+            using var otherStore = new Store(Fixture.Engine);
+            var function = Function.FromCallback(otherStore, () => { });
+            var global = new Global(Store, ValueKind.FuncRef, null, Mutability.Mutable);
+
+            Action action = () => global.SetValue(function);
+
+            action
+                .Should()
+                .Throw<WasmtimeException>();
+
+            global.GetValue().Should().BeOfType<Function>().Which.IsNull.Should().BeTrue();
+        }
+
+        [Fact]
+        public void ItFailsToSetAFunctionFromAnotherStoreThroughAccessor()
+        {
+            using var otherStore = new Store(Fixture.Engine);
+            var function = Function.FromCallback(otherStore, () => { });
+            var global = new Global(Store, ValueKind.FuncRef, null, Mutability.Mutable);
+            var accessor = global.Wrap<Function>();
+            accessor.Should().NotBeNull();
+
+            Action action = () => accessor!.SetValue(function);
+
+            action
+                .Should()
+                .Throw<WasmtimeException>();
+
+            global.GetValue().Should().BeOfType<Function>().Which.IsNull.Should().BeTrue();
+        }
+
         public void Dispose()
         {
             Store.Dispose();
