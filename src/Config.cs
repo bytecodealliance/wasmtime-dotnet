@@ -176,11 +176,22 @@ namespace Wasmtime
         /// <summary>
         /// Sets whether or not enable WebAssembly reference types support.
         /// </summary>
+        /// <remarks>
+        /// Disabling reference types also disables component-model async support, which requires them.
+        /// </remarks>
         /// <param name="enable">True to enable WebAssembly reference types support or false to disable.</param>
         /// <returns>Returns the current config.</returns>
         public Config WithReferenceTypes(bool enable)
         {
             Native.wasmtime_config_wasm_reference_types_set(handle, enable);
+
+            // Wasmtime enables component-model async by default, and an engine that has it without reference
+            // types fails to build.
+            if (!enable)
+            {
+                Native.wasmtime_config_wasm_component_model_async_set(handle, false);
+            }
+
             return this;
         }
 
@@ -609,6 +620,9 @@ namespace Wasmtime
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_config_wasm_reference_types_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
+
+            [DllImport(Engine.LibraryName)]
+            public static extern void wasmtime_config_wasm_component_model_async_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);
 
             [DllImport(Engine.LibraryName)]
             public static extern void wasmtime_config_wasm_simd_set(Handle config, [MarshalAs(UnmanagedType.I1)] bool enable);

@@ -24,8 +24,8 @@
 
   (core func $name_core
     (canon lower (func $name)
-      (memory $libc_i "memory")
-      (realloc (func $libc_i "realloc"))
+      (memory (core memory $libc_i "memory"))
+      (realloc (core func $libc_i "realloc"))
       string-encoding=utf8))
 
   (core module $m
@@ -80,7 +80,7 @@
 
   (func (export "greet") (param "name" string) (result string)
     (canon lift (core func $i "greet")
-      (memory $libc_i "memory")
-      (realloc (func $libc_i "realloc"))
+      (memory (core memory $libc_i "memory"))
+      (realloc (core func $libc_i "realloc"))
       string-encoding=utf8))
 )
