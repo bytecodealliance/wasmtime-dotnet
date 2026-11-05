@@ -73,6 +73,10 @@ namespace Wasmtime
         {
             handle = new Handle(Native.wasm_config_new());
 
+            // Wasmtime enables component-model async by default. The way Wasmtime implements async is not
+            // compatible with .NET, so it is always disabled.
+            Native.wasmtime_config_wasm_component_model_async_set(handle, false);
+
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
                 // See WithMacosMachPorts for why this differs from Wasmtime's default.
@@ -176,22 +180,11 @@ namespace Wasmtime
         /// <summary>
         /// Sets whether or not enable WebAssembly reference types support.
         /// </summary>
-        /// <remarks>
-        /// Disabling reference types also disables component-model async support, which requires them.
-        /// </remarks>
         /// <param name="enable">True to enable WebAssembly reference types support or false to disable.</param>
         /// <returns>Returns the current config.</returns>
         public Config WithReferenceTypes(bool enable)
         {
             Native.wasmtime_config_wasm_reference_types_set(handle, enable);
-
-            // Wasmtime enables component-model async by default, and an engine that has it without reference
-            // types fails to build.
-            if (!enable)
-            {
-                Native.wasmtime_config_wasm_component_model_async_set(handle, false);
-            }
-
             return this;
         }
 
